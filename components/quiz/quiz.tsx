@@ -109,7 +109,7 @@ export function Quiz() {
         </h2>
 
         <div className="grid gap-3">
-          {currentQuestion.options.map((option, idx) => (
+          {currentQuestion.options.map((option: { text: string; value: string }, idx: number) => (
             <button
               key={idx}
               onClick={() => handleAnswer(option.value)}
