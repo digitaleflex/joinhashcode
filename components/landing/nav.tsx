@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { Database, Mail as MailIcon } from "lucide-react"
+import { Database, Mail as MailIcon, LayoutDashboard } from "lucide-react"
 
 export function Nav() {
   const { data: session } = authClient.useSession()
@@ -73,7 +73,15 @@ export function Nav() {
 
         <div className="flex items-center gap-4">
           {session ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              <Link 
+                href="/dashboard" 
+                className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+              >
+                <LayoutDashboard className="h-3.5 w-3.5" />
+                Dashboard
+              </Link>
+              <div className="w-px h-3 bg-primary/10" />
               <Button
                 variant="ghost"
                 size="sm"
@@ -81,7 +89,7 @@ export function Nav() {
                   await authClient.signOut()
                   router.refresh()
                 }}
-                className="text-xs text-muted-foreground hover:text-foreground"
+                className="text-xs text-muted-foreground hover:text-foreground h-8 px-2"
               >
                 Déconnexion
               </Button>
