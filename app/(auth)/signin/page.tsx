@@ -9,7 +9,8 @@ import { Mail } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
-import { GoogleIcon, GitHubIcon } from "@/components/icons"
+import { FcGoogle } from "react-icons/fc"
+import { FaGithub } from "react-icons/fa"
 
 export default function SignInPage() {
     const [email, setEmail] = useState("")
@@ -77,18 +78,18 @@ export default function SignInPage() {
                             variant="outline" 
                             onClick={() => handleSocialSignIn("google")}
                             disabled={isLoading}
-                            className="bg-background/50 hover:bg-card border-border/60"
+                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all"
                         >
-                            <GoogleIcon className="mr-2 h-4 w-4" />
+                            <FcGoogle className="mr-2 h-4 w-4" />
                             Google
                         </Button>
                         <Button 
                             variant="outline" 
                             onClick={() => handleSocialSignIn("github")}
                             disabled={isLoading}
-                            className="bg-background/50 hover:bg-card border-border/60"
+                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all"
                         >
-                            <GitHubIcon className="mr-2 h-4 w-4" />
+                            <FaGithub className="mr-2 h-4 w-4 text-foreground group-hover:text-foreground" />
                             GitHub
                         </Button>
                     </div>
