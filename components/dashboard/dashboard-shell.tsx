@@ -127,6 +127,25 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                 </div>
                 <Progress value={progress} className="h-1.5" />
               </div>
+
+              {hasFinishedQuiz && (
+                <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-primary">
+                    <span>Indice de Certitude</span>
+                    <span>{Math.round((user.confidenceScore || 0.25) * 100)}%</span>
+                  </div>
+                  <div className="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(user.confidenceScore || 0.25) * 100}%` }}
+                      className="h-full bg-primary" 
+                    />
+                  </div>
+                  <p className="text-[9px] text-muted-foreground leading-tight">
+                    Plus tu réalises de missions cohérentes, plus ton profil devient indiscutable.
+                  </p>
+                </div>
+              )}
               
               {!hasFinishedQuiz && (
                 <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20">
@@ -241,6 +260,70 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
             </Card>
           </div>
 
+          {/* Master Missions Section */}
+          {hasFinishedQuiz && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-medium flex items-center gap-2">
+                  <Award className="h-5 w-5 text-primary" />
+                  Défis Master [Validation]
+                </h3>
+                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Preuve par l'action</span>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  { 
+                    id: "master-ai-builder", 
+                    title: "The Real-time AI Engine", 
+                    profile: "builder",
+                    desc: "Bâtir un SaaS multi-tenant collaboratif avec RLS stricte et IA générative.",
+                    xp: "2500 XP"
+                  },
+                  { 
+                    id: "master-product-system", 
+                    title: "Product Systems Architect", 
+                    profile: "strategist",
+                    desc: "Concevoir le graphe logique et l'architecture système d'une plateforme à 1M d'utilisateurs.",
+                    xp: "2500 XP"
+                  },
+                  { 
+                    id: "master-cloud-foundation", 
+                    title: "The Edge Fortress", 
+                    profile: "builder",
+                    desc: "Déployer une infra globale distribuée avec CI/CD automatisé et optimisation Edge.",
+                    xp: "2500 XP"
+                  }
+                ].filter(m => m.profile === profile || profile === 'unknown').slice(0, 2).map((mission, idx) => (
+                  <Card key={idx} className="border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors group relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                       <Zap className="h-12 w-12" />
+                    </div>
+                    <CardContent className="p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                      <div className="space-y-1 text-center md:text-left">
+                        <h4 className="text-lg font-bold flex items-center gap-2">
+                          {mission.title}
+                          <span className="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">Master</span>
+                        </h4>
+                        <p className="text-sm text-muted-foreground max-w-md">{mission.desc}</p>
+                      </div>
+                      <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="text-center md:text-right px-4">
+                          <div className="text-lg font-mono font-bold text-primary">{mission.xp}</div>
+                          <div className="text-[9px] uppercase text-muted-foreground tracking-widest">Récompense</div>
+                        </div>
+                        <Button className="w-full md:w-auto gap-2 group/btn">
+                          Lancer le défi
+                          <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+          
           {/* Tools Grid */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">

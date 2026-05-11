@@ -44,6 +44,10 @@ export async function POST(req: Request) {
         // 5. DONNÉES COMPORTEMENTALES
         answerConsistency: body.consistencyScore || 0,
         onboardingSpeed: body.totalTime || 0, // Total time for quiz
+        // 10. ADAPTIVE BEHAVIORAL LOOP
+        confidenceScore: 0.25, // Initial hypothesis confidence
+        behavioralVibrancy: body.scores || {}, // Initial vibrancy from quiz
+        lastHypothesisUpdate: new Date(),
       }
     });
 

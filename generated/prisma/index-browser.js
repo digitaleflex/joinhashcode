@@ -167,7 +167,27 @@ exports.Prisma.UserScalarFieldEnum = {
   missionsCompletedCount: 'missionsCompletedCount',
   recommendedPath: 'recommendedPath',
   recommendedTools: 'recommendedTools',
-  predictedEngagementScore: 'predictedEngagementScore'
+  predictedEngagementScore: 'predictedEngagementScore',
+  confidenceScore: 'confidenceScore',
+  profileDrift: 'profileDrift',
+  behavioralVibrancy: 'behavioralVibrancy',
+  lastHypothesisUpdate: 'lastHypothesisUpdate'
+};
+
+exports.Prisma.MissionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  category: 'category',
+  difficulty: 'difficulty',
+  xp: 'xp',
+  weightBuilder: 'weightBuilder',
+  weightCreator: 'weightCreator',
+  weightStrategist: 'weightStrategist',
+  weightCatalyst: 'weightCatalyst',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.GuildScalarFieldEnum = {
@@ -253,12 +273,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -267,20 +287,21 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Mission: 'Mission',
   Guild: 'Guild',
   GuildMember: 'GuildMember',
   Session: 'Session',
