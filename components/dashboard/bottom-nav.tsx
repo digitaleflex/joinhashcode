@@ -4,38 +4,23 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, Zap, User } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
+import { motion } from "framer-motion"
 
 export function BottomNav() {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
-  const userClass = (session?.user as any)?.class || "builder" // Fallback to builder
+  const userClass = (session?.user as any)?.class || "builder"
 
   const navItems = [
-    {
-      name: "Accueil",
-      href: "/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      name: "Guilde",
-      href: `/community/${userClass || "builder"}`,
-      icon: Users,
-    },
-    {
-      name: "Missions",
-      href: "/missions",
-      icon: Zap,
-    },
-    {
-      name: "Profil",
-      href: "/settings",
-      icon: User,
-    },
+    { name: "Home", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Guilde", href: `/community/${userClass}`, icon: Users },
+    { name: "Missions", href: "/missions", icon: Zap },
+    { name: "Profil", href: "/settings", icon: User },
   ]
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-t border-border/50 pb-safe">
-      <nav className="flex items-center justify-around px-2 py-2">
+    <div className="md:hidden fixed bottom-6 left-4 right-4 z-100">
+      <nav className="relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40">
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
           const Icon = item.icon
@@ -44,16 +29,29 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-1 p-2 rounded-xl min-w-[64px] transition-all duration-200 ${
-                isActive 
-                  ? "text-primary bg-primary/10" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              className={`relative flex flex-col items-center gap-1.5 p-2 rounded-2xl min-w-[70px] transition-colors duration-300 ${
+                isActive ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? "scale-110" : ""}`} />
-              <span className="text-[10px] font-medium tracking-tight">
+              {isActive && (
+                <motion.div
+                  layoutId="active-pill"
+                  className="absolute inset-0 bg-primary/10 rounded-2xl border border-primary/20"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              
+              <Icon className={`w-5 h-5 relative z-10 transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
+              <span className="text-[9px] font-bold uppercase tracking-widest relative z-10">
                 {item.name}
               </span>
+
+              {isActive && (
+                <motion.div 
+                  layoutId="active-dot"
+                  className="absolute -bottom-1 w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(var(--primary),0.8)]"
+                />
+              )}
             </Link>
           )
         })}

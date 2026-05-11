@@ -5,16 +5,32 @@ import { ArrowRight } from "lucide-react"
 export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border/60">
+      {/* Premium Background Image */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
+        aria-hidden="true"
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.15] mix-blend-screen scale-110"
+          style={{ 
+            backgroundImage: "url('/images/hero-bg.png')",
+            filter: "blur(40px)"
+          }}
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
+        <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_70%)]" />
+      </div>
+
       {/* Subtle dot grid background with radial fade */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-60"
+        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-40 z-10"
       />
 
       {/* Top accent line */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/40 to-transparent"
+        className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/40 to-transparent z-20"
       />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 sm:pt-28 lg:px-8 lg:pb-32 lg:pt-36">
