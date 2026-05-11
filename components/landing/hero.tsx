@@ -11,14 +11,14 @@ export function Hero() {
         aria-hidden="true"
       >
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.15] mix-blend-screen scale-110"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 scale-110"
           style={{ 
-            backgroundImage: "url('/images/hero-bg.png')",
-            filter: "blur(40px)"
+            backgroundImage: "url('/images/hero-bg-v2.png')",
+            filter: "blur(10px)"
           }}
         />
         <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
-        <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_70%)]" />
+        <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_80%)]" />
       </div>
 
       {/* Subtle dot grid background with radial fade */}
@@ -46,8 +46,7 @@ export function Hero() {
 
           {/* Sub */}
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Une plateforme de profilage qui détecte ton profil, t&apos;oriente vers la bonne
-            communauté, et t&apos;accompagne dans un parcours sur mesure.
+            Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, engagement.
           </p>
 
           {/* CTAs */}
@@ -75,9 +74,9 @@ export function Hero() {
 
           {/* Meta line */}
           <div className="mt-8 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/70">
-            <span>5 minutes</span>
+            <span>3 minutes</span>
             <span className="h-1 w-1 rounded-full bg-border" />
-            <span>20 questions</span>
+            <span>13 questions</span>
             <span className="h-1 w-1 rounded-full bg-border" />
             <span>Gratuit</span>
           </div>
@@ -104,10 +103,10 @@ export function Hero() {
             </div>
             {/* Body */}
             <div className="relative grid grid-cols-2 gap-4 p-5 sm:grid-cols-4 sm:p-6">
-              <ProfileStat label="Profil" value="CORE" mono />
-              <ProfileStat label="Score" value="78/100" mono />
-              <ProfileStat label="Niveau" value="03" mono />
-              <ProfileStat label="Communauté" value="Builders" />
+              <ProfileStat label="Profil" value="BUILDER" mono />
+              <ProfileStat label="Score" value="72/100" mono />
+              <ProfileStat label="Niveau" value="02 [CORE]" mono />
+              <ProfileStat label="Certitude" value="25%" mono />
             </div>
           </div>
         </div>

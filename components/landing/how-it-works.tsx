@@ -2,7 +2,7 @@ const steps = [
   {
     n: "01",
     title: "Profile-toi",
-    body: "Réponds à 20 questions ciblées en 5 minutes. Identité, parcours, objectifs, engagement.",
+    body: "Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, engagement.",
   },
   {
     n: "02",

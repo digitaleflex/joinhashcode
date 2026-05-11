@@ -24,8 +24,9 @@ export function Nav() {
 
   const navLinks = [
     { name: "Vision", href: "#vision" },
+    { name: "Missions", href: "#missions" },
     { name: "Fonctionnement", href: "#how" },
-    { name: "Pourquoi", href: "#why" },
+    { name: "Écosystème", href: "#ecosystem" },
   ]
 
   return (

@@ -23,9 +23,9 @@ const pillars = [
   },
 ]
 
-export function WhyJoin() {
+export function Ecosystem() {
   return (
-    <section id="why" className="border-b border-border/60">
+    <section id="ecosystem" className="border-b border-border/60">
       <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         {/* Header */}
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -33,15 +33,14 @@ export function WhyJoin() {
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-primary" />
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-                Pourquoi rejoindre
+                L'Écosystème
               </span>
             </div>
             <h2 className="mt-6 text-balance text-3xl font-medium tracking-tight text-foreground sm:text-4xl md:text-5xl">
-              Tout ce qu&apos;il te faut. Rien de superflu.
+              Ton Espace de Travail Augmenté.
             </h2>
             <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-muted-foreground">
-              Quatre piliers pensés pour t&apos;accompagner du premier pas jusqu&apos;à
-              l&apos;excellence opérationnelle.
+              Un environnement pensé pour les Builders : des outils communautaires, des dashboards de performance et un hub de connexion élite.
             </p>
           </div>
 
