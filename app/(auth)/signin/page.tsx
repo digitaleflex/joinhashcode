@@ -5,7 +5,7 @@ import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail } from "lucide-react"
+import { Mail, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
@@ -15,10 +15,12 @@ import { FaGithub } from "react-icons/fa"
 export default function SignInPage() {
     const [email, setEmail] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [loadingProvider, setLoadingProvider] = useState<"google" | "github" | "email" | null>(null)
     const [isMagicLinkSent, setIsMagicLinkSent] = useState(false)
 
     const handleSocialSignIn = async (provider: "google" | "github") => {
         setIsLoading(true)
+        setLoadingProvider(provider)
         try {
             await authClient.signIn.social({
                 provider,
@@ -26,7 +28,7 @@ export default function SignInPage() {
             })
         } catch (error) {
             toast.error("Erreur lors de la connexion")
-        } finally {
+            setLoadingProvider(null)
             setIsLoading(false)
         }
     }
@@ -36,6 +38,7 @@ export default function SignInPage() {
         if (!email) return toast.error("Veuillez entrer votre email")
 
         setIsLoading(true)
+        setLoadingProvider("email")
         try {
             await authClient.signIn.magicLink({
                 email,
@@ -47,6 +50,7 @@ export default function SignInPage() {
             toast.error("Erreur lors de l'envoi du lien")
         } finally {
             setIsLoading(false)
+            setLoadingProvider(null)
         }
     }
 
@@ -78,19 +82,31 @@ export default function SignInPage() {
                             variant="outline" 
                             onClick={() => handleSocialSignIn("google")}
                             disabled={isLoading}
-                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all"
+                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all relative"
                         >
-                            <FcGoogle className="mr-2 h-4 w-4" />
-                            Google
+                            {loadingProvider === "google" ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <>
+                                    <FcGoogle className="mr-2 h-4 w-4" />
+                                    Google
+                                </>
+                            )}
                         </Button>
                         <Button 
                             variant="outline" 
                             onClick={() => handleSocialSignIn("github")}
                             disabled={isLoading}
-                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all"
+                            className="bg-background/50 hover:bg-primary/10 hover:text-foreground border-border/60 hover:border-primary/30 transition-all relative"
                         >
-                            <FaGithub className="mr-2 h-4 w-4 text-foreground group-hover:text-foreground" />
-                            GitHub
+                            {loadingProvider === "github" ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <>
+                                    <FaGithub className="mr-2 h-4 w-4 text-foreground group-hover:text-foreground" />
+                                    GitHub
+                                </>
+                            )}
                         </Button>
                     </div>
 
@@ -120,12 +136,16 @@ export default function SignInPage() {
                                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
                                 disabled={isLoading}
                             >
-                                <Mail className="mr-2 h-4 w-4" />
-                                {isLoading ? "Envoi..." : "Recevoir un lien magique"}
+                                {loadingProvider === "email" ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <Mail className="mr-2 h-4 w-4" />
+                                )}
+                                {loadingProvider === "email" ? "Envoi..." : "Recevoir un lien magique"}
                             </Button>
                         </form>
                     ) : (
-                        <div className="text-center p-4 rounded-lg bg-primary/10 border border-primary/20">
+                        <div className="text-center p-4 rounded-lg bg-primary/10 border border-primary/20 animate-in fade-in zoom-in duration-300">
                             <p className="text-sm text-foreground">
                                 Un lien magique a été envoyé à <strong>{email}</strong>. 
                                 Vérifie tes spams si tu ne le vois pas.
@@ -147,6 +167,18 @@ export default function SignInPage() {
                     </p>
                 </CardFooter>
             </Card>
+
+            {/* Global Loading Overlay for Redirection */}
+            {isLoading && loadingProvider !== "email" && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="flex flex-col items-center gap-4">
+                        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                        <p className="text-sm font-medium text-foreground animate-pulse">
+                            Redirection vers {loadingProvider === "google" ? "Google" : "GitHub"}...
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
