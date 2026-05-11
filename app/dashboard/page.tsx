@@ -15,6 +15,10 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id }
+  });
+
   // Fetch quiz results if any
   const quizResult = await prisma.quizResult.findFirst({
     where: { userId: session.user.id },
@@ -26,7 +30,7 @@ export default async function DashboardPage() {
       <Nav />
       <div className="flex-1 pt-24 pb-12">
         <DashboardShell 
-          user={session.user} 
+          user={dbUser || session.user} 
           quizResult={quizResult} 
         />
       </div>

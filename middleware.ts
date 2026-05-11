@@ -8,7 +8,9 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const session = response.ok ? await response.json() : null;
+  const sessionData = response.ok ? await response.json() : null;
+  const session = sessionData?.session;
+  const user = sessionData?.user;
 
   const isProtectedPath = 
     request.nextUrl.pathname.startsWith('/dashboard') || 
@@ -17,8 +19,23 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/tools') ||
     request.nextUrl.pathname.startsWith('/settings');
 
-  if (isProtectedPath && (!session || !session.session)) {
+  const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
+  const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
+
+  if (isProtectedPath && !session) {
     return NextResponse.redirect(new URL("/signin", request.url));
+  }
+
+  if (session && user) {
+    // 1. Check for Step 2: Mini Onboarding
+    if (!user.currentSituation && !isOnboardingPath && !isQuizPath && isProtectedPath) {
+      return NextResponse.redirect(new URL("/onboarding", request.url));
+    }
+
+    // 2. Check for Step 3: Quiz (Psychometrics)
+    if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath && isProtectedPath) {
+      return NextResponse.redirect(new URL("/quiz", request.url));
+    }
   }
 
   return NextResponse.next();

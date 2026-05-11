@@ -14,15 +14,21 @@ import {
   TrendingUp, 
   Users,
   ChevronRight,
-  Award
+  Award,
+  Globe,
+  Check
 } from "lucide-react"
 import Link from "next/link"
+import { ScrambleText } from "@/components/ui/scramble-text"
+import { motion, Variants } from "framer-motion"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
   const hasFinishedQuiz = !!quizResult;
-  const profile = quizResult?.profile || "unknown";
-  const level = hasFinishedQuiz ? 3 : 1;
-  const progress = hasFinishedQuiz ? 100 : 25;
+  const profile = user?.class || quizResult?.profileType || "unknown";
+  const level = user?.level || 1;
+  const levelMap: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" };
+  const levelName = levelMap[level] || "INIT";
+  const progress = hasFinishedQuiz ? (level * 25) : 10;
 
   const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {
     builder: { 
@@ -66,6 +72,21 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
     { id: "catalyst", name: "Hub de Connexion", icon: <Users />, minLevel: 4, desc: "Networking haute fidélité" },
   ].sort((a, b) => (a.id === profile ? -1 : b.id === profile ? 1 : 0));
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4">
       <div className="flex flex-col md:flex-row gap-8">
@@ -101,7 +122,7 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-mono uppercase text-muted-foreground tracking-tighter">
-                  <span>Niveau {level}</span>
+                  <span>Niveau {level} [{levelName}]</span>
                   <span>{progress}% d'évolution</span>
                 </div>
                 <Progress value={progress} className="h-1.5" />
@@ -115,7 +136,7 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
             </CardContent>
           </Card>
 
-          <nav className="space-y-1">
+          <nav className="hidden md:block space-y-1">
             <Button variant="ghost" className="w-full justify-start gap-3 text-primary bg-primary/5">
               <LayoutDashboard className="h-4 w-4" />
               Vue d'ensemble
@@ -140,12 +161,84 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
           {/* Welcome Banner Personalized */}
           <div className={`p-10 rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
             <div className="relative z-10">
-              <h2 className="text-4xl font-bold mb-3 tracking-tight">Bienvenue, <span className={config.color}>{user.name.split(' ')[0]}</span>.</h2>
+              <h2 className="text-4xl font-bold mb-3 tracking-tight">Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.</h2>
               <p className="text-zinc-400 max-w-xl text-lg leading-relaxed">
                 {config.message}
               </p>
             </div>
-            <Zap className={`absolute -bottom-6 -right-6 h-40 w-40 ${config.color} opacity-05 -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+            <Zap className={`absolute -bottom-6 -right-6 h-40 w-40 ${config.color} opacity-[0.05] -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+          </div>
+
+          {/* Progressive Profile Collection (Step 4) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Visibilité</span>
+                </div>
+                <CardTitle className="text-lg">Identité Numérique</CardTitle>
+                <CardDescription>Lien vers tes preuves de travail.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-3">
+                   <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
+                     <div className="flex items-center gap-3">
+                       <div className="p-2 rounded bg-zinc-800 text-white">
+                         <Terminal className="h-3.5 w-3.5" />
+                       </div>
+                       <span className="text-sm font-medium">{user.githubUrl ? "GitHub lié" : "GitHub"}</span>
+                     </div>
+                     {user.githubUrl ? (
+                       <Check className="h-4 w-4 text-emerald-500" />
+                     ) : (
+                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                     )}
+                   </div>
+                   <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
+                     <div className="flex items-center gap-3">
+                       <div className="p-2 rounded bg-zinc-800 text-white">
+                         <Globe className="h-3.5 w-3.5" />
+                       </div>
+                       <span className="text-sm font-medium">{user.portfolioUrl ? "Portfolio lié" : "Portfolio"}</span>
+                     </div>
+                     {user.portfolioUrl ? (
+                       <Check className="h-4 w-4 text-emerald-500" />
+                     ) : (
+                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                     )}
+                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <Award className="h-4 w-4" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Spécialisation</span>
+                </div>
+                <CardTitle className="text-lg">Domaines & Outils</CardTitle>
+                <CardDescription>Affine ton profil technique.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {user.domains?.length > 0 ? (
+                    user.domains.map((d: string) => (
+                      <span key={d} className="px-2 py-1 rounded bg-primary/10 text-primary text-[10px] font-mono border border-primary/20">{d}</span>
+                    ))
+                  ) : (
+                    <Button variant="outline" size="sm" className="w-full border-dashed border-border/50 text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary">
+                      + Ajouter des domaines
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Tools Grid */}
@@ -160,45 +253,52 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
               </span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+            >
               {tools.map((tool, i) => {
                 const isUnlocked = level >= tool.minLevel;
                 const isPrimary = tool.id === profile;
                 return (
-                  <Card key={i} className={`relative group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-5">
-                        <div className={`p-4 rounded-2xl ${isUnlocked ? 'bg-primary/10 text-primary shadow-inner' : 'bg-muted text-muted-foreground'}`}>
-                          {tool.icon}
+                  <motion.div variants={itemVariants} key={i}>
+                    <Card className={`relative h-full group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-5">
+                          <div className={`p-4 rounded-2xl ${isUnlocked ? 'bg-primary/10 text-primary shadow-inner' : 'bg-muted text-muted-foreground'}`}>
+                            {tool.icon}
+                          </div>
+                          {isUnlocked ? (
+                            <div className="flex flex-col items-end gap-1">
+                               <span className="text-[9px] font-bold bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20 tracking-tighter uppercase">ACTIF</span>
+                               {isPrimary && <span className="text-[9px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">SPECIALITÉ</span>}
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1.5 text-muted-foreground">
+                              <Lock className="h-3.5 w-3.5" />
+                              <span className="text-[10px] font-mono">LVL {tool.minLevel}</span>
+                            </div>
+                          )}
                         </div>
-                        {isUnlocked ? (
-                          <div className="flex flex-col items-end gap-1">
-                             <span className="text-[9px] font-bold bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20 tracking-tighter uppercase">ACTIF</span>
-                             {isPrimary && <span className="text-[9px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">SPECIALITÉ</span>}
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-1.5 text-muted-foreground">
-                            <Lock className="h-3.5 w-3.5" />
-                            <span className="text-[10px] font-mono">LVL {tool.minLevel}</span>
-                          </div>
-                        )}
-                      </div>
-                      <h4 className="text-lg font-semibold mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
-                        {isUnlocked ? (
-                          <Link href={`/tools/${tool.id}`} className="flex items-center gap-2 w-full before:absolute before:inset-0">
-                            {tool.name}
-                            <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                          </Link>
-                        ) : (
-                          tool.name
-                        )}
-                      </h4>
-                      <p className="text-sm text-zinc-500 leading-relaxed">{tool.desc}</p>
-                    </CardContent>
-                  </Card>
+                        <h4 className="text-lg font-semibold mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
+                          {isUnlocked ? (
+                            <Link href={`/tools/${tool.id}`} className="flex items-center gap-2 w-full before:absolute before:inset-0">
+                              {tool.name}
+                              <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                            </Link>
+                          ) : (
+                            tool.name
+                          )}
+                        </h4>
+                        <p className="text-sm text-zinc-500 leading-relaxed">{tool.desc}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
                 )
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

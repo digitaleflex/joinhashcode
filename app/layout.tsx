@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { Noise } from "@/components/ui/noise"
+import NextTopLoader from 'nextjs-toploader'
 
 const geist = Geist({
   subsets: ["latin"],
@@ -71,7 +73,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${geist.variable} ${geistMono.variable} bg-background`}>
-      <body className="font-sans antialiased bg-background text-foreground">
+      <body className="font-sans antialiased bg-background text-foreground relative">
+        <NextTopLoader
+          color="oklch(0.91 0.22 124)"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px oklch(0.91 0.22 124),0 0 5px oklch(0.91 0.22 124)"
+        />
+        <Noise />
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

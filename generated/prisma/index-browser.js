@@ -131,7 +131,43 @@ exports.Prisma.UserScalarFieldEnum = {
   class: 'class',
   role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  pseudo: 'pseudo',
+  country: 'country',
+  city: 'city',
+  language: 'language',
+  ageRange: 'ageRange',
+  currentSituation: 'currentSituation',
+  technicalLevel: 'technicalLevel',
+  domains: 'domains',
+  tools: 'tools',
+  githubUrl: 'githubUrl',
+  portfolioUrl: 'portfolioUrl',
+  mainObjective: 'mainObjective',
+  dominantMotivation: 'dominantMotivation',
+  longTermObjective: 'longTermObjective',
+  preferredRhythm: 'preferredRhythm',
+  onboardingSpeed: 'onboardingSpeed',
+  answerConsistency: 'answerConsistency',
+  connectionFrequency: 'connectionFrequency',
+  dashboardActivity: 'dashboardActivity',
+  communityEngagement: 'communityEngagement',
+  builderScore: 'builderScore',
+  creatorScore: 'creatorScore',
+  strategistScore: 'strategistScore',
+  catalystScore: 'catalystScore',
+  polarization: 'polarization',
+  profileStability: 'profileStability',
+  cohortsJoined: 'cohortsJoined',
+  collaborativeProjects: 'collaborativeProjects',
+  mentorId: 'mentorId',
+  projectsRealized: 'projectsRealized',
+  activePaths: 'activePaths',
+  badges: 'badges',
+  missionsCompletedCount: 'missionsCompletedCount',
+  recommendedPath: 'recommendedPath',
+  recommendedTools: 'recommendedTools',
+  predictedEngagementScore: 'predictedEngagementScore'
 };
 
 exports.Prisma.GuildScalarFieldEnum = {
@@ -200,6 +236,18 @@ exports.Prisma.QuizResultScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MissionSubmissionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  missionId: 'missionId',
+  status: 'status',
+  content: 'content',
+  feedback: 'feedback',
+  xpAwarded: 'xpAwarded',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -238,7 +286,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  QuizResult: 'QuizResult'
+  QuizResult: 'QuizResult',
+  MissionSubmission: 'MissionSubmission'
 };
 
 /**

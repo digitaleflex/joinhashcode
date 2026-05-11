@@ -8,21 +8,80 @@ datasource db {
 }
 
 model User {
-  id            String        @id
+  id            String   @id
   name          String
-  email         String        @unique
+  email         String   @unique
   emailVerified Boolean
   image         String?
-  level         Int           @default(1)
-  experience    Int           @default(0)
-  class         String?       @map("profile_class") // builder, creator, strategist, catalyst
-  role          String        @default("MEMBER") // MEMBER, MODERATOR, ADMIN
+  level         Int      @default(1)
+  experience    Int      @default(0)
+  class         String?  @map("profile_class") // builder, creator, strategist, catalyst
+  role          String   @default("MEMBER") // MEMBER, BUILDER, MENTOR, MODERATOR, OPERATOR, ADMIN
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  quizResults   QuizResult[]
-  guildMembers  GuildMember[]
+
+  // 1. IDENTITY & BASIC
+  pseudo String? @unique
+
+  // 2. CONTEXT PERSONNEL
+  country          String?
+  city             String?
+  language         String  @default("fr")
+  ageRange         String? // enum: 15-18, 18-25, 25-35, 35-50, 50+
+  currentSituation String? // Étudiant, Freelance, Salarié, Entrepreneur, Sans emploi, Reconversion
+
+  // 3. CONTEXT TECHNIQUE
+  technicalLevel String? // Débutant, Intermédiaire, Avancé
+  domains        String[] // Web, Cybersecurity, Cloud, IA, Mobile, Data, Automation, UI/UX, DevOps
+  tools          String[] // GitHub, VS Code, Docker, Figma, Cursor, ChatGPT, Vercel, Linux
+  githubUrl      String?
+  portfolioUrl   String?
+
+  // 4. OBJECTIFS UTILISATEUR
+  mainObjective      String? // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux
+  dominantMotivation String? // Argent, Passion, Impact, Curiosité, Carrière, Liberté, Innovation
+  longTermObjective  String?
+  preferredRhythm    String? // Intensif, Progressif, Flexible, Week-end uniquement
+
+  // 5. DONNÉES COMPORTEMENTALES
+  onboardingSpeed     Int? // Speed in ms
+  answerConsistency   Float? // Score 0-1
+  connectionFrequency Float? // Score 0-1
+  dashboardActivity   Float? // Score 0-1
+  communityEngagement Float? // Score 0-1
+
+  // 6. DONNÉES PSYCHOMÉTRIQUES (Scores des classes)
+  builderScore     Int   @default(0)
+  creatorScore     Int   @default(0)
+  strategistScore  Int   @default(0)
+  catalystScore    Int   @default(0)
+  polarization     Float @default(0)
+  profileStability Float @default(0)
+
+  // 7. DONNÉES COMMUNAUTAIRES
+  cohortsJoined         String[]
+  collaborativeProjects String[]
+  mentorId              String?
+  mentor                User?    @relation("Mentorship", fields: [mentorId], references: [id])
+  mentees               User[]   @relation("Mentorship")
+
+  // 8. DONNÉES DE PROGRESSION
+  projectsRealized       String[]
+  activePaths            String[]
+  badges                 String[]
+  missionsCompletedCount Int      @default(0)
+
+  // 9. DONNÉES IA / RECOMMANDATION
+  recommendedPath          String[]
+  recommendedTools         String[]
+  predictedEngagementScore Float?
+
+  // RELATIONS
+  sessions           Session[]
+  accounts           Account[]
+  quizResults        QuizResult[]
+  guildMembers       GuildMember[]
+  missionSubmissions MissionSubmission[]
 
   @@map("user")
 }
@@ -113,4 +172,20 @@ model QuizResult {
 
   @@index([profileType])
   @@map("quiz_result")
+}
+
+model MissionSubmission {
+  id        String   @id @default(cuid())
+  userId    String
+  missionId String // ID from the static missions list
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  content   String? // The URL or text submitted by the user
+  feedback  String? // Feedback from the reviewer
+  xpAwarded Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@map("mission_submission")
 }

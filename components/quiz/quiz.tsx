@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect } from "react"
+import { ScrambleText } from "@/components/ui/scramble-text"
 
 export function Quiz() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -50,12 +51,17 @@ export function Quiz() {
       setIsAnalyzing(true)
       setIsSaving(true)
       try {
-        const analysis = analyzeQuizResults(Object.values(newAnswers), newTimes)
+        const sortedAnswers = questions.map(q => newAnswers[q.id]);
+        const analysis = analyzeQuizResults(sortedAnswers, newTimes)
         await fetch('/api/quiz', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             profileType: analysis.primary,
+            level: analysis.level,
+            scores: analysis.scores,
+            consistencyScore: analysis.consistencyScore,
+            totalTime: newTimes.reduce((a, b) => a + b, 1),
             answers: newAnswers,
             responseTimes: newTimes,
             averageResponseTime: Math.round(newTimes.reduce((a, b) => a + b, 0) / newTimes.length)
@@ -91,15 +97,17 @@ export function Quiz() {
     return (
       <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
         <Loader2 className="w-16 h-16 text-primary animate-spin mb-8" />
-        <h2 className="text-2xl font-semibold mb-4 tracking-tight">Analyse Mathématique en Cours</h2>
+        <h2 className="text-2xl font-semibold mb-4 tracking-tight font-mono text-primary">
+          <ScrambleText text="[GENERATION_HYPOTHESE]" duration={2000} />
+        </h2>
         <p className="text-muted-foreground mb-8 text-sm">
-          Compilation des vecteurs de réponse et pondération des temps de réaction...
+          Calcul des vecteurs comportementaux et pondération des scénarios de crise...
         </p>
         <div className="w-full max-w-xs space-y-2">
           <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
             <div className="h-full bg-primary animate-pulse w-full rounded-full" style={{ animationDuration: '1s' }} />
           </div>
-          <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Envoi sécurisé</p>
+          <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Identification des tendances</p>
         </div>
       </div>
     )
@@ -154,13 +162,14 @@ export function Quiz() {
             <CheckCircle2 className="h-10 w-10 text-primary" />
           </div>
           <h2 className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            Algorithme d'Analyse Terminé
+            Hypothèse Comportementale Identifiée
           </h2>
           <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight mb-6">
-            Ton profil est <span className={myProfile.color}>{myProfile.title}</span>
+            Tendance : <span className={myProfile.color}>{myProfile.title}</span>
           </h1>
           <p className="text-zinc-400 max-w-2xl text-lg leading-relaxed mb-8">
-            {myProfile.desc}
+            Basé sur tes arbitrages et ta vitesse de réaction, nous avons détecté une dominance <strong>{myProfile.title}</strong>. 
+            C'est une base de départ qui évoluera avec tes missions réelles.
           </p>
 
           {/* Scores Breakdown */}

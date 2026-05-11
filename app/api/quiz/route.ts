@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { profileType, answers, responseTimes, averageResponseTime } = body;
+    const { profileType, answers, responseTimes, averageResponseTime, level } = body;
 
     const quizResult = await prisma.quizResult.create({
       data: {
@@ -27,10 +27,24 @@ export async function POST(req: Request) {
       },
     });
 
-    // Update user class/profile
+    // Update user class/profile and level with psychometric and behavioral data
+    const analysis = body.analysis; // Assuming we pass the full analysis now or recalculate it
+    
     await prisma.user.update({
       where: { id: session.user.id },
-      data: { class: profileType }
+      data: { 
+        class: profileType,
+        level: level || 1,
+        // 6. DONNÉES PSYCHOMÉTRIQUES
+        builderScore: body.scores?.builder || 0,
+        creatorScore: body.scores?.creator || 0,
+        strategistScore: body.scores?.strategist || 0,
+        catalystScore: body.scores?.catalyst || 0,
+        polarization: body.consistencyScore || 0,
+        // 5. DONNÉES COMPORTEMENTALES
+        answerConsistency: body.consistencyScore || 0,
+        onboardingSpeed: body.totalTime || 0, // Total time for quiz
+      }
     });
 
     // Send email asynchronously (don't block the response)

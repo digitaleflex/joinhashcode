@@ -5,6 +5,7 @@ export interface AnalysisResult {
   percentages: Record<ProfileType, number>;
   primary: ProfileType;
   secondary: ProfileType;
+  level: number;
   consistencyScore: number; // 0 to 1, how polarized the profile is
   suggestedChannels: {
     name: string;
@@ -13,6 +14,8 @@ export interface AnalysisResult {
     icon: string;
   }[];
 }
+
+import { questions } from "./questions";
 
 export const analyzeQuizResults = (answers: string[], responseTimes: number[] = []): AnalysisResult => {
   const counts: Record<ProfileType, number> = {
@@ -29,44 +32,58 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     catalyst: 0,
   };
 
-  // Count occurrences and sum times
+  let totalWeight = 0;
+
+  // Process all 13 questions (behavioral, scenario, crisis)
   answers.forEach((ans, idx) => {
+    const question = questions[idx];
+    if (!question) return;
+
     const profile = ans as ProfileType;
-    if (profile in counts) {
-      counts[profile]++;
+    const selectedOption = question.options.find(opt => opt.value === profile);
+    
+    if (selectedOption && profile in counts) {
+      const weight = selectedOption.score || question.weight || 1;
+      counts[profile] += weight;
+      totalWeight += weight;
       timeSum[profile] += responseTimes[idx] || 0;
     }
   });
 
-  const total = answers.length;
+  // Calculate percentages based on weighted scores
   const percentages = {
-    builder: Math.round((counts.builder / total) * 100),
-    creator: Math.round((counts.creator / total) * 100),
-    strategist: Math.round((counts.strategist / total) * 100),
-    catalyst: Math.round((counts.catalyst / total) * 100),
+    builder: Math.round((counts.builder / totalWeight) * 100),
+    creator: Math.round((counts.creator / totalWeight) * 100),
+    strategist: Math.round((counts.strategist / totalWeight) * 100),
+    catalyst: Math.round((counts.catalyst / totalWeight) * 100),
   };
 
-  // Sort profiles by score (descending), then by average response time (ascending) for tie-breaking
+  // Sort profiles by weighted score
   const sortedProfiles = (Object.keys(counts) as ProfileType[]).sort((a, b) => {
     if (counts[b] !== counts[a]) {
       return counts[b] - counts[a];
     }
-    // Tie-breaker: Calculate average response time
-    const avgA = counts[a] > 0 ? timeSum[a] / counts[a] : Infinity;
-    const avgB = counts[b] > 0 ? timeSum[b] / counts[b] : Infinity;
-    return avgA - avgB; // Lower time wins
+    // Tie-breaker: Lower average response time
+    const avgA = counts[a] > 0 ? timeSum[a] / (counts[a] || 1) : Infinity;
+    const avgB = counts[b] > 0 ? timeSum[b] / (counts[b] || 1) : Infinity;
+    return avgA - avgB;
   });
 
   const primary = sortedProfiles[0];
   const secondary = sortedProfiles[1];
 
-  // Mathematical Consistency / Polarization Score
-  // Calculated as the standard deviation of scores to see if the user is specialized or generalist
-  const mean = total / 4;
+  // Mathematical Consistency / Polarization Score (Weighted)
+  const mean = totalWeight / 4;
   const variance = Object.values(counts).reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / 4;
   const stdDev = Math.sqrt(variance);
-  const maxPossibleStdDev = Math.sqrt(Math.pow(total - mean, 2) + 3 * Math.pow(0 - mean, 2)) / 2;
+  
+  // Max standard deviation is when one class has all the weight
+  const maxPossibleStdDev = Math.sqrt(Math.pow(totalWeight - mean, 2) + 3 * Math.pow(0 - mean, 2)) / 2;
   const consistencyScore = stdDev / maxPossibleStdDev;
+
+  // Level is now typically handled via onboarding or calculated from specific weights
+  // For now, we'll keep a placeholder or base it on "CORE" level
+  const level = 1;
 
   const channelMap: Record<ProfileType, any[]> = {
     builder: [
@@ -92,6 +109,7 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     percentages,
     primary,
     secondary,
+    level,
     consistencyScore,
     suggestedChannels: [...channelMap[primary], channelMap[secondary][0]],
   };

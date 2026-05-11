@@ -1,65 +1,61 @@
 import { Nav } from "@/components/landing/nav"
-import { Zap, Target, Crosshair, Award } from "lucide-react"
+import { Zap } from "lucide-react"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
+import { MissionsList } from "@/components/missions/missions-list"
 
-export default function MissionsPage() {
+export default async function MissionsPage() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
+  if (!session) {
+    redirect("/signin");
+  }
+
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      missionSubmissions: true
+    }
+  });
+
+  if (!dbUser) {
+    redirect("/signin");
+  }
+
+  // Convert array to Record<missionId, status>
+  const submissionsMap: Record<string, string> = {};
+  dbUser.missionSubmissions.forEach(sub => {
+    submissionsMap[sub.missionId] = sub.status;
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Nav />
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 mt-10">
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 pt-32 pb-24">
         <div className="flex items-center gap-3 mb-8">
           <Zap className="w-8 h-8 text-primary" />
-          <h1 className="text-4xl font-bold tracking-tight">Missions & Quêtes</h1>
+          <h1 className="text-4xl font-bold tracking-tight">Missions & Évolution</h1>
         </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="p-8 rounded-2xl bg-card border border-border/50">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 bg-primary/10 rounded-xl">
-                <Target className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold">Objectifs Actifs</h2>
-                <p className="text-sm text-muted-foreground">Progression du niveau en cours</p>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-background border border-border/40 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="font-medium">Terminer le Profilage</span>
-                </div>
-                <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">COMPLÉTÉ</span>
-              </div>
-              <div className="p-4 rounded-xl bg-background border border-border/40 flex items-center justify-between opacity-60">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-muted" />
-                  <span className="font-medium">Rejoindre sa Guilde</span>
-                </div>
-                <span className="text-xs font-mono text-muted-foreground bg-muted/20 px-2 py-1 rounded">EN ATTENTE</span>
-              </div>
-              <div className="p-4 rounded-xl bg-background border border-border/40 flex items-center justify-between opacity-60">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-muted" />
-                  <span className="font-medium">Première contribution</span>
-                </div>
-                <span className="text-xs font-mono text-muted-foreground bg-muted/20 px-2 py-1 rounded">VERROUILLÉ</span>
-              </div>
-            </div>
+        
+        <div className="mb-12 p-6 rounded-2xl border border-border/50 bg-card/30 backdrop-blur">
+          <div className="flex justify-between items-end mb-2">
+             <div className="text-sm font-mono text-muted-foreground uppercase">Expérience Globale</div>
+             <div className="text-xl font-bold text-primary">{dbUser.experience} XP</div>
           </div>
-
-          <div className="p-8 rounded-2xl bg-linear-to-br from-card to-background border border-border/50 relative overflow-hidden group">
-            <Crosshair className="absolute -right-10 -bottom-10 w-48 h-48 text-border/20 group-hover:scale-110 transition-transform duration-700" />
-            <h2 className="text-2xl font-bold mb-4">La Voie de l'Évolution</h2>
-            <p className="text-muted-foreground mb-8 relative z-10 leading-relaxed">
-              Le système d'expérience (XP) et les récompenses de palier sont en cours de calibrage. Bientôt, chaque action vous rapprochera du statut d'Architecte HASHCODE.
-            </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold relative z-10">
-              <Award className="w-4 h-4" />
-              Saison 1 imminente
-            </div>
+          <div className="text-xs text-muted-foreground mt-2">
+             Accomplis des missions pour gagner de l'XP et augmenter ton niveau d'habilitation dans le système.
           </div>
         </div>
+
+        <MissionsList 
+          userLevel={dbUser.level} 
+          userXp={dbUser.experience} 
+          submissions={submissionsMap} 
+        />
       </main>
     </div>
   )

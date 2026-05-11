@@ -48,6 +48,11 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  * 
  */
 export type QuizResult = $Result.DefaultSelection<Prisma.$QuizResultPayload>
+/**
+ * Model MissionSubmission
+ * 
+ */
+export type MissionSubmission = $Result.DefaultSelection<Prisma.$MissionSubmissionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -239,6 +244,16 @@ export class PrismaClient<
     * ```
     */
   get quizResult(): Prisma.QuizResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.missionSubmission`: Exposes CRUD operations for the **MissionSubmission** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MissionSubmissions
+    * const missionSubmissions = await prisma.missionSubmission.findMany()
+    * ```
+    */
+  get missionSubmission(): Prisma.MissionSubmissionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -679,7 +694,8 @@ export namespace Prisma {
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification',
-    QuizResult: 'QuizResult'
+    QuizResult: 'QuizResult',
+    MissionSubmission: 'MissionSubmission'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -695,7 +711,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult"
+      modelProps: "user" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1217,6 +1233,80 @@ export namespace Prisma {
           }
         }
       }
+      MissionSubmission: {
+        payload: Prisma.$MissionSubmissionPayload<ExtArgs>
+        fields: Prisma.MissionSubmissionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MissionSubmissionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MissionSubmissionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          findFirst: {
+            args: Prisma.MissionSubmissionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MissionSubmissionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          findMany: {
+            args: Prisma.MissionSubmissionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>[]
+          }
+          create: {
+            args: Prisma.MissionSubmissionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          createMany: {
+            args: Prisma.MissionSubmissionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MissionSubmissionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>[]
+          }
+          delete: {
+            args: Prisma.MissionSubmissionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          update: {
+            args: Prisma.MissionSubmissionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          deleteMany: {
+            args: Prisma.MissionSubmissionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MissionSubmissionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MissionSubmissionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>[]
+          }
+          upsert: {
+            args: Prisma.MissionSubmissionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MissionSubmissionPayload>
+          }
+          aggregate: {
+            args: Prisma.MissionSubmissionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMissionSubmission>
+          }
+          groupBy: {
+            args: Prisma.MissionSubmissionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MissionSubmissionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MissionSubmissionCountArgs<ExtArgs>
+            result: $Utils.Optional<MissionSubmissionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1332,6 +1422,7 @@ export namespace Prisma {
     account?: AccountOmit
     verification?: VerificationOmit
     quizResult?: QuizResultOmit
+    missionSubmission?: MissionSubmissionOmit
   }
 
   /* Types for Logging */
@@ -1412,17 +1503,21 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    mentees: number
     sessions: number
     accounts: number
     quizResults: number
     guildMembers: number
+    missionSubmissions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mentees?: boolean | UserCountOutputTypeCountMenteesArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
     guildMembers?: boolean | UserCountOutputTypeCountGuildMembersArgs
+    missionSubmissions?: boolean | UserCountOutputTypeCountMissionSubmissionsArgs
   }
 
   // Custom InputTypes
@@ -1434,6 +1529,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMenteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
   /**
@@ -1462,6 +1564,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGuildMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GuildMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMissionSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MissionSubmissionWhereInput
   }
 
 
@@ -1515,11 +1624,37 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     level: number | null
     experience: number | null
+    onboardingSpeed: number | null
+    answerConsistency: number | null
+    connectionFrequency: number | null
+    dashboardActivity: number | null
+    communityEngagement: number | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    polarization: number | null
+    profileStability: number | null
+    missionsCompletedCount: number | null
+    predictedEngagementScore: number | null
   }
 
   export type UserSumAggregateOutputType = {
     level: number | null
     experience: number | null
+    onboardingSpeed: number | null
+    answerConsistency: number | null
+    connectionFrequency: number | null
+    dashboardActivity: number | null
+    communityEngagement: number | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    polarization: number | null
+    profileStability: number | null
+    missionsCompletedCount: number | null
+    predictedEngagementScore: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1534,6 +1669,33 @@ export namespace Prisma {
     role: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    pseudo: string | null
+    country: string | null
+    city: string | null
+    language: string | null
+    ageRange: string | null
+    currentSituation: string | null
+    technicalLevel: string | null
+    githubUrl: string | null
+    portfolioUrl: string | null
+    mainObjective: string | null
+    dominantMotivation: string | null
+    longTermObjective: string | null
+    preferredRhythm: string | null
+    onboardingSpeed: number | null
+    answerConsistency: number | null
+    connectionFrequency: number | null
+    dashboardActivity: number | null
+    communityEngagement: number | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    polarization: number | null
+    profileStability: number | null
+    mentorId: string | null
+    missionsCompletedCount: number | null
+    predictedEngagementScore: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1548,6 +1710,33 @@ export namespace Prisma {
     role: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    pseudo: string | null
+    country: string | null
+    city: string | null
+    language: string | null
+    ageRange: string | null
+    currentSituation: string | null
+    technicalLevel: string | null
+    githubUrl: string | null
+    portfolioUrl: string | null
+    mainObjective: string | null
+    dominantMotivation: string | null
+    longTermObjective: string | null
+    preferredRhythm: string | null
+    onboardingSpeed: number | null
+    answerConsistency: number | null
+    connectionFrequency: number | null
+    dashboardActivity: number | null
+    communityEngagement: number | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    polarization: number | null
+    profileStability: number | null
+    mentorId: string | null
+    missionsCompletedCount: number | null
+    predictedEngagementScore: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1562,6 +1751,42 @@ export namespace Prisma {
     role: number
     createdAt: number
     updatedAt: number
+    pseudo: number
+    country: number
+    city: number
+    language: number
+    ageRange: number
+    currentSituation: number
+    technicalLevel: number
+    domains: number
+    tools: number
+    githubUrl: number
+    portfolioUrl: number
+    mainObjective: number
+    dominantMotivation: number
+    longTermObjective: number
+    preferredRhythm: number
+    onboardingSpeed: number
+    answerConsistency: number
+    connectionFrequency: number
+    dashboardActivity: number
+    communityEngagement: number
+    builderScore: number
+    creatorScore: number
+    strategistScore: number
+    catalystScore: number
+    polarization: number
+    profileStability: number
+    cohortsJoined: number
+    collaborativeProjects: number
+    mentorId: number
+    projectsRealized: number
+    activePaths: number
+    badges: number
+    missionsCompletedCount: number
+    recommendedPath: number
+    recommendedTools: number
+    predictedEngagementScore: number
     _all: number
   }
 
@@ -1569,11 +1794,37 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     level?: true
     experience?: true
+    onboardingSpeed?: true
+    answerConsistency?: true
+    connectionFrequency?: true
+    dashboardActivity?: true
+    communityEngagement?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    polarization?: true
+    profileStability?: true
+    missionsCompletedCount?: true
+    predictedEngagementScore?: true
   }
 
   export type UserSumAggregateInputType = {
     level?: true
     experience?: true
+    onboardingSpeed?: true
+    answerConsistency?: true
+    connectionFrequency?: true
+    dashboardActivity?: true
+    communityEngagement?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    polarization?: true
+    profileStability?: true
+    missionsCompletedCount?: true
+    predictedEngagementScore?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1588,6 +1839,33 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    pseudo?: true
+    country?: true
+    city?: true
+    language?: true
+    ageRange?: true
+    currentSituation?: true
+    technicalLevel?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    mainObjective?: true
+    dominantMotivation?: true
+    longTermObjective?: true
+    preferredRhythm?: true
+    onboardingSpeed?: true
+    answerConsistency?: true
+    connectionFrequency?: true
+    dashboardActivity?: true
+    communityEngagement?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    polarization?: true
+    profileStability?: true
+    mentorId?: true
+    missionsCompletedCount?: true
+    predictedEngagementScore?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1602,6 +1880,33 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    pseudo?: true
+    country?: true
+    city?: true
+    language?: true
+    ageRange?: true
+    currentSituation?: true
+    technicalLevel?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    mainObjective?: true
+    dominantMotivation?: true
+    longTermObjective?: true
+    preferredRhythm?: true
+    onboardingSpeed?: true
+    answerConsistency?: true
+    connectionFrequency?: true
+    dashboardActivity?: true
+    communityEngagement?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    polarization?: true
+    profileStability?: true
+    mentorId?: true
+    missionsCompletedCount?: true
+    predictedEngagementScore?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1616,6 +1921,42 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     updatedAt?: true
+    pseudo?: true
+    country?: true
+    city?: true
+    language?: true
+    ageRange?: true
+    currentSituation?: true
+    technicalLevel?: true
+    domains?: true
+    tools?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    mainObjective?: true
+    dominantMotivation?: true
+    longTermObjective?: true
+    preferredRhythm?: true
+    onboardingSpeed?: true
+    answerConsistency?: true
+    connectionFrequency?: true
+    dashboardActivity?: true
+    communityEngagement?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    polarization?: true
+    profileStability?: true
+    cohortsJoined?: true
+    collaborativeProjects?: true
+    mentorId?: true
+    projectsRealized?: true
+    activePaths?: true
+    badges?: true
+    missionsCompletedCount?: true
+    recommendedPath?: true
+    recommendedTools?: true
+    predictedEngagementScore?: true
     _all?: true
   }
 
@@ -1717,6 +2058,42 @@ export namespace Prisma {
     role: string
     createdAt: Date
     updatedAt: Date
+    pseudo: string | null
+    country: string | null
+    city: string | null
+    language: string
+    ageRange: string | null
+    currentSituation: string | null
+    technicalLevel: string | null
+    domains: string[]
+    tools: string[]
+    githubUrl: string | null
+    portfolioUrl: string | null
+    mainObjective: string | null
+    dominantMotivation: string | null
+    longTermObjective: string | null
+    preferredRhythm: string | null
+    onboardingSpeed: number | null
+    answerConsistency: number | null
+    connectionFrequency: number | null
+    dashboardActivity: number | null
+    communityEngagement: number | null
+    builderScore: number
+    creatorScore: number
+    strategistScore: number
+    catalystScore: number
+    polarization: number
+    profileStability: number
+    cohortsJoined: string[]
+    collaborativeProjects: string[]
+    mentorId: string | null
+    projectsRealized: string[]
+    activePaths: string[]
+    badges: string[]
+    missionsCompletedCount: number
+    recommendedPath: string[]
+    recommendedTools: string[]
+    predictedEngagementScore: number | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1750,10 +2127,49 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pseudo?: boolean
+    country?: boolean
+    city?: boolean
+    language?: boolean
+    ageRange?: boolean
+    currentSituation?: boolean
+    technicalLevel?: boolean
+    domains?: boolean
+    tools?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    mainObjective?: boolean
+    dominantMotivation?: boolean
+    longTermObjective?: boolean
+    preferredRhythm?: boolean
+    onboardingSpeed?: boolean
+    answerConsistency?: boolean
+    connectionFrequency?: boolean
+    dashboardActivity?: boolean
+    communityEngagement?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    polarization?: boolean
+    profileStability?: boolean
+    cohortsJoined?: boolean
+    collaborativeProjects?: boolean
+    mentorId?: boolean
+    projectsRealized?: boolean
+    activePaths?: boolean
+    badges?: boolean
+    missionsCompletedCount?: boolean
+    recommendedPath?: boolean
+    recommendedTools?: boolean
+    predictedEngagementScore?: boolean
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+    mentees?: boolean | User$menteesArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
+    missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1769,6 +2185,43 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pseudo?: boolean
+    country?: boolean
+    city?: boolean
+    language?: boolean
+    ageRange?: boolean
+    currentSituation?: boolean
+    technicalLevel?: boolean
+    domains?: boolean
+    tools?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    mainObjective?: boolean
+    dominantMotivation?: boolean
+    longTermObjective?: boolean
+    preferredRhythm?: boolean
+    onboardingSpeed?: boolean
+    answerConsistency?: boolean
+    connectionFrequency?: boolean
+    dashboardActivity?: boolean
+    communityEngagement?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    polarization?: boolean
+    profileStability?: boolean
+    cohortsJoined?: boolean
+    collaborativeProjects?: boolean
+    mentorId?: boolean
+    projectsRealized?: boolean
+    activePaths?: boolean
+    badges?: boolean
+    missionsCompletedCount?: boolean
+    recommendedPath?: boolean
+    recommendedTools?: boolean
+    predictedEngagementScore?: boolean
+    mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1783,6 +2236,43 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pseudo?: boolean
+    country?: boolean
+    city?: boolean
+    language?: boolean
+    ageRange?: boolean
+    currentSituation?: boolean
+    technicalLevel?: boolean
+    domains?: boolean
+    tools?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    mainObjective?: boolean
+    dominantMotivation?: boolean
+    longTermObjective?: boolean
+    preferredRhythm?: boolean
+    onboardingSpeed?: boolean
+    answerConsistency?: boolean
+    connectionFrequency?: boolean
+    dashboardActivity?: boolean
+    communityEngagement?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    polarization?: boolean
+    profileStability?: boolean
+    cohortsJoined?: boolean
+    collaborativeProjects?: boolean
+    mentorId?: boolean
+    projectsRealized?: boolean
+    activePaths?: boolean
+    badges?: boolean
+    missionsCompletedCount?: boolean
+    recommendedPath?: boolean
+    recommendedTools?: boolean
+    predictedEngagementScore?: boolean
+    mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1797,26 +2287,72 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pseudo?: boolean
+    country?: boolean
+    city?: boolean
+    language?: boolean
+    ageRange?: boolean
+    currentSituation?: boolean
+    technicalLevel?: boolean
+    domains?: boolean
+    tools?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    mainObjective?: boolean
+    dominantMotivation?: boolean
+    longTermObjective?: boolean
+    preferredRhythm?: boolean
+    onboardingSpeed?: boolean
+    answerConsistency?: boolean
+    connectionFrequency?: boolean
+    dashboardActivity?: boolean
+    communityEngagement?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    polarization?: boolean
+    profileStability?: boolean
+    cohortsJoined?: boolean
+    collaborativeProjects?: boolean
+    mentorId?: boolean
+    projectsRealized?: boolean
+    activePaths?: boolean
+    badges?: boolean
+    missionsCompletedCount?: boolean
+    recommendedPath?: boolean
+    recommendedTools?: boolean
+    predictedEngagementScore?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "mainObjective" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+    mentees?: boolean | User$menteesArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
+    missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      mentor: Prisma.$UserPayload<ExtArgs> | null
+      mentees: Prisma.$UserPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
       guildMembers: Prisma.$GuildMemberPayload<ExtArgs>[]
+      missionSubmissions: Prisma.$MissionSubmissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1830,6 +2366,42 @@ export namespace Prisma {
       role: string
       createdAt: Date
       updatedAt: Date
+      pseudo: string | null
+      country: string | null
+      city: string | null
+      language: string
+      ageRange: string | null
+      currentSituation: string | null
+      technicalLevel: string | null
+      domains: string[]
+      tools: string[]
+      githubUrl: string | null
+      portfolioUrl: string | null
+      mainObjective: string | null
+      dominantMotivation: string | null
+      longTermObjective: string | null
+      preferredRhythm: string | null
+      onboardingSpeed: number | null
+      answerConsistency: number | null
+      connectionFrequency: number | null
+      dashboardActivity: number | null
+      communityEngagement: number | null
+      builderScore: number
+      creatorScore: number
+      strategistScore: number
+      catalystScore: number
+      polarization: number
+      profileStability: number
+      cohortsJoined: string[]
+      collaborativeProjects: string[]
+      mentorId: string | null
+      projectsRealized: string[]
+      activePaths: string[]
+      badges: string[]
+      missionsCompletedCount: number
+      recommendedPath: string[]
+      recommendedTools: string[]
+      predictedEngagementScore: number | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2224,10 +2796,13 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     guildMembers<T extends User$guildMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$guildMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    missionSubmissions<T extends User$missionSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$missionSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2268,6 +2843,42 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly pseudo: FieldRef<"User", 'String'>
+    readonly country: FieldRef<"User", 'String'>
+    readonly city: FieldRef<"User", 'String'>
+    readonly language: FieldRef<"User", 'String'>
+    readonly ageRange: FieldRef<"User", 'String'>
+    readonly currentSituation: FieldRef<"User", 'String'>
+    readonly technicalLevel: FieldRef<"User", 'String'>
+    readonly domains: FieldRef<"User", 'String[]'>
+    readonly tools: FieldRef<"User", 'String[]'>
+    readonly githubUrl: FieldRef<"User", 'String'>
+    readonly portfolioUrl: FieldRef<"User", 'String'>
+    readonly mainObjective: FieldRef<"User", 'String'>
+    readonly dominantMotivation: FieldRef<"User", 'String'>
+    readonly longTermObjective: FieldRef<"User", 'String'>
+    readonly preferredRhythm: FieldRef<"User", 'String'>
+    readonly onboardingSpeed: FieldRef<"User", 'Int'>
+    readonly answerConsistency: FieldRef<"User", 'Float'>
+    readonly connectionFrequency: FieldRef<"User", 'Float'>
+    readonly dashboardActivity: FieldRef<"User", 'Float'>
+    readonly communityEngagement: FieldRef<"User", 'Float'>
+    readonly builderScore: FieldRef<"User", 'Int'>
+    readonly creatorScore: FieldRef<"User", 'Int'>
+    readonly strategistScore: FieldRef<"User", 'Int'>
+    readonly catalystScore: FieldRef<"User", 'Int'>
+    readonly polarization: FieldRef<"User", 'Float'>
+    readonly profileStability: FieldRef<"User", 'Float'>
+    readonly cohortsJoined: FieldRef<"User", 'String[]'>
+    readonly collaborativeProjects: FieldRef<"User", 'String[]'>
+    readonly mentorId: FieldRef<"User", 'String'>
+    readonly projectsRealized: FieldRef<"User", 'String[]'>
+    readonly activePaths: FieldRef<"User", 'String[]'>
+    readonly badges: FieldRef<"User", 'String[]'>
+    readonly missionsCompletedCount: FieldRef<"User", 'Int'>
+    readonly recommendedPath: FieldRef<"User", 'String[]'>
+    readonly recommendedTools: FieldRef<"User", 'String[]'>
+    readonly predictedEngagementScore: FieldRef<"User", 'Float'>
   }
     
 
@@ -2522,6 +3133,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2592,6 +3207,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2658,6 +3277,49 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.mentor
+   */
+  export type User$mentorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * User.mentees
+   */
+  export type User$menteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -2754,6 +3416,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GuildMemberScalarFieldEnum | GuildMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.missionSubmissions
+   */
+  export type User$missionSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    where?: MissionSubmissionWhereInput
+    orderBy?: MissionSubmissionOrderByWithRelationInput | MissionSubmissionOrderByWithRelationInput[]
+    cursor?: MissionSubmissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MissionSubmissionScalarFieldEnum | MissionSubmissionScalarFieldEnum[]
   }
 
   /**
@@ -9428,6 +10114,1155 @@ export namespace Prisma {
 
 
   /**
+   * Model MissionSubmission
+   */
+
+  export type AggregateMissionSubmission = {
+    _count: MissionSubmissionCountAggregateOutputType | null
+    _avg: MissionSubmissionAvgAggregateOutputType | null
+    _sum: MissionSubmissionSumAggregateOutputType | null
+    _min: MissionSubmissionMinAggregateOutputType | null
+    _max: MissionSubmissionMaxAggregateOutputType | null
+  }
+
+  export type MissionSubmissionAvgAggregateOutputType = {
+    xpAwarded: number | null
+  }
+
+  export type MissionSubmissionSumAggregateOutputType = {
+    xpAwarded: number | null
+  }
+
+  export type MissionSubmissionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    missionId: string | null
+    status: string | null
+    content: string | null
+    feedback: string | null
+    xpAwarded: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MissionSubmissionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    missionId: string | null
+    status: string | null
+    content: string | null
+    feedback: string | null
+    xpAwarded: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MissionSubmissionCountAggregateOutputType = {
+    id: number
+    userId: number
+    missionId: number
+    status: number
+    content: number
+    feedback: number
+    xpAwarded: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MissionSubmissionAvgAggregateInputType = {
+    xpAwarded?: true
+  }
+
+  export type MissionSubmissionSumAggregateInputType = {
+    xpAwarded?: true
+  }
+
+  export type MissionSubmissionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    missionId?: true
+    status?: true
+    content?: true
+    feedback?: true
+    xpAwarded?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MissionSubmissionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    missionId?: true
+    status?: true
+    content?: true
+    feedback?: true
+    xpAwarded?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MissionSubmissionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    missionId?: true
+    status?: true
+    content?: true
+    feedback?: true
+    xpAwarded?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MissionSubmissionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MissionSubmission to aggregate.
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MissionSubmissions to fetch.
+     */
+    orderBy?: MissionSubmissionOrderByWithRelationInput | MissionSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MissionSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MissionSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MissionSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MissionSubmissions
+    **/
+    _count?: true | MissionSubmissionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MissionSubmissionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MissionSubmissionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MissionSubmissionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MissionSubmissionMaxAggregateInputType
+  }
+
+  export type GetMissionSubmissionAggregateType<T extends MissionSubmissionAggregateArgs> = {
+        [P in keyof T & keyof AggregateMissionSubmission]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMissionSubmission[P]>
+      : GetScalarType<T[P], AggregateMissionSubmission[P]>
+  }
+
+
+
+
+  export type MissionSubmissionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MissionSubmissionWhereInput
+    orderBy?: MissionSubmissionOrderByWithAggregationInput | MissionSubmissionOrderByWithAggregationInput[]
+    by: MissionSubmissionScalarFieldEnum[] | MissionSubmissionScalarFieldEnum
+    having?: MissionSubmissionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MissionSubmissionCountAggregateInputType | true
+    _avg?: MissionSubmissionAvgAggregateInputType
+    _sum?: MissionSubmissionSumAggregateInputType
+    _min?: MissionSubmissionMinAggregateInputType
+    _max?: MissionSubmissionMaxAggregateInputType
+  }
+
+  export type MissionSubmissionGroupByOutputType = {
+    id: string
+    userId: string
+    missionId: string
+    status: string
+    content: string | null
+    feedback: string | null
+    xpAwarded: number
+    createdAt: Date
+    updatedAt: Date
+    _count: MissionSubmissionCountAggregateOutputType | null
+    _avg: MissionSubmissionAvgAggregateOutputType | null
+    _sum: MissionSubmissionSumAggregateOutputType | null
+    _min: MissionSubmissionMinAggregateOutputType | null
+    _max: MissionSubmissionMaxAggregateOutputType | null
+  }
+
+  type GetMissionSubmissionGroupByPayload<T extends MissionSubmissionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MissionSubmissionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MissionSubmissionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MissionSubmissionGroupByOutputType[P]>
+            : GetScalarType<T[P], MissionSubmissionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MissionSubmissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    missionId?: boolean
+    status?: boolean
+    content?: boolean
+    feedback?: boolean
+    xpAwarded?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["missionSubmission"]>
+
+  export type MissionSubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    missionId?: boolean
+    status?: boolean
+    content?: boolean
+    feedback?: boolean
+    xpAwarded?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["missionSubmission"]>
+
+  export type MissionSubmissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    missionId?: boolean
+    status?: boolean
+    content?: boolean
+    feedback?: boolean
+    xpAwarded?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["missionSubmission"]>
+
+  export type MissionSubmissionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    missionId?: boolean
+    status?: boolean
+    content?: boolean
+    feedback?: boolean
+    xpAwarded?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MissionSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "missionId" | "status" | "content" | "feedback" | "xpAwarded" | "createdAt" | "updatedAt", ExtArgs["result"]["missionSubmission"]>
+  export type MissionSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MissionSubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MissionSubmissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $MissionSubmissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MissionSubmission"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      missionId: string
+      status: string
+      content: string | null
+      feedback: string | null
+      xpAwarded: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["missionSubmission"]>
+    composites: {}
+  }
+
+  type MissionSubmissionGetPayload<S extends boolean | null | undefined | MissionSubmissionDefaultArgs> = $Result.GetResult<Prisma.$MissionSubmissionPayload, S>
+
+  type MissionSubmissionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MissionSubmissionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MissionSubmissionCountAggregateInputType | true
+    }
+
+  export interface MissionSubmissionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MissionSubmission'], meta: { name: 'MissionSubmission' } }
+    /**
+     * Find zero or one MissionSubmission that matches the filter.
+     * @param {MissionSubmissionFindUniqueArgs} args - Arguments to find a MissionSubmission
+     * @example
+     * // Get one MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MissionSubmissionFindUniqueArgs>(args: SelectSubset<T, MissionSubmissionFindUniqueArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MissionSubmission that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MissionSubmissionFindUniqueOrThrowArgs} args - Arguments to find a MissionSubmission
+     * @example
+     * // Get one MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MissionSubmissionFindUniqueOrThrowArgs>(args: SelectSubset<T, MissionSubmissionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MissionSubmission that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionFindFirstArgs} args - Arguments to find a MissionSubmission
+     * @example
+     * // Get one MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MissionSubmissionFindFirstArgs>(args?: SelectSubset<T, MissionSubmissionFindFirstArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MissionSubmission that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionFindFirstOrThrowArgs} args - Arguments to find a MissionSubmission
+     * @example
+     * // Get one MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MissionSubmissionFindFirstOrThrowArgs>(args?: SelectSubset<T, MissionSubmissionFindFirstOrThrowArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MissionSubmissions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MissionSubmissions
+     * const missionSubmissions = await prisma.missionSubmission.findMany()
+     * 
+     * // Get first 10 MissionSubmissions
+     * const missionSubmissions = await prisma.missionSubmission.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const missionSubmissionWithIdOnly = await prisma.missionSubmission.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MissionSubmissionFindManyArgs>(args?: SelectSubset<T, MissionSubmissionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MissionSubmission.
+     * @param {MissionSubmissionCreateArgs} args - Arguments to create a MissionSubmission.
+     * @example
+     * // Create one MissionSubmission
+     * const MissionSubmission = await prisma.missionSubmission.create({
+     *   data: {
+     *     // ... data to create a MissionSubmission
+     *   }
+     * })
+     * 
+     */
+    create<T extends MissionSubmissionCreateArgs>(args: SelectSubset<T, MissionSubmissionCreateArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MissionSubmissions.
+     * @param {MissionSubmissionCreateManyArgs} args - Arguments to create many MissionSubmissions.
+     * @example
+     * // Create many MissionSubmissions
+     * const missionSubmission = await prisma.missionSubmission.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MissionSubmissionCreateManyArgs>(args?: SelectSubset<T, MissionSubmissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MissionSubmissions and returns the data saved in the database.
+     * @param {MissionSubmissionCreateManyAndReturnArgs} args - Arguments to create many MissionSubmissions.
+     * @example
+     * // Create many MissionSubmissions
+     * const missionSubmission = await prisma.missionSubmission.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MissionSubmissions and only return the `id`
+     * const missionSubmissionWithIdOnly = await prisma.missionSubmission.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MissionSubmissionCreateManyAndReturnArgs>(args?: SelectSubset<T, MissionSubmissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MissionSubmission.
+     * @param {MissionSubmissionDeleteArgs} args - Arguments to delete one MissionSubmission.
+     * @example
+     * // Delete one MissionSubmission
+     * const MissionSubmission = await prisma.missionSubmission.delete({
+     *   where: {
+     *     // ... filter to delete one MissionSubmission
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MissionSubmissionDeleteArgs>(args: SelectSubset<T, MissionSubmissionDeleteArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MissionSubmission.
+     * @param {MissionSubmissionUpdateArgs} args - Arguments to update one MissionSubmission.
+     * @example
+     * // Update one MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MissionSubmissionUpdateArgs>(args: SelectSubset<T, MissionSubmissionUpdateArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MissionSubmissions.
+     * @param {MissionSubmissionDeleteManyArgs} args - Arguments to filter MissionSubmissions to delete.
+     * @example
+     * // Delete a few MissionSubmissions
+     * const { count } = await prisma.missionSubmission.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MissionSubmissionDeleteManyArgs>(args?: SelectSubset<T, MissionSubmissionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MissionSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MissionSubmissions
+     * const missionSubmission = await prisma.missionSubmission.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MissionSubmissionUpdateManyArgs>(args: SelectSubset<T, MissionSubmissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MissionSubmissions and returns the data updated in the database.
+     * @param {MissionSubmissionUpdateManyAndReturnArgs} args - Arguments to update many MissionSubmissions.
+     * @example
+     * // Update many MissionSubmissions
+     * const missionSubmission = await prisma.missionSubmission.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MissionSubmissions and only return the `id`
+     * const missionSubmissionWithIdOnly = await prisma.missionSubmission.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MissionSubmissionUpdateManyAndReturnArgs>(args: SelectSubset<T, MissionSubmissionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MissionSubmission.
+     * @param {MissionSubmissionUpsertArgs} args - Arguments to update or create a MissionSubmission.
+     * @example
+     * // Update or create a MissionSubmission
+     * const missionSubmission = await prisma.missionSubmission.upsert({
+     *   create: {
+     *     // ... data to create a MissionSubmission
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MissionSubmission we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MissionSubmissionUpsertArgs>(args: SelectSubset<T, MissionSubmissionUpsertArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MissionSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionCountArgs} args - Arguments to filter MissionSubmissions to count.
+     * @example
+     * // Count the number of MissionSubmissions
+     * const count = await prisma.missionSubmission.count({
+     *   where: {
+     *     // ... the filter for the MissionSubmissions we want to count
+     *   }
+     * })
+    **/
+    count<T extends MissionSubmissionCountArgs>(
+      args?: Subset<T, MissionSubmissionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MissionSubmissionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MissionSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MissionSubmissionAggregateArgs>(args: Subset<T, MissionSubmissionAggregateArgs>): Prisma.PrismaPromise<GetMissionSubmissionAggregateType<T>>
+
+    /**
+     * Group by MissionSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MissionSubmissionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MissionSubmissionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MissionSubmissionGroupByArgs['orderBy'] }
+        : { orderBy?: MissionSubmissionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MissionSubmissionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMissionSubmissionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MissionSubmission model
+   */
+  readonly fields: MissionSubmissionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MissionSubmission.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MissionSubmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MissionSubmission model
+   */
+  interface MissionSubmissionFieldRefs {
+    readonly id: FieldRef<"MissionSubmission", 'String'>
+    readonly userId: FieldRef<"MissionSubmission", 'String'>
+    readonly missionId: FieldRef<"MissionSubmission", 'String'>
+    readonly status: FieldRef<"MissionSubmission", 'String'>
+    readonly content: FieldRef<"MissionSubmission", 'String'>
+    readonly feedback: FieldRef<"MissionSubmission", 'String'>
+    readonly xpAwarded: FieldRef<"MissionSubmission", 'Int'>
+    readonly createdAt: FieldRef<"MissionSubmission", 'DateTime'>
+    readonly updatedAt: FieldRef<"MissionSubmission", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MissionSubmission findUnique
+   */
+  export type MissionSubmissionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which MissionSubmission to fetch.
+     */
+    where: MissionSubmissionWhereUniqueInput
+  }
+
+  /**
+   * MissionSubmission findUniqueOrThrow
+   */
+  export type MissionSubmissionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which MissionSubmission to fetch.
+     */
+    where: MissionSubmissionWhereUniqueInput
+  }
+
+  /**
+   * MissionSubmission findFirst
+   */
+  export type MissionSubmissionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which MissionSubmission to fetch.
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MissionSubmissions to fetch.
+     */
+    orderBy?: MissionSubmissionOrderByWithRelationInput | MissionSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MissionSubmissions.
+     */
+    cursor?: MissionSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MissionSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MissionSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MissionSubmissions.
+     */
+    distinct?: MissionSubmissionScalarFieldEnum | MissionSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * MissionSubmission findFirstOrThrow
+   */
+  export type MissionSubmissionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which MissionSubmission to fetch.
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MissionSubmissions to fetch.
+     */
+    orderBy?: MissionSubmissionOrderByWithRelationInput | MissionSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MissionSubmissions.
+     */
+    cursor?: MissionSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MissionSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MissionSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MissionSubmissions.
+     */
+    distinct?: MissionSubmissionScalarFieldEnum | MissionSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * MissionSubmission findMany
+   */
+  export type MissionSubmissionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which MissionSubmissions to fetch.
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MissionSubmissions to fetch.
+     */
+    orderBy?: MissionSubmissionOrderByWithRelationInput | MissionSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MissionSubmissions.
+     */
+    cursor?: MissionSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MissionSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MissionSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MissionSubmissions.
+     */
+    distinct?: MissionSubmissionScalarFieldEnum | MissionSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * MissionSubmission create
+   */
+  export type MissionSubmissionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MissionSubmission.
+     */
+    data: XOR<MissionSubmissionCreateInput, MissionSubmissionUncheckedCreateInput>
+  }
+
+  /**
+   * MissionSubmission createMany
+   */
+  export type MissionSubmissionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MissionSubmissions.
+     */
+    data: MissionSubmissionCreateManyInput | MissionSubmissionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MissionSubmission createManyAndReturn
+   */
+  export type MissionSubmissionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * The data used to create many MissionSubmissions.
+     */
+    data: MissionSubmissionCreateManyInput | MissionSubmissionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MissionSubmission update
+   */
+  export type MissionSubmissionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MissionSubmission.
+     */
+    data: XOR<MissionSubmissionUpdateInput, MissionSubmissionUncheckedUpdateInput>
+    /**
+     * Choose, which MissionSubmission to update.
+     */
+    where: MissionSubmissionWhereUniqueInput
+  }
+
+  /**
+   * MissionSubmission updateMany
+   */
+  export type MissionSubmissionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MissionSubmissions.
+     */
+    data: XOR<MissionSubmissionUpdateManyMutationInput, MissionSubmissionUncheckedUpdateManyInput>
+    /**
+     * Filter which MissionSubmissions to update
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * Limit how many MissionSubmissions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MissionSubmission updateManyAndReturn
+   */
+  export type MissionSubmissionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * The data used to update MissionSubmissions.
+     */
+    data: XOR<MissionSubmissionUpdateManyMutationInput, MissionSubmissionUncheckedUpdateManyInput>
+    /**
+     * Filter which MissionSubmissions to update
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * Limit how many MissionSubmissions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MissionSubmission upsert
+   */
+  export type MissionSubmissionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MissionSubmission to update in case it exists.
+     */
+    where: MissionSubmissionWhereUniqueInput
+    /**
+     * In case the MissionSubmission found by the `where` argument doesn't exist, create a new MissionSubmission with this data.
+     */
+    create: XOR<MissionSubmissionCreateInput, MissionSubmissionUncheckedCreateInput>
+    /**
+     * In case the MissionSubmission was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MissionSubmissionUpdateInput, MissionSubmissionUncheckedUpdateInput>
+  }
+
+  /**
+   * MissionSubmission delete
+   */
+  export type MissionSubmissionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter which MissionSubmission to delete.
+     */
+    where: MissionSubmissionWhereUniqueInput
+  }
+
+  /**
+   * MissionSubmission deleteMany
+   */
+  export type MissionSubmissionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MissionSubmissions to delete
+     */
+    where?: MissionSubmissionWhereInput
+    /**
+     * Limit how many MissionSubmissions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MissionSubmission without action
+   */
+  export type MissionSubmissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MissionSubmission
+     */
+    select?: MissionSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MissionSubmission
+     */
+    omit?: MissionSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MissionSubmissionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9452,7 +11287,43 @@ export namespace Prisma {
     class: 'class',
     role: 'role',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    pseudo: 'pseudo',
+    country: 'country',
+    city: 'city',
+    language: 'language',
+    ageRange: 'ageRange',
+    currentSituation: 'currentSituation',
+    technicalLevel: 'technicalLevel',
+    domains: 'domains',
+    tools: 'tools',
+    githubUrl: 'githubUrl',
+    portfolioUrl: 'portfolioUrl',
+    mainObjective: 'mainObjective',
+    dominantMotivation: 'dominantMotivation',
+    longTermObjective: 'longTermObjective',
+    preferredRhythm: 'preferredRhythm',
+    onboardingSpeed: 'onboardingSpeed',
+    answerConsistency: 'answerConsistency',
+    connectionFrequency: 'connectionFrequency',
+    dashboardActivity: 'dashboardActivity',
+    communityEngagement: 'communityEngagement',
+    builderScore: 'builderScore',
+    creatorScore: 'creatorScore',
+    strategistScore: 'strategistScore',
+    catalystScore: 'catalystScore',
+    polarization: 'polarization',
+    profileStability: 'profileStability',
+    cohortsJoined: 'cohortsJoined',
+    collaborativeProjects: 'collaborativeProjects',
+    mentorId: 'mentorId',
+    projectsRealized: 'projectsRealized',
+    activePaths: 'activePaths',
+    badges: 'badges',
+    missionsCompletedCount: 'missionsCompletedCount',
+    recommendedPath: 'recommendedPath',
+    recommendedTools: 'recommendedTools',
+    predictedEngagementScore: 'predictedEngagementScore'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9540,6 +11411,21 @@ export namespace Prisma {
   };
 
   export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
+
+
+  export const MissionSubmissionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    missionId: 'missionId',
+    status: 'status',
+    content: 'content',
+    feedback: 'feedback',
+    xpAwarded: 'xpAwarded',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MissionSubmissionScalarFieldEnum = (typeof MissionSubmissionScalarFieldEnum)[keyof typeof MissionSubmissionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9645,20 +11531,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -9669,6 +11541,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -9690,10 +11576,49 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    pseudo?: StringNullableFilter<"User"> | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    ageRange?: StringNullableFilter<"User"> | string | null
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    domains?: StringNullableListFilter<"User">
+    tools?: StringNullableListFilter<"User">
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    answerConsistency?: FloatNullableFilter<"User"> | number | null
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    builderScore?: IntFilter<"User"> | number
+    creatorScore?: IntFilter<"User"> | number
+    strategistScore?: IntFilter<"User"> | number
+    catalystScore?: IntFilter<"User"> | number
+    polarization?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    mentorId?: StringNullableFilter<"User"> | string | null
+    projectsRealized?: StringNullableListFilter<"User">
+    activePaths?: StringNullableListFilter<"User">
+    badges?: StringNullableListFilter<"User">
+    missionsCompletedCount?: IntFilter<"User"> | number
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    mentees?: UserListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     quizResults?: QuizResultListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
+    missionSubmissions?: MissionSubmissionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9708,15 +11633,55 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pseudo?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    language?: SortOrder
+    ageRange?: SortOrderInput | SortOrder
+    currentSituation?: SortOrderInput | SortOrder
+    technicalLevel?: SortOrderInput | SortOrder
+    domains?: SortOrder
+    tools?: SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    mainObjective?: SortOrderInput | SortOrder
+    dominantMotivation?: SortOrderInput | SortOrder
+    longTermObjective?: SortOrderInput | SortOrder
+    preferredRhythm?: SortOrderInput | SortOrder
+    onboardingSpeed?: SortOrderInput | SortOrder
+    answerConsistency?: SortOrderInput | SortOrder
+    connectionFrequency?: SortOrderInput | SortOrder
+    dashboardActivity?: SortOrderInput | SortOrder
+    communityEngagement?: SortOrderInput | SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    cohortsJoined?: SortOrder
+    collaborativeProjects?: SortOrder
+    mentorId?: SortOrderInput | SortOrder
+    projectsRealized?: SortOrder
+    activePaths?: SortOrder
+    badges?: SortOrder
+    missionsCompletedCount?: SortOrder
+    recommendedPath?: SortOrder
+    recommendedTools?: SortOrder
+    predictedEngagementScore?: SortOrderInput | SortOrder
+    mentor?: UserOrderByWithRelationInput
+    mentees?: UserOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     quizResults?: QuizResultOrderByRelationAggregateInput
     guildMembers?: GuildMemberOrderByRelationAggregateInput
+    missionSubmissions?: MissionSubmissionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    pseudo?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -9729,11 +11694,49 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    country?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    ageRange?: StringNullableFilter<"User"> | string | null
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    domains?: StringNullableListFilter<"User">
+    tools?: StringNullableListFilter<"User">
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    answerConsistency?: FloatNullableFilter<"User"> | number | null
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    builderScore?: IntFilter<"User"> | number
+    creatorScore?: IntFilter<"User"> | number
+    strategistScore?: IntFilter<"User"> | number
+    catalystScore?: IntFilter<"User"> | number
+    polarization?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    mentorId?: StringNullableFilter<"User"> | string | null
+    projectsRealized?: StringNullableListFilter<"User">
+    activePaths?: StringNullableListFilter<"User">
+    badges?: StringNullableListFilter<"User">
+    missionsCompletedCount?: IntFilter<"User"> | number
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    mentees?: UserListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     quizResults?: QuizResultListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
-  }, "id" | "email">
+    missionSubmissions?: MissionSubmissionListRelationFilter
+  }, "id" | "email" | "pseudo">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9747,6 +11750,42 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pseudo?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    language?: SortOrder
+    ageRange?: SortOrderInput | SortOrder
+    currentSituation?: SortOrderInput | SortOrder
+    technicalLevel?: SortOrderInput | SortOrder
+    domains?: SortOrder
+    tools?: SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    mainObjective?: SortOrderInput | SortOrder
+    dominantMotivation?: SortOrderInput | SortOrder
+    longTermObjective?: SortOrderInput | SortOrder
+    preferredRhythm?: SortOrderInput | SortOrder
+    onboardingSpeed?: SortOrderInput | SortOrder
+    answerConsistency?: SortOrderInput | SortOrder
+    connectionFrequency?: SortOrderInput | SortOrder
+    dashboardActivity?: SortOrderInput | SortOrder
+    communityEngagement?: SortOrderInput | SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    cohortsJoined?: SortOrder
+    collaborativeProjects?: SortOrder
+    mentorId?: SortOrderInput | SortOrder
+    projectsRealized?: SortOrder
+    activePaths?: SortOrder
+    badges?: SortOrder
+    missionsCompletedCount?: SortOrder
+    recommendedPath?: SortOrder
+    recommendedTools?: SortOrder
+    predictedEngagementScore?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -9769,6 +11808,42 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
+    country?: StringNullableWithAggregatesFilter<"User"> | string | null
+    city?: StringNullableWithAggregatesFilter<"User"> | string | null
+    language?: StringWithAggregatesFilter<"User"> | string
+    ageRange?: StringNullableWithAggregatesFilter<"User"> | string | null
+    currentSituation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    technicalLevel?: StringNullableWithAggregatesFilter<"User"> | string | null
+    domains?: StringNullableListFilter<"User">
+    tools?: StringNullableListFilter<"User">
+    githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
+    dominantMotivation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    longTermObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
+    preferredRhythm?: StringNullableWithAggregatesFilter<"User"> | string | null
+    onboardingSpeed?: IntNullableWithAggregatesFilter<"User"> | number | null
+    answerConsistency?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    connectionFrequency?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    dashboardActivity?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    communityEngagement?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    builderScore?: IntWithAggregatesFilter<"User"> | number
+    creatorScore?: IntWithAggregatesFilter<"User"> | number
+    strategistScore?: IntWithAggregatesFilter<"User"> | number
+    catalystScore?: IntWithAggregatesFilter<"User"> | number
+    polarization?: FloatWithAggregatesFilter<"User"> | number
+    profileStability?: FloatWithAggregatesFilter<"User"> | number
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    mentorId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    projectsRealized?: StringNullableListFilter<"User">
+    activePaths?: StringNullableListFilter<"User">
+    badges?: StringNullableListFilter<"User">
+    missionsCompletedCount?: IntWithAggregatesFilter<"User"> | number
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    predictedEngagementScore?: FloatNullableWithAggregatesFilter<"User"> | number | null
   }
 
   export type GuildWhereInput = {
@@ -10198,6 +12273,84 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
   }
 
+  export type MissionSubmissionWhereInput = {
+    AND?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
+    OR?: MissionSubmissionWhereInput[]
+    NOT?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
+    id?: StringFilter<"MissionSubmission"> | string
+    userId?: StringFilter<"MissionSubmission"> | string
+    missionId?: StringFilter<"MissionSubmission"> | string
+    status?: StringFilter<"MissionSubmission"> | string
+    content?: StringNullableFilter<"MissionSubmission"> | string | null
+    feedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    xpAwarded?: IntFilter<"MissionSubmission"> | number
+    createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type MissionSubmissionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    missionId?: SortOrder
+    status?: SortOrder
+    content?: SortOrderInput | SortOrder
+    feedback?: SortOrderInput | SortOrder
+    xpAwarded?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type MissionSubmissionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_missionId?: MissionSubmissionUserIdMissionIdCompoundUniqueInput
+    AND?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
+    OR?: MissionSubmissionWhereInput[]
+    NOT?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
+    userId?: StringFilter<"MissionSubmission"> | string
+    missionId?: StringFilter<"MissionSubmission"> | string
+    status?: StringFilter<"MissionSubmission"> | string
+    content?: StringNullableFilter<"MissionSubmission"> | string | null
+    feedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    xpAwarded?: IntFilter<"MissionSubmission"> | number
+    createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_missionId">
+
+  export type MissionSubmissionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    missionId?: SortOrder
+    status?: SortOrder
+    content?: SortOrderInput | SortOrder
+    feedback?: SortOrderInput | SortOrder
+    xpAwarded?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MissionSubmissionCountOrderByAggregateInput
+    _avg?: MissionSubmissionAvgOrderByAggregateInput
+    _max?: MissionSubmissionMaxOrderByAggregateInput
+    _min?: MissionSubmissionMinOrderByAggregateInput
+    _sum?: MissionSubmissionSumOrderByAggregateInput
+  }
+
+  export type MissionSubmissionScalarWhereWithAggregatesInput = {
+    AND?: MissionSubmissionScalarWhereWithAggregatesInput | MissionSubmissionScalarWhereWithAggregatesInput[]
+    OR?: MissionSubmissionScalarWhereWithAggregatesInput[]
+    NOT?: MissionSubmissionScalarWhereWithAggregatesInput | MissionSubmissionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MissionSubmission"> | string
+    userId?: StringWithAggregatesFilter<"MissionSubmission"> | string
+    missionId?: StringWithAggregatesFilter<"MissionSubmission"> | string
+    status?: StringWithAggregatesFilter<"MissionSubmission"> | string
+    content?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    feedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    xpAwarded?: IntWithAggregatesFilter<"MissionSubmission"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"MissionSubmission"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MissionSubmission"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -10210,10 +12363,48 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10228,10 +12419,48 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10246,10 +12475,48 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10264,10 +12531,48 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10282,6 +12587,42 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -10296,6 +12637,41 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -10310,6 +12686,42 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type GuildCreateInput = {
@@ -10773,6 +13185,89 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MissionSubmissionCreateInput = {
+    id?: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutMissionSubmissionsInput
+  }
+
+  export type MissionSubmissionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MissionSubmissionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput
+  }
+
+  export type MissionSubmissionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MissionSubmissionCreateManyInput = {
+    id?: string
+    userId: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MissionSubmissionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MissionSubmissionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10830,6 +13325,58 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -10854,9 +13401,19 @@ export namespace Prisma {
     none?: GuildMemberWhereInput
   }
 
+  export type MissionSubmissionListRelationFilter = {
+    every?: MissionSubmissionWhereInput
+    some?: MissionSubmissionWhereInput
+    none?: MissionSubmissionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SessionOrderByRelationAggregateInput = {
@@ -10875,6 +13432,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type MissionSubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -10887,11 +13448,60 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pseudo?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    language?: SortOrder
+    ageRange?: SortOrder
+    currentSituation?: SortOrder
+    technicalLevel?: SortOrder
+    domains?: SortOrder
+    tools?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    mainObjective?: SortOrder
+    dominantMotivation?: SortOrder
+    longTermObjective?: SortOrder
+    preferredRhythm?: SortOrder
+    onboardingSpeed?: SortOrder
+    answerConsistency?: SortOrder
+    connectionFrequency?: SortOrder
+    dashboardActivity?: SortOrder
+    communityEngagement?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    cohortsJoined?: SortOrder
+    collaborativeProjects?: SortOrder
+    mentorId?: SortOrder
+    projectsRealized?: SortOrder
+    activePaths?: SortOrder
+    badges?: SortOrder
+    missionsCompletedCount?: SortOrder
+    recommendedPath?: SortOrder
+    recommendedTools?: SortOrder
+    predictedEngagementScore?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
+    onboardingSpeed?: SortOrder
+    answerConsistency?: SortOrder
+    connectionFrequency?: SortOrder
+    dashboardActivity?: SortOrder
+    communityEngagement?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    missionsCompletedCount?: SortOrder
+    predictedEngagementScore?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10906,6 +13516,33 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pseudo?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    language?: SortOrder
+    ageRange?: SortOrder
+    currentSituation?: SortOrder
+    technicalLevel?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    mainObjective?: SortOrder
+    dominantMotivation?: SortOrder
+    longTermObjective?: SortOrder
+    preferredRhythm?: SortOrder
+    onboardingSpeed?: SortOrder
+    answerConsistency?: SortOrder
+    connectionFrequency?: SortOrder
+    dashboardActivity?: SortOrder
+    communityEngagement?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    mentorId?: SortOrder
+    missionsCompletedCount?: SortOrder
+    predictedEngagementScore?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10920,11 +13557,51 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pseudo?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    language?: SortOrder
+    ageRange?: SortOrder
+    currentSituation?: SortOrder
+    technicalLevel?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    mainObjective?: SortOrder
+    dominantMotivation?: SortOrder
+    longTermObjective?: SortOrder
+    preferredRhythm?: SortOrder
+    onboardingSpeed?: SortOrder
+    answerConsistency?: SortOrder
+    connectionFrequency?: SortOrder
+    dashboardActivity?: SortOrder
+    communityEngagement?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    mentorId?: SortOrder
+    missionsCompletedCount?: SortOrder
+    predictedEngagementScore?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
+    onboardingSpeed?: SortOrder
+    answerConsistency?: SortOrder
+    connectionFrequency?: SortOrder
+    dashboardActivity?: SortOrder
+    communityEngagement?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    polarization?: SortOrder
+    profileStability?: SortOrder
+    missionsCompletedCount?: SortOrder
+    predictedEngagementScore?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10999,6 +13676,54 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type GuildCountOrderByAggregateInput = {
@@ -11223,17 +13948,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -11281,11 +13995,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type QuizResultCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -11323,22 +14032,6 @@ export namespace Prisma {
   export type QuizResultSumOrderByAggregateInput = {
     score?: SortOrder
     averageResponseTime?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -11393,6 +14086,104 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type MissionSubmissionUserIdMissionIdCompoundUniqueInput = {
+    userId: string
+    missionId: string
+  }
+
+  export type MissionSubmissionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    missionId?: SortOrder
+    status?: SortOrder
+    content?: SortOrder
+    feedback?: SortOrder
+    xpAwarded?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MissionSubmissionAvgOrderByAggregateInput = {
+    xpAwarded?: SortOrder
+  }
+
+  export type MissionSubmissionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    missionId?: SortOrder
+    status?: SortOrder
+    content?: SortOrder
+    feedback?: SortOrder
+    xpAwarded?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MissionSubmissionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    missionId?: SortOrder
+    status?: SortOrder
+    content?: SortOrder
+    feedback?: SortOrder
+    xpAwarded?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MissionSubmissionSumOrderByAggregateInput = {
+    xpAwarded?: SortOrder
+  }
+
+  export type UserCreatedomainsInput = {
+    set: string[]
+  }
+
+  export type UserCreatetoolsInput = {
+    set: string[]
+  }
+
+  export type UserCreatecohortsJoinedInput = {
+    set: string[]
+  }
+
+  export type UserCreatecollaborativeProjectsInput = {
+    set: string[]
+  }
+
+  export type UserCreateprojectsRealizedInput = {
+    set: string[]
+  }
+
+  export type UserCreateactivePathsInput = {
+    set: string[]
+  }
+
+  export type UserCreatebadgesInput = {
+    set: string[]
+  }
+
+  export type UserCreaterecommendedPathInput = {
+    set: string[]
+  }
+
+  export type UserCreaterecommendedToolsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutMenteesInput = {
+    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutMentorInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11419,6 +14210,20 @@ export namespace Prisma {
     connectOrCreate?: GuildMemberCreateOrConnectWithoutUserInput | GuildMemberCreateOrConnectWithoutUserInput[]
     createMany?: GuildMemberCreateManyUserInputEnvelope
     connect?: GuildMemberWhereUniqueInput | GuildMemberWhereUniqueInput[]
+  }
+
+  export type MissionSubmissionCreateNestedManyWithoutUserInput = {
+    create?: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput> | MissionSubmissionCreateWithoutUserInput[] | MissionSubmissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MissionSubmissionCreateOrConnectWithoutUserInput | MissionSubmissionCreateOrConnectWithoutUserInput[]
+    createMany?: MissionSubmissionCreateManyUserInputEnvelope
+    connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutMentorInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -11449,6 +14254,13 @@ export namespace Prisma {
     connect?: GuildMemberWhereUniqueInput | GuildMemberWhereUniqueInput[]
   }
 
+  export type MissionSubmissionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput> | MissionSubmissionCreateWithoutUserInput[] | MissionSubmissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MissionSubmissionCreateOrConnectWithoutUserInput | MissionSubmissionCreateOrConnectWithoutUserInput[]
+    createMany?: MissionSubmissionCreateManyUserInputEnvelope
+    connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -11471,6 +14283,99 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type UserUpdatedomainsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdatetoolsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdatecohortsJoinedInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdatecollaborativeProjectsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateprojectsRealizedInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateactivePathsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdatebadgesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdaterecommendedPathInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdaterecommendedToolsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneWithoutMenteesNestedInput = {
+    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
+    upsert?: UserUpsertWithoutMenteesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMenteesInput, UserUpdateWithoutMenteesInput>, UserUncheckedUpdateWithoutMenteesInput>
+  }
+
+  export type UserUpdateManyWithoutMentorNestedInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -11529,6 +14434,34 @@ export namespace Prisma {
     deleteMany?: GuildMemberScalarWhereInput | GuildMemberScalarWhereInput[]
   }
 
+  export type MissionSubmissionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput> | MissionSubmissionCreateWithoutUserInput[] | MissionSubmissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MissionSubmissionCreateOrConnectWithoutUserInput | MissionSubmissionCreateOrConnectWithoutUserInput[]
+    upsert?: MissionSubmissionUpsertWithWhereUniqueWithoutUserInput | MissionSubmissionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MissionSubmissionCreateManyUserInputEnvelope
+    set?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    disconnect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    delete?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    update?: MissionSubmissionUpdateWithWhereUniqueWithoutUserInput | MissionSubmissionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MissionSubmissionUpdateManyWithWhereWithoutUserInput | MissionSubmissionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutMentorNestedInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11583,6 +14516,20 @@ export namespace Prisma {
     update?: GuildMemberUpdateWithWhereUniqueWithoutUserInput | GuildMemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: GuildMemberUpdateManyWithWhereWithoutUserInput | GuildMemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: GuildMemberScalarWhereInput | GuildMemberScalarWhereInput[]
+  }
+
+  export type MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput> | MissionSubmissionCreateWithoutUserInput[] | MissionSubmissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MissionSubmissionCreateOrConnectWithoutUserInput | MissionSubmissionCreateOrConnectWithoutUserInput[]
+    upsert?: MissionSubmissionUpsertWithWhereUniqueWithoutUserInput | MissionSubmissionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MissionSubmissionCreateManyUserInputEnvelope
+    set?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    disconnect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    delete?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+    update?: MissionSubmissionUpdateWithWhereUniqueWithoutUserInput | MissionSubmissionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MissionSubmissionUpdateManyWithWhereWithoutUserInput | MissionSubmissionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
   }
 
   export type GuildMemberCreateNestedManyWithoutGuildInput = {
@@ -11693,14 +14640,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdateOneWithoutQuizResultsNestedInput = {
     create?: XOR<UserCreateWithoutQuizResultsInput, UserUncheckedCreateWithoutQuizResultsInput>
     connectOrCreate?: UserCreateOrConnectWithoutQuizResultsInput
@@ -11709,6 +14648,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutQuizResultsInput, UserUpdateWithoutQuizResultsInput>, UserUncheckedUpdateWithoutQuizResultsInput>
+  }
+
+  export type UserCreateNestedOneWithoutMissionSubmissionsInput = {
+    create?: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMissionSubmissionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput = {
+    create?: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMissionSubmissionsInput
+    upsert?: UserUpsertWithoutMissionSubmissionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMissionSubmissionsInput, UserUpdateWithoutMissionSubmissionsInput>, UserUncheckedUpdateWithoutMissionSubmissionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11766,6 +14719,39 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11808,17 +14794,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11835,17 +14810,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -11858,6 +14822,54 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -11883,33 +14895,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -11956,6 +14941,241 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type UserCreateWithoutMenteesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMenteesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMenteesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+  }
+
+  export type UserCreateWithoutMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserCreateNestedManyWithoutMentorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  }
+
+  export type UserCreateManyMentorInputEnvelope = {
+    data: UserCreateManyMentorInput | UserCreateManyMentorInput[]
+    skipDuplicates?: boolean
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -12082,6 +15302,228 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MissionSubmissionCreateWithoutUserInput = {
+    id?: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MissionSubmissionUncheckedCreateWithoutUserInput = {
+    id?: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MissionSubmissionCreateOrConnectWithoutUserInput = {
+    where: MissionSubmissionWhereUniqueInput
+    create: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput>
+  }
+
+  export type MissionSubmissionCreateManyUserInputEnvelope = {
+    data: MissionSubmissionCreateManyUserInput | MissionSubmissionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutMenteesInput = {
+    update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
+    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMenteesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
+  }
+
+  export type UserUpdateWithoutMenteesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMenteesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutMentorInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    emailVerified?: BoolFilter<"User"> | boolean
+    image?: StringNullableFilter<"User"> | string | null
+    level?: IntFilter<"User"> | number
+    experience?: IntFilter<"User"> | number
+    class?: StringNullableFilter<"User"> | string | null
+    role?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    pseudo?: StringNullableFilter<"User"> | string | null
+    country?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    ageRange?: StringNullableFilter<"User"> | string | null
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    domains?: StringNullableListFilter<"User">
+    tools?: StringNullableListFilter<"User">
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    answerConsistency?: FloatNullableFilter<"User"> | number | null
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    builderScore?: IntFilter<"User"> | number
+    creatorScore?: IntFilter<"User"> | number
+    strategistScore?: IntFilter<"User"> | number
+    catalystScore?: IntFilter<"User"> | number
+    polarization?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    mentorId?: StringNullableFilter<"User"> | string | null
+    projectsRealized?: StringNullableListFilter<"User">
+    activePaths?: StringNullableListFilter<"User">
+    badges?: StringNullableListFilter<"User">
+    missionsCompletedCount?: IntFilter<"User"> | number
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -12204,6 +15646,37 @@ export namespace Prisma {
     joinedAt?: DateTimeFilter<"GuildMember"> | Date | string
   }
 
+  export type MissionSubmissionUpsertWithWhereUniqueWithoutUserInput = {
+    where: MissionSubmissionWhereUniqueInput
+    update: XOR<MissionSubmissionUpdateWithoutUserInput, MissionSubmissionUncheckedUpdateWithoutUserInput>
+    create: XOR<MissionSubmissionCreateWithoutUserInput, MissionSubmissionUncheckedCreateWithoutUserInput>
+  }
+
+  export type MissionSubmissionUpdateWithWhereUniqueWithoutUserInput = {
+    where: MissionSubmissionWhereUniqueInput
+    data: XOR<MissionSubmissionUpdateWithoutUserInput, MissionSubmissionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type MissionSubmissionUpdateManyWithWhereWithoutUserInput = {
+    where: MissionSubmissionScalarWhereInput
+    data: XOR<MissionSubmissionUpdateManyMutationInput, MissionSubmissionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type MissionSubmissionScalarWhereInput = {
+    AND?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
+    OR?: MissionSubmissionScalarWhereInput[]
+    NOT?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
+    id?: StringFilter<"MissionSubmission"> | string
+    userId?: StringFilter<"MissionSubmission"> | string
+    missionId?: StringFilter<"MissionSubmission"> | string
+    status?: StringFilter<"MissionSubmission"> | string
+    content?: StringNullableFilter<"MissionSubmission"> | string | null
+    feedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    xpAwarded?: IntFilter<"MissionSubmission"> | number
+    createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
+  }
+
   export type GuildMemberCreateWithoutGuildInput = {
     id?: string
     role?: string
@@ -12256,9 +15729,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGuildMembersInput = {
@@ -12273,9 +15784,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGuildMembersInput = {
@@ -12333,9 +15882,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuildMembersInput = {
@@ -12350,9 +15937,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GuildUpsertWithoutMembersInput = {
@@ -12400,9 +16025,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -12417,9 +16080,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -12450,9 +16151,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -12467,9 +16206,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -12484,9 +16261,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -12501,9 +16316,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -12534,9 +16387,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -12551,9 +16442,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutQuizResultsInput = {
@@ -12568,9 +16497,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuizResultsInput = {
@@ -12585,9 +16552,47 @@ export namespace Prisma {
     role?: string
     createdAt: Date | string
     updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuizResultsInput = {
@@ -12618,9 +16623,47 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizResultsInput = {
@@ -12635,9 +16678,332 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutMissionSubmissionsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMissionSubmissionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
+  }
+
+  export type UserUpsertWithoutMissionSubmissionsInput = {
+    update: XOR<UserUpdateWithoutMissionSubmissionsInput, UserUncheckedUpdateWithoutMissionSubmissionsInput>
+    create: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMissionSubmissionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMissionSubmissionsInput, UserUncheckedUpdateWithoutMissionSubmissionsInput>
+  }
+
+  export type UserUpdateWithoutMissionSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateManyMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    mainObjective?: string | null
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
   }
 
   export type SessionCreateManyUserInput = {
@@ -12680,6 +17046,176 @@ export namespace Prisma {
     guildId: string
     role?: string
     joinedAt?: Date | string
+  }
+
+  export type MissionSubmissionCreateManyUserInput = {
+    id?: string
+    missionId: string
+    status?: string
+    content?: string | null
+    feedback?: string | null
+    xpAwarded?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUpdateWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -12806,6 +17342,39 @@ export namespace Prisma {
     guildId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MissionSubmissionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MissionSubmissionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MissionSubmissionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    missionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    xpAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GuildMemberCreateManyGuildInput = {
