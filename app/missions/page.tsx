@@ -1,5 +1,6 @@
 import { Nav } from "@/components/landing/nav"
-import { Zap } from "lucide-react"
+import { Zap, ChevronLeft } from "lucide-react"
+import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
@@ -35,7 +36,15 @@ export default async function MissionsPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Nav />
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 pt-32 pb-24">
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 pt-24 pb-24">
+        <Link 
+          href="/dashboard" 
+          className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          RETOUR AU DASHBOARD
+        </Link>
+
         <div className="flex items-center gap-3 mb-8">
           <Zap className="w-8 h-8 text-primary" />
           <h1 className="text-4xl font-bold tracking-tight">Missions & Évolution</h1>

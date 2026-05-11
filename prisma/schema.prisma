@@ -39,6 +39,7 @@ model User {
 
   // 4. OBJECTIFS UTILISATEUR
   mainObjective     String?  // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux
+  secondaryObjectives String[]
   dominantMotivation String? // Argent, Passion, Impact, Curiosité, Carrière, Liberté, Innovation
   longTermObjective String?
   preferredRhythm    String? // Intensif, Progressif, Flexible, Week-end uniquement
@@ -227,4 +228,18 @@ model MissionSubmission {
   @@index([userId])
   @@index([missionId])
   @@map("mission_submission")
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  type      String   // support, suggestion, partner
+  email     String
+  subject   String
+  content   String
+  status    String   @default("UNREAD") // UNREAD, READ, ARCHIVED
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([status])
+  @@map("contact_message")
 }

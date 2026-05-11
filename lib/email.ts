@@ -83,6 +83,41 @@ export const emailService = {
     }
   },
 
+  async sendContactNotification({ type, email, subject, content }: { type: string; email: string; subject: string; content: string }) {
+    const adminEmail = "admin@joinhashcode.com";
+    if (!resend) {
+      console.log(`[Email Mock] Admin Notification: New ${type} message from ${email}`);
+      return { success: true, mocked: true };
+    }
+
+    try {
+      const { data, error } = await resend.emails.send({
+        from: "HASHCODE Transmission <noreply@joinhashcode.com>",
+        to: adminEmail,
+        subject: `[${type.toUpperCase()}] ${subject}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <h2 style="color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Nouvelle Transmission HASHCODE</h2>
+            <p><strong>Type :</strong> ${type.toUpperCase()}</p>
+            <p><strong>Expéditeur :</strong> ${email}</p>
+            <p><strong>Sujet :</strong> ${subject}</p>
+            <div style="background: #f8fafc; padding: 15px; border-radius: 6px; margin-top: 20px; border: 1px solid #e2e8f0;">
+              <p style="white-space: pre-wrap; color: #334155; line-height: 1.5;">${content}</p>
+            </div>
+            <p style="color: #94a3b8; font-size: 12px; margin-top: 30px;">
+              ID Transmission : ${Math.random().toString(36).substr(2, 9).toUpperCase()}
+            </p>
+          </div>
+        `,
+      });
+
+      if (error) return { success: false, error };
+      return { success: true, data };
+    } catch (err) {
+      return { success: false, error: err };
+    }
+  },
+
   async getStatus() {
     return {
       connected: !!resend,

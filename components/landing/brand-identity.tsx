@@ -29,9 +29,10 @@ export function BrandIdentity() {
               <Image
                 src="/hashcode-logo.png"
                 alt="HASHCODE Brand Identity"
-                width={600}
-                height={200}
-                className="h-auto w-full max-w-[400px] sm:max-w-[500px] md:max-w-[600px] object-contain"
+                width={1200}
+                height={400}
+                sizes="(max-width: 768px) 100vw, 600px"
+                className="w-full h-auto object-contain"
                 priority
               />
             </div>

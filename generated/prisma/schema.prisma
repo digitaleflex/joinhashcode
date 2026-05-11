@@ -38,10 +38,11 @@ model User {
   portfolioUrl   String?
 
   // 4. OBJECTIFS UTILISATEUR
-  mainObjective      String? // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux
-  dominantMotivation String? // Argent, Passion, Impact, Curiosité, Carrière, Liberté, Innovation
-  longTermObjective  String?
-  preferredRhythm    String? // Intensif, Progressif, Flexible, Week-end uniquement
+  mainObjective       String? // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux
+  secondaryObjectives String[]
+  dominantMotivation  String? // Argent, Passion, Impact, Curiosité, Carrière, Liberté, Innovation
+  longTermObjective   String?
+  preferredRhythm     String? // Intensif, Progressif, Flexible, Week-end uniquement
 
   // 5. DONNÉES COMPORTEMENTALES
   onboardingSpeed     Int? // Speed in ms
@@ -89,6 +90,9 @@ model User {
   guildMembers       GuildMember[]
   missionSubmissions MissionSubmission[]
 
+  @@index([level])
+  @@index([class])
+  @@index([role])
   @@map("user")
 }
 
@@ -111,6 +115,8 @@ model Mission {
   updatedAt   DateTime            @updatedAt
   submissions MissionSubmission[]
 
+  @@index([category])
+  @@index([difficulty])
   @@map("mission")
 }
 
@@ -138,6 +144,8 @@ model GuildMember {
   guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
 
   @@unique([userId, guildId])
+  @@index([userId])
+  @@index([guildId])
   @@map("guild_member")
 }
 
@@ -216,5 +224,22 @@ model MissionSubmission {
   mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
 
   @@unique([userId, missionId])
+  @@index([status])
+  @@index([userId])
+  @@index([missionId])
   @@map("mission_submission")
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  type      String // support, suggestion, partner
+  email     String
+  subject   String
+  content   String
+  status    String   @default("UNREAD") // UNREAD, READ, ARCHIVED
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([status])
+  @@map("contact_message")
 }

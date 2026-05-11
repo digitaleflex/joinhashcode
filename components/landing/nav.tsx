@@ -1,15 +1,15 @@
 "use client"
 
+import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, LayoutDashboard, Menu, X } from "lucide-react"
-import { authClient } from "@/lib/auth-client"
 import { useRouter, usePathname } from "next/navigation"
-import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
+import { Menu, X, ArrowRight, LayoutDashboard } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { authClient } from "@/lib/auth-client"
+import { BottomNav } from "@/components/dashboard/bottom-nav"
 
 export function Nav() {
   const { data: session } = authClient.useSession()
@@ -94,14 +94,27 @@ export function Nav() {
   return (
     <>
     <header 
-      className={`sticky top-0 z-[100] w-full transition-all duration-300 border-b ${
+      className={`sticky top-0 z-100 w-full transition-all duration-300 border-b ${
         scrolled ? "bg-background/80 backdrop-blur-xl border-border/60 py-2" : "bg-transparent border-transparent py-4"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left side: Navigation links (Desktop) or Empty (Mobile) */}
-        <div className="hidden md:flex flex-1">
-          <nav className="flex items-center gap-8">
+        {/* Left: Logo */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="relative flex items-center gap-1.5 group">
+            <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Image
+              src="/hashcodejoin.png"
+              alt="HASHCODE"
+              width={160}
+              height={40}
+              className="h-8 w-auto object-contain relative z-10"
+              priority
+            />
+          </Link>
+
+          {/* Desktop Navigation Links (Moved next to logo) */}
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -127,23 +140,8 @@ export function Nav() {
           </nav>
         </div>
 
-        {/* Center/Left: Logo */}
-        <div className="flex-1 md:flex-none flex justify-center md:justify-start">
-          <Link href="/" className="relative flex items-center gap-1.5 group">
-            <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Image
-              src="/hashcodejoin.png"
-              alt="HASHCODE"
-              width={160}
-              height={40}
-              className="h-8 w-auto object-contain relative z-10"
-              priority
-            />
-          </Link>
-        </div>
-
         {/* Right side: Actions */}
-        <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {session ? (
             <div className="flex items-center gap-4">
               <Link 
@@ -192,7 +190,7 @@ export function Nav() {
             </div>
           )}
 
-          {/* Mobile Menu Toggle (Non-session) */}
+          {/* Mobile Menu Toggle */}
           {!session && (
             <button 
               className="md:hidden p-2 text-muted-foreground hover:text-primary transition-colors ml-1"

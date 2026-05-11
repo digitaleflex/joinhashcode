@@ -11,17 +11,40 @@ import { Send, MessageSquare, Lightbulb, Shield, Loader2 } from "lucide-react"
 
 export default function ContactPage() {
   const [type, setType] = useState<"support" | "suggestion" | "partner">("support")
+  const [formData, setFormData] = useState({
+    email: "",
+    subject: "",
+    content: ""
+  })
   const [isSending, setIsSending] = useState(false)
   const [isSent, setIsSent] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSending(true)
-    // Simulation d'envoi
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type,
+          ...formData
+        })
+      })
+
+      if (response.ok) {
+        setIsSent(true)
+        setFormData({ email: "", subject: "", content: "" })
+      } else {
+        alert("Erreur lors de la transmission. Réessaye.")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Erreur réseau.")
+    } finally {
       setIsSending(false)
-      setIsSent(true)
-    }, 2000)
+    }
   }
 
   return (
@@ -119,6 +142,8 @@ export default function ContactPage() {
                         <Input 
                           placeholder="votre@email.com" 
                           required 
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="bg-black/40 border-white/10 focus:border-primary/50 transition-all h-12 rounded-xl"
                         />
                       </div>
@@ -127,6 +152,8 @@ export default function ContactPage() {
                         <Input 
                           placeholder="Titre du message" 
                           required 
+                          value={formData.subject}
+                          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                           className="bg-black/40 border-white/10 focus:border-primary/50 transition-all h-12 rounded-xl"
                         />
                       </div>
@@ -137,6 +164,8 @@ export default function ContactPage() {
                       <Textarea 
                         placeholder={type === "suggestion" ? "Décris-nous ton idée géniale..." : "Comment pouvons-nous t'aider ?"} 
                         required 
+                        value={formData.content}
+                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                         className="min-h-[200px] bg-black/40 border-white/10 focus:border-primary/50 transition-all rounded-2xl resize-none"
                       />
                     </div>

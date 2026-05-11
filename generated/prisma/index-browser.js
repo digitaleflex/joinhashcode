@@ -144,6 +144,7 @@ exports.Prisma.UserScalarFieldEnum = {
   githubUrl: 'githubUrl',
   portfolioUrl: 'portfolioUrl',
   mainObjective: 'mainObjective',
+  secondaryObjectives: 'secondaryObjectives',
   dominantMotivation: 'dominantMotivation',
   longTermObjective: 'longTermObjective',
   preferredRhythm: 'preferredRhythm',
@@ -268,6 +269,16 @@ exports.Prisma.MissionSubmissionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContactMessageScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  email: 'email',
+  subject: 'subject',
+  content: 'content',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -308,7 +319,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   QuizResult: 'QuizResult',
-  MissionSubmission: 'MissionSubmission'
+  MissionSubmission: 'MissionSubmission',
+  ContactMessage: 'ContactMessage'
 };
 
 /**

@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   Globe, Briefcase, Target, ChevronRight, 
-  Loader2, Check, Sparkles 
+  Loader2, Check, Sparkles, GraduationCap, 
+  Laptop, Building2, Rocket, Coffee, 
+  RefreshCw, Brain, Lightbulb
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { 
@@ -13,6 +15,7 @@ import {
   MainObjective 
 } from "@/lib/types"
 import { toast } from "sonner"
+import { CountrySelector } from "@/components/onboarding/country-selector"
 
 const STEPS = [
   {
@@ -38,6 +41,7 @@ export default function OnboardingPage() {
     country: "",
     currentSituation: "" as UserSituation,
     mainObjective: "" as MainObjective,
+    secondaryObjectives: [] as MainObjective[],
   })
 
   const handleComplete = async () => {
@@ -81,28 +85,31 @@ export default function OnboardingPage() {
         />
       </div>
 
-      <div className="w-full max-w-xl z-10">
+      <div className="w-full max-w-2xl z-10 px-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-10"
           >
-            <div className="text-center space-y-2">
-              <div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary mb-4 border border-primary/20">
+            <div className="text-center space-y-4">
+              <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary mb-2 border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.05)]">
                 {(() => {
                   const Icon = STEPS[step].icon;
-                  return Icon ? <Icon className="w-6 h-6" /> : null;
+                  return Icon ? <Icon className="w-8 h-8" /> : null;
                 })()}
               </div>
-              <h1 className="text-3xl font-bold tracking-tight uppercase font-mono">
-                {STEPS[step].title}
-              </h1>
-              <p className="text-muted-foreground">
-                {STEPS[step].description}
-              </p>
+              <div className="space-y-2">
+                <h1 className="text-4xl font-bold tracking-tight uppercase font-mono text-foreground">
+                  {STEPS[step].title}
+                </h1>
+                <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
+                  {STEPS[step].description}
+                </p>
+              </div>
             </div>
 
             <div className="grid gap-4">
@@ -110,56 +117,123 @@ export default function OnboardingPage() {
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground ml-1">Pays</label>
-                    <input 
-                      type="text"
-                      placeholder="ex: France, Canada, Sénégal..."
-                      className="w-full bg-card/50 border border-border/50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                    <CountrySelector 
                       value={formData.country}
-                      onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                      onChange={(val) => setFormData({ ...formData, country: val })}
                     />
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground ml-1">Situation Actuelle</label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {Object.values(UserSituation).map((sit) => (
-                        <button
-                          key={sit}
-                          onClick={() => setFormData({ ...formData, currentSituation: sit })}
-                          className={`px-4 py-3 rounded-xl border text-sm transition-all text-left flex items-center justify-between ${
-                            formData.currentSituation === sit 
-                            ? "bg-primary/10 border-primary text-primary" 
-                            : "bg-card/50 border-border/50 text-muted-foreground hover:border-primary/30"
-                          }`}
-                        >
-                          {sit}
-                          {formData.currentSituation === sit && <Check className="w-4 h-4" />}
-                        </button>
-                      ))}
+                    <div className="grid grid-cols-2 gap-3">
+                      {Object.values(UserSituation).map((sit) => {
+                        const Icon = {
+                          [UserSituation.STUDENT]: GraduationCap,
+                          [UserSituation.FREELANCE]: Laptop,
+                          [UserSituation.EMPLOYEE]: Building2,
+                          [UserSituation.ENTREPRENEUR]: Rocket,
+                          [UserSituation.UNEMPLOYED]: Coffee,
+                          [UserSituation.RETRAINING]: RefreshCw,
+                          [UserSituation.SELF_TAUGHT]: Brain,
+                          [UserSituation.PROJECT_LEAD]: Lightbulb,
+                        }[sit] || Briefcase;
+
+                        const isSelected = formData.currentSituation === sit;
+
+                        return (
+                          <button
+                            key={sit}
+                            onClick={() => setFormData({ ...formData, currentSituation: sit })}
+                            className={`group relative p-4 rounded-2xl border transition-all duration-300 text-left overflow-hidden ${
+                              isSelected 
+                              ? "bg-primary/5 border-primary shadow-[0_0_20px_rgba(197,244,65,0.1)]" 
+                              : "bg-card/20 border-border/40 hover:border-primary/30 hover:bg-card/40"
+                            }`}
+                          >
+                            <div className="relative z-10 flex flex-col gap-3">
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                                isSelected ? "bg-primary/20 text-primary" : "bg-muted/50 text-muted-foreground group-hover:text-primary/70"
+                              }`}>
+                                <Icon className="w-4 h-4" />
+                              </div>
+                              <div className="space-y-1">
+                                <p className={`text-sm font-medium transition-colors ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
+                                  {sit}
+                                </p>
+                              </div>
+                            </div>
+                            {isSelected && (
+                              <motion.div 
+                                layoutId="active-bg"
+                                className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent pointer-events-none"
+                              />
+                            )}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
               )}
 
               {step === 1 && (
-                <div className="space-y-3">
+                <div className="space-y-4">
+                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mb-2">
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-primary text-center">
+                      Sélectionnez 1 objectif principal + jusqu&apos;à 2 secondaires
+                    </p>
+                  </div>
                   <div className="grid gap-2">
-                    {Object.values(MainObjective).map((obj) => (
-                      <button
-                        key={obj}
-                        onClick={() => setFormData({ ...formData, mainObjective: obj })}
-                        className={`px-4 py-4 rounded-xl border text-sm transition-all text-left flex items-center justify-between ${
-                          formData.mainObjective === obj 
-                          ? "bg-primary/10 border-primary text-primary" 
-                          : "bg-card/50 border-border/50 text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <Target className={`w-4 h-4 ${formData.mainObjective === obj ? "text-primary" : "text-muted-foreground"}`} />
-                          {obj}
-                        </div>
-                        {formData.mainObjective === obj && <Check className="w-4 h-4" />}
-                      </button>
-                    ))}
+                    {Object.values(MainObjective).map((obj) => {
+                      const isMain = formData.mainObjective === obj
+                      const isSecondary = formData.secondaryObjectives.includes(obj)
+                      
+                      const handleToggle = () => {
+                        if (isMain) {
+                          setFormData({ ...formData, mainObjective: "" as MainObjective })
+                        } else if (isSecondary) {
+                          setFormData({ 
+                            ...formData, 
+                            secondaryObjectives: formData.secondaryObjectives.filter(o => o !== obj) 
+                          })
+                        } else if (!formData.mainObjective) {
+                          setFormData({ ...formData, mainObjective: obj })
+                        } else if (formData.secondaryObjectives.length < 2) {
+                          setFormData({ 
+                            ...formData, 
+                            secondaryObjectives: [...formData.secondaryObjectives, obj] 
+                          })
+                        } else {
+                          toast.error("Maximum 2 objectifs secondaires")
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={obj}
+                          onClick={handleToggle}
+                          className={`px-4 py-4 rounded-xl border text-sm transition-all text-left flex items-center justify-between group ${
+                            isMain 
+                            ? "bg-primary/10 border-primary text-primary ring-2 ring-primary/20" 
+                            : isSecondary
+                            ? "bg-primary/5 border-primary/40 text-primary/80 border-dashed"
+                            : "bg-card/50 border-border/50 text-muted-foreground hover:border-primary/30"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <Target className={`w-4 h-4 transition-colors ${isMain || isSecondary ? "text-primary" : "text-muted-foreground group-hover:text-primary/50"}`} />
+                            <div className="flex flex-col">
+                              <span className="font-medium">{obj}</span>
+                              {isMain && <span className="text-[9px] uppercase tracking-tighter opacity-70">Objectif Principal</span>}
+                              {isSecondary && <span className="text-[9px] uppercase tracking-tighter opacity-70">Objectif Secondaire</span>}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {isMain && <Check className="w-4 h-4" />}
+                            {isSecondary && <div className="w-2 h-2 rounded-full bg-primary/40" />}
+                          </div>
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
               )}
@@ -178,7 +252,7 @@ export default function OnboardingPage() {
                 <Button 
                   onClick={next}
                   disabled={isSubmitting || (step === 0 && (!formData.country || !formData.currentSituation)) || (step === 1 && !formData.mainObjective)}
-                  className="group shadow-[0_0_20px_rgba(197,244,65,0.15)] px-8"
+                  className="btn-primary-glow px-10 h-12 rounded-2xl group"
                 >
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

@@ -14,7 +14,7 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json();
-    const { country, currentSituation, mainObjective, language } = body;
+    const { country, currentSituation, mainObjective, secondaryObjectives, language } = body;
 
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
@@ -22,6 +22,7 @@ export async function PATCH(req: Request) {
         country,
         currentSituation,
         mainObjective,
+        secondaryObjectives: secondaryObjectives || [],
         language: language || "fr",
       },
     });

@@ -14,7 +14,7 @@ export function Vision() {
           className="absolute -top-24 -left-24 w-96 h-96 text-primary/5 opacity-20"
         >
           <svg viewBox="0 0 100 100" className="w-full h-full">
-            <path d="M10,10 L90,90 M90,10 L10,90" stroke="currentColor" strokeWidth="0.1" />
+            <polygon points="50,10 90,90 10,90" stroke="currentColor" fill="none" strokeWidth="0.2" />
           </svg>
         </motion.div>
         <motion.div 
@@ -31,7 +31,7 @@ export function Vision() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 opacity-40">
         <Image 
-          src="/hashcode_hero_bg_1778511835902.png" 
+          src="/images/hero-bg-v2.png" 
           alt="Vision Background" 
           fill 
           className="object-cover"

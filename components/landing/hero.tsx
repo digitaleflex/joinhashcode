@@ -54,11 +54,11 @@ export function Hero() {
             <Button
               asChild
               size="lg"
-              className="group h-11 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground shadow-[0_0_0_1px_rgba(197,244,65,0.2),0_8px_32px_-8px_rgba(197,244,65,0.4)] hover:bg-primary/90"
+              className="btn-primary-glow group h-12 rounded-xl px-6 text-sm font-bold"
             >
               <Link href="/quiz">
                 Commencer mon profilage
-                <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
 

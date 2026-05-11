@@ -22,6 +22,8 @@ export enum UserSituation {
   ENTREPRENEUR = "Entrepreneur",
   UNEMPLOYED = "Sans emploi",
   RETRAINING = "Reconversion",
+  SELF_TAUGHT = "Autodidacte",
+  PROJECT_LEAD = "Porteur de projet",
 }
 
 export enum MainObjective {

@@ -66,6 +66,8 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+import { Toaster } from "@/components/ui/sonner"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -87,6 +89,7 @@ export default function RootLayout({
         />
         <Noise />
         {children}
+        <Toaster position="top-center" richColors />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
