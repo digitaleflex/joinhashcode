@@ -10,12 +10,12 @@ export default function PrivacyPage() {
     <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
       <Nav />
       
-      <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="pt-8 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-3 mb-8"
+            className="inline-flex items-center gap-3 mb-6 sm:mb-8"
           >
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary text-glow">
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-bold tracking-tight mb-12"
+            className="text-3xl sm:text-5xl font-bold tracking-tight mb-8 sm:mb-12"
           >
             Politique de <span className="text-primary">Confidentialité</span>.
           </motion.h1>

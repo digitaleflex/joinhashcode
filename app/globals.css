@@ -119,12 +119,12 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply bg-background;
+    @apply bg-background overflow-x-hidden;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
     font-feature-settings: 'cv11', 'ss01';
   }
   section {

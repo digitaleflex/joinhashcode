@@ -8,16 +8,16 @@ export default function TermsPage() {
     <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
       <Nav />
       
-      <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="pt-20 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-3 mb-8">
+          <div className="inline-flex items-center gap-3 mb-6 sm:mb-8">
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary text-glow">
               Service_Protocol_v1.0
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-12">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-8 sm:mb-12">
             Conditions <span className="text-primary">Générales</span>.
           </h1>
 

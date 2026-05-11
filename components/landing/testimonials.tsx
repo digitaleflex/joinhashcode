@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import Image from "next/image"
 import { Quote, Shield, Award, Zap } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -64,7 +65,7 @@ const testimonials = [
 
 export function Testimonials() {
   // Triple the array to ensure seamless infinite loop
-  const marqueeItems = [...testimonials, ...testimonials, ...testimonials]
+  const marqueeItems = useMemo(() => [...testimonials, ...testimonials, ...testimonials], [])
 
   return (
     <section id="community" className="border-b border-border/60 bg-black py-24 sm:py-32 relative overflow-hidden">

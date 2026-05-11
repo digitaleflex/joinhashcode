@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, LayoutDashboard, Menu, X } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils"
 export function Nav() {
   const { data: session } = authClient.useSession()
   const router = useRouter()
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<string>("")
@@ -24,8 +25,13 @@ export function Nav() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Scroll Spy Logic
+  // Scroll Spy Logic - Only run on homepage
   useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("")
+      return
+    }
+
     const sections = ["vision", "missions", "how", "ecosystem"]
     const observerOptions = {
       root: null,
@@ -49,12 +55,18 @@ export function Nav() {
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, [pathname])
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
       e.preventDefault()
       const id = href.substring(1)
+
+      if (pathname !== "/") {
+        router.push(`/${href}`)
+        return
+      }
+
       const element = document.getElementById(id)
       if (element) {
         const offset = 80 // height of sticky header
@@ -87,7 +99,36 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-6">
+        {/* Left side: Navigation links (Desktop) or Empty (Mobile) */}
+        <div className="hidden md:flex flex-1">
+          <nav className="flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={(e) => scrollToSection(e, link.href)}
+                className={cn(
+                  "text-sm font-medium transition-all hover:text-primary relative py-1",
+                  activeSection === link.href.substring(1) 
+                    ? "text-primary" 
+                    : "text-muted-foreground"
+                )}
+              >
+                {link.name}
+                {activeSection === link.href.substring(1) && (
+                  <motion.div 
+                    layoutId="activeNav"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Center/Left: Logo */}
+        <div className="flex-1 md:flex-none flex justify-center md:justify-start">
           <Link href="/" className="relative flex items-center gap-1.5 group">
             <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <Image
@@ -101,37 +142,13 @@ export function Nav() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={(e) => scrollToSection(e, link.href)}
-              className={cn(
-                "text-sm font-medium transition-all hover:text-primary relative py-1",
-                activeSection === link.href.substring(1) 
-                  ? "text-primary" 
-                  : "text-muted-foreground"
-              )}
-            >
-              {link.name}
-              {activeSection === link.href.substring(1) && (
-                <motion.div 
-                  layoutId="activeNav"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
+        {/* Right side: Actions */}
+        <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4">
           {session ? (
-            <div className="hidden md:flex items-center gap-4">
+            <div className="flex items-center gap-4">
               <Link 
                 href="/dashboard" 
-                className="text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                className="hidden sm:flex text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors items-center gap-2"
               >
                 <LayoutDashboard className="h-3.5 w-3.5" />
                 Dashboard
@@ -153,7 +170,7 @@ export function Nav() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Button
                 asChild
                 variant="ghost"
@@ -165,7 +182,7 @@ export function Nav() {
               <Button
                 asChild
                 size="sm"
-                className="h-9 rounded-full bg-primary px-5 text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+                className="h-9 rounded-full bg-primary px-4 sm:px-5 text-[10px] sm:text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
               >
                 <Link href="/quiz" className="flex items-center gap-2">
                   L'Expérience
@@ -178,7 +195,7 @@ export function Nav() {
           {/* Mobile Menu Toggle (Non-session) */}
           {!session && (
             <button 
-              className="md:hidden p-2 text-muted-foreground hover:text-primary transition-colors"
+              className="md:hidden p-2 text-muted-foreground hover:text-primary transition-colors ml-1"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

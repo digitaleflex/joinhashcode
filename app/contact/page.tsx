@@ -28,7 +28,7 @@ export default function ContactPage() {
     <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
       <Nav />
       
-      <div className="relative pt-32 pb-24 overflow-hidden">
+      <div className="relative pt-8 sm:pt-32 pb-24 overflow-hidden">
         {/* Background Decor */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-20" />
         
@@ -91,7 +91,7 @@ export default function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Selector */}
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {[
                         { id: "support", icon: MessageSquare, label: "Support" },
                         { id: "suggestion", icon: Lightbulb, label: "Idée" },
@@ -101,13 +101,13 @@ export default function ContactPage() {
                           key={item.id}
                           type="button"
                           onClick={() => setType(item.id as any)}
-                          className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all ${
+                          className={`flex items-center sm:flex-col justify-start sm:justify-center gap-4 sm:gap-2 p-4 sm:p-4 rounded-2xl border transition-all ${
                             type === item.id 
                             ? "bg-primary/10 border-primary text-primary" 
                             : "bg-black/20 border-white/5 text-zinc-500 hover:border-white/20"
                           }`}
                         >
-                          <item.icon className="h-5 w-5" />
+                          <item.icon className="h-5 w-5 shrink-0" />
                           <span className="text-[10px] font-mono uppercase tracking-widest">{item.label}</span>
                         </button>
                       ))}
