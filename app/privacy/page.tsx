@@ -2,6 +2,8 @@
 
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
+import { motion } from "framer-motion"
+import { Shield, Database, Fingerprint, Lock, Trash2, Mail } from "lucide-react"
 
 export default function PrivacyPage() {
   return (
@@ -10,64 +12,124 @@ export default function PrivacyPage() {
       
       <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-3 mb-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-3 mb-8"
+          >
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary text-glow">
-              Privacy_Protocol_v1.0
+              Privacy_Protocol_v1.1
             </span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-12">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl font-bold tracking-tight mb-12"
+          >
             Politique de <span className="text-primary">Confidentialité</span>.
-          </h1>
+          </motion.h1>
 
-          <div className="prose prose-invert prose-zinc max-w-none space-y-12 text-zinc-400">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="prose prose-invert prose-zinc max-w-none space-y-16 text-zinc-400"
+          >
+            {/* 1. Introduction */}
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-3">
-                <span className="text-primary font-mono text-sm">01.</span>
-                Collecte des Données
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Shield className="w-5 h-5 text-primary" />
+                1. Introduction & Vision
               </h2>
               <p className="leading-relaxed">
-                HASHCODE collecte des données nécessaires à la personnalisation de votre expérience technique. Cela inclut vos informations d'identification (email, nom), mais également des **données comportementales spécifiques** : temps de réponse lors du quiz initial, choix d'arbitrage dans les missions, et fréquence d'activité sur le dashboard.
+                Chez HASHCODE, la confiance est le socle de notre écosystème. Nous croyons en une transparence totale sur la manière dont nous traitons vos données. Cette politique détaille nos engagements pour protéger votre vie privée tout en vous offrant l&apos;infrastructure nécessaire à votre évolution technologique.
               </p>
             </section>
 
+            {/* 2. Données collectées */}
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-3">
-                <span className="text-primary font-mono text-sm">02.</span>
-                Finalité du Profilage
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Database className="w-5 h-5 text-primary" />
+                2. Données Collectées
               </h2>
               <p className="leading-relaxed">
-                Vos données ne sont jamais vendues à des tiers. Elles sont exclusivement utilisées par notre moteur d'évolution pour calculer votre **Confidence Score** et votre **Profile Drift**. L'objectif est de vous proposer des missions et des opportunités au sein des Guildes qui correspondent réellement à votre niveau de compétence et à votre profil de Builder.
+                Nous collectons uniquement les informations nécessaires à la fourniture de nos services :
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong className="text-zinc-200">Identification :</strong> Email, nom et informations provenant de vos fournisseurs d&apos;authentification (GitHub, Google).</li>
+                <li><strong className="text-zinc-200">Activité :</strong> Progression dans les missions, interactions avec la plateforme et utilisation des outils.</li>
+                <li><strong className="text-zinc-200">Comportementales :</strong> Réponses au quiz d&apos;entrée, temps de réflexion et signaux d&apos;engagement.</li>
+              </ul>
+            </section>
+
+            {/* 3. Utilisation des données */}
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Fingerprint className="w-5 h-5 text-primary" />
+                3. Système de Personnalisation Pédagogique
+              </h2>
+              <p className="leading-relaxed">
+                HASHCODE utilise vos signaux comportementaux et vos interactions produit exclusivement pour :
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong className="text-zinc-200">Personnaliser votre expérience d&apos;apprentissage</strong> en adaptant le contenu à votre rythme.</li>
+                <li><strong className="text-zinc-200">Recommander des parcours</strong> et des guildes alignés avec vos objectifs de Builder.</li>
+                <li><strong className="text-zinc-200">Calculer votre progression technique</strong> via des indicateurs comme le Confidence Score.</li>
+              </ul>
+              <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                <p className="text-sm text-primary/90 italic">
+                  Note : Nous n&apos;analysons pas votre psychologie. Nous analysons vos interactions produit pour optimiser votre orientation pédagogique.
+                </p>
+              </div>
+            </section>
+
+            {/* 5. Sécurité */}
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Lock className="w-5 h-5 text-primary" />
+                4. Sécurité & Infrastructure
+              </h2>
+              <p className="leading-relaxed">
+                Vos données sont stockées sur des infrastructures sécurisées (via Supabase) utilisant des protocoles de chiffrement de pointe. L&apos;accès est restreint par un système de Row-Level Security (RLS), garantissant que seul vous (et nos systèmes automatisés de personnalisation) pouvez accéder à votre profil détaillé.
               </p>
             </section>
 
+            {/* 6. Droits utilisateur */}
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-3">
-                <span className="text-primary font-mono text-sm">03.</span>
-                Sécurité et Stockage
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Trash2 className="w-5 h-5 text-primary" />
+                5. Vos Droits & Contrôle
               </h2>
               <p className="leading-relaxed">
-                Toutes les données sont stockées de manière sécurisée via des protocoles de chiffrement de pointe. L'accès à vos données sensibles est protégé par un système de Row-Level Security (RLS) strict, garantissant que vous seul pouvez accéder à vos vecteurs comportementaux détaillés.
+                Vous restez maître de vos données à tout moment :
               </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong className="text-zinc-200">Droit à l&apos;Oubli :</strong> Vous pouvez demander la suppression complète de votre compte et de toutes les données associées.</li>
+                <li><strong className="text-zinc-200">Droit d&apos;Export :</strong> Vous pouvez demander une copie de vos données d&apos;activité et de profilage.</li>
+                <li><strong className="text-zinc-200">Analytics :</strong> Vous pouvez choisir de limiter la collecte de données analytiques via vos réglages.</li>
+              </ul>
             </section>
 
+            {/* 7. Contact */}
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-3">
-                <span className="text-primary font-mono text-sm">04.</span>
-                Vos Droits (Droit à l'Oubli)
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Mail className="w-5 h-5 text-primary" />
+                6. Contact & Transmission
               </h2>
               <p className="leading-relaxed">
-                Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. À tout moment, vous pouvez demander la clôture de votre compte et la purge complète de vos données de profilage depuis vos paramètres ou via notre Hub de Transmission.
+                Pour toute question concernant le traitement de vos données ou pour exercer vos droits, contactez-nous via le Hub de Transmission : <a href="mailto:privacy@joinhashcode.com" className="text-primary hover:underline">privacy@joinhashcode.com</a>
               </p>
             </section>
 
             <section className="p-8 rounded-2xl bg-zinc-900/50 border border-white/5 border-dashed">
               <p className="text-sm italic">
-                Dernière mise à jour du protocole : 11 Mai 2026. HASHCODE s'engage à une transparence totale sur l'utilisation de l'intelligence artificielle dans le traitement de vos données.
+                Dernière mise à jour : 11 Mai 2026. HASHCODE s&apos;engage à maintenir une documentation humaine, lisible et premium, à l&apos;image de sa plateforme.
               </p>
             </section>
-          </div>
+          </motion.div>
         </div>
       </div>
 

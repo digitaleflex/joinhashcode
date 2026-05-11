@@ -165,29 +165,36 @@ export default function OnboardingPage() {
               )}
             </div>
 
-            <div className="flex items-center justify-between pt-8 border-t border-border/50">
-              <Button 
-                variant="ghost" 
-                onClick={prev}
-                disabled={step === 0 || isSubmitting}
-                className="font-mono text-xs uppercase tracking-widest"
-              >
-                Retour
-              </Button>
-              <Button 
-                onClick={next}
-                disabled={isSubmitting || (step === 0 && (!formData.country || !formData.currentSituation)) || (step === 1 && !formData.mainObjective)}
-                className="group shadow-[0_0_20px_rgba(197,244,65,0.15)] px-8"
-              >
-                {isSubmitting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    {step === STEPS.length - 1 ? "Terminer" : "Suivant"}
-                    <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-              </Button>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between pt-8 border-t border-border/50">
+                <Button 
+                  variant="ghost" 
+                  onClick={prev}
+                  disabled={step === 0 || isSubmitting}
+                  className="font-mono text-xs uppercase tracking-widest"
+                >
+                  Retour
+                </Button>
+                <Button 
+                  onClick={next}
+                  disabled={isSubmitting || (step === 0 && (!formData.country || !formData.currentSituation)) || (step === 1 && !formData.mainObjective)}
+                  className="group shadow-[0_0_20px_rgba(197,244,65,0.15)] px-8"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      {step === STEPS.length - 1 ? "Terminer" : "Suivant"}
+                      <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </Button>
+              </div>
+              
+              <p className="text-[10px] text-center text-muted-foreground/60 leading-relaxed max-w-sm mx-auto">
+                En poursuivant, vous acceptez que HASHCODE utilise vos réponses et interactions afin de <span className="text-muted-foreground">personnaliser votre expérience d&apos;apprentissage</span>. 
+                Consultez notre <a href="/privacy" className="underline hover:text-primary transition-colors">Politique de Confidentialité</a>.
+              </p>
             </div>
           </motion.div>
         </AnimatePresence>

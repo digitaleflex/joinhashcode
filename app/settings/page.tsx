@@ -1,5 +1,5 @@
 import { Nav } from "@/components/landing/nav"
-import { Settings, User, ShieldCheck, Bell } from "lucide-react"
+import { Settings, User, ShieldCheck, Bell, Trash2 } from "lucide-react"
 
 export default function SettingsPage() {
   return (
@@ -50,6 +50,19 @@ export default function SettingsPage() {
                 Définissez comment le système interagit avec vous. Emails, alertes In-App, Pings de Guilde.
               </p>
             </div>
+          </div>
+
+          <div className="mt-10 p-8 rounded-2xl border border-destructive/20 bg-destructive/5 space-y-4">
+            <div className="flex items-center gap-3 text-destructive">
+              <Trash2 className="w-5 h-5" />
+              <h2 className="text-xl font-semibold uppercase tracking-tight font-mono">Droit à l&apos;Oubli</h2>
+            </div>
+            <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+              La suppression de votre compte est irréversible. Toutes vos données comportementales, votre progression dans les missions et votre Confidence Score seront définitivement purgés de nos systèmes.
+            </p>
+            <button className="px-5 py-2.5 bg-destructive/10 border border-destructive/20 text-destructive text-xs font-bold uppercase tracking-widest hover:bg-destructive hover:text-white transition-all">
+              Initialiser la suppression
+            </button>
           </div>
         </div>
       </main>

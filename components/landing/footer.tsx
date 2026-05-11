@@ -39,6 +39,12 @@ export function Footer() {
             >
               Conditions
             </Link>
+            <Link
+              href="/legal"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Légal
+            </Link>
           </div>
         </div>
       </div>
