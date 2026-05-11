@@ -1887,6 +1887,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     pseudo: string | null
+    bio: string | null
     country: string | null
     city: string | null
     language: string | null
@@ -1933,6 +1934,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     pseudo: string | null
+    bio: string | null
     country: string | null
     city: string | null
     language: string | null
@@ -1979,6 +1981,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     pseudo: number
+    bio: number
     country: number
     city: number
     language: number
@@ -2078,6 +2081,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     pseudo?: true
+    bio?: true
     country?: true
     city?: true
     language?: true
@@ -2124,6 +2128,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     pseudo?: true
+    bio?: true
     country?: true
     city?: true
     language?: true
@@ -2170,6 +2175,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     pseudo?: true
+    bio?: true
     country?: true
     city?: true
     language?: true
@@ -2314,6 +2320,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     pseudo: string | null
+    bio: string | null
     country: string | null
     city: string | null
     language: string
@@ -2390,6 +2397,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     pseudo?: boolean
+    bio?: boolean
     country?: boolean
     city?: boolean
     language?: boolean
@@ -2455,6 +2463,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     pseudo?: boolean
+    bio?: boolean
     country?: boolean
     city?: boolean
     language?: boolean
@@ -2513,6 +2522,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     pseudo?: boolean
+    bio?: boolean
     country?: boolean
     city?: boolean
     language?: boolean
@@ -2571,6 +2581,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     pseudo?: boolean
+    bio?: boolean
     country?: boolean
     city?: boolean
     language?: boolean
@@ -2615,7 +2626,7 @@ export namespace Prisma {
     lastHypothesisUpdate?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "bio" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
@@ -2657,6 +2668,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       pseudo: string | null
+      bio: string | null
       country: string | null
       city: string | null
       language: string
@@ -3141,6 +3153,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly pseudo: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
     readonly country: FieldRef<"User", 'String'>
     readonly city: FieldRef<"User", 'String'>
     readonly language: FieldRef<"User", 'String'>
@@ -13933,6 +13946,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     pseudo: 'pseudo',
+    bio: 'bio',
     country: 'country',
     city: 'city',
     language: 'language',
@@ -14265,6 +14279,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     pseudo?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     country?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
@@ -14329,6 +14344,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     pseudo?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     language?: SortOrder
@@ -14396,6 +14412,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    bio?: StringNullableFilter<"User"> | string | null
     country?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
@@ -14460,6 +14477,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     pseudo?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     language?: SortOrder
@@ -14525,6 +14543,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     country?: StringNullableWithAggregatesFilter<"User"> | string | null
     city?: StringNullableWithAggregatesFilter<"User"> | string | null
     language?: StringWithAggregatesFilter<"User"> | string
@@ -15274,6 +15293,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -15337,6 +15357,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -15400,6 +15421,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -15463,6 +15485,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -15526,6 +15549,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -15583,6 +15607,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -15639,6 +15664,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -16662,6 +16688,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     pseudo?: SortOrder
+    bio?: SortOrder
     country?: SortOrder
     city?: SortOrder
     language?: SortOrder
@@ -16739,6 +16766,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     pseudo?: SortOrder
+    bio?: SortOrder
     country?: SortOrder
     city?: SortOrder
     language?: SortOrder
@@ -16785,6 +16813,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     pseudo?: SortOrder
+    bio?: SortOrder
     country?: SortOrder
     city?: SortOrder
     language?: SortOrder
@@ -18341,6 +18370,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -18403,6 +18433,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -18470,6 +18501,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -18532,6 +18564,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -18781,6 +18814,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -18843,6 +18877,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -18924,6 +18959,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     pseudo?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     country?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
@@ -19237,6 +19273,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19299,6 +19336,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19404,6 +19442,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -19466,6 +19505,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -19561,6 +19601,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19623,6 +19664,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19701,6 +19743,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -19763,6 +19806,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -19825,6 +19869,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19887,6 +19932,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -19965,6 +20011,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20027,6 +20074,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20089,6 +20137,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -20151,6 +20200,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -20229,6 +20279,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20291,6 +20342,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20353,6 +20405,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -20415,6 +20468,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -20530,6 +20584,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20592,6 +20647,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20697,6 +20753,7 @@ export namespace Prisma {
     createdAt: Date | string
     updatedAt: Date | string
     pseudo?: string | null
+    bio?: string | null
     country?: string | null
     city?: string | null
     language?: string
@@ -20811,6 +20868,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20873,6 +20931,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
@@ -20935,6 +20994,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string

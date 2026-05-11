@@ -17,6 +17,7 @@ export async function PATCH(req: Request) {
     const { 
       name, 
       pseudo, 
+      bio,
       image, 
       country, 
       city, 
@@ -47,6 +48,7 @@ export async function PATCH(req: Request) {
       data: {
         name,
         pseudo,
+        bio,
         image,
         country,
         city,

@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { 
   LayoutDashboard, 
   Settings, 
@@ -18,16 +19,21 @@ import {
   Globe,
   Check,
   Camera,
+  Target,
   User as UserIcon,
   Linkedin,
-  LogOut
+  LogOut,
+  FileText,
+  ShieldCheck
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { authClient } from "@/lib/auth-client"
 import { ScrambleText } from "@/components/ui/scramble-text"
-import { motion, Variants } from "framer-motion"
+import { AppSidebar } from "./app-sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { UserTopBar } from "./user-topbar"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
   const pathname = usePathname();
@@ -36,265 +42,118 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
   const level = user?.level || 1;
   const levelMap: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" };
   const levelName = levelMap[level] || "INIT";
-  const progress = hasFinishedQuiz ? (level * 25) : 10;
 
   const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {
     builder: { 
       title: "Builder", 
       color: "text-blue-500", 
       gradient: "from-blue-500/10",
-      message: "Prêt à construire l'infrastructure du futur ? Tes outils techniques sont prêts."
+      message: "Tu as l'âme d'un bâtisseur. Chaque ligne de code est une brique vers ton empire numérique."
+    },
+    catalyst: { 
+      title: "Catalyseur", 
+      color: "text-emerald-500", 
+      gradient: "from-emerald-500/10",
+      message: "Tu accélères les projets. Partout où tu passes, les idées deviennent des réalités palpables."
+    },
+    strategist: { 
+      title: "Stratège", 
+      color: "text-amber-500", 
+      gradient: "from-amber-500/10",
+      message: "Rien n'est laissé au hasard. Ton approche méthodique est la clé des systèmes complexes."
     },
     creator: { 
       title: "Créateur", 
       color: "text-purple-500", 
       gradient: "from-purple-500/10",
-      message: "L'art et le code ne font qu'un. Tes outils de création t'attendent."
-    },
-    strategist: { 
-      title: "Stratège", 
-      color: "text-emerald-500", 
-      gradient: "from-emerald-500/10",
-      message: "Analyse, optimise, domine. Tes tableaux de bord stratégiques sont débloqués."
-    },
-    catalyst: { 
-      title: "Catalyseur", 
-      color: "text-orange-500", 
-      gradient: "from-orange-500/10",
-      message: "Le réseau est ta force. Connecte-toi aux écosystèmes les plus vibrants."
-    },
-    unknown: { 
-      title: "En attente", 
-      color: "text-zinc-500", 
-      gradient: "from-primary/10",
-      message: "Complète ton profilage pour débloquer ton plein potentiel."
+      message: "L'art et la technique ne font qu'un dans tes mains. Tu imagines ce que les autres ne voient pas encore."
     }
   };
 
-  const config = profileConfigs[profile];
-
-  const tools = [
-    { id: "builder", name: "Terminal HASH", icon: <Terminal />, minLevel: 1, desc: "Console de debug communautaire" },
-    { id: "creator", name: "Studio Créatif", icon: <Palette />, minLevel: 2, desc: "Outils de design collaboratifs" },
-    { id: "strategist", name: "Analyste de Marché", icon: <TrendingUp />, minLevel: 3, desc: "Données business en temps réel" },
-    { id: "catalyst", name: "Hub de Connexion", icon: <Users />, minLevel: 4, desc: "Networking haute fidélité" },
-  ].sort((a, b) => (a.id === profile ? -1 : b.id === profile ? 1 : 0));
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
-  };
+  const config = profileConfigs[profile.toLowerCase()] || profileConfigs.builder;
 
   return (
-    <div className="max-w-6xl mx-auto px-4">
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Sidebar / Profile Summary */}
-        <div className="w-full md:w-80 space-y-6">
-          <Card className="border-border/60 bg-card/50 backdrop-blur-xl shadow-xl overflow-hidden relative">
-            <div className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r ${config.gradient} to-transparent`} />
-            <CardHeader className="text-center pt-8">
-              <div className="mx-auto h-24 w-24 rounded-full border-2 border-primary/20 p-1 bg-background/50 relative group cursor-pointer overflow-hidden">
-                <Link href="/settings">
-                  <div className="h-full w-full rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-                    {user.image ? (
-                      <img src={user.image} alt={user.name} className="h-full w-full object-cover transition-transform group-hover:scale-110" />
-                    ) : (
-                      <span className="text-3xl font-bold text-primary">{user.name?.charAt(0) || "U"}</span>
-                    )}
-                  </div>
-                  {/* Edit Overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full backdrop-blur-[2px]">
-                    <Camera className="h-6 w-6 text-white" />
-                  </div>
-                </Link>
-                {hasFinishedQuiz && (
-                   <div className={`absolute -bottom-1 -right-1 p-1.5 rounded-full bg-background border border-border shadow-lg ${config.color} z-20`}>
-                     <Award className="h-4 w-4" />
-                   </div>
-                )}
-              </div>
-              <div className="mt-4 flex flex-col items-center">
-                <CardTitle className="flex items-center gap-2">
-                  {user.name}
-                </CardTitle>
-                <CardDescription className="mb-4">{user.email}</CardDescription>
-                
-                <Button asChild variant="outline" size="sm" className="h-7 rounded-full px-4 text-[10px] font-mono uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/10 hover:text-primary">
-                  <Link href="/settings">Modifier le Profil</Link>
-                </Button>
-              </div>
-              
-              {hasFinishedQuiz && (
-                <div className="mt-4 flex justify-center">
-                  <span className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${config.color} bg-primary/5 px-3 py-1 rounded-full border border-primary/10`}>
-                    Classe: {config.title}
-                  </span>
-                </div>
-              )}
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono uppercase text-muted-foreground tracking-tighter">
-                  <span>Niveau {level} [{levelName}]</span>
-                  <span>{progress}% d'évolution</span>
-                </div>
-                <Progress value={progress} className="h-1.5" />
-              </div>
-
-              {hasFinishedQuiz && (
-                <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
-                  <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-primary">
-                    <span>Indice de Certitude</span>
-                    <span>{Math.round((user.confidenceScore || 0.25) * 100)}%</span>
-                  </div>
-                  <div className="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(user.confidenceScore || 0.25) * 100}%` }}
-                      className="h-full bg-primary" 
-                    />
-                  </div>
-                  <p className="text-[9px] text-muted-foreground leading-tight">
-                    Plus tu réalises de missions cohérentes, plus ton profil devient indiscutable.
-                  </p>
-                </div>
-              )}
-              
-              {!hasFinishedQuiz && (
-                <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20">
-                  <Link href="/quiz">Terminer mon profilage</Link>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
-          <nav className="hidden md:block space-y-2">
-            {[
-              { name: "Vue d'ensemble", icon: LayoutDashboard, href: "/dashboard" },
-              { name: "Missions", icon: Zap, href: "/missions" },
-              { name: "Configuration", icon: Settings, href: "/settings" },
-            ].map((item) => (
-              <Button
-                key={item.name}
-                asChild
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start gap-3 h-11 rounded-xl transition-all duration-300 group",
-                  pathname === item.href 
-                    ? "bg-primary/10 text-primary border border-primary/20" 
-                    : "text-muted-foreground hover:text-primary hover:bg-primary/5 border border-transparent"
-                )}
-              >
-                <Link href={item.href}>
-                  <item.icon className={cn(
-                    "h-4 w-4 transition-transform duration-300",
-                    pathname === item.href ? "scale-110" : "group-hover:scale-110"
-                  )} />
-                  <span className="font-medium">{item.name}</span>
-                  {pathname === item.href && (
-                    <motion.div 
-                      layoutId="activeSide"
-                      className="ml-auto w-1 h-4 bg-primary rounded-full"
-                    />
-                  )}
-                </Link>
-              </Button>
-            ))}
-
-            <div className="pt-2">
-              <Button
-                variant="ghost"
-                onClick={async () => {
-                  await authClient.signOut({
-                    fetchOptions: {
-                      onSuccess: () => {
-                        window.location.href = "/";
-                      },
-                    },
-                  });
-                }}
-                className="w-full justify-start gap-3 h-11 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 border border-transparent transition-all duration-300 group"
-              >
-                <LogOut className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                <span className="font-medium">Déconnexion</span>
-              </Button>
-            </div>
-          </nav>
-
-          {/* Profile Health - Quick View */}
-          <div className="hidden md:block pt-6 border-t border-border/40">
-            <div className="px-3 py-4 rounded-2xl bg-card/20 border border-border/20 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono text-muted-foreground uppercase">Habilitation</span>
-                <span className="text-[10px] font-mono text-primary">{Math.min(100, Math.round((level / 4) * 100))}%</span>
-              </div>
-              <Progress value={(level / 4) * 100} className="h-1 bg-primary/10" />
-              <p className="text-[9px] text-muted-foreground leading-tight">
-                Complète tes missions pour augmenter ton rang.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 space-y-8">
+    <SidebarProvider>
+      <AppSidebar user={user} />
+      <SidebarInset className="bg-background">
+        <UserTopBar user={user} />
+        
+        <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
+          <div className="max-w-6xl mx-auto space-y-8">
           {/* Welcome Banner Personalized */}
           <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
             <div className="relative z-10">
-              <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3 tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3 tracking-tight text-white">
                 Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
               </h2>
               <p className="text-zinc-400 max-w-xl text-sm sm:text-lg leading-relaxed">
                 {config.message}
               </p>
+              {user.bio && (
+                <p className="mt-4 text-xs sm:text-sm text-primary/60 font-mono italic border-l-2 border-primary/20 pl-4 max-w-lg">
+                  "{user.bio}"
+                </p>
+              )}
             </div>
             <Zap className={`absolute -bottom-6 -right-6 h-24 sm:h-40 w-24 sm:w-40 ${config.color} opacity-[0.05] -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
           </div>
 
-          {/* Progressive Profile Collection (Step 4) */}
+          {/* Core Stats Grid - Balanced 2x2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Card 1: Level & XP */}
             <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                    <Globe className="h-4 w-4" />
+                    <TrendingUp className="h-4 w-4" />
                   </div>
-                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Visibilité</span>
+                  <Badge variant="outline" className="font-mono text-[10px] border-primary/30 text-primary">LVL {level}</Badge>
                 </div>
-                <CardTitle className="text-lg">Identité Numérique</CardTitle>
-                <CardDescription>Lien vers tes preuves de travail.</CardDescription>
+                <CardTitle className="text-lg text-white">Progression</CardTitle>
+                <CardDescription>Ton évolution dans l'écosystème.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground font-mono uppercase tracking-widest">Niveau {levelName}</span>
+                    <span className="text-primary font-bold">{user.experience} XP</span>
+                  </div>
+                  <Progress value={(user.experience % 1000) / 10} className="h-1.5 bg-primary/10" />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 rounded-xl bg-background/50 border border-border/50">
+                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Missions</div>
+                    <div className="text-xl font-bold text-white">{user.missionsCompletedCount || 0}</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-background/50 border border-border/50">
+                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Rang</div>
+                    <div className="text-xl font-bold text-white">#124</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Card 2: Digital Identity */}
+            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Identité Numérique</span>
+                </div>
+                <CardTitle className="text-lg text-white">Connectivité</CardTitle>
+                <CardDescription>Tes points d'ancrage externes.</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <div className="grid gap-3">
-                   <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
-                     <div className="flex items-center gap-3">
-                       <div className="p-2 rounded bg-zinc-800 text-white">
-                         <Terminal className="h-3.5 w-3.5" />
-                       </div>
-                       <span className="text-sm font-medium">{user.githubUrl ? "GitHub lié" : "GitHub"}</span>
-                     </div>
-                     {user.githubUrl ? (
-                       <Check className="h-4 w-4 text-emerald-500" />
-                     ) : (
-                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
-                     )}
-                   </div>
                    <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
                      <div className="flex items-center gap-3">
                        <div className="p-2 rounded bg-zinc-800 text-white">
                          <Globe className="h-3.5 w-3.5" />
                        </div>
-                       <span className="text-sm font-medium">{user.portfolioUrl ? "Portfolio lié" : "Portfolio"}</span>
+                       <span className="text-sm font-medium text-white">{user.portfolioUrl ? "Portfolio lié" : "Portfolio"}</span>
                      </div>
                      {user.portfolioUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
@@ -310,7 +169,7 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                        <div className="p-2 rounded bg-[#0077B5] text-white">
                          <Linkedin className="h-3.5 w-3.5" />
                        </div>
-                       <span className="text-sm font-medium">{user.linkedinUrl ? "LinkedIn lié" : "LinkedIn"}</span>
+                       <span className="text-sm font-medium text-white">{user.linkedinUrl ? "LinkedIn lié" : "LinkedIn"}</span>
                      </div>
                      {user.linkedinUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
@@ -328,7 +187,7 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
                          </svg>
                        </div>
-                       <span className="text-sm font-medium">{user.twitterUrl ? "X (Twitter) lié" : "X (Twitter)"}</span>
+                       <span className="text-sm font-medium text-white">{user.twitterUrl ? "X (Twitter) lié" : "X (Twitter)"}</span>
                      </div>
                      {user.twitterUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
@@ -342,19 +201,20 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
               </CardContent>
             </Card>
 
+            {/* Card 3: Domaines & Outils */}
             <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="p-2 rounded-lg bg-primary/10 text-primary">
                     <Award className="h-4 w-4" />
                   </div>
-                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Spécialisation</span>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Spécialisation</span>
                 </div>
-                <CardTitle className="text-lg">Domaines & Outils</CardTitle>
-                <CardDescription>Affine ton profil technique.</CardDescription>
+                <CardTitle className="text-lg text-white">Domaines & Outils</CardTitle>
+                <CardDescription>Ton arsenal technique actuel.</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {user.domains?.length > 0 ? (
                     user.domains.map((d: string) => (
                       <span key={d} className="px-2 py-1 rounded bg-primary/10 text-primary text-[10px] font-mono border border-primary/20">{d}</span>
@@ -365,158 +225,69 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                     </Button>
                   )}
                 </div>
+                
+                <div className="space-y-3">
+                  <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest border-b border-border/40 pb-1">Outils favoris</div>
+                  <div className="flex flex-wrap gap-2">
+                    {user.tools?.length > 0 ? (
+                      user.tools.slice(0, 8).map((tool: string) => (
+                        <div key={tool} className="text-[10px] text-zinc-400 bg-zinc-800/50 px-2 py-1 rounded-md border border-white/5">{tool}</div>
+                      ))
+                    ) : (
+                      <span className="text-xs italic text-muted-foreground">Aucun outil défini.</span>
+                    )}
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all md:col-span-2 lg:col-span-1">
+            {/* Card 4: Données Personnelles */}
+            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="p-2 rounded-lg bg-primary/10 text-primary">
                     <UserIcon className="h-4 w-4" />
                   </div>
-                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Profil</span>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Profil Personnel</span>
                 </div>
-                <CardTitle className="text-lg">Données Personnelles</CardTitle>
-                <CardDescription>Gère ton identité sur la plateforme.</CardDescription>
+                <CardTitle className="text-lg text-white">Données & Status</CardTitle>
+                <CardDescription>Tes informations de base.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase">Nom Complet</span>
-                    <span className="text-sm font-medium">{user.name}</span>
+                <div className="grid gap-4">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50">
+                    <div className="space-y-0.5">
+                      <div className="text-[10px] text-muted-foreground uppercase font-mono">Pseudo</div>
+                      <div className="text-sm font-bold text-white">@{user.pseudo || "Talent"}</div>
+                    </div>
+                    <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono text-primary hover:text-primary hover:bg-primary/10">
+                      <Link href="/settings">Editer</Link>
+                    </Button>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase">Statut Actuel</span>
-                    <span className="text-sm font-medium text-primary">
-                      {user.currentStatus || "Non spécifié"}
-                    </span>
+                  
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50">
+                    <div className="space-y-0.5">
+                      <div className="text-[10px] text-muted-foreground uppercase font-mono">Localisation</div>
+                      <div className="text-sm font-medium text-white">{user.city || "N/A"}, {user.country || "N/A"}</div>
+                    </div>
                   </div>
                 </div>
-                <Button asChild variant="outline" size="sm" className="w-full h-9 text-[10px] font-mono uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/10">
-                  <Link href="/settings">Mettre à jour le profil</Link>
-                </Button>
+                
+                <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
+                  <div className="flex items-center gap-2 text-primary">
+                    <Target className="h-3 w-3" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest">Objectif Principal</span>
+                  </div>
+                  <div className="text-xs font-medium text-zinc-300 leading-relaxed">
+                    {user.mainObjective || "Définis ton objectif principal dans tes réglages."}
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
-
-          {/* Master Missions Section */}
-          {hasFinishedQuiz && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-medium flex items-center gap-2">
-                  <Award className="h-5 w-5 text-primary" />
-                  Défis Master [Validation]
-                </h3>
-                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Preuve par l'action</span>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-4">
-                {[
-                  { 
-                    id: "master-ai-builder", 
-                    title: "The Real-time AI Engine", 
-                    profile: "builder",
-                    desc: "Bâtir un SaaS multi-tenant collaboratif avec RLS stricte et IA générative.",
-                    xp: "2500 XP"
-                  },
-                  { 
-                    id: "master-product-system", 
-                    title: "Product Systems Architect", 
-                    profile: "strategist",
-                    desc: "Concevoir le graphe logique et l'architecture système d'une plateforme à 1M d'utilisateurs.",
-                    xp: "2500 XP"
-                  }
-                ].filter(m => m.profile === profile || profile === 'unknown').slice(0, 2).map((mission, idx) => (
-                  <Card key={idx} className="border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors group relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                       <Zap className="h-12 w-12" />
-                    </div>
-                    <CardContent className="p-5 sm:p-6 flex flex-col lg:flex-row justify-between items-center gap-6">
-                      <div className="space-y-1 text-center lg:text-left w-full">
-                        <h4 className="text-base sm:text-lg font-bold flex items-center justify-center lg:justify-start gap-2">
-                          {mission.title}
-                          <span className="text-[8px] sm:text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">Master</span>
-                        </h4>
-                        <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto lg:mx-0">{mission.desc}</p>
-                      </div>
-                      <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-                        <div className="text-center lg:text-right px-4 shrink-0">
-                          <div className="text-xl sm:text-2xl font-mono font-bold text-primary">{mission.xp}</div>
-                          <div className="text-[9px] uppercase text-muted-foreground tracking-widest">Récompense</div>
-                        </div>
-                        <Button className="btn-primary-glow w-full sm:w-auto gap-2 group/btn h-11 sm:h-10">
-                          Lancer le défi
-                          <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {/* Tools Grid */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-medium flex items-center gap-2">
-                <Unlock className="h-5 w-5 text-primary" />
-                Espace de Travail Personnalisé
-              </h3>
-              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                {tools.filter(t => level >= t.minLevel).length}/{tools.length} Actifs
-              </span>
-            </div>
-            
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
-            >
-              {tools.map((tool, i) => {
-                const isUnlocked = level >= tool.minLevel;
-                const isPrimary = tool.id === profile;
-                return (
-                  <motion.div variants={itemVariants} key={i}>
-                    <Card className={`relative h-full group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
-                      <CardContent className="p-6">
-                        <div className="flex items-start justify-between mb-5">
-                          <div className={`p-4 rounded-2xl ${isUnlocked ? 'bg-primary/10 text-primary shadow-inner' : 'bg-muted text-muted-foreground'}`}>
-                            {tool.icon}
-                          </div>
-                          {isUnlocked ? (
-                            <div className="flex flex-col items-end gap-1">
-                               <span className="text-[9px] font-bold bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20 tracking-tighter uppercase">ACTIF</span>
-                               {isPrimary && <span className="text-[9px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">SPECIALITÉ</span>}
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-1.5 text-muted-foreground">
-                              <Lock className="h-3.5 w-3.5" />
-                              <span className="text-[10px] font-mono">LVL {tool.minLevel}</span>
-                            </div>
-                          )}
-                        </div>
-                        <h4 className="text-lg font-semibold mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
-                          {isUnlocked ? (
-                            <Link href={`/tools/${tool.id}`} className="flex items-center gap-2 w-full before:absolute before:inset-0">
-                              {tool.name}
-                              <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                            </Link>
-                          ) : (
-                            tool.name
-                          )}
-                        </h4>
-                        <p className="text-sm text-zinc-500 leading-relaxed">{tool.desc}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                )
-              })}
-            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
-  )
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  );
 }

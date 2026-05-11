@@ -133,6 +133,7 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   pseudo: 'pseudo',
+  bio: 'bio',
   country: 'country',
   city: 'city',
   language: 'language',

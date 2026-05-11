@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, Zap, User } from "lucide-react"
+import { LayoutDashboard, Users, Zap, FileText } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { motion } from "framer-motion"
 
@@ -15,7 +15,7 @@ export function BottomNav() {
     { name: "Home", href: "/dashboard", icon: LayoutDashboard },
     { name: "Guilde", href: `/community/${userClass}`, icon: Users },
     { name: "Missions", href: "/missions", icon: Zap },
-    { name: "Profil", href: "/settings", icon: User },
+    { name: "Dossier", href: "/dossier", icon: FileText },
   ]
 
   return (
