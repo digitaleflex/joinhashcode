@@ -14,7 +14,15 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { missionId, content } = await req.json();
+    const { 
+      missionId, 
+      content,
+      projectDescription,
+      userDifficulty,
+      userRating,
+      userFeedback,
+      improvementSuggestions
+    } = await req.json();
 
     if (!missionId || !content) {
       return new NextResponse("Missing required fields", { status: 400 });
@@ -75,6 +83,11 @@ export async function POST(req: Request) {
         },
         update: {
           content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions,
           status: "APPROVED",
           xpAwarded: mission.xpReward
         },
@@ -82,6 +95,11 @@ export async function POST(req: Request) {
           userId: session.user.id,
           missionId: mission.id,
           content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions,
           status: "APPROVED",
           xpAwarded: mission.xpReward
         }

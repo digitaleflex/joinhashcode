@@ -74,7 +74,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${geist.variable} ${geistMono.variable} bg-background`}>
+    <html 
+      lang="fr" 
+      className={`${geist.variable} ${geistMono.variable} bg-background`}
+      data-scroll-behavior="smooth"
+    >
       <body className="font-sans antialiased bg-background text-foreground relative">
         <NextTopLoader
           color="oklch(0.91 0.22 124)"

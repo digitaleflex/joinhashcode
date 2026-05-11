@@ -6,7 +6,8 @@ import {
   User, Mail, Globe, Briefcase, 
   Target, Github, Link as LinkIcon, 
   Save, Loader2, ChevronLeft, Camera,
-  Shield, Bell, Sparkles
+  Shield, Bell, Sparkles,
+  Linkedin, Twitter
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -32,6 +33,15 @@ export default function SettingsPage() {
   }, [])
 
   const handleSave = async () => {
+    // Client-side pseudo validation
+    if (userData?.pseudo) {
+      const pseudoRegex = /^[a-zA-Z0-9_]{3,20}$/;
+      if (!pseudoRegex.test(userData.pseudo)) {
+        toast.error("Le pseudo doit contenir entre 3 et 20 caractères (lettres, chiffres et '_' uniquement).")
+        return;
+      }
+    }
+
     setSaving(true)
     try {
       const res = await fetch("/api/user/update", {
@@ -40,11 +50,14 @@ export default function SettingsPage() {
         body: JSON.stringify(userData),
       })
 
-      if (!res.ok) throw new Error("Update failed")
+      if (!res.ok) {
+        const errorMsg = await res.text()
+        throw new Error(errorMsg || "Mise à jour échouée")
+      }
       
       toast.success("Profil mis à jour avec succès !")
-    } catch (error) {
-      toast.error("Erreur lors de la mise à jour")
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la mise à jour")
     } finally {
       setSaving(false)
     }
@@ -192,9 +205,37 @@ export default function SettingsPage() {
               </div>
             </div>
             <div className="space-y-2">
+              <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">LinkedIn</label>
+              <div className="relative">
+                <Linkedin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0077B5]" />
+                <Input 
+                  value={userData?.linkedinUrl || ""} 
+                  onChange={e => setUserData({...userData, linkedinUrl: e.target.value})}
+                  className="bg-card/30 border-border/40 h-12 rounded-xl pl-12"
+                  placeholder="https://linkedin.com/in/votre-profil"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">X (Twitter)</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current text-white">
+                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                  </svg>
+                </div>
+                <Input 
+                  value={userData?.twitterUrl || ""} 
+                  onChange={e => setUserData({...userData, twitterUrl: e.target.value})}
+                  className="bg-card/30 border-border/40 h-12 rounded-xl pl-12"
+                  placeholder="https://x.com/votre-user"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
               <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Portfolio / Site Web</label>
               <div className="relative">
-                <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
                 <Input 
                   value={userData?.portfolioUrl || ""} 
                   onChange={e => setUserData({...userData, portfolioUrl: e.target.value})}

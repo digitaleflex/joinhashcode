@@ -36,7 +36,7 @@ export default async function MissionsPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Nav />
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 pt-24 pb-24">
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 pt-24 pb-32">
         <Link 
           href="/dashboard" 
           className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group"

@@ -28,7 +28,7 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Nav />
-      <div className="flex-1 pt-24 pb-12">
+      <div className="flex-1 pt-24 pb-32 md:pb-12">
         <DashboardShell 
           user={dbUser || session.user} 
           quizResult={quizResult} 

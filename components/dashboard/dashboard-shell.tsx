@@ -16,7 +16,9 @@ import {
   ChevronRight,
   Award,
   Globe,
-  Check
+  Check,
+  Camera,
+  User as UserIcon
 } from "lucide-react"
 import Link from "next/link"
 import { ScrambleText } from "@/components/ui/scramble-text"
@@ -95,29 +97,44 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
           <Card className="border-border/60 bg-card/50 backdrop-blur-xl shadow-xl overflow-hidden relative">
             <div className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r ${config.gradient} to-transparent`} />
             <CardHeader className="text-center pt-8">
-              <div className="mx-auto h-24 w-24 rounded-full border-2 border-primary/20 p-1 bg-background/50 relative group">
-                <div className="h-full w-full rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-                  {user.image ? (
-                    <img src={user.image} alt={user.name} className="h-full w-full object-cover" />
-                  ) : (
-                    <span className="text-3xl font-bold text-primary">{user.name.charAt(0)}</span>
-                  )}
-                </div>
+              <div className="mx-auto h-24 w-24 rounded-full border-2 border-primary/20 p-1 bg-background/50 relative group cursor-pointer overflow-hidden">
+                <Link href="/settings">
+                  <div className="h-full w-full rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+                    {user.image ? (
+                      <img src={user.image} alt={user.name} className="h-full w-full object-cover transition-transform group-hover:scale-110" />
+                    ) : (
+                      <span className="text-3xl font-bold text-primary">{user.name?.charAt(0) || "U"}</span>
+                    )}
+                  </div>
+                  {/* Edit Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full backdrop-blur-[2px]">
+                    <Camera className="h-6 w-6 text-white" />
+                  </div>
+                </Link>
                 {hasFinishedQuiz && (
-                   <div className={`absolute -bottom-1 -right-1 p-1.5 rounded-full bg-background border border-border shadow-lg ${config.color}`}>
+                   <div className={`absolute -bottom-1 -right-1 p-1.5 rounded-full bg-background border border-border shadow-lg ${config.color} z-20`}>
                      <Award className="h-4 w-4" />
                    </div>
                 )}
               </div>
-              <CardTitle className="mt-4">{user.name}</CardTitle>
-              <div className="flex flex-col items-center gap-1">
-                <CardDescription>{user.email}</CardDescription>
-                {hasFinishedQuiz && (
-                  <span className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${config.color}`}>
+              <div className="mt-4 flex flex-col items-center">
+                <CardTitle className="flex items-center gap-2">
+                  {user.name}
+                </CardTitle>
+                <CardDescription className="mb-4">{user.email}</CardDescription>
+                
+                <Button asChild variant="outline" size="sm" className="h-7 rounded-full px-4 text-[10px] font-mono uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/10 hover:text-primary">
+                  <Link href="/settings">Modifier le Profil</Link>
+                </Button>
+              </div>
+              
+              {hasFinishedQuiz && (
+                <div className="mt-4 flex justify-center">
+                  <span className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${config.color} bg-primary/5 px-3 py-1 rounded-full border border-primary/10`}>
                     Classe: {config.title}
                   </span>
-                )}
-              </div>
+                </div>
+              )}
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -178,14 +195,16 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
         {/* Main Content */}
         <div className="flex-1 space-y-8">
           {/* Welcome Banner Personalized */}
-          <div className={`p-10 rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
+          <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
             <div className="relative z-10">
-              <h2 className="text-4xl font-bold mb-3 tracking-tight">Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.</h2>
-              <p className="text-zinc-400 max-w-xl text-lg leading-relaxed">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3 tracking-tight">
+                Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
+              </h2>
+              <p className="text-zinc-400 max-w-xl text-sm sm:text-lg leading-relaxed">
                 {config.message}
               </p>
             </div>
-            <Zap className={`absolute -bottom-6 -right-6 h-40 w-40 ${config.color} opacity-[0.05] -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
+            <Zap className={`absolute -bottom-6 -right-6 h-24 sm:h-40 w-24 sm:w-40 ${config.color} opacity-[0.05] -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
           </div>
 
           {/* Progressive Profile Collection (Step 4) */}
@@ -229,6 +248,36 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                        <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
                      )}
                    </div>
+                   
+                   <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
+                     <div className="flex items-center gap-3">
+                       <div className="p-2 rounded bg-[#0077B5] text-white">
+                         <Linkedin className="h-3.5 w-3.5" />
+                       </div>
+                       <span className="text-sm font-medium">{user.linkedinUrl ? "LinkedIn lié" : "LinkedIn"}</span>
+                     </div>
+                     {user.linkedinUrl ? (
+                       <Check className="h-4 w-4 text-emerald-500" />
+                     ) : (
+                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                     )}
+                   </div>
+
+                   <div className="flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 group/item">
+                     <div className="flex items-center gap-3">
+                       <div className="p-2 rounded bg-black text-white">
+                         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                           <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                         </svg>
+                       </div>
+                       <span className="text-sm font-medium">{user.twitterUrl ? "X (Twitter) lié" : "X (Twitter)"}</span>
+                     </div>
+                     {user.twitterUrl ? (
+                       <Check className="h-4 w-4 text-emerald-500" />
+                     ) : (
+                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                     )}
+                   </div>
                 </div>
               </CardContent>
             </Card>
@@ -256,6 +305,36 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                     </Button>
                   )}
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/60 bg-card/30 backdrop-blur-sm overflow-hidden group hover:border-primary/30 transition-all md:col-span-2 lg:col-span-1">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <UserIcon className="h-4 w-4" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Étape 4: Profil</span>
+                </div>
+                <CardTitle className="text-lg">Données Personnelles</CardTitle>
+                <CardDescription>Gère ton identité sur la plateforme.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase">Nom Complet</span>
+                    <span className="text-sm font-medium">{user.name}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase">Statut Actuel</span>
+                    <span className="text-sm font-medium text-primary">
+                      {user.currentStatus || "Non spécifié"}
+                    </span>
+                  </div>
+                </div>
+                <Button asChild variant="outline" size="sm" className="w-full h-9 text-[10px] font-mono uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/10">
+                  <Link href="/settings">Mettre à jour le profil</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -286,33 +365,26 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                     profile: "strategist",
                     desc: "Concevoir le graphe logique et l'architecture système d'une plateforme à 1M d'utilisateurs.",
                     xp: "2500 XP"
-                  },
-                  { 
-                    id: "master-cloud-foundation", 
-                    title: "The Edge Fortress", 
-                    profile: "builder",
-                    desc: "Déployer une infra globale distribuée avec CI/CD automatisé et optimisation Edge.",
-                    xp: "2500 XP"
                   }
                 ].filter(m => m.profile === profile || profile === 'unknown').slice(0, 2).map((mission, idx) => (
                   <Card key={idx} className="border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors group relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                        <Zap className="h-12 w-12" />
                     </div>
-                    <CardContent className="p-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                      <div className="space-y-1 text-center md:text-left">
-                        <h4 className="text-lg font-bold flex items-center gap-2">
+                    <CardContent className="p-5 sm:p-6 flex flex-col lg:flex-row justify-between items-center gap-6">
+                      <div className="space-y-1 text-center lg:text-left w-full">
+                        <h4 className="text-base sm:text-lg font-bold flex items-center justify-center lg:justify-start gap-2">
                           {mission.title}
-                          <span className="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">Master</span>
+                          <span className="text-[8px] sm:text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">Master</span>
                         </h4>
-                        <p className="text-sm text-muted-foreground max-w-md">{mission.desc}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto lg:mx-0">{mission.desc}</p>
                       </div>
-                      <div className="flex items-center gap-4 w-full md:w-auto">
-                        <div className="text-center md:text-right px-4">
-                          <div className="text-lg font-mono font-bold text-primary">{mission.xp}</div>
+                      <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+                        <div className="text-center lg:text-right px-4 shrink-0">
+                          <div className="text-xl sm:text-2xl font-mono font-bold text-primary">{mission.xp}</div>
                           <div className="text-[9px] uppercase text-muted-foreground tracking-widest">Récompense</div>
                         </div>
-                        <Button className="w-full md:w-auto gap-2 group/btn">
+                        <Button className="btn-primary-glow w-full sm:w-auto gap-2 group/btn h-11 sm:h-10">
                           Lancer le défi
                           <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>

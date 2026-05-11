@@ -6,7 +6,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Award, Target, CheckCircle2, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Award, Target, CheckCircle2, Lock, ArrowRight, Loader2, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -21,8 +24,16 @@ export function MissionsList({
 }) {
   const router = useRouter();
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
-  const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [step, setStep] = useState(1); // 1: URL, 2: Feedback
+
+  // Form State
+  const [content, setContent] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [userDifficulty, setUserDifficulty] = useState(3);
+  const [userRating, setUserRating] = useState(5);
+  const [userFeedback, setUserFeedback] = useState("");
+  const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
   const availableMissions = MISSIONS.filter(m => m.requiredLevel <= userLevel);
   const lockedMissions = MISSIONS.filter(m => m.requiredLevel > userLevel);
@@ -31,12 +42,25 @@ export function MissionsList({
     e.preventDefault();
     if (!selectedMission || !content.trim()) return;
 
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/missions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ missionId: selectedMission.id, content })
+        body: JSON.stringify({ 
+          missionId: selectedMission.id, 
+          content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions
+        })
       });
 
       if (!res.ok) throw new Error(await res.text());
@@ -48,14 +72,24 @@ export function MissionsList({
         toast.success(`Niveau ${data.newLevel} débloqué ! Félicitations.`);
       }
 
-      setSelectedMission(null);
-      setContent("");
+      resetForm();
       router.refresh();
     } catch (error: any) {
       toast.error(error.message || "Erreur lors de la soumission");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const resetForm = () => {
+    setSelectedMission(null);
+    setContent("");
+    setProjectDescription("");
+    setUserDifficulty(3);
+    setUserRating(5);
+    setUserFeedback("");
+    setImprovementSuggestions("");
+    setStep(1);
   };
 
   const renderMission = (mission: Mission, isLocked: boolean) => {
@@ -99,30 +133,120 @@ export function MissionsList({
             </div>
 
             {!isLocked && !isCompleted && !isPending && (
-              <Dialog open={selectedMission?.id === mission.id} onOpenChange={(open) => !open && setSelectedMission(null)}>
+              <Dialog 
+                open={selectedMission?.id === mission.id} 
+                onOpenChange={(open) => {
+                  if (!open) resetForm();
+                  if (open) setSelectedMission(mission);
+                }}
+              >
                 <DialogTrigger asChild>
-                  <Button className="w-full gap-2" onClick={() => setSelectedMission(mission)}>
+                  <Button className="btn-primary-glow w-full gap-2">
                     Démarrer la validation <ArrowRight className="h-4 w-4" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-lg bg-background/95 backdrop-blur-xl border-border/40 max-h-[90vh] overflow-y-auto custom-scrollbar">
                   <DialogHeader>
-                    <DialogTitle>Validation : {mission.title}</DialogTitle>
+                    <DialogTitle className="flex items-center gap-2">
+                      {step === 2 && (
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-6 w-6 rounded-full" 
+                          onClick={() => setStep(1)}
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                      )}
+                      {step === 1 ? `Validation : ${mission.title}` : "Rétrospection du projet"}
+                    </DialogTitle>
                     <DialogDescription>
-                      Soumets ton lien de projet (GitHub, Figma, Vercel...) pour prouver tes compétences et gagner {mission.xpReward} XP.
+                      {step === 1 
+                        ? "Soumet ton lien de projet pour prouver tes compétences." 
+                        : "Partage ton expérience sur cette mission pour aider la communauté."}
                     </DialogDescription>
                   </DialogHeader>
-                  <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-                    <Input 
-                      placeholder="https://github.com/ton-profil/projet" 
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      required
-                      autoFocus
-                    />
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Transmettre l'archive"}
-                    </Button>
+
+                  <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+                    {step === 1 ? (
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Lien du projet</Label>
+                          <Input 
+                            placeholder="https://github.com/ton-profil/projet" 
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            className="bg-card/30 border-border/40 h-12 rounded-xl"
+                            required
+                            autoFocus
+                          />
+                        </div>
+                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow">
+                          Suivant : Feedback <ChevronRight className="h-4 w-4 ml-2" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Explique ton projet (Brief)</Label>
+                          <Textarea 
+                            placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisé ?" 
+                            value={projectDescription}
+                            onChange={(e) => setProjectDescription(e.target.value)}
+                            className="bg-card/30 border-border/40 rounded-xl min-h-[100px]"
+                            required
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-3">
+                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Difficulté ({userDifficulty}/5)</Label>
+                            <Slider 
+                              value={[userDifficulty]} 
+                              onValueChange={(val) => setUserDifficulty(val[0])}
+                              max={5}
+                              min={1}
+                              step={1}
+                            />
+                          </div>
+                          <div className="space-y-3">
+                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Note Mission ({userRating}/5)</Label>
+                            <Slider 
+                              value={[userRating]} 
+                              onValueChange={(val) => setUserRating(val[0])}
+                              max={5}
+                              min={1}
+                              step={1}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ton avis global</Label>
+                          <Textarea 
+                            placeholder="Qu'as-tu pensé de cet exercice ?" 
+                            value={userFeedback}
+                            onChange={(e) => setUserFeedback(e.target.value)}
+                            className="bg-card/30 border-border/40 rounded-xl"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Suggestions d'amélioration</Label>
+                          <Input 
+                            placeholder="Comment rendre cette mission plus intéressante ?" 
+                            value={improvementSuggestions}
+                            onChange={(e) => setImprovementSuggestions(e.target.value)}
+                            className="bg-card/30 border-border/40 h-12 rounded-xl"
+                          />
+                        </div>
+
+                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow" disabled={isSubmitting}>
+                          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Award className="h-4 w-4 mr-2" />}
+                          Finaliser la soumission (+{mission.xpReward} XP)
+                        </Button>
+                      </div>
+                    )}
                   </form>
                 </DialogContent>
               </Dialog>
