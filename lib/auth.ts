@@ -1,8 +1,8 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
-
 import { nextCookies } from "better-auth/next-js";
+import { magicLink } from "better-auth/plugins/magic-link";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -11,7 +11,23 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
   plugins: [
     nextCookies(),
+    magicLink({
+      sendMagicLink: async ({ email, url, token }: { email: string; url: string; token: string }) => {
+        // TODO: Implement email sending logic (e.g. using Resend)
+        console.log(`Magic link for ${email}: ${url}`);
+      },
+    }),
   ],
 });

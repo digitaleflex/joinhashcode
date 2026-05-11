@@ -1,13 +1,24 @@
 import { Quiz } from "@/components/quiz/quiz"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 
 export const metadata = {
   title: "Profilage — HASHCODE",
   description: "Découvre ton profil et rejoins la communauté qui te correspond.",
 }
 
-export default function QuizPage() {
+export default async function QuizPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect("/signin")
+  }
+
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Nav />

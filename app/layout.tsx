@@ -14,17 +14,47 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "HASHCODE — Le programme de la nouvelle ère",
+  metadataBase: new URL("https://joinhashcode.com"),
+  title: {
+    default: "HASHCODE — Le programme de la nouvelle ère",
+    template: "%s | HASHCODE",
+  },
   description:
-    "HASHCODE est une plateforme de profilage qui détecte ton profil, t'oriente vers la bonne communauté et t'accompagne dans ton parcours.",
-  generator: "v0.app",
+    "HASHCODE est une plateforme de profilage qui détecte ton profil, t'oriente vers la bonne communauté et t'accompagne dans ton parcours technologique.",
+  keywords: ["tech", "communauté", "formation", "développement", "afrique", "talents", "hashcode"],
+  authors: [{ name: "HASHCODE Team" }],
+  creator: "HASHCODE",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
-      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
-      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/icon.png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    apple: "/apple-icon.png",
+    apple: "/app-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "https://joinhashcode.com",
+    title: "HASHCODE — Le programme de la nouvelle ère",
+    description: "Détecte ton profil, rejoins ta communauté et évolue dans la tech.",
+    siteName: "HASHCODE",
+    images: [
+      {
+        url: "/hashcode-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "HASHCODE — Le programme de la nouvelle ère",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HASHCODE — Le programme de la nouvelle ère",
+    description: "Détecte ton profil, rejoins ta communauté et évolue dans la tech.",
+    images: ["/hashcode-logo.png"],
   },
 }
 

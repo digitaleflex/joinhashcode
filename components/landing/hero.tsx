@@ -14,21 +14,12 @@ export function Hero() {
       {/* Top accent line */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+        className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/40 to-transparent"
       />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 sm:pt-28 lg:px-8 lg:pb-32 lg:pt-36">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 backdrop-blur">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-            </span>
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-              Programme HASHCODE V1
-            </span>
-          </div>
 
           {/* H1 */}
           <h1 className="mt-8 text-balance text-4xl font-medium tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
@@ -82,7 +73,7 @@ export function Hero() {
             {/* Glow */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-px rounded-xl bg-gradient-to-b from-primary/20 to-transparent opacity-30 blur-sm"
+              className="pointer-events-none absolute -inset-px rounded-xl bg-linear-to-b from-primary/20 to-transparent opacity-30 blur-sm"
             />
             {/* Header */}
             <div className="relative flex items-center gap-2 border-b border-border px-4 py-2.5">
@@ -92,7 +83,7 @@ export function Hero() {
                 <span className="h-2.5 w-2.5 rounded-full bg-border" />
               </div>
               <span className="ml-2 font-mono text-[11px] text-muted-foreground">
-                hashcode.app/profile
+                joinhashcode.com/profile
               </span>
             </div>
             {/* Body */}
