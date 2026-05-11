@@ -268,6 +268,7 @@ export type AccountOrderByWithRelationInput = {
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  providerId_accountId?: Prisma.AccountProviderIdAccountIdCompoundUniqueInput
   AND?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
   OR?: Prisma.AccountWhereInput[]
   NOT?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
@@ -284,7 +285,7 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "providerId_accountId">
 
 export type AccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -325,7 +326,7 @@ export type AccountScalarWhereWithAggregatesInput = {
 }
 
 export type AccountCreateInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   accessToken?: string | null
@@ -341,7 +342,7 @@ export type AccountCreateInput = {
 }
 
 export type AccountUncheckedCreateInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   userId: string
@@ -389,7 +390,7 @@ export type AccountUncheckedUpdateInput = {
 }
 
 export type AccountCreateManyInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   userId: string
@@ -443,6 +444,11 @@ export type AccountListRelationFilter = {
 
 export type AccountOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type AccountProviderIdAccountIdCompoundUniqueInput = {
+  providerId: string
+  accountId: string
 }
 
 export type AccountCountOrderByAggregateInput = {
@@ -540,7 +546,7 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 }
 
 export type AccountCreateWithoutUserInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   accessToken?: string | null
@@ -555,7 +561,7 @@ export type AccountCreateWithoutUserInput = {
 }
 
 export type AccountUncheckedCreateWithoutUserInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   accessToken?: string | null
@@ -615,7 +621,7 @@ export type AccountScalarWhereInput = {
 }
 
 export type AccountCreateManyUserInput = {
-  id: string
+  id?: string
   accountId: string
   providerId: string
   accessToken?: string | null
