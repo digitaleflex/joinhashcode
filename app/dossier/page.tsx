@@ -228,6 +228,7 @@ export default async function DossierPage() {
               </div>
             </div>
           </div>
+          </div>
         </main>
       </SidebarInset>
     </SidebarProvider>
