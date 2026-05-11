@@ -13,44 +13,96 @@ import {
   Palette, 
   TrendingUp, 
   Users,
-  ChevronRight
+  ChevronRight,
+  Award
 } from "lucide-react"
 import Link from "next/link"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
   const hasFinishedQuiz = !!quizResult;
+  const profile = quizResult?.profile || "unknown";
   const level = hasFinishedQuiz ? 3 : 1;
   const progress = hasFinishedQuiz ? 100 : 25;
 
+  const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {
+    builder: { 
+      title: "Builder", 
+      color: "text-blue-500", 
+      gradient: "from-blue-500/10",
+      message: "Prêt à construire l'infrastructure du futur ? Tes outils techniques sont prêts."
+    },
+    creator: { 
+      title: "Créateur", 
+      color: "text-purple-500", 
+      gradient: "from-purple-500/10",
+      message: "L'art et le code ne font qu'un. Tes outils de création t'attendent."
+    },
+    strategist: { 
+      title: "Stratège", 
+      color: "text-emerald-500", 
+      gradient: "from-emerald-500/10",
+      message: "Analyse, optimise, domine. Tes tableaux de bord stratégiques sont débloqués."
+    },
+    catalyst: { 
+      title: "Catalyseur", 
+      color: "text-orange-500", 
+      gradient: "from-orange-500/10",
+      message: "Le réseau est ta force. Connecte-toi aux écosystèmes les plus vibrants."
+    },
+    unknown: { 
+      title: "En attente", 
+      color: "text-zinc-500", 
+      gradient: "from-primary/10",
+      message: "Complète ton profilage pour débloquer ton plein potentiel."
+    }
+  };
+
+  const config = profileConfigs[profile];
+
   const tools = [
-    { name: "Terminal HASH", icon: <Terminal />, minLevel: 1, category: "builder", desc: "Console de debug communautaire" },
-    { name: "Studio Créatif", icon: <Palette />, minLevel: 2, category: "creator", desc: "Outils de design collaboratifs" },
-    { name: "Analyste de Marché", icon: <TrendingUp />, minLevel: 3, category: "strategist", desc: "Données business en temps réel" },
-    { name: "Hub de Connexion", icon: <Users />, minLevel: 4, category: "catalyst", desc: "Networking haute fidélité" },
-  ];
+    { id: "builder", name: "Terminal HASH", icon: <Terminal />, minLevel: 1, desc: "Console de debug communautaire" },
+    { id: "creator", name: "Studio Créatif", icon: <Palette />, minLevel: 2, desc: "Outils de design collaboratifs" },
+    { id: "strategist", name: "Analyste de Marché", icon: <TrendingUp />, minLevel: 3, desc: "Données business en temps réel" },
+    { id: "catalyst", name: "Hub de Connexion", icon: <Users />, minLevel: 4, desc: "Networking haute fidélité" },
+  ].sort((a, b) => (a.id === profile ? -1 : b.id === profile ? 1 : 0));
 
   return (
     <div className="max-w-6xl mx-auto px-4">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar / Profile Summary */}
         <div className="w-full md:w-80 space-y-6">
-          <Card className="border-border/60 bg-card/50 backdrop-blur-xl shadow-xl">
-            <CardHeader className="text-center">
-              <div className="mx-auto h-20 w-20 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center mb-4 overflow-hidden">
-                {user.image ? (
-                  <img src={user.image} alt={user.name} className="h-full w-full object-cover" />
-                ) : (
-                  <span className="text-2xl font-bold text-primary">{user.name.charAt(0)}</span>
+          <Card className="border-border/60 bg-card/50 backdrop-blur-xl shadow-xl overflow-hidden relative">
+            <div className={`absolute top-0 left-0 w-full h-1 bg-linear-to-r ${config.gradient} to-transparent`} />
+            <CardHeader className="text-center pt-8">
+              <div className="mx-auto h-24 w-24 rounded-full border-2 border-primary/20 p-1 bg-background/50 relative group">
+                <div className="h-full w-full rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+                  {user.image ? (
+                    <img src={user.image} alt={user.name} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-3xl font-bold text-primary">{user.name.charAt(0)}</span>
+                  )}
+                </div>
+                {hasFinishedQuiz && (
+                   <div className={`absolute -bottom-1 -right-1 p-1.5 rounded-full bg-background border border-border shadow-lg ${config.color}`}>
+                     <Award className="h-4 w-4" />
+                   </div>
                 )}
               </div>
-              <CardTitle>{user.name}</CardTitle>
-              <CardDescription>{user.email}</CardDescription>
+              <CardTitle className="mt-4">{user.name}</CardTitle>
+              <div className="flex flex-col items-center gap-1">
+                <CardDescription>{user.email}</CardDescription>
+                {hasFinishedQuiz && (
+                  <span className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${config.color}`}>
+                    Classe: {config.title}
+                  </span>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <div className="flex justify-between text-xs font-mono uppercase text-muted-foreground">
+                <div className="flex justify-between text-[10px] font-mono uppercase text-muted-foreground tracking-tighter">
                   <span>Niveau {level}</span>
-                  <span>{progress}%</span>
+                  <span>{progress}% d'évolution</span>
                 </div>
                 <Progress value={progress} className="h-1.5" />
               </div>
@@ -68,58 +120,70 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
               <LayoutDashboard className="h-4 w-4" />
               Vue d'ensemble
             </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground">
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
+              <Zap className="h-4 w-4" />
+              Missions
+            </Button>
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
               <Settings className="h-4 w-4" />
-              Paramètres
+              Configuration
             </Button>
           </nav>
         </div>
 
         {/* Main Content */}
         <div className="flex-1 space-y-8">
-          {/* Welcome Banner */}
-          <div className="p-8 rounded-3xl bg-linear-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 relative overflow-hidden">
+          {/* Welcome Banner Personalized */}
+          <div className={`p-10 rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
             <div className="relative z-10">
-              <h2 className="text-3xl font-semibold mb-2">Bienvenue dans ton espace, {user.name.split(' ')[0]}</h2>
-              <p className="text-zinc-400 max-w-xl">
-                {hasFinishedQuiz 
-                  ? `Ton profil ${quizResult.profile.toUpperCase()} est actif. Explore les outils débloqués pour ton niveau.`
-                  : "Complète ton profilage pour débloquer ton plein potentiel et accéder aux outils avancés."}
+              <h2 className="text-4xl font-bold mb-3 tracking-tight">Bienvenue, <span className={config.color}>{user.name.split(' ')[0]}</span>.</h2>
+              <p className="text-zinc-400 max-w-xl text-lg leading-relaxed">
+                {config.message}
               </p>
             </div>
-            <Zap className="absolute -bottom-4 -right-4 h-32 w-32 text-primary/10 -rotate-12" />
+            <Zap className={`absolute -bottom-6 -right-6 h-40 w-40 ${config.color} opacity-05 -rotate-12 group-hover:scale-110 transition-transform duration-700`} />
           </div>
 
           {/* Tools Grid */}
-          <div>
-            <h3 className="text-xl font-medium mb-6 flex items-center gap-2">
-              <Unlock className="h-5 w-5 text-primary" />
-              Tes Outils & Fonctionnalités
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-medium flex items-center gap-2">
+                <Unlock className="h-5 w-5 text-primary" />
+                Espace de Travail Personnalisé
+              </h3>
+              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                {tools.filter(t => level >= t.minLevel).length}/{tools.length} Actifs
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {tools.map((tool, i) => {
                 const isUnlocked = level >= tool.minLevel;
+                const isPrimary = tool.id === profile;
                 return (
-                  <Card key={i} className={`group border-border/60 transition-all ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-60 bg-muted/20 grayscale'}`}>
+                  <Card key={i} className={`group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
                     <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className={`p-3 rounded-xl ${isUnlocked ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
+                      <div className="flex items-start justify-between mb-5">
+                        <div className={`p-4 rounded-2xl ${isUnlocked ? 'bg-primary/10 text-primary shadow-inner' : 'bg-muted text-muted-foreground'}`}>
                           {tool.icon}
                         </div>
                         {isUnlocked ? (
-                          <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20">UNLOCKED</span>
+                          <div className="flex flex-col items-end gap-1">
+                             <span className="text-[9px] font-bold bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full border border-emerald-500/20 tracking-tighter uppercase">ACTIF</span>
+                             {isPrimary && <span className="text-[9px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">SPECIALITÉ</span>}
+                          </div>
                         ) : (
-                          <Lock className="h-4 w-4 text-muted-foreground" />
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                            <Lock className="h-3.5 w-3.5" />
+                            <span className="text-[10px] font-mono">LVL {tool.minLevel}</span>
+                          </div>
                         )}
                       </div>
-                      <h4 className="font-semibold mb-1 flex items-center gap-2">
+                      <h4 className="text-lg font-semibold mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
                         {tool.name}
-                        {isUnlocked && <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />}
+                        {isUnlocked && <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />}
                       </h4>
-                      <p className="text-sm text-muted-foreground">{tool.desc}</p>
-                      {!isUnlocked && (
-                        <p className="text-[10px] font-mono text-primary mt-3 uppercase tracking-tighter">Débloqué au Niveau {tool.minLevel}</p>
-                      )}
+                      <p className="text-sm text-zinc-500 leading-relaxed">{tool.desc}</p>
                     </CardContent>
                   </Card>
                 )

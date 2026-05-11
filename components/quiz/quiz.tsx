@@ -15,22 +15,54 @@ import Link from "next/link"
 export function Quiz() {
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [responseTimes, setResponseTimes] = useState<number[]>([])
+  const [startTime, setStartTime] = useState<number>(Date.now())
   const [isFinished, setIsFinished] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const progress = ((currentStep + 1) / questions.length) * 100
 
-  const handleAnswer = (value: string) => {
-    setAnswers({ ...answers, [questions[currentStep].id]: value })
+  const handleAnswer = async (value: string) => {
+    const endTime = Date.now()
+    const elapsed = endTime - startTime
+    
+    const newAnswers = { ...answers, [questions[currentStep].id]: value }
+    const newTimes = [...responseTimes, elapsed]
+    
+    setAnswers(newAnswers)
+    setResponseTimes(newTimes)
+
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1)
+      setStartTime(Date.now())
     } else {
-      setIsFinished(true)
+      setIsSaving(true)
+      try {
+        const analysis = analyzeQuizResults(Object.values(newAnswers))
+        await fetch('/api/quiz', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            profileType: analysis.primary,
+            answers: newAnswers,
+            responseTimes: newTimes,
+            averageResponseTime: Math.round(newTimes.reduce((a, b) => a + b, 0) / newTimes.length)
+          })
+        })
+        setIsFinished(true)
+      } catch (error) {
+        console.error("Failed to save results:", error)
+        setIsFinished(true) // Still finish even if save fails for UX
+      } finally {
+        setIsSaving(false)
+      }
     }
   }
 
   const goBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1)
+      setStartTime(Date.now()) // Reset timer when going back
     }
   }
 

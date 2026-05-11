@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -69,13 +69,15 @@ model Verification {
 }
 
 model QuizResult {
-  id          String   @id @default(cuid())
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
-  profileType String   // builder, creator, strategist, catalyst
-  score       Int?
-  answers     Json     // Store the raw answers for analysis
-  createdAt   DateTime @default(now())
+  id                    String   @id @default(cuid())
+  userId                String?
+  user                  User?    @relation(fields: [userId], references: [id])
+  profileType           String   // builder, creator, strategist, catalyst
+  score                 Int?
+  answers               Json     // Store the raw answers for analysis
+  averageResponseTime   Int?     @map("average_response_time") // Average time in ms
+  detailedResponseTimes Json?    @map("detailed_response_times") // Array of times per question
+  createdAt             DateTime @default(now())
 
   @@index([profileType])
   @@map("quiz_result")

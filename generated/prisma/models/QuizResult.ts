@@ -28,10 +28,12 @@ export type AggregateQuizResult = {
 
 export type QuizResultAvgAggregateOutputType = {
   score: number | null
+  averageResponseTime: number | null
 }
 
 export type QuizResultSumAggregateOutputType = {
   score: number | null
+  averageResponseTime: number | null
 }
 
 export type QuizResultMinAggregateOutputType = {
@@ -39,6 +41,7 @@ export type QuizResultMinAggregateOutputType = {
   userId: string | null
   profileType: string | null
   score: number | null
+  averageResponseTime: number | null
   createdAt: Date | null
 }
 
@@ -47,6 +50,7 @@ export type QuizResultMaxAggregateOutputType = {
   userId: string | null
   profileType: string | null
   score: number | null
+  averageResponseTime: number | null
   createdAt: Date | null
 }
 
@@ -56,6 +60,8 @@ export type QuizResultCountAggregateOutputType = {
   profileType: number
   score: number
   answers: number
+  averageResponseTime: number
+  detailedResponseTimes: number
   createdAt: number
   _all: number
 }
@@ -63,10 +69,12 @@ export type QuizResultCountAggregateOutputType = {
 
 export type QuizResultAvgAggregateInputType = {
   score?: true
+  averageResponseTime?: true
 }
 
 export type QuizResultSumAggregateInputType = {
   score?: true
+  averageResponseTime?: true
 }
 
 export type QuizResultMinAggregateInputType = {
@@ -74,6 +82,7 @@ export type QuizResultMinAggregateInputType = {
   userId?: true
   profileType?: true
   score?: true
+  averageResponseTime?: true
   createdAt?: true
 }
 
@@ -82,6 +91,7 @@ export type QuizResultMaxAggregateInputType = {
   userId?: true
   profileType?: true
   score?: true
+  averageResponseTime?: true
   createdAt?: true
 }
 
@@ -91,6 +101,8 @@ export type QuizResultCountAggregateInputType = {
   profileType?: true
   score?: true
   answers?: true
+  averageResponseTime?: true
+  detailedResponseTimes?: true
   createdAt?: true
   _all?: true
 }
@@ -187,6 +199,8 @@ export type QuizResultGroupByOutputType = {
   profileType: string
   score: number | null
   answers: runtime.JsonValue
+  averageResponseTime: number | null
+  detailedResponseTimes: runtime.JsonValue | null
   createdAt: Date
   _count: QuizResultCountAggregateOutputType | null
   _avg: QuizResultAvgAggregateOutputType | null
@@ -219,6 +233,8 @@ export type QuizResultWhereInput = {
   profileType?: Prisma.StringFilter<"QuizResult"> | string
   score?: Prisma.IntNullableFilter<"QuizResult"> | number | null
   answers?: Prisma.JsonFilter<"QuizResult">
+  averageResponseTime?: Prisma.IntNullableFilter<"QuizResult"> | number | null
+  detailedResponseTimes?: Prisma.JsonNullableFilter<"QuizResult">
   createdAt?: Prisma.DateTimeFilter<"QuizResult"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
@@ -229,6 +245,8 @@ export type QuizResultOrderByWithRelationInput = {
   profileType?: Prisma.SortOrder
   score?: Prisma.SortOrderInput | Prisma.SortOrder
   answers?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  detailedResponseTimes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -242,6 +260,8 @@ export type QuizResultWhereUniqueInput = Prisma.AtLeast<{
   profileType?: Prisma.StringFilter<"QuizResult"> | string
   score?: Prisma.IntNullableFilter<"QuizResult"> | number | null
   answers?: Prisma.JsonFilter<"QuizResult">
+  averageResponseTime?: Prisma.IntNullableFilter<"QuizResult"> | number | null
+  detailedResponseTimes?: Prisma.JsonNullableFilter<"QuizResult">
   createdAt?: Prisma.DateTimeFilter<"QuizResult"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
@@ -252,6 +272,8 @@ export type QuizResultOrderByWithAggregationInput = {
   profileType?: Prisma.SortOrder
   score?: Prisma.SortOrderInput | Prisma.SortOrder
   answers?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  detailedResponseTimes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.QuizResultCountOrderByAggregateInput
   _avg?: Prisma.QuizResultAvgOrderByAggregateInput
@@ -269,6 +291,8 @@ export type QuizResultScalarWhereWithAggregatesInput = {
   profileType?: Prisma.StringWithAggregatesFilter<"QuizResult"> | string
   score?: Prisma.IntNullableWithAggregatesFilter<"QuizResult"> | number | null
   answers?: Prisma.JsonWithAggregatesFilter<"QuizResult">
+  averageResponseTime?: Prisma.IntNullableWithAggregatesFilter<"QuizResult"> | number | null
+  detailedResponseTimes?: Prisma.JsonNullableWithAggregatesFilter<"QuizResult">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
 }
 
@@ -277,6 +301,8 @@ export type QuizResultCreateInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutQuizResultsInput
 }
@@ -287,6 +313,8 @@ export type QuizResultUncheckedCreateInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -295,6 +323,8 @@ export type QuizResultUpdateInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutQuizResultsNestedInput
 }
@@ -305,6 +335,8 @@ export type QuizResultUncheckedUpdateInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -314,6 +346,8 @@ export type QuizResultCreateManyInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -322,6 +356,8 @@ export type QuizResultUpdateManyMutationInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -331,6 +367,8 @@ export type QuizResultUncheckedUpdateManyInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -350,11 +388,14 @@ export type QuizResultCountOrderByAggregateInput = {
   profileType?: Prisma.SortOrder
   score?: Prisma.SortOrder
   answers?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrder
+  detailedResponseTimes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type QuizResultAvgOrderByAggregateInput = {
   score?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrder
 }
 
 export type QuizResultMaxOrderByAggregateInput = {
@@ -362,6 +403,7 @@ export type QuizResultMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -370,11 +412,13 @@ export type QuizResultMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type QuizResultSumOrderByAggregateInput = {
   score?: Prisma.SortOrder
+  averageResponseTime?: Prisma.SortOrder
 }
 
 export type QuizResultCreateNestedManyWithoutUserInput = {
@@ -432,6 +476,8 @@ export type QuizResultCreateWithoutUserInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -440,6 +486,8 @@ export type QuizResultUncheckedCreateWithoutUserInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -478,6 +526,8 @@ export type QuizResultScalarWhereInput = {
   profileType?: Prisma.StringFilter<"QuizResult"> | string
   score?: Prisma.IntNullableFilter<"QuizResult"> | number | null
   answers?: Prisma.JsonFilter<"QuizResult">
+  averageResponseTime?: Prisma.IntNullableFilter<"QuizResult"> | number | null
+  detailedResponseTimes?: Prisma.JsonNullableFilter<"QuizResult">
   createdAt?: Prisma.DateTimeFilter<"QuizResult"> | Date | string
 }
 
@@ -486,6 +536,8 @@ export type QuizResultCreateManyUserInput = {
   profileType: string
   score?: number | null
   answers: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
 }
 
@@ -494,6 +546,8 @@ export type QuizResultUpdateWithoutUserInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -502,6 +556,8 @@ export type QuizResultUncheckedUpdateWithoutUserInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -510,6 +566,8 @@ export type QuizResultUncheckedUpdateManyWithoutUserInput = {
   profileType?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   answers?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  averageResponseTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  detailedResponseTimes?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -521,6 +579,8 @@ export type QuizResultSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   profileType?: boolean
   score?: boolean
   answers?: boolean
+  averageResponseTime?: boolean
+  detailedResponseTimes?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.QuizResult$userArgs<ExtArgs>
 }, ExtArgs["result"]["quizResult"]>
@@ -531,6 +591,8 @@ export type QuizResultSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   profileType?: boolean
   score?: boolean
   answers?: boolean
+  averageResponseTime?: boolean
+  detailedResponseTimes?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.QuizResult$userArgs<ExtArgs>
 }, ExtArgs["result"]["quizResult"]>
@@ -541,6 +603,8 @@ export type QuizResultSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   profileType?: boolean
   score?: boolean
   answers?: boolean
+  averageResponseTime?: boolean
+  detailedResponseTimes?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.QuizResult$userArgs<ExtArgs>
 }, ExtArgs["result"]["quizResult"]>
@@ -551,10 +615,12 @@ export type QuizResultSelectScalar = {
   profileType?: boolean
   score?: boolean
   answers?: boolean
+  averageResponseTime?: boolean
+  detailedResponseTimes?: boolean
   createdAt?: boolean
 }
 
-export type QuizResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "createdAt", ExtArgs["result"]["quizResult"]>
+export type QuizResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "averageResponseTime" | "detailedResponseTimes" | "createdAt", ExtArgs["result"]["quizResult"]>
 export type QuizResultInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.QuizResult$userArgs<ExtArgs>
 }
@@ -576,6 +642,8 @@ export type $QuizResultPayload<ExtArgs extends runtime.Types.Extensions.Internal
     profileType: string
     score: number | null
     answers: runtime.JsonValue
+    averageResponseTime: number | null
+    detailedResponseTimes: runtime.JsonValue | null
     createdAt: Date
   }, ExtArgs["result"]["quizResult"]>
   composites: {}
@@ -1006,6 +1074,8 @@ export interface QuizResultFieldRefs {
   readonly profileType: Prisma.FieldRef<"QuizResult", 'String'>
   readonly score: Prisma.FieldRef<"QuizResult", 'Int'>
   readonly answers: Prisma.FieldRef<"QuizResult", 'Json'>
+  readonly averageResponseTime: Prisma.FieldRef<"QuizResult", 'Int'>
+  readonly detailedResponseTimes: Prisma.FieldRef<"QuizResult", 'Json'>
   readonly createdAt: Prisma.FieldRef<"QuizResult", 'DateTime'>
 }
     
