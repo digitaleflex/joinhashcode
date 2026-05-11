@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { 
   User, Mail, Globe, Briefcase, 
   Target, Github, Link as LinkIcon, 
-  Save, Loader2, ChevronLeft, Camera,
+  Search, Save, Loader2, ChevronLeft, Camera,
   Shield, Bell, Sparkles,
   Linkedin, Twitter
 } from "lucide-react"
@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { UserSituation, MainObjective } from "@/lib/types"
 
@@ -31,6 +32,21 @@ export default function SettingsPage() {
       })
       .catch(() => setLoading(false))
   }, [])
+
+  const [toolSearch, setToolSearch] = useState("")
+
+  const allTools = [
+    "GitHub", "VS Code", "Docker", "Figma", "Cursor", 
+    "ChatGPT", "Vercel", "Linux", "PostgreSQL", "Next.js",
+    "React", "Tailwind", "Prisma", "Node.js", "Python",
+    "Kubernetes", "AWS", "Google Cloud", "Supabase", "Redis",
+    "TypeScript", "Go", "Rust", "Swift", "Flutter",
+    "Unity", "Blender", "Postman", "Snyk", "Jira"
+  ].sort()
+
+  const filteredTools = allTools.filter(t => 
+    t.toLowerCase().includes(toolSearch.toLowerCase())
+  )
 
   const handleSave = async () => {
     // Client-side pseudo validation
@@ -180,6 +196,85 @@ export default function SettingsPage() {
                   <option key={sit} value={sit}>{sit}</option>
                 ))}
               </select>
+            </div>
+          </div>
+        </section>
+
+        {/* Specialization Tags */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 text-primary">
+            <Sparkles className="w-5 h-5" />
+            <h2 className="text-lg font-mono uppercase tracking-wider">Spécialisations & Outils</h2>
+          </div>
+
+          <div className="bg-card/20 border border-border/40 p-8 rounded-3xl space-y-8">
+            <div className="space-y-4">
+              <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Domaines d'Expertise</label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Web", "Cybersecurity", "Cloud", "IA", "Mobile", 
+                  "Data", "Automation", "UI/UX", "DevOps", "Blockchain"
+                ].map(domain => (
+                  <button
+                    key={domain}
+                    onClick={() => {
+                      const current = userData?.domains || [];
+                      const next = current.includes(domain) 
+                        ? current.filter((d: string) => d !== domain)
+                        : [...current, domain];
+                      setUserData({...userData, domains: next});
+                    }}
+                    className={cn(
+                      "px-4 py-2 rounded-xl text-xs font-mono border transition-all",
+                      userData?.domains?.includes(domain)
+                        ? "bg-primary/20 border-primary text-primary"
+                        : "bg-card/30 border-border/40 text-muted-foreground hover:border-primary/40"
+                    )}
+                  >
+                    {domain}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Outils Favoris</label>
+                <div className="relative w-full sm:w-64">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                  <Input 
+                    value={toolSearch}
+                    onChange={e => setToolSearch(e.target.value)}
+                    placeholder="Filtrer les outils..."
+                    className="bg-card/30 border-border/40 h-9 pl-9 text-xs rounded-lg"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-1 scrollbar-thin scrollbar-thumb-primary/20">
+                {filteredTools.map(tool => (
+                  <button
+                    key={tool}
+                    onClick={() => {
+                      const current = userData?.tools || [];
+                      const next = current.includes(tool) 
+                        ? current.filter((t: string) => t !== tool)
+                        : [...current, tool];
+                      setUserData({...userData, tools: next});
+                    }}
+                    className={cn(
+                      "px-3 py-1.5 rounded-lg text-[10px] font-mono border transition-all",
+                      userData?.tools?.includes(tool)
+                        ? "bg-primary/20 border-primary text-primary"
+                        : "bg-card/30 border-border/40 text-muted-foreground hover:border-primary/40"
+                    )}
+                  >
+                    {tool}
+                  </button>
+                ))}
+                {filteredTools.length === 0 && (
+                  <p className="text-xs text-muted-foreground italic p-2">Aucun outil trouvé pour "{toolSearch}"</p>
+                )}
+              </div>
             </div>
           </div>
         </section>

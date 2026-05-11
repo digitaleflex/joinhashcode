@@ -144,6 +144,7 @@ exports.Prisma.UserScalarFieldEnum = {
   githubUrl: 'githubUrl',
   portfolioUrl: 'portfolioUrl',
   linkedinUrl: 'linkedinUrl',
+  twitterUrl: 'twitterUrl',
   mainObjective: 'mainObjective',
   secondaryObjectives: 'secondaryObjectives',
   dominantMotivation: 'dominantMotivation',

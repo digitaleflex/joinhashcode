@@ -37,6 +37,7 @@ model User {
   githubUrl      String?
   portfolioUrl   String?
   linkedinUrl    String?
+  twitterUrl     String?
 
   // 4. OBJECTIFS UTILISATEUR
   mainObjective       String? // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux

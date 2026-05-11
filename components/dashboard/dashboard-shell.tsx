@@ -18,13 +18,19 @@ import {
   Globe,
   Check,
   Camera,
-  User as UserIcon
+  User as UserIcon,
+  Linkedin,
+  LogOut
 } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { authClient } from "@/lib/auth-client"
 import { ScrambleText } from "@/components/ui/scramble-text"
 import { motion, Variants } from "framer-motion"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
+  const pathname = usePathname();
   const hasFinishedQuiz = !!quizResult;
   const profile = user?.class || quizResult?.profileType || "unknown";
   const level = user?.level || 1;
@@ -172,24 +178,72 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
             </CardContent>
           </Card>
 
-          <nav className="hidden md:block space-y-1">
-            <Button variant="ghost" className="w-full justify-start gap-3 text-primary bg-primary/5">
-              <LayoutDashboard className="h-4 w-4" />
-              Vue d'ensemble
-            </Button>
-            <Button variant="ghost" asChild className="w-full justify-start gap-3 text-muted-foreground">
-              <Link href="/missions">
-                <Zap className="h-4 w-4" />
-                Missions
-              </Link>
-            </Button>
-            <Button variant="ghost" asChild className="w-full justify-start gap-3 text-muted-foreground">
-              <Link href="/settings">
-                <Settings className="h-4 w-4" />
-                Configuration
-              </Link>
-            </Button>
+          <nav className="hidden md:block space-y-2">
+            {[
+              { name: "Vue d'ensemble", icon: LayoutDashboard, href: "/dashboard" },
+              { name: "Missions", icon: Zap, href: "/missions" },
+              { name: "Configuration", icon: Settings, href: "/settings" },
+            ].map((item) => (
+              <Button
+                key={item.name}
+                asChild
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start gap-3 h-11 rounded-xl transition-all duration-300 group",
+                  pathname === item.href 
+                    ? "bg-primary/10 text-primary border border-primary/20" 
+                    : "text-muted-foreground hover:text-primary hover:bg-primary/5 border border-transparent"
+                )}
+              >
+                <Link href={item.href}>
+                  <item.icon className={cn(
+                    "h-4 w-4 transition-transform duration-300",
+                    pathname === item.href ? "scale-110" : "group-hover:scale-110"
+                  )} />
+                  <span className="font-medium">{item.name}</span>
+                  {pathname === item.href && (
+                    <motion.div 
+                      layoutId="activeSide"
+                      className="ml-auto w-1 h-4 bg-primary rounded-full"
+                    />
+                  )}
+                </Link>
+              </Button>
+            ))}
+
+            <div className="pt-2">
+              <Button
+                variant="ghost"
+                onClick={async () => {
+                  await authClient.signOut({
+                    fetchOptions: {
+                      onSuccess: () => {
+                        window.location.href = "/";
+                      },
+                    },
+                  });
+                }}
+                className="w-full justify-start gap-3 h-11 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10 border border-transparent transition-all duration-300 group"
+              >
+                <LogOut className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
+                <span className="font-medium">Déconnexion</span>
+              </Button>
+            </div>
           </nav>
+
+          {/* Profile Health - Quick View */}
+          <div className="hidden md:block pt-6 border-t border-border/40">
+            <div className="px-3 py-4 rounded-2xl bg-card/20 border border-border/20 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono text-muted-foreground uppercase">Habilitation</span>
+                <span className="text-[10px] font-mono text-primary">{Math.min(100, Math.round((level / 4) * 100))}%</span>
+              </div>
+              <Progress value={(level / 4) * 100} className="h-1 bg-primary/10" />
+              <p className="text-[9px] text-muted-foreground leading-tight">
+                Complète tes missions pour augmenter ton rang.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -245,7 +299,9 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                      {user.portfolioUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
                      ) : (
-                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                       <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
+                         <Link href="/settings">Lier</Link>
+                       </Button>
                      )}
                    </div>
                    
@@ -259,7 +315,9 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                      {user.linkedinUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
                      ) : (
-                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                       <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
+                         <Link href="/settings">Lier</Link>
+                       </Button>
                      )}
                    </div>
 
@@ -275,7 +333,9 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                      {user.twitterUrl ? (
                        <Check className="h-4 w-4 text-emerald-500" />
                      ) : (
-                       <Button variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">Lier</Button>
+                       <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
+                         <Link href="/settings">Lier</Link>
+                       </Button>
                      )}
                    </div>
                 </div>
@@ -300,8 +360,8 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                       <span key={d} className="px-2 py-1 rounded bg-primary/10 text-primary text-[10px] font-mono border border-primary/20">{d}</span>
                     ))
                   ) : (
-                    <Button variant="outline" size="sm" className="w-full border-dashed border-border/50 text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary">
-                      + Ajouter des domaines
+                    <Button asChild variant="outline" size="sm" className="w-full border-dashed border-border/50 text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary">
+                      <Link href="/settings">+ Ajouter des domaines</Link>
                     </Button>
                   )}
                 </div>

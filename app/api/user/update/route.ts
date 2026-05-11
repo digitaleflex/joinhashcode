@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth"; 
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -25,6 +25,8 @@ export async function PATCH(req: Request) {
       portfolioUrl,
       twitterUrl,
       linkedinUrl,
+      domains,
+      tools,
       mainObjective,
       secondaryObjectives
     } = body;
@@ -53,6 +55,8 @@ export async function PATCH(req: Request) {
         portfolioUrl,
         twitterUrl,
         linkedinUrl,
+        domains,
+        tools,
         mainObjective,
         secondaryObjectives,
       },

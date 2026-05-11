@@ -1896,6 +1896,7 @@ export namespace Prisma {
     githubUrl: string | null
     portfolioUrl: string | null
     linkedinUrl: string | null
+    twitterUrl: string | null
     mainObjective: string | null
     dominantMotivation: string | null
     longTermObjective: string | null
@@ -1941,6 +1942,7 @@ export namespace Prisma {
     githubUrl: string | null
     portfolioUrl: string | null
     linkedinUrl: string | null
+    twitterUrl: string | null
     mainObjective: string | null
     dominantMotivation: string | null
     longTermObjective: string | null
@@ -1988,6 +1990,7 @@ export namespace Prisma {
     githubUrl: number
     portfolioUrl: number
     linkedinUrl: number
+    twitterUrl: number
     mainObjective: number
     secondaryObjectives: number
     dominantMotivation: number
@@ -2084,6 +2087,7 @@ export namespace Prisma {
     githubUrl?: true
     portfolioUrl?: true
     linkedinUrl?: true
+    twitterUrl?: true
     mainObjective?: true
     dominantMotivation?: true
     longTermObjective?: true
@@ -2129,6 +2133,7 @@ export namespace Prisma {
     githubUrl?: true
     portfolioUrl?: true
     linkedinUrl?: true
+    twitterUrl?: true
     mainObjective?: true
     dominantMotivation?: true
     longTermObjective?: true
@@ -2176,6 +2181,7 @@ export namespace Prisma {
     githubUrl?: true
     portfolioUrl?: true
     linkedinUrl?: true
+    twitterUrl?: true
     mainObjective?: true
     secondaryObjectives?: true
     dominantMotivation?: true
@@ -2319,6 +2325,7 @@ export namespace Prisma {
     githubUrl: string | null
     portfolioUrl: string | null
     linkedinUrl: string | null
+    twitterUrl: string | null
     mainObjective: string | null
     secondaryObjectives: string[]
     dominantMotivation: string | null
@@ -2394,6 +2401,7 @@ export namespace Prisma {
     githubUrl?: boolean
     portfolioUrl?: boolean
     linkedinUrl?: boolean
+    twitterUrl?: boolean
     mainObjective?: boolean
     secondaryObjectives?: boolean
     dominantMotivation?: boolean
@@ -2458,6 +2466,7 @@ export namespace Prisma {
     githubUrl?: boolean
     portfolioUrl?: boolean
     linkedinUrl?: boolean
+    twitterUrl?: boolean
     mainObjective?: boolean
     secondaryObjectives?: boolean
     dominantMotivation?: boolean
@@ -2515,6 +2524,7 @@ export namespace Prisma {
     githubUrl?: boolean
     portfolioUrl?: boolean
     linkedinUrl?: boolean
+    twitterUrl?: boolean
     mainObjective?: boolean
     secondaryObjectives?: boolean
     dominantMotivation?: boolean
@@ -2572,6 +2582,7 @@ export namespace Prisma {
     githubUrl?: boolean
     portfolioUrl?: boolean
     linkedinUrl?: boolean
+    twitterUrl?: boolean
     mainObjective?: boolean
     secondaryObjectives?: boolean
     dominantMotivation?: boolean
@@ -2604,7 +2615,7 @@ export namespace Prisma {
     lastHypothesisUpdate?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
@@ -2657,6 +2668,7 @@ export namespace Prisma {
       githubUrl: string | null
       portfolioUrl: string | null
       linkedinUrl: string | null
+      twitterUrl: string | null
       mainObjective: string | null
       secondaryObjectives: string[]
       dominantMotivation: string | null
@@ -3140,6 +3152,7 @@ export namespace Prisma {
     readonly githubUrl: FieldRef<"User", 'String'>
     readonly portfolioUrl: FieldRef<"User", 'String'>
     readonly linkedinUrl: FieldRef<"User", 'String'>
+    readonly twitterUrl: FieldRef<"User", 'String'>
     readonly mainObjective: FieldRef<"User", 'String'>
     readonly secondaryObjectives: FieldRef<"User", 'String[]'>
     readonly dominantMotivation: FieldRef<"User", 'String'>
@@ -13931,6 +13944,7 @@ export namespace Prisma {
     githubUrl: 'githubUrl',
     portfolioUrl: 'portfolioUrl',
     linkedinUrl: 'linkedinUrl',
+    twitterUrl: 'twitterUrl',
     mainObjective: 'mainObjective',
     secondaryObjectives: 'secondaryObjectives',
     dominantMotivation: 'dominantMotivation',
@@ -14262,6 +14276,7 @@ export namespace Prisma {
     githubUrl?: StringNullableFilter<"User"> | string | null
     portfolioUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     secondaryObjectives?: StringNullableListFilter<"User">
     dominantMotivation?: StringNullableFilter<"User"> | string | null
@@ -14325,6 +14340,7 @@ export namespace Prisma {
     githubUrl?: SortOrderInput | SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
     secondaryObjectives?: SortOrder
     dominantMotivation?: SortOrderInput | SortOrder
@@ -14391,6 +14407,7 @@ export namespace Prisma {
     githubUrl?: StringNullableFilter<"User"> | string | null
     portfolioUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     secondaryObjectives?: StringNullableListFilter<"User">
     dominantMotivation?: StringNullableFilter<"User"> | string | null
@@ -14454,6 +14471,7 @@ export namespace Prisma {
     githubUrl?: SortOrderInput | SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
     secondaryObjectives?: SortOrder
     dominantMotivation?: SortOrderInput | SortOrder
@@ -14518,6 +14536,7 @@ export namespace Prisma {
     githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    twitterUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
     secondaryObjectives?: StringNullableListFilter<"User">
     dominantMotivation?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -15266,6 +15285,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -15328,6 +15348,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -15390,6 +15411,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15452,6 +15474,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15514,6 +15537,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -15570,6 +15594,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15625,6 +15650,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16647,6 +16673,7 @@ export namespace Prisma {
     githubUrl?: SortOrder
     portfolioUrl?: SortOrder
     linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
     mainObjective?: SortOrder
     secondaryObjectives?: SortOrder
     dominantMotivation?: SortOrder
@@ -16721,6 +16748,7 @@ export namespace Prisma {
     githubUrl?: SortOrder
     portfolioUrl?: SortOrder
     linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
     mainObjective?: SortOrder
     dominantMotivation?: SortOrder
     longTermObjective?: SortOrder
@@ -16766,6 +16794,7 @@ export namespace Prisma {
     githubUrl?: SortOrder
     portfolioUrl?: SortOrder
     linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
     mainObjective?: SortOrder
     dominantMotivation?: SortOrder
     longTermObjective?: SortOrder
@@ -18323,6 +18352,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -18384,6 +18414,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -18450,6 +18481,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -18511,6 +18543,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -18759,6 +18792,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18820,6 +18854,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18900,6 +18935,7 @@ export namespace Prisma {
     githubUrl?: StringNullableFilter<"User"> | string | null
     portfolioUrl?: StringNullableFilter<"User"> | string | null
     linkedinUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     secondaryObjectives?: StringNullableListFilter<"User">
     dominantMotivation?: StringNullableFilter<"User"> | string | null
@@ -19212,6 +19248,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19273,6 +19310,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19377,6 +19415,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19438,6 +19477,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19532,6 +19572,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19593,6 +19634,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19670,6 +19712,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19731,6 +19774,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19792,6 +19836,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19853,6 +19898,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -19930,6 +19976,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19991,6 +20038,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20052,6 +20100,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -20113,6 +20162,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -20190,6 +20240,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20251,6 +20302,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20312,6 +20364,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -20373,6 +20426,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -20487,6 +20541,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20548,6 +20603,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20652,6 +20708,7 @@ export namespace Prisma {
     githubUrl?: string | null
     portfolioUrl?: string | null
     linkedinUrl?: string | null
+    twitterUrl?: string | null
     mainObjective?: string | null
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     dominantMotivation?: string | null
@@ -20765,6 +20822,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20826,6 +20884,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20887,6 +20946,7 @@ export namespace Prisma {
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
