@@ -22,13 +22,19 @@ export function Footer() {
 
           <div className="flex items-center gap-6">
             <Link
-              href="#"
+              href="/contact"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Contact & Suggestions
+            </Link>
+            <Link
+              href="/privacy"
               className="text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               Confidentialité
             </Link>
             <Link
-              href="#"
+              href="/terms"
               className="text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               Conditions

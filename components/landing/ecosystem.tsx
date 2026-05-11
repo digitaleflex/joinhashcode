@@ -1,4 +1,7 @@
+"use client"
+
 import { Users, Wrench, Compass, Sparkles } from "lucide-react"
+import { motion } from "framer-motion"
 
 const pillars = [
   {
@@ -25,7 +28,20 @@ const pillars = [
 
 export function Ecosystem() {
   return (
-    <section id="ecosystem" className="border-b border-border/60">
+    <section id="ecosystem" className="relative border-b border-border/60 overflow-hidden">
+      {/* Background Shapes */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 180, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-12 left-1/2 -translate-x-1/2 w-full h-full text-primary/5 opacity-10"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <circle cx="50" cy="50" r="45" stroke="currentColor" fill="none" strokeWidth="0.05" />
+            <circle cx="50" cy="50" r="35" stroke="currentColor" fill="none" strokeWidth="0.05" />
+          </svg>
+        </motion.div>
+      </div>
       <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         {/* Header */}
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">

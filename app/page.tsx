@@ -7,6 +7,7 @@ import { BrandIdentity } from "@/components/landing/brand-identity"
 import { HowItWorks } from "@/components/landing/how-it-works"
 import { Ecosystem } from "@/components/landing/ecosystem"
 import { Testimonials } from "@/components/landing/testimonials"
+import { Faq } from "@/components/landing/faq"
 import { FinalCta } from "@/components/landing/final-cta"
 import { Footer } from "@/components/landing/footer"
 
@@ -22,6 +23,7 @@ export default function HomePage() {
       <HowItWorks />
       <Ecosystem />
       <Testimonials />
+      <Faq />
       <FinalCta />
       <Footer />
     </main>

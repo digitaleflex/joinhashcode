@@ -1,5 +1,8 @@
+"use client"
+
 import { Zap, Code, Cloud, Cpu } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
 
 const tracks = [
   {
@@ -30,7 +33,24 @@ const tracks = [
 
 export function MissionsPreview() {
   return (
-    <section id="missions" className="border-b border-border/60 bg-zinc-950/20 py-24 sm:py-32">
+    <section id="missions" className="relative border-b border-border/60 bg-zinc-950/20 py-24 sm:py-32 overflow-hidden">
+      {/* Geometric Decorations */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-32 text-primary/5">
+          <svg viewBox="0 0 1000 100" className="w-full h-full">
+            <line x1="0" y1="50" x2="1000" y2="50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="20 20" />
+          </svg>
+        </div>
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-12 -right-12 w-64 h-64 text-white/5 opacity-20"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <rect x="10" y="10" width="80" height="80" stroke="currentColor" fill="none" strokeWidth="0.5" />
+          </svg>
+        </motion.div>
+      </div>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">

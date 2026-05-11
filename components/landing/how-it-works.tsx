@@ -1,3 +1,7 @@
+"use client"
+
+import { motion } from "framer-motion"
+
 const steps = [
   {
     n: "01",
@@ -18,7 +22,24 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="border-b border-border/60">
+    <section id="how" className="relative overflow-hidden border-b border-border/60 bg-black py-24 sm:py-32">
+      {/* Background Geometric Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 text-white/5 opacity-10"
+        >
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L100,100 M0,100 L100,0" stroke="currentColor" strokeWidth="0.1" />
+          </svg>
+        </motion.div>
+        <motion.div 
+          animate={{ rotate: -360 }}
+          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/4 right-1/4 w-96 h-96 border border-primary/10 rounded-full"
+        />
+      </div>
       <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">

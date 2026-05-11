@@ -1,8 +1,33 @@
+"use client"
+
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 export function Vision() {
   return (
-    <section id="vision" className="relative overflow-hidden border-b border-border/60 bg-black">
+    <section id="vision" className="relative overflow-hidden border-b border-border/60 bg-zinc-950 py-24 sm:py-32">
+      {/* Geometric Background Shapes */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-24 -left-24 w-96 h-96 text-primary/5 opacity-20"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <path d="M10,10 L90,90 M90,10 L10,90" stroke="currentColor" strokeWidth="0.1" />
+          </svg>
+        </motion.div>
+        <motion.div 
+          animate={{ rotate: -360 }}
+          transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 -right-24 w-64 h-64 text-white/5 opacity-10 -translate-y-1/2"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <polygon points="50,10 90,90 10,90" stroke="currentColor" fill="none" strokeWidth="0.2" />
+          </svg>
+        </motion.div>
+      </div>
+
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 opacity-40">
         <Image 

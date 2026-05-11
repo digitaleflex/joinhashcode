@@ -69,8 +69,15 @@ export function Testimonials() {
   return (
     <section id="community" className="border-b border-border/60 bg-black py-24 sm:py-32 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] opacity-30" />
+        {/* Geometric Shapes */}
+        <svg className="absolute top-10 right-10 w-64 h-64 text-primary/10 opacity-20" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" stroke="currentColor" fill="none" strokeWidth="0.5" strokeDasharray="4 4" />
+        </svg>
+        <svg className="absolute bottom-20 left-10 w-48 h-48 text-white/10 opacity-10 rotate-12" viewBox="0 0 100 100">
+          <rect x="20" y="20" width="60" height="60" stroke="currentColor" fill="none" strokeWidth="0.5" />
+        </svg>
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mb-16">
@@ -95,7 +102,7 @@ export function Testimonials() {
       <div className="relative flex overflow-hidden">
         <motion.div
           animate={{
-            x: [0, -1920], // Adjusted based on typical card width + gap
+            x: [0, -1920],
           }}
           transition={{
             x: {
@@ -105,7 +112,7 @@ export function Testimonials() {
               ease: "linear",
             },
           }}
-          className="flex gap-6 whitespace-nowrap py-4 hover:[animation-play-state:paused]"
+          className="flex gap-6 whitespace-nowrap py-4 hover:paused"
         >
           {marqueeItems.map((t, i) => (
             <Card 

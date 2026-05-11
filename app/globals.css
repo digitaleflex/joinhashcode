@@ -120,10 +120,15 @@
   }
   html {
     @apply bg-background;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'cv11', 'ss01';
+  }
+  section {
+    scroll-margin-top: 5rem;
   }
   ::selection {
     background: oklch(0.91 0.22 124 / 0.25);

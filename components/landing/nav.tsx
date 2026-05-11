@@ -9,18 +9,68 @@ import { useRouter } from "next/navigation"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
+import { cn } from "@/lib/utils"
 
 export function Nav() {
   const { data: session } = authClient.useSession()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState<string>("")
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Scroll Spy Logic
+  useEffect(() => {
+    const sections = ["vision", "missions", "how", "ecosystem"]
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+    
+    sections.forEach((id) => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault()
+      const id = href.substring(1)
+      const element = document.getElementById(id)
+      if (element) {
+        const offset = 80 // height of sticky header
+        const bodyRect = document.body.getBoundingClientRect().top
+        const elementRect = element.getBoundingClientRect().top
+        const elementPosition = elementRect - bodyRect
+        const offsetPosition = elementPosition - offset
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        })
+        setIsOpen(false)
+      }
+    }
+  }
 
   const navLinks = [
     { name: "Vision", href: "#vision" },
@@ -32,7 +82,7 @@ export function Nav() {
   return (
     <>
     <header 
-      className={`sticky top-0 z-100 w-full transition-all duration-300 border-b ${
+      className={`sticky top-0 z-[100] w-full transition-all duration-300 border-b ${
         scrolled ? "bg-background/80 backdrop-blur-xl border-border/60 py-2" : "bg-transparent border-transparent py-4"
       }`}
     >
@@ -56,9 +106,22 @@ export function Nav() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-all hover:text-primary hover:tracking-wide"
+              onClick={(e) => scrollToSection(e, link.href)}
+              className={cn(
+                "text-sm font-medium transition-all hover:text-primary relative py-1",
+                activeSection === link.href.substring(1) 
+                  ? "text-primary" 
+                  : "text-muted-foreground"
+              )}
             >
               {link.name}
+              {activeSection === link.href.substring(1) && (
+                <motion.div 
+                  layoutId="activeNav"
+                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
             </Link>
           ))}
         </nav>
@@ -138,8 +201,11 @@ export function Nav() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-2xl font-bold tracking-tighter hover:text-primary transition-colors"
+                  onClick={(e) => scrollToSection(e, link.href)}
+                  className={cn(
+                    "block text-2xl font-bold tracking-tighter hover:text-primary transition-colors",
+                    activeSection === link.href.substring(1) ? "text-primary" : "text-foreground"
+                  )}
                 >
                   {link.name}
                 </Link>
