@@ -8,18 +8,50 @@ datasource db {
 }
 
 model User {
-  id            String       @id
+  id            String        @id
   name          String
-  email         String       @unique
+  email         String        @unique
   emailVerified Boolean
   image         String?
+  level         Int           @default(1)
+  experience    Int           @default(0)
+  class         String?       @map("profile_class") // builder, creator, strategist, catalyst
+  role          String        @default("MEMBER") // MEMBER, MODERATOR, ADMIN
   createdAt     DateTime
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
   quizResults   QuizResult[]
+  guildMembers  GuildMember[]
 
   @@map("user")
+}
+
+model Guild {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  slug          String        @unique
+  requiredLevel Int           @default(1)
+  isPrivate     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  members       GuildMember[]
+
+  @@map("guild")
+}
+
+model GuildMember {
+  id       String   @id @default(cuid())
+  userId   String
+  guildId  String
+  role     String   @default("MEMBER") // MEMBER, MODERATOR, LEADER
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, guildId])
+  @@map("guild_member")
 }
 
 model Session {

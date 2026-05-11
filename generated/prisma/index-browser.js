@@ -126,8 +126,31 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  level: 'level',
+  experience: 'experience',
+  class: 'class',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GuildScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  slug: 'slug',
+  requiredLevel: 'requiredLevel',
+  isPrivate: 'isPrivate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GuildMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  guildId: 'guildId',
+  role: 'role',
+  joinedAt: 'joinedAt'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -210,6 +233,8 @@ exports.Prisma.JsonNullValueFilter = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Guild: 'Guild',
+  GuildMember: 'GuildMember',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',

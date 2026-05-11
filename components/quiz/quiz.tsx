@@ -8,9 +8,10 @@ import { analyzeQuizResults, type AnalysisResult } from "@/lib/analysis"
 import { 
   TrendingUp, Terminal, Palette, Users, Award, 
   Map, Video, GitBranch, ChevronRight, ChevronLeft, 
-  CheckCircle2 
+  CheckCircle2, Timer, Loader2 
 } from "lucide-react"
 import Link from "next/link"
+import { useEffect } from "react"
 
 export function Quiz() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -19,6 +20,16 @@ export function Quiz() {
   const [startTime, setStartTime] = useState<number>(Date.now())
   const [isFinished, setIsFinished] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [currentTimeMs, setCurrentTimeMs] = useState(0)
+
+  useEffect(() => {
+    if (isFinished || isAnalyzing) return;
+    const interval = setInterval(() => {
+      setCurrentTimeMs(Date.now() - startTime);
+    }, 50);
+    return () => clearInterval(interval);
+  }, [startTime, isFinished, isAnalyzing]);
 
   const progress = ((currentStep + 1) / questions.length) * 100
 
@@ -36,9 +47,10 @@ export function Quiz() {
       setCurrentStep(currentStep + 1)
       setStartTime(Date.now())
     } else {
+      setIsAnalyzing(true)
       setIsSaving(true)
       try {
-        const analysis = analyzeQuizResults(Object.values(newAnswers))
+        const analysis = analyzeQuizResults(Object.values(newAnswers), newTimes)
         await fetch('/api/quiz', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -49,10 +61,19 @@ export function Quiz() {
             averageResponseTime: Math.round(newTimes.reduce((a, b) => a + b, 0) / newTimes.length)
           })
         })
-        setIsFinished(true)
+        
+        // Artificial delay for UI WOW effect
+        setTimeout(() => {
+          setIsAnalyzing(false)
+          setIsFinished(true)
+        }, 2500)
+        
       } catch (error) {
         console.error("Failed to save results:", error)
-        setIsFinished(true) // Still finish even if save fails for UX
+        setTimeout(() => {
+          setIsAnalyzing(false)
+          setIsFinished(true)
+        }, 1500)
       } finally {
         setIsSaving(false)
       }
@@ -66,8 +87,26 @@ export function Quiz() {
     }
   }
 
+  if (isAnalyzing) {
+    return (
+      <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
+        <Loader2 className="w-16 h-16 text-primary animate-spin mb-8" />
+        <h2 className="text-2xl font-semibold mb-4 tracking-tight">Analyse Mathématique en Cours</h2>
+        <p className="text-muted-foreground mb-8 text-sm">
+          Compilation des vecteurs de réponse et pondération des temps de réaction...
+        </p>
+        <div className="w-full max-w-xs space-y-2">
+          <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
+            <div className="h-full bg-primary animate-pulse w-full rounded-full" style={{ animationDuration: '1s' }} />
+          </div>
+          <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Envoi sécurisé</p>
+        </div>
+      </div>
+    )
+  }
+
   if (isFinished) {
-    const analysis = analyzeQuizResults(Object.values(answers));
+    const analysis = analyzeQuizResults(Object.values(answers), responseTimes);
     
     const profiles: Record<string, { title: string; desc: string; color: string }> = {
       builder: {
@@ -205,8 +244,12 @@ export function Quiz() {
               Question {currentStep + 1} sur {questions.length}
             </span>
           </div>
-          <div className="text-xs font-mono text-muted-foreground">
-            {Math.round(progress)}%
+          <div className="flex items-center gap-4 text-xs font-mono">
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-muted/50 text-muted-foreground border border-border/50">
+              <Timer className="w-3.5 h-3.5" />
+              {(currentTimeMs / 1000).toFixed(1)}s
+            </div>
+            <span className="text-muted-foreground">{Math.round(progress)}%</span>
           </div>
         </div>
         <Progress value={progress} className="h-1.5" />

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "../generated/prisma";
 
 // Force bypass TLS certificate validation for Windows/Supabase issues
 if (process.env.NODE_ENV !== "production") {

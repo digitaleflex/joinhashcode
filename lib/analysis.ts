@@ -14,7 +14,7 @@ export interface AnalysisResult {
   }[];
 }
 
-export const analyzeQuizResults = (answers: string[]): AnalysisResult => {
+export const analyzeQuizResults = (answers: string[], responseTimes: number[] = []): AnalysisResult => {
   const counts: Record<ProfileType, number> = {
     builder: 0,
     creator: 0,
@@ -22,10 +22,19 @@ export const analyzeQuizResults = (answers: string[]): AnalysisResult => {
     catalyst: 0,
   };
 
-  // Count occurrences
-  answers.forEach((ans) => {
-    if (ans in counts) {
-      counts[ans as ProfileType]++;
+  const timeSum: Record<ProfileType, number> = {
+    builder: 0,
+    creator: 0,
+    strategist: 0,
+    catalyst: 0,
+  };
+
+  // Count occurrences and sum times
+  answers.forEach((ans, idx) => {
+    const profile = ans as ProfileType;
+    if (profile in counts) {
+      counts[profile]++;
+      timeSum[profile] += responseTimes[idx] || 0;
     }
   });
 
@@ -37,10 +46,16 @@ export const analyzeQuizResults = (answers: string[]): AnalysisResult => {
     catalyst: Math.round((counts.catalyst / total) * 100),
   };
 
-  // Sort profiles by score
-  const sortedProfiles = (Object.keys(counts) as ProfileType[]).sort(
-    (a, b) => counts[b] - counts[a]
-  );
+  // Sort profiles by score (descending), then by average response time (ascending) for tie-breaking
+  const sortedProfiles = (Object.keys(counts) as ProfileType[]).sort((a, b) => {
+    if (counts[b] !== counts[a]) {
+      return counts[b] - counts[a];
+    }
+    // Tie-breaker: Calculate average response time
+    const avgA = counts[a] > 0 ? timeSum[a] / counts[a] : Infinity;
+    const avgB = counts[b] > 0 ? timeSum[b] / counts[b] : Infinity;
+    return avgA - avgB; // Lower time wins
+  });
 
   const primary = sortedProfiles[0];
   const secondary = sortedProfiles[1];

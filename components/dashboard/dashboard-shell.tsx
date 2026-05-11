@@ -120,13 +120,17 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
               <LayoutDashboard className="h-4 w-4" />
               Vue d'ensemble
             </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
-              <Zap className="h-4 w-4" />
-              Missions
+            <Button variant="ghost" asChild className="w-full justify-start gap-3 text-muted-foreground">
+              <Link href="/missions">
+                <Zap className="h-4 w-4" />
+                Missions
+              </Link>
             </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground hover:text-foreground">
-              <Settings className="h-4 w-4" />
-              Configuration
+            <Button variant="ghost" asChild className="w-full justify-start gap-3 text-muted-foreground">
+              <Link href="/settings">
+                <Settings className="h-4 w-4" />
+                Configuration
+              </Link>
             </Button>
           </nav>
         </div>
@@ -161,7 +165,7 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                 const isUnlocked = level >= tool.minLevel;
                 const isPrimary = tool.id === profile;
                 return (
-                  <Card key={i} className={`group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
+                  <Card key={i} className={`relative group border-border/60 transition-all duration-300 ${isUnlocked ? 'hover:border-primary/40 bg-card/50' : 'opacity-50 bg-muted/20 grayscale'} ${isPrimary ? 'ring-1 ring-primary/20 bg-primary/5' : ''}`}>
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-5">
                         <div className={`p-4 rounded-2xl ${isUnlocked ? 'bg-primary/10 text-primary shadow-inner' : 'bg-muted text-muted-foreground'}`}>
@@ -180,8 +184,14 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                         )}
                       </div>
                       <h4 className="text-lg font-semibold mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
-                        {tool.name}
-                        {isUnlocked && <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />}
+                        {isUnlocked ? (
+                          <Link href={`/tools/${tool.id}`} className="flex items-center gap-2 w-full before:absolute before:inset-0">
+                            {tool.name}
+                            <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </Link>
+                        ) : (
+                          tool.name
+                        )}
                       </h4>
                       <p className="text-sm text-zinc-500 leading-relaxed">{tool.desc}</p>
                     </CardContent>
