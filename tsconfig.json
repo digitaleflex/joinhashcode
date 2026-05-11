@@ -26,18 +26,6 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "better-auth/adapters/*": [
-        "node_modules/better-auth/dist/adapters/*/index.d.mts"
-      ],
-      "better-auth/plugins/*": [
-        "node_modules/better-auth/dist/plugins/*/index.d.mts"
-      ],
-      "better-auth/next-js": [
-        "node_modules/better-auth/dist/integrations/next-js.d.mts"
-      ],
-      "better-auth/react": [
-        "node_modules/better-auth/dist/client/react/index.d.mts"
       ]
     }
   },

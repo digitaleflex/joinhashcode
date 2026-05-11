@@ -5,10 +5,11 @@ import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Github, Mail, Chrome } from "lucide-react"
+import { Mail } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
+import { GoogleIcon, GitHubIcon } from "@/components/icons"
 
 export default function SignInPage() {
     const [email, setEmail] = useState("")
@@ -78,7 +79,7 @@ export default function SignInPage() {
                             disabled={isLoading}
                             className="bg-background/50 hover:bg-card border-border/60"
                         >
-                            <Chrome className="mr-2 h-4 w-4" />
+                            <GoogleIcon className="mr-2 h-4 w-4" />
                             Google
                         </Button>
                         <Button 
@@ -87,7 +88,7 @@ export default function SignInPage() {
                             disabled={isLoading}
                             className="bg-background/50 hover:bg-card border-border/60"
                         >
-                            <Github className="mr-2 h-4 w-4" />
+                            <GitHubIcon className="mr-2 h-4 w-4" />
                             GitHub
                         </Button>
                     </div>
