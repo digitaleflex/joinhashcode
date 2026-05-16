@@ -8,11 +8,10 @@ import type { AnalysisResult } from "@/lib/analysis"
 import {
   TrendingUp, Terminal, Palette, Users, Award,
   Map, Video, GitBranch, ChevronRight, ChevronLeft,
-  CheckCircle2, Loader2
+  CheckCircle2
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect } from "react"
-import { ScrambleText } from "@/components/ui/scramble-text"
 import { MemberCard } from "@/components/ui/member-card"
 
 interface QuizUser {
@@ -27,6 +26,60 @@ interface QuizUser {
 }
 
 const QUIZ_STORAGE_KEY = "hc_quiz_progress";
+
+const ANALYSIS_STEPS = [
+  { label: "Lecture des réponses",          desc: "Traitement de tes 13 arbitrages...",          pct: 12 },
+  { label: "Analyse comportementale",       desc: "Détection des patterns de décision...",       pct: 28 },
+  { label: "Calcul des vecteurs",           desc: "Pondération par temps de réaction...",        pct: 45 },
+  { label: "Scénarios de crise",            desc: "Évaluation des réponses sous pression...",    pct: 62 },
+  { label: "Profil dominant",               desc: "Identification de la tendance principale...", pct: 78 },
+  { label: "Génération de l'hypothèse",     desc: "Finalisation du profilage...",                pct: 94 },
+];
+
+function AnalyzingScreen() {
+  const [stepIdx, setStepIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStepIdx(prev => Math.min(prev + 1, ANALYSIS_STEPS.length - 1));
+    }, 350);
+    return () => clearInterval(timer);
+  }, []);
+
+  const step = ANALYSIS_STEPS[stepIdx];
+
+  return (
+    <div className="max-w-sm mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
+      <p className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground mb-10">
+        [ANALYSE_EN_COURS]
+      </p>
+
+      <div className="h-6 flex items-center justify-center mb-2">
+        <p key={stepIdx} className="text-sm font-mono text-primary animate-in fade-in duration-300">
+          {step.label}
+        </p>
+      </div>
+      <div className="h-5 flex items-center justify-center mb-10">
+        <p key={`d-${stepIdx}`} className="text-xs text-muted-foreground animate-in fade-in duration-300">
+          {step.desc}
+        </p>
+      </div>
+
+      <div className="w-full space-y-2">
+        <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
+          <div
+            className="h-full bg-primary rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${step.pct}%` }}
+          />
+        </div>
+        <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
+          <span>Profilage comportemental</span>
+          <span>{step.pct}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Quiz({ user }: { user?: QuizUser }) {
   const [isStarted, setIsStarted] = useState(false)
@@ -210,23 +263,7 @@ export function Quiz({ user }: { user?: QuizUser }) {
   }
 
   if (isAnalyzing) {
-    return (
-      <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
-        <Loader2 className="w-16 h-16 text-primary animate-spin mb-8" />
-        <h2 className="text-2xl font-semibold mb-4 tracking-tight font-mono text-primary">
-          <ScrambleText text="[GENERATION_HYPOTHESE]" duration={2000} />
-        </h2>
-        <p className="text-muted-foreground mb-8 text-sm">
-          Calcul des vecteurs comportementaux et pondération des scénarios de crise...
-        </p>
-        <div className="w-full max-w-xs space-y-2">
-          <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
-            <div className="h-full bg-primary animate-pulse w-full rounded-full" style={{ animationDuration: '1s' }} />
-          </div>
-          <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Identification des tendances</p>
-        </div>
-      </div>
-    )
+    return <AnalyzingScreen />;
   }
 
   if (isFinished) {
