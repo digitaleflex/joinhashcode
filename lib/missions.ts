@@ -1,4 +1,5 @@
 export type MissionLevel = 1 | 2 | 3 | 4;
+export type MissionType = "CODE" | "DESIGN" | "BUSINESS" | "NETWORK" | "GENERAL" | "INTRO";
 
 export interface Mission {
   id: string;
@@ -9,10 +10,39 @@ export interface Mission {
   requiredLevel: MissionLevel;
   targetLevel: MissionLevel;
   requirements: string[];
-  type: "CODE" | "DESIGN" | "BUSINESS" | "NETWORK" | "GENERAL";
+  type: MissionType;
 }
 
 export const MISSIONS: Mission[] = [
+  {
+    id: "introduction-ancrage",
+    title: "Ancrage Initial",
+    shortDesc: "Pose ton identité dans la communauté.",
+    description: "Avant toute chose, présente-toi. Qui es-tu, qu'est-ce que tu construis, et où veux-tu aller dans les 3 prochains mois ? Ton introduction devient ta première trace dans HASHCODE.",
+    xpReward: 25,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Décris ce que tu construis en une phrase.",
+      "Partage ton objectif principal pour les 3 prochains mois."
+    ],
+    type: "INTRO"
+  },
+  {
+    id: "social-connection-protocol",
+    title: "Protocole de Connexion Globale",
+    shortDesc: "Rejoins le réseau neuronal de HASHCODE.",
+    description: "La force de HASHCODE réside dans sa communauté. Pour valider ce protocole, tu dois rejoindre nos canaux officiels : le canal Telegram, le serveur Discord et le groupe WhatsApp. C'est ici que se partagent les opportunités exclusives.",
+    xpReward: 150,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Rejoindre le canal Telegram @innovcode.",
+      "Rejoindre le serveur Discord officiel.",
+      "Rejoindre le groupe WhatsApp de ta communauté."
+    ],
+    type: "NETWORK"
+  },
   {
     id: "init-to-core-1",
     title: "Le Premier Commit",

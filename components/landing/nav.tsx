@@ -99,8 +99,8 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: Logo */}
-        <div className="flex items-center gap-8">
+        {/* Left: Logo Container */}
+        <div className="flex-1 flex justify-start">
           <Link href="/" className="relative flex items-center gap-1.5 group">
             <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <Image
@@ -112,36 +112,36 @@ export function Nav() {
               priority
             />
           </Link>
-
-          {/* Desktop Navigation Links (Moved next to logo) */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={(e) => scrollToSection(e, link.href)}
-                className={cn(
-                  "text-sm font-medium transition-all hover:text-primary relative py-1",
-                  activeSection === link.href.substring(1) 
-                    ? "text-primary" 
-                    : "text-muted-foreground"
-                )}
-              >
-                {link.name}
-                {activeSection === link.href.substring(1) && (
-                  <motion.div 
-                    layoutId="activeNav"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
         </div>
 
-        {/* Right side: Actions */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Center: Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className={cn(
+                "text-sm font-medium transition-all hover:text-primary relative py-1",
+                activeSection === link.href.substring(1) 
+                  ? "text-primary" 
+                  : "text-muted-foreground"
+              )}
+            >
+              {link.name}
+              {activeSection === link.href.substring(1) && (
+                <motion.div 
+                  layoutId="activeNav"
+                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right side: Actions Container */}
+        <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4">
           {session ? (
             <div className="flex items-center gap-4">
               <Link 

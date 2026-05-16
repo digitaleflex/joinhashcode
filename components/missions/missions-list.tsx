@@ -35,27 +35,39 @@ export function MissionsList({
   const [userFeedback, setUserFeedback] = useState("");
   const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
+  // Ancrage mission fields
+  const [ancrageProjet, setAncrageProjet] = useState("");
+  const [ancrageObjectif, setAncrageObjectif] = useState("");
+
   const availableMissions = MISSIONS.filter(m => m.requiredLevel <= userLevel);
   const lockedMissions = MISSIONS.filter(m => m.requiredLevel > userLevel);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedMission || !content.trim()) return;
+    if (!selectedMission) return;
 
-    if (step === 1) {
-      setStep(2);
-      return;
+    const isAncrage = selectedMission.type === "INTRO";
+
+    if (isAncrage) {
+      if (!ancrageProjet.trim() || !ancrageObjectif.trim()) return;
+    } else {
+      if (!content.trim()) return;
+      if (step === 1) { setStep(2); return; }
     }
 
     setIsSubmitting(true);
     try {
+      const submissionContent = isAncrage
+        ? `Projet : ${ancrageProjet}\n\nObjectif 3 mois : ${ancrageObjectif}`
+        : content;
+
       const res = await fetch('/api/missions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          missionId: selectedMission.id, 
-          content,
-          projectDescription,
+        body: JSON.stringify({
+          missionId: selectedMission.id,
+          content: submissionContent,
+          projectDescription: isAncrage ? ancrageObjectif : projectDescription,
           userDifficulty,
           userRating,
           userFeedback,
@@ -89,6 +101,8 @@ export function MissionsList({
     setUserRating(5);
     setUserFeedback("");
     setImprovementSuggestions("");
+    setAncrageProjet("");
+    setAncrageObjectif("");
     setStep(1);
   };
 
@@ -127,14 +141,32 @@ export function MissionsList({
               <p>{mission.description}</p>
               
               <p className="font-mono text-xs uppercase text-primary mb-1 mt-3 tracking-widest">Critères_</p>
-              <ul className="list-disc pl-4 space-y-1">
-                {mission.requirements.map((req, i) => <li key={i}>{req}</li>)}
-              </ul>
+              
+              {mission.id === "social-connection-protocol" ? (
+                <div className="flex flex-col gap-3 mt-3">
+                  <a href="https://t.me/innovcode" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#0088cc]/20 border border-[#0088cc]/30 hover:bg-[#0088cc]/30 transition-colors text-xs text-[#0088cc]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                    Rejoindre Telegram
+                  </a>
+                  <a href="https://discord.gg/54J6AsrTFm" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#5865F2]/20 border border-[#5865F2]/30 hover:bg-[#5865F2]/30 transition-colors text-xs text-[#5865F2]">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+                    Rejoindre Discord
+                  </a>
+                  <a href="https://chat.whatsapp.com/JwJGgoQpS46I9r81QPrCs4" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#25D366]/20 border border-[#25D366]/30 hover:bg-[#25D366]/30 transition-colors text-xs text-[#25D366]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    Groupe WhatsApp
+                  </a>
+                </div>
+              ) : (
+                <ul className="list-disc pl-4 space-y-1">
+                  {mission.requirements.map((req, i) => <li key={i}>{req}</li>)}
+                </ul>
+              )}
             </div>
 
             {!isLocked && !isCompleted && !isPending && (
-              <Dialog 
-                open={selectedMission?.id === mission.id} 
+              <Dialog
+                open={selectedMission?.id === mission.id}
                 onOpenChange={(open) => {
                   if (!open) resetForm();
                   if (open) setSelectedMission(mission);
@@ -142,38 +174,71 @@ export function MissionsList({
               >
                 <DialogTrigger asChild>
                   <Button className="btn-primary-glow w-full gap-2">
-                    Démarrer la validation <ArrowRight className="h-4 w-4" />
+                    {mission.type === "INTRO" ? "Me présenter" : "Démarrer la validation"}
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-lg bg-background/95 backdrop-blur-xl border-border/40 max-h-[90vh] overflow-y-auto custom-scrollbar">
                   <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
-                      {step === 2 && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-6 w-6 rounded-full" 
+                      {step === 2 && mission.type !== "INTRO" && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6 rounded-full"
                           onClick={() => setStep(1)}
                         >
                           <ChevronLeft className="h-4 w-4" />
                         </Button>
                       )}
-                      {step === 1 ? `Validation : ${mission.title}` : "Rétrospection du projet"}
+                      {mission.type === "INTRO"
+                        ? "Ton ancrage dans HASHCODE"
+                        : step === 1 ? `Validation : ${mission.title}` : "Rétrospection du projet"}
                     </DialogTitle>
                     <DialogDescription>
-                      {step === 1 
-                        ? "Soumet ton lien de projet pour prouver tes compétences." 
-                        : "Partage ton expérience sur cette mission pour aider la communauté."}
+                      {mission.type === "INTRO"
+                        ? "Deux phrases suffisent. Sois direct, sois toi."
+                        : step === 1
+                          ? "Soumet ton lien de projet pour prouver tes compétences."
+                          : "Partage ton expérience sur cette mission pour aider la communauté."}
                     </DialogDescription>
                   </DialogHeader>
 
                   <form onSubmit={handleSubmit} className="space-y-6 pt-4">
-                    {step === 1 ? (
+                    {mission.type === "INTRO" ? (
+                      <div className="space-y-5 animate-in fade-in duration-300">
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ce que tu construis</Label>
+                          <Textarea
+                            placeholder="Ex : Une plateforme SaaS pour freelances, une app mobile de fitness, un studio créatif..."
+                            value={ancrageProjet}
+                            onChange={(e) => setAncrageProjet(e.target.value)}
+                            className="bg-card/30 border-border/40 rounded-xl min-h-[90px]"
+                            required
+                            autoFocus
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ton objectif dans 3 mois</Label>
+                          <Textarea
+                            placeholder="Ex : Avoir mes 10 premiers clients, sortir la v1 en public, maîtriser React..."
+                            value={ancrageObjectif}
+                            onChange={(e) => setAncrageObjectif(e.target.value)}
+                            className="bg-card/30 border-border/40 rounded-xl min-h-[90px]"
+                            required
+                          />
+                        </div>
+                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow" disabled={isSubmitting}>
+                          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Star className="h-4 w-4 mr-2" />}
+                          Ancrer mon profil (+{mission.xpReward} XP)
+                        </Button>
+                      </div>
+                    ) : step === 1 ? (
                       <div className="space-y-4">
                         <div className="space-y-2">
                           <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Lien du projet</Label>
-                          <Input 
-                            placeholder="https://github.com/ton-profil/projet" 
+                          <Input
+                            placeholder="https://github.com/ton-profil/projet"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             className="bg-card/30 border-border/40 h-12 rounded-xl"
@@ -189,8 +254,8 @@ export function MissionsList({
                       <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
                         <div className="space-y-2">
                           <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Explique ton projet (Brief)</Label>
-                          <Textarea 
-                            placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisé ?" 
+                          <Textarea
+                            placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisé ?"
                             value={projectDescription}
                             onChange={(e) => setProjectDescription(e.target.value)}
                             className="bg-card/30 border-border/40 rounded-xl min-h-[100px]"
@@ -201,30 +266,26 @@ export function MissionsList({
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-3">
                             <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Difficulté ({userDifficulty}/5)</Label>
-                            <Slider 
-                              value={[userDifficulty]} 
+                            <Slider
+                              value={[userDifficulty]}
                               onValueChange={(val) => setUserDifficulty(val[0])}
-                              max={5}
-                              min={1}
-                              step={1}
+                              max={5} min={1} step={1}
                             />
                           </div>
                           <div className="space-y-3">
                             <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Note Mission ({userRating}/5)</Label>
-                            <Slider 
-                              value={[userRating]} 
+                            <Slider
+                              value={[userRating]}
                               onValueChange={(val) => setUserRating(val[0])}
-                              max={5}
-                              min={1}
-                              step={1}
+                              max={5} min={1} step={1}
                             />
                           </div>
                         </div>
 
                         <div className="space-y-2">
                           <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ton avis global</Label>
-                          <Textarea 
-                            placeholder="Qu'as-tu pensé de cet exercice ?" 
+                          <Textarea
+                            placeholder="Qu'as-tu pensé de cet exercice ?"
                             value={userFeedback}
                             onChange={(e) => setUserFeedback(e.target.value)}
                             className="bg-card/30 border-border/40 rounded-xl"
@@ -233,8 +294,8 @@ export function MissionsList({
 
                         <div className="space-y-2">
                           <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Suggestions d'amélioration</Label>
-                          <Input 
-                            placeholder="Comment rendre cette mission plus intéressante ?" 
+                          <Input
+                            placeholder="Comment rendre cette mission plus intéressante ?"
                             value={improvementSuggestions}
                             onChange={(e) => setImprovementSuggestions(e.target.value)}
                             className="bg-card/30 border-border/40 h-12 rounded-xl"

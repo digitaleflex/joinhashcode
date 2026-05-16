@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(git *)",
+      "Bash(npx prisma *)",
+      "Bash(node *)",
+      "Bash(ls *)",
+      "Bash(dir *)"
+    ],
+    "deny": [
+      "Bash(npx prisma db push --force-reset *)",
+      "Bash(npx prisma migrate reset *)",
+      "Bash(npx prisma db seed *)"
+    ]
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  }
+}
