@@ -6,6 +6,7 @@ import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 
 export const metadata = {
   title: "Profilage — HASHCODE",
@@ -20,6 +21,20 @@ export default async function QuizPage() {
   if (!session) {
     redirect("/signin")
   }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      pseudo: true,
+      name: true,
+      memberNumber: true,
+      class: true,
+      level: true,
+      experience: true,
+      createdAt: true,
+    },
+  })
 
   return (
     <main className="min-h-screen bg-background flex flex-col">
@@ -42,7 +57,7 @@ export default async function QuizPage() {
               Réponds sincèrement pour obtenir le profilage le plus précis possible.
             </p>
           </div>
-          <Quiz />
+          <Quiz user={user ?? undefined} />
         </div>
       </div>
       <Footer />

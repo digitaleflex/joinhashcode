@@ -23,6 +23,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { BottomNav } from "@/components/dashboard/bottom-nav";
 import { Button } from "@/components/ui/button";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
+import { MemberCard } from "@/components/ui/member-card";
 
 export default async function DossierPage() {
   const session = await auth.api.getSession({
@@ -225,6 +226,22 @@ export default async function DossierPage() {
                 <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11">
                   <Link href="/settings">Mettre à jour le dossier</Link>
                 </Button>
+              </div>
+
+              {/* Carte membre */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+                  Carte de Membre
+                </p>
+                <MemberCard
+                  userId={user.id}
+                  pseudo={user.pseudo ?? user.name}
+                  memberNumber={user.memberNumber}
+                  userClass={user.class}
+                  level={user.level}
+                  experience={user.experience}
+                  createdAt={user.createdAt}
+                />
               </div>
             </div>
           </div>

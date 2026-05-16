@@ -5,8 +5,10 @@ export interface AnalysisResult {
   percentages: Record<ProfileType, number>;
   primary: ProfileType;
   secondary: ProfileType;
+  isHybrid: boolean;          // true when primary/secondary gap < 15%
+  hybridLabel: string;        // e.g. "Builder × Stratège"
   level: number;
-  consistencyScore: number; // 0 to 1, how polarized the profile is
+  consistencyScore: number;   // 0–1, how polarized the profile is
   suggestedChannels: {
     name: string;
     description: string;
@@ -16,6 +18,14 @@ export interface AnalysisResult {
 }
 
 import { questions } from "./questions";
+
+// Class display labels
+const CLASS_LABELS: Record<ProfileType, string> = {
+  builder:    "Builder",
+  creator:    "Créateur",
+  strategist: "Stratège",
+  catalyst:   "Catalyseur",
+};
 
 export const analyzeQuizResults = (answers: string[], responseTimes: number[] = []): AnalysisResult => {
   const counts: Record<ProfileType, number> = {
@@ -34,14 +44,13 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
 
   let totalWeight = 0;
 
-  // Process all 13 questions (behavioral, scenario, crisis)
   answers.forEach((ans, idx) => {
     const question = questions[idx];
     if (!question) return;
 
     const profile = ans as ProfileType;
     const selectedOption = question.options.find(opt => opt.value === profile);
-    
+
     if (selectedOption && profile in counts) {
       const weight = selectedOption.score || question.weight || 1;
       counts[profile] += weight;
@@ -50,39 +59,58 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     }
   });
 
-  // Calculate percentages based on weighted scores
-  const percentages = {
-    builder: Math.round((counts.builder / totalWeight) * 100),
-    creator: Math.round((counts.creator / totalWeight) * 100),
+  // Guard: no answers recorded
+  if (totalWeight === 0) {
+    return {
+      scores: counts,
+      percentages: { builder: 25, creator: 25, strategist: 25, catalyst: 25 },
+      primary: "builder",
+      secondary: "strategist",
+      isHybrid: true,
+      hybridLabel: "Profil non déterminé",
+      level: 1,
+      consistencyScore: 0,
+      suggestedChannels: [],
+    };
+  }
+
+  const percentages: Record<ProfileType, number> = {
+    builder:    Math.round((counts.builder    / totalWeight) * 100),
+    creator:    Math.round((counts.creator    / totalWeight) * 100),
     strategist: Math.round((counts.strategist / totalWeight) * 100),
-    catalyst: Math.round((counts.catalyst / totalWeight) * 100),
+    catalyst:   Math.round((counts.catalyst   / totalWeight) * 100),
   };
 
-  // Sort profiles by weighted score
+  // Sort by weighted score, tie-break by average response time (secondary signal only)
   const sortedProfiles = (Object.keys(counts) as ProfileType[]).sort((a, b) => {
-    if (counts[b] !== counts[a]) {
-      return counts[b] - counts[a];
-    }
-    // Tie-breaker: Lower average response time
-    const avgA = counts[a] > 0 ? timeSum[a] / (counts[a] || 1) : Infinity;
-    const avgB = counts[b] > 0 ? timeSum[b] / (counts[b] || 1) : Infinity;
+    if (counts[b] !== counts[a]) return counts[b] - counts[a];
+    const avgA = counts[a] > 0 ? timeSum[a] / counts[a] : Infinity;
+    const avgB = counts[b] > 0 ? timeSum[b] / counts[b] : Infinity;
     return avgA - avgB;
   });
 
   const primary = sortedProfiles[0];
   const secondary = sortedProfiles[1];
 
-  // Mathematical Consistency / Polarization Score (Weighted)
-  const mean = totalWeight / 4;
-  const variance = Object.values(counts).reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / 4;
-  const stdDev = Math.sqrt(variance);
-  
-  // Max standard deviation is when one class has all the weight
-  const maxPossibleStdDev = Math.sqrt(Math.pow(totalWeight - mean, 2) + 3 * Math.pow(0 - mean, 2)) / 2;
-  const consistencyScore = stdDev / maxPossibleStdDev;
+  // Hybrid detection: gap between primary and secondary < 15 percentage points
+  const gap = percentages[primary] - percentages[secondary];
+  const isHybrid = gap < 15;
+  const hybridLabel = isHybrid
+    ? `${CLASS_LABELS[primary]} × ${CLASS_LABELS[secondary]}`
+    : CLASS_LABELS[primary];
 
-  // Level is now typically handled via onboarding or calculated from specific weights
-  // For now, we'll keep a placeholder or base it on "CORE" level
+  // Polarization score — fixed formula (population std dev, normalized)
+  // Max std dev occurs when one profile captures all weight, others = 0
+  // mean = totalWeight / 4
+  // maxVariance = ((totalWeight - mean)^2 + 3 * (0 - mean)^2) / 4
+  const mean = totalWeight / 4;
+  const variance =
+    Object.values(counts).reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / 4;
+  const stdDev = Math.sqrt(variance);
+  const maxVariance = (Math.pow(totalWeight - mean, 2) + 3 * Math.pow(mean, 2)) / 4;
+  const maxStdDev = Math.sqrt(maxVariance);
+  const consistencyScore = maxStdDev > 0 ? stdDev / maxStdDev : 0;
+
   const level = 1;
 
   const channelMap: Record<ProfileType, any[]> = {
@@ -104,13 +132,20 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     ]
   };
 
+  // For hybrids, surface one channel from each dominant profile
+  const channels = isHybrid
+    ? [channelMap[primary][0], channelMap[secondary][0], channelMap[primary][1]]
+    : [...channelMap[primary], channelMap[secondary][0]];
+
   return {
     scores: counts,
     percentages,
     primary,
     secondary,
+    isHybrid,
+    hybridLabel,
     level,
     consistencyScore,
-    suggestedChannels: [...channelMap[primary], channelMap[secondary][0]],
+    suggestedChannels: channels,
   };
 };

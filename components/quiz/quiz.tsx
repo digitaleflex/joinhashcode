@@ -5,16 +5,29 @@ import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { analyzeQuizResults, type AnalysisResult } from "@/lib/analysis"
-import { 
-  TrendingUp, Terminal, Palette, Users, Award, 
-  Map, Video, GitBranch, ChevronRight, ChevronLeft, 
-  CheckCircle2, Timer, Loader2 
+import {
+  TrendingUp, Terminal, Palette, Users, Award,
+  Map, Video, GitBranch, ChevronRight, ChevronLeft,
+  CheckCircle2, Timer, Loader2
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect } from "react"
 import { ScrambleText } from "@/components/ui/scramble-text"
+import { MemberCard } from "@/components/ui/member-card"
 
-export function Quiz() {
+interface QuizUser {
+  id: string;
+  pseudo: string | null;
+  name: string;
+  memberNumber: number | null;
+  class: string | null;
+  level: number;
+  experience: number;
+  createdAt: Date | string;
+}
+
+export function Quiz({ user }: { user?: QuizUser }) {
+  const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [responseTimes, setResponseTimes] = useState<number[]>([])
@@ -93,6 +106,74 @@ export function Quiz() {
     }
   }
 
+  if (!isStarted) {
+    return (
+      <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in duration-500">
+        <div className="rounded-2xl border border-border/60 bg-card/30 backdrop-blur-sm p-8 space-y-8">
+          {/* Header */}
+          <div className="space-y-2">
+            <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Avant de commencer</p>
+            <h2 className="text-2xl font-semibold tracking-tight">Ce que ce quiz n'est pas</h2>
+          </div>
+
+          {/* Points */}
+          <div className="space-y-5">
+            <div className="flex gap-4">
+              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-primary">1</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white mb-1">Pas un test de personnalité définitif</p>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Il n'existe pas de "bon" ou "mauvais" profil ici. Ces résultats sont une <span className="text-zinc-400">hypothèse de départ</span> basée sur tes tendances naturelles actuelles — pas une vérité immuable sur qui tu es.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-primary">2</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white mb-1">Ton profil évoluera avec tes actions</p>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  La manière dont tu complètes des missions, interagis avec la communauté et progresses a bien plus de poids que ces 13 questions. Le quiz est un point de départ, pas une destination.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-primary">3</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white mb-1">Un outil de recommandation, pas une étiquette</p>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Le seul objectif de ce profilage est de t'orienter vers les missions, canaux et ressources les plus pertinents pour toi aujourd'hui. Beaucoup de membres ont un profil hybride — c'est la norme, pas l'exception.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Instruction */}
+          <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+            <p className="text-xs text-zinc-400 leading-relaxed text-center">
+              Réponds instinctivement, sans chercher à optimiser. La première réponse qui te vient est presque toujours la plus juste.
+            </p>
+          </div>
+
+          <Button
+            onClick={() => setIsStarted(true)}
+            size="lg"
+            className="w-full h-14 rounded-xl btn-primary-glow text-base font-semibold gap-2"
+          >
+            Commencer le profilage <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
   if (isAnalyzing) {
     return (
       <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
@@ -115,29 +196,33 @@ export function Quiz() {
 
   if (isFinished) {
     const analysis = analyzeQuizResults(Object.values(answers), responseTimes);
-    
-    const profiles: Record<string, { title: string; desc: string; color: string }> = {
+
+    const profiles: Record<string, { title: string; desc: string; hybridDesc: string; color: string }> = {
       builder: {
-        title: "Le Builder",
-        desc: "Tu es l'architecte du futur. Ton obsession pour la technique et la résolution de problèmes fait de toi le pilier indispensable de toute innovation.",
-        color: "text-blue-500",
+        title: "Builder",
+        desc: "Tes arbitrages révèlent une tendance forte à passer à l'action et à construire concrètement. Tu t'épanouis quand tu transformes une idée en quelque chose qui fonctionne réellement.",
+        hybridDesc: "Tes arbitrages montrent une double tendance : construire concrètement ET raisonner en système. Cette combinaison est rare et puissante.",
+        color: "text-[#B8FF3B]",
       },
       creator: {
-        title: "Le Créateur",
-        desc: "Tu es l'âme visuelle. Ta capacité à transformer une idée abstraite en une expérience esthétique et émotionnelle est ton plus grand pouvoir.",
-        color: "text-purple-500",
+        title: "Créateur",
+        desc: "Tes arbitrages révèlent une tendance forte à penser par l'expérience et l'esthétique. Tu cherches naturellement ce qui n'existe pas encore et tu le donnes vie.",
+        hybridDesc: "Tes arbitrages montrent une double tendance : imaginer des expériences nouvelles ET les ancrer dans la réalité. C'est le profil des makers qui durent.",
+        color: "text-[#A855F7]",
       },
       strategist: {
-        title: "Le Stratège",
-        desc: "Tu es le cerveau derrière la croissance. Ton analyse froide et ta vision à long terme permettent de transformer des projets en empires.",
-        color: "text-emerald-500",
+        title: "Stratège",
+        desc: "Tes arbitrages révèlent une tendance forte à analyser avant d'agir et à voir les systèmes derrière les événements. Tu construis pour durer, pas pour l'immédiat.",
+        hybridDesc: "Tes arbitrages montrent une double tendance : structurer en profondeur ET mobiliser les gens autour de cette vision. C'est un profil de leadership naturel.",
+        color: "text-[#22D3EE]",
       },
       catalyst: {
-        title: "Le Catalyseur",
-        desc: "Tu es le lien qui unit. Ta force réside dans ton réseau et ta capacité à mobiliser l'intelligence collective pour atteindre des sommets.",
-        color: "text-orange-500",
+        title: "Catalyseur",
+        desc: "Tes arbitrages révèlent une tendance forte à amplifier ce qui existe autour de toi — les gens, les idées, les projets. Tu crées de la dynamique là où elle manque.",
+        hybridDesc: "Tes arbitrages montrent une double tendance : fédérer les personnes ET créer des expériences qui les marquent. C'est le profil des community builders visionnaires.",
+        color: "text-[#F97316]",
       },
-    }
+    };
 
     const myProfile = profiles[analysis.primary] || profiles.builder;
 
@@ -162,34 +247,69 @@ export function Quiz() {
             <CheckCircle2 className="h-10 w-10 text-primary" />
           </div>
           <h2 className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            Hypothèse Comportementale Identifiée
+            {analysis.isHybrid ? "Profil Hybride Détecté" : "Tendance Dominante Identifiée"}
           </h2>
           <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight mb-6">
-            Tendance : <span className={myProfile.color}>{myProfile.title}</span>
+            <span className={myProfile.color}>{analysis.hybridLabel}</span>
           </h1>
-          <p className="text-zinc-400 max-w-2xl text-lg leading-relaxed mb-8">
-            Basé sur tes arbitrages et ta vitesse de réaction, nous avons détecté une dominance <strong>{myProfile.title}</strong>. 
-            C'est une base de départ qui évoluera avec tes missions réelles.
+          <p className="text-zinc-400 max-w-2xl text-lg leading-relaxed mb-4">
+            {analysis.isHybrid ? myProfile.hybridDesc : myProfile.desc}
+          </p>
+          <p className="text-zinc-600 max-w-xl text-sm leading-relaxed mb-8">
+            Ce résultat est une <strong className="text-zinc-500">hypothèse de départ</strong>, pas une étiquette permanente.
+            Il évoluera au fil de tes missions réelles dans HASHCODE.
           </p>
 
           {/* Scores Breakdown */}
           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {(Object.entries(analysis.percentages) as [any, number][]).map(([type, percent]) => (
-              <div key={type} className="p-4 rounded-2xl border border-border bg-card/30 backdrop-blur">
-                <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2">{type}</div>
-                <div className="text-2xl font-semibold">{percent}%</div>
-                <div className="mt-2 h-1 w-full bg-border rounded-full overflow-hidden">
-                  <div className={`h-full bg-primary transition-all duration-1000`} style={{ width: `${percent}%` }} />
+            {(Object.entries(analysis.percentages) as [any, number][]).map(([type, percent]) => {
+              const isPrimary = type === analysis.primary;
+              const isSecondary = type === analysis.secondary;
+              return (
+                <div key={type} className={`p-4 rounded-2xl border bg-card/30 backdrop-blur transition-all ${isPrimary ? "border-primary/40 bg-primary/5" : isSecondary && analysis.isHybrid ? "border-zinc-600/40" : "border-border"}`}>
+                  <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
+                    {type}
+                    {isPrimary && <span className="text-[8px] text-primary">●</span>}
+                    {isSecondary && analysis.isHybrid && <span className="text-[8px] text-zinc-500">●</span>}
+                  </div>
+                  <div className={`text-2xl font-semibold ${isPrimary ? "text-primary" : ""}`}>{percent}%</div>
+                  <div className="mt-2 h-1 w-full bg-border rounded-full overflow-hidden">
+                    <div className={`h-full transition-all duration-1000 ${isPrimary ? "bg-primary" : "bg-zinc-600"}`} style={{ width: `${percent}%` }} />
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 mb-12">
-            <TrendingUp className="h-4 w-4 text-primary" />
-            <span className="text-xs font-medium">Score de polarisation mathématique : {Math.round(analysis.consistencyScore * 100)}%</span>
-          </div>
+          {analysis.consistencyScore > 0 && (
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 mb-12">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="text-xs font-medium">
+                {analysis.isHybrid
+                  ? `Profil équilibré — tendances proches (${Math.round(analysis.consistencyScore * 100)}% de polarisation)`
+                  : `Profil polarisé — tendance claire (${Math.round(analysis.consistencyScore * 100)}% de cohérence)`}
+              </span>
+            </div>
+          )}
         </div>
+
+        {/* Member Card */}
+        {user && (
+          <div className="mb-12 max-w-xl mx-auto animate-in fade-in zoom-in duration-700 delay-300">
+            <p className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground text-center mb-6">
+              Ta carte membre
+            </p>
+            <MemberCard
+              userId={user.id}
+              pseudo={user.pseudo ?? user.name}
+              memberNumber={user.memberNumber}
+              userClass={user.class}
+              level={user.level}
+              experience={user.experience}
+              createdAt={user.createdAt}
+            />
+          </div>
+        )}
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Channels Redirection */}
