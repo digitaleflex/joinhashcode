@@ -57,7 +57,7 @@ export default async function DossierPage() {
       <SidebarInset className="bg-background">
         <UserTopBar user={user} />
         
-        <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
+        <main className="flex-1 p-4 md:p-8 pb-[var(--bottom-nav-height)] md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-5xl mx-auto space-y-8">
           {/* Header Dossier */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">
@@ -83,7 +83,7 @@ export default async function DossierPage() {
             {/* Left Column: Personality & Quiz Results */}
             <div className="lg:col-span-2 space-y-8">
               {/* Personality Card */}
-              <Card className="border-primary/20 bg-card/30 backdrop-blur-sm overflow-hidden relative group">
+              <Card className="border-primary/20 bg-card overflow-hidden relative group">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Brain className="w-32 h-32" />
                 </div>
@@ -123,7 +123,7 @@ export default async function DossierPage() {
               </Card>
 
               {/* Tech Stack Card */}
-              <Card className="border-border/60 bg-card/30 backdrop-blur-sm">
+              <Card className="border-border/60 bg-card">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-white">
                     <Zap className="w-5 h-5 text-primary" />
@@ -161,7 +161,7 @@ export default async function DossierPage() {
 
             {/* Right Column: Identity & Metadata */}
             <div className="space-y-8">
-              <Card className="border-border/60 bg-card/30 backdrop-blur-sm">
+              <Card className="border-border/60 bg-card">
                 <CardHeader>
                   <CardTitle className="text-sm font-mono uppercase text-white">Statut Personnel</CardTitle>
                 </CardHeader>
@@ -184,7 +184,7 @@ export default async function DossierPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-border/60 bg-card/30 backdrop-blur-sm">
+              <Card className="border-border/60 bg-card">
                 <CardHeader>
                   <CardTitle className="text-sm font-mono uppercase text-white">Canaux Externes</CardTitle>
                 </CardHeader>

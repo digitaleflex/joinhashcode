@@ -4,11 +4,11 @@ import { useState } from "react"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { analyzeQuizResults, type AnalysisResult } from "@/lib/analysis"
+import type { AnalysisResult } from "@/lib/analysis"
 import {
   TrendingUp, Terminal, Palette, Users, Award,
   Map, Video, GitBranch, ChevronRight, ChevronLeft,
-  CheckCircle2, Timer, Loader2
+  CheckCircle2, Loader2
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect } from "react"
@@ -26,6 +26,8 @@ interface QuizUser {
   createdAt: Date | string;
 }
 
+const QUIZ_STORAGE_KEY = "hc_quiz_progress";
+
 export function Quiz({ user }: { user?: QuizUser }) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
@@ -35,16 +37,24 @@ export function Quiz({ user }: { user?: QuizUser }) {
   const [isFinished, setIsFinished] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [currentTimeMs, setCurrentTimeMs] = useState(0)
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
+  const [hasResumable, setHasResumable] = useState(false)
 
+  // Restore saved progress on mount
   useEffect(() => {
-    if (isFinished || isAnalyzing) return;
-    const interval = setInterval(() => {
-      setCurrentTimeMs(Date.now() - startTime);
-    }, 50);
-    return () => clearInterval(interval);
-  }, [startTime, isFinished, isAnalyzing]);
-
+    try {
+      const saved = localStorage.getItem(QUIZ_STORAGE_KEY)
+      if (saved) {
+        const { step, answers: savedAnswers, times } = JSON.parse(saved)
+        if (step > 0 && savedAnswers) {
+          setCurrentStep(step)
+          setAnswers(savedAnswers)
+          setResponseTimes(times || [])
+          setHasResumable(true)
+        }
+      }
+    } catch { /* corrupt storage — ignore */ }
+  }, [])
   const progress = ((currentStep + 1) / questions.length) * 100
 
   const handleAnswer = async (value: string) => {
@@ -58,43 +68,39 @@ export function Quiz({ user }: { user?: QuizUser }) {
     setResponseTimes(newTimes)
 
     if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1)
+      const nextStep = currentStep + 1
+      // Persist progress so a refresh doesn't lose answers
+      try {
+        localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify({ step: nextStep, answers: newAnswers, times: newTimes }))
+      } catch { /* storage full — continue silently */ }
+      setCurrentStep(nextStep)
       setStartTime(Date.now())
     } else {
       setIsAnalyzing(true)
       setIsSaving(true)
+      const sortedAnswers = questions.map(q => newAnswers[q.id]);
+      // Min display time for the analyzing animation (UX)
+      const minDelay = new Promise(res => setTimeout(res, 800));
       try {
-        const sortedAnswers = questions.map(q => newAnswers[q.id]);
-        const analysis = analyzeQuizResults(sortedAnswers, newTimes)
-        await fetch('/api/quiz', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            profileType: analysis.primary,
-            level: analysis.level,
-            scores: analysis.scores,
-            consistencyScore: analysis.consistencyScore,
-            totalTime: newTimes.reduce((a, b) => a + b, 1),
-            answers: newAnswers,
-            responseTimes: newTimes,
-            averageResponseTime: Math.round(newTimes.reduce((a, b) => a + b, 0) / newTimes.length)
-          })
-        })
-        
-        // Artificial delay for UI WOW effect
-        setTimeout(() => {
-          setIsAnalyzing(false)
-          setIsFinished(true)
-        }, 2500)
-        
+        const [res] = await Promise.all([
+          fetch('/api/quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answers: sortedAnswers, responseTimes: newTimes }),
+          }),
+          minDelay,
+        ]);
+        if (res.ok) {
+          const data = await res.json();
+          setAnalysisResult(data.analysis);
+        }
       } catch (error) {
         console.error("Failed to save results:", error)
-        setTimeout(() => {
-          setIsAnalyzing(false)
-          setIsFinished(true)
-        }, 1500)
       } finally {
         setIsSaving(false)
+        setIsAnalyzing(false)
+        setIsFinished(true)
+        try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
       }
     }
   }
@@ -162,12 +168,41 @@ export function Quiz({ user }: { user?: QuizUser }) {
             </p>
           </div>
 
+          {hasResumable && (
+            <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-medium text-white">Progression sauvegardée</p>
+                <p className="text-[10px] text-zinc-500">Tu avais commencé ce quiz — reprends là où tu t'es arrêté.</p>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="shrink-0 border-primary/40 text-primary hover:bg-primary/10 text-xs"
+                onClick={() => {
+                  setHasResumable(false)
+                  setIsStarted(true)
+                }}
+              >
+                Reprendre
+              </Button>
+            </div>
+          )}
           <Button
-            onClick={() => setIsStarted(true)}
+            onClick={() => {
+              if (hasResumable) {
+                // Fresh start — clear saved progress
+                try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
+                setCurrentStep(0)
+                setAnswers({})
+                setResponseTimes([])
+                setHasResumable(false)
+              }
+              setIsStarted(true)
+            }}
             size="lg"
             className="w-full h-14 rounded-xl btn-primary-glow text-base font-semibold gap-2"
           >
-            Commencer le profilage <ChevronRight className="h-5 w-5" />
+            {hasResumable ? "Recommencer à zéro" : "Commencer le profilage"} <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
       </div>
@@ -195,7 +230,8 @@ export function Quiz({ user }: { user?: QuizUser }) {
   }
 
   if (isFinished) {
-    const analysis = analyzeQuizResults(Object.values(answers), responseTimes);
+    if (!analysisResult) return null;
+    const analysis = analysisResult;
 
     const profiles: Record<string, { title: string; desc: string; hybridDesc: string; color: string }> = {
       builder: {
@@ -262,11 +298,15 @@ export function Quiz({ user }: { user?: QuizUser }) {
 
           {/* Scores Breakdown */}
           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {(Object.entries(analysis.percentages) as [any, number][]).map(([type, percent]) => {
+            {(Object.entries(analysis.percentages) as [any, number][]).map(([type, percent], idx) => {
               const isPrimary = type === analysis.primary;
               const isSecondary = type === analysis.secondary;
               return (
-                <div key={type} className={`p-4 rounded-2xl border bg-card/30 backdrop-blur transition-all ${isPrimary ? "border-primary/40 bg-primary/5" : isSecondary && analysis.isHybrid ? "border-zinc-600/40" : "border-border"}`}>
+                <div
+                  key={type}
+                  className={`p-4 rounded-2xl border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-500 ${isPrimary ? "border-primary/40 bg-primary/5" : isSecondary && analysis.isHybrid ? "border-zinc-600/40" : "border-border"}`}
+                  style={{ animationDelay: `${idx * 120}ms`, animationFillMode: "both" }}
+                >
                   <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
                     {type}
                     {isPrimary && <span className="text-[8px] text-primary">●</span>}
@@ -373,13 +413,7 @@ export function Quiz({ user }: { user?: QuizUser }) {
               Question {currentStep + 1} sur {questions.length}
             </span>
           </div>
-          <div className="flex items-center gap-4 text-xs font-mono">
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-muted/50 text-muted-foreground border border-border/50">
-              <Timer className="w-3.5 h-3.5" />
-              {(currentTimeMs / 1000).toFixed(1)}s
-            </div>
-            <span className="text-muted-foreground">{Math.round(progress)}%</span>
-          </div>
+          <span className="text-xs font-mono text-muted-foreground">{Math.round(progress)}%</span>
         </div>
         <Progress value={progress} className="h-1.5" />
       </div>

@@ -34,6 +34,7 @@
   --ring: oklch(0.91 0.22 124);
 
   --radius: 0.75rem;
+  --bottom-nav-height: 5rem;
 }
 
 .dark {

@@ -44,7 +44,7 @@ export default async function MissionsPage() {
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />
         
-        <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
+        <main className="flex-1 p-4 md:p-8 pb-[var(--bottom-nav-height)] md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-6xl mx-auto">
           <Link 
             href="/dashboard" 
@@ -59,7 +59,7 @@ export default async function MissionsPage() {
             <h1 className="text-4xl font-bold tracking-tight">Missions & Évolution</h1>
           </div>
           
-          <div className="mb-12 p-6 rounded-2xl border border-border/50 bg-card/30 backdrop-blur">
+          <div className="mb-12 p-6 rounded-2xl border border-border/50 bg-card">
             <div className="flex justify-between items-end mb-2">
                <div className="text-sm font-mono text-muted-foreground uppercase">Expérience Globale</div>
                <div className="text-xl font-bold text-primary">{dbUser.experience} XP</div>

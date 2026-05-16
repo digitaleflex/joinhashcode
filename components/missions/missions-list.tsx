@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Award, Target, CheckCircle2, Lock, ArrowRight, Loader2, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -264,21 +263,44 @@ export function MissionsList({
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-3">
-                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Difficulté ({userDifficulty}/5)</Label>
-                            <Slider
-                              value={[userDifficulty]}
-                              onValueChange={(val) => setUserDifficulty(val[0])}
-                              max={5} min={1} step={1}
-                            />
+                          <div className="space-y-2">
+                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Difficulté</Label>
+                            <div className="flex gap-1">
+                              {[
+                                { val: 1, label: "Facile" },
+                                { val: 2, label: "Moyen" },
+                                { val: 3, label: "Dur" },
+                                { val: 4, label: "Très dur" },
+                                { val: 5, label: "Extrême" },
+                              ].map(({ val, label }) => (
+                                <button
+                                  key={val}
+                                  type="button"
+                                  title={label}
+                                  onClick={() => setUserDifficulty(val)}
+                                  className={`flex-1 h-8 rounded-lg text-xs font-mono border transition-all ${userDifficulty === val ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:border-primary/50"}`}
+                                >
+                                  {val}
+                                </button>
+                              ))}
+                            </div>
+                            <p className="text-[10px] text-muted-foreground">{["", "Facile", "Moyen", "Difficile", "Très dur", "Extrême"][userDifficulty]}</p>
                           </div>
-                          <div className="space-y-3">
-                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Note Mission ({userRating}/5)</Label>
-                            <Slider
-                              value={[userRating]}
-                              onValueChange={(val) => setUserRating(val[0])}
-                              max={5} min={1} step={1}
-                            />
+                          <div className="space-y-2">
+                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Note mission</Label>
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((val) => (
+                                <button
+                                  key={val}
+                                  type="button"
+                                  onClick={() => setUserRating(val)}
+                                  className={`flex-1 h-8 rounded-lg text-sm border transition-all ${userRating >= val ? "bg-primary/10 border-primary/40 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}
+                                >
+                                  ★
+                                </button>
+                              ))}
+                            </div>
+                            <p className="text-[10px] text-muted-foreground">{["", "Mauvais", "Passable", "Bien", "Très bien", "Excellent"][userRating]}</p>
                           </div>
                         </div>
 
