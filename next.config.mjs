@@ -7,15 +7,16 @@ const nextConfig = {
     unoptimized: true,
   },
   async redirects() {
-    const canonicalUrl = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
-    const canonicalHost = new URL(canonicalUrl).host;
-    const wwwHost = canonicalHost.startsWith("www.") ? canonicalHost : `www.${canonicalHost}`;
+    const raw = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
+    const parsed = new URL(raw);
+    // Always strip www — canonical is always non-www
+    const nonWwwHost = parsed.host.replace(/^www\./, "");
+    const nonWwwBase = `${parsed.protocol}//${nonWwwHost}`;
     return [
-      // Redirect www → non-www (canonical matches BETTER_AUTH_URL / NEXT_PUBLIC_APP_URL)
       {
         source: "/:path*",
-        has: [{ type: "host", value: wwwHost }],
-        destination: `${canonicalUrl}/:path*`,
+        has: [{ type: "host", value: `www.${nonWwwHost}` }],
+        destination: `${nonWwwBase}/:path*`,
         permanent: true,
       },
     ];

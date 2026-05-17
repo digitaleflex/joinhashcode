@@ -6,13 +6,10 @@ import { MISSIONS, Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Award, Target, CheckCircle2, Lock, ArrowRight, Loader2, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { CheckCircle2, Lock, ArrowRight, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export function MissionsList({ 
   userLevel, 
@@ -26,17 +23,7 @@ export function MissionsList({
   userClass?: string | null;
 }) {
   const router = useRouter();
-  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [step, setStep] = useState(1); // 1: URL, 2: Feedback
-
-  // Form State
-  const [content, setContent] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
-  const [userDifficulty, setUserDifficulty] = useState(3);
-  const [userRating, setUserRating] = useState(5);
-  const [userFeedback, setUserFeedback] = useState("");
-  const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
   // Social Mission State
   const [socialClicks, setSocialClicks] = useState<Record<string, boolean>>({
@@ -52,10 +39,6 @@ export function MissionsList({
       setSocialClicks({ telegram: true, discord: true, whatsapp: true });
     }
   }, [submissions]);
-
-  // Ancrage mission fields
-  const [ancrageProjet, setAncrageProjet] = useState("");
-  const [ancrageObjectif, setAncrageObjectif] = useState("");
 
   const handleSocialClick = async (platform: string) => {
     // If already completed or pending, don't do anything
@@ -118,71 +101,6 @@ export function MissionsList({
     const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (userClass && m.targetProfiles.includes(userClass.toLowerCase() as any));
     return isLevelLocked && isClassMatch;
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedMission) return;
-
-    const isAncrage = selectedMission.type === "INTRO";
-
-    if (isAncrage) {
-      if (!ancrageProjet.trim() || !ancrageObjectif.trim()) return;
-    } else {
-      if (!content.trim()) return;
-      if (step === 1) { setStep(2); return; }
-    }
-
-    setIsSubmitting(true);
-    try {
-      const submissionContent = isAncrage
-        ? `Projet : ${ancrageProjet}\n\nObjectif 3 mois : ${ancrageObjectif}`
-        : content;
-
-      const res = await fetch('/api/missions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          missionId: selectedMission.id,
-          content: submissionContent,
-          projectDescription: isAncrage ? ancrageObjectif : projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions
-        })
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-
-      const data = await res.json();
-      toast.success("Mission accomplie !");
-      track("mission_completed", { missionId: selectedMission.id, leveledUp: !!data.leveledUp });
-
-      if (data.leveledUp) {
-        toast.success(`Niveau ${data.newLevel} débloqué ! Félicitations.`);
-      }
-
-      resetForm();
-      router.refresh();
-    } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la soumission");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const resetForm = () => {
-    setSelectedMission(null);
-    setContent("");
-    setProjectDescription("");
-    setUserDifficulty(3);
-    setUserRating(5);
-    setUserFeedback("");
-    setImprovementSuggestions("");
-    setAncrageProjet("");
-    setAncrageObjectif("");
-    setStep(1);
-  };
 
   const renderMission = (mission: Mission, isLocked: boolean) => {
     const status = submissions[mission.id];
@@ -285,175 +203,12 @@ export function MissionsList({
             )}
 
             {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
-              <Dialog
-                open={selectedMission?.id === mission.id}
-                onOpenChange={(open) => {
-                  if (!open) resetForm();
-                  if (open) setSelectedMission(mission);
-                }}
-              >
-                <DialogTrigger asChild>
-                  <Button className="btn-primary-glow w-full gap-2">
-                    {mission.type === "INTRO" ? "Me présenter" : "Démarrer la validation"}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-lg bg-background/95 backdrop-blur-xl border-border/40 max-h-[90vh] overflow-y-auto custom-scrollbar">
-                  <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                      {step === 2 && mission.type !== "INTRO" && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 rounded-full"
-                          onClick={() => setStep(1)}
-                        >
-                          <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                      )}
-                      {mission.type === "INTRO"
-                        ? "Ton ancrage dans HASHCODE"
-                        : step === 1 ? `Validation : ${mission.title}` : "Rétrospection du projet"}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {mission.type === "INTRO"
-                        ? "Deux phrases suffisent. Sois direct, sois toi."
-                        : step === 1
-                          ? "Soumet ton lien de projet pour prouver tes compétences."
-                          : "Partage ton expérience sur cette mission pour aider la communauté."}
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <form onSubmit={handleSubmit} className="space-y-6 pt-4">
-                    {mission.type === "INTRO" ? (
-                      <div className="space-y-5 animate-in fade-in duration-300">
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ce que tu construis</Label>
-                          <Textarea
-                            placeholder="Ex : Une plateforme SaaS pour freelances, une app mobile de fitness, un studio créatif..."
-                            value={ancrageProjet}
-                            onChange={(e) => setAncrageProjet(e.target.value)}
-                            className="bg-card/30 border-border/40 rounded-xl min-h-[90px]"
-                            required
-                            autoFocus
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ton objectif dans 3 mois</Label>
-                          <Textarea
-                            placeholder="Ex : Avoir mes 10 premiers clients, sortir la v1 en public, maîtriser React..."
-                            value={ancrageObjectif}
-                            onChange={(e) => setAncrageObjectif(e.target.value)}
-                            className="bg-card/30 border-border/40 rounded-xl min-h-[90px]"
-                            required
-                          />
-                        </div>
-                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow" disabled={isSubmitting}>
-                          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Star className="h-4 w-4 mr-2" />}
-                          Ancrer mon profil (+{mission.xpReward} XP)
-                        </Button>
-                      </div>
-                    ) : step === 1 ? (
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Lien du projet</Label>
-                          <Input
-                            placeholder="https://github.com/ton-profil/projet"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            className="bg-card/30 border-border/40 h-12 rounded-xl"
-                            required
-                            autoFocus
-                          />
-                        </div>
-                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow">
-                          Suivant : Feedback <ChevronRight className="h-4 w-4 ml-2" />
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Explique ton projet (Brief)</Label>
-                          <Textarea
-                            placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisé ?"
-                            value={projectDescription}
-                            onChange={(e) => setProjectDescription(e.target.value)}
-                            className="bg-card/30 border-border/40 rounded-xl min-h-[100px]"
-                            required
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Difficulté</Label>
-                            <div className="flex gap-1">
-                              {[
-                                { val: 1, label: "Facile" },
-                                { val: 2, label: "Moyen" },
-                                { val: 3, label: "Dur" },
-                                { val: 4, label: "Très dur" },
-                                { val: 5, label: "Extrême" },
-                              ].map(({ val, label }) => (
-                                <button
-                                  key={val}
-                                  type="button"
-                                  title={label}
-                                  onClick={() => setUserDifficulty(val)}
-                                  className={`flex-1 h-8 rounded-lg text-xs font-mono border transition-all ${userDifficulty === val ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:border-primary/50"}`}
-                                >
-                                  {val}
-                                </button>
-                              ))}
-                            </div>
-                            <p className="text-[10px] text-muted-foreground">{["", "Facile", "Moyen", "Difficile", "Très dur", "Extrême"][userDifficulty]}</p>
-                          </div>
-                          <div className="space-y-2">
-                            <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Note mission</Label>
-                            <div className="flex gap-1">
-                              {[1, 2, 3, 4, 5].map((val) => (
-                                <button
-                                  key={val}
-                                  type="button"
-                                  onClick={() => setUserRating(val)}
-                                  className={`flex-1 h-8 rounded-lg text-sm border transition-all ${userRating >= val ? "bg-primary/10 border-primary/40 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}
-                                >
-                                  ★
-                                </button>
-                              ))}
-                            </div>
-                            <p className="text-[10px] text-muted-foreground">{["", "Mauvais", "Passable", "Bien", "Très bien", "Excellent"][userRating]}</p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Ton avis global</Label>
-                          <Textarea
-                            placeholder="Qu'as-tu pensé de cet exercice ?"
-                            value={userFeedback}
-                            onChange={(e) => setUserFeedback(e.target.value)}
-                            className="bg-card/30 border-border/40 rounded-xl"
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Suggestions d'amélioration</Label>
-                          <Input
-                            placeholder="Comment rendre cette mission plus intéressante ?"
-                            value={improvementSuggestions}
-                            onChange={(e) => setImprovementSuggestions(e.target.value)}
-                            className="bg-card/30 border-border/40 h-12 rounded-xl"
-                          />
-                        </div>
-
-                        <Button type="submit" className="w-full h-12 rounded-xl btn-primary-glow" disabled={isSubmitting}>
-                          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Award className="h-4 w-4 mr-2" />}
-                          Finaliser la soumission (+{mission.xpReward} XP)
-                        </Button>
-                      </div>
-                    )}
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <Button asChild className="btn-primary-glow w-full gap-2">
+                <Link href={`/missions/${mission.id}`}>
+                  {mission.type === "INTRO" ? "Me présenter" : "Démarrer la validation"}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             )}
 
             {isPending && (
