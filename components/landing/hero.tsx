@@ -1,30 +1,42 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
+const PROFILES = [
+  { label: "Builder",    color: "#B8FF3B" },
+  { label: "Créateur",   color: "#A855F7" },
+  { label: "Stratège",   color: "#22D3EE" },
+  { label: "Catalyseur", color: "#F97316" },
+] as const
+
 export function Hero() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex(i => (i + 1) % PROFILES.length)
+    }, 2200)
+    return () => clearInterval(id)
+  }, [])
+
+  const current = PROFILES[index]
+
   return (
-    <section className="relative overflow-hidden border-b border-border/60">
-      {/* Premium Background Image */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
-        aria-hidden="true"
-      >
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 scale-110"
-          style={{ 
-            backgroundImage: "url('/images/hero-bg-v2.png')",
-            filter: "blur(10px)"
-          }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
-        <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_80%)]" />
+    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-border/60">
+      {/* Pure CSS background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute left-1/2 top-0 h-[700px] w-[900px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-primary/7 blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 h-[300px] w-[400px] rounded-full bg-primary/4 blur-[100px]" />
       </div>
 
-      {/* Subtle dot grid background with radial fade */}
+      {/* Dot grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-40 z-10"
+        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-35 z-10"
       />
 
       {/* Top accent line */}
@@ -33,107 +45,177 @@ export function Hero() {
         className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/40 to-transparent z-20"
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 sm:pt-28 lg:px-8 lg:pb-32 lg:pt-36">
+      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          {/* Eyebrow badge */}
 
-          {/* H1 */}
-          <h1 className="mt-8 text-balance text-4xl font-medium tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-            Décode ton potentiel.
+          {/* Eyebrow — fade in */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-sm mb-10"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+              Profilage tech · Ouvert à tous
+            </span>
+          </motion.div>
+
+          {/* H1 — fade in with delay */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05]"
+          >
+            Tu es
             <br />
-            <span className="text-muted-foreground">Intègre ta communauté.</span>
-          </h1>
+            <span className="inline-flex items-center justify-center min-w-[280px] sm:min-w-[400px]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={current.label}
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  style={{ color: current.color }}
+                >
+                  {current.label}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.h1>
 
-          {/* Sub */}
-          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, engagement.
-          </p>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mt-4 text-lg text-zinc-500 font-light"
+          >
+            Ou peut-être autre chose.{" "}
+            <span className="text-zinc-400">3 minutes pour le savoir.</span>
+          </motion.p>
 
           {/* CTAs */}
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+          >
             <Button
               asChild
               size="lg"
-              className="btn-primary-glow group h-12 rounded-xl px-6 text-sm font-bold"
+              className="btn-primary-glow group h-12 rounded-xl px-8 text-sm font-bold"
             >
               <Link href="/quiz">
-                Commencer mon profilage
+                Découvrir mon profil
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-
             <Button
               asChild
               variant="ghost"
               size="lg"
-              className="h-11 rounded-md px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground"
+              className="h-12 rounded-xl px-5 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5"
             >
-              <Link href="#how">Comment ça marche ?</Link>
+              <Link href="/signin">Déjà membre ? Connexion</Link>
             </Button>
-          </div>
+          </motion.div>
 
-          {/* Meta line */}
-          <div className="mt-8 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/70">
+          {/* Meta */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mt-10 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/50"
+          >
+            <span>Gratuit</span>
+            <span className="h-1 w-1 rounded-full bg-border" />
             <span>3 minutes</span>
             <span className="h-1 w-1 rounded-full bg-border" />
-            <span>13 questions</span>
-            <span className="h-1 w-1 rounded-full bg-border" />
-            <span>Gratuit</span>
-          </div>
+            <span>Sans engagement</span>
+          </motion.div>
         </div>
 
-        {/* Visual proof block — terminal-like card */}
-        <div className="mx-auto mt-20 max-w-3xl">
-          <div className="relative rounded-xl border border-border bg-card/80 shadow-2xl shadow-black/40 backdrop-blur">
-            {/* Glow */}
+        {/* Profile result card — delayed entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+          className="mx-auto mt-20 max-w-2xl"
+        >
+          <div className="relative rounded-2xl border border-border bg-card/60 shadow-2xl shadow-black/60 backdrop-blur-md overflow-hidden">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-px rounded-xl bg-linear-to-b from-primary/20 to-transparent opacity-30 blur-sm"
+              className="pointer-events-none absolute -inset-px rounded-2xl bg-linear-to-b from-primary/15 to-transparent opacity-40"
             />
-            {/* Header */}
-            <div className="relative flex items-center gap-2 border-b border-border px-4 py-2.5">
+            {/* Browser bar */}
+            <div className="relative flex items-center gap-2 border-b border-border/60 px-4 py-3">
               <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-border" />
-                <span className="h-2.5 w-2.5 rounded-full bg-border" />
-                <span className="h-2.5 w-2.5 rounded-full bg-border" />
+                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
               </div>
-              <span className="ml-2 font-mono text-[11px] text-muted-foreground">
-                joinhashcode.com/profile
+              <span className="ml-2 font-mono text-[11px] text-muted-foreground/60">
+                joinhashcode.com/dossier
               </span>
             </div>
-            {/* Body */}
-            <div className="relative grid grid-cols-2 gap-4 p-5 sm:grid-cols-4 sm:p-6">
-              <ProfileStat label="Profil" value="BUILDER" mono />
-              <ProfileStat label="Score" value="72/100" mono />
-              <ProfileStat label="Niveau" value="02 [CORE]" mono />
-              <ProfileStat label="Certitude" value="25%" mono />
+            {/* Result */}
+            <div className="relative p-5 sm:p-6 space-y-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">Résultat · Ibrahima S.</p>
+                  <p className="text-2xl font-bold mt-1 font-mono" style={{ color: "#22D3EE" }}>
+                    STRATÈGE
+                  </p>
+                </div>
+                <span
+                  className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-md"
+                  style={{ color: "#22D3EE", background: "#22D3EE15", border: "1px solid #22D3EE30" }}
+                >
+                  CORE
+                </span>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  { label: "Stratège",   pct: 68, color: "#22D3EE" },
+                  { label: "Builder",    pct: 22, color: "#B8FF3B" },
+                  { label: "Catalyseur", pct:  7, color: "#F97316" },
+                  { label: "Créateur",   pct:  3, color: "#A855F7" },
+                ].map((bar, i) => (
+                  <motion.div
+                    key={bar.label}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.7 + i * 0.07 }}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="font-mono text-[10px] text-zinc-500 w-20 shrink-0 uppercase tracking-wider">
+                      {bar.label}
+                    </span>
+                    <div className="flex-1 h-1 rounded-full bg-white/5">
+                      <motion.div
+                        className="h-1 rounded-full"
+                        style={{ background: bar.color, opacity: 0.75 }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${bar.pct}%` }}
+                        transition={{ duration: 0.6, delay: 0.8 + i * 0.07, ease: "easeOut" }}
+                      />
+                    </div>
+                    <span className="font-mono text-[10px] text-zinc-600 w-8 text-right">{bar.pct}%</span>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between">
+                <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Confiance algorithmique</span>
+                <span className="font-mono text-[11px] font-bold" style={{ color: "#22D3EE" }}>91%</span>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
-  )
-}
-
-function ProfileStat({
-  label,
-  value,
-  mono,
-}: {
-  label: string
-  value: string
-  mono?: boolean
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-        {label}
-      </span>
-      <span
-        className={`text-base font-medium text-foreground ${mono ? "font-mono" : ""}`}
-      >
-        {value}
-      </span>
-    </div>
   )
 }

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
+import { analyzeQuizResults } from "@/lib/analysis";
 
 export async function POST(req: Request) {
   try {
@@ -15,51 +16,61 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { profileType, answers, responseTimes, averageResponseTime, level, diagnosticAnswers } = body;
+    const { answers, responseTimes } = body;
+
+    if (!Array.isArray(answers) || answers.length === 0) {
+      return new NextResponse("Invalid answers", { status: 400 });
+    }
+
+    // Algorithm runs server-side only — client sends raw data, never computed scores
+    const analysis = analyzeQuizResults(
+      answers as string[],
+      Array.isArray(responseTimes) ? (responseTimes as number[]) : []
+    );
+
+    const avgResponseTime =
+      responseTimes?.length > 0
+        ? Math.round(responseTimes.reduce((a: number, b: number) => a + b, 0) / responseTimes.length)
+        : 0;
 
     const quizResult = await prisma.quizResult.create({
       data: {
         user: { connect: { id: session.user.id } },
-        profileType,
-        answers,
-        detailedResponseTimes: responseTimes,
-        averageResponseTime,
-        diagnosticAnswers: diagnosticAnswers ?? null,
+        profileType: analysis.primary,
+        answers: Object.fromEntries(answers.map((a: string, i: number) => [i, a])),
+        detailedResponseTimes: responseTimes ?? [],
+        averageResponseTime: avgResponseTime,
       },
     });
 
-    // Update user class/profile and level with psychometric and behavioral data
-    const analysis = body.analysis; // Assuming we pass the full analysis now or recalculate it
-    
     await prisma.user.update({
       where: { id: session.user.id },
-      data: { 
-        class: profileType,
-        level: level || 1,
-        // 6. DONNÉES PSYCHOMÉTRIQUES
-        builderScore: body.scores?.builder || 0,
-        creatorScore: body.scores?.creator || 0,
-        strategistScore: body.scores?.strategist || 0,
-        catalystScore: body.scores?.catalyst || 0,
-        polarization: body.consistencyScore || 0,
-        // 5. DONNÉES COMPORTEMENTALES
-        answerConsistency: body.consistencyScore || 0,
-        onboardingSpeed: body.totalTime || 0, // Total time for quiz
-        // 10. ADAPTIVE BEHAVIORAL LOOP
-        confidenceScore: 0.25, // Initial hypothesis confidence
-        behavioralVibrancy: body.scores || {}, // Initial vibrancy from quiz
+      data: {
+        class: analysis.primary,
+        level: analysis.level,
+        // Psychometric scores
+        builderScore: analysis.scores.builder,
+        creatorScore: analysis.scores.creator,
+        strategistScore: analysis.scores.strategist,
+        catalystScore: analysis.scores.catalyst,
+        polarization: analysis.consistencyScore,
+        // Behavioral
+        answerConsistency: analysis.consistencyScore,
+        onboardingSpeed: avgResponseTime,
+        // Adaptive loop
+        confidenceScore: 0.25,
+        behavioralVibrancy: analysis.scores,
         lastHypothesisUpdate: new Date(),
-      }
+      },
     });
 
-    // Send email asynchronously (don't block the response)
     emailService.sendQuizResults({
       email: session.user.email,
       name: session.user.name,
-      profileType
+      profileType: analysis.primary,
     }).catch(console.error);
 
-    return NextResponse.json(quizResult);
+    return NextResponse.json({ quizResultId: quizResult.id, analysis });
   } catch (error) {
     console.error("[QUIZ_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });

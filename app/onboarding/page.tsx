@@ -32,17 +32,31 @@ const STEPS = [
   }
 ]
 
+const ONBOARDING_KEY = "hc_onboarding_progress";
+
 export default function OnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  
-  const [formData, setFormData] = useState({
-    country: "",
-    currentSituation: "" as UserSituation,
-    mainObjective: "" as MainObjective,
-    secondaryObjectives: [] as MainObjective[],
+
+  const [formData, setFormData] = useState(() => {
+    // Restore saved progress if available
+    try {
+      const saved = typeof window !== "undefined" ? localStorage.getItem(ONBOARDING_KEY) : null;
+      if (saved) return JSON.parse(saved);
+    } catch { /* ignore */ }
+    return {
+      country: "",
+      currentSituation: "" as UserSituation,
+      mainObjective: "" as MainObjective,
+      secondaryObjectives: [] as MainObjective[],
+    };
   })
+
+  const updateForm = (next: typeof formData) => {
+    setFormData(next);
+    try { localStorage.setItem(ONBOARDING_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+  }
 
   const handleComplete = async () => {
     setIsSubmitting(true)
@@ -55,8 +69,9 @@ export default function OnboardingPage() {
 
       if (!res.ok) throw new Error("Failed to save")
 
+      try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ }
       toast.success("Profil initial configuré !")
-      router.push("/quiz") // Next step in the flow
+      router.push("/quiz")
     } catch (error) {
       toast.error("Une erreur est survenue")
     } finally {
@@ -119,7 +134,7 @@ export default function OnboardingPage() {
                     <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground ml-1">Pays</label>
                     <CountrySelector 
                       value={formData.country}
-                      onChange={(val) => setFormData({ ...formData, country: val })}
+                      onChange={(val) => updateForm({ ...formData, country: val })}
                     />
                   </div>
                   <div className="space-y-4">
@@ -142,7 +157,7 @@ export default function OnboardingPage() {
                         return (
                           <button
                             key={sit}
-                            onClick={() => setFormData({ ...formData, currentSituation: sit })}
+                            onClick={() => updateForm({ ...formData, currentSituation: sit })}
                             className={`group relative p-4 rounded-2xl border transition-all duration-300 text-left overflow-hidden ${
                               isSelected 
                               ? "bg-primary/5 border-primary shadow-[0_0_20px_rgba(197,244,65,0.1)]" 
@@ -189,18 +204,18 @@ export default function OnboardingPage() {
                       
                       const handleToggle = () => {
                         if (isMain) {
-                          setFormData({ ...formData, mainObjective: "" as MainObjective })
+                          updateForm({ ...formData, mainObjective: "" as MainObjective })
                         } else if (isSecondary) {
-                          setFormData({ 
-                            ...formData, 
-                            secondaryObjectives: formData.secondaryObjectives.filter(o => o !== obj) 
+                          updateForm({
+                            ...formData,
+                            secondaryObjectives: formData.secondaryObjectives.filter((o: MainObjective) => o !== obj)
                           })
                         } else if (!formData.mainObjective) {
-                          setFormData({ ...formData, mainObjective: obj })
+                          updateForm({ ...formData, mainObjective: obj })
                         } else if (formData.secondaryObjectives.length < 2) {
-                          setFormData({ 
-                            ...formData, 
-                            secondaryObjectives: [...formData.secondaryObjectives, obj] 
+                          updateForm({
+                            ...formData,
+                            secondaryObjectives: [...formData.secondaryObjectives, obj]
                           })
                         } else {
                           toast.error("Maximum 2 objectifs secondaires")

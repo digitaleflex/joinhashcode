@@ -57,7 +57,7 @@ export default async function DossierPage() {
       <SidebarInset className="bg-background">
         <UserTopBar user={user} />
         
-        <main className="flex-1 p-4 md:p-8 pb-[var(--bottom-nav-height)] md:pb-8 overflow-y-auto scrollbar-none">
+        <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-5xl mx-auto space-y-8">
           {/* Header Dossier */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">

@@ -34,6 +34,7 @@ import { ScrambleText } from "@/components/ui/scramble-text"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
+import { MemberCard } from "@/components/ui/member-card"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
   const pathname = usePathname();
@@ -284,6 +285,22 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Member Card */}
+          <div className="space-y-3">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+              Carte de Membre
+            </p>
+            <MemberCard
+              userId={user.id}
+              pseudo={user.pseudo ?? user.name}
+              memberNumber={user.memberNumber ?? null}
+              userClass={user.class ?? null}
+              level={user.level ?? 1}
+              experience={user.experience ?? 0}
+              createdAt={user.createdAt ?? new Date()}
+            />
           </div>
           </div>
         </main>
