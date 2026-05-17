@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     const buffer = await file.arrayBuffer();
     const fileName = `${session.user.id}-${Date.now()}.webp`; // Add timestamp to bypass CDN cache
 
-    const { error } = await supabaseAdmin.storage
+    const { error } = await getSupabaseAdmin().storage
       .from("avatars")
       .upload(fileName, buffer, {
         contentType: file.type,
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       return new NextResponse("Erreur lors de la sauvegarde sur le serveur de stockage.", { status: 500 });
     }
 
-    const { data: { publicUrl } } = supabaseAdmin.storage
+    const { data: { publicUrl } } = getSupabaseAdmin().storage
       .from("avatars")
       .getPublicUrl(fileName);
 
