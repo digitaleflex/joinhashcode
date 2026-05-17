@@ -6,7 +6,7 @@ export interface Truth {
   rest: string
 }
 
-export interface Mission {
+export interface ProfileMission {
   title: string
   xp: number
 }
@@ -16,8 +16,8 @@ export interface ProfileContent {
   pain: string
   painBold: string
   truths: [Truth, Truth, Truth]
-  unlockedMissions: [Mission, Mission]
-  lockedMissions: Mission[]
+  unlockedMissions: [ProfileMission, ProfileMission]
+  lockedMissions: ProfileMission[]
   socialProof: string
   whatsappText: string
   ctaLabel: string
@@ -184,10 +184,11 @@ export function getProfileContent(profile: ProfileType): ProfileContent {
   return PROFILE_CONTENT[profile]
 }
 
+/** primary and secondary must be different ProfileType values */
 export function getHybridContent(
   primary: ProfileType,
   secondary: ProfileType
-): Omit<ProfileContent, 'name' | 'ctaLabel'> & { name: string; ctaLabel: string } {
+): ProfileContent {
   const p = PROFILE_CONTENT[primary]
   const s = PROFILE_CONTENT[secondary]
   return {

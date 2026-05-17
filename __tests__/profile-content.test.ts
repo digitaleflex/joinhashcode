@@ -46,4 +46,10 @@ describe('PROFILE_CONTENT', () => {
       expect(PROFILE_COLORS[p]).toMatch(/^#[0-9A-Fa-f]{6}$/)
     })
   })
+
+  it('whatsappText contient joinhashcode.com pour tous les profils', () => {
+    profiles.forEach(p => {
+      expect(PROFILE_CONTENT[p].whatsappText).toContain('joinhashcode.com')
+    })
+  })
 })
