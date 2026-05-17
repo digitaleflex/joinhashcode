@@ -19,7 +19,7 @@ export function ResultLocked({ analysis }: Props) {
       {/* En-tête */}
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-white mb-2">
-          Ton parcours {content.name} t&apos;attend
+          {content.unlockedMissions.length + content.lockedMissions.length} missions t&apos;attendent dans le Guild {content.name}
         </h2>
         <p className="text-sm text-zinc-500">
           2 missions accessibles maintenant · reste disponible avec un accès membre
@@ -53,7 +53,7 @@ export function ResultLocked({ analysis }: Props) {
         {content.lockedMissions.map((mission, i) => (
           <div
             key={i}
-            className="flex items-center justify-between gap-4 bg-zinc-900/30 border border-zinc-800/50 rounded-2xl px-5 py-4 opacity-40"
+            className="flex items-center justify-between gap-4 bg-zinc-900/30 border border-zinc-800/50 rounded-2xl px-5 py-4 opacity-[0.45]"
           >
             <div className="flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-zinc-600 flex-shrink-0" />
@@ -65,7 +65,7 @@ export function ResultLocked({ analysis }: Props) {
 
         <div className="flex items-center gap-3 px-5 py-3 opacity-25">
           <span className="w-2 h-2 rounded-full bg-zinc-700 flex-shrink-0" />
-          <span className="text-sm text-zinc-600">Et bien d&apos;autres missions...</span>
+          <span className="text-sm text-zinc-600">+ 12 autres missions en cours de déverrouillage</span>
         </div>
       </div>
 

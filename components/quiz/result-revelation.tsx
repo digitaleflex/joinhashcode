@@ -23,6 +23,18 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
     ? getHybridContent(primary, secondary)
     : getProfileContent(primary)
 
+  let displayName: string
+  if (analysis.isHybrid) {
+    const primaryContent = getProfileContent(primary)
+    const secondaryContent = getProfileContent(secondary)
+    displayName = `Tu es à la fois ${primaryContent.name} et ${secondaryContent.name}`
+  } else {
+    displayName = content.name
+  }
+
+  const painParts = content.pain.split(content.painBold)
+  const [beforeBold, afterBold] = painParts
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6 py-16 text-center relative overflow-hidden"
@@ -50,7 +62,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
           className="w-1.5 h-1.5 rounded-full animate-pulse"
           style={{ background: color }}
         />
-        Profil identifié
+        {analysis.isHybrid ? displayName : 'Profil identifié'}
       </motion.div>
 
       {/* Nom du profil */}
@@ -65,7 +77,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
           color,
         }}
       >
-        {content.name}
+        {analysis.isHybrid ? content.name : displayName}
       </motion.h1>
 
       {/* Déclaration de douleur */}
@@ -76,7 +88,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
         className="text-zinc-300 max-w-[580px] mb-12 leading-relaxed"
         style={{ fontSize: 'clamp(17px, 2.5vw, 21px)' }}
       >
-        {content.pain}
+        <span>{beforeBold}<strong>{content.painBold}</strong>{afterBold}</span>
       </motion.p>
 
       {/* Les 3 vérités */}

@@ -2,22 +2,14 @@
 
 import { motion } from 'framer-motion'
 import { type AnalysisResult } from '@/lib/analysis'
-import { PROFILE_COLORS, type ProfileType } from '@/lib/profile-content'
+import { PROFILE_COLORS, getProfileContent, type ProfileType } from '@/lib/profile-content'
+import { type UserData } from './result-page'
 
 const PROFILE_LABELS: Record<ProfileType, string> = {
   builder: 'Builder',
   creator: 'Créateur',
   strategist: 'Stratège',
-  catalyst: 'Catalyst',
-}
-
-interface UserData {
-  pseudo?: string | null
-  name?: string | null
-  memberNumber?: number | null
-  class?: string | null
-  level?: number | null
-  experience?: number | null
+  catalyst: 'Catalyseur',
 }
 
 interface Props {
@@ -28,22 +20,16 @@ interface Props {
 export function ResultScores({ analysis, user }: Props) {
   const primary = analysis.primary as ProfileType
   const color = PROFILE_COLORS[primary]
+  const content = getProfileContent(primary)
   const displayName = user.pseudo ?? user.name ?? 'Membre'
   const initial = displayName.charAt(0).toUpperCase()
 
   const profileEntries = Object.entries(analysis.percentages) as [ProfileType, number][]
 
-  const whatsappMessage = encodeURIComponent(
-    `Je viens de découvrir mon profil HASHCODE : ${PROFILE_LABELS[primary]} 🎯\nFais le quiz et découvre le tien → joinhashcode.com`
-  )
-  const whatsappUrl = `https://wa.me/?text=${whatsappMessage}`
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(content.whatsappText)}`
 
   return (
     <section className="px-6 py-16 max-w-2xl mx-auto">
-      <p className="text-[11px] tracking-[0.25em] uppercase text-zinc-500 text-center mb-8">
-        Analyse psychométrique
-      </p>
-
       {/* Grille des scores */}
       <div className="grid grid-cols-2 gap-3 mb-10">
         {profileEntries.map(([type, percent], i) => {

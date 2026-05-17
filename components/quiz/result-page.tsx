@@ -6,11 +6,10 @@ import { ResultRevelation } from './result-revelation'
 import { ResultScores } from './result-scores'
 import { ResultLocked } from './result-locked'
 
-interface UserData {
+export interface UserData {
   pseudo?: string | null
   name?: string | null
   memberNumber?: number | null
-  class?: string | null
   level?: number | null
   experience?: number | null
 }
