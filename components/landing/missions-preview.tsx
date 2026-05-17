@@ -1,85 +1,151 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
-const profiles = [
+const PROFILES = [
   {
     id: "builder",
     label: "Builder",
-    color: "#B8FF3B",
     tagline: "Tu construis.",
-    desc: "Code, produits, systèmes. Tu t'épanouis quand une idée devient quelque chose qui tourne en production.",
-    traits: ["Développeur", "Ingénieur", "Architecte", "Maker"],
+    color: "#B8FF3B",
+    desc: "Code, systèmes, produits. Tu t'épanouis quand une idée tourne en production. Le débogage ne te décourage pas — il t'intrigue.",
+    traits: ["Développeur", "Ingénieur", "Maker", "Architecte"],
   },
   {
     id: "creator",
     label: "Créateur",
-    color: "#A855F7",
     tagline: "Tu imagines.",
-    desc: "Design, contenu, narration. Tu crées ce que les autres n'ont pas encore eu l'idée de voir.",
-    traits: ["Designer", "UI/UX", "Vidéaste", "Rédacteur"],
+    color: "#A855F7",
+    desc: "Design, contenu, narration. Tu crées ce que les autres n'ont pas encore eu l'idée de voir. L'esthétique n'est pas un détail pour toi.",
+    traits: ["Designer", "UI/UX", "Rédacteur", "Vidéaste"],
   },
   {
     id: "strategist",
     label: "Stratège",
-    color: "#22D3EE",
     tagline: "Tu structures.",
-    desc: "Business, produit, croissance. Tu vois les systèmes derrière les événements et tu construis pour durer.",
-    traits: ["PM", "Growth", "Business Dev", "Analyste"],
+    color: "#22D3EE",
+    desc: "Business, produit, croissance. Tu vois les systèmes derrière les événements et tu construis pour durer. Les chiffres parlent avant les intuitions.",
+    traits: ["Product", "Growth", "Business Dev", "Analyste"],
   },
   {
     id: "catalyst",
     label: "Catalyseur",
-    color: "#F97316",
     tagline: "Tu connectes.",
-    desc: "Réseau, communauté, impact. Tu amplifies ce qui existe autour de toi — les gens, les idées, les projets.",
+    color: "#F97316",
+    desc: "Réseau, communauté, impact. Tu amplifies ce qui existe autour de toi — les gens, les idées, les projets. Sans toi, l'énergie ne circule pas.",
     traits: ["Community", "Mentor", "Ambassadeur", "Networker"],
   },
-]
+] as const
 
 export function MissionsPreview() {
-  return (
-    <section id="missions" className="relative border-b border-border/60 bg-zinc-950 py-24 sm:py-32 overflow-hidden">
-      {/* Background line */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-px bg-linear-to-r from-transparent via-white/5 to-transparent" />
-      </div>
+  const [active, setActive] = useState(0)
+  const profile = PROFILES[active]
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+  return (
+    <section id="profils" className="border-b border-border/60 bg-zinc-950 py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-              Les 4 Profils
-            </span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Les 4 profils</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
-            Qui es-tu dans <span className="text-primary">HASHCODE</span> ?
+            Qui es-tu dans la tech ?
           </h2>
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
-            Notre algorithme analyse tes réponses pour identifier ta tendance dominante.
-            Beaucoup de membres sont hybrides — c'est la norme, pas l'exception.
+            L'algorithme identifie ta tendance dominante. Beaucoup de membres sont hybrides — c'est la norme, pas l'exception.
           </p>
         </div>
 
-        {/* Profiles grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {profiles.map((p) => (
+        {/* Desktop: two columns */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 items-start">
+
+          {/* Left — active profile detail (sticky) */}
+          <div className="sticky top-24">
+            <div
+              className="rounded-2xl border p-8 transition-all duration-500"
+              style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
+            >
+              <div
+                className="text-[11px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1.5 rounded-md inline-block mb-6"
+                style={{ color: profile.color, background: `${profile.color}15`, border: `1px solid ${profile.color}30` }}
+              >
+                {profile.label}
+              </div>
+              <h3 className="text-4xl font-bold text-white mb-4">{profile.tagline}</h3>
+              <p className="text-zinc-400 text-base leading-relaxed mb-6">{profile.desc}</p>
+              <div className="flex flex-wrap gap-2">
+                {profile.traits.map(t => (
+                  <span
+                    key={t}
+                    className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
+                    style={{ color: `${profile.color}90`, background: `${profile.color}0d`, border: `1px solid ${profile.color}20` }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div
+                className="mt-8 h-px w-full rounded-full"
+                style={{ background: `linear-gradient(90deg, ${profile.color}60, transparent)` }}
+              />
+            </div>
+          </div>
+
+          {/* Right — profile selector list */}
+          <div className="space-y-2">
+            {PROFILES.map((p, i) => (
+              <button
+                key={p.id}
+                onClick={() => setActive(i)}
+                className="w-full text-left rounded-xl border px-6 py-5 transition-all duration-300 cursor-pointer"
+                style={{
+                  borderColor: active === i ? `${p.color}40` : "transparent",
+                  background: active === i ? `${p.color}08` : "transparent",
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="w-2 h-2 rounded-full transition-all duration-300 shrink-0"
+                      style={{
+                        background: p.color,
+                        opacity: active === i ? 1 : 0.3,
+                        boxShadow: active === i ? `0 0 8px ${p.color}` : "none",
+                      }}
+                    />
+                    <span
+                      className="text-2xl font-bold tracking-tight transition-colors duration-300"
+                      style={{ color: active === i ? p.color : "#71717A" }}
+                    >
+                      {p.label}
+                    </span>
+                  </div>
+                  <span
+                    className="font-mono text-sm transition-colors duration-300"
+                    style={{ color: active === i ? p.color : "#3F3F46" }}
+                  >
+                    {p.tagline}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: 4 stacked cards */}
+        <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {PROFILES.map(p => (
             <div
               key={p.id}
-              className="group relative flex flex-col gap-5 rounded-2xl border bg-zinc-900/40 p-6 transition-all duration-300 hover:bg-zinc-900/80"
-              style={{ borderColor: `${p.color}20` }}
+              className="rounded-2xl border p-6 space-y-4"
+              style={{ borderColor: `${p.color}20`, background: `${p.color}06` }}
             >
-              {/* Glow on hover */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ boxShadow: `inset 0 0 40px ${p.color}08` }}
-              />
-
-              {/* Top */}
               <div className="flex items-start justify-between">
                 <div
                   className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] px-2.5 py-1 rounded-md"
@@ -87,39 +153,29 @@ export function MissionsPreview() {
                 >
                   {p.label}
                 </div>
-                <div className="w-2 h-2 rounded-full mt-1" style={{ background: p.color }} />
+                <div className="w-2 h-2 rounded-full mt-1.5" style={{ background: p.color }} />
               </div>
-
-              {/* Tagline */}
               <div>
-                <p className="text-2xl font-bold text-white tracking-tight mb-2">{p.tagline}</p>
+                <p className="text-xl font-bold text-white mb-2">{p.tagline}</p>
                 <p className="text-sm text-zinc-400 leading-relaxed">{p.desc}</p>
               </div>
-
-              {/* Traits */}
-              <div className="flex flex-wrap gap-1.5 mt-auto">
+              <div className="flex flex-wrap gap-1.5 pt-1">
                 {p.traits.map(t => (
                   <span
                     key={t}
                     className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded"
-                    style={{ color: `${p.color}99`, background: `${p.color}0d`, border: `1px solid ${p.color}15` }}
+                    style={{ color: `${p.color}80`, background: `${p.color}0d`, border: `1px solid ${p.color}15` }}
                   >
                     {t}
                   </span>
                 ))}
               </div>
-
-              {/* Bottom accent */}
-              <div
-                className="absolute bottom-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: `linear-gradient(90deg, transparent, ${p.color}60, transparent)` }}
-              />
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-14">
           <Link
             href="/quiz"
             className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"

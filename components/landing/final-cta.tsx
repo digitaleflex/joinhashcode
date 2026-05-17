@@ -23,13 +23,13 @@ export function FinalCta() {
         </div>
 
         <h2 className="mt-6 text-balance text-4xl font-medium tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Découvre ton profil.
+          Prêt à savoir
           <br />
-          <span className="text-primary">Maintenant.</span>
+          <span className="text-primary">qui tu es ?</span>
         </h2>
 
         <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Le profilage prend 5 minutes. Tes réponses définissent ton parcours.
+          3 minutes. 13 questions. Un profil précis — et une communauté qui correspond.
         </p>
 
         <div className="mt-10">
@@ -39,7 +39,7 @@ export function FinalCta() {
             className="group h-12 rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow-[0_0_0_1px_rgba(197,244,65,0.2),0_8px_40px_-8px_rgba(197,244,65,0.5)] hover:bg-primary/90"
           >
             <Link href="/quiz">
-              Commencer mon profilage
+              Découvrir mon profil
               <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
