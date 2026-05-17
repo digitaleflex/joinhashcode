@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Search, User as UserIcon, Settings, Globe, LogOut } from "lucide-react"
+import { Search, User as UserIcon, Settings, Globe, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { 
   DropdownMenu, 
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
+import { NotificationBell } from "./notification-bell"
 
 export function UserTopBar({ user }: { user: any }) {
   const handleSignOut = async () => {
@@ -41,10 +42,7 @@ export function UserTopBar({ user }: { user: any }) {
       {/* Right: Actions & Profile */}
       <div className="flex items-center gap-2 md:gap-4">
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative rounded-xl hover:bg-primary/10 hover:text-primary transition-colors">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full shadow-[0_0_8px_rgba(var(--primary),0.8)]"></span>
-        </Button>
+        <NotificationBell />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

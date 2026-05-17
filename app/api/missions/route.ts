@@ -2,11 +2,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { MISSIONS, XP_THRESHOLDS, MissionLevel } from "@/lib/missions";
-import { emailService } from "@/lib/email";
+import { XP_THRESHOLDS } from "@/lib/missions";
 import { updateVibrancyWithDecay, BehavioralVibrancy } from "@/lib/evolution";
 import { triggerNotification } from "@/lib/qstash";
 import { z } from "zod";
+
+const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
 
 const submissionSchema = z.object({
   missionId: z.string().min(1),
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
       improvementSuggestions
     } = validatedData.data;
 
-    const mission = MISSIONS.find(m => m.id === missionId);
+    const mission = await prisma.mission.findUnique({ where: { id: missionId } });
     if (!mission) {
       return new NextResponse("Mission not found", { status: 404 });
     }
@@ -67,7 +68,8 @@ export async function POST(req: Request) {
       return new NextResponse("User not found", { status: 404 });
     }
 
-    if (dbUser.level < mission.requiredLevel) {
+    const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
+    if (dbUser.level < requiredLevel) {
       return new NextResponse("Level too low for this mission", { status: 403 });
     }
 
@@ -86,7 +88,7 @@ export async function POST(req: Request) {
     }
 
     // For HASHCODE V1 Demo: Auto-approve missions
-    const newXp = dbUser.experience + mission.xpReward;
+    const newXp = dbUser.experience + mission.xp;
     
     // Calculate if level up is needed
     let newLevel = dbUser.level;
@@ -134,7 +136,7 @@ export async function POST(req: Request) {
           userFeedback,
           improvementSuggestions,
           status: "APPROVED",
-          xpAwarded: mission.xpReward
+          xpAwarded: mission.xp
         },
         create: {
           userId: session.user.id,
@@ -146,7 +148,7 @@ export async function POST(req: Request) {
           userFeedback,
           improvementSuggestions,
           status: "APPROVED",
-          xpAwarded: mission.xpReward
+          xpAwarded: mission.xp
         }
       });
 
@@ -164,13 +166,18 @@ export async function POST(req: Request) {
       return sub;
     });
 
-    // Send confirmation email
-    await emailService.sendMissionApproval({
-      email: session.user.email,
-      name: session.user.name,
-      missionTitle: mission.title,
-      xp: mission.xpReward
-    });
+    // Trigger notification (replaces direct email service call)
+    try {
+      await triggerNotification({
+        userId: session.user.id,
+        type: "MISSION_APPROVED",
+        title: `Mission validée : ${mission.title}`,
+        message: `Tu as gagné +${mission.xp} XP !`,
+        link: "/missions"
+      });
+    } catch (notificationError) {
+      console.error("[NOTIFICATION_ERROR]", notificationError);
+    }
 
     return NextResponse.json({ submission, leveledUp: newLevel > dbUser.level, newLevel });
   } catch (error) {

@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { triggerNotification } from "@/lib/qstash";
 
 export async function PATCH(req: Request) {
   try {
@@ -23,6 +24,19 @@ export async function PATCH(req: Request) {
         mainBlocker,
       },
     });
+
+    // Trigger notification
+    try {
+      await triggerNotification({
+        userId: session.user.id,
+        type: "SYSTEM",
+        title: "Profil Synchronisé",
+        message: "Tes paramètres de build ont été mis à jour.",
+        link: "/dashboard"
+      });
+    } catch (notificationError) {
+      console.error("[NOTIFICATION_ERROR]", notificationError);
+    }
 
     return NextResponse.json(user);
   } catch (error) {
