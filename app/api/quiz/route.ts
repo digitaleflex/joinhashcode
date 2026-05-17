@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { profileType, answers, responseTimes, averageResponseTime, level } = body;
+    const { profileType, answers, responseTimes, averageResponseTime, level, diagnosticAnswers } = body;
 
     const quizResult = await prisma.quizResult.create({
       data: {
@@ -24,6 +24,7 @@ export async function POST(req: Request) {
         answers,
         detailedResponseTimes: responseTimes,
         averageResponseTime,
+        diagnosticAnswers: diagnosticAnswers ?? null,
       },
     });
 
