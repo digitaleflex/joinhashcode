@@ -36,8 +36,17 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
+import { MISSIONS } from "@/lib/missions"
 
-export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
+export function DashboardShell({ 
+  user, 
+  quizResult,
+  submissions = {}
+}: { 
+  user: any, 
+  quizResult: any,
+  submissions?: Record<string, string>
+}) {
   const pathname = usePathname();
   const hasFinishedQuiz = !!quizResult;
   const profile = user?.class || quizResult?.profileType || "unknown";
@@ -74,6 +83,14 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
 
   const config = profileConfigs[profile.toLowerCase()] || profileConfigs.builder;
 
+  // Find next mission
+  const nextMission = MISSIONS.find(m => {
+    const isCompleted = submissions[m.id] === "APPROVED" || submissions[m.id] === "PENDING";
+    const isLevelMatch = m.requiredLevel <= level;
+    const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (profile && m.targetProfiles.includes(profile.toLowerCase() as any));
+    return !isCompleted && isLevelMatch && isClassMatch;
+  });
+
   return (
     <SidebarProvider>
       <AppSidebar user={user} />
@@ -83,7 +100,28 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
         <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-6xl mx-auto space-y-8">
           
-          <DailyCheckinWidget />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <DailyCheckinWidget />
+            </div>
+            {nextMission && (
+              <Card className="bg-primary/5 border-primary/20 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-3">
+                  <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                </div>
+                <CardHeader className="pb-2">
+                  <span className="text-[10px] font-mono text-primary uppercase tracking-[0.2em]">Mission Prioritaire_</span>
+                  <CardTitle className="text-base font-bold">{nextMission.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-xs text-muted-foreground line-clamp-2">{nextMission.shortDesc}</p>
+                  <Button asChild size="sm" className="w-full btn-primary-glow h-8 text-[10px] uppercase font-bold">
+                    <Link href="/missions">Lancer la mission</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </div>
 
           {/* Welcome Banner Personalized */}
           <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>

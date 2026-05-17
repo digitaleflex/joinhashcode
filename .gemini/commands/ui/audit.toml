@@ -1,0 +1,15 @@
+# Fichier : .gemini/commands/ui/audit.toml
+# Appel : /ui:audit <chemin_composant>
+description = "Effectue un audit UI/UX et accessibilité sur un composant Shadcn/Tailwind."
+
+prompt = """
+Tu es un expert en UI/UX et accessibilité (WCAG).
+Analyse le composant suivant et identifie les points d'amélioration concernant :
+1. La cohérence visuelle avec Shadcn/UI.
+2. L'accessibilité (Aria roles, contrastes, navigation clavier).
+3. La propreté du code Tailwind (utilisation de variables CSS, duplication).
+
+Composant : {{args}}
+Contenu :
+@{ {{args}} }
+"""

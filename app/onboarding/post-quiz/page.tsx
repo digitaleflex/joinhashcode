@@ -67,7 +67,8 @@ export default function PostQuizOnboarding() {
       if (!res.ok) throw new Error("Failed to save")
 
       toast.success("Configuration terminée !")
-      router.push("/dashboard")
+      // Use window.location for a full refresh to ensure middleware sees the updated session
+      window.location.href = "/dashboard"
     } catch (error) {
       toast.error("Une erreur est survenue")
     } finally {

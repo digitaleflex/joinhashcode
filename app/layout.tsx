@@ -15,8 +15,10 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 })
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://joinhashcode.com"),
+  metadataBase: new URL(APP_URL),
   title: {
     default: "HASHCODE — Le programme de la nouvelle ère",
     template: "%s | HASHCODE",
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://joinhashcode.com",
+    url: APP_URL,
     title: "HASHCODE — Le programme de la nouvelle ère",
     description: "Détecte ton profil, rejoins ta communauté et évolue dans la tech.",
     siteName: "HASHCODE",

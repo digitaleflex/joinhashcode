@@ -1,0 +1,12 @@
+# Fichier : .gemini/commands/git/commit.toml
+# Appel : /git:commit
+description = "Génère un message de Commit Conventionnel basé sur les modifications indexées (staged)."
+
+prompt = """
+Tu es un architecte logiciel expert en normes de Commit Conventionnel (Conventional Commits).
+Analyse l'extraction cryptographique (diff) fournie ci-dessous et génère un message de commit concis, précis et standardisé.
+L'intention déclarée par le développeur pour ce correctif est : {{args}}
+
+Les modifications en attente d'enregistrement :
+!{git diff --staged}
+"""

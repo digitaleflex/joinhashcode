@@ -50,6 +50,42 @@ export const updateVibrancy = (
 };
 
 /**
+ * Calcule la nouvelle "Vibrancy" avec application du "Time Decay" (Phase 2).
+ * Les scores diminuent de moitié tous les halfLifeDays si aucune activité.
+ */
+export const updateVibrancyWithDecay = (
+  currentVibrancy: BehavioralVibrancy,
+  missionWeights: BehavioralVibrancy,
+  lastUpdate: Date | null,
+  now: Date = new Date(),
+  halfLifeDays: number = 30
+): { vibrancy: BehavioralVibrancy; decayFactor: number } => {
+  if (!lastUpdate) {
+    return { vibrancy: updateVibrancy(currentVibrancy, missionWeights), decayFactor: 1 };
+  }
+
+  const diffMs = now.getTime() - lastUpdate.getTime();
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  const decayFactor = Math.pow(0.5, diffDays / halfLifeDays);
+
+  // Apply threshold to avoid micro-values
+  const applyDecay = (val: number) => {
+    const decayed = val * decayFactor;
+    return decayed < 0.01 ? 0 : decayed;
+  };
+
+  return {
+    vibrancy: {
+      builder: applyDecay(currentVibrancy.builder) + missionWeights.builder,
+      creator: applyDecay(currentVibrancy.creator) + missionWeights.creator,
+      strategist: applyDecay(currentVibrancy.strategist) + missionWeights.strategist,
+      catalyst: applyDecay(currentVibrancy.catalyst) + missionWeights.catalyst,
+    },
+    decayFactor
+  };
+};
+
+/**
  * Mesure le "Drift" (écart) entre le profil initial et les actions réelles.
  * Un drift élevé suggère une possible hybridation ou un changement de trajectoire.
  */

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { MISSIONS, XP_THRESHOLDS, MissionLevel } from "@/lib/missions";
+import { emailService } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -114,6 +115,14 @@ export async function POST(req: Request) {
       });
 
       return sub;
+    });
+
+    // Send confirmation email
+    await emailService.sendMissionApproval({
+      email: session.user.email,
+      name: session.user.name,
+      missionTitle: mission.title,
+      xp: mission.xpReward
     });
 
     return NextResponse.json({ submission, leveledUp: newLevel > dbUser.level, newLevel });

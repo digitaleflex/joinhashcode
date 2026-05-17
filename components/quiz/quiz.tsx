@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import type { AnalysisResult } from "@/lib/analysis"
 import {
-  ChevronRight, ChevronLeft,
+  ChevronRight, ChevronLeft, Sparkles
 } from "lucide-react"
 import { useEffect } from "react"
+import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
 import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
 
@@ -170,96 +171,95 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
 
   if (!isStarted) {
     return (
-      <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in duration-500">
-        <div className="rounded-2xl border border-border/60 bg-card/30 backdrop-blur-sm p-8 space-y-8">
+      <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in zoom-in-95 duration-700">
+        <div className="relative rounded-3xl border border-primary/20 bg-card/40 backdrop-blur-xl p-10 space-y-10 overflow-hidden">
+          {/* Background Glow */}
+          <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-[100px]" />
+          <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px]" />
+
           {/* Header */}
-          <div className="space-y-2">
-            <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Avant de commencer</p>
-            <h2 className="text-2xl font-semibold tracking-tight">Ce que ce quiz n'est pas</h2>
-          </div>
-
-          {/* Points */}
-          <div className="space-y-5">
-            <div className="flex gap-4">
-              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <span className="text-[10px] font-bold text-primary">1</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white mb-1">Pas un test de personnalité définitif</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  Il n'existe pas de "bon" ou "mauvais" profil ici. Ces résultats sont une <span className="text-zinc-400">hypothèse de départ</span> basée sur tes tendances naturelles actuelles — pas une vérité immuable sur qui tu es.
-                </p>
-              </div>
+          <div className="space-y-3 relative">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-2">
+              <Sparkles className="w-3 h-3 text-primary" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary">Initialisation du Profil</span>
             </div>
-
-            <div className="flex gap-4">
-              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <span className="text-[10px] font-bold text-primary">2</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white mb-1">Ton profil évoluera avec tes actions</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  La manière dont tu complètes des missions, interagis avec la communauté et progresses a bien plus de poids que ces 13 questions. Le quiz est un point de départ, pas une destination.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <span className="text-[10px] font-bold text-primary">3</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white mb-1">Un outil de recommandation, pas une étiquette</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  Le seul objectif de ce profilage est de t'orienter vers les missions, canaux et ressources les plus pertinents pour toi aujourd'hui. Beaucoup de membres ont un profil hybride — c'est la norme, pas l'exception.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Instruction */}
-          <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
-            <p className="text-xs text-zinc-400 leading-relaxed text-center">
-              Réponds instinctivement, sans chercher à optimiser. La première réponse qui te vient est presque toujours la plus juste.
+            <h2 className="text-3xl font-bold tracking-tight text-white uppercase font-mono">
+              Analyse de <span className="text-primary">Vibrance</span>
+            </h2>
+            <p className="text-zinc-500 text-sm leading-relaxed max-w-md">
+              Ce n&apos;est pas un test de personnalité. C&apos;est la détection de ton mode d&apos;action dominant pour construire le futur.
             </p>
           </div>
 
+          {/* Points */}
+          <div className="grid gap-4 relative">
+            {[
+              { 
+                t: "Zéro Étiquette", 
+                d: "Il n'y a pas de bon profil. Ton résultat est une hypothèse de départ, pas une destination finale.",
+                i: "01"
+              },
+              { 
+                t: "Évolution Réelle", 
+                d: "Tes actions futures (missions, check-ins) auront plus de poids que tes réponses d'aujourd'hui.",
+                i: "02"
+              },
+              { 
+                t: "Alignement", 
+                d: "L&apos;objectif est de t&apos;orienter vers les missions et la guilde où tu seras le plus performant.",
+                i: "03"
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="flex gap-5 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:border-primary/20 transition-colors group">
+                <div className="text-xs font-mono text-primary/40 mt-1 group-hover:text-primary transition-colors">
+                  {item.i}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-zinc-200 mb-1 uppercase tracking-tight">{item.t}</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">{item.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
           {hasResumable && (
-            <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4">
-              <div>
-                <p className="text-xs font-medium text-white">Progression sauvegardée</p>
-                <p className="text-[10px] text-zinc-500">Tu avais commencé ce quiz — reprends là où tu t'es arrêté.</p>
+            <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+                <p className="text-xs font-medium text-primary uppercase tracking-widest">Session active détectée</p>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="shrink-0 border-primary/40 text-primary hover:bg-primary/10 text-xs"
+                className="h-8 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-mono uppercase"
                 onClick={() => {
                   setHasResumable(false)
                   setIsStarted(true)
                 }}
               >
-                Reprendre
+                Reprendre_
               </Button>
             </div>
           )}
-          <Button
-            onClick={() => {
-              if (hasResumable) {
-                // Fresh start — clear saved progress
-                try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
-                setCurrentStep(0)
-                setAnswers({})
-                setResponseTimes([])
-                setHasResumable(false)
-              }
-              setIsStarted(true)
-            }}
-            size="lg"
-            className="w-full h-14 rounded-xl btn-primary-glow text-base font-semibold gap-2"
-          >
-            {hasResumable ? "Recommencer à zéro" : "Commencer le profilage"} <ChevronRight className="h-5 w-5" />
-          </Button>
+
+          <div className="space-y-4 pt-4">
+            <Button
+              onClick={() => {
+                if (hasResumable) {
+                  try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
+                  setCurrentStep(0); setAnswers({}); setResponseTimes([]); setHasResumable(false);
+                }
+                setIsStarted(true)
+              }}
+              size="lg"
+              className="w-full h-16 rounded-2xl btn-primary-glow text-base font-bold gap-3 uppercase tracking-widest"
+            >
+              Lancer le scan <ChevronRight className="w-5 h-5" />
+            </Button>
+            <p className="text-[10px] text-center text-zinc-600 font-mono italic">
+              -- Temps estimé : 2 minutes // 13 arbitrages cognitifs --
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -289,51 +289,70 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
   const currentQuestion = questions[currentStep]
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-12 px-4">
-      <div className="mb-12">
-        <div className="flex justify-between items-end mb-4">
-          <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-              Question {currentStep + 1} sur {questions.length}
+    <div className="w-full max-w-2xl mx-auto py-12 px-4 flex flex-col min-h-[80vh] justify-center">
+      <div className="mb-16">
+        <div className="flex justify-between items-end mb-4 px-1">
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/60 block">
+              Séquence de Profilage
+            </span>
+            <span className="text-xs font-mono text-zinc-400">
+              Question {currentStep + 1} / {questions.length}
             </span>
           </div>
-          <span className="text-xs font-mono text-muted-foreground">{Math.round(progress)}%</span>
+          <div className="text-right">
+            <span className="text-xl font-bold font-mono text-primary">{Math.round(progress)}%</span>
+          </div>
         </div>
-        <Progress value={progress} className="h-1.5" />
+        <div className="h-1 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/[0.02]">
+           <motion.div 
+            className="h-full bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+           />
+        </div>
       </div>
 
-      <div key={currentStep} className="animate-in fade-in slide-in-from-right-4 duration-500">
-        <h2 className="text-2xl sm:text-3xl font-medium mb-10 leading-tight">
-          {currentQuestion.text}
+      <div key={currentStep} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <h2 className="text-2xl sm:text-4xl font-bold mb-12 leading-[1.2] text-white tracking-tight italic">
+          &ldquo;{currentQuestion.text}&rdquo;
         </h2>
 
-        <div className="grid gap-3">
+        <div className="grid gap-4">
           {currentQuestion.options.map((option: { text: string; value: string }, idx: number) => (
             <button
               key={idx}
               onClick={() => handleAnswer(option.value)}
-              className="group relative flex items-center justify-between p-5 rounded-xl border border-border bg-card/40 text-left transition-all hover:border-primary/50 hover:bg-primary/5 active:scale-[0.98]"
+              className="group relative flex items-center justify-between p-6 rounded-2xl border border-white/[0.05] bg-card/20 text-left transition-all hover:border-primary/50 hover:bg-primary/[0.03] active:scale-[0.99] overflow-hidden"
             >
-              <span className="text-base text-foreground group-hover:text-primary transition-colors">
+              <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="text-base sm:text-lg text-zinc-300 group-hover:text-white transition-colors relative z-10 pr-8">
                 {option.text}
               </span>
-              <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/10 transition-all relative z-10">
+                <ChevronRight className="h-4 w-4 text-zinc-600 group-hover:text-primary transition-all group-hover:translate-x-0.5" />
+              </div>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="mt-12 flex justify-start">
+      <div className="mt-16 flex justify-between items-center">
         <Button
           variant="ghost"
           size="sm"
           onClick={goBack}
           disabled={currentStep === 0}
-          className="text-muted-foreground hover:text-foreground"
+          className="text-zinc-500 hover:text-primary hover:bg-transparent font-mono text-[10px] uppercase tracking-widest disabled:opacity-0"
         >
-          <ChevronLeft className="mr-1 h-4 w-4" />
-          Question précédente
+          <ChevronLeft className="mr-2 h-3 w-3" />
+          Retour
         </Button>
+        <div className="h-px bg-zinc-800 flex-1 mx-8 opacity-20" />
+        <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest">
+          [AUTO_SAVE_ENABLED]
+        </span>
       </div>
     </div>
   )

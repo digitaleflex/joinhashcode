@@ -136,7 +136,7 @@ export function MemberCard({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=60x60&color=${accent.replace("#", "")}&bgcolor=09090B&data=${encodeURIComponent(typeof window !== "undefined" ? `${window.location.origin}/dossier` : "https://joinhashcode.com/dossier")}`}
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=60x60&color=${accent.replace("#", "")}&bgcolor=09090B&data=${encodeURIComponent(typeof window !== "undefined" ? `${window.location.origin}/dossier` : `${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/dossier`)}`}
                 width={52}
                 height={52}
                 alt="QR dossier"

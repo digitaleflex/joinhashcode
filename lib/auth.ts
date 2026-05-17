@@ -2,11 +2,17 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
+import { emailService } from "./email";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  emailMagicLink: {
+    sendMagicLink: async ({ email, url }: { email: string, url: string }) => {
+      await emailService.sendMagicLink({ email, url });
+    },
+  },
   user: {
     additionalFields: {
       level: { type: "number", required: true, defaultValue: 1 },
@@ -31,6 +37,22 @@ export const auth = betterAuth({
       strategistScore: { type: "number", required: true, defaultValue: 0 },
       catalystScore: { type: "number", required: true, defaultValue: 0 },
       missionsCompletedCount: { type: "number", required: true, defaultValue: 0 },
+      dreamStatement: { type: "string", required: false },
+      currentFocus: { type: "string[]", required: false },
+      mainBlocker: { type: "string", required: false },
+      lastCheckinAt: { type: "date", required: false },
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await emailService.sendWelcomeEmail({
+            email: user.email,
+            name: user.name,
+          });
+        },
+      },
     },
   },
   socialProviders: {

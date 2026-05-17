@@ -23,10 +23,22 @@ export default async function DashboardPage() {
     orderBy: { createdAt: 'desc' }
   });
 
+  // Fetch submissions
+  const submissions = await prisma.missionSubmission.findMany({
+    where: { userId: session.user.id },
+    select: { missionId: true, status: true }
+  });
+
+  const submissionsMap = submissions.reduce((acc, s) => {
+    acc[s.missionId] = s.status;
+    return acc;
+  }, {} as Record<string, string>);
+
   return (
     <DashboardShell 
       user={dbUser || session.user} 
       quizResult={quizResult} 
+      submissions={submissionsMap}
     />
   );
 }

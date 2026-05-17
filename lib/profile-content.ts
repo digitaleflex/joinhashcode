@@ -23,6 +23,8 @@ export interface ProfileContent {
   ctaLabel: string
 }
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "joinhashcode.com";
+
 export const PROFILE_COLORS: Record<ProfileType, string> = {
   builder: '#B8FF3B',
   creator: '#A855F7',
@@ -64,7 +66,7 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
     socialProof:
       "Des Builders comme toi ont livré leurs premiers projets et décroché leurs premiers clients depuis ce Guild.",
     whatsappText:
-      "Je viens de découvrir mon profil HASHCODE : Builder 🧱\nFais le quiz et découvre le tien → joinhashcode.com",
+      `Je viens de découvrir mon profil HASHCODE : Builder 🧱\nFais le quiz et découvre le tien → ${APP_URL}`,
     ctaLabel: 'Rejoindre le Guild Builder →',
   },
 
@@ -101,7 +103,7 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
     socialProof:
       "Des Créateurs du Guild ont publié leurs projets pour la première fois — et reçu des retours vrais, pas des likes vides.",
     whatsappText:
-      "Je viens de découvrir mon profil HASHCODE : Créateur 🎨\nFais le quiz et découvre le tien → joinhashcode.com",
+      `Je viens de découvrir mon profil HASHCODE : Créateur 🎨\nFais le quiz et découvre le tien → ${APP_URL}`,
     ctaLabel: 'Rejoindre le Guild Créateur →',
   },
 
@@ -138,7 +140,7 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
     socialProof:
       "Des Stratèges du Guild ont rejoint des équipes qui avaient besoin exactement de leur façon de penser.",
     whatsappText:
-      "Je viens de découvrir mon profil HASHCODE : Stratège 🧠\nFais le quiz et découvre le tien → joinhashcode.com",
+      `Je viens de découvrir mon profil HASHCODE : Stratège 🧠\nFais le quiz et découvre le tien → ${APP_URL}`,
     ctaLabel: 'Rejoindre le Guild Stratège →',
   },
 
@@ -150,7 +152,7 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
       {
         icon: '🔥',
         bold: 'Tu donnes beaucoup, tu reçois peu.',
-        rest: " Tu portes des groupes entiers sans structure pour toi-même. Tu t'épuises.",
+        rest: " Tu portent des groupes entiers sans structure pour toi-même. Tu t'épuises.",
       },
       {
         icon: '🌀',
@@ -175,7 +177,7 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
     socialProof:
       "Des Catalysts du Guild ont lancé leurs propres cercles d'apprentissage dans leurs villes.",
     whatsappText:
-      "Je viens de découvrir mon profil HASHCODE : Catalyst 🔥\nFais le quiz et découvre le tien → joinhashcode.com",
+      `Je viens de découvrir mon profil HASHCODE : Catalyst 🔥\nFais le quiz et découvre le tien → ${APP_URL}`,
     ctaLabel: 'Rejoindre le Guild Catalyst →',
   },
 }

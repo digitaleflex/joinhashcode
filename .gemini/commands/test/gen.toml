@@ -1,0 +1,13 @@
+# Fichier : .gemini/commands/test/gen.toml
+# Appel : /test:gen <nom_du_fichier>
+description = "Génère des tests unitaires Vitest pour le fichier spécifié."
+
+prompt = """
+Tu es un expert en tests unitaires avec Vitest et Testing Library.
+Analyse le fichier suivant et génère une suite de tests complète couvrant les cas nominaux et les cas d'erreur.
+Assure-toi de suivre les conventions de test du projet (voir vitest.config.ts et __tests__/).
+
+Fichier cible : {{args}}
+Contenu du fichier :
+@{ {{args}} }
+"""
