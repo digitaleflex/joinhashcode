@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { MISSIONS, XP_THRESHOLDS, MissionLevel } from "@/lib/missions";
 import { emailService } from "@/lib/email";
+import { updateVibrancyWithDecay, BehavioralVibrancy } from "@/lib/evolution";
 
 export async function POST(req: Request) {
   try {
@@ -36,7 +37,14 @@ export async function POST(req: Request) {
 
     const dbUser = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, level: true, experience: true }
+      select: { 
+        id: true, 
+        level: true, 
+        experience: true,
+        behavioralVibrancy: true,
+        lastHypothesisUpdate: true,
+        class: true
+      }
     });
 
     if (!dbUser) {
@@ -72,6 +80,26 @@ export async function POST(req: Request) {
         newLevel = levelNum;
       }
     }
+
+    const currentVibrancy = (dbUser.behavioralVibrancy as unknown as BehavioralVibrancy) || {
+      builder: 0,
+      creator: 0,
+      strategist: 0,
+      catalyst: 0,
+    };
+
+    const missionWeights: BehavioralVibrancy = {
+      builder: (mission as any).weightBuilder || 0,
+      creator: (mission as any).weightCreator || 0,
+      strategist: (mission as any).weightStrategist || 0,
+      catalyst: (mission as any).weightCatalyst || 0,
+    };
+
+    const { vibrancy: newVibrancy } = updateVibrancyWithDecay(
+      currentVibrancy,
+      missionWeights,
+      dbUser.lastHypothesisUpdate
+    );
 
     // Transaction to save submission and update user XP/Level
     const submission = await prisma.$transaction(async (tx) => {
@@ -110,7 +138,9 @@ export async function POST(req: Request) {
         where: { id: session.user.id },
         data: {
           experience: newXp,
-          level: newLevel
+          level: newLevel,
+          behavioralVibrancy: newVibrancy as any,
+          lastHypothesisUpdate: new Date(),
         }
       });
 
