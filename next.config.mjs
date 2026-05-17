@@ -7,17 +7,12 @@ const nextConfig = {
     unoptimized: true,
   },
   async redirects() {
-    const raw = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
-    const parsed = new URL(raw);
-    // Always strip www — canonical is always non-www
-    const nonWwwHost = parsed.host.replace(/^www\./, "");
-    const nonWwwBase = `${parsed.protocol}//${nonWwwHost}`;
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: `www.${nonWwwHost}` }],
-        destination: `${nonWwwBase}/:path*`,
-        permanent: true,
+        has: [{ type: "host", value: "www.joinhashcode.com" }],
+        destination: "https://joinhashcode.com/:path*",
+        permanent: false,
       },
     ];
   },
