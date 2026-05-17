@@ -145,6 +145,10 @@ model Mission {
   weightStrategist Float @default(0)
   weightCatalyst   Float @default(0)
 
+  fullBriefing      String?  @db.Text
+  submissionMethod  String   @default("ANY_LINK")
+  deliverables      String[]
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   submissions MissionSubmission[]
@@ -259,6 +263,8 @@ model MissionSubmission {
   userFeedback          String?  @db.Text
   improvementSuggestions String? @db.Text
 
+  adminFeedback         String?  @db.Text
+  reviewerId            String?
   reviewerFeedback      String?  // Feedback from the reviewer/mentor
   xpAwarded             Int      @default(0)
   
