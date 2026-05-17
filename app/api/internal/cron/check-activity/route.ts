@@ -11,17 +11,24 @@ const receiver = new Receiver({
 
 export async function POST(req: Request) {
   try {
-    // Signature verification (only in production)
-    if (process.env.NODE_ENV === "production") {
+    const hasQStashKeys =
+      process.env.QSTASH_CURRENT_SIGNING_KEY &&
+      process.env.QSTASH_CURRENT_SIGNING_KEY !== "test_key";
+
+    if (hasQStashKeys) {
       const signature = req.headers.get("upstash-signature");
       const body = await req.text();
       const isValid = await receiver.verify({ signature: signature!, body });
       if (!isValid) return new NextResponse("Unauthorized", { status: 401 });
+    } else {
+      const secret = req.headers.get("x-internal-secret");
+      if (!secret || secret !== (process.env.INTERNAL_API_SECRET || "")) {
+        return new NextResponse("Unauthorized", { status: 401 });
+      }
     }
 
     const twentyFourHoursAgo = subHours(new Date(), 24);
 
-    // Find users whose lastCheckinAt is older than 24h OR null, and who have completed onboarding (class is not null)
     const inactiveUsers = await prisma.user.findMany({
       where: {
         class: { not: null },
@@ -35,7 +42,6 @@ export async function POST(req: Request) {
 
     console.log(`[CRON_CHECK_ACTIVITY] Found ${inactiveUsers.length} inactive users.`);
 
-    // Trigger notifications
     const notificationPromises = inactiveUsers.map((user) =>
       triggerNotification({
         userId: user.id,
@@ -48,11 +54,9 @@ export async function POST(req: Request) {
 
     await Promise.all(notificationPromises);
 
-    console.log(`[CRON_CHECK_ACTIVITY] Triggered ${inactiveUsers.length} notifications.`);
-
-    return NextResponse.json({ 
-      success: true, 
-      processed: inactiveUsers.length 
+    return NextResponse.json({
+      success: true,
+      processed: inactiveUsers.length,
     });
   } catch (error) {
     console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);

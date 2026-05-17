@@ -15,6 +15,15 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    // Block re-taking the quiz if profile is already assigned
+    const existingUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { class: true },
+    });
+    if (existingUser?.class) {
+      return new NextResponse("Quiz déjà complété. Ton profil est verrouillé.", { status: 409 });
+    }
+
     const body = await req.json();
     const { answers, responseTimes } = body;
 

@@ -13,7 +13,7 @@ describe("triggerNotification", () => {
   it("should call qstash.publishJSON with correct parameters", async () => {
     const payload = {
       userId: "user_123",
-      type: "TEST",
+      type: "SYSTEM" as const,
       title: "Test Title",
       message: "Test Message",
     };

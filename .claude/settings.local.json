@@ -1,19 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Skill(update-config)",
-      "Bash(node *)",
-      "Bash(Get-ChildItem -Force)",
-      "Bash(Select-Object Name, PSIsContainer)",
-      "Bash(not exist *)",
-      "Bash(findstr /i \"NEXT_PUBLIC_APP_URL\")",
-      "Bash(findstr /n \"NEXT_PUBLIC_APP_URL\\\\|joinhashcode\\\\|DATABASE_URL\" .env)",
-      "Bash(Get-Content .env)",
-      "Bash(Select-String -Pattern \"NEXT_PUBLIC|DATABASE\")",
-      "Bash(DATABASE_URL=\"postgres://postgres.goatobzsmvumtvdhgefc:xROIEnYfVgKqbhsR@aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true\" DIRECT_URL=\"postgres://postgres.goatobzsmvumtvdhgefc:xROIEnYfVgKqbhsR@aws-1-us-east-2.pooler.supabase.com:5432/postgres?sslmode=require\" NODE_TLS_REJECT_UNAUTHORIZED=0 npx prisma db push --accept-data-loss)",
-      "Skill(superpowers:brainstorming)",
-      "Skill(superpowers:writing-plans)",
-      "Skill(superpowers:executing-plans)"
+      "Bash(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "Skill(*)"
     ]
   }
 }

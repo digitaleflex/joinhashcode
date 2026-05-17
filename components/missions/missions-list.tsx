@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { track } from "@vercel/analytics";
 import { MISSIONS, Mission } from "@/lib/missions";
+import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -221,9 +222,9 @@ export function MissionsList({
               
               {mission.id === "social-connection-protocol" ? (
                 <div className="flex flex-col gap-3 mt-3">
-                  <a 
-                    href="https://t.me/innovcode" 
-                    target="_blank" 
+                  <a
+                    href={COMMUNITY_LINKS.telegram}
+                    target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('telegram')}
                     className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.telegram ? 'bg-[#0088cc]/40 border-[#0088cc] text-white' : 'bg-[#0088cc]/20 border-[#0088cc]/30 hover:bg-[#0088cc]/30 text-[#0088cc]'}`}
@@ -234,9 +235,9 @@ export function MissionsList({
                     </div>
                     {socialClicks.telegram && <CheckCircle2 className="h-3 w-3" />}
                   </a>
-                  <a 
-                    href="https://discord.gg/54J6AsrTFm" 
-                    target="_blank" 
+                  <a
+                    href={COMMUNITY_LINKS.discord}
+                    target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('discord')}
                     className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.discord ? 'bg-[#5865F2]/40 border-[#5865F2] text-white' : 'bg-[#5865F2]/20 border-[#5865F2]/30 hover:bg-[#5865F2]/30 text-[#5865F2]'}`}
@@ -247,9 +248,9 @@ export function MissionsList({
                     </div>
                     {socialClicks.discord && <CheckCircle2 className="h-3 w-3" />}
                   </a>
-                  <a 
-                    href="https://chat.whatsapp.com/JwJGgoQpS46I9r81QPrCs4" 
-                    target="_blank" 
+                  <a
+                    href={COMMUNITY_LINKS.whatsapp}
+                    target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('whatsapp')}
                     className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.whatsapp ? 'bg-[#25D366]/40 border-[#25D366] text-white' : 'bg-[#25D366]/20 border-[#25D366]/30 hover:bg-[#25D366]/30 text-[#25D366]'}`}

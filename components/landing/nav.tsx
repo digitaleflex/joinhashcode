@@ -28,7 +28,7 @@ export function Nav() {
           </Link>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             {session ? (
               <>
                 <Link
@@ -37,6 +37,13 @@ export function Nav() {
                 >
                   <LayoutDashboard className="h-3.5 w-3.5" />
                   Dashboard
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="sm:hidden flex h-8 w-8 items-center justify-center rounded-full border border-primary/20 bg-primary/10 hover:bg-primary/20 transition-colors"
+                  aria-label="Dashboard"
+                >
+                  <LayoutDashboard className="h-4 w-4 text-primary" />
                 </Link>
                 <div className="h-8 w-8 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
                   {session.user.image ? (
@@ -60,7 +67,7 @@ export function Nav() {
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="hidden sm:flex text-xs font-medium text-muted-foreground hover:text-foreground"
+                  className="h-9 px-3 text-xs font-medium text-muted-foreground hover:text-foreground"
                 >
                   <Link href="/signin">Connexion</Link>
                 </Button>
@@ -70,7 +77,8 @@ export function Nav() {
                   className="h-9 rounded-full bg-primary px-4 sm:px-5 text-[10px] sm:text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
                 >
                   <Link href="/quiz" className="flex items-center gap-1.5">
-                    Se profiler
+                    <span className="hidden sm:inline">Se profiler</span>
+                    <span className="sm:hidden">Quiz</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>

@@ -3,6 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { triggerNotification } from "@/lib/qstash";
+import { z } from "zod";
+
+const postQuizSchema = z.object({
+  dreamStatement: z.string().min(1).max(500).optional(),
+  currentFocus: z.array(z.string().max(100)).max(5).optional(),
+  mainBlocker: z.string().max(300).optional(),
+});
 
 export async function PATCH(req: Request) {
   try {
@@ -14,25 +21,25 @@ export async function PATCH(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { dreamStatement, currentFocus, mainBlocker } = await req.json();
+    const body = await req.json();
+    const parsed = postQuizSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return new NextResponse("Données invalides", { status: 400 });
+    }
 
     const user = await prisma.user.update({
       where: { id: session.user.id },
-      data: {
-        dreamStatement,
-        currentFocus,
-        mainBlocker,
-      },
+      data: parsed.data,
     });
 
-    // Trigger notification
     try {
       await triggerNotification({
         userId: session.user.id,
         type: "SYSTEM",
         title: "Profil Synchronisé",
         message: "Tes paramètres de build ont été mis à jour.",
-        link: "/dashboard"
+        link: "/dashboard",
       });
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);

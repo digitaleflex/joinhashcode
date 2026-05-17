@@ -23,7 +23,7 @@ export interface ProfileContent {
   ctaLabel: string
 }
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "joinhashcode.com";
+import { APP_URL } from "./config";
 
 export const PROFILE_COLORS: Record<ProfileType, string> = {
   builder: '#B8FF3B',

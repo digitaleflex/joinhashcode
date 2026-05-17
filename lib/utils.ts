@@ -4,3 +4,7 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export function stripHtml(str: string): string {
+  return str.replace(/<[^>]*>?/gm, "").trim();
+}

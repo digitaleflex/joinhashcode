@@ -1,10 +1,13 @@
 import { Resend } from "resend";
+import { APP_URL } from "./config";
 
-const resend = process.env.RESEND_API_KEY 
-  ? new Resend(process.env.RESEND_API_KEY) 
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
+const escHtml = (str: string) =>
+  str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+
 const LOGO_URL = `${APP_URL}/hashcode-logo.png`;
 
 const generateEmailTemplate = (content: string, previewText?: string) => `
@@ -52,16 +55,17 @@ export const emailService = {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Bienvenue dans l'Écosystème, <span class="highlight">${name}</span>.</h1>
-      <p>Ton accès à HASHCODE est maintenant activé. Tu rejoins une communauté de bâtisseurs, de créateurs et de stratèges déterminés à repousser les limites du possible.</p>
-      <p>Commence par compléter ton profilage pour débloquer tes premières missions personnalisées.</p>
-      <center><a href="${APP_URL}/onboarding" class="btn">Commencer l'aventure</a></center>
-      <p>Prépare-toi. Le build ne s'arrête jamais.</p>
+      <h1 class="title">Transmission Initiale : <span class="highlight">Accès Autorisé</span></h1>
+      <p>Bienvenue dans l'Écosystème, <span class="highlight">${name}</span>.</p>
+      <p>Ton identifiant est désormais actif sur le réseau neuronal de HASHCODE. Tu ne rejoins pas qu'une plateforme, tu rejoins une force de frappe composée de bâtisseurs, de créateurs et de stratèges.</p>
+      <p><strong>Prochaine étape :</strong> Complète ton profilage pour synchroniser tes objectifs avec les missions disponibles.</p>
+      <center><a href="${APP_URL}/onboarding" class="btn">Initialiser mon profil</a></center>
+      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: READY_TO_BUILD ]</p>
     `;
 
     return this._send({
       to: email,
-      subject: "Bienvenue sur HASHCODE",
+      subject: "Bienvenue sur HASHCODE : Ton accès est activé",
       html: generateEmailTemplate(content)
     });
   },
@@ -71,15 +75,15 @@ export const emailService = {
 
     const content = `
       <h1 class="title">Protocole de Connexion</h1>
-      <p>Une demande de connexion a été initiée pour ton compte HASHCODE.</p>
-      <p>Clique sur le bouton ci-dessous pour accéder à ton espace de build.</p>
-      <center><a href="${url}" class="btn">Accéder au Dashboard</a></center>
-      <p style="font-size: 13px; color: #71717a;">Ce lien est à usage unique et expirera bientôt. Si tu n'es pas à l'origine de cette demande, ignore cet email.</p>
+      <p>Une demande d'accès sécurisé a été détectée pour ton compte.</p>
+      <p>Clique sur le bouton ci-dessous pour forcer la connexion à ton espace de build.</p>
+      <center><a href="${url}" class="btn">Entrer dans le Dashboard</a></center>
+      <p style="font-size: 13px; color: #71717a;">Ce lien est à usage unique et expirera dans 10 minutes. Si tu n'es pas à l'origine de cette transmission, ignore cet email.</p>
     `;
 
     return this._send({
       to: email,
-      subject: "Ton accès HASHCODE",
+      subject: "Ton accès sécurisé HASHCODE",
       html: generateEmailTemplate(content)
     });
   },
@@ -88,16 +92,16 @@ export const emailService = {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Analyse Terminée</h1>
-      <p>Félicitations <span class="highlight">${name}</span>, ton profilage comportemental est terminé.</p>
-      <p>Tes vecteurs cognitifs indiquent une dominance : <strong class="highlight">${profileType.toUpperCase()}</strong>.</p>
-      <p>Tes premières missions de guilde ont été débloquées sur ton dashboard.</p>
-      <center><a href="${APP_URL}/dashboard" class="btn">Voir mes missions</a></center>
+      <h1 class="title">Analyse Terminée : <span class="highlight">Hypothèse Confirmée</span></h1>
+      <p>Félicitations <span class="highlight">${name}</span>, ton profilage comportemental est désormais gravé dans la base de données.</p>
+      <p>Tes vecteurs cognitifs indiquent une dominance critique : <strong class="highlight">${profileType.toUpperCase()}</strong>.</p>
+      <p>L'écosystème vient de débloquer une série de missions spécifiquement calibrées pour ton mode d'action.</p>
+      <center><a href="${APP_URL}/dashboard" class="btn">Prendre les commandes</a></center>
     `;
 
     return this._send({
       to: email,
-      subject: "Résultats de ton analyse HASHCODE",
+      subject: `Analyse HASHCODE : Tu es un ${profileType.toUpperCase()}`,
       html: generateEmailTemplate(content)
     });
   },
@@ -106,37 +110,59 @@ export const emailService = {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Mission Validée</h1>
-      <p>Excellent travail <span class="highlight">${name}</span>.</p>
-      <p>Ta mission <strong class="highlight">${missionTitle}</strong> a été approuvée par le protocole de vérification.</p>
-      <p style="font-size: 20px; font-weight: 800;">+${xp} XP AJOUTÉS À TON PROFIL</p>
-      <center><a href="${APP_URL}/missions" class="btn">Prochaine mission</a></center>
+      <h1 class="title">Mission Validée : <span class="highlight">Impact Détecté</span></h1>
+      <p>Excellent travail, <span class="highlight">${name}</span>.</p>
+      <p>Tes actes parlent pour toi. La mission <strong class="highlight">${missionTitle}</strong> a été approuvée par le protocole de vérification.</p>
+      <div style="background: #111; padding: 20px; border: 1px solid #C5F441; border-radius: 12px; text-align: center; margin: 30px 0;">
+        <span style="font-size: 28px; font-weight: 900; color: #C5F441; letter-spacing: 0.1em;">+${xp} XP</span>
+        <p style="font-size: 10px; font-mono; color: #71717a; margin-top: 5px; text-transform: uppercase;">Injectés dans ton profil d'évolution</p>
+      </div>
+      <center><a href="${APP_URL}/missions" class="btn">Lancer la suite</a></center>
     `;
 
     return this._send({
       to: email,
-      subject: `Mission validée : ${missionTitle}`,
+      subject: `Transmission Reçue : +${xp} XP pour ${missionTitle}`,
+      html: generateEmailTemplate(content)
+    });
+  },
+
+  async sendDailyReminder({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const content = `
+      <h1 class="title">Alerte : <span style="color: #ff4545;">Build Interrompu</span></h1>
+      <p>Bâtisseur <span class="highlight">${name}</span>, le réseau détecte une baisse d'activité sur ton terminal.</p>
+      <p>Chaque jour sans action est une opportunité qui s'évapore. Ton "Confidence Score" risque de stagner si tu n'ancres pas tes progrès aujourd'hui.</p>
+      <p><strong>30 secondes suffisent :</strong> Signe ton check-in quotidien pour maintenir ta Vibrance et garder le rythme.</p>
+      <center><a href="${APP_URL}/dashboard" class="btn" style="background-color: #ff4545; color: #fff;">Reprendre le Build</a></center>
+      <p class="mono" style="font-size: 11px; text-align: center; color: #ff4545;">[ WARNING: SYSTEM_IDLE_DETECTED ]</p>
+    `;
+
+    return this._send({
+      to: email,
+      subject: "Alerte Build : Ton check-in quotidien t'attend",
       html: generateEmailTemplate(content)
     });
   },
 
   async sendContactNotification({ type, email, subject, content: messageContent }: { type: string; email: string; subject: string; content: string }) {
-    const adminEmail = "admin@joinhashcode.com";
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@joinhashcode.com";
     if (!resend) return { success: true, mocked: true };
 
     const content = `
       <h1 class="title">Nouvelle Transmission</h1>
-      <p><strong>Type :</strong> ${type.toUpperCase()}</p>
-      <p><strong>De :</strong> ${email}</p>
-      <p><strong>Sujet :</strong> ${subject}</p>
+      <p><strong>Type :</strong> ${escHtml(type.toUpperCase())}</p>
+      <p><strong>De :</strong> ${escHtml(email)}</p>
+      <p><strong>Sujet :</strong> ${escHtml(subject)}</p>
       <div style="background: #111; padding: 20px; border: 1px solid #1a1a1a; border-radius: 8px; margin-top: 20px; color: #fff;">
-        <p style="white-space: pre-wrap; font-size: 14px;">${messageContent}</p>
+        <p style="white-space: pre-wrap; font-size: 14px;">${escHtml(messageContent)}</p>
       </div>
     `;
 
     return this._send({
       to: adminEmail,
-      subject: `[${type.toUpperCase()}] ${subject}`,
+      subject: `[${escHtml(type.toUpperCase())}] ${escHtml(subject)}`,
       html: generateEmailTemplate(content)
     });
   },
@@ -145,7 +171,7 @@ export const emailService = {
     if (!resend) return { success: false, error: "Resend not configured" };
     try {
       const { data, error } = await resend.emails.send({
-        from: "HASHCODE <noreply@joinhashcode.com>",
+        from: process.env.EMAIL_FROM || "HASHCODE <noreply@joinhashcode.com>",
         to,
         subject,
         html,

@@ -37,13 +37,14 @@ import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 import { MISSIONS } from "@/lib/missions"
+import { DevNotice } from "@/components/ui/dev-notice"
 
-export function DashboardShell({ 
-  user, 
+export function DashboardShell({
+  user,
   quizResult,
   submissions = {}
-}: { 
-  user: any, 
+}: {
+  user: any,
   quizResult: any,
   submissions?: Record<string, string>
 }) {
@@ -363,7 +364,16 @@ export function DashboardShell({
               level={user.level ?? 1}
               experience={user.experience ?? 0}
               createdAt={user.createdAt ?? new Date()}
+              confidenceScore={user.confidenceScore ?? 0.25}
+              missionsCompleted={user.missionsCompletedCount ?? 0}
+              tools={user.tools ?? []}
             />
+          </div>
+
+          {/* Upcoming Features Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <DevNotice title="IA de Recommandation" />
+            <DevNotice title="Place de Marché du Build" />
           </div>
           </div>
         </main>

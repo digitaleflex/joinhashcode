@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 })
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com";
+import { APP_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),

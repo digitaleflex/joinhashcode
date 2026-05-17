@@ -241,6 +241,9 @@ export default async function DossierPage() {
                   level={user.level}
                   experience={user.experience}
                   createdAt={user.createdAt}
+                  confidenceScore={user.confidenceScore}
+                  missionsCompleted={user.missionsCompletedCount}
+                  tools={user.tools}
                 />
               </div>
             </div>

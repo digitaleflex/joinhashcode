@@ -2,6 +2,15 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const onboardingSchema = z.object({
+  country: z.string().min(1).max(100).optional(),
+  currentSituation: z.string().min(1).max(200),
+  mainObjective: z.string().min(1).max(300).optional(),
+  secondaryObjectives: z.array(z.string().max(200)).max(5).optional(),
+  language: z.enum(["fr", "en"]).default("fr"),
+});
 
 export async function PATCH(req: Request) {
   try {
@@ -14,16 +23,17 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json();
-    const { country, currentSituation, mainObjective, secondaryObjectives, language } = body;
+    const parsed = onboardingSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return new NextResponse("Données invalides", { status: 400 });
+    }
 
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        country,
-        currentSituation,
-        mainObjective,
-        secondaryObjectives: secondaryObjectives || [],
-        language: language || "fr",
+        ...parsed.data,
+        secondaryObjectives: parsed.data.secondaryObjectives || [],
       },
     });
 
