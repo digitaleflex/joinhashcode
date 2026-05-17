@@ -2,8 +2,6 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
-import { magicLink } from "better-auth/plugins/magic-link";
-import { emailService } from "./email";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -35,9 +33,6 @@ export const auth = betterAuth({
       missionsCompletedCount: { type: "number", required: true, defaultValue: 0 },
     },
   },
-  emailAndPassword: {
-    enabled: true,
-  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -50,10 +45,5 @@ export const auth = betterAuth({
   },
   plugins: [
     nextCookies(),
-    magicLink({
-      sendMagicLink: async ({ email, url, token }: { email: string; url: string; token: string }) => {
-        await emailService.sendMagicLink({ email, url });
-      },
-    }),
   ],
 });
