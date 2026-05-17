@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { useEffect } from "react"
 import { ResultPage } from "./result-page"
+import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
 
 interface QuizUser {
   id: string;
@@ -78,7 +79,12 @@ function AnalyzingScreen() {
   );
 }
 
-export function Quiz({ user }: { user?: QuizUser }) {
+interface QuizProps {
+  user?: QuizUser
+  diagnosticAnswers?: DiagnosticAnswers
+}
+
+export function Quiz({ user, diagnosticAnswers }: QuizProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -136,7 +142,7 @@ export function Quiz({ user }: { user?: QuizUser }) {
           fetch('/api/quiz', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: sortedAnswers, responseTimes: newTimes }),
+            body: JSON.stringify({ answers: sortedAnswers, responseTimes: newTimes, diagnosticAnswers }),
           }),
           minDelay,
         ]);
