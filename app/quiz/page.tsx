@@ -1,4 +1,4 @@
-import { Quiz } from "@/components/quiz/quiz"
+import { QuizWithDiagnostic } from "@/components/quiz/quiz-with-diagnostic"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
@@ -57,7 +57,7 @@ export default async function QuizPage() {
               Réponds sincèrement pour obtenir le profilage le plus précis possible.
             </p>
           </div>
-          <Quiz user={user ?? undefined} />
+          <QuizWithDiagnostic user={user ?? undefined} />
         </div>
       </div>
       <Footer />

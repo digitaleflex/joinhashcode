@@ -258,6 +258,7 @@ exports.Prisma.QuizResultScalarFieldEnum = {
   answers: 'answers',
   averageResponseTime: 'averageResponseTime',
   detailedResponseTimes: 'detailedResponseTimes',
+  diagnosticAnswers: 'diagnosticAnswers',
   createdAt: 'createdAt'
 };
 
