@@ -10,11 +10,22 @@ const buildTrustedOrigins = () => {
   if (process.env.NEXT_PUBLIC_APP_URL) {
     const url = process.env.NEXT_PUBLIC_APP_URL;
     origins.add(url);
-    // Always trust both www and non-www variants
     if (url.includes("://www.")) origins.add(url.replace("://www.", "://"));
     else origins.add(url.replace("://", "://www."));
   }
   return Array.from(origins);
+};
+
+const getCookieDomain = (): string | undefined => {
+  if (process.env.NODE_ENV !== "production") return undefined;
+  const url = process.env.NEXT_PUBLIC_APP_URL;
+  if (!url) return undefined;
+  try {
+    const hostname = new URL(url).hostname.replace(/^www\./, "");
+    return `.${hostname}`;
+  } catch {
+    return undefined;
+  }
 };
 
 export const auth = betterAuth({
@@ -78,6 +89,13 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+  advanced: {
+    useSecureCookies: process.env.NODE_ENV === "production",
+    crossSubDomainCookies: {
+      enabled: process.env.NODE_ENV === "production",
+      domain: getCookieDomain(),
     },
   },
   plugins: [

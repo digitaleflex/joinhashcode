@@ -98,7 +98,15 @@ export default function RootLayout({
         {children}
         <Toaster position="top-center" richColors />
         <CookieBanner />
-        {process.env.NODE_ENV === "production" && <Analytics />}
+        {process.env.NODE_ENV === "production" && (
+          <Analytics
+            beforeSend={(event) => {
+              if (typeof window === "undefined") return event;
+              const consent = window.localStorage.getItem("hc_cookie_consent");
+              return consent === "accepted" ? event : null;
+            }}
+          />
+        )}
       </body>
     </html>
   )
