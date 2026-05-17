@@ -5,6 +5,18 @@ import { NextResponse } from "next/server";
 import { MISSIONS, XP_THRESHOLDS, MissionLevel } from "@/lib/missions";
 import { emailService } from "@/lib/email";
 import { updateVibrancyWithDecay, BehavioralVibrancy } from "@/lib/evolution";
+import { triggerNotification } from "@/lib/qstash";
+import { z } from "zod";
+
+const submissionSchema = z.object({
+  missionId: z.string().min(1),
+  content: z.string().min(1),
+  projectDescription: z.string().optional(),
+  userDifficulty: z.number().min(1).max(5).optional(),
+  userRating: z.number().min(1).max(5).optional(),
+  userFeedback: z.string().optional(),
+  improvementSuggestions: z.string().optional(),
+});
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +28,13 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const body = await req.json();
+    const validatedData = submissionSchema.safeParse(body);
+
+    if (!validatedData.success) {
+      return new NextResponse("Invalid request data", { status: 400 });
+    }
+
     const { 
       missionId, 
       content,
@@ -24,11 +43,7 @@ export async function POST(req: Request) {
       userRating,
       userFeedback,
       improvementSuggestions
-    } = await req.json();
-
-    if (!missionId || !content) {
-      return new NextResponse("Missing required fields", { status: 400 });
-    }
+    } = validatedData.data;
 
     const mission = MISSIONS.find(m => m.id === missionId);
     if (!mission) {
@@ -43,7 +58,8 @@ export async function POST(req: Request) {
         experience: true,
         behavioralVibrancy: true,
         lastHypothesisUpdate: true,
-        class: true
+        class: true,
+        missionsCompletedCount: true
       }
     });
 
@@ -89,10 +105,10 @@ export async function POST(req: Request) {
     };
 
     const missionWeights: BehavioralVibrancy = {
-      builder: (mission as any).weightBuilder || 0,
-      creator: (mission as any).weightCreator || 0,
-      strategist: (mission as any).weightStrategist || 0,
-      catalyst: (mission as any).weightCatalyst || 0,
+      builder: mission.weightBuilder || 0,
+      creator: mission.weightCreator || 0,
+      strategist: mission.weightStrategist || 0,
+      catalyst: mission.weightCatalyst || 0,
     };
 
     const { vibrancy: newVibrancy } = updateVibrancyWithDecay(
@@ -101,7 +117,7 @@ export async function POST(req: Request) {
       dbUser.lastHypothesisUpdate
     );
 
-    // Transaction to save submission and update user XP/Level
+    // Transaction to save submission and update user XP/Level/Vibrancy
     const submission = await prisma.$transaction(async (tx) => {
       const sub = await tx.missionSubmission.upsert({
         where: {
@@ -141,6 +157,7 @@ export async function POST(req: Request) {
           level: newLevel,
           behavioralVibrancy: newVibrancy as any,
           lastHypothesisUpdate: new Date(),
+          missionsCompletedCount: { increment: 1 },
         }
       });
 

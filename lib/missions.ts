@@ -17,6 +17,10 @@ export interface Mission {
   targetProfiles: UserProfile[];
   missionLevel: ProgressionLevel;
   duration?: string;
+  weightBuilder?: number;
+  weightCreator?: number;
+  weightStrategist?: number;
+  weightCatalyst?: number;
 }
 
 export const MISSIONS: Mission[] = [
@@ -35,7 +39,11 @@ export const MISSIONS: Mission[] = [
     ],
     type: "INTRO",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-    missionLevel: "INIT"
+    missionLevel: "INIT",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
   },
   {
     id: "social-connection-protocol",
@@ -52,7 +60,11 @@ export const MISSIONS: Mission[] = [
     ],
     type: "NETWORK",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-    missionLevel: "INIT"
+    missionLevel: "INIT",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
   },
 
   // --- BUILDER MISSIONS ---
@@ -68,7 +80,11 @@ export const MISSIONS: Mission[] = [
     type: "CODE",
     targetProfiles: ["builder"],
     missionLevel: "INIT",
-    duration: "2h"
+    duration: "2h",
+    weightBuilder: 1.0,
+    weightCreator: 0,
+    weightStrategist: 0,
+    weightCatalyst: 0
   },
   {
     id: "b2-deploy-prod",
@@ -82,7 +98,11 @@ export const MISSIONS: Mission[] = [
     type: "CODE",
     targetProfiles: ["builder"],
     missionLevel: "INIT",
-    duration: "3h"
+    duration: "3h",
+    weightBuilder: 1.0,
+    weightCreator: 0,
+    weightStrategist: 0,
+    weightCatalyst: 0
   },
   {
     id: "b3-solve-bug",
@@ -96,7 +116,11 @@ export const MISSIONS: Mission[] = [
     type: "CODE",
     targetProfiles: ["builder"],
     missionLevel: "CORE",
-    duration: "4h"
+    duration: "4h",
+    weightBuilder: 1.0,
+    weightCreator: 0,
+    weightStrategist: 0,
+    weightCatalyst: 0
   },
 
   // --- CRÉATEUR MISSIONS ---
@@ -112,7 +136,11 @@ export const MISSIONS: Mission[] = [
     type: "DESIGN",
     targetProfiles: ["creator"],
     missionLevel: "INIT",
-    duration: "2h"
+    duration: "2h",
+    weightBuilder: 0,
+    weightCreator: 1.0,
+    weightStrategist: 0,
+    weightCatalyst: 0
   },
   {
     id: "c2-visual-identity",
@@ -126,7 +154,11 @@ export const MISSIONS: Mission[] = [
     type: "DESIGN",
     targetProfiles: ["creator"],
     missionLevel: "INIT",
-    duration: "4h"
+    duration: "4h",
+    weightBuilder: 0,
+    weightCreator: 1.0,
+    weightStrategist: 0,
+    weightCatalyst: 0
   },
 
   // --- STRATÈGE MISSIONS ---
@@ -142,7 +174,11 @@ export const MISSIONS: Mission[] = [
     type: "BUSINESS",
     targetProfiles: ["strategist"],
     missionLevel: "INIT",
-    duration: "3h"
+    duration: "3h",
+    weightBuilder: 0,
+    weightCreator: 0,
+    weightStrategist: 1.0,
+    weightCatalyst: 0
   },
   {
     id: "s2-mvp-definition",
@@ -156,7 +192,11 @@ export const MISSIONS: Mission[] = [
     type: "BUSINESS",
     targetProfiles: ["strategist"],
     missionLevel: "INIT",
-    duration: "2h"
+    duration: "2h",
+    weightBuilder: 0,
+    weightCreator: 0,
+    weightStrategist: 1.0,
+    weightCatalyst: 0
   },
 
   // --- CATALYSEUR MISSIONS ---
@@ -171,7 +211,11 @@ export const MISSIONS: Mission[] = [
     requirements: ["Témoignage des 2 personnes + contexte"],
     type: "NETWORK",
     targetProfiles: ["catalyst"],
-    missionLevel: "INIT"
+    missionLevel: "INIT",
+    weightBuilder: 0,
+    weightCreator: 0,
+    weightStrategist: 0,
+    weightCatalyst: 1.0
   },
   {
     id: "k2-organize-event",
@@ -185,7 +229,11 @@ export const MISSIONS: Mission[] = [
     type: "NETWORK",
     targetProfiles: ["catalyst"],
     missionLevel: "INIT",
-    duration: "4h"
+    duration: "4h",
+    weightBuilder: 0,
+    weightCreator: 0,
+    weightStrategist: 0,
+    weightCatalyst: 1.0
   },
 
   // --- MISSIONS HYBRIDES ---
@@ -200,7 +248,11 @@ export const MISSIONS: Mission[] = [
     requirements: ["Preuve de la solution (code, contenu, plan ou mise en relation)"],
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-    missionLevel: "CORE"
+    missionLevel: "CORE",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
   }
 ];
 
