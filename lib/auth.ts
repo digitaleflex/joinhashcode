@@ -5,6 +5,12 @@ import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  trustedOrigins: [
+    "https://joinhashcode.com",
+    "https://www.joinhashcode.com",
+    "http://localhost:3000",
+  ],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

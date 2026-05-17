@@ -1,8 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // Fetch session from Better Auth API
-  const response = await fetch(`${request.nextUrl.origin}/api/auth/get-session`, {
+  // Always use the canonical base URL so the session fetch stays same-origin
+  const baseUrl = process.env.BETTER_AUTH_URL || request.nextUrl.origin;
+  const response = await fetch(`${baseUrl}/api/auth/get-session`, {
     headers: {
       cookie: request.headers.get("cookie") || "",
     },
