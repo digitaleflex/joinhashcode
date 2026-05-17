@@ -1,169 +1,129 @@
 "use client"
 
 import { useMemo } from "react"
-import Image from "next/image"
-import { Quote, Shield, Award, Zap } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Shield } from "lucide-react"
 import { motion } from "framer-motion"
 
 const testimonials = [
   {
-    name: "Alex_Code",
+    name: "Kofi A.",
+    location: "Accra, GH",
     class: "Builder",
-    level: "ELITE",
-    image: "/images/avatars/builder.png",
-    log: "HASHCODE a transformé ma stack. Passer de simple dev à Builder certifié avec des missions Master m'a ouvert des portes inespérées.",
-    color: "text-blue-500",
-    border: "border-blue-500/20"
+    level: "CORE",
+    color: "text-[#B8FF3B]",
+    accent: "#B8FF3B",
+    log: "En 3 minutes j'ai su exactement où je me situais. Le dashboard m'a orienté vers des missions que j'aurais mis des semaines à trouver seul.",
   },
   {
-    name: "Sarah_Strat",
+    name: "Aminata D.",
+    location: "Dakar, SN",
+    class: "Catalyst",
+    level: "INIT",
+    color: "text-[#F97316]",
+    accent: "#F97316",
+    log: "Ce que j'aimais dans HASHCODE c'est que mon profil Catalyst a été reconnu comme aussi valide que celui d'un dev. Le réseau que j'ai construit en 2 semaines est réel.",
+  },
+  {
+    name: "Ibrahima S.",
+    location: "Abidjan, CI",
     class: "Strategist",
-    level: "PRO",
-    image: "/images/avatars/strategist.png",
-    log: "L'alignement entre mon profil et la guilde est effrayant de précision. On ne perd plus de temps en social, on bâtit des systèmes.",
-    color: "text-emerald-500",
-    border: "border-emerald-500/20"
+    level: "CORE",
+    color: "text-[#22D3EE]",
+    accent: "#22D3EE",
+    log: "L'algorithme m'a catégorisé Stratège. J'étais sceptique. Puis j'ai vu les missions et les ressources débloquées. Ça colle parfaitement à ma façon de travailler.",
   },
   {
-    name: "Neo_Create",
+    name: "Chloé M.",
+    location: "Douala, CM",
     class: "Creator",
     level: "CORE",
-    image: "/images/avatars/creator.png",
-    log: "Le Studio HASHCODE est mon nouvel espace de jeu. Mon workflow créatif est maintenant multiplié par 10 grâce à l'IA collaborative.",
-    color: "text-purple-500",
-    border: "border-purple-500/20"
+    color: "text-[#A855F7]",
+    accent: "#A855F7",
+    log: "Le fait que le quiz soit une hypothèse et non une étiquette définitive m'a rassurée. Je me suis lancée sans pression. Le profil hybride Créateur × Stratège, c'est exactement moi.",
   },
   {
-    name: "Mika_Catalyst",
-    class: "Catalyst",
-    level: "PRO",
-    image: "/images/avatars/catalyst.png",
-    log: "Connecter les bonnes intelligences au bon moment. HASHCODE est le moteur de mise en relation le plus puissant que j'ai testé.",
-    color: "text-orange-500",
-    border: "border-orange-500/20"
-  },
-  {
-    name: "Dave_Cloud",
+    name: "Yacine B.",
+    location: "Tunis, TN",
     class: "Builder",
-    level: "ELITE",
-    image: "/images/avatars/cloud.png",
-    log: "L'infrastructure Zero-Trust proposée dans les missions Master est du pur génie. Ma vision du cloud a totalement pivoté.",
-    color: "text-blue-400",
-    border: "border-blue-400/20"
+    level: "PRO",
+    color: "text-[#B8FF3B]",
+    accent: "#B8FF3B",
+    log: "J'ai complété la mission 'Premier Commit' en 48h. Le feedback de la guilde Builder était direct et technique. C'est ce dont j'avais besoin, pas du networking creux.",
   },
   {
-    name: "Elena_Scale",
-    class: "Strategist",
-    level: "ELITE",
-    image: "/images/avatars/scale.png",
-    log: "Passer de 10k à 1M d'utilisateurs demande une structure mentale. HASHCODE te donne le blueprint pour scaler sans casser.",
-    color: "text-amber-500",
-    border: "border-amber-500/20"
-  }
+    name: "Fatoumata C.",
+    location: "Bamako, ML",
+    class: "Catalyst",
+    level: "INIT",
+    color: "text-[#F97316]",
+    accent: "#F97316",
+    log: "Première fois que je vois une plateforme tech africaine qui valorise autant les profils non-techniques. Mon rôle de connectrice est enfin reconnu comme un vrai skill.",
+  },
 ]
 
 export function Testimonials() {
-  // Triple the array to ensure seamless infinite loop
   const marqueeItems = useMemo(() => [...testimonials, ...testimonials, ...testimonials], [])
 
   return (
     <section id="community" className="border-b border-border/60 bg-black py-24 sm:py-32 relative overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] opacity-30" />
-        {/* Geometric Shapes */}
-        <svg className="absolute top-10 right-10 w-64 h-64 text-primary/10 opacity-20" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" stroke="currentColor" fill="none" strokeWidth="0.5" strokeDasharray="4 4" />
-        </svg>
-        <svg className="absolute bottom-20 left-10 w-48 h-48 text-white/10 opacity-10 rotate-12" viewBox="0 0 100 100">
-          <rect x="20" y="20" width="60" height="60" stroke="currentColor" fill="none" strokeWidth="0.5" />
-        </svg>
-      </div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-[150px] opacity-25 pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mb-16">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mb-14">
         <div className="flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-              Rapports de Terrain
+              Retours Terrain
             </span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-6">
-            L'Intelligence <span className="text-primary text-glow">Collective</span> en Action.
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
+            Ce qu'ils ont vécu.
           </h2>
-          <p className="max-w-2xl text-zinc-400 text-lg">
-            Découvrez les logs de nos membres. Un flux continu de réussite et de collaboration technique.
+          <p className="max-w-xl text-zinc-400 text-base">
+            Des membres de 20 pays africains et de la diaspora.
           </p>
         </div>
       </div>
 
-      {/* Marquee Carousel Container */}
+      {/* Marquee */}
       <div className="relative flex overflow-hidden">
+        <div className="absolute inset-y-0 left-0 w-20 bg-linear-to-r from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-linear-to-l from-black to-transparent z-10 pointer-events-none" />
         <motion.div
-          animate={{
-            x: [0, -1920],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 40,
-              ease: "linear",
-            },
-          }}
-          className="flex gap-6 whitespace-nowrap py-4 hover:paused"
+          animate={{ x: [0, -1 * 376 * testimonials.length] }}
+          transition={{ repeat: Infinity, repeatType: "loop", duration: 45, ease: "linear" }}
+          className="flex gap-5 py-3"
         >
           {marqueeItems.map((t, i) => (
-            <Card 
-              key={i} 
-              className={`inline-block w-[350px] shrink-0 bg-zinc-900/40 backdrop-blur-md border ${t.border} group hover:border-primary/50 transition-all duration-500 select-none`}
+            <div
+              key={i}
+              className="inline-flex flex-col gap-4 w-[360px] shrink-0 rounded-2xl border bg-zinc-900/50 p-6 select-none"
+              style={{ borderColor: `${t.accent}20` }}
             >
-              <CardContent className="p-6 whitespace-normal">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative h-12 w-12 rounded-full overflow-hidden border border-white/10 ring-2 ring-primary/5">
-                    <Image 
-                      src={t.image} 
-                      alt={t.name} 
-                      fill 
-                      className="object-cover"
-                    />
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-white">{t.name}</span>
+                    <Shield className="h-3 w-3 text-primary opacity-60" />
                   </div>
-                  <div>
-                    <h4 className="font-mono text-xs font-bold text-white flex items-center gap-2">
-                      {t.name}
-                      <Shield className="h-3 w-3 text-primary" />
-                    </h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className={`text-[9px] font-mono uppercase tracking-widest font-bold ${t.color}`}>
-                        {t.class}
-                      </span>
-                      <span className="text-[9px] text-zinc-700 font-mono">|</span>
-                      <span className="text-[9px] text-zinc-500 font-mono tracking-widest">
-                        LVL_{t.level}
-                      </span>
-                    </div>
-                  </div>
+                  <span className="text-[10px] text-zinc-500 font-mono">{t.location}</span>
                 </div>
+                <div className="text-right">
+                  <div className={`text-[9px] font-mono font-bold uppercase tracking-widest ${t.color}`}>{t.class}</div>
+                  <div className="text-[9px] text-zinc-600 font-mono">LVL_{t.level}</div>
+                </div>
+              </div>
 
-                <div className="relative">
-                  <Quote className="absolute -top-3 -left-3 h-6 w-6 text-white/5" />
-                  <p className="text-xs leading-relaxed text-zinc-300 italic relative z-10">
-                    "{t.log}"
-                  </p>
-                </div>
+              {/* Quote */}
+              <p className="text-sm text-zinc-300 leading-relaxed flex-1">
+                "{t.log}"
+              </p>
 
-                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(star => (
-                      <div key={star} className="w-0.5 h-0.5 rounded-full bg-primary/40" />
-                    ))}
-                  </div>
-                  <span className="font-mono text-[8px] text-zinc-600 uppercase tracking-[0.2em]">Validated_Log</span>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Bottom */}
+              <div className="h-px w-full" style={{ background: `linear-gradient(90deg, ${t.accent}30, transparent)` }} />
+            </div>
           ))}
         </motion.div>
       </div>

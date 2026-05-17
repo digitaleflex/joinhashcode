@@ -36,6 +36,12 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 sm:pt-28 lg:px-8 lg:pb-32 lg:pt-36">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           {/* Eyebrow badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+              Afrique Tech · Profilage Ouvert
+            </span>
+          </div>
 
           {/* H1 */}
           <h1 className="mt-8 text-balance text-4xl font-medium tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">

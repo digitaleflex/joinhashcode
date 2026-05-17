@@ -175,7 +175,7 @@ export function Nav() {
                 size="sm"
                 className="hidden sm:flex text-xs font-medium"
               >
-                <Link href="/login">Connexion</Link>
+                <Link href="/signin">Connexion</Link>
               </Button>
               <Button
                 asChild

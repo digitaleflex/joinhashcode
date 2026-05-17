@@ -1,89 +1,132 @@
 "use client"
 
-import { Zap, Code, Cloud, Cpu } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { motion } from "framer-motion"
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
-const tracks = [
+const profiles = [
   {
-    title: "AI Builders",
-    icon: Code,
-    desc: "Next.js, TypeScript, AI Workflows & SaaS Architecture.",
-    color: "text-blue-500",
+    id: "builder",
+    label: "Builder",
+    color: "#B8FF3B",
+    tagline: "Tu construis.",
+    desc: "Code, produits, systèmes. Tu t'épanouis quand une idée devient quelque chose qui tourne en production.",
+    traits: ["Développeur", "Ingénieur", "Architecte", "Maker"],
   },
   {
-    title: "Product Systems",
-    icon: Zap,
-    desc: "UX, Systems Thinking & High-traffic Orchestration.",
-    color: "text-purple-500",
+    id: "creator",
+    label: "Créateur",
+    color: "#A855F7",
+    tagline: "Tu imagines.",
+    desc: "Design, contenu, narration. Tu crées ce que les autres n'ont pas encore eu l'idée de voir.",
+    traits: ["Designer", "UI/UX", "Vidéaste", "Rédacteur"],
   },
   {
-    title: "Cloud Foundations",
-    icon: Cloud,
-    desc: "Serverless, Edge Computing & Scalable Infrastructure.",
-    color: "text-emerald-500",
+    id: "strategist",
+    label: "Stratège",
+    color: "#22D3EE",
+    tagline: "Tu structures.",
+    desc: "Business, produit, croissance. Tu vois les systèmes derrière les événements et tu construis pour durer.",
+    traits: ["PM", "Growth", "Business Dev", "Analyste"],
   },
   {
-    title: "Automation & AI",
-    icon: Cpu,
-    desc: "AI Agents, Autonomous Workflows & Productivity.",
-    color: "text-orange-500",
+    id: "catalyst",
+    label: "Catalyseur",
+    color: "#F97316",
+    tagline: "Tu connectes.",
+    desc: "Réseau, communauté, impact. Tu amplifies ce qui existe autour de toi — les gens, les idées, les projets.",
+    traits: ["Community", "Mentor", "Ambassadeur", "Networker"],
   },
 ]
 
 export function MissionsPreview() {
   return (
-    <section id="missions" className="relative border-b border-border/60 bg-zinc-950/20 py-24 sm:py-32 overflow-hidden">
-      {/* Geometric Decorations */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-32 text-primary/5">
-          <svg viewBox="0 0 1000 100" className="w-full h-full">
-            <line x1="0" y1="50" x2="1000" y2="50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="20 20" />
-          </svg>
-        </div>
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-12 -right-12 w-64 h-64 text-white/5 opacity-20"
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            <rect x="10" y="10" width="80" height="80" stroke="currentColor" fill="none" strokeWidth="0.5" />
-          </svg>
-        </motion.div>
+    <section id="missions" className="relative border-b border-border/60 bg-zinc-950 py-24 sm:py-32 overflow-hidden">
+      {/* Background line */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-px bg-linear-to-r from-transparent via-white/5 to-transparent" />
       </div>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-              Les Piliers
+              Les 4 Profils
             </span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-6">
-            Quatre Tracks. <span className="text-primary">Une Destination.</span>
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
+            Qui es-tu dans <span className="text-primary">HASHCODE</span> ?
           </h2>
-          <p className="max-w-2xl text-zinc-400 text-lg">
-            Découvre les domaines d'expertise de HASHCODE. Chaque track est conçu pour t'amener de l'hypothèse à la maîtrise opérationnelle.
+          <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
+            Notre algorithme analyse tes réponses pour identifier ta tendance dominante.
+            Beaucoup de membres sont hybrides — c'est la norme, pas l'exception.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {tracks.map((track, i) => (
-            <Card key={i} className="bg-zinc-900/50 border-white/5 hover:border-primary/30 transition-all group overflow-hidden">
-              <CardHeader>
-                <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${track.color}`}>
-                  <track.icon className="w-6 h-6" />
+        {/* Profiles grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {profiles.map((p) => (
+            <div
+              key={p.id}
+              className="group relative flex flex-col gap-5 rounded-2xl border bg-zinc-900/40 p-6 transition-all duration-300 hover:bg-zinc-900/80"
+              style={{ borderColor: `${p.color}20` }}
+            >
+              {/* Glow on hover */}
+              <div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ boxShadow: `inset 0 0 40px ${p.color}08` }}
+              />
+
+              {/* Top */}
+              <div className="flex items-start justify-between">
+                <div
+                  className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] px-2.5 py-1 rounded-md"
+                  style={{ color: p.color, background: `${p.color}15`, border: `1px solid ${p.color}30` }}
+                >
+                  {p.label}
                 </div>
-                <CardTitle className="text-xl text-white">{track.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  {track.desc}
-                </p>
-              </CardContent>
-            </Card>
+                <div className="w-2 h-2 rounded-full mt-1" style={{ background: p.color }} />
+              </div>
+
+              {/* Tagline */}
+              <div>
+                <p className="text-2xl font-bold text-white tracking-tight mb-2">{p.tagline}</p>
+                <p className="text-sm text-zinc-400 leading-relaxed">{p.desc}</p>
+              </div>
+
+              {/* Traits */}
+              <div className="flex flex-wrap gap-1.5 mt-auto">
+                {p.traits.map(t => (
+                  <span
+                    key={t}
+                    className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded"
+                    style={{ color: `${p.color}99`, background: `${p.color}0d`, border: `1px solid ${p.color}15` }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              {/* Bottom accent */}
+              <div
+                className="absolute bottom-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: `linear-gradient(90deg, transparent, ${p.color}60, transparent)` }}
+              />
+            </div>
           ))}
+        </div>
+
+        {/* CTA */}
+        <div className="flex justify-center mt-12">
+          <Link
+            href="/quiz"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+          >
+            Découvrir mon profil en 3 minutes
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </section>

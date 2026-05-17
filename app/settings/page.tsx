@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { motion } from "framer-motion"
-import { 
-  User, Mail, Globe, Briefcase, 
-  Target, Github, Link as LinkIcon, 
+import {
+  User, Mail, Globe, Briefcase,
+  Target, Github, Link as LinkIcon,
   Search, Save, Loader2, ChevronLeft, Camera,
   Shield, Bell, Sparkles,
-  Linkedin, Twitter, Settings
+  Linkedin, Twitter, Settings, Check
 } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -27,14 +27,71 @@ export default function SettingsPage() {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const [loading, setLoading] = useState(false)
+  const [autoSaving, setAutoSaving] = useState(false)
+  const [savedAt, setSavedAt] = useState<Date | null>(null)
+  const [isDirty, setIsDirty] = useState(false)
   const [userData, setUserData] = useState<any>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const initialDataRef = useRef<any>(null)
 
   useEffect(() => {
     fetch("/api/user/me")
       .then(res => res.json())
-      .then(data => setUserData(data))
-      .catch(() => setLoading(false))
+      .then(data => {
+        setUserData(data)
+        initialDataRef.current = data
+      })
+      .catch(() => {})
   }, [])
+
+  const save = useCallback(async (data: any, silent = false) => {
+    if (data?.pseudo) {
+      const pseudoRegex = /^[a-zA-Z0-9_]{3,20}$/;
+      if (!pseudoRegex.test(data.pseudo)) {
+        if (!silent) toast.error("Format de pseudo invalide (3-20 caractères, alphanumérique).");
+        return false;
+      }
+    }
+    try {
+      const res = await fetch("/api/user/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setSavedAt(new Date());
+        setIsDirty(false);
+        if (!silent) toast.success("Profil mis à jour !");
+        return true;
+      } else if (res.status === 409) {
+        toast.error("Ce pseudo est déjà utilisé.");
+      } else if (!silent) {
+        toast.error("Erreur lors de la mise à jour");
+      }
+    } catch {
+      if (!silent) toast.error("Erreur réseau");
+    }
+    return false;
+  }, []);
+
+  const updateData = useCallback((next: any) => {
+    setUserData(next);
+    setIsDirty(true);
+    // Debounced auto-save — fires 2s after the last change
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      setAutoSaving(true);
+      await save(next, true);
+      setAutoSaving(false);
+    }, 2000);
+  }, [save]);
+
+  const handleSave = async () => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    setLoading(true);
+    await save(userData, false);
+    setLoading(false);
+  };
 
   const [toolSearch, setToolSearch] = useState("")
 
@@ -51,35 +108,30 @@ export default function SettingsPage() {
     t.toLowerCase().includes(toolSearch.toLowerCase())
   )
 
-  const handleSave = async () => {
-    // Client-side pseudo validation
-    if (userData?.pseudo) {
-      const pseudoRegex = /^[a-zA-Z0-9_]{3,20}$/;
-      if (!pseudoRegex.test(userData.pseudo)) {
-        toast.error("Format de pseudo invalide (3-20 caractères, alphanumérique).");
-        return;
-      }
-    }
+  // Unsaved changes warning on tab close
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (isDirty) { e.preventDefault(); e.returnValue = ""; }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
 
-    setLoading(true)
-    try {
-      const res = await fetch("/api/user/update", {
-        method: "PATCH",
-        body: JSON.stringify(userData),
-      })
-      if (res.ok) {
-        toast.success("Profil mis à jour !")
-      } else if (res.status === 409) {
-        toast.error("Ce pseudo est déjà utilisé.")
-      } else {
-        toast.error("Erreur lors de la mise à jour")
+  // Retry failed auto-save when user comes back to the tab
+  useEffect(() => {
+    const handleFocus = () => {
+      if (isDirty && !autoSaving && !loading && userData) {
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(async () => {
+          setAutoSaving(true);
+          await save(userData, true);
+          setAutoSaving(false);
+        }, 500);
       }
-    } catch (error) {
-      toast.error("Erreur réseau")
-    } finally {
-      setLoading(false)
-    }
-  }
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [isDirty, autoSaving, loading, userData, save]);
 
   if (!userData) {
     return (
@@ -108,14 +160,29 @@ export default function SettingsPage() {
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-white">Paramètres du Compte</h1>
             </div>
-            <Button 
-              onClick={handleSave} 
-              disabled={loading}
-              className="btn-primary-glow px-8 h-12 rounded-xl font-bold"
-            >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-              Enregistrer les modifications
-            </Button>
+            <div className="flex items-center gap-3">
+              {autoSaving && (
+                <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5">
+                  <Loader2 className="w-3 h-3 animate-spin" /> Sauvegarde auto...
+                </span>
+              )}
+              {!autoSaving && savedAt && !isDirty && (
+                <span className="text-[10px] font-mono text-emerald-500 flex items-center gap-1.5">
+                  <Check className="w-3 h-3" /> Sauvegardé
+                </span>
+              )}
+              {isDirty && !autoSaving && (
+                <span className="text-[10px] font-mono text-amber-500">Modifications non sauvegardées</span>
+              )}
+              <Button
+                onClick={handleSave}
+                disabled={loading || autoSaving || !isDirty}
+                className="btn-primary-glow px-8 h-12 rounded-xl font-bold"
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+                Enregistrer
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-12">
@@ -153,7 +220,7 @@ export default function SettingsPage() {
                       <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Nom Complet</label>
                       <Input 
                         value={userData?.name || ""} 
-                        onChange={e => setUserData({...userData, name: e.target.value})}
+                        onChange={e => updateData({...userData, name: e.target.value})}
                         className="bg-card/30 border-border/40 h-12 rounded-xl text-white"
                       />
                     </div>
@@ -161,7 +228,7 @@ export default function SettingsPage() {
                       <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Pseudo</label>
                       <Input 
                         value={userData?.pseudo || ""} 
-                        onChange={e => setUserData({...userData, pseudo: e.target.value})}
+                        onChange={e => updateData({...userData, pseudo: e.target.value})}
                         className="bg-card/30 border-border/40 h-12 rounded-xl text-white"
                         placeholder="@votre_pseudo"
                       />
@@ -171,7 +238,7 @@ export default function SettingsPage() {
                     <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Bio / Présentation</label>
                     <textarea 
                       value={userData?.bio || ""} 
-                      onChange={e => setUserData({...userData, bio: e.target.value})}
+                      onChange={e => updateData({...userData, bio: e.target.value})}
                       className="w-full bg-card/30 border border-border/40 min-h-[100px] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/40 resize-none text-white"
                       placeholder="Explique brièvement qui tu es..."
                     />
@@ -203,7 +270,7 @@ export default function SettingsPage() {
                     <button
                       key={obj}
                       type="button"
-                      onClick={() => setUserData({...userData, mainObjective: obj})}
+                      onClick={() => updateData({...userData, mainObjective: obj})}
                       className={cn(
                         "px-5 py-3 rounded-2xl text-xs font-bold transition-all border",
                         userData?.mainObjective === obj
@@ -230,14 +297,14 @@ export default function SettingsPage() {
                   <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Pays de résidence</label>
                   <CountrySelector 
                     value={userData?.country || ""} 
-                    onChange={val => setUserData({...userData, country: val})}
+                    onChange={val => updateData({...userData, country: val})}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-mono uppercase text-muted-foreground ml-1">Situation Actuelle</label>
                   <select 
                     value={userData?.currentSituation || ""} 
-                    onChange={e => setUserData({...userData, currentSituation: e.target.value})}
+                    onChange={e => updateData({...userData, currentSituation: e.target.value})}
                     className="w-full bg-card/30 border border-border/40 h-14 rounded-2xl px-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary/40 appearance-none text-white"
                   >
                     <option value="" disabled className="bg-zinc-900">Sélectionner...</option>
@@ -272,7 +339,7 @@ export default function SettingsPage() {
                           const next = current.includes(domain) 
                             ? current.filter((d: string) => d !== domain)
                             : [...current, domain];
-                          setUserData({...userData, domains: next});
+                          updateData({...userData, domains: next});
                         }}
                         className={cn(
                           "px-4 py-2 rounded-xl text-xs font-mono border transition-all",
@@ -310,7 +377,7 @@ export default function SettingsPage() {
                           const next = current.includes(tool) 
                             ? current.filter((t: string) => t !== tool)
                             : [...current, tool];
-                          setUserData({...userData, tools: next});
+                          updateData({...userData, tools: next});
                         }}
                         className={cn(
                           "px-3 py-1.5 rounded-lg text-[10px] font-mono border transition-all",
@@ -341,7 +408,7 @@ export default function SettingsPage() {
                     <Github className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input 
                       value={userData?.githubUrl || ""} 
-                      onChange={e => setUserData({...userData, githubUrl: e.target.value})}
+                      onChange={e => updateData({...userData, githubUrl: e.target.value})}
                       className="bg-card/30 border-border/40 h-12 rounded-xl pl-12 text-white"
                       placeholder="https://github.com/votre-user"
                     />
@@ -353,7 +420,7 @@ export default function SettingsPage() {
                     <Linkedin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0077B5]" />
                     <Input 
                       value={userData?.linkedinUrl || ""} 
-                      onChange={e => setUserData({...userData, linkedinUrl: e.target.value})}
+                      onChange={e => updateData({...userData, linkedinUrl: e.target.value})}
                       className="bg-card/30 border-border/40 h-12 rounded-xl pl-12 text-white"
                       placeholder="https://linkedin.com/in/votre-profil"
                     />
@@ -369,7 +436,7 @@ export default function SettingsPage() {
                     </div>
                     <Input 
                       value={userData?.twitterUrl || ""} 
-                      onChange={e => setUserData({...userData, twitterUrl: e.target.value})}
+                      onChange={e => updateData({...userData, twitterUrl: e.target.value})}
                       className="bg-card/30 border-border/40 h-12 rounded-xl pl-12 text-white"
                       placeholder="https://x.com/votre-user"
                     />
@@ -381,7 +448,7 @@ export default function SettingsPage() {
                     <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
                     <Input 
                       value={userData?.portfolioUrl || ""} 
-                      onChange={e => setUserData({...userData, portfolioUrl: e.target.value})}
+                      onChange={e => updateData({...userData, portfolioUrl: e.target.value})}
                       className="bg-card/30 border-border/40 h-12 rounded-xl pl-12 text-white"
                       placeholder="https://votre-site.com"
                     />

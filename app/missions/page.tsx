@@ -44,7 +44,7 @@ export default async function MissionsPage() {
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />
         
-        <main className="flex-1 p-4 md:p-8 pb-[var(--bottom-nav-height)] md:pb-8 overflow-y-auto scrollbar-none">
+        <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-6xl mx-auto">
           <Link 
             href="/dashboard" 
