@@ -10577,6 +10577,7 @@ export namespace Prisma {
     answers: number
     averageResponseTime: number
     detailedResponseTimes: number
+    diagnosticAnswers: number
     createdAt: number
     _all: number
   }
@@ -10618,6 +10619,7 @@ export namespace Prisma {
     answers?: true
     averageResponseTime?: true
     detailedResponseTimes?: true
+    diagnosticAnswers?: true
     createdAt?: true
     _all?: true
   }
@@ -10716,6 +10718,7 @@ export namespace Prisma {
     answers: JsonValue
     averageResponseTime: number | null
     detailedResponseTimes: JsonValue | null
+    diagnosticAnswers: JsonValue | null
     createdAt: Date
     _count: QuizResultCountAggregateOutputType | null
     _avg: QuizResultAvgAggregateOutputType | null
@@ -10746,6 +10749,7 @@ export namespace Prisma {
     answers?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
+    diagnosticAnswers?: boolean
     createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
@@ -10758,6 +10762,7 @@ export namespace Prisma {
     answers?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
+    diagnosticAnswers?: boolean
     createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
@@ -10770,6 +10775,7 @@ export namespace Prisma {
     answers?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
+    diagnosticAnswers?: boolean
     createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
@@ -10782,10 +10788,11 @@ export namespace Prisma {
     answers?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
+    diagnosticAnswers?: boolean
     createdAt?: boolean
   }
 
-  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "averageResponseTime" | "detailedResponseTimes" | "createdAt", ExtArgs["result"]["quizResult"]>
+  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "averageResponseTime" | "detailedResponseTimes" | "diagnosticAnswers" | "createdAt", ExtArgs["result"]["quizResult"]>
   export type QuizResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }
@@ -10809,6 +10816,7 @@ export namespace Prisma {
       answers: Prisma.JsonValue
       averageResponseTime: number | null
       detailedResponseTimes: Prisma.JsonValue | null
+      diagnosticAnswers: Prisma.JsonValue | null
       createdAt: Date
     }, ExtArgs["result"]["quizResult"]>
     composites: {}
@@ -11241,6 +11249,7 @@ export namespace Prisma {
     readonly answers: FieldRef<"QuizResult", 'Json'>
     readonly averageResponseTime: FieldRef<"QuizResult", 'Int'>
     readonly detailedResponseTimes: FieldRef<"QuizResult", 'Json'>
+    readonly diagnosticAnswers: FieldRef<"QuizResult", 'Json'>
     readonly createdAt: FieldRef<"QuizResult", 'DateTime'>
   }
     
@@ -14109,6 +14118,7 @@ export namespace Prisma {
     answers: 'answers',
     averageResponseTime: 'averageResponseTime',
     detailedResponseTimes: 'detailedResponseTimes',
+    diagnosticAnswers: 'diagnosticAnswers',
     createdAt: 'createdAt'
   };
 
@@ -15074,6 +15084,7 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableFilter<"QuizResult">
+    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -15086,6 +15097,7 @@ export namespace Prisma {
     answers?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
     detailedResponseTimes?: SortOrderInput | SortOrder
+    diagnosticAnswers?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -15101,6 +15113,7 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableFilter<"QuizResult">
+    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
@@ -15113,6 +15126,7 @@ export namespace Prisma {
     answers?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
     detailedResponseTimes?: SortOrderInput | SortOrder
+    diagnosticAnswers?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: QuizResultCountOrderByAggregateInput
     _avg?: QuizResultAvgOrderByAggregateInput
@@ -15132,6 +15146,7 @@ export namespace Prisma {
     answers?: JsonWithAggregatesFilter<"QuizResult">
     averageResponseTime?: IntNullableWithAggregatesFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableWithAggregatesFilter<"QuizResult">
+    diagnosticAnswers?: JsonNullableWithAggregatesFilter<"QuizResult">
     createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
   }
 
@@ -16245,6 +16260,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     user?: UserCreateNestedOneWithoutQuizResultsInput
   }
@@ -16257,6 +16273,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -16267,6 +16284,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutQuizResultsNestedInput
   }
@@ -16279,6 +16297,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16290,6 +16309,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -16300,6 +16320,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16311,6 +16332,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17357,6 +17379,7 @@ export namespace Prisma {
     answers?: SortOrder
     averageResponseTime?: SortOrder
     detailedResponseTimes?: SortOrder
+    diagnosticAnswers?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -18738,6 +18761,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -18748,6 +18772,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -19135,6 +19160,7 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableFilter<"QuizResult">
+    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
   }
 
@@ -20884,6 +20910,7 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -21177,6 +21204,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21187,6 +21215,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21197,6 +21226,7 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
