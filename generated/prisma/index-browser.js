@@ -308,6 +308,17 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  link: 'link',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -350,7 +361,8 @@ exports.Prisma.ModelName = {
   Verification: 'Verification',
   QuizResult: 'QuizResult',
   MissionSubmission: 'MissionSubmission',
-  ContactMessage: 'ContactMessage'
+  ContactMessage: 'ContactMessage',
+  Notification: 'Notification'
 };
 
 /**
