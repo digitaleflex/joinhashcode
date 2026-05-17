@@ -69,6 +69,7 @@ export const viewport: Viewport = {
 }
 
 import { Toaster } from "@/components/ui/sonner"
+import { CookieBanner } from "@/components/ui/cookie-banner"
 
 export default function RootLayout({
   children,
@@ -96,6 +97,7 @@ export default function RootLayout({
         <Noise />
         {children}
         <Toaster position="top-center" richColors />
+        <CookieBanner />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>

@@ -34,7 +34,7 @@ export async function PATCH(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Accès non autorisé. Connecte-toi pour modifier ton profil.", { status: 401 });
     }
 
     // Basic rate limit (60 seconds)
@@ -44,7 +44,7 @@ export async function PATCH(req: Request) {
     });
 
     if (user?.updatedAt && (Date.now() - user.updatedAt.getTime() < 60000)) {
-      return new NextResponse("Doucement ! Tu as mis à jour ton profil il y a moins d'une minute.", { status: 429 });
+      return new NextResponse("Doucement, bâtisseur ! Laisse ton terminal souffler une minute avant la prochaine mise à jour.", { status: 429 });
     }
 
     const body = await req.json();
@@ -52,7 +52,7 @@ export async function PATCH(req: Request) {
 
     if (!parsed.success) {
       const firstError = Object.values(parsed.error.flatten().fieldErrors)[0]?.[0];
-      return new NextResponse(firstError || "Données invalides", { status: 400 });
+      return new NextResponse(firstError || "Certaines données transmises sont invalides.", { status: 400 });
     }
 
     const updatedUser = await prisma.user.update({
@@ -67,10 +67,10 @@ export async function PATCH(req: Request) {
     if (error.code === "P2002") {
       const field = error.meta?.target?.[0];
       if (field === "pseudo") {
-        return new NextResponse("Ce pseudo est déjà utilisé par un autre talent.", { status: 409 });
+        return new NextResponse("Ce pseudo est déjà utilisé par un autre talent du réseau.", { status: 409 });
       }
     }
 
-    return new NextResponse("Erreur lors de la mise à jour", { status: 500 });
+    return new NextResponse("Le système a rencontré une erreur lors de la synchronisation. Réessaie bientôt.", { status: 500 });
   }
 }

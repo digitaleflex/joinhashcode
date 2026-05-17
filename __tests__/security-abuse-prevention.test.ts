@@ -1,0 +1,130 @@
+import { expect, test, describe, vi, beforeEach } from "vitest";
+import { POST as checkinPOST } from "../app/api/user/checkin/route";
+import { PATCH as updatePATCH } from "../app/api/user/update/route";
+import { NextRequest } from "next/server";
+import { prisma } from "../lib/prisma";
+import { auth } from "../lib/auth";
+
+vi.mock("../lib/prisma", () => ({
+  prisma: {
+    dailyCheckin: {
+      findFirst: vi.fn(),
+      create: vi.fn(),
+    },
+    user: {
+      findUnique: vi.fn(),
+      update: vi.fn(),
+    },
+  },
+}));
+
+vi.mock("../lib/auth", () => ({
+  auth: {
+    api: {
+      getSession: vi.fn(),
+    },
+  },
+}));
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn(() => Promise.resolve(new Headers())),
+}));
+
+describe("Security & Abuse Prevention", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe("Daily Check-in Cooldown", () => {
+    test("returns 429 if check-in exists in last 20 hours", async () => {
+      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
+      (prisma.dailyCheckin.findFirst as any).mockResolvedValue({ id: "checkin-1" });
+
+      const req = new NextRequest("http://localhost/api/user/checkin", {
+        method: "POST",
+        body: JSON.stringify({
+          note: "Test note",
+          domain: "Web",
+          energy: 5,
+          duration: 30,
+        }),
+      });
+
+      const res = await checkinPOST(req);
+      expect(res.status).toBe(429);
+      const text = await res.text();
+      expect(text).toContain("Tu as déjà signé ton check-in aujourd'hui");
+    });
+
+    test("strips HTML from note", async () => {
+      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
+      (prisma.dailyCheckin.findFirst as any).mockResolvedValue(null);
+      (prisma.dailyCheckin.create as any).mockResolvedValue({ id: "checkin-2" });
+
+      const req = new NextRequest("http://localhost/api/user/checkin", {
+        method: "POST",
+        body: JSON.stringify({
+          note: "<script>alert('xss')</script>Hello <b>World</b>",
+          domain: "Web",
+          energy: 5,
+          duration: 30,
+        }),
+      });
+
+      await checkinPOST(req);
+      
+      expect(prisma.dailyCheckin.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          note: "alert('xss')Hello World",
+        }),
+      });
+    });
+  });
+
+  describe("User Update Rate Limit", () => {
+    test("returns 429 if updated less than 60s ago", async () => {
+      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
+      (prisma.user.findUnique as any).mockResolvedValue({
+        id: "user-1",
+        updatedAt: new Date(Date.now() - 30000), // 30s ago
+      });
+
+      const req = new NextRequest("http://localhost/api/user/update", {
+        method: "PATCH",
+        body: JSON.stringify({ pseudo: "newpseudo" }),
+      });
+
+      const res = await updatePATCH(req);
+      expect(res.status).toBe(429);
+      const text = await res.text();
+      expect(text).toContain("Doucement ! Tu as mis à jour ton profil il y a moins d'une minute.");
+    });
+
+    test("strips HTML from pseudo and bio", async () => {
+      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
+      (prisma.user.findUnique as any).mockResolvedValue({
+        id: "user-1",
+        updatedAt: new Date(Date.now() - 70000), // 70s ago
+      });
+      (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
+
+      const req = new NextRequest("http://localhost/api/user/update", {
+        method: "PATCH",
+        body: JSON.stringify({
+          pseudo: "<b>Hacker</b>",
+          bio: "I am a <i>cool</i> person <script>...</script>",
+        }),
+      });
+
+      await updatePATCH(req);
+
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: "user-1" },
+        data: expect.objectContaining({
+          pseudo: "Hacker",
+          bio: "I am a cool person ...",
+        }),
+      });
+    });
+  });
+});

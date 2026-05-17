@@ -272,6 +272,7 @@ model MissionSubmission {
   @@index([status])
   @@index([userId])
   @@index([missionId])
+  @@index([createdAt])
   @@map("mission_submission")
 }
 
@@ -302,5 +303,6 @@ model Notification {
 
   @@index([userId])
   @@index([isRead])
+  @@index([createdAt])
   @@map("notification")
 }

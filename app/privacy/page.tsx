@@ -86,6 +86,24 @@ export default function PrivacyPage() {
               </div>
             </section>
 
+            {/* 4. Cookies */}
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <Database className="w-5 h-5 text-primary" />
+                4. Utilisation des Cookies
+              </h2>
+              <p className="leading-relaxed">
+                HASHCODE utilise des cookies pour assurer le bon fonctionnement technique de l&apos;infrastructure :
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong className="text-zinc-200">Cookies Essentiels :</strong> Nécessaires à l&apos;authentification (maintien de votre session sécurisée). Ils ne peuvent pas être désactivés.</li>
+                <li><strong className="text-zinc-200">Cookies Analytiques :</strong> Utilisés via Vercel Analytics pour comprendre comment les bâtisseurs utilisent la plateforme et identifier les bugs potentiels.</li>
+              </ul>
+              <p className="text-sm">
+                Vous pouvez gérer vos préférences de cookies à tout moment via la bannière de consentement présente lors de votre première visite.
+              </p>
+            </section>
+
             {/* 5. Sécurité */}
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">

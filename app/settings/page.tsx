@@ -32,9 +32,12 @@ const TABS = [
 ]
 
 export default function SettingsPage() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("profile")
   const [userData, setUserData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [autoSaving, setAutoSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<Date | null>(null)
   const [isDirty, setIsDirty] = useState(false)
@@ -78,6 +81,33 @@ export default function SettingsPage() {
       setAutoSaving(false);
     }, 2000);
   }, [save]);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingAvatar(true)
+    const formData = new FormData()
+    formData.append("file", file)
+
+    try {
+      const res = await fetch("/api/user/avatar", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!res.ok) throw new Error(await res.text())
+
+      const { url } = await res.json()
+      setUserData({ ...userData, image: url })
+      toast.success("Avatar mis à jour !")
+      router.refresh()
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de l'upload")
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
 
   if (!userData) {
     return (
@@ -178,8 +208,10 @@ export default function SettingsPage() {
                       <div className="space-y-10">
                         <div className="flex flex-col sm:flex-row gap-8 items-center sm:items-start border-b border-border/40 pb-10">
                           <div className="relative group">
-                            <div className="size-24 rounded-full bg-muted overflow-hidden border-2 border-border/40 shadow-xl group-hover:border-primary/50 transition-colors">
-                              {userData?.image ? (
+                            <div className="size-24 rounded-full bg-muted overflow-hidden border-2 border-border/40 shadow-xl group-hover:border-primary/50 transition-colors flex items-center justify-center">
+                              {uploadingAvatar ? (
+                                <Loader2 className="size-8 animate-spin text-primary" />
+                              ) : userData?.image ? (
                                 <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground">
@@ -187,7 +219,18 @@ export default function SettingsPage() {
                                 </div>
                               )}
                             </div>
-                            <button className="absolute -bottom-1 -right-1 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-110 transition-transform">
+                            <input 
+                              type="file" 
+                              ref={fileInputRef} 
+                              onChange={handleAvatarUpload} 
+                              className="hidden" 
+                              accept="image/png, image/jpeg, image/webp"
+                            />
+                            <button 
+                              onClick={() => fileInputRef.current?.click()}
+                              disabled={uploadingAvatar}
+                              className="absolute -bottom-1 -right-1 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-110 transition-transform disabled:opacity-50"
+                            >
                               <Camera className="w-4 h-4" />
                             </button>
                           </div>

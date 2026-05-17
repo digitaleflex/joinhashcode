@@ -28,23 +28,26 @@ export async function middleware(request: NextRequest) {
   }
 
   if (session && user) {
-    // console.log("Middleware User State:", { path: request.nextUrl.pathname, situation: !!user.currentSituation, class: !!user.class, dream: !!user.dreamStatement });
-
-    // 1. Check for Step 1: Initial Context (Country, Situation)
-    if (!user.currentSituation && !isOnboardingPath && !isQuizPath && isProtectedPath) {
-      return NextResponse.redirect(new URL("/onboarding", request.url));
-    }
-
-    // 2. Check for Step 2: Quiz (Psychometrics)
-    if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath && isProtectedPath) {
-      return NextResponse.redirect(new URL("/quiz", request.url));
-    }
-
-    // 3. Check for Step 3: Post-Quiz (Dream, Focus, Blocker)
+    // Determine if we are on an onboarding/quiz path
     const isPostQuizPath = request.nextUrl.pathname.startsWith('/onboarding/post-quiz');
-    // Ensure we don't loop if the field is empty but the user is finishing Step 3
-    if (user.class && !user.dreamStatement && !isPostQuizPath && isProtectedPath && !request.nextUrl.pathname.startsWith('/api')) {
-      return NextResponse.redirect(new URL("/onboarding/post-quiz", request.url));
+
+    // ONLY redirect if we are on a protected path AND it's NOT an API call or internal Next.js request
+    if (isProtectedPath && !request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.includes('.')) {
+      
+      // 1. Check for Step 1: Initial Context (Country, Situation)
+      if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
+        return NextResponse.redirect(new URL("/onboarding", request.url));
+      }
+
+      // 2. Check for Step 2: Quiz (Psychometrics)
+      if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
+        return NextResponse.redirect(new URL("/quiz", request.url));
+      }
+
+      // 3. Check for Step 3: Post-Quiz (Dream, Focus, Blocker)
+      if (user.class && !user.dreamStatement && !isPostQuizPath) {
+        return NextResponse.redirect(new URL("/onboarding/post-quiz", request.url));
+      }
     }
   }
 

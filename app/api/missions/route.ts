@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { XP_THRESHOLDS } from "@/lib/missions";
-import { updateVibrancyWithDecay, BehavioralVibrancy } from "@/lib/evolution";
+import { BehavioralVibrancy } from "@/lib/evolution";
+import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
 import { z } from "zod";
 
@@ -26,14 +27,14 @@ export async function POST(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Accès non autorisé. Connecte-toi pour valider ta mission.", { status: 401 });
     }
 
     const body = await req.json();
     const validatedData = submissionSchema.safeParse(body);
 
     if (!validatedData.success) {
-      return new NextResponse("Invalid request data", { status: 400 });
+      return new NextResponse("Données d'envoi invalides. Vérifie tes champs.", { status: 400 });
     }
 
     const { 
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
 
     const mission = await prisma.mission.findUnique({ where: { id: missionId } });
     if (!mission) {
-      return new NextResponse("Mission not found", { status: 404 });
+      return new NextResponse("Mission introuvable dans le système.", { status: 404 });
     }
 
     const dbUser = await prisma.user.findUnique({
@@ -65,12 +66,12 @@ export async function POST(req: Request) {
     });
 
     if (!dbUser) {
-      return new NextResponse("User not found", { status: 404 });
+      return new NextResponse("Utilisateur introuvable.", { status: 404 });
     }
 
     const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
     if (dbUser.level < requiredLevel) {
-      return new NextResponse("Level too low for this mission", { status: 403 });
+      return new NextResponse("Ton rang est trop bas pour cette mission. Continue de build !", { status: 403 });
     }
 
     // Check if already submitted
@@ -84,7 +85,7 @@ export async function POST(req: Request) {
     });
 
     if (existingSubmission && existingSubmission.status === "APPROVED") {
-      return new NextResponse("Mission already completed", { status: 400 });
+      return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 400 });
     }
 
     // For HASHCODE V1 Demo: Auto-approve missions
@@ -112,12 +113,6 @@ export async function POST(req: Request) {
       strategist: mission.weightStrategist || 0,
       catalyst: mission.weightCatalyst || 0,
     };
-
-    const { vibrancy: newVibrancy } = updateVibrancyWithDecay(
-      currentVibrancy,
-      missionWeights,
-      dbUser.lastHypothesisUpdate
-    );
 
     // Transaction to save submission and update user XP/Level/Vibrancy
     const submission = await prisma.$transaction(async (tx) => {
@@ -152,13 +147,21 @@ export async function POST(req: Request) {
         }
       });
 
+      const missionWeights: BehavioralVibrancy = {
+        builder: mission.weightBuilder || 0,
+        creator: mission.weightCreator || 0,
+        strategist: mission.weightStrategist || 0,
+        catalyst: mission.weightCatalyst || 0,
+      };
+
+      // Confidence gain for mission: 0.05
+      await updateUserEvolution(session.user.id, missionWeights, 0.05, tx);
+
       await tx.user.update({
         where: { id: session.user.id },
         data: {
           experience: newXp,
           level: newLevel,
-          behavioralVibrancy: newVibrancy as any,
-          lastHypothesisUpdate: new Date(),
           missionsCompletedCount: { increment: 1 },
         }
       });
@@ -182,6 +185,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ submission, leveledUp: newLevel > dbUser.level, newLevel });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Erreur interne du système. Nos ingénieurs sont sur le coup.", { status: 500 });
   }
 }
