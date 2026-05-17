@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
+import { AnalyticsConsent } from "@/components/ui/analytics-consent"
 import "./globals.css"
 import { Noise } from "@/components/ui/noise"
 import NextTopLoader from 'nextjs-toploader'
@@ -98,15 +98,7 @@ export default function RootLayout({
         {children}
         <Toaster position="top-center" richColors />
         <CookieBanner />
-        {process.env.NODE_ENV === "production" && (
-          <Analytics
-            beforeSend={(event) => {
-              if (typeof window === "undefined") return event;
-              const consent = window.localStorage.getItem("hc_cookie_consent");
-              return consent === "accepted" ? event : null;
-            }}
-          />
-        )}
+        {process.env.NODE_ENV === "production" && <AnalyticsConsent />}
       </body>
     </html>
   )
