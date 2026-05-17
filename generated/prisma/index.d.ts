@@ -1867,25 +1867,25 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    mentees: number
-    sessions: number
     accounts: number
-    quizResults: number
+    dailyCheckins: number
     guildMembers: number
     missionSubmissions: number
-    dailyCheckins: number
     notifications: number
+    quizResults: number
+    sessions: number
+    mentees: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentees?: boolean | UserCountOutputTypeCountMenteesArgs
-    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
+    dailyCheckins?: boolean | UserCountOutputTypeCountDailyCheckinsArgs
     guildMembers?: boolean | UserCountOutputTypeCountGuildMembersArgs
     missionSubmissions?: boolean | UserCountOutputTypeCountMissionSubmissionsArgs
-    dailyCheckins?: boolean | UserCountOutputTypeCountDailyCheckinsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    mentees?: boolean | UserCountOutputTypeCountMenteesArgs
   }
 
   // Custom InputTypes
@@ -1902,20 +1902,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountMenteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccountWhereInput
   }
@@ -1923,8 +1909,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountQuizResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: QuizResultWhereInput
+  export type UserCountOutputTypeCountDailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyCheckinWhereInput
   }
 
   /**
@@ -1944,15 +1930,29 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountDailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DailyCheckinWhereInput
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
+  export type UserCountOutputTypeCountQuizResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizResultWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMenteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -2035,419 +2035,419 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
-    memberNumber: number | null
     level: number | null
     experience: number | null
-    onboardingSpeed: number | null
     answerConsistency: number | null
-    connectionFrequency: number | null
-    dashboardActivity: number | null
-    communityEngagement: number | null
     builderScore: number | null
-    creatorScore: number | null
-    strategistScore: number | null
     catalystScore: number | null
-    polarization: number | null
-    profileStability: number | null
-    missionsCompletedCount: number | null
-    predictedEngagementScore: number | null
+    communityEngagement: number | null
     confidenceScore: number | null
+    connectionFrequency: number | null
+    creatorScore: number | null
+    dashboardActivity: number | null
+    missionsCompletedCount: number | null
+    onboardingSpeed: number | null
+    polarization: number | null
+    predictedEngagementScore: number | null
     profileDrift: number | null
+    profileStability: number | null
+    strategistScore: number | null
+    memberNumber: number | null
   }
 
   export type UserSumAggregateOutputType = {
-    memberNumber: number | null
     level: number | null
     experience: number | null
-    onboardingSpeed: number | null
     answerConsistency: number | null
-    connectionFrequency: number | null
-    dashboardActivity: number | null
-    communityEngagement: number | null
     builderScore: number | null
-    creatorScore: number | null
-    strategistScore: number | null
     catalystScore: number | null
-    polarization: number | null
-    profileStability: number | null
-    missionsCompletedCount: number | null
-    predictedEngagementScore: number | null
+    communityEngagement: number | null
     confidenceScore: number | null
+    connectionFrequency: number | null
+    creatorScore: number | null
+    dashboardActivity: number | null
+    missionsCompletedCount: number | null
+    onboardingSpeed: number | null
+    polarization: number | null
+    predictedEngagementScore: number | null
     profileDrift: number | null
+    profileStability: number | null
+    strategistScore: number | null
+    memberNumber: number | null
   }
 
   export type UserMinAggregateOutputType = {
     id: string | null
-    memberNumber: number | null
     name: string | null
     email: string | null
     emailVerified: boolean | null
     image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     level: number | null
     experience: number | null
     class: string | null
     role: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    pseudo: string | null
-    bio: string | null
-    country: string | null
-    city: string | null
-    language: string | null
     ageRange: string | null
-    currentSituation: string | null
-    technicalLevel: string | null
-    githubUrl: string | null
-    portfolioUrl: string | null
-    linkedinUrl: string | null
-    twitterUrl: string | null
-    mainObjective: string | null
-    dominantMotivation: string | null
-    longTermObjective: string | null
-    preferredRhythm: string | null
-    onboardingSpeed: number | null
     answerConsistency: number | null
-    connectionFrequency: number | null
-    dashboardActivity: number | null
-    communityEngagement: number | null
     builderScore: number | null
-    creatorScore: number | null
-    strategistScore: number | null
     catalystScore: number | null
-    polarization: number | null
-    profileStability: number | null
+    city: string | null
+    communityEngagement: number | null
+    confidenceScore: number | null
+    connectionFrequency: number | null
+    country: string | null
+    creatorScore: number | null
+    currentSituation: string | null
+    dashboardActivity: number | null
+    dominantMotivation: string | null
+    githubUrl: string | null
+    language: string | null
+    lastHypothesisUpdate: Date | null
+    longTermObjective: string | null
+    mainObjective: string | null
     mentorId: string | null
     missionsCompletedCount: number | null
+    onboardingSpeed: number | null
+    polarization: number | null
+    portfolioUrl: string | null
     predictedEngagementScore: number | null
-    confidenceScore: number | null
+    preferredRhythm: string | null
     profileDrift: number | null
-    lastHypothesisUpdate: Date | null
+    profileStability: number | null
+    pseudo: string | null
+    strategistScore: number | null
+    technicalLevel: string | null
+    bio: string | null
+    linkedinUrl: string | null
+    memberNumber: number | null
+    twitterUrl: string | null
     dreamStatement: string | null
-    mainBlocker: string | null
     lastCheckinAt: Date | null
+    mainBlocker: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
-    memberNumber: number | null
     name: string | null
     email: string | null
     emailVerified: boolean | null
     image: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     level: number | null
     experience: number | null
     class: string | null
     role: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    pseudo: string | null
-    bio: string | null
-    country: string | null
-    city: string | null
-    language: string | null
     ageRange: string | null
-    currentSituation: string | null
-    technicalLevel: string | null
-    githubUrl: string | null
-    portfolioUrl: string | null
-    linkedinUrl: string | null
-    twitterUrl: string | null
-    mainObjective: string | null
-    dominantMotivation: string | null
-    longTermObjective: string | null
-    preferredRhythm: string | null
-    onboardingSpeed: number | null
     answerConsistency: number | null
-    connectionFrequency: number | null
-    dashboardActivity: number | null
-    communityEngagement: number | null
     builderScore: number | null
-    creatorScore: number | null
-    strategistScore: number | null
     catalystScore: number | null
-    polarization: number | null
-    profileStability: number | null
+    city: string | null
+    communityEngagement: number | null
+    confidenceScore: number | null
+    connectionFrequency: number | null
+    country: string | null
+    creatorScore: number | null
+    currentSituation: string | null
+    dashboardActivity: number | null
+    dominantMotivation: string | null
+    githubUrl: string | null
+    language: string | null
+    lastHypothesisUpdate: Date | null
+    longTermObjective: string | null
+    mainObjective: string | null
     mentorId: string | null
     missionsCompletedCount: number | null
+    onboardingSpeed: number | null
+    polarization: number | null
+    portfolioUrl: string | null
     predictedEngagementScore: number | null
-    confidenceScore: number | null
+    preferredRhythm: string | null
     profileDrift: number | null
-    lastHypothesisUpdate: Date | null
+    profileStability: number | null
+    pseudo: string | null
+    strategistScore: number | null
+    technicalLevel: string | null
+    bio: string | null
+    linkedinUrl: string | null
+    memberNumber: number | null
+    twitterUrl: string | null
     dreamStatement: string | null
-    mainBlocker: string | null
     lastCheckinAt: Date | null
+    mainBlocker: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
-    memberNumber: number
     name: number
     email: number
     emailVerified: number
     image: number
+    createdAt: number
+    updatedAt: number
     level: number
     experience: number
     class: number
     role: number
-    createdAt: number
-    updatedAt: number
-    pseudo: number
-    bio: number
-    country: number
-    city: number
-    language: number
+    activePaths: number
     ageRange: number
-    currentSituation: number
-    technicalLevel: number
-    domains: number
-    tools: number
-    githubUrl: number
-    portfolioUrl: number
-    linkedinUrl: number
-    twitterUrl: number
-    mainObjective: number
-    secondaryObjectives: number
-    dominantMotivation: number
-    longTermObjective: number
-    preferredRhythm: number
-    onboardingSpeed: number
     answerConsistency: number
-    connectionFrequency: number
-    dashboardActivity: number
-    communityEngagement: number
+    badges: number
+    behavioralVibrancy: number
     builderScore: number
-    creatorScore: number
-    strategistScore: number
     catalystScore: number
-    polarization: number
-    profileStability: number
+    city: number
     cohortsJoined: number
     collaborativeProjects: number
+    communityEngagement: number
+    confidenceScore: number
+    connectionFrequency: number
+    country: number
+    creatorScore: number
+    currentSituation: number
+    dashboardActivity: number
+    domains: number
+    dominantMotivation: number
+    githubUrl: number
+    language: number
+    lastHypothesisUpdate: number
+    longTermObjective: number
+    mainObjective: number
     mentorId: number
-    projectsRealized: number
-    activePaths: number
-    badges: number
     missionsCompletedCount: number
+    onboardingSpeed: number
+    polarization: number
+    portfolioUrl: number
+    predictedEngagementScore: number
+    preferredRhythm: number
+    profileDrift: number
+    profileStability: number
+    projectsRealized: number
+    pseudo: number
     recommendedPath: number
     recommendedTools: number
-    predictedEngagementScore: number
-    confidenceScore: number
-    profileDrift: number
-    behavioralVibrancy: number
-    lastHypothesisUpdate: number
-    dreamStatement: number
+    strategistScore: number
+    technicalLevel: number
+    tools: number
+    secondaryObjectives: number
+    bio: number
+    linkedinUrl: number
+    memberNumber: number
+    twitterUrl: number
     currentFocus: number
-    mainBlocker: number
+    dreamStatement: number
     lastCheckinAt: number
+    mainBlocker: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
-    memberNumber?: true
     level?: true
     experience?: true
-    onboardingSpeed?: true
     answerConsistency?: true
-    connectionFrequency?: true
-    dashboardActivity?: true
-    communityEngagement?: true
     builderScore?: true
-    creatorScore?: true
-    strategistScore?: true
     catalystScore?: true
-    polarization?: true
-    profileStability?: true
-    missionsCompletedCount?: true
-    predictedEngagementScore?: true
+    communityEngagement?: true
     confidenceScore?: true
+    connectionFrequency?: true
+    creatorScore?: true
+    dashboardActivity?: true
+    missionsCompletedCount?: true
+    onboardingSpeed?: true
+    polarization?: true
+    predictedEngagementScore?: true
     profileDrift?: true
+    profileStability?: true
+    strategistScore?: true
+    memberNumber?: true
   }
 
   export type UserSumAggregateInputType = {
-    memberNumber?: true
     level?: true
     experience?: true
-    onboardingSpeed?: true
     answerConsistency?: true
-    connectionFrequency?: true
-    dashboardActivity?: true
-    communityEngagement?: true
     builderScore?: true
-    creatorScore?: true
-    strategistScore?: true
     catalystScore?: true
-    polarization?: true
-    profileStability?: true
-    missionsCompletedCount?: true
-    predictedEngagementScore?: true
+    communityEngagement?: true
     confidenceScore?: true
+    connectionFrequency?: true
+    creatorScore?: true
+    dashboardActivity?: true
+    missionsCompletedCount?: true
+    onboardingSpeed?: true
+    polarization?: true
+    predictedEngagementScore?: true
     profileDrift?: true
+    profileStability?: true
+    strategistScore?: true
+    memberNumber?: true
   }
 
   export type UserMinAggregateInputType = {
     id?: true
-    memberNumber?: true
     name?: true
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
     level?: true
     experience?: true
     class?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
-    pseudo?: true
-    bio?: true
-    country?: true
-    city?: true
-    language?: true
     ageRange?: true
-    currentSituation?: true
-    technicalLevel?: true
-    githubUrl?: true
-    portfolioUrl?: true
-    linkedinUrl?: true
-    twitterUrl?: true
-    mainObjective?: true
-    dominantMotivation?: true
-    longTermObjective?: true
-    preferredRhythm?: true
-    onboardingSpeed?: true
     answerConsistency?: true
-    connectionFrequency?: true
-    dashboardActivity?: true
-    communityEngagement?: true
     builderScore?: true
-    creatorScore?: true
-    strategistScore?: true
     catalystScore?: true
-    polarization?: true
-    profileStability?: true
+    city?: true
+    communityEngagement?: true
+    confidenceScore?: true
+    connectionFrequency?: true
+    country?: true
+    creatorScore?: true
+    currentSituation?: true
+    dashboardActivity?: true
+    dominantMotivation?: true
+    githubUrl?: true
+    language?: true
+    lastHypothesisUpdate?: true
+    longTermObjective?: true
+    mainObjective?: true
     mentorId?: true
     missionsCompletedCount?: true
+    onboardingSpeed?: true
+    polarization?: true
+    portfolioUrl?: true
     predictedEngagementScore?: true
-    confidenceScore?: true
+    preferredRhythm?: true
     profileDrift?: true
-    lastHypothesisUpdate?: true
+    profileStability?: true
+    pseudo?: true
+    strategistScore?: true
+    technicalLevel?: true
+    bio?: true
+    linkedinUrl?: true
+    memberNumber?: true
+    twitterUrl?: true
     dreamStatement?: true
-    mainBlocker?: true
     lastCheckinAt?: true
+    mainBlocker?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
-    memberNumber?: true
     name?: true
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
     level?: true
     experience?: true
     class?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
-    pseudo?: true
-    bio?: true
-    country?: true
-    city?: true
-    language?: true
     ageRange?: true
-    currentSituation?: true
-    technicalLevel?: true
-    githubUrl?: true
-    portfolioUrl?: true
-    linkedinUrl?: true
-    twitterUrl?: true
-    mainObjective?: true
-    dominantMotivation?: true
-    longTermObjective?: true
-    preferredRhythm?: true
-    onboardingSpeed?: true
     answerConsistency?: true
-    connectionFrequency?: true
-    dashboardActivity?: true
-    communityEngagement?: true
     builderScore?: true
-    creatorScore?: true
-    strategistScore?: true
     catalystScore?: true
-    polarization?: true
-    profileStability?: true
+    city?: true
+    communityEngagement?: true
+    confidenceScore?: true
+    connectionFrequency?: true
+    country?: true
+    creatorScore?: true
+    currentSituation?: true
+    dashboardActivity?: true
+    dominantMotivation?: true
+    githubUrl?: true
+    language?: true
+    lastHypothesisUpdate?: true
+    longTermObjective?: true
+    mainObjective?: true
     mentorId?: true
     missionsCompletedCount?: true
+    onboardingSpeed?: true
+    polarization?: true
+    portfolioUrl?: true
     predictedEngagementScore?: true
-    confidenceScore?: true
+    preferredRhythm?: true
     profileDrift?: true
-    lastHypothesisUpdate?: true
+    profileStability?: true
+    pseudo?: true
+    strategistScore?: true
+    technicalLevel?: true
+    bio?: true
+    linkedinUrl?: true
+    memberNumber?: true
+    twitterUrl?: true
     dreamStatement?: true
-    mainBlocker?: true
     lastCheckinAt?: true
+    mainBlocker?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
-    memberNumber?: true
     name?: true
     email?: true
     emailVerified?: true
     image?: true
+    createdAt?: true
+    updatedAt?: true
     level?: true
     experience?: true
     class?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
-    pseudo?: true
-    bio?: true
-    country?: true
-    city?: true
-    language?: true
+    activePaths?: true
     ageRange?: true
-    currentSituation?: true
-    technicalLevel?: true
-    domains?: true
-    tools?: true
-    githubUrl?: true
-    portfolioUrl?: true
-    linkedinUrl?: true
-    twitterUrl?: true
-    mainObjective?: true
-    secondaryObjectives?: true
-    dominantMotivation?: true
-    longTermObjective?: true
-    preferredRhythm?: true
-    onboardingSpeed?: true
     answerConsistency?: true
-    connectionFrequency?: true
-    dashboardActivity?: true
-    communityEngagement?: true
+    badges?: true
+    behavioralVibrancy?: true
     builderScore?: true
-    creatorScore?: true
-    strategistScore?: true
     catalystScore?: true
-    polarization?: true
-    profileStability?: true
+    city?: true
     cohortsJoined?: true
     collaborativeProjects?: true
+    communityEngagement?: true
+    confidenceScore?: true
+    connectionFrequency?: true
+    country?: true
+    creatorScore?: true
+    currentSituation?: true
+    dashboardActivity?: true
+    domains?: true
+    dominantMotivation?: true
+    githubUrl?: true
+    language?: true
+    lastHypothesisUpdate?: true
+    longTermObjective?: true
+    mainObjective?: true
     mentorId?: true
-    projectsRealized?: true
-    activePaths?: true
-    badges?: true
     missionsCompletedCount?: true
+    onboardingSpeed?: true
+    polarization?: true
+    portfolioUrl?: true
+    predictedEngagementScore?: true
+    preferredRhythm?: true
+    profileDrift?: true
+    profileStability?: true
+    projectsRealized?: true
+    pseudo?: true
     recommendedPath?: true
     recommendedTools?: true
-    predictedEngagementScore?: true
-    confidenceScore?: true
-    profileDrift?: true
-    behavioralVibrancy?: true
-    lastHypothesisUpdate?: true
-    dreamStatement?: true
+    strategistScore?: true
+    technicalLevel?: true
+    tools?: true
+    secondaryObjectives?: true
+    bio?: true
+    linkedinUrl?: true
+    memberNumber?: true
+    twitterUrl?: true
     currentFocus?: true
-    mainBlocker?: true
+    dreamStatement?: true
     lastCheckinAt?: true
+    mainBlocker?: true
     _all?: true
   }
 
@@ -2539,65 +2539,65 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    memberNumber: number
     name: string
     email: string
     emailVerified: boolean
     image: string | null
+    createdAt: Date
+    updatedAt: Date
     level: number
     experience: number
     class: string | null
     role: string
-    createdAt: Date
-    updatedAt: Date
-    pseudo: string | null
-    bio: string | null
-    country: string | null
-    city: string | null
-    language: string
+    activePaths: string[]
     ageRange: string | null
-    currentSituation: string | null
-    technicalLevel: string | null
-    domains: string[]
-    tools: string[]
-    githubUrl: string | null
-    portfolioUrl: string | null
-    linkedinUrl: string | null
-    twitterUrl: string | null
-    mainObjective: string | null
-    secondaryObjectives: string[]
-    dominantMotivation: string | null
-    longTermObjective: string | null
-    preferredRhythm: string | null
-    onboardingSpeed: number | null
     answerConsistency: number | null
-    connectionFrequency: number | null
-    dashboardActivity: number | null
-    communityEngagement: number | null
+    badges: string[]
+    behavioralVibrancy: JsonValue | null
     builderScore: number
-    creatorScore: number
-    strategistScore: number
     catalystScore: number
-    polarization: number
-    profileStability: number
+    city: string | null
     cohortsJoined: string[]
     collaborativeProjects: string[]
+    communityEngagement: number | null
+    confidenceScore: number
+    connectionFrequency: number | null
+    country: string | null
+    creatorScore: number
+    currentSituation: string | null
+    dashboardActivity: number | null
+    domains: string[]
+    dominantMotivation: string | null
+    githubUrl: string | null
+    language: string
+    lastHypothesisUpdate: Date | null
+    longTermObjective: string | null
+    mainObjective: string | null
     mentorId: string | null
-    projectsRealized: string[]
-    activePaths: string[]
-    badges: string[]
     missionsCompletedCount: number
+    onboardingSpeed: number | null
+    polarization: number
+    portfolioUrl: string | null
+    predictedEngagementScore: number | null
+    preferredRhythm: string | null
+    profileDrift: number
+    profileStability: number
+    projectsRealized: string[]
+    pseudo: string | null
     recommendedPath: string[]
     recommendedTools: string[]
-    predictedEngagementScore: number | null
-    confidenceScore: number
-    profileDrift: number
-    behavioralVibrancy: JsonValue | null
-    lastHypothesisUpdate: Date | null
-    dreamStatement: string | null
+    strategistScore: number
+    technicalLevel: string | null
+    tools: string[]
+    secondaryObjectives: string[]
+    bio: string | null
+    linkedinUrl: string | null
+    memberNumber: number
+    twitterUrl: string | null
     currentFocus: string[]
-    mainBlocker: string | null
+    dreamStatement: string | null
     lastCheckinAt: Date | null
+    mainBlocker: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -2621,279 +2621,279 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    memberNumber?: boolean
     name?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     level?: boolean
     experience?: boolean
     class?: boolean
     role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    pseudo?: boolean
-    bio?: boolean
-    country?: boolean
-    city?: boolean
-    language?: boolean
+    activePaths?: boolean
     ageRange?: boolean
-    currentSituation?: boolean
-    technicalLevel?: boolean
-    domains?: boolean
-    tools?: boolean
-    githubUrl?: boolean
-    portfolioUrl?: boolean
-    linkedinUrl?: boolean
-    twitterUrl?: boolean
-    mainObjective?: boolean
-    secondaryObjectives?: boolean
-    dominantMotivation?: boolean
-    longTermObjective?: boolean
-    preferredRhythm?: boolean
-    onboardingSpeed?: boolean
     answerConsistency?: boolean
-    connectionFrequency?: boolean
-    dashboardActivity?: boolean
-    communityEngagement?: boolean
+    badges?: boolean
+    behavioralVibrancy?: boolean
     builderScore?: boolean
-    creatorScore?: boolean
-    strategistScore?: boolean
     catalystScore?: boolean
-    polarization?: boolean
-    profileStability?: boolean
+    city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
+    communityEngagement?: boolean
+    confidenceScore?: boolean
+    connectionFrequency?: boolean
+    country?: boolean
+    creatorScore?: boolean
+    currentSituation?: boolean
+    dashboardActivity?: boolean
+    domains?: boolean
+    dominantMotivation?: boolean
+    githubUrl?: boolean
+    language?: boolean
+    lastHypothesisUpdate?: boolean
+    longTermObjective?: boolean
+    mainObjective?: boolean
     mentorId?: boolean
-    projectsRealized?: boolean
-    activePaths?: boolean
-    badges?: boolean
     missionsCompletedCount?: boolean
+    onboardingSpeed?: boolean
+    polarization?: boolean
+    portfolioUrl?: boolean
+    predictedEngagementScore?: boolean
+    preferredRhythm?: boolean
+    profileDrift?: boolean
+    profileStability?: boolean
+    projectsRealized?: boolean
+    pseudo?: boolean
     recommendedPath?: boolean
     recommendedTools?: boolean
-    predictedEngagementScore?: boolean
-    confidenceScore?: boolean
-    profileDrift?: boolean
-    behavioralVibrancy?: boolean
-    lastHypothesisUpdate?: boolean
-    dreamStatement?: boolean
+    strategistScore?: boolean
+    technicalLevel?: boolean
+    tools?: boolean
+    secondaryObjectives?: boolean
+    bio?: boolean
+    linkedinUrl?: boolean
+    memberNumber?: boolean
+    twitterUrl?: boolean
     currentFocus?: boolean
-    mainBlocker?: boolean
+    dreamStatement?: boolean
     lastCheckinAt?: boolean
-    mentor?: boolean | User$mentorArgs<ExtArgs>
-    mentees?: boolean | User$menteesArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    mainBlocker?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    quizResults?: boolean | User$quizResultsArgs<ExtArgs>
+    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
     missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
-    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    quizResults?: boolean | User$quizResultsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+    mentees?: boolean | User$menteesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    memberNumber?: boolean
     name?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     level?: boolean
     experience?: boolean
     class?: boolean
     role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    pseudo?: boolean
-    bio?: boolean
-    country?: boolean
-    city?: boolean
-    language?: boolean
+    activePaths?: boolean
     ageRange?: boolean
-    currentSituation?: boolean
-    technicalLevel?: boolean
-    domains?: boolean
-    tools?: boolean
-    githubUrl?: boolean
-    portfolioUrl?: boolean
-    linkedinUrl?: boolean
-    twitterUrl?: boolean
-    mainObjective?: boolean
-    secondaryObjectives?: boolean
-    dominantMotivation?: boolean
-    longTermObjective?: boolean
-    preferredRhythm?: boolean
-    onboardingSpeed?: boolean
     answerConsistency?: boolean
-    connectionFrequency?: boolean
-    dashboardActivity?: boolean
-    communityEngagement?: boolean
+    badges?: boolean
+    behavioralVibrancy?: boolean
     builderScore?: boolean
-    creatorScore?: boolean
-    strategistScore?: boolean
     catalystScore?: boolean
-    polarization?: boolean
-    profileStability?: boolean
+    city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
+    communityEngagement?: boolean
+    confidenceScore?: boolean
+    connectionFrequency?: boolean
+    country?: boolean
+    creatorScore?: boolean
+    currentSituation?: boolean
+    dashboardActivity?: boolean
+    domains?: boolean
+    dominantMotivation?: boolean
+    githubUrl?: boolean
+    language?: boolean
+    lastHypothesisUpdate?: boolean
+    longTermObjective?: boolean
+    mainObjective?: boolean
     mentorId?: boolean
-    projectsRealized?: boolean
-    activePaths?: boolean
-    badges?: boolean
     missionsCompletedCount?: boolean
+    onboardingSpeed?: boolean
+    polarization?: boolean
+    portfolioUrl?: boolean
+    predictedEngagementScore?: boolean
+    preferredRhythm?: boolean
+    profileDrift?: boolean
+    profileStability?: boolean
+    projectsRealized?: boolean
+    pseudo?: boolean
     recommendedPath?: boolean
     recommendedTools?: boolean
-    predictedEngagementScore?: boolean
-    confidenceScore?: boolean
-    profileDrift?: boolean
-    behavioralVibrancy?: boolean
-    lastHypothesisUpdate?: boolean
-    dreamStatement?: boolean
+    strategistScore?: boolean
+    technicalLevel?: boolean
+    tools?: boolean
+    secondaryObjectives?: boolean
+    bio?: boolean
+    linkedinUrl?: boolean
+    memberNumber?: boolean
+    twitterUrl?: boolean
     currentFocus?: boolean
-    mainBlocker?: boolean
+    dreamStatement?: boolean
     lastCheckinAt?: boolean
+    mainBlocker?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    memberNumber?: boolean
     name?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     level?: boolean
     experience?: boolean
     class?: boolean
     role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    pseudo?: boolean
-    bio?: boolean
-    country?: boolean
-    city?: boolean
-    language?: boolean
+    activePaths?: boolean
     ageRange?: boolean
-    currentSituation?: boolean
-    technicalLevel?: boolean
-    domains?: boolean
-    tools?: boolean
-    githubUrl?: boolean
-    portfolioUrl?: boolean
-    linkedinUrl?: boolean
-    twitterUrl?: boolean
-    mainObjective?: boolean
-    secondaryObjectives?: boolean
-    dominantMotivation?: boolean
-    longTermObjective?: boolean
-    preferredRhythm?: boolean
-    onboardingSpeed?: boolean
     answerConsistency?: boolean
-    connectionFrequency?: boolean
-    dashboardActivity?: boolean
-    communityEngagement?: boolean
+    badges?: boolean
+    behavioralVibrancy?: boolean
     builderScore?: boolean
-    creatorScore?: boolean
-    strategistScore?: boolean
     catalystScore?: boolean
-    polarization?: boolean
-    profileStability?: boolean
+    city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
+    communityEngagement?: boolean
+    confidenceScore?: boolean
+    connectionFrequency?: boolean
+    country?: boolean
+    creatorScore?: boolean
+    currentSituation?: boolean
+    dashboardActivity?: boolean
+    domains?: boolean
+    dominantMotivation?: boolean
+    githubUrl?: boolean
+    language?: boolean
+    lastHypothesisUpdate?: boolean
+    longTermObjective?: boolean
+    mainObjective?: boolean
     mentorId?: boolean
-    projectsRealized?: boolean
-    activePaths?: boolean
-    badges?: boolean
     missionsCompletedCount?: boolean
+    onboardingSpeed?: boolean
+    polarization?: boolean
+    portfolioUrl?: boolean
+    predictedEngagementScore?: boolean
+    preferredRhythm?: boolean
+    profileDrift?: boolean
+    profileStability?: boolean
+    projectsRealized?: boolean
+    pseudo?: boolean
     recommendedPath?: boolean
     recommendedTools?: boolean
-    predictedEngagementScore?: boolean
-    confidenceScore?: boolean
-    profileDrift?: boolean
-    behavioralVibrancy?: boolean
-    lastHypothesisUpdate?: boolean
-    dreamStatement?: boolean
+    strategistScore?: boolean
+    technicalLevel?: boolean
+    tools?: boolean
+    secondaryObjectives?: boolean
+    bio?: boolean
+    linkedinUrl?: boolean
+    memberNumber?: boolean
+    twitterUrl?: boolean
     currentFocus?: boolean
-    mainBlocker?: boolean
+    dreamStatement?: boolean
     lastCheckinAt?: boolean
+    mainBlocker?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
-    memberNumber?: boolean
     name?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     level?: boolean
     experience?: boolean
     class?: boolean
     role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    pseudo?: boolean
-    bio?: boolean
-    country?: boolean
-    city?: boolean
-    language?: boolean
+    activePaths?: boolean
     ageRange?: boolean
-    currentSituation?: boolean
-    technicalLevel?: boolean
-    domains?: boolean
-    tools?: boolean
-    githubUrl?: boolean
-    portfolioUrl?: boolean
-    linkedinUrl?: boolean
-    twitterUrl?: boolean
-    mainObjective?: boolean
-    secondaryObjectives?: boolean
-    dominantMotivation?: boolean
-    longTermObjective?: boolean
-    preferredRhythm?: boolean
-    onboardingSpeed?: boolean
     answerConsistency?: boolean
-    connectionFrequency?: boolean
-    dashboardActivity?: boolean
-    communityEngagement?: boolean
+    badges?: boolean
+    behavioralVibrancy?: boolean
     builderScore?: boolean
-    creatorScore?: boolean
-    strategistScore?: boolean
     catalystScore?: boolean
-    polarization?: boolean
-    profileStability?: boolean
+    city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
+    communityEngagement?: boolean
+    confidenceScore?: boolean
+    connectionFrequency?: boolean
+    country?: boolean
+    creatorScore?: boolean
+    currentSituation?: boolean
+    dashboardActivity?: boolean
+    domains?: boolean
+    dominantMotivation?: boolean
+    githubUrl?: boolean
+    language?: boolean
+    lastHypothesisUpdate?: boolean
+    longTermObjective?: boolean
+    mainObjective?: boolean
     mentorId?: boolean
-    projectsRealized?: boolean
-    activePaths?: boolean
-    badges?: boolean
     missionsCompletedCount?: boolean
+    onboardingSpeed?: boolean
+    polarization?: boolean
+    portfolioUrl?: boolean
+    predictedEngagementScore?: boolean
+    preferredRhythm?: boolean
+    profileDrift?: boolean
+    profileStability?: boolean
+    projectsRealized?: boolean
+    pseudo?: boolean
     recommendedPath?: boolean
     recommendedTools?: boolean
-    predictedEngagementScore?: boolean
-    confidenceScore?: boolean
-    profileDrift?: boolean
-    behavioralVibrancy?: boolean
-    lastHypothesisUpdate?: boolean
-    dreamStatement?: boolean
+    strategistScore?: boolean
+    technicalLevel?: boolean
+    tools?: boolean
+    secondaryObjectives?: boolean
+    bio?: boolean
+    linkedinUrl?: boolean
+    memberNumber?: boolean
+    twitterUrl?: boolean
     currentFocus?: boolean
-    mainBlocker?: boolean
+    dreamStatement?: boolean
     lastCheckinAt?: boolean
+    mainBlocker?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "memberNumber" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "bio" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate" | "dreamStatement" | "currentFocus" | "mainBlocker" | "lastCheckinAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "mainBlocker", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentor?: boolean | User$mentorArgs<ExtArgs>
-    mentees?: boolean | User$menteesArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    quizResults?: boolean | User$quizResultsArgs<ExtArgs>
+    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
     missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
-    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    quizResults?: boolean | User$quizResultsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    mentor?: boolean | User$mentorArgs<ExtArgs>
+    mentees?: boolean | User$menteesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2906,77 +2906,77 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      mentor: Prisma.$UserPayload<ExtArgs> | null
-      mentees: Prisma.$UserPayload<ExtArgs>[]
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
+      dailyCheckins: Prisma.$DailyCheckinPayload<ExtArgs>[]
       guildMembers: Prisma.$GuildMemberPayload<ExtArgs>[]
       missionSubmissions: Prisma.$MissionSubmissionPayload<ExtArgs>[]
-      dailyCheckins: Prisma.$DailyCheckinPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
+      sessions: Prisma.$SessionPayload<ExtArgs>[]
+      mentor: Prisma.$UserPayload<ExtArgs> | null
+      mentees: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      memberNumber: number
       name: string
       email: string
       emailVerified: boolean
       image: string | null
+      createdAt: Date
+      updatedAt: Date
       level: number
       experience: number
       class: string | null
       role: string
-      createdAt: Date
-      updatedAt: Date
-      pseudo: string | null
-      bio: string | null
-      country: string | null
-      city: string | null
-      language: string
+      activePaths: string[]
       ageRange: string | null
-      currentSituation: string | null
-      technicalLevel: string | null
-      domains: string[]
-      tools: string[]
-      githubUrl: string | null
-      portfolioUrl: string | null
-      linkedinUrl: string | null
-      twitterUrl: string | null
-      mainObjective: string | null
-      secondaryObjectives: string[]
-      dominantMotivation: string | null
-      longTermObjective: string | null
-      preferredRhythm: string | null
-      onboardingSpeed: number | null
       answerConsistency: number | null
-      connectionFrequency: number | null
-      dashboardActivity: number | null
-      communityEngagement: number | null
+      badges: string[]
+      behavioralVibrancy: Prisma.JsonValue | null
       builderScore: number
-      creatorScore: number
-      strategistScore: number
       catalystScore: number
-      polarization: number
-      profileStability: number
+      city: string | null
       cohortsJoined: string[]
       collaborativeProjects: string[]
+      communityEngagement: number | null
+      confidenceScore: number
+      connectionFrequency: number | null
+      country: string | null
+      creatorScore: number
+      currentSituation: string | null
+      dashboardActivity: number | null
+      domains: string[]
+      dominantMotivation: string | null
+      githubUrl: string | null
+      language: string
+      lastHypothesisUpdate: Date | null
+      longTermObjective: string | null
+      mainObjective: string | null
       mentorId: string | null
-      projectsRealized: string[]
-      activePaths: string[]
-      badges: string[]
       missionsCompletedCount: number
+      onboardingSpeed: number | null
+      polarization: number
+      portfolioUrl: string | null
+      predictedEngagementScore: number | null
+      preferredRhythm: string | null
+      profileDrift: number
+      profileStability: number
+      projectsRealized: string[]
+      pseudo: string | null
       recommendedPath: string[]
       recommendedTools: string[]
-      predictedEngagementScore: number | null
-      confidenceScore: number
-      profileDrift: number
-      behavioralVibrancy: Prisma.JsonValue | null
-      lastHypothesisUpdate: Date | null
-      dreamStatement: string | null
+      strategistScore: number
+      technicalLevel: string | null
+      tools: string[]
+      secondaryObjectives: string[]
+      bio: string | null
+      linkedinUrl: string | null
+      memberNumber: number
+      twitterUrl: string | null
       currentFocus: string[]
-      mainBlocker: string | null
+      dreamStatement: string | null
       lastCheckinAt: Date | null
+      mainBlocker: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3371,15 +3371,15 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dailyCheckins<T extends User$dailyCheckinsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyCheckinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     guildMembers<T extends User$guildMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$guildMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     missionSubmissions<T extends User$missionSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$missionSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    dailyCheckins<T extends User$dailyCheckinsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyCheckinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3410,65 +3410,65 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
-    readonly memberNumber: FieldRef<"User", 'Int'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly image: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly level: FieldRef<"User", 'Int'>
     readonly experience: FieldRef<"User", 'Int'>
     readonly class: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
-    readonly pseudo: FieldRef<"User", 'String'>
-    readonly bio: FieldRef<"User", 'String'>
-    readonly country: FieldRef<"User", 'String'>
-    readonly city: FieldRef<"User", 'String'>
-    readonly language: FieldRef<"User", 'String'>
+    readonly activePaths: FieldRef<"User", 'String[]'>
     readonly ageRange: FieldRef<"User", 'String'>
-    readonly currentSituation: FieldRef<"User", 'String'>
-    readonly technicalLevel: FieldRef<"User", 'String'>
-    readonly domains: FieldRef<"User", 'String[]'>
-    readonly tools: FieldRef<"User", 'String[]'>
-    readonly githubUrl: FieldRef<"User", 'String'>
-    readonly portfolioUrl: FieldRef<"User", 'String'>
-    readonly linkedinUrl: FieldRef<"User", 'String'>
-    readonly twitterUrl: FieldRef<"User", 'String'>
-    readonly mainObjective: FieldRef<"User", 'String'>
-    readonly secondaryObjectives: FieldRef<"User", 'String[]'>
-    readonly dominantMotivation: FieldRef<"User", 'String'>
-    readonly longTermObjective: FieldRef<"User", 'String'>
-    readonly preferredRhythm: FieldRef<"User", 'String'>
-    readonly onboardingSpeed: FieldRef<"User", 'Int'>
     readonly answerConsistency: FieldRef<"User", 'Float'>
-    readonly connectionFrequency: FieldRef<"User", 'Float'>
-    readonly dashboardActivity: FieldRef<"User", 'Float'>
-    readonly communityEngagement: FieldRef<"User", 'Float'>
+    readonly badges: FieldRef<"User", 'String[]'>
+    readonly behavioralVibrancy: FieldRef<"User", 'Json'>
     readonly builderScore: FieldRef<"User", 'Int'>
-    readonly creatorScore: FieldRef<"User", 'Int'>
-    readonly strategistScore: FieldRef<"User", 'Int'>
     readonly catalystScore: FieldRef<"User", 'Int'>
-    readonly polarization: FieldRef<"User", 'Float'>
-    readonly profileStability: FieldRef<"User", 'Float'>
+    readonly city: FieldRef<"User", 'String'>
     readonly cohortsJoined: FieldRef<"User", 'String[]'>
     readonly collaborativeProjects: FieldRef<"User", 'String[]'>
+    readonly communityEngagement: FieldRef<"User", 'Float'>
+    readonly confidenceScore: FieldRef<"User", 'Float'>
+    readonly connectionFrequency: FieldRef<"User", 'Float'>
+    readonly country: FieldRef<"User", 'String'>
+    readonly creatorScore: FieldRef<"User", 'Int'>
+    readonly currentSituation: FieldRef<"User", 'String'>
+    readonly dashboardActivity: FieldRef<"User", 'Float'>
+    readonly domains: FieldRef<"User", 'String[]'>
+    readonly dominantMotivation: FieldRef<"User", 'String'>
+    readonly githubUrl: FieldRef<"User", 'String'>
+    readonly language: FieldRef<"User", 'String'>
+    readonly lastHypothesisUpdate: FieldRef<"User", 'DateTime'>
+    readonly longTermObjective: FieldRef<"User", 'String'>
+    readonly mainObjective: FieldRef<"User", 'String'>
     readonly mentorId: FieldRef<"User", 'String'>
-    readonly projectsRealized: FieldRef<"User", 'String[]'>
-    readonly activePaths: FieldRef<"User", 'String[]'>
-    readonly badges: FieldRef<"User", 'String[]'>
     readonly missionsCompletedCount: FieldRef<"User", 'Int'>
+    readonly onboardingSpeed: FieldRef<"User", 'Int'>
+    readonly polarization: FieldRef<"User", 'Float'>
+    readonly portfolioUrl: FieldRef<"User", 'String'>
+    readonly predictedEngagementScore: FieldRef<"User", 'Float'>
+    readonly preferredRhythm: FieldRef<"User", 'String'>
+    readonly profileDrift: FieldRef<"User", 'Float'>
+    readonly profileStability: FieldRef<"User", 'Float'>
+    readonly projectsRealized: FieldRef<"User", 'String[]'>
+    readonly pseudo: FieldRef<"User", 'String'>
     readonly recommendedPath: FieldRef<"User", 'String[]'>
     readonly recommendedTools: FieldRef<"User", 'String[]'>
-    readonly predictedEngagementScore: FieldRef<"User", 'Float'>
-    readonly confidenceScore: FieldRef<"User", 'Float'>
-    readonly profileDrift: FieldRef<"User", 'Float'>
-    readonly behavioralVibrancy: FieldRef<"User", 'Json'>
-    readonly lastHypothesisUpdate: FieldRef<"User", 'DateTime'>
-    readonly dreamStatement: FieldRef<"User", 'String'>
+    readonly strategistScore: FieldRef<"User", 'Int'>
+    readonly technicalLevel: FieldRef<"User", 'String'>
+    readonly tools: FieldRef<"User", 'String[]'>
+    readonly secondaryObjectives: FieldRef<"User", 'String[]'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly linkedinUrl: FieldRef<"User", 'String'>
+    readonly memberNumber: FieldRef<"User", 'Int'>
+    readonly twitterUrl: FieldRef<"User", 'String'>
     readonly currentFocus: FieldRef<"User", 'String[]'>
-    readonly mainBlocker: FieldRef<"User", 'String'>
+    readonly dreamStatement: FieldRef<"User", 'String'>
     readonly lastCheckinAt: FieldRef<"User", 'DateTime'>
+    readonly mainBlocker: FieldRef<"User", 'String'>
   }
     
 
@@ -3870,73 +3870,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.mentor
-   */
-  export type User$mentorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * User.mentees
-   */
-  export type User$menteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User.sessions
-   */
-  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Session
-     */
-    select?: SessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Session
-     */
-    omit?: SessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
-  }
-
-  /**
    * User.accounts
    */
   export type User$accountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3961,27 +3894,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.quizResults
+   * User.dailyCheckins
    */
-  export type User$quizResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$dailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the QuizResult
+     * Select specific fields to fetch from the DailyCheckin
      */
-    select?: QuizResultSelect<ExtArgs> | null
+    select?: DailyCheckinSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the QuizResult
+     * Omit specific fields from the DailyCheckin
      */
-    omit?: QuizResultOmit<ExtArgs> | null
+    omit?: DailyCheckinOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: QuizResultInclude<ExtArgs> | null
-    where?: QuizResultWhereInput
-    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
-    cursor?: QuizResultWhereUniqueInput
+    include?: DailyCheckinInclude<ExtArgs> | null
+    where?: DailyCheckinWhereInput
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    cursor?: DailyCheckinWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: QuizResultScalarFieldEnum | QuizResultScalarFieldEnum[]
+    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
   }
 
   /**
@@ -4033,30 +3966,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.dailyCheckins
-   */
-  export type User$dailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DailyCheckin
-     */
-    select?: DailyCheckinSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the DailyCheckin
-     */
-    omit?: DailyCheckinOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DailyCheckinInclude<ExtArgs> | null
-    where?: DailyCheckinWhereInput
-    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
-    cursor?: DailyCheckinWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
-  }
-
-  /**
    * User.notifications
    */
   export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4078,6 +3987,97 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.quizResults
+   */
+  export type User$quizResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizResultInclude<ExtArgs> | null
+    where?: QuizResultWhereInput
+    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
+    cursor?: QuizResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuizResultScalarFieldEnum | QuizResultScalarFieldEnum[]
+  }
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Session
+     */
+    omit?: SessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SessionInclude<ExtArgs> | null
+    where?: SessionWhereInput
+    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.mentor
+   */
+  export type User$mentorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * User.mentees
+   */
+  export type User$menteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -5259,60 +5259,67 @@ export namespace Prisma {
   export type MissionMinAggregateOutputType = {
     id: string | null
     title: string | null
-    shortDesc: string | null
     description: string | null
     slug: string | null
     category: string | null
     difficulty: number | null
     xp: number | null
-    missionLevel: string | null
-    duration: string | null
     weightBuilder: number | null
     weightCreator: number | null
     weightStrategist: number | null
     weightCatalyst: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    duration: string | null
+    missionLevel: string | null
+    shortDesc: string | null
+    fullBriefing: string | null
+    submissionMethod: string | null
   }
 
   export type MissionMaxAggregateOutputType = {
     id: string | null
     title: string | null
-    shortDesc: string | null
     description: string | null
     slug: string | null
     category: string | null
     difficulty: number | null
     xp: number | null
-    missionLevel: string | null
-    duration: string | null
     weightBuilder: number | null
     weightCreator: number | null
     weightStrategist: number | null
     weightCatalyst: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    duration: string | null
+    missionLevel: string | null
+    shortDesc: string | null
+    fullBriefing: string | null
+    submissionMethod: string | null
   }
 
   export type MissionCountAggregateOutputType = {
     id: number
     title: number
-    shortDesc: number
     description: number
     slug: number
     category: number
     difficulty: number
     xp: number
-    targetProfiles: number
-    missionLevel: number
-    requirements: number
-    duration: number
     weightBuilder: number
     weightCreator: number
     weightStrategist: number
     weightCatalyst: number
     createdAt: number
     updatedAt: number
+    duration: number
+    missionLevel: number
+    requirements: number
+    shortDesc: number
+    targetProfiles: number
+    deliverables: number
+    fullBriefing: number
+    submissionMethod: number
     _all: number
   }
 
@@ -5338,60 +5345,67 @@ export namespace Prisma {
   export type MissionMinAggregateInputType = {
     id?: true
     title?: true
-    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
-    missionLevel?: true
-    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
     weightCatalyst?: true
     createdAt?: true
     updatedAt?: true
+    duration?: true
+    missionLevel?: true
+    shortDesc?: true
+    fullBriefing?: true
+    submissionMethod?: true
   }
 
   export type MissionMaxAggregateInputType = {
     id?: true
     title?: true
-    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
-    missionLevel?: true
-    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
     weightCatalyst?: true
     createdAt?: true
     updatedAt?: true
+    duration?: true
+    missionLevel?: true
+    shortDesc?: true
+    fullBriefing?: true
+    submissionMethod?: true
   }
 
   export type MissionCountAggregateInputType = {
     id?: true
     title?: true
-    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
-    targetProfiles?: true
-    missionLevel?: true
-    requirements?: true
-    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
     weightCatalyst?: true
     createdAt?: true
     updatedAt?: true
+    duration?: true
+    missionLevel?: true
+    requirements?: true
+    shortDesc?: true
+    targetProfiles?: true
+    deliverables?: true
+    fullBriefing?: true
+    submissionMethod?: true
     _all?: true
   }
 
@@ -5484,22 +5498,25 @@ export namespace Prisma {
   export type MissionGroupByOutputType = {
     id: string
     title: string
-    shortDesc: string | null
     description: string
     slug: string
     category: string
     difficulty: number
     xp: number
-    targetProfiles: string[]
-    missionLevel: string | null
-    requirements: string[]
-    duration: string | null
     weightBuilder: number
     weightCreator: number
     weightStrategist: number
     weightCatalyst: number
     createdAt: Date
     updatedAt: Date
+    duration: string | null
+    missionLevel: string | null
+    requirements: string[]
+    shortDesc: string | null
+    targetProfiles: string[]
+    deliverables: string[]
+    fullBriefing: string | null
+    submissionMethod: string
     _count: MissionCountAggregateOutputType | null
     _avg: MissionAvgAggregateOutputType | null
     _sum: MissionSumAggregateOutputType | null
@@ -5524,22 +5541,25 @@ export namespace Prisma {
   export type MissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
-    targetProfiles?: boolean
-    missionLevel?: boolean
-    requirements?: boolean
-    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
     weightCatalyst?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    duration?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    shortDesc?: boolean
+    targetProfiles?: boolean
+    deliverables?: boolean
+    fullBriefing?: boolean
+    submissionMethod?: boolean
     submissions?: boolean | Mission$submissionsArgs<ExtArgs>
     _count?: boolean | MissionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mission"]>
@@ -5547,67 +5567,76 @@ export namespace Prisma {
   export type MissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
-    targetProfiles?: boolean
-    missionLevel?: boolean
-    requirements?: boolean
-    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
     weightCatalyst?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    duration?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    shortDesc?: boolean
+    targetProfiles?: boolean
+    deliverables?: boolean
+    fullBriefing?: boolean
+    submissionMethod?: boolean
   }, ExtArgs["result"]["mission"]>
 
   export type MissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
-    targetProfiles?: boolean
-    missionLevel?: boolean
-    requirements?: boolean
-    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
     weightCatalyst?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    duration?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    shortDesc?: boolean
+    targetProfiles?: boolean
+    deliverables?: boolean
+    fullBriefing?: boolean
+    submissionMethod?: boolean
   }, ExtArgs["result"]["mission"]>
 
   export type MissionSelectScalar = {
     id?: boolean
     title?: boolean
-    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
-    targetProfiles?: boolean
-    missionLevel?: boolean
-    requirements?: boolean
-    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
     weightCatalyst?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    duration?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    shortDesc?: boolean
+    targetProfiles?: boolean
+    deliverables?: boolean
+    fullBriefing?: boolean
+    submissionMethod?: boolean
   }
 
-  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "shortDesc" | "description" | "slug" | "category" | "difficulty" | "xp" | "targetProfiles" | "missionLevel" | "requirements" | "duration" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt", ExtArgs["result"]["mission"]>
+  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "category" | "difficulty" | "xp" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt" | "duration" | "missionLevel" | "requirements" | "shortDesc" | "targetProfiles" | "deliverables" | "fullBriefing" | "submissionMethod", ExtArgs["result"]["mission"]>
   export type MissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submissions?: boolean | Mission$submissionsArgs<ExtArgs>
     _count?: boolean | MissionCountOutputTypeDefaultArgs<ExtArgs>
@@ -5623,22 +5652,25 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      shortDesc: string | null
       description: string
       slug: string
       category: string
       difficulty: number
       xp: number
-      targetProfiles: string[]
-      missionLevel: string | null
-      requirements: string[]
-      duration: string | null
       weightBuilder: number
       weightCreator: number
       weightStrategist: number
       weightCatalyst: number
       createdAt: Date
       updatedAt: Date
+      duration: string | null
+      missionLevel: string | null
+      requirements: string[]
+      shortDesc: string | null
+      targetProfiles: string[]
+      deliverables: string[]
+      fullBriefing: string | null
+      submissionMethod: string
     }, ExtArgs["result"]["mission"]>
     composites: {}
   }
@@ -6065,22 +6097,25 @@ export namespace Prisma {
   interface MissionFieldRefs {
     readonly id: FieldRef<"Mission", 'String'>
     readonly title: FieldRef<"Mission", 'String'>
-    readonly shortDesc: FieldRef<"Mission", 'String'>
     readonly description: FieldRef<"Mission", 'String'>
     readonly slug: FieldRef<"Mission", 'String'>
     readonly category: FieldRef<"Mission", 'String'>
     readonly difficulty: FieldRef<"Mission", 'Int'>
     readonly xp: FieldRef<"Mission", 'Int'>
-    readonly targetProfiles: FieldRef<"Mission", 'String[]'>
-    readonly missionLevel: FieldRef<"Mission", 'String'>
-    readonly requirements: FieldRef<"Mission", 'String[]'>
-    readonly duration: FieldRef<"Mission", 'String'>
     readonly weightBuilder: FieldRef<"Mission", 'Float'>
     readonly weightCreator: FieldRef<"Mission", 'Float'>
     readonly weightStrategist: FieldRef<"Mission", 'Float'>
     readonly weightCatalyst: FieldRef<"Mission", 'Float'>
     readonly createdAt: FieldRef<"Mission", 'DateTime'>
     readonly updatedAt: FieldRef<"Mission", 'DateTime'>
+    readonly duration: FieldRef<"Mission", 'String'>
+    readonly missionLevel: FieldRef<"Mission", 'String'>
+    readonly requirements: FieldRef<"Mission", 'String[]'>
+    readonly shortDesc: FieldRef<"Mission", 'String'>
+    readonly targetProfiles: FieldRef<"Mission", 'String[]'>
+    readonly deliverables: FieldRef<"Mission", 'String[]'>
+    readonly fullBriefing: FieldRef<"Mission", 'String'>
+    readonly submissionMethod: FieldRef<"Mission", 'String'>
   }
     
 
@@ -7828,8 +7863,8 @@ export namespace Prisma {
     guildId?: boolean
     role?: boolean
     joinedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["guildMember"]>
 
   export type GuildMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7838,8 +7873,8 @@ export namespace Prisma {
     guildId?: boolean
     role?: boolean
     joinedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["guildMember"]>
 
   export type GuildMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7848,8 +7883,8 @@ export namespace Prisma {
     guildId?: boolean
     role?: boolean
     joinedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["guildMember"]>
 
   export type GuildMemberSelectScalar = {
@@ -7862,23 +7897,23 @@ export namespace Prisma {
 
   export type GuildMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "guildId" | "role" | "joinedAt", ExtArgs["result"]["guildMember"]>
   export type GuildMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type GuildMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type GuildMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     guild?: boolean | GuildDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $GuildMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GuildMember"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       guild: Prisma.$GuildPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8280,8 +8315,8 @@ export namespace Prisma {
    */
   export interface Prisma__GuildMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     guild<T extends GuildDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GuildDefaultArgs<ExtArgs>>): Prisma__GuildClient<$Result.GetResult<Prisma.$GuildPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12044,8 +12079,8 @@ export namespace Prisma {
     userId: string | null
     profileType: string | null
     score: number | null
-    averageResponseTime: number | null
     createdAt: Date | null
+    averageResponseTime: number | null
   }
 
   export type QuizResultMaxAggregateOutputType = {
@@ -12053,8 +12088,8 @@ export namespace Prisma {
     userId: string | null
     profileType: string | null
     score: number | null
-    averageResponseTime: number | null
     createdAt: Date | null
+    averageResponseTime: number | null
   }
 
   export type QuizResultCountAggregateOutputType = {
@@ -12063,10 +12098,10 @@ export namespace Prisma {
     profileType: number
     score: number
     answers: number
+    createdAt: number
     averageResponseTime: number
     detailedResponseTimes: number
     diagnosticAnswers: number
-    createdAt: number
     _all: number
   }
 
@@ -12086,8 +12121,8 @@ export namespace Prisma {
     userId?: true
     profileType?: true
     score?: true
-    averageResponseTime?: true
     createdAt?: true
+    averageResponseTime?: true
   }
 
   export type QuizResultMaxAggregateInputType = {
@@ -12095,8 +12130,8 @@ export namespace Prisma {
     userId?: true
     profileType?: true
     score?: true
-    averageResponseTime?: true
     createdAt?: true
+    averageResponseTime?: true
   }
 
   export type QuizResultCountAggregateInputType = {
@@ -12105,10 +12140,10 @@ export namespace Prisma {
     profileType?: true
     score?: true
     answers?: true
+    createdAt?: true
     averageResponseTime?: true
     detailedResponseTimes?: true
     diagnosticAnswers?: true
-    createdAt?: true
     _all?: true
   }
 
@@ -12204,10 +12239,10 @@ export namespace Prisma {
     profileType: string
     score: number | null
     answers: JsonValue
+    createdAt: Date
     averageResponseTime: number | null
     detailedResponseTimes: JsonValue | null
     diagnosticAnswers: JsonValue | null
-    createdAt: Date
     _count: QuizResultCountAggregateOutputType | null
     _avg: QuizResultAvgAggregateOutputType | null
     _sum: QuizResultSumAggregateOutputType | null
@@ -12235,10 +12270,10 @@ export namespace Prisma {
     profileType?: boolean
     score?: boolean
     answers?: boolean
+    createdAt?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
     diagnosticAnswers?: boolean
-    createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -12248,10 +12283,10 @@ export namespace Prisma {
     profileType?: boolean
     score?: boolean
     answers?: boolean
+    createdAt?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
     diagnosticAnswers?: boolean
-    createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -12261,10 +12296,10 @@ export namespace Prisma {
     profileType?: boolean
     score?: boolean
     answers?: boolean
+    createdAt?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
     diagnosticAnswers?: boolean
-    createdAt?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -12274,13 +12309,13 @@ export namespace Prisma {
     profileType?: boolean
     score?: boolean
     answers?: boolean
+    createdAt?: boolean
     averageResponseTime?: boolean
     detailedResponseTimes?: boolean
     diagnosticAnswers?: boolean
-    createdAt?: boolean
   }
 
-  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "averageResponseTime" | "detailedResponseTimes" | "diagnosticAnswers" | "createdAt", ExtArgs["result"]["quizResult"]>
+  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "createdAt" | "averageResponseTime" | "detailedResponseTimes" | "diagnosticAnswers", ExtArgs["result"]["quizResult"]>
   export type QuizResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }
@@ -12302,10 +12337,10 @@ export namespace Prisma {
       profileType: string
       score: number | null
       answers: Prisma.JsonValue
+      createdAt: Date
       averageResponseTime: number | null
       detailedResponseTimes: Prisma.JsonValue | null
       diagnosticAnswers: Prisma.JsonValue | null
-      createdAt: Date
     }, ExtArgs["result"]["quizResult"]>
     composites: {}
   }
@@ -12735,10 +12770,10 @@ export namespace Prisma {
     readonly profileType: FieldRef<"QuizResult", 'String'>
     readonly score: FieldRef<"QuizResult", 'Int'>
     readonly answers: FieldRef<"QuizResult", 'Json'>
+    readonly createdAt: FieldRef<"QuizResult", 'DateTime'>
     readonly averageResponseTime: FieldRef<"QuizResult", 'Int'>
     readonly detailedResponseTimes: FieldRef<"QuizResult", 'Json'>
     readonly diagnosticAnswers: FieldRef<"QuizResult", 'Json'>
-    readonly createdAt: FieldRef<"QuizResult", 'DateTime'>
   }
     
 
@@ -13190,15 +13225,15 @@ export namespace Prisma {
   }
 
   export type MissionSubmissionAvgAggregateOutputType = {
+    xpAwarded: number | null
     userDifficulty: number | null
     userRating: number | null
-    xpAwarded: number | null
   }
 
   export type MissionSubmissionSumAggregateOutputType = {
+    xpAwarded: number | null
     userDifficulty: number | null
     userRating: number | null
-    xpAwarded: number | null
   }
 
   export type MissionSubmissionMinAggregateOutputType = {
@@ -13207,15 +13242,17 @@ export namespace Prisma {
     missionId: string | null
     status: string | null
     content: string | null
-    projectDescription: string | null
-    userDifficulty: number | null
-    userRating: number | null
-    userFeedback: string | null
-    improvementSuggestions: string | null
-    reviewerFeedback: string | null
     xpAwarded: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    improvementSuggestions: string | null
+    projectDescription: string | null
+    reviewerFeedback: string | null
+    userDifficulty: number | null
+    userFeedback: string | null
+    userRating: number | null
+    adminFeedback: string | null
+    reviewerId: string | null
   }
 
   export type MissionSubmissionMaxAggregateOutputType = {
@@ -13224,15 +13261,17 @@ export namespace Prisma {
     missionId: string | null
     status: string | null
     content: string | null
-    projectDescription: string | null
-    userDifficulty: number | null
-    userRating: number | null
-    userFeedback: string | null
-    improvementSuggestions: string | null
-    reviewerFeedback: string | null
     xpAwarded: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    improvementSuggestions: string | null
+    projectDescription: string | null
+    reviewerFeedback: string | null
+    userDifficulty: number | null
+    userFeedback: string | null
+    userRating: number | null
+    adminFeedback: string | null
+    reviewerId: string | null
   }
 
   export type MissionSubmissionCountAggregateOutputType = {
@@ -13241,29 +13280,31 @@ export namespace Prisma {
     missionId: number
     status: number
     content: number
-    projectDescription: number
-    userDifficulty: number
-    userRating: number
-    userFeedback: number
-    improvementSuggestions: number
-    reviewerFeedback: number
     xpAwarded: number
     createdAt: number
     updatedAt: number
+    improvementSuggestions: number
+    projectDescription: number
+    reviewerFeedback: number
+    userDifficulty: number
+    userFeedback: number
+    userRating: number
+    adminFeedback: number
+    reviewerId: number
     _all: number
   }
 
 
   export type MissionSubmissionAvgAggregateInputType = {
+    xpAwarded?: true
     userDifficulty?: true
     userRating?: true
-    xpAwarded?: true
   }
 
   export type MissionSubmissionSumAggregateInputType = {
+    xpAwarded?: true
     userDifficulty?: true
     userRating?: true
-    xpAwarded?: true
   }
 
   export type MissionSubmissionMinAggregateInputType = {
@@ -13272,15 +13313,17 @@ export namespace Prisma {
     missionId?: true
     status?: true
     content?: true
-    projectDescription?: true
-    userDifficulty?: true
-    userRating?: true
-    userFeedback?: true
-    improvementSuggestions?: true
-    reviewerFeedback?: true
     xpAwarded?: true
     createdAt?: true
     updatedAt?: true
+    improvementSuggestions?: true
+    projectDescription?: true
+    reviewerFeedback?: true
+    userDifficulty?: true
+    userFeedback?: true
+    userRating?: true
+    adminFeedback?: true
+    reviewerId?: true
   }
 
   export type MissionSubmissionMaxAggregateInputType = {
@@ -13289,15 +13332,17 @@ export namespace Prisma {
     missionId?: true
     status?: true
     content?: true
-    projectDescription?: true
-    userDifficulty?: true
-    userRating?: true
-    userFeedback?: true
-    improvementSuggestions?: true
-    reviewerFeedback?: true
     xpAwarded?: true
     createdAt?: true
     updatedAt?: true
+    improvementSuggestions?: true
+    projectDescription?: true
+    reviewerFeedback?: true
+    userDifficulty?: true
+    userFeedback?: true
+    userRating?: true
+    adminFeedback?: true
+    reviewerId?: true
   }
 
   export type MissionSubmissionCountAggregateInputType = {
@@ -13306,15 +13351,17 @@ export namespace Prisma {
     missionId?: true
     status?: true
     content?: true
-    projectDescription?: true
-    userDifficulty?: true
-    userRating?: true
-    userFeedback?: true
-    improvementSuggestions?: true
-    reviewerFeedback?: true
     xpAwarded?: true
     createdAt?: true
     updatedAt?: true
+    improvementSuggestions?: true
+    projectDescription?: true
+    reviewerFeedback?: true
+    userDifficulty?: true
+    userFeedback?: true
+    userRating?: true
+    adminFeedback?: true
+    reviewerId?: true
     _all?: true
   }
 
@@ -13410,15 +13457,17 @@ export namespace Prisma {
     missionId: string
     status: string
     content: string | null
-    projectDescription: string | null
-    userDifficulty: number | null
-    userRating: number | null
-    userFeedback: string | null
-    improvementSuggestions: string | null
-    reviewerFeedback: string | null
     xpAwarded: number
     createdAt: Date
     updatedAt: Date
+    improvementSuggestions: string | null
+    projectDescription: string | null
+    reviewerFeedback: string | null
+    userDifficulty: number | null
+    userFeedback: string | null
+    userRating: number | null
+    adminFeedback: string | null
+    reviewerId: string | null
     _count: MissionSubmissionCountAggregateOutputType | null
     _avg: MissionSubmissionAvgAggregateOutputType | null
     _sum: MissionSubmissionSumAggregateOutputType | null
@@ -13446,17 +13495,19 @@ export namespace Prisma {
     missionId?: boolean
     status?: boolean
     content?: boolean
-    projectDescription?: boolean
-    userDifficulty?: boolean
-    userRating?: boolean
-    userFeedback?: boolean
-    improvementSuggestions?: boolean
-    reviewerFeedback?: boolean
     xpAwarded?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    improvementSuggestions?: boolean
+    projectDescription?: boolean
+    reviewerFeedback?: boolean
+    userDifficulty?: boolean
+    userFeedback?: boolean
+    userRating?: boolean
+    adminFeedback?: boolean
+    reviewerId?: boolean
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["missionSubmission"]>
 
   export type MissionSubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13465,17 +13516,19 @@ export namespace Prisma {
     missionId?: boolean
     status?: boolean
     content?: boolean
-    projectDescription?: boolean
-    userDifficulty?: boolean
-    userRating?: boolean
-    userFeedback?: boolean
-    improvementSuggestions?: boolean
-    reviewerFeedback?: boolean
     xpAwarded?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    improvementSuggestions?: boolean
+    projectDescription?: boolean
+    reviewerFeedback?: boolean
+    userDifficulty?: boolean
+    userFeedback?: boolean
+    userRating?: boolean
+    adminFeedback?: boolean
+    reviewerId?: boolean
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["missionSubmission"]>
 
   export type MissionSubmissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13484,17 +13537,19 @@ export namespace Prisma {
     missionId?: boolean
     status?: boolean
     content?: boolean
-    projectDescription?: boolean
-    userDifficulty?: boolean
-    userRating?: boolean
-    userFeedback?: boolean
-    improvementSuggestions?: boolean
-    reviewerFeedback?: boolean
     xpAwarded?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    improvementSuggestions?: boolean
+    projectDescription?: boolean
+    reviewerFeedback?: boolean
+    userDifficulty?: boolean
+    userFeedback?: boolean
+    userRating?: boolean
+    adminFeedback?: boolean
+    reviewerId?: boolean
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["missionSubmission"]>
 
   export type MissionSubmissionSelectScalar = {
@@ -13503,36 +13558,38 @@ export namespace Prisma {
     missionId?: boolean
     status?: boolean
     content?: boolean
-    projectDescription?: boolean
-    userDifficulty?: boolean
-    userRating?: boolean
-    userFeedback?: boolean
-    improvementSuggestions?: boolean
-    reviewerFeedback?: boolean
     xpAwarded?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    improvementSuggestions?: boolean
+    projectDescription?: boolean
+    reviewerFeedback?: boolean
+    userDifficulty?: boolean
+    userFeedback?: boolean
+    userRating?: boolean
+    adminFeedback?: boolean
+    reviewerId?: boolean
   }
 
-  export type MissionSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "missionId" | "status" | "content" | "projectDescription" | "userDifficulty" | "userRating" | "userFeedback" | "improvementSuggestions" | "reviewerFeedback" | "xpAwarded" | "createdAt" | "updatedAt", ExtArgs["result"]["missionSubmission"]>
+  export type MissionSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "missionId" | "status" | "content" | "xpAwarded" | "createdAt" | "updatedAt" | "improvementSuggestions" | "projectDescription" | "reviewerFeedback" | "userDifficulty" | "userFeedback" | "userRating" | "adminFeedback" | "reviewerId", ExtArgs["result"]["missionSubmission"]>
   export type MissionSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MissionSubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MissionSubmissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     mission?: boolean | MissionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $MissionSubmissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MissionSubmission"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       mission: Prisma.$MissionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13540,15 +13597,17 @@ export namespace Prisma {
       missionId: string
       status: string
       content: string | null
-      projectDescription: string | null
-      userDifficulty: number | null
-      userRating: number | null
-      userFeedback: string | null
-      improvementSuggestions: string | null
-      reviewerFeedback: string | null
       xpAwarded: number
       createdAt: Date
       updatedAt: Date
+      improvementSuggestions: string | null
+      projectDescription: string | null
+      reviewerFeedback: string | null
+      userDifficulty: number | null
+      userFeedback: string | null
+      userRating: number | null
+      adminFeedback: string | null
+      reviewerId: string | null
     }, ExtArgs["result"]["missionSubmission"]>
     composites: {}
   }
@@ -13943,8 +14002,8 @@ export namespace Prisma {
    */
   export interface Prisma__MissionSubmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     mission<T extends MissionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MissionDefaultArgs<ExtArgs>>): Prisma__MissionClient<$Result.GetResult<Prisma.$MissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13979,15 +14038,17 @@ export namespace Prisma {
     readonly missionId: FieldRef<"MissionSubmission", 'String'>
     readonly status: FieldRef<"MissionSubmission", 'String'>
     readonly content: FieldRef<"MissionSubmission", 'String'>
-    readonly projectDescription: FieldRef<"MissionSubmission", 'String'>
-    readonly userDifficulty: FieldRef<"MissionSubmission", 'Int'>
-    readonly userRating: FieldRef<"MissionSubmission", 'Int'>
-    readonly userFeedback: FieldRef<"MissionSubmission", 'String'>
-    readonly improvementSuggestions: FieldRef<"MissionSubmission", 'String'>
-    readonly reviewerFeedback: FieldRef<"MissionSubmission", 'String'>
     readonly xpAwarded: FieldRef<"MissionSubmission", 'Int'>
     readonly createdAt: FieldRef<"MissionSubmission", 'DateTime'>
     readonly updatedAt: FieldRef<"MissionSubmission", 'DateTime'>
+    readonly improvementSuggestions: FieldRef<"MissionSubmission", 'String'>
+    readonly projectDescription: FieldRef<"MissionSubmission", 'String'>
+    readonly reviewerFeedback: FieldRef<"MissionSubmission", 'String'>
+    readonly userDifficulty: FieldRef<"MissionSubmission", 'Int'>
+    readonly userFeedback: FieldRef<"MissionSubmission", 'String'>
+    readonly userRating: FieldRef<"MissionSubmission", 'Int'>
+    readonly adminFeedback: FieldRef<"MissionSubmission", 'String'>
+    readonly reviewerId: FieldRef<"MissionSubmission", 'String'>
   }
     
 
@@ -16551,65 +16612,65 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    memberNumber: 'memberNumber',
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     level: 'level',
     experience: 'experience',
     class: 'class',
     role: 'role',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    pseudo: 'pseudo',
-    bio: 'bio',
-    country: 'country',
-    city: 'city',
-    language: 'language',
+    activePaths: 'activePaths',
     ageRange: 'ageRange',
-    currentSituation: 'currentSituation',
-    technicalLevel: 'technicalLevel',
-    domains: 'domains',
-    tools: 'tools',
-    githubUrl: 'githubUrl',
-    portfolioUrl: 'portfolioUrl',
-    linkedinUrl: 'linkedinUrl',
-    twitterUrl: 'twitterUrl',
-    mainObjective: 'mainObjective',
-    secondaryObjectives: 'secondaryObjectives',
-    dominantMotivation: 'dominantMotivation',
-    longTermObjective: 'longTermObjective',
-    preferredRhythm: 'preferredRhythm',
-    onboardingSpeed: 'onboardingSpeed',
     answerConsistency: 'answerConsistency',
-    connectionFrequency: 'connectionFrequency',
-    dashboardActivity: 'dashboardActivity',
-    communityEngagement: 'communityEngagement',
+    badges: 'badges',
+    behavioralVibrancy: 'behavioralVibrancy',
     builderScore: 'builderScore',
-    creatorScore: 'creatorScore',
-    strategistScore: 'strategistScore',
     catalystScore: 'catalystScore',
-    polarization: 'polarization',
-    profileStability: 'profileStability',
+    city: 'city',
     cohortsJoined: 'cohortsJoined',
     collaborativeProjects: 'collaborativeProjects',
+    communityEngagement: 'communityEngagement',
+    confidenceScore: 'confidenceScore',
+    connectionFrequency: 'connectionFrequency',
+    country: 'country',
+    creatorScore: 'creatorScore',
+    currentSituation: 'currentSituation',
+    dashboardActivity: 'dashboardActivity',
+    domains: 'domains',
+    dominantMotivation: 'dominantMotivation',
+    githubUrl: 'githubUrl',
+    language: 'language',
+    lastHypothesisUpdate: 'lastHypothesisUpdate',
+    longTermObjective: 'longTermObjective',
+    mainObjective: 'mainObjective',
     mentorId: 'mentorId',
-    projectsRealized: 'projectsRealized',
-    activePaths: 'activePaths',
-    badges: 'badges',
     missionsCompletedCount: 'missionsCompletedCount',
+    onboardingSpeed: 'onboardingSpeed',
+    polarization: 'polarization',
+    portfolioUrl: 'portfolioUrl',
+    predictedEngagementScore: 'predictedEngagementScore',
+    preferredRhythm: 'preferredRhythm',
+    profileDrift: 'profileDrift',
+    profileStability: 'profileStability',
+    projectsRealized: 'projectsRealized',
+    pseudo: 'pseudo',
     recommendedPath: 'recommendedPath',
     recommendedTools: 'recommendedTools',
-    predictedEngagementScore: 'predictedEngagementScore',
-    confidenceScore: 'confidenceScore',
-    profileDrift: 'profileDrift',
-    behavioralVibrancy: 'behavioralVibrancy',
-    lastHypothesisUpdate: 'lastHypothesisUpdate',
-    dreamStatement: 'dreamStatement',
+    strategistScore: 'strategistScore',
+    technicalLevel: 'technicalLevel',
+    tools: 'tools',
+    secondaryObjectives: 'secondaryObjectives',
+    bio: 'bio',
+    linkedinUrl: 'linkedinUrl',
+    memberNumber: 'memberNumber',
+    twitterUrl: 'twitterUrl',
     currentFocus: 'currentFocus',
-    mainBlocker: 'mainBlocker',
-    lastCheckinAt: 'lastCheckinAt'
+    dreamStatement: 'dreamStatement',
+    lastCheckinAt: 'lastCheckinAt',
+    mainBlocker: 'mainBlocker'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -16631,22 +16692,25 @@ export namespace Prisma {
   export const MissionScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    shortDesc: 'shortDesc',
     description: 'description',
     slug: 'slug',
     category: 'category',
     difficulty: 'difficulty',
     xp: 'xp',
-    targetProfiles: 'targetProfiles',
-    missionLevel: 'missionLevel',
-    requirements: 'requirements',
-    duration: 'duration',
     weightBuilder: 'weightBuilder',
     weightCreator: 'weightCreator',
     weightStrategist: 'weightStrategist',
     weightCatalyst: 'weightCatalyst',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    duration: 'duration',
+    missionLevel: 'missionLevel',
+    requirements: 'requirements',
+    shortDesc: 'shortDesc',
+    targetProfiles: 'targetProfiles',
+    deliverables: 'deliverables',
+    fullBriefing: 'fullBriefing',
+    submissionMethod: 'submissionMethod'
   };
 
   export type MissionScalarFieldEnum = (typeof MissionScalarFieldEnum)[keyof typeof MissionScalarFieldEnum]
@@ -16728,10 +16792,10 @@ export namespace Prisma {
     profileType: 'profileType',
     score: 'score',
     answers: 'answers',
+    createdAt: 'createdAt',
     averageResponseTime: 'averageResponseTime',
     detailedResponseTimes: 'detailedResponseTimes',
-    diagnosticAnswers: 'diagnosticAnswers',
-    createdAt: 'createdAt'
+    diagnosticAnswers: 'diagnosticAnswers'
   };
 
   export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
@@ -16743,15 +16807,17 @@ export namespace Prisma {
     missionId: 'missionId',
     status: 'status',
     content: 'content',
-    projectDescription: 'projectDescription',
-    userDifficulty: 'userDifficulty',
-    userRating: 'userRating',
-    userFeedback: 'userFeedback',
-    improvementSuggestions: 'improvementSuggestions',
-    reviewerFeedback: 'reviewerFeedback',
     xpAwarded: 'xpAwarded',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    improvementSuggestions: 'improvementSuggestions',
+    projectDescription: 'projectDescription',
+    reviewerFeedback: 'reviewerFeedback',
+    userDifficulty: 'userDifficulty',
+    userFeedback: 'userFeedback',
+    userRating: 'userRating',
+    adminFeedback: 'adminFeedback',
+    reviewerId: 'reviewerId'
   };
 
   export type MissionSubmissionScalarFieldEnum = (typeof MissionSubmissionScalarFieldEnum)[keyof typeof MissionSubmissionScalarFieldEnum]
@@ -16852,20 +16918,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -16883,6 +16935,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -16922,284 +16988,284 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    memberNumber?: IntFilter<"User"> | number
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     level?: IntFilter<"User"> | number
     experience?: IntFilter<"User"> | number
     class?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    pseudo?: StringNullableFilter<"User"> | string | null
-    bio?: StringNullableFilter<"User"> | string | null
-    country?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
-    language?: StringFilter<"User"> | string
+    activePaths?: StringNullableListFilter<"User">
     ageRange?: StringNullableFilter<"User"> | string | null
-    currentSituation?: StringNullableFilter<"User"> | string | null
-    technicalLevel?: StringNullableFilter<"User"> | string | null
-    domains?: StringNullableListFilter<"User">
-    tools?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    twitterUrl?: StringNullableFilter<"User"> | string | null
-    mainObjective?: StringNullableFilter<"User"> | string | null
-    secondaryObjectives?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
     answerConsistency?: FloatNullableFilter<"User"> | number | null
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    badges?: StringNullableListFilter<"User">
+    behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
-    creatorScore?: IntFilter<"User"> | number
-    strategistScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
-    polarization?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
+    city?: StringNullableFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    confidenceScore?: FloatFilter<"User"> | number
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    country?: StringNullableFilter<"User"> | string | null
+    creatorScore?: IntFilter<"User"> | number
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    domains?: StringNullableListFilter<"User">
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
     mentorId?: StringNullableFilter<"User"> | string | null
-    projectsRealized?: StringNullableListFilter<"User">
-    activePaths?: StringNullableListFilter<"User">
-    badges?: StringNullableListFilter<"User">
     missionsCompletedCount?: IntFilter<"User"> | number
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    polarization?: FloatFilter<"User"> | number
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    profileDrift?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    projectsRealized?: StringNullableListFilter<"User">
+    pseudo?: StringNullableFilter<"User"> | string | null
     recommendedPath?: StringNullableListFilter<"User">
     recommendedTools?: StringNullableListFilter<"User">
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    confidenceScore?: FloatFilter<"User"> | number
-    profileDrift?: FloatFilter<"User"> | number
-    behavioralVibrancy?: JsonNullableFilter<"User">
-    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    dreamStatement?: StringNullableFilter<"User"> | string | null
+    strategistScore?: IntFilter<"User"> | number
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    tools?: StringNullableListFilter<"User">
+    secondaryObjectives?: StringNullableListFilter<"User">
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    memberNumber?: IntFilter<"User"> | number
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
-    mainBlocker?: StringNullableFilter<"User"> | string | null
+    dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    mentees?: UserListRelationFilter
-    sessions?: SessionListRelationFilter
+    mainBlocker?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
-    quizResults?: QuizResultListRelationFilter
+    dailyCheckins?: DailyCheckinListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
     missionSubmissions?: MissionSubmissionListRelationFilter
-    dailyCheckins?: DailyCheckinListRelationFilter
     notifications?: NotificationListRelationFilter
+    quizResults?: QuizResultListRelationFilter
+    sessions?: SessionListRelationFilter
+    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    mentees?: UserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    memberNumber?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     level?: SortOrder
     experience?: SortOrder
     class?: SortOrderInput | SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    pseudo?: SortOrderInput | SortOrder
-    bio?: SortOrderInput | SortOrder
-    country?: SortOrderInput | SortOrder
-    city?: SortOrderInput | SortOrder
-    language?: SortOrder
+    activePaths?: SortOrder
     ageRange?: SortOrderInput | SortOrder
-    currentSituation?: SortOrderInput | SortOrder
-    technicalLevel?: SortOrderInput | SortOrder
-    domains?: SortOrder
-    tools?: SortOrder
-    githubUrl?: SortOrderInput | SortOrder
-    portfolioUrl?: SortOrderInput | SortOrder
-    linkedinUrl?: SortOrderInput | SortOrder
-    twitterUrl?: SortOrderInput | SortOrder
-    mainObjective?: SortOrderInput | SortOrder
-    secondaryObjectives?: SortOrder
-    dominantMotivation?: SortOrderInput | SortOrder
-    longTermObjective?: SortOrderInput | SortOrder
-    preferredRhythm?: SortOrderInput | SortOrder
-    onboardingSpeed?: SortOrderInput | SortOrder
     answerConsistency?: SortOrderInput | SortOrder
-    connectionFrequency?: SortOrderInput | SortOrder
-    dashboardActivity?: SortOrderInput | SortOrder
-    communityEngagement?: SortOrderInput | SortOrder
+    badges?: SortOrder
+    behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
+    city?: SortOrderInput | SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
+    communityEngagement?: SortOrderInput | SortOrder
+    confidenceScore?: SortOrder
+    connectionFrequency?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    creatorScore?: SortOrder
+    currentSituation?: SortOrderInput | SortOrder
+    dashboardActivity?: SortOrderInput | SortOrder
+    domains?: SortOrder
+    dominantMotivation?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    language?: SortOrder
+    lastHypothesisUpdate?: SortOrderInput | SortOrder
+    longTermObjective?: SortOrderInput | SortOrder
+    mainObjective?: SortOrderInput | SortOrder
     mentorId?: SortOrderInput | SortOrder
-    projectsRealized?: SortOrder
-    activePaths?: SortOrder
-    badges?: SortOrder
     missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrderInput | SortOrder
+    polarization?: SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    predictedEngagementScore?: SortOrderInput | SortOrder
+    preferredRhythm?: SortOrderInput | SortOrder
+    profileDrift?: SortOrder
+    profileStability?: SortOrder
+    projectsRealized?: SortOrder
+    pseudo?: SortOrderInput | SortOrder
     recommendedPath?: SortOrder
     recommendedTools?: SortOrder
-    predictedEngagementScore?: SortOrderInput | SortOrder
-    confidenceScore?: SortOrder
-    profileDrift?: SortOrder
-    behavioralVibrancy?: SortOrderInput | SortOrder
-    lastHypothesisUpdate?: SortOrderInput | SortOrder
-    dreamStatement?: SortOrderInput | SortOrder
+    strategistScore?: SortOrder
+    technicalLevel?: SortOrderInput | SortOrder
+    tools?: SortOrder
+    secondaryObjectives?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    memberNumber?: SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     currentFocus?: SortOrder
-    mainBlocker?: SortOrderInput | SortOrder
+    dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
-    mentor?: UserOrderByWithRelationInput
-    mentees?: UserOrderByRelationAggregateInput
-    sessions?: SessionOrderByRelationAggregateInput
+    mainBlocker?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
-    quizResults?: QuizResultOrderByRelationAggregateInput
+    dailyCheckins?: DailyCheckinOrderByRelationAggregateInput
     guildMembers?: GuildMemberOrderByRelationAggregateInput
     missionSubmissions?: MissionSubmissionOrderByRelationAggregateInput
-    dailyCheckins?: DailyCheckinOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    quizResults?: QuizResultOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
+    mentor?: UserOrderByWithRelationInput
+    mentees?: UserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    memberNumber?: number
     email?: string
     pseudo?: string
+    memberNumber?: number
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     level?: IntFilter<"User"> | number
     experience?: IntFilter<"User"> | number
     class?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    bio?: StringNullableFilter<"User"> | string | null
-    country?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
-    language?: StringFilter<"User"> | string
+    activePaths?: StringNullableListFilter<"User">
     ageRange?: StringNullableFilter<"User"> | string | null
-    currentSituation?: StringNullableFilter<"User"> | string | null
-    technicalLevel?: StringNullableFilter<"User"> | string | null
-    domains?: StringNullableListFilter<"User">
-    tools?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    twitterUrl?: StringNullableFilter<"User"> | string | null
-    mainObjective?: StringNullableFilter<"User"> | string | null
-    secondaryObjectives?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
     answerConsistency?: FloatNullableFilter<"User"> | number | null
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    badges?: StringNullableListFilter<"User">
+    behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
-    creatorScore?: IntFilter<"User"> | number
-    strategistScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
-    polarization?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
+    city?: StringNullableFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    confidenceScore?: FloatFilter<"User"> | number
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    country?: StringNullableFilter<"User"> | string | null
+    creatorScore?: IntFilter<"User"> | number
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    domains?: StringNullableListFilter<"User">
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
     mentorId?: StringNullableFilter<"User"> | string | null
-    projectsRealized?: StringNullableListFilter<"User">
-    activePaths?: StringNullableListFilter<"User">
-    badges?: StringNullableListFilter<"User">
     missionsCompletedCount?: IntFilter<"User"> | number
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    polarization?: FloatFilter<"User"> | number
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    profileDrift?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    projectsRealized?: StringNullableListFilter<"User">
     recommendedPath?: StringNullableListFilter<"User">
     recommendedTools?: StringNullableListFilter<"User">
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    confidenceScore?: FloatFilter<"User"> | number
-    profileDrift?: FloatFilter<"User"> | number
-    behavioralVibrancy?: JsonNullableFilter<"User">
-    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    dreamStatement?: StringNullableFilter<"User"> | string | null
+    strategistScore?: IntFilter<"User"> | number
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    tools?: StringNullableListFilter<"User">
+    secondaryObjectives?: StringNullableListFilter<"User">
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
-    mainBlocker?: StringNullableFilter<"User"> | string | null
+    dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    mentees?: UserListRelationFilter
-    sessions?: SessionListRelationFilter
+    mainBlocker?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
-    quizResults?: QuizResultListRelationFilter
+    dailyCheckins?: DailyCheckinListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
     missionSubmissions?: MissionSubmissionListRelationFilter
-    dailyCheckins?: DailyCheckinListRelationFilter
     notifications?: NotificationListRelationFilter
-  }, "id" | "memberNumber" | "email" | "pseudo">
+    quizResults?: QuizResultListRelationFilter
+    sessions?: SessionListRelationFilter
+    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    mentees?: UserListRelationFilter
+  }, "id" | "email" | "pseudo" | "memberNumber">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    memberNumber?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     level?: SortOrder
     experience?: SortOrder
     class?: SortOrderInput | SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    pseudo?: SortOrderInput | SortOrder
-    bio?: SortOrderInput | SortOrder
-    country?: SortOrderInput | SortOrder
-    city?: SortOrderInput | SortOrder
-    language?: SortOrder
+    activePaths?: SortOrder
     ageRange?: SortOrderInput | SortOrder
-    currentSituation?: SortOrderInput | SortOrder
-    technicalLevel?: SortOrderInput | SortOrder
-    domains?: SortOrder
-    tools?: SortOrder
-    githubUrl?: SortOrderInput | SortOrder
-    portfolioUrl?: SortOrderInput | SortOrder
-    linkedinUrl?: SortOrderInput | SortOrder
-    twitterUrl?: SortOrderInput | SortOrder
-    mainObjective?: SortOrderInput | SortOrder
-    secondaryObjectives?: SortOrder
-    dominantMotivation?: SortOrderInput | SortOrder
-    longTermObjective?: SortOrderInput | SortOrder
-    preferredRhythm?: SortOrderInput | SortOrder
-    onboardingSpeed?: SortOrderInput | SortOrder
     answerConsistency?: SortOrderInput | SortOrder
-    connectionFrequency?: SortOrderInput | SortOrder
-    dashboardActivity?: SortOrderInput | SortOrder
-    communityEngagement?: SortOrderInput | SortOrder
+    badges?: SortOrder
+    behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
+    city?: SortOrderInput | SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
+    communityEngagement?: SortOrderInput | SortOrder
+    confidenceScore?: SortOrder
+    connectionFrequency?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    creatorScore?: SortOrder
+    currentSituation?: SortOrderInput | SortOrder
+    dashboardActivity?: SortOrderInput | SortOrder
+    domains?: SortOrder
+    dominantMotivation?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    language?: SortOrder
+    lastHypothesisUpdate?: SortOrderInput | SortOrder
+    longTermObjective?: SortOrderInput | SortOrder
+    mainObjective?: SortOrderInput | SortOrder
     mentorId?: SortOrderInput | SortOrder
-    projectsRealized?: SortOrder
-    activePaths?: SortOrder
-    badges?: SortOrder
     missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrderInput | SortOrder
+    polarization?: SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    predictedEngagementScore?: SortOrderInput | SortOrder
+    preferredRhythm?: SortOrderInput | SortOrder
+    profileDrift?: SortOrder
+    profileStability?: SortOrder
+    projectsRealized?: SortOrder
+    pseudo?: SortOrderInput | SortOrder
     recommendedPath?: SortOrder
     recommendedTools?: SortOrder
-    predictedEngagementScore?: SortOrderInput | SortOrder
-    confidenceScore?: SortOrder
-    profileDrift?: SortOrder
-    behavioralVibrancy?: SortOrderInput | SortOrder
-    lastHypothesisUpdate?: SortOrderInput | SortOrder
-    dreamStatement?: SortOrderInput | SortOrder
+    strategistScore?: SortOrder
+    technicalLevel?: SortOrderInput | SortOrder
+    tools?: SortOrder
+    secondaryObjectives?: SortOrder
+    bio?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    memberNumber?: SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     currentFocus?: SortOrder
-    mainBlocker?: SortOrderInput | SortOrder
+    dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
+    mainBlocker?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -17212,65 +17278,65 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    memberNumber?: IntWithAggregatesFilter<"User"> | number
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     level?: IntWithAggregatesFilter<"User"> | number
     experience?: IntWithAggregatesFilter<"User"> | number
     class?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
-    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
-    country?: StringNullableWithAggregatesFilter<"User"> | string | null
-    city?: StringNullableWithAggregatesFilter<"User"> | string | null
-    language?: StringWithAggregatesFilter<"User"> | string
+    activePaths?: StringNullableListFilter<"User">
     ageRange?: StringNullableWithAggregatesFilter<"User"> | string | null
-    currentSituation?: StringNullableWithAggregatesFilter<"User"> | string | null
-    technicalLevel?: StringNullableWithAggregatesFilter<"User"> | string | null
-    domains?: StringNullableListFilter<"User">
-    tools?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    twitterUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
-    secondaryObjectives?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableWithAggregatesFilter<"User"> | string | null
-    longTermObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
-    preferredRhythm?: StringNullableWithAggregatesFilter<"User"> | string | null
-    onboardingSpeed?: IntNullableWithAggregatesFilter<"User"> | number | null
     answerConsistency?: FloatNullableWithAggregatesFilter<"User"> | number | null
-    connectionFrequency?: FloatNullableWithAggregatesFilter<"User"> | number | null
-    dashboardActivity?: FloatNullableWithAggregatesFilter<"User"> | number | null
-    communityEngagement?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    badges?: StringNullableListFilter<"User">
+    behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
     builderScore?: IntWithAggregatesFilter<"User"> | number
-    creatorScore?: IntWithAggregatesFilter<"User"> | number
-    strategistScore?: IntWithAggregatesFilter<"User"> | number
     catalystScore?: IntWithAggregatesFilter<"User"> | number
-    polarization?: FloatWithAggregatesFilter<"User"> | number
-    profileStability?: FloatWithAggregatesFilter<"User"> | number
+    city?: StringNullableWithAggregatesFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
+    communityEngagement?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    confidenceScore?: FloatWithAggregatesFilter<"User"> | number
+    connectionFrequency?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    country?: StringNullableWithAggregatesFilter<"User"> | string | null
+    creatorScore?: IntWithAggregatesFilter<"User"> | number
+    currentSituation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    dashboardActivity?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    domains?: StringNullableListFilter<"User">
+    dominantMotivation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    language?: StringWithAggregatesFilter<"User"> | string
+    lastHypothesisUpdate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    longTermObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
     mentorId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    projectsRealized?: StringNullableListFilter<"User">
-    activePaths?: StringNullableListFilter<"User">
-    badges?: StringNullableListFilter<"User">
     missionsCompletedCount?: IntWithAggregatesFilter<"User"> | number
+    onboardingSpeed?: IntNullableWithAggregatesFilter<"User"> | number | null
+    polarization?: FloatWithAggregatesFilter<"User"> | number
+    portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    predictedEngagementScore?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    preferredRhythm?: StringNullableWithAggregatesFilter<"User"> | string | null
+    profileDrift?: FloatWithAggregatesFilter<"User"> | number
+    profileStability?: FloatWithAggregatesFilter<"User"> | number
+    projectsRealized?: StringNullableListFilter<"User">
+    pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
     recommendedPath?: StringNullableListFilter<"User">
     recommendedTools?: StringNullableListFilter<"User">
-    predictedEngagementScore?: FloatNullableWithAggregatesFilter<"User"> | number | null
-    confidenceScore?: FloatWithAggregatesFilter<"User"> | number
-    profileDrift?: FloatWithAggregatesFilter<"User"> | number
-    behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
-    lastHypothesisUpdate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
+    strategistScore?: IntWithAggregatesFilter<"User"> | number
+    technicalLevel?: StringNullableWithAggregatesFilter<"User"> | string | null
+    tools?: StringNullableListFilter<"User">
+    secondaryObjectives?: StringNullableListFilter<"User">
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    memberNumber?: IntWithAggregatesFilter<"User"> | number
+    twitterUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
-    mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
+    dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type DailyCheckinWhereInput = {
@@ -17346,44 +17412,50 @@ export namespace Prisma {
     NOT?: MissionWhereInput | MissionWhereInput[]
     id?: StringFilter<"Mission"> | string
     title?: StringFilter<"Mission"> | string
-    shortDesc?: StringNullableFilter<"Mission"> | string | null
     description?: StringFilter<"Mission"> | string
     slug?: StringFilter<"Mission"> | string
     category?: StringFilter<"Mission"> | string
     difficulty?: IntFilter<"Mission"> | number
     xp?: IntFilter<"Mission"> | number
-    targetProfiles?: StringNullableListFilter<"Mission">
-    missionLevel?: StringNullableFilter<"Mission"> | string | null
-    requirements?: StringNullableListFilter<"Mission">
-    duration?: StringNullableFilter<"Mission"> | string | null
     weightBuilder?: FloatFilter<"Mission"> | number
     weightCreator?: FloatFilter<"Mission"> | number
     weightStrategist?: FloatFilter<"Mission"> | number
     weightCatalyst?: FloatFilter<"Mission"> | number
     createdAt?: DateTimeFilter<"Mission"> | Date | string
     updatedAt?: DateTimeFilter<"Mission"> | Date | string
+    duration?: StringNullableFilter<"Mission"> | string | null
+    missionLevel?: StringNullableFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    shortDesc?: StringNullableFilter<"Mission"> | string | null
+    targetProfiles?: StringNullableListFilter<"Mission">
+    deliverables?: StringNullableListFilter<"Mission">
+    fullBriefing?: StringNullableFilter<"Mission"> | string | null
+    submissionMethod?: StringFilter<"Mission"> | string
     submissions?: MissionSubmissionListRelationFilter
   }
 
   export type MissionOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    shortDesc?: SortOrderInput | SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
-    targetProfiles?: SortOrder
-    missionLevel?: SortOrderInput | SortOrder
-    requirements?: SortOrder
-    duration?: SortOrderInput | SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    duration?: SortOrderInput | SortOrder
+    missionLevel?: SortOrderInput | SortOrder
+    requirements?: SortOrder
+    shortDesc?: SortOrderInput | SortOrder
+    targetProfiles?: SortOrder
+    deliverables?: SortOrder
+    fullBriefing?: SortOrderInput | SortOrder
+    submissionMethod?: SortOrder
     submissions?: MissionSubmissionOrderByRelationAggregateInput
   }
 
@@ -17394,43 +17466,49 @@ export namespace Prisma {
     OR?: MissionWhereInput[]
     NOT?: MissionWhereInput | MissionWhereInput[]
     title?: StringFilter<"Mission"> | string
-    shortDesc?: StringNullableFilter<"Mission"> | string | null
     description?: StringFilter<"Mission"> | string
     category?: StringFilter<"Mission"> | string
     difficulty?: IntFilter<"Mission"> | number
     xp?: IntFilter<"Mission"> | number
-    targetProfiles?: StringNullableListFilter<"Mission">
-    missionLevel?: StringNullableFilter<"Mission"> | string | null
-    requirements?: StringNullableListFilter<"Mission">
-    duration?: StringNullableFilter<"Mission"> | string | null
     weightBuilder?: FloatFilter<"Mission"> | number
     weightCreator?: FloatFilter<"Mission"> | number
     weightStrategist?: FloatFilter<"Mission"> | number
     weightCatalyst?: FloatFilter<"Mission"> | number
     createdAt?: DateTimeFilter<"Mission"> | Date | string
     updatedAt?: DateTimeFilter<"Mission"> | Date | string
+    duration?: StringNullableFilter<"Mission"> | string | null
+    missionLevel?: StringNullableFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    shortDesc?: StringNullableFilter<"Mission"> | string | null
+    targetProfiles?: StringNullableListFilter<"Mission">
+    deliverables?: StringNullableListFilter<"Mission">
+    fullBriefing?: StringNullableFilter<"Mission"> | string | null
+    submissionMethod?: StringFilter<"Mission"> | string
     submissions?: MissionSubmissionListRelationFilter
   }, "id" | "slug">
 
   export type MissionOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    shortDesc?: SortOrderInput | SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
-    targetProfiles?: SortOrder
-    missionLevel?: SortOrderInput | SortOrder
-    requirements?: SortOrder
-    duration?: SortOrderInput | SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    duration?: SortOrderInput | SortOrder
+    missionLevel?: SortOrderInput | SortOrder
+    requirements?: SortOrder
+    shortDesc?: SortOrderInput | SortOrder
+    targetProfiles?: SortOrder
+    deliverables?: SortOrder
+    fullBriefing?: SortOrderInput | SortOrder
+    submissionMethod?: SortOrder
     _count?: MissionCountOrderByAggregateInput
     _avg?: MissionAvgOrderByAggregateInput
     _max?: MissionMaxOrderByAggregateInput
@@ -17444,22 +17522,25 @@ export namespace Prisma {
     NOT?: MissionScalarWhereWithAggregatesInput | MissionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Mission"> | string
     title?: StringWithAggregatesFilter<"Mission"> | string
-    shortDesc?: StringNullableWithAggregatesFilter<"Mission"> | string | null
     description?: StringWithAggregatesFilter<"Mission"> | string
     slug?: StringWithAggregatesFilter<"Mission"> | string
     category?: StringWithAggregatesFilter<"Mission"> | string
     difficulty?: IntWithAggregatesFilter<"Mission"> | number
     xp?: IntWithAggregatesFilter<"Mission"> | number
-    targetProfiles?: StringNullableListFilter<"Mission">
-    missionLevel?: StringNullableWithAggregatesFilter<"Mission"> | string | null
-    requirements?: StringNullableListFilter<"Mission">
-    duration?: StringNullableWithAggregatesFilter<"Mission"> | string | null
     weightBuilder?: FloatWithAggregatesFilter<"Mission"> | number
     weightCreator?: FloatWithAggregatesFilter<"Mission"> | number
     weightStrategist?: FloatWithAggregatesFilter<"Mission"> | number
     weightCatalyst?: FloatWithAggregatesFilter<"Mission"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Mission"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Mission"> | Date | string
+    duration?: StringNullableWithAggregatesFilter<"Mission"> | string | null
+    missionLevel?: StringNullableWithAggregatesFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    shortDesc?: StringNullableWithAggregatesFilter<"Mission"> | string | null
+    targetProfiles?: StringNullableListFilter<"Mission">
+    deliverables?: StringNullableListFilter<"Mission">
+    fullBriefing?: StringNullableWithAggregatesFilter<"Mission"> | string | null
+    submissionMethod?: StringWithAggregatesFilter<"Mission"> | string
   }
 
   export type GuildWhereInput = {
@@ -17543,8 +17624,8 @@ export namespace Prisma {
     guildId?: StringFilter<"GuildMember"> | string
     role?: StringFilter<"GuildMember"> | string
     joinedAt?: DateTimeFilter<"GuildMember"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     guild?: XOR<GuildScalarRelationFilter, GuildWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type GuildMemberOrderByWithRelationInput = {
@@ -17553,8 +17634,8 @@ export namespace Prisma {
     guildId?: SortOrder
     role?: SortOrder
     joinedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     guild?: GuildOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type GuildMemberWhereUniqueInput = Prisma.AtLeast<{
@@ -17567,8 +17648,8 @@ export namespace Prisma {
     guildId?: StringFilter<"GuildMember"> | string
     role?: StringFilter<"GuildMember"> | string
     joinedAt?: DateTimeFilter<"GuildMember"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     guild?: XOR<GuildScalarRelationFilter, GuildWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_guildId">
 
   export type GuildMemberOrderByWithAggregationInput = {
@@ -17826,10 +17907,10 @@ export namespace Prisma {
     profileType?: StringFilter<"QuizResult"> | string
     score?: IntNullableFilter<"QuizResult"> | number | null
     answers?: JsonFilter<"QuizResult">
+    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableFilter<"QuizResult">
     diagnosticAnswers?: JsonNullableFilter<"QuizResult">
-    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
@@ -17839,10 +17920,10 @@ export namespace Prisma {
     profileType?: SortOrder
     score?: SortOrderInput | SortOrder
     answers?: SortOrder
+    createdAt?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
     detailedResponseTimes?: SortOrderInput | SortOrder
     diagnosticAnswers?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -17855,10 +17936,10 @@ export namespace Prisma {
     profileType?: StringFilter<"QuizResult"> | string
     score?: IntNullableFilter<"QuizResult"> | number | null
     answers?: JsonFilter<"QuizResult">
+    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableFilter<"QuizResult">
     diagnosticAnswers?: JsonNullableFilter<"QuizResult">
-    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
@@ -17868,10 +17949,10 @@ export namespace Prisma {
     profileType?: SortOrder
     score?: SortOrderInput | SortOrder
     answers?: SortOrder
+    createdAt?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
     detailedResponseTimes?: SortOrderInput | SortOrder
     diagnosticAnswers?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
     _count?: QuizResultCountOrderByAggregateInput
     _avg?: QuizResultAvgOrderByAggregateInput
     _max?: QuizResultMaxOrderByAggregateInput
@@ -17888,10 +17969,10 @@ export namespace Prisma {
     profileType?: StringWithAggregatesFilter<"QuizResult"> | string
     score?: IntNullableWithAggregatesFilter<"QuizResult"> | number | null
     answers?: JsonWithAggregatesFilter<"QuizResult">
+    createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableWithAggregatesFilter<"QuizResult"> | number | null
     detailedResponseTimes?: JsonNullableWithAggregatesFilter<"QuizResult">
     diagnosticAnswers?: JsonNullableWithAggregatesFilter<"QuizResult">
-    createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
   }
 
   export type MissionSubmissionWhereInput = {
@@ -17903,17 +17984,19 @@ export namespace Prisma {
     missionId?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
-    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
-    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
-    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
-    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
-    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
-    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
     createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
+    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
+    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
+    adminFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerId?: StringNullableFilter<"MissionSubmission"> | string | null
     mission?: XOR<MissionScalarRelationFilter, MissionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type MissionSubmissionOrderByWithRelationInput = {
@@ -17922,17 +18005,19 @@ export namespace Prisma {
     missionId?: SortOrder
     status?: SortOrder
     content?: SortOrderInput | SortOrder
-    projectDescription?: SortOrderInput | SortOrder
-    userDifficulty?: SortOrderInput | SortOrder
-    userRating?: SortOrderInput | SortOrder
-    userFeedback?: SortOrderInput | SortOrder
-    improvementSuggestions?: SortOrderInput | SortOrder
-    reviewerFeedback?: SortOrderInput | SortOrder
     xpAwarded?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
+    improvementSuggestions?: SortOrderInput | SortOrder
+    projectDescription?: SortOrderInput | SortOrder
+    reviewerFeedback?: SortOrderInput | SortOrder
+    userDifficulty?: SortOrderInput | SortOrder
+    userFeedback?: SortOrderInput | SortOrder
+    userRating?: SortOrderInput | SortOrder
+    adminFeedback?: SortOrderInput | SortOrder
+    reviewerId?: SortOrderInput | SortOrder
     mission?: MissionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type MissionSubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -17945,17 +18030,19 @@ export namespace Prisma {
     missionId?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
-    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
-    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
-    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
-    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
-    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
-    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
     createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
+    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
+    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
+    adminFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerId?: StringNullableFilter<"MissionSubmission"> | string | null
     mission?: XOR<MissionScalarRelationFilter, MissionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_missionId">
 
   export type MissionSubmissionOrderByWithAggregationInput = {
@@ -17964,15 +18051,17 @@ export namespace Prisma {
     missionId?: SortOrder
     status?: SortOrder
     content?: SortOrderInput | SortOrder
-    projectDescription?: SortOrderInput | SortOrder
-    userDifficulty?: SortOrderInput | SortOrder
-    userRating?: SortOrderInput | SortOrder
-    userFeedback?: SortOrderInput | SortOrder
-    improvementSuggestions?: SortOrderInput | SortOrder
-    reviewerFeedback?: SortOrderInput | SortOrder
     xpAwarded?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    improvementSuggestions?: SortOrderInput | SortOrder
+    projectDescription?: SortOrderInput | SortOrder
+    reviewerFeedback?: SortOrderInput | SortOrder
+    userDifficulty?: SortOrderInput | SortOrder
+    userFeedback?: SortOrderInput | SortOrder
+    userRating?: SortOrderInput | SortOrder
+    adminFeedback?: SortOrderInput | SortOrder
+    reviewerId?: SortOrderInput | SortOrder
     _count?: MissionSubmissionCountOrderByAggregateInput
     _avg?: MissionSubmissionAvgOrderByAggregateInput
     _max?: MissionSubmissionMaxOrderByAggregateInput
@@ -17989,15 +18078,17 @@ export namespace Prisma {
     missionId?: StringWithAggregatesFilter<"MissionSubmission"> | string
     status?: StringWithAggregatesFilter<"MissionSubmission"> | string
     content?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
-    projectDescription?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
-    userDifficulty?: IntNullableWithAggregatesFilter<"MissionSubmission"> | number | null
-    userRating?: IntNullableWithAggregatesFilter<"MissionSubmission"> | number | null
-    userFeedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
-    improvementSuggestions?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
-    reviewerFeedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntWithAggregatesFilter<"MissionSubmission"> | number
     createdAt?: DateTimeWithAggregatesFilter<"MissionSubmission"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MissionSubmission"> | Date | string
+    improvementSuggestions?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    projectDescription?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    reviewerFeedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    userDifficulty?: IntNullableWithAggregatesFilter<"MissionSubmission"> | number | null
+    userFeedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    userRating?: IntNullableWithAggregatesFilter<"MissionSubmission"> | number | null
+    adminFeedback?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
+    reviewerId?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
   }
 
   export type ContactMessageWhereInput = {
@@ -18134,144 +18225,144 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserUpdateInput = {
@@ -18280,202 +18371,202 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateManyInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -18484,122 +18575,122 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DailyCheckinCreateInput = {
@@ -18674,152 +18765,173 @@ export namespace Prisma {
   export type MissionCreateInput = {
     id?: string
     title: string
-    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
-    targetProfiles?: MissionCreatetargetProfilesInput | string[]
-    missionLevel?: string | null
-    requirements?: MissionCreaterequirementsInput | string[]
-    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
     weightCatalyst?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    duration?: string | null
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    shortDesc?: string | null
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    deliverables?: MissionCreatedeliverablesInput | string[]
+    fullBriefing?: string | null
+    submissionMethod?: string
     submissions?: MissionSubmissionCreateNestedManyWithoutMissionInput
   }
 
   export type MissionUncheckedCreateInput = {
     id?: string
     title: string
-    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
-    targetProfiles?: MissionCreatetargetProfilesInput | string[]
-    missionLevel?: string | null
-    requirements?: MissionCreaterequirementsInput | string[]
-    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
     weightCatalyst?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    duration?: string | null
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    shortDesc?: string | null
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    deliverables?: MissionCreatedeliverablesInput | string[]
+    fullBriefing?: string | null
+    submissionMethod?: string
     submissions?: MissionSubmissionUncheckedCreateNestedManyWithoutMissionInput
   }
 
   export type MissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
     weightCatalyst?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
     submissions?: MissionSubmissionUpdateManyWithoutMissionNestedInput
   }
 
   export type MissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
     weightCatalyst?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
     submissions?: MissionSubmissionUncheckedUpdateManyWithoutMissionNestedInput
   }
 
   export type MissionCreateManyInput = {
     id?: string
     title: string
-    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
-    targetProfiles?: MissionCreatetargetProfilesInput | string[]
-    missionLevel?: string | null
-    requirements?: MissionCreaterequirementsInput | string[]
-    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
     weightCatalyst?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    duration?: string | null
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    shortDesc?: string | null
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    deliverables?: MissionCreatedeliverablesInput | string[]
+    fullBriefing?: string | null
+    submissionMethod?: string
   }
 
   export type MissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
     weightCatalyst?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
   }
 
   export type MissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
     weightCatalyst?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
   }
 
   export type GuildCreateInput = {
@@ -18907,8 +19019,8 @@ export namespace Prisma {
     id?: string
     role?: string
     joinedAt?: Date | string
-    user: UserCreateNestedOneWithoutGuildMembersInput
     guild: GuildCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutGuildMembersInput
   }
 
   export type GuildMemberUncheckedCreateInput = {
@@ -18923,8 +19035,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutGuildMembersNestedInput
     guild?: GuildUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutGuildMembersNestedInput
   }
 
   export type GuildMemberUncheckedUpdateInput = {
@@ -19212,10 +19324,10 @@ export namespace Prisma {
     profileType: string
     score?: number | null
     answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
     user?: UserCreateNestedOneWithoutQuizResultsInput
   }
 
@@ -19225,10 +19337,10 @@ export namespace Prisma {
     profileType: string
     score?: number | null
     answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
   }
 
   export type QuizResultUpdateInput = {
@@ -19236,10 +19348,10 @@ export namespace Prisma {
     profileType?: StringFieldUpdateOperationsInput | string
     score?: NullableIntFieldUpdateOperationsInput | number | null
     answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutQuizResultsNestedInput
   }
 
@@ -19249,10 +19361,10 @@ export namespace Prisma {
     profileType?: StringFieldUpdateOperationsInput | string
     score?: NullableIntFieldUpdateOperationsInput | number | null
     answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuizResultCreateManyInput = {
@@ -19261,10 +19373,10 @@ export namespace Prisma {
     profileType: string
     score?: number | null
     answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
     averageResponseTime?: number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
   }
 
   export type QuizResultUpdateManyMutationInput = {
@@ -19272,10 +19384,10 @@ export namespace Prisma {
     profileType?: StringFieldUpdateOperationsInput | string
     score?: NullableIntFieldUpdateOperationsInput | number | null
     answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuizResultUncheckedUpdateManyInput = {
@@ -19284,27 +19396,29 @@ export namespace Prisma {
     profileType?: StringFieldUpdateOperationsInput | string
     score?: NullableIntFieldUpdateOperationsInput | number | null
     answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
     detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
     diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MissionSubmissionCreateInput = {
     id?: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutMissionSubmissionsInput
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
     mission: MissionCreateNestedOneWithoutSubmissionsInput
+    user: UserCreateNestedOneWithoutMissionSubmissionsInput
   }
 
   export type MissionSubmissionUncheckedCreateInput = {
@@ -19313,32 +19427,36 @@ export namespace Prisma {
     missionId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type MissionSubmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     mission?: MissionUpdateOneRequiredWithoutSubmissionsNestedInput
+    user?: UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput
   }
 
   export type MissionSubmissionUncheckedUpdateInput = {
@@ -19347,15 +19465,17 @@ export namespace Prisma {
     missionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MissionSubmissionCreateManyInput = {
@@ -19364,30 +19484,34 @@ export namespace Prisma {
     missionId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type MissionSubmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MissionSubmissionUncheckedUpdateManyInput = {
@@ -19396,15 +19520,17 @@ export namespace Prisma {
     missionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ContactMessageCreateInput = {
@@ -19568,17 +19694,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -19610,23 +19725,23 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -19638,17 +19753,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -19674,6 +19778,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -19685,21 +19800,15 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type SessionListRelationFilter = {
-    every?: SessionWhereInput
-    some?: SessionWhereInput
-    none?: SessionWhereInput
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type AccountListRelationFilter = {
@@ -19708,10 +19817,10 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
-  export type QuizResultListRelationFilter = {
-    every?: QuizResultWhereInput
-    some?: QuizResultWhereInput
-    none?: QuizResultWhereInput
+  export type DailyCheckinListRelationFilter = {
+    every?: DailyCheckinWhereInput
+    some?: DailyCheckinWhereInput
+    none?: DailyCheckinWhereInput
   }
 
   export type GuildMemberListRelationFilter = {
@@ -19726,16 +19835,33 @@ export namespace Prisma {
     none?: MissionSubmissionWhereInput
   }
 
-  export type DailyCheckinListRelationFilter = {
-    every?: DailyCheckinWhereInput
-    some?: DailyCheckinWhereInput
-    none?: DailyCheckinWhereInput
-  }
-
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
     none?: NotificationWhereInput
+  }
+
+  export type QuizResultListRelationFilter = {
+    every?: QuizResultWhereInput
+    some?: QuizResultWhereInput
+    none?: QuizResultWhereInput
+  }
+
+  export type SessionListRelationFilter = {
+    every?: SessionWhereInput
+    some?: SessionWhereInput
+    none?: SessionWhereInput
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
   }
 
   export type SortOrderInput = {
@@ -19743,19 +19869,11 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SessionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type QuizResultOrderByRelationAggregateInput = {
+  export type DailyCheckinOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19767,219 +19885,227 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type DailyCheckinOrderByRelationAggregateInput = {
+  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type NotificationOrderByRelationAggregateInput = {
+  export type QuizResultOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    memberNumber?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     level?: SortOrder
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    pseudo?: SortOrder
-    bio?: SortOrder
-    country?: SortOrder
-    city?: SortOrder
-    language?: SortOrder
+    activePaths?: SortOrder
     ageRange?: SortOrder
-    currentSituation?: SortOrder
-    technicalLevel?: SortOrder
-    domains?: SortOrder
-    tools?: SortOrder
-    githubUrl?: SortOrder
-    portfolioUrl?: SortOrder
-    linkedinUrl?: SortOrder
-    twitterUrl?: SortOrder
-    mainObjective?: SortOrder
-    secondaryObjectives?: SortOrder
-    dominantMotivation?: SortOrder
-    longTermObjective?: SortOrder
-    preferredRhythm?: SortOrder
-    onboardingSpeed?: SortOrder
     answerConsistency?: SortOrder
-    connectionFrequency?: SortOrder
-    dashboardActivity?: SortOrder
-    communityEngagement?: SortOrder
+    badges?: SortOrder
+    behavioralVibrancy?: SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
+    city?: SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
+    communityEngagement?: SortOrder
+    confidenceScore?: SortOrder
+    connectionFrequency?: SortOrder
+    country?: SortOrder
+    creatorScore?: SortOrder
+    currentSituation?: SortOrder
+    dashboardActivity?: SortOrder
+    domains?: SortOrder
+    dominantMotivation?: SortOrder
+    githubUrl?: SortOrder
+    language?: SortOrder
+    lastHypothesisUpdate?: SortOrder
+    longTermObjective?: SortOrder
+    mainObjective?: SortOrder
     mentorId?: SortOrder
-    projectsRealized?: SortOrder
-    activePaths?: SortOrder
-    badges?: SortOrder
     missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrder
+    polarization?: SortOrder
+    portfolioUrl?: SortOrder
+    predictedEngagementScore?: SortOrder
+    preferredRhythm?: SortOrder
+    profileDrift?: SortOrder
+    profileStability?: SortOrder
+    projectsRealized?: SortOrder
+    pseudo?: SortOrder
     recommendedPath?: SortOrder
     recommendedTools?: SortOrder
-    predictedEngagementScore?: SortOrder
-    confidenceScore?: SortOrder
-    profileDrift?: SortOrder
-    behavioralVibrancy?: SortOrder
-    lastHypothesisUpdate?: SortOrder
-    dreamStatement?: SortOrder
+    strategistScore?: SortOrder
+    technicalLevel?: SortOrder
+    tools?: SortOrder
+    secondaryObjectives?: SortOrder
+    bio?: SortOrder
+    linkedinUrl?: SortOrder
+    memberNumber?: SortOrder
+    twitterUrl?: SortOrder
     currentFocus?: SortOrder
-    mainBlocker?: SortOrder
+    dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
+    mainBlocker?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
-    memberNumber?: SortOrder
     level?: SortOrder
     experience?: SortOrder
-    onboardingSpeed?: SortOrder
     answerConsistency?: SortOrder
-    connectionFrequency?: SortOrder
-    dashboardActivity?: SortOrder
-    communityEngagement?: SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
-    missionsCompletedCount?: SortOrder
-    predictedEngagementScore?: SortOrder
+    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
+    connectionFrequency?: SortOrder
+    creatorScore?: SortOrder
+    dashboardActivity?: SortOrder
+    missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrder
+    polarization?: SortOrder
+    predictedEngagementScore?: SortOrder
     profileDrift?: SortOrder
+    profileStability?: SortOrder
+    strategistScore?: SortOrder
+    memberNumber?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    memberNumber?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     level?: SortOrder
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    pseudo?: SortOrder
-    bio?: SortOrder
-    country?: SortOrder
-    city?: SortOrder
-    language?: SortOrder
     ageRange?: SortOrder
-    currentSituation?: SortOrder
-    technicalLevel?: SortOrder
-    githubUrl?: SortOrder
-    portfolioUrl?: SortOrder
-    linkedinUrl?: SortOrder
-    twitterUrl?: SortOrder
-    mainObjective?: SortOrder
-    dominantMotivation?: SortOrder
-    longTermObjective?: SortOrder
-    preferredRhythm?: SortOrder
-    onboardingSpeed?: SortOrder
     answerConsistency?: SortOrder
-    connectionFrequency?: SortOrder
-    dashboardActivity?: SortOrder
-    communityEngagement?: SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
+    city?: SortOrder
+    communityEngagement?: SortOrder
+    confidenceScore?: SortOrder
+    connectionFrequency?: SortOrder
+    country?: SortOrder
+    creatorScore?: SortOrder
+    currentSituation?: SortOrder
+    dashboardActivity?: SortOrder
+    dominantMotivation?: SortOrder
+    githubUrl?: SortOrder
+    language?: SortOrder
+    lastHypothesisUpdate?: SortOrder
+    longTermObjective?: SortOrder
+    mainObjective?: SortOrder
     mentorId?: SortOrder
     missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrder
+    polarization?: SortOrder
+    portfolioUrl?: SortOrder
     predictedEngagementScore?: SortOrder
-    confidenceScore?: SortOrder
+    preferredRhythm?: SortOrder
     profileDrift?: SortOrder
-    lastHypothesisUpdate?: SortOrder
+    profileStability?: SortOrder
+    pseudo?: SortOrder
+    strategistScore?: SortOrder
+    technicalLevel?: SortOrder
+    bio?: SortOrder
+    linkedinUrl?: SortOrder
+    memberNumber?: SortOrder
+    twitterUrl?: SortOrder
     dreamStatement?: SortOrder
-    mainBlocker?: SortOrder
     lastCheckinAt?: SortOrder
+    mainBlocker?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    memberNumber?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     level?: SortOrder
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    pseudo?: SortOrder
-    bio?: SortOrder
-    country?: SortOrder
-    city?: SortOrder
-    language?: SortOrder
     ageRange?: SortOrder
-    currentSituation?: SortOrder
-    technicalLevel?: SortOrder
-    githubUrl?: SortOrder
-    portfolioUrl?: SortOrder
-    linkedinUrl?: SortOrder
-    twitterUrl?: SortOrder
-    mainObjective?: SortOrder
-    dominantMotivation?: SortOrder
-    longTermObjective?: SortOrder
-    preferredRhythm?: SortOrder
-    onboardingSpeed?: SortOrder
     answerConsistency?: SortOrder
-    connectionFrequency?: SortOrder
-    dashboardActivity?: SortOrder
-    communityEngagement?: SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
+    city?: SortOrder
+    communityEngagement?: SortOrder
+    confidenceScore?: SortOrder
+    connectionFrequency?: SortOrder
+    country?: SortOrder
+    creatorScore?: SortOrder
+    currentSituation?: SortOrder
+    dashboardActivity?: SortOrder
+    dominantMotivation?: SortOrder
+    githubUrl?: SortOrder
+    language?: SortOrder
+    lastHypothesisUpdate?: SortOrder
+    longTermObjective?: SortOrder
+    mainObjective?: SortOrder
     mentorId?: SortOrder
     missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrder
+    polarization?: SortOrder
+    portfolioUrl?: SortOrder
     predictedEngagementScore?: SortOrder
-    confidenceScore?: SortOrder
+    preferredRhythm?: SortOrder
     profileDrift?: SortOrder
-    lastHypothesisUpdate?: SortOrder
+    profileStability?: SortOrder
+    pseudo?: SortOrder
+    strategistScore?: SortOrder
+    technicalLevel?: SortOrder
+    bio?: SortOrder
+    linkedinUrl?: SortOrder
+    memberNumber?: SortOrder
+    twitterUrl?: SortOrder
     dreamStatement?: SortOrder
-    mainBlocker?: SortOrder
     lastCheckinAt?: SortOrder
+    mainBlocker?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
-    memberNumber?: SortOrder
     level?: SortOrder
     experience?: SortOrder
-    onboardingSpeed?: SortOrder
     answerConsistency?: SortOrder
-    connectionFrequency?: SortOrder
-    dashboardActivity?: SortOrder
-    communityEngagement?: SortOrder
     builderScore?: SortOrder
-    creatorScore?: SortOrder
-    strategistScore?: SortOrder
     catalystScore?: SortOrder
-    polarization?: SortOrder
-    profileStability?: SortOrder
-    missionsCompletedCount?: SortOrder
-    predictedEngagementScore?: SortOrder
+    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
+    connectionFrequency?: SortOrder
+    creatorScore?: SortOrder
+    dashboardActivity?: SortOrder
+    missionsCompletedCount?: SortOrder
+    onboardingSpeed?: SortOrder
+    polarization?: SortOrder
+    predictedEngagementScore?: SortOrder
     profileDrift?: SortOrder
+    profileStability?: SortOrder
+    strategistScore?: SortOrder
+    memberNumber?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -19998,22 +20124,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -20056,20 +20166,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -20086,22 +20196,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -20130,6 +20224,22 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -20142,6 +20252,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -20192,22 +20318,25 @@ export namespace Prisma {
   export type MissionCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
-    targetProfiles?: SortOrder
-    missionLevel?: SortOrder
-    requirements?: SortOrder
-    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    duration?: SortOrder
+    missionLevel?: SortOrder
+    requirements?: SortOrder
+    shortDesc?: SortOrder
+    targetProfiles?: SortOrder
+    deliverables?: SortOrder
+    fullBriefing?: SortOrder
+    submissionMethod?: SortOrder
   }
 
   export type MissionAvgOrderByAggregateInput = {
@@ -20222,39 +20351,43 @@ export namespace Prisma {
   export type MissionMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
-    missionLevel?: SortOrder
-    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    duration?: SortOrder
+    missionLevel?: SortOrder
+    shortDesc?: SortOrder
+    fullBriefing?: SortOrder
+    submissionMethod?: SortOrder
   }
 
   export type MissionMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
-    missionLevel?: SortOrder
-    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    duration?: SortOrder
+    missionLevel?: SortOrder
+    shortDesc?: SortOrder
+    fullBriefing?: SortOrder
+    submissionMethod?: SortOrder
   }
 
   export type MissionSumOrderByAggregateInput = {
@@ -20488,10 +20621,10 @@ export namespace Prisma {
     profileType?: SortOrder
     score?: SortOrder
     answers?: SortOrder
+    createdAt?: SortOrder
     averageResponseTime?: SortOrder
     detailedResponseTimes?: SortOrder
     diagnosticAnswers?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type QuizResultAvgOrderByAggregateInput = {
@@ -20504,8 +20637,8 @@ export namespace Prisma {
     userId?: SortOrder
     profileType?: SortOrder
     score?: SortOrder
-    averageResponseTime?: SortOrder
     createdAt?: SortOrder
+    averageResponseTime?: SortOrder
   }
 
   export type QuizResultMinOrderByAggregateInput = {
@@ -20513,8 +20646,8 @@ export namespace Prisma {
     userId?: SortOrder
     profileType?: SortOrder
     score?: SortOrder
-    averageResponseTime?: SortOrder
     createdAt?: SortOrder
+    averageResponseTime?: SortOrder
   }
 
   export type QuizResultSumOrderByAggregateInput = {
@@ -20564,21 +20697,23 @@ export namespace Prisma {
     missionId?: SortOrder
     status?: SortOrder
     content?: SortOrder
-    projectDescription?: SortOrder
-    userDifficulty?: SortOrder
-    userRating?: SortOrder
-    userFeedback?: SortOrder
-    improvementSuggestions?: SortOrder
-    reviewerFeedback?: SortOrder
     xpAwarded?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    improvementSuggestions?: SortOrder
+    projectDescription?: SortOrder
+    reviewerFeedback?: SortOrder
+    userDifficulty?: SortOrder
+    userFeedback?: SortOrder
+    userRating?: SortOrder
+    adminFeedback?: SortOrder
+    reviewerId?: SortOrder
   }
 
   export type MissionSubmissionAvgOrderByAggregateInput = {
+    xpAwarded?: SortOrder
     userDifficulty?: SortOrder
     userRating?: SortOrder
-    xpAwarded?: SortOrder
   }
 
   export type MissionSubmissionMaxOrderByAggregateInput = {
@@ -20587,15 +20722,17 @@ export namespace Prisma {
     missionId?: SortOrder
     status?: SortOrder
     content?: SortOrder
-    projectDescription?: SortOrder
-    userDifficulty?: SortOrder
-    userRating?: SortOrder
-    userFeedback?: SortOrder
-    improvementSuggestions?: SortOrder
-    reviewerFeedback?: SortOrder
     xpAwarded?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    improvementSuggestions?: SortOrder
+    projectDescription?: SortOrder
+    reviewerFeedback?: SortOrder
+    userDifficulty?: SortOrder
+    userFeedback?: SortOrder
+    userRating?: SortOrder
+    adminFeedback?: SortOrder
+    reviewerId?: SortOrder
   }
 
   export type MissionSubmissionMinOrderByAggregateInput = {
@@ -20604,21 +20741,23 @@ export namespace Prisma {
     missionId?: SortOrder
     status?: SortOrder
     content?: SortOrder
-    projectDescription?: SortOrder
-    userDifficulty?: SortOrder
-    userRating?: SortOrder
-    userFeedback?: SortOrder
-    improvementSuggestions?: SortOrder
-    reviewerFeedback?: SortOrder
     xpAwarded?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    improvementSuggestions?: SortOrder
+    projectDescription?: SortOrder
+    reviewerFeedback?: SortOrder
+    userDifficulty?: SortOrder
+    userFeedback?: SortOrder
+    userRating?: SortOrder
+    adminFeedback?: SortOrder
+    reviewerId?: SortOrder
   }
 
   export type MissionSubmissionSumOrderByAggregateInput = {
+    xpAwarded?: SortOrder
     userDifficulty?: SortOrder
     userRating?: SortOrder
-    xpAwarded?: SortOrder
   }
 
   export type ContactMessageCountOrderByAggregateInput = {
@@ -20684,15 +20823,11 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type UserCreatedomainsInput = {
+  export type UserCreateactivePathsInput = {
     set: string[]
   }
 
-  export type UserCreatetoolsInput = {
-    set: string[]
-  }
-
-  export type UserCreatesecondaryObjectivesInput = {
+  export type UserCreatebadgesInput = {
     set: string[]
   }
 
@@ -20704,15 +20839,11 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type UserCreatedomainsInput = {
+    set: string[]
+  }
+
   export type UserCreateprojectsRealizedInput = {
-    set: string[]
-  }
-
-  export type UserCreateactivePathsInput = {
-    set: string[]
-  }
-
-  export type UserCreatebadgesInput = {
     set: string[]
   }
 
@@ -20724,28 +20855,16 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type UserCreatecurrentFocusInput = {
+  export type UserCreatetoolsInput = {
     set: string[]
   }
 
-  export type UserCreateNestedOneWithoutMenteesInput = {
-    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
-    connect?: UserWhereUniqueInput
+  export type UserCreatesecondaryObjectivesInput = {
+    set: string[]
   }
 
-  export type UserCreateNestedManyWithoutMentorInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type SessionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  export type UserCreatecurrentFocusInput = {
+    set: string[]
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -20755,11 +20874,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type QuizResultCreateNestedManyWithoutUserInput = {
-    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
-    createMany?: QuizResultCreateManyUserInputEnvelope
-    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+  export type DailyCheckinCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
   }
 
   export type GuildMemberCreateNestedManyWithoutUserInput = {
@@ -20776,13 +20895,6 @@ export namespace Prisma {
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
   }
 
-  export type DailyCheckinCreateNestedManyWithoutUserInput = {
-    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
-    createMany?: DailyCheckinCreateManyUserInputEnvelope
-    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-  }
-
   export type NotificationCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -20790,18 +20902,31 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutMentorInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type QuizResultCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
+    createMany?: QuizResultCreateManyUserInputEnvelope
+    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+  export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutMenteesInput = {
+    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutMentorInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -20811,11 +20936,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type QuizResultUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
-    createMany?: QuizResultCreateManyUserInputEnvelope
-    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+  export type DailyCheckinUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
   }
 
   export type GuildMemberUncheckedCreateNestedManyWithoutUserInput = {
@@ -20832,18 +20957,32 @@ export namespace Prisma {
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
   }
 
-  export type DailyCheckinUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
-    createMany?: DailyCheckinCreateManyUserInputEnvelope
-    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-  }
-
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type QuizResultUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
+    createMany?: QuizResultCreateManyUserInputEnvelope
+    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+  }
+
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutMentorInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -20858,6 +20997,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -20866,31 +21009,9 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type UserUpdatedomainsInput = {
+  export type UserUpdateactivePathsInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type UserUpdatetoolsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdatesecondaryObjectivesInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -20901,12 +21022,9 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type UserUpdatebadgesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdatecohortsJoinedInput = {
@@ -20919,17 +21037,32 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdatedomainsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateprojectsRealizedInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdateactivePathsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdatebadgesInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -20944,51 +21077,19 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type UserUpdatetoolsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdatesecondaryObjectivesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdatecurrentFocusInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type UserUpdateOneWithoutMenteesNestedInput = {
-    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
-    upsert?: UserUpsertWithoutMenteesInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMenteesInput, UserUpdateWithoutMenteesInput>, UserUncheckedUpdateWithoutMenteesInput>
-  }
-
-  export type UserUpdateManyWithoutMentorNestedInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type SessionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -21005,18 +21106,18 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type QuizResultUpdateManyWithoutUserNestedInput = {
-    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
-    upsert?: QuizResultUpsertWithWhereUniqueWithoutUserInput | QuizResultUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: QuizResultCreateManyUserInputEnvelope
-    set?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    disconnect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    delete?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    update?: QuizResultUpdateWithWhereUniqueWithoutUserInput | QuizResultUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: QuizResultUpdateManyWithWhereWithoutUserInput | QuizResultUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
+  export type DailyCheckinUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
   }
 
   export type GuildMemberUpdateManyWithoutUserNestedInput = {
@@ -21047,20 +21148,6 @@ export namespace Prisma {
     deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
   }
 
-  export type DailyCheckinUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
-    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DailyCheckinCreateManyUserInputEnvelope
-    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
-  }
-
   export type NotificationUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -21075,21 +21162,21 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutMentorNestedInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type QuizResultUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
+    upsert?: QuizResultUpsertWithWhereUniqueWithoutUserInput | QuizResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuizResultCreateManyUserInputEnvelope
+    set?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    disconnect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    delete?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    update?: QuizResultUpdateWithWhereUniqueWithoutUserInput | QuizResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuizResultUpdateManyWithWhereWithoutUserInput | QuizResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
   }
 
-  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+  export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
@@ -21101,6 +21188,30 @@ export namespace Prisma {
     update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type UserUpdateOneWithoutMenteesNestedInput = {
+    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
+    upsert?: UserUpsertWithoutMenteesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMenteesInput, UserUpdateWithoutMenteesInput>, UserUncheckedUpdateWithoutMenteesInput>
+  }
+
+  export type UserUpdateManyWithoutMentorNestedInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -21117,18 +21228,18 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type QuizResultUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
-    upsert?: QuizResultUpsertWithWhereUniqueWithoutUserInput | QuizResultUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: QuizResultCreateManyUserInputEnvelope
-    set?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    disconnect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    delete?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
-    update?: QuizResultUpdateWithWhereUniqueWithoutUserInput | QuizResultUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: QuizResultUpdateManyWithWhereWithoutUserInput | QuizResultUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
+  export type DailyCheckinUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
   }
 
   export type GuildMemberUncheckedUpdateManyWithoutUserNestedInput = {
@@ -21159,20 +21270,6 @@ export namespace Prisma {
     deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
   }
 
-  export type DailyCheckinUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
-    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DailyCheckinCreateManyUserInputEnvelope
-    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
-    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
-  }
-
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -21185,6 +21282,48 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type QuizResultUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
+    upsert?: QuizResultUpsertWithWhereUniqueWithoutUserInput | QuizResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuizResultCreateManyUserInputEnvelope
+    set?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    disconnect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    delete?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    connect?: QuizResultWhereUniqueInput | QuizResultWhereUniqueInput[]
+    update?: QuizResultUpdateWithWhereUniqueWithoutUserInput | QuizResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuizResultUpdateManyWithWhereWithoutUserInput | QuizResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutMentorNestedInput = {
+    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
+    createMany?: UserCreateManyMentorInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutDailyCheckinsInput = {
@@ -21201,11 +21340,15 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDailyCheckinsInput, UserUpdateWithoutDailyCheckinsInput>, UserUncheckedUpdateWithoutDailyCheckinsInput>
   }
 
+  export type MissionCreaterequirementsInput = {
+    set: string[]
+  }
+
   export type MissionCreatetargetProfilesInput = {
     set: string[]
   }
 
-  export type MissionCreaterequirementsInput = {
+  export type MissionCreatedeliverablesInput = {
     set: string[]
   }
 
@@ -21223,12 +21366,17 @@ export namespace Prisma {
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
   }
 
+  export type MissionUpdaterequirementsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type MissionUpdatetargetProfilesInput = {
     set?: string[]
     push?: string | string[]
   }
 
-  export type MissionUpdaterequirementsInput = {
+  export type MissionUpdatedeliverablesInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -21303,24 +21451,16 @@ export namespace Prisma {
     deleteMany?: GuildMemberScalarWhereInput | GuildMemberScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutGuildMembersInput = {
-    create?: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGuildMembersInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type GuildCreateNestedOneWithoutMembersInput = {
     create?: XOR<GuildCreateWithoutMembersInput, GuildUncheckedCreateWithoutMembersInput>
     connectOrCreate?: GuildCreateOrConnectWithoutMembersInput
     connect?: GuildWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutGuildMembersNestedInput = {
+  export type UserCreateNestedOneWithoutGuildMembersInput = {
     create?: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
     connectOrCreate?: UserCreateOrConnectWithoutGuildMembersInput
-    upsert?: UserUpsertWithoutGuildMembersInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGuildMembersInput, UserUpdateWithoutGuildMembersInput>, UserUncheckedUpdateWithoutGuildMembersInput>
   }
 
   export type GuildUpdateOneRequiredWithoutMembersNestedInput = {
@@ -21329,6 +21469,14 @@ export namespace Prisma {
     upsert?: GuildUpsertWithoutMembersInput
     connect?: GuildWhereUniqueInput
     update?: XOR<XOR<GuildUpdateToOneWithWhereWithoutMembersInput, GuildUpdateWithoutMembersInput>, GuildUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutGuildMembersNestedInput = {
+    create?: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGuildMembersInput
+    upsert?: UserUpsertWithoutGuildMembersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGuildMembersInput, UserUpdateWithoutGuildMembersInput>, UserUncheckedUpdateWithoutGuildMembersInput>
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -21375,24 +21523,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutQuizResultsInput, UserUpdateWithoutQuizResultsInput>, UserUncheckedUpdateWithoutQuizResultsInput>
   }
 
-  export type UserCreateNestedOneWithoutMissionSubmissionsInput = {
-    create?: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMissionSubmissionsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type MissionCreateNestedOneWithoutSubmissionsInput = {
     create?: XOR<MissionCreateWithoutSubmissionsInput, MissionUncheckedCreateWithoutSubmissionsInput>
     connectOrCreate?: MissionCreateOrConnectWithoutSubmissionsInput
     connect?: MissionWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput = {
+  export type UserCreateNestedOneWithoutMissionSubmissionsInput = {
     create?: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutMissionSubmissionsInput
-    upsert?: UserUpsertWithoutMissionSubmissionsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMissionSubmissionsInput, UserUpdateWithoutMissionSubmissionsInput>, UserUncheckedUpdateWithoutMissionSubmissionsInput>
   }
 
   export type MissionUpdateOneRequiredWithoutSubmissionsNestedInput = {
@@ -21401,6 +21541,14 @@ export namespace Prisma {
     upsert?: MissionUpsertWithoutSubmissionsInput
     connect?: MissionWhereUniqueInput
     update?: XOR<XOR<MissionUpdateToOneWithWhereWithoutSubmissionsInput, MissionUpdateWithoutSubmissionsInput>, MissionUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput = {
+    create?: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMissionSubmissionsInput
+    upsert?: UserUpsertWithoutMissionSubmissionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMissionSubmissionsInput, UserUpdateWithoutMissionSubmissionsInput>, UserUncheckedUpdateWithoutMissionSubmissionsInput>
   }
 
   export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -21429,17 +21577,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -21472,15 +21609,15 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -21516,6 +21653,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -21531,22 +21679,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -21588,20 +21720,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -21618,22 +21750,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -21659,6 +21775,22 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -21671,6 +21803,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -21694,331 +21842,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type UserCreateWithoutMenteesInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutMenteesInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutMenteesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-  }
-
-  export type UserCreateWithoutMentorInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutMentorInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
-  }
-
-  export type UserCreateManyMentorInputEnvelope = {
-    data: UserCreateManyMentorInput | UserCreateManyMentorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type SessionCreateWithoutUserInput = {
-    id: string
-    expiresAt: Date | string
-    token: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    ipAddress?: string | null
-    userAgent?: string | null
-  }
-
-  export type SessionUncheckedCreateWithoutUserInput = {
-    id: string
-    expiresAt: Date | string
-    token: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    ipAddress?: string | null
-    userAgent?: string | null
-  }
-
-  export type SessionCreateOrConnectWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionCreateManyUserInputEnvelope = {
-    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
-    skipDuplicates?: boolean
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -22061,35 +21884,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type QuizResultCreateWithoutUserInput = {
+  export type DailyCheckinCreateWithoutUserInput = {
     id?: string
-    profileType: string
-    score?: number | null
-    answers: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note: string
+    domain: string
+    energy: number
+    duration: number
     createdAt?: Date | string
   }
 
-  export type QuizResultUncheckedCreateWithoutUserInput = {
+  export type DailyCheckinUncheckedCreateWithoutUserInput = {
     id?: string
-    profileType: string
-    score?: number | null
-    answers: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note: string
+    domain: string
+    energy: number
+    duration: number
     createdAt?: Date | string
   }
 
-  export type QuizResultCreateOrConnectWithoutUserInput = {
-    where: QuizResultWhereUniqueInput
-    create: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput>
+  export type DailyCheckinCreateOrConnectWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
   }
 
-  export type QuizResultCreateManyUserInputEnvelope = {
-    data: QuizResultCreateManyUserInput | QuizResultCreateManyUserInput[]
+  export type DailyCheckinCreateManyUserInputEnvelope = {
+    data: DailyCheckinCreateManyUserInput | DailyCheckinCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -22121,15 +21940,17 @@ export namespace Prisma {
     id?: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
     mission: MissionCreateNestedOneWithoutSubmissionsInput
   }
 
@@ -22138,15 +21959,17 @@ export namespace Prisma {
     missionId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type MissionSubmissionCreateOrConnectWithoutUserInput = {
@@ -22156,34 +21979,6 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateManyUserInputEnvelope = {
     data: MissionSubmissionCreateManyUserInput | MissionSubmissionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type DailyCheckinCreateWithoutUserInput = {
-    id?: string
-    note: string
-    domain: string
-    energy: number
-    duration: number
-    createdAt?: Date | string
-  }
-
-  export type DailyCheckinUncheckedCreateWithoutUserInput = {
-    id?: string
-    note: string
-    domain: string
-    energy: number
-    duration: number
-    createdAt?: Date | string
-  }
-
-  export type DailyCheckinCreateOrConnectWithoutUserInput = {
-    where: DailyCheckinWhereUniqueInput
-    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
-  }
-
-  export type DailyCheckinCreateManyUserInputEnvelope = {
-    data: DailyCheckinCreateManyUserInput | DailyCheckinCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -22217,266 +22012,361 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutMenteesInput = {
-    update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
-    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    where?: UserWhereInput
+  export type QuizResultCreateWithoutUserInput = {
+    id?: string
+    profileType: string
+    score?: number | null
+    answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    averageResponseTime?: number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type UserUpdateToOneWithWhereWithoutMenteesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
+  export type QuizResultUncheckedCreateWithoutUserInput = {
+    id?: string
+    profileType: string
+    score?: number | null
+    answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    averageResponseTime?: number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type UserUpdateWithoutMenteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
+  export type QuizResultCreateOrConnectWithoutUserInput = {
+    where: QuizResultWhereUniqueInput
+    create: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput>
   }
 
-  export type UserUncheckedUpdateWithoutMenteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+  export type QuizResultCreateManyUserInputEnvelope = {
+    data: QuizResultCreateManyUserInput | QuizResultCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
-    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  export type SessionCreateWithoutUserInput = {
+    id: string
+    expiresAt: Date | string
+    token: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
-  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id: string
+    expiresAt: Date | string
+    token: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
-  export type UserUpdateManyWithWhereWithoutMentorInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
-  }
-
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    memberNumber?: IntFilter<"User"> | number
-    name?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    emailVerified?: BoolFilter<"User"> | boolean
-    image?: StringNullableFilter<"User"> | string | null
-    level?: IntFilter<"User"> | number
-    experience?: IntFilter<"User"> | number
-    class?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    pseudo?: StringNullableFilter<"User"> | string | null
-    bio?: StringNullableFilter<"User"> | string | null
-    country?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
-    language?: StringFilter<"User"> | string
-    ageRange?: StringNullableFilter<"User"> | string | null
-    currentSituation?: StringNullableFilter<"User"> | string | null
-    technicalLevel?: StringNullableFilter<"User"> | string | null
-    domains?: StringNullableListFilter<"User">
-    tools?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    twitterUrl?: StringNullableFilter<"User"> | string | null
-    mainObjective?: StringNullableFilter<"User"> | string | null
-    secondaryObjectives?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
-    answerConsistency?: FloatNullableFilter<"User"> | number | null
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
-    builderScore?: IntFilter<"User"> | number
-    creatorScore?: IntFilter<"User"> | number
-    strategistScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
-    polarization?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    mentorId?: StringNullableFilter<"User"> | string | null
-    projectsRealized?: StringNullableListFilter<"User">
-    activePaths?: StringNullableListFilter<"User">
-    badges?: StringNullableListFilter<"User">
-    missionsCompletedCount?: IntFilter<"User"> | number
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    confidenceScore?: FloatFilter<"User"> | number
-    profileDrift?: FloatFilter<"User"> | number
-    behavioralVibrancy?: JsonNullableFilter<"User">
-    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    dreamStatement?: StringNullableFilter<"User"> | string | null
-    currentFocus?: StringNullableListFilter<"User">
-    mainBlocker?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-  }
-
-  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+  export type SessionCreateOrConnectWithoutUserInput = {
     where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
     create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  export type SessionCreateManyUserInputEnvelope = {
+    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
-  export type SessionUpdateManyWithWhereWithoutUserInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
+  export type UserCreateWithoutMenteesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
   }
 
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: StringFilter<"Session"> | string
-    expiresAt?: DateTimeFilter<"Session"> | Date | string
-    token?: StringFilter<"Session"> | string
-    createdAt?: DateTimeFilter<"Session"> | Date | string
-    updatedAt?: DateTimeFilter<"Session"> | Date | string
-    ipAddress?: StringNullableFilter<"Session"> | string | null
-    userAgent?: StringNullableFilter<"Session"> | string | null
-    userId?: StringFilter<"Session"> | string
+  export type UserUncheckedCreateWithoutMenteesInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    mentorId?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMenteesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+  }
+
+  export type UserCreateWithoutMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserUncheckedCreateWithoutMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserCreateOrConnectWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  }
+
+  export type UserCreateManyMentorInputEnvelope = {
+    data: UserCreateManyMentorInput | UserCreateManyMentorInput[]
+    skipDuplicates?: boolean
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -22514,35 +22404,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
-  export type QuizResultUpsertWithWhereUniqueWithoutUserInput = {
-    where: QuizResultWhereUniqueInput
-    update: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
-    create: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput>
+  export type DailyCheckinUpsertWithWhereUniqueWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    update: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
+    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
   }
 
-  export type QuizResultUpdateWithWhereUniqueWithoutUserInput = {
-    where: QuizResultWhereUniqueInput
-    data: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
+  export type DailyCheckinUpdateWithWhereUniqueWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    data: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
   }
 
-  export type QuizResultUpdateManyWithWhereWithoutUserInput = {
-    where: QuizResultScalarWhereInput
-    data: XOR<QuizResultUpdateManyMutationInput, QuizResultUncheckedUpdateManyWithoutUserInput>
+  export type DailyCheckinUpdateManyWithWhereWithoutUserInput = {
+    where: DailyCheckinScalarWhereInput
+    data: XOR<DailyCheckinUpdateManyMutationInput, DailyCheckinUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type QuizResultScalarWhereInput = {
-    AND?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
-    OR?: QuizResultScalarWhereInput[]
-    NOT?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
-    id?: StringFilter<"QuizResult"> | string
-    userId?: StringNullableFilter<"QuizResult"> | string | null
-    profileType?: StringFilter<"QuizResult"> | string
-    score?: IntNullableFilter<"QuizResult"> | number | null
-    answers?: JsonFilter<"QuizResult">
-    averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
-    detailedResponseTimes?: JsonNullableFilter<"QuizResult">
-    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
-    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
+  export type DailyCheckinScalarWhereInput = {
+    AND?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+    OR?: DailyCheckinScalarWhereInput[]
+    NOT?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+    id?: StringFilter<"DailyCheckin"> | string
+    userId?: StringFilter<"DailyCheckin"> | string
+    note?: StringFilter<"DailyCheckin"> | string
+    domain?: StringFilter<"DailyCheckin"> | string
+    energy?: IntFilter<"DailyCheckin"> | number
+    duration?: IntFilter<"DailyCheckin"> | number
+    createdAt?: DateTimeFilter<"DailyCheckin"> | Date | string
   }
 
   export type GuildMemberUpsertWithWhereUniqueWithoutUserInput = {
@@ -22597,44 +22485,17 @@ export namespace Prisma {
     missionId?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
-    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
-    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
-    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
-    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
-    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
-    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
     createdAt?: DateTimeFilter<"MissionSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
-  }
-
-  export type DailyCheckinUpsertWithWhereUniqueWithoutUserInput = {
-    where: DailyCheckinWhereUniqueInput
-    update: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
-    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
-  }
-
-  export type DailyCheckinUpdateWithWhereUniqueWithoutUserInput = {
-    where: DailyCheckinWhereUniqueInput
-    data: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
-  }
-
-  export type DailyCheckinUpdateManyWithWhereWithoutUserInput = {
-    where: DailyCheckinScalarWhereInput
-    data: XOR<DailyCheckinUpdateManyMutationInput, DailyCheckinUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type DailyCheckinScalarWhereInput = {
-    AND?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
-    OR?: DailyCheckinScalarWhereInput[]
-    NOT?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
-    id?: StringFilter<"DailyCheckin"> | string
-    userId?: StringFilter<"DailyCheckin"> | string
-    note?: StringFilter<"DailyCheckin"> | string
-    domain?: StringFilter<"DailyCheckin"> | string
-    energy?: IntFilter<"DailyCheckin"> | number
-    duration?: IntFilter<"DailyCheckin"> | number
-    createdAt?: DateTimeFilter<"DailyCheckin"> | Date | string
+    improvementSuggestions?: StringNullableFilter<"MissionSubmission"> | string | null
+    projectDescription?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userDifficulty?: IntNullableFilter<"MissionSubmission"> | number | null
+    userFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    userRating?: IntNullableFilter<"MissionSubmission"> | number | null
+    adminFeedback?: StringNullableFilter<"MissionSubmission"> | string | null
+    reviewerId?: StringNullableFilter<"MissionSubmission"> | string | null
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -22667,144 +22528,437 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type QuizResultUpsertWithWhereUniqueWithoutUserInput = {
+    where: QuizResultWhereUniqueInput
+    update: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
+    create: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuizResultUpdateWithWhereUniqueWithoutUserInput = {
+    where: QuizResultWhereUniqueInput
+    data: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
+  }
+
+  export type QuizResultUpdateManyWithWhereWithoutUserInput = {
+    where: QuizResultScalarWhereInput
+    data: XOR<QuizResultUpdateManyMutationInput, QuizResultUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type QuizResultScalarWhereInput = {
+    AND?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
+    OR?: QuizResultScalarWhereInput[]
+    NOT?: QuizResultScalarWhereInput | QuizResultScalarWhereInput[]
+    id?: StringFilter<"QuizResult"> | string
+    userId?: StringNullableFilter<"QuizResult"> | string | null
+    profileType?: StringFilter<"QuizResult"> | string
+    score?: IntNullableFilter<"QuizResult"> | number | null
+    answers?: JsonFilter<"QuizResult">
+    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
+    averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
+    detailedResponseTimes?: JsonNullableFilter<"QuizResult">
+    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
+  }
+
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SessionScalarWhereInput = {
+    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    OR?: SessionScalarWhereInput[]
+    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    id?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    token?: StringFilter<"Session"> | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    ipAddress?: StringNullableFilter<"Session"> | string | null
+    userAgent?: StringNullableFilter<"Session"> | string | null
+    userId?: StringFilter<"Session"> | string
+  }
+
+  export type UserUpsertWithoutMenteesInput = {
+    update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
+    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMenteesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
+  }
+
+  export type UserUpdateWithoutMenteesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMenteesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutMentorInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    emailVerified?: BoolFilter<"User"> | boolean
+    image?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    level?: IntFilter<"User"> | number
+    experience?: IntFilter<"User"> | number
+    class?: StringNullableFilter<"User"> | string | null
+    role?: StringFilter<"User"> | string
+    activePaths?: StringNullableListFilter<"User">
+    ageRange?: StringNullableFilter<"User"> | string | null
+    answerConsistency?: FloatNullableFilter<"User"> | number | null
+    badges?: StringNullableListFilter<"User">
+    behavioralVibrancy?: JsonNullableFilter<"User">
+    builderScore?: IntFilter<"User"> | number
+    catalystScore?: IntFilter<"User"> | number
+    city?: StringNullableFilter<"User"> | string | null
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    confidenceScore?: FloatFilter<"User"> | number
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    country?: StringNullableFilter<"User"> | string | null
+    creatorScore?: IntFilter<"User"> | number
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    domains?: StringNullableListFilter<"User">
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
+    mentorId?: StringNullableFilter<"User"> | string | null
+    missionsCompletedCount?: IntFilter<"User"> | number
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    polarization?: FloatFilter<"User"> | number
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    profileDrift?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    projectsRealized?: StringNullableListFilter<"User">
+    pseudo?: StringNullableFilter<"User"> | string | null
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    strategistScore?: IntFilter<"User"> | number
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    tools?: StringNullableListFilter<"User">
+    secondaryObjectives?: StringNullableListFilter<"User">
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    memberNumber?: IntFilter<"User"> | number
+    twitterUrl?: StringNullableFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    dreamStatement?: StringNullableFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    mainBlocker?: StringNullableFilter<"User"> | string | null
+  }
+
   export type UserCreateWithoutDailyCheckinsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutDailyCheckinsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutDailyCheckinsInput = {
@@ -22829,152 +22983,154 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDailyCheckinsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type MissionSubmissionCreateWithoutMissionInput = {
     id?: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
     user: UserCreateNestedOneWithoutMissionSubmissionsInput
   }
 
@@ -22983,15 +23139,17 @@ export namespace Prisma {
     userId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type MissionSubmissionCreateOrConnectWithoutMissionInput = {
@@ -23060,151 +23218,6 @@ export namespace Prisma {
     data: XOR<GuildMemberUpdateManyMutationInput, GuildMemberUncheckedUpdateManyWithoutGuildInput>
   }
 
-  export type UserCreateWithoutGuildMembersInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutGuildMembersInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutGuildMembersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
-  }
-
   export type GuildCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -23232,154 +23245,149 @@ export namespace Prisma {
     create: XOR<GuildCreateWithoutMembersInput, GuildUncheckedCreateWithoutMembersInput>
   }
 
-  export type UserUpsertWithoutGuildMembersInput = {
-    update: XOR<UserUpdateWithoutGuildMembersInput, UserUncheckedUpdateWithoutGuildMembersInput>
+  export type UserCreateWithoutGuildMembersInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserUncheckedCreateWithoutGuildMembersInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    mentorId?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserCreateOrConnectWithoutGuildMembersInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutGuildMembersInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutGuildMembersInput, UserUncheckedUpdateWithoutGuildMembersInput>
-  }
-
-  export type UserUpdateWithoutGuildMembersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutGuildMembersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GuildUpsertWithoutMembersInput = {
@@ -23415,144 +23423,294 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpsertWithoutGuildMembersInput = {
+    update: XOR<UserUpdateWithoutGuildMembersInput, UserUncheckedUpdateWithoutGuildMembersInput>
+    create: XOR<UserCreateWithoutGuildMembersInput, UserUncheckedCreateWithoutGuildMembersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGuildMembersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGuildMembersInput, UserUncheckedUpdateWithoutGuildMembersInput>
+  }
+
+  export type UserUpdateWithoutGuildMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGuildMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
+    mainBlocker?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -23577,277 +23735,277 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -23872,277 +24030,277 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutQuizResultsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutQuizResultsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutQuizResultsInput = {
@@ -24167,277 +24325,330 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizResultsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+  }
+
+  export type MissionCreateWithoutSubmissionsInput = {
+    id?: string
+    title: string
+    description: string
+    slug: string
+    category: string
+    difficulty?: number
+    xp?: number
+    weightBuilder?: number
+    weightCreator?: number
+    weightStrategist?: number
+    weightCatalyst?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    duration?: string | null
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    shortDesc?: string | null
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    deliverables?: MissionCreatedeliverablesInput | string[]
+    fullBriefing?: string | null
+    submissionMethod?: string
+  }
+
+  export type MissionUncheckedCreateWithoutSubmissionsInput = {
+    id?: string
+    title: string
+    description: string
+    slug: string
+    category: string
+    difficulty?: number
+    xp?: number
+    weightBuilder?: number
+    weightCreator?: number
+    weightStrategist?: number
+    weightCatalyst?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    duration?: string | null
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    shortDesc?: string | null
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    deliverables?: MissionCreatedeliverablesInput | string[]
+    fullBriefing?: string | null
+    submissionMethod?: string
+  }
+
+  export type MissionCreateOrConnectWithoutSubmissionsInput = {
+    where: MissionWhereUniqueInput
+    create: XOR<MissionCreateWithoutSubmissionsInput, MissionUncheckedCreateWithoutSubmissionsInput>
   }
 
   export type UserCreateWithoutMissionSubmissionsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutMissionSubmissionsInput = {
@@ -24445,51 +24656,63 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutMissionSubmissionsInput, UserUncheckedCreateWithoutMissionSubmissionsInput>
   }
 
-  export type MissionCreateWithoutSubmissionsInput = {
-    id?: string
-    title: string
-    shortDesc?: string | null
-    description: string
-    slug: string
-    category: string
-    difficulty?: number
-    xp?: number
-    targetProfiles?: MissionCreatetargetProfilesInput | string[]
-    missionLevel?: string | null
-    requirements?: MissionCreaterequirementsInput | string[]
-    duration?: string | null
-    weightBuilder?: number
-    weightCreator?: number
-    weightStrategist?: number
-    weightCatalyst?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type MissionUncheckedCreateWithoutSubmissionsInput = {
-    id?: string
-    title: string
-    shortDesc?: string | null
-    description: string
-    slug: string
-    category: string
-    difficulty?: number
-    xp?: number
-    targetProfiles?: MissionCreatetargetProfilesInput | string[]
-    missionLevel?: string | null
-    requirements?: MissionCreaterequirementsInput | string[]
-    duration?: string | null
-    weightBuilder?: number
-    weightCreator?: number
-    weightStrategist?: number
-    weightCatalyst?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type MissionCreateOrConnectWithoutSubmissionsInput = {
-    where: MissionWhereUniqueInput
+  export type MissionUpsertWithoutSubmissionsInput = {
+    update: XOR<MissionUpdateWithoutSubmissionsInput, MissionUncheckedUpdateWithoutSubmissionsInput>
     create: XOR<MissionCreateWithoutSubmissionsInput, MissionUncheckedCreateWithoutSubmissionsInput>
+    where?: MissionWhereInput
+  }
+
+  export type MissionUpdateToOneWithWhereWithoutSubmissionsInput = {
+    where?: MissionWhereInput
+    data: XOR<MissionUpdateWithoutSubmissionsInput, MissionUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type MissionUpdateWithoutSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    xp?: IntFieldUpdateOperationsInput | number
+    weightBuilder?: FloatFieldUpdateOperationsInput | number
+    weightCreator?: FloatFieldUpdateOperationsInput | number
+    weightStrategist?: FloatFieldUpdateOperationsInput | number
+    weightCatalyst?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MissionUncheckedUpdateWithoutSubmissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    xp?: IntFieldUpdateOperationsInput | number
+    weightBuilder?: FloatFieldUpdateOperationsInput | number
+    weightCreator?: FloatFieldUpdateOperationsInput | number
+    weightStrategist?: FloatFieldUpdateOperationsInput | number
+    weightCatalyst?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    deliverables?: MissionUpdatedeliverablesInput | string[]
+    fullBriefing?: NullableStringFieldUpdateOperationsInput | string | null
+    submissionMethod?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUpsertWithoutMissionSubmissionsInput = {
@@ -24509,330 +24732,277 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type MissionUpsertWithoutSubmissionsInput = {
-    update: XOR<MissionUpdateWithoutSubmissionsInput, MissionUncheckedUpdateWithoutSubmissionsInput>
-    create: XOR<MissionCreateWithoutSubmissionsInput, MissionUncheckedCreateWithoutSubmissionsInput>
-    where?: MissionWhereInput
-  }
-
-  export type MissionUpdateToOneWithWhereWithoutSubmissionsInput = {
-    where?: MissionWhereInput
-    data: XOR<MissionUpdateWithoutSubmissionsInput, MissionUncheckedUpdateWithoutSubmissionsInput>
-  }
-
-  export type MissionUpdateWithoutSubmissionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-    xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
-    weightBuilder?: FloatFieldUpdateOperationsInput | number
-    weightCreator?: FloatFieldUpdateOperationsInput | number
-    weightStrategist?: FloatFieldUpdateOperationsInput | number
-    weightCatalyst?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MissionUncheckedUpdateWithoutSubmissionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-    xp?: IntFieldUpdateOperationsInput | number
-    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
-    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    requirements?: MissionUpdaterequirementsInput | string[]
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
-    weightBuilder?: FloatFieldUpdateOperationsInput | number
-    weightCreator?: FloatFieldUpdateOperationsInput | number
-    weightStrategist?: FloatFieldUpdateOperationsInput | number
-    weightCatalyst?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
     id: string
-    memberNumber?: number
     name: string
     email: string
     emailVerified: boolean
     image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
     level?: number
     experience?: number
     class?: string | null
     role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
+    activePaths?: UserCreateactivePathsInput | string[]
     ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
     answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
     catalystScore?: number
-    polarization?: number
-    profileStability?: number
+    city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
     mentorId?: string | null
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
     missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
     recommendedPath?: UserCreaterecommendedPathInput | string[]
     recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
+    dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mainBlocker?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -24857,209 +25027,137 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     level?: IntFieldUpdateOperationsInput | number
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
     ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
     answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
     recommendedPath?: UserUpdaterecommendedPathInput | string[]
     recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateManyMentorInput = {
-    id: string
-    memberNumber?: number
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    pseudo?: string | null
-    bio?: string | null
-    country?: string | null
-    city?: string | null
-    language?: string
-    ageRange?: string | null
-    currentSituation?: string | null
-    technicalLevel?: string | null
-    domains?: UserCreatedomainsInput | string[]
-    tools?: UserCreatetoolsInput | string[]
-    githubUrl?: string | null
-    portfolioUrl?: string | null
-    linkedinUrl?: string | null
-    twitterUrl?: string | null
-    mainObjective?: string | null
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    dominantMotivation?: string | null
-    longTermObjective?: string | null
-    preferredRhythm?: string | null
-    onboardingSpeed?: number | null
-    answerConsistency?: number | null
-    connectionFrequency?: number | null
-    dashboardActivity?: number | null
-    communityEngagement?: number | null
-    builderScore?: number
-    creatorScore?: number
-    strategistScore?: number
-    catalystScore?: number
-    polarization?: number
-    profileStability?: number
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    activePaths?: UserCreateactivePathsInput | string[]
-    badges?: UserCreatebadgesInput | string[]
-    missionsCompletedCount?: number
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    predictedEngagementScore?: number | null
-    confidenceScore?: number
-    profileDrift?: number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: Date | string | null
-    dreamStatement?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    mainBlocker?: string | null
-    lastCheckinAt?: Date | string | null
-  }
-
-  export type SessionCreateManyUserInput = {
-    id: string
-    expiresAt: Date | string
-    token: string
-    createdAt: Date | string
-    updatedAt: Date | string
-    ipAddress?: string | null
-    userAgent?: string | null
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -25077,14 +25175,12 @@ export namespace Prisma {
     updatedAt: Date | string
   }
 
-  export type QuizResultCreateManyUserInput = {
+  export type DailyCheckinCreateManyUserInput = {
     id?: string
-    profileType: string
-    score?: number | null
-    answers: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note: string
+    domain: string
+    energy: number
+    duration: number
     createdAt?: Date | string
   }
 
@@ -25100,24 +25196,17 @@ export namespace Prisma {
     missionId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type DailyCheckinCreateManyUserInput = {
-    id?: string
-    note: string
-    domain: string
-    energy: number
-    duration: number
-    createdAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type NotificationCreateManyUserInput = {
@@ -25130,235 +25219,87 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type UserUpdateWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
+  export type QuizResultCreateManyUserInput = {
+    id?: string
+    profileType: string
+    score?: number | null
+    answers: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    averageResponseTime?: number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type SessionCreateManyUserInput = {
+    id: string
+    expiresAt: Date | string
+    token: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+  }
+
+  export type UserCreateManyMentorInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    domains?: UserUpdatedomainsInput | string[]
-    tools?: UserUpdatetoolsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    builderScore?: IntFieldUpdateOperationsInput | number
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    polarization?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    activePaths?: UserUpdateactivePathsInput | string[]
-    badges?: UserUpdatebadgesInput | string[]
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type SessionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SessionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SessionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    token?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -25406,36 +25347,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type QuizResultUpdateWithoutUserInput = {
+  export type DailyCheckinUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profileType?: StringFieldUpdateOperationsInput | string
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    answers?: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type QuizResultUncheckedUpdateWithoutUserInput = {
+  export type DailyCheckinUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profileType?: StringFieldUpdateOperationsInput | string
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    answers?: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type QuizResultUncheckedUpdateManyWithoutUserInput = {
+  export type DailyCheckinUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profileType?: StringFieldUpdateOperationsInput | string
-    score?: NullableIntFieldUpdateOperationsInput | number | null
-    answers?: JsonNullValueInput | InputJsonValue
-    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25464,15 +25399,17 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     mission?: MissionUpdateOneRequiredWithoutSubmissionsNestedInput
   }
 
@@ -25481,15 +25418,17 @@ export namespace Prisma {
     missionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MissionSubmissionUncheckedUpdateManyWithoutUserInput = {
@@ -25497,42 +25436,17 @@ export namespace Prisma {
     missionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DailyCheckinUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    domain?: StringFieldUpdateOperationsInput | string
-    energy?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DailyCheckinUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    domain?: StringFieldUpdateOperationsInput | string
-    energy?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DailyCheckinUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    domain?: StringFieldUpdateOperationsInput | string
-    energy?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -25565,35 +25479,303 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type QuizResultUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileType?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type QuizResultUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileType?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type QuizResultUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileType?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    answers?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
+    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
+    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserUpdateWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutMentorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MissionSubmissionCreateManyMissionInput = {
     id?: string
     userId: string
     status?: string
     content?: string | null
-    projectDescription?: string | null
-    userDifficulty?: number | null
-    userRating?: number | null
-    userFeedback?: string | null
-    improvementSuggestions?: string | null
-    reviewerFeedback?: string | null
     xpAwarded?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    improvementSuggestions?: string | null
+    projectDescription?: string | null
+    reviewerFeedback?: string | null
+    userDifficulty?: number | null
+    userFeedback?: string | null
+    userRating?: number | null
+    adminFeedback?: string | null
+    reviewerId?: string | null
   }
 
   export type MissionSubmissionUpdateWithoutMissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutMissionSubmissionsNestedInput
   }
 
@@ -25602,15 +25784,17 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MissionSubmissionUncheckedUpdateManyWithoutMissionInput = {
@@ -25618,15 +25802,17 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
-    userRating?: NullableIntFieldUpdateOperationsInput | number | null
-    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
-    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
-    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    improvementSuggestions?: NullableStringFieldUpdateOperationsInput | string | null
+    projectDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userDifficulty?: NullableIntFieldUpdateOperationsInput | number | null
+    userFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    userRating?: NullableIntFieldUpdateOperationsInput | number | null
+    adminFeedback?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type GuildMemberCreateManyGuildInput = {

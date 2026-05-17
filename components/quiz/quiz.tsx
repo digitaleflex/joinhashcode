@@ -4,6 +4,8 @@ import { useState } from "react"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
 import type { AnalysisResult } from "@/lib/analysis"
 import {
   ChevronRight, ChevronLeft, Sparkles
@@ -152,13 +154,24 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           const data = await res.json();
           setAnalysisResult(data.analysis);
           track("quiz_completed", { profileType: data.analysis?.profileType ?? "unknown" });
+        } else if (res.status === 409) {
+          toast.info("Protocole déjà enregistré. Redirection vers le dashboard...");
+          setTimeout(() => window.location.href = "/dashboard", 2000);
+          return; // Exit early to avoid showing empty ResultPage
+        } else {
+          const errorText = await res.text();
+          throw new Error(errorText || "Erreur lors de la synchronisation");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to save results:", error)
+        toast.error(error.message || "Le système n'a pas pu traiter tes vecteurs. Réessaie.");
       } finally {
         setIsSaving(false)
         setIsAnalyzing(false)
-        setIsFinished(true)
+        // Only mark as finished if we have a result or were already finished
+        if (analysisResult) {
+          setIsFinished(true)
+        }
         try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
       }
     }

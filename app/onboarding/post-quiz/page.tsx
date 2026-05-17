@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
 const FOCUS_DOMAINS = [
   { id: "tech", label: "Tech / Code", icon: Terminal },
@@ -121,53 +122,82 @@ export default function PostQuizOnboarding() {
                     placeholder="Ex: J'ai lancé mon SaaS et je vis de mes revenus, je suis devenu Senior Dev dans une boîte de cybersécurité..."
                     value={formData.dreamStatement}
                     onChange={(e) => setFormData({ ...formData, dreamStatement: e.target.value })}
-                    className="min-h-[150px] bg-card/20 border-border/40 text-lg p-6 rounded-2xl"
+                    className={cn(
+                      "min-h-[150px] bg-card/20 border-border/40 text-lg p-6 rounded-2xl transition-all",
+                      formData.dreamStatement.length > 0 && formData.dreamStatement.length < 10 && "border-amber-500/50 focus-visible:ring-amber-500/50"
+                    )}
                     maxLength={200}
                   />
-                  <p className="text-right text-[10px] font-mono text-muted-foreground">
-                    {formData.dreamStatement.length} / 200
-                  </p>
+                  <div className="flex justify-between items-center">
+                    <p className="text-[10px] font-mono text-amber-500">
+                      {formData.dreamStatement.length > 0 && formData.dreamStatement.length < 10 && (
+                        <span className="flex items-center gap-1">
+                          <AlertCircle className="size-3" /> Minimum 10 caractères requis
+                        </span>
+                      )}
+                    </p>
+                    <p className={cn(
+                      "text-[10px] font-mono",
+                      formData.dreamStatement.length >= 10 ? "text-primary" : "text-muted-foreground"
+                    )}>
+                      {formData.dreamStatement.length} / 200
+                    </p>
+                  </div>
                 </div>
               )}
 
               {step === 1 && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 animate-in fade-in duration-500">
-                  {FOCUS_DOMAINS.map((domain) => {
-                    const Icon = domain.icon
-                    const isSelected = formData.currentFocus.includes(domain.id)
-                    return (
-                      <button
-                        key={domain.id}
-                        onClick={() => toggleDomain(domain.id)}
-                        className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${
-                          isSelected 
-                          ? "bg-primary/10 border-primary text-primary shadow-[0_0_20px_rgba(197,244,65,0.1)]" 
-                          : "bg-card/20 border-border/40 hover:border-primary/30"
-                        }`}
-                      >
-                        <Icon className="w-6 h-6" />
-                        <span className="text-xs font-medium">{domain.label}</span>
-                      </button>
-                    )
-                  })}
+                <div className="space-y-6 animate-in fade-in duration-500">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {FOCUS_DOMAINS.map((domain) => {
+                      const Icon = domain.icon
+                      const isSelected = formData.currentFocus.includes(domain.id)
+                      return (
+                        <button
+                          key={domain.id}
+                          onClick={() => toggleDomain(domain.id)}
+                          className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${
+                            isSelected 
+                            ? "bg-primary/10 border-primary text-primary shadow-[0_0_20px_rgba(197,244,65,0.1)]" 
+                            : "bg-card/20 border-border/40 hover:border-primary/30"
+                          }`}
+                        >
+                          <Icon className="w-6 h-6" />
+                          <span className="text-xs font-medium">{domain.label}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {formData.currentFocus.length === 0 && (
+                    <p className="text-[10px] font-mono text-amber-500 text-center flex items-center justify-center gap-1">
+                      <AlertCircle className="size-3" /> Sélectionne au moins un domaine pour continuer
+                    </p>
+                  )}
                 </div>
               )}
 
               {step === 2 && (
-                <div className="space-y-3 animate-in fade-in duration-500">
-                  {BLOCKERS.map((blocker) => (
-                    <button
-                      key={blocker.id}
-                      onClick={() => setFormData({ ...formData, mainBlocker: blocker.id })}
-                      className={`w-full p-4 rounded-xl border text-left transition-all ${
-                        formData.mainBlocker === blocker.id 
-                        ? "bg-primary/10 border-primary text-primary" 
-                        : "bg-card/20 border-border/40 hover:border-primary/30"
-                      }`}
-                    >
-                      <span className="text-sm font-medium">{blocker.label}</span>
-                    </button>
-                  ))}
+                <div className="space-y-4 animate-in fade-in duration-500">
+                  <div className="space-y-3">
+                    {BLOCKERS.map((blocker) => (
+                      <button
+                        key={blocker.id}
+                        onClick={() => setFormData({ ...formData, mainBlocker: blocker.id })}
+                        className={`w-full p-4 rounded-xl border text-left transition-all ${
+                          formData.mainBlocker === blocker.id 
+                          ? "bg-primary/10 border-primary text-primary" 
+                          : "bg-card/20 border-border/40 hover:border-primary/30"
+                        }`}
+                      >
+                        <span className="text-sm font-medium">{blocker.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {!formData.mainBlocker && (
+                    <p className="text-[10px] font-mono text-amber-500 text-center flex items-center justify-center gap-1">
+                      <AlertCircle className="size-3" /> Choisis ton obstacle principal
+                    </p>
+                  )}
                 </div>
               )}
             </div>

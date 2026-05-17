@@ -1,0 +1,193 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Loader2, Send, Star, ChevronRight, ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+
+interface MissionSubmissionFormProps {
+  missionId: string;
+  submissionMethod: string;
+}
+
+export function MissionSubmissionForm({ missionId, submissionMethod }: MissionSubmissionFormProps) {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [step, setStep] = useState(1);
+
+  // Form State
+  const [content, setContent] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [userDifficulty, setUserDifficulty] = useState(3);
+  const [userRating, setUserRating] = useState(5);
+  const [userFeedback, setUserFeedback] = useState("");
+  const [improvementSuggestions, setImprovementSuggestions] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (step === 1) {
+      if (!content.trim()) {
+        toast.error("Veuillez fournir le lien ou le contenu requis.");
+        return;
+      }
+      setStep(2);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/missions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          missionId,
+          content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions
+        })
+      });
+
+      if (!res.ok) throw new Error(await res.text());
+
+      const data = await res.json();
+      toast.success("Mission transmise avec succès !");
+      
+      if (data.leveledUp) {
+        toast.success(`NIVEAU SUPÉRIEUR DÉBLOQUÉ : Rang ${data.newLevel}`);
+      }
+
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la soumission");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (step === 1) {
+    const isTextResponse = submissionMethod === "TEXT_RESPONSE" || missionId === "introduction-ancrage";
+    
+    return (
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+            {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
+          </Label>
+          {isTextResponse ? (
+            <Textarea
+              placeholder={missionId === "introduction-ancrage" 
+                ? "Ex: Je construis un SaaS de gestion de tâches. Mon objectif est d'avoir 100 utilisateurs actifs dans 3 mois." 
+                : "Rédige ta réponse ici..."}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="bg-card/30 border-border/40 min-h-[120px] rounded-xl focus:ring-primary/20 transition-all text-sm"
+              required
+              autoFocus
+            />
+          ) : (
+            <Input
+              placeholder={
+                submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
+                submissionMethod === "LIVE_URL" ? "https://ton-projet.vercel.app" :
+                "https://..."
+              }
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="bg-card/30 border-border/40 h-11 rounded-xl focus:ring-primary/20 transition-all text-sm"
+              required
+              autoFocus
+            />
+          )}
+        </div>
+        <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group">
+          Transmettre pour validation
+          <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Button>
+      </form>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="flex items-center gap-2 mb-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
+          onClick={() => setStep(1)}
+          type="button"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <span className="text-[10px] font-mono uppercase tracking-widest text-primary">Rétrospection_</span>
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Explique ton projet (Brief)_</Label>
+        <Textarea
+          placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisés ?"
+          value={projectDescription}
+          onChange={(e) => setProjectDescription(e.target.value)}
+          className="bg-card/30 border-border/40 rounded-xl min-h-[80px] text-sm"
+          required
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Difficulté_</Label>
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((val) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => setUserDifficulty(val)}
+                className={`flex-1 h-7 rounded-lg text-[10px] font-mono border transition-all ${userDifficulty === val ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:border-primary/50"}`}
+              >
+                {val}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Note_</Label>
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((val) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => setUserRating(val)}
+                className={`flex-1 h-7 rounded-lg text-xs border transition-all ${userRating >= val ? "bg-primary/10 border-primary/40 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Ton avis global_</Label>
+        <Textarea
+          placeholder="Qu'as-tu pensé de cet exercice ?"
+          value={userFeedback}
+          onChange={(e) => setUserFeedback(e.target.value)}
+          className="bg-card/30 border-border/40 rounded-xl min-h-[60px] text-sm"
+        />
+      </div>
+
+      <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow" disabled={isSubmitting}>
+        {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
+        Finaliser la transmission
+      </Button>
+    </form>
+  );
+}

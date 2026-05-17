@@ -38,6 +38,22 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.1,
     weightCatalyst: 0.7,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Bio du profil", "Objectif principal à 3 mois"],
+    fullBriefing: `
+# Mission : Ancrage Initial
+
+Bienvenue dans la communauté HASHCODE. Avant toute chose, présente-toi. Qui es-tu, qu'est-ce que tu construis, et où veux-tu aller dans les 3 prochains mois ?
+
+### Instructions
+1. Décris ce que tu construis en une phrase percutante.
+2. Partage ton objectif principal pour les 3 prochains mois.
+3. Rédige une courte bio (2-3 lignes) qui sera affichée sur ton profil.
+
+### Critères de validation
+- Réponse claire et structurée.
+- Objectif SMART (Spécifique, Mesurable, Atteignable, Réaliste, Temporel).
+    `,
   },
   {
     id: "social-connection-protocol",
@@ -61,6 +77,21 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.1,
     weightCatalyst: 0.8,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Pseudos Telegram/Discord", "Capture d'écran (optionnel)"],
+    fullBriefing: `
+# Mission : Protocole de Connexion Globale
+
+La force de HASHCODE réside dans son intelligence collective. Pour ne rien manquer et commencer à collaborer, tu dois intégrer nos canaux de communication.
+
+### Instructions
+1. Rejoins le canal Telegram **@innovcode** pour les annonces officielles.
+2. Intègre le serveur **Discord officiel** pour les échanges techniques et créatifs.
+3. Rejoins le **groupe WhatsApp** de ta cohorte ou communauté locale.
+
+### Critères de validation
+- Confirmation de ton identifiant sur ces plateformes.
+    `,
   },
 
   // ─── BUILDER (B1 → B7) ───────────────────────────────────────────────────
@@ -86,6 +117,22 @@ const MISSIONS = [
     weightCreator: 0.0,
     weightStrategist: 0.1,
     weightCatalyst: 0.1,
+    submissionMethod: "GITHUB_LINK",
+    deliverables: ["Lien du dépôt GitHub", "Fichier README.md documenté"],
+    fullBriefing: `
+# Mission : Premier Commit
+
+L'objectif de cette mission est d'initier ton parcours technique sur HASHCODE en livrant ton premier dépôt officiel.
+
+### Instructions
+1. Crée un nouveau dépôt sur GitHub.
+2. Initialise-le avec un fichier README.md décrivant ton projet (Le "Pourquoi", le "Comment", le "Quoi").
+3. Fais ton premier commit et push sur la branche principale.
+
+### Critères de validation
+- Le code doit être accessible publiquement sur GitHub.
+- Le README doit expliquer clairement l'utilité du projet.
+    `,
   },
   {
     id: "b2-working-feature",
@@ -108,6 +155,23 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.05,
     weightCatalyst: 0.05,
+    submissionMethod: "GITHUB_PR",
+    deliverables: ["Lien de la PR ou du Commit spécifique", "Documentation de la feature"],
+    fullBriefing: `
+# Mission : Fonctionnalité Fonctionnelle
+
+Passe de l'idée à la réalisation. Tu dois livrer une brique fonctionnelle de ton application.
+
+### Instructions
+1. Identifie une fonctionnalité atomique (ex: système de login, création de profil, appel API).
+2. Implémente le code nécessaire.
+3. Teste ton implémentation.
+4. Documente comment utiliser ou tester cette feature dans ton README.
+
+### Critères de validation
+- Code propre et fonctionnel.
+- Documentation succincte mais efficace.
+    `,
   },
   {
     id: "b3-deploy-live",
@@ -130,6 +194,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.1,
     weightCatalyst: 0.05,
+    submissionMethod: "LIVE_URL",
+    deliverables: ["URL publique du projet", "Courte description de la stack de déploiement"],
+    fullBriefing: `
+# Mission : En Ligne
+
+"If it's not live, it doesn't exist." Ton projet doit maintenant sortir de ta machine locale pour être accessible au monde entier.
+
+### Instructions
+1. Choisis une plateforme de déploiement (Vercel, Railway, Netlify, Render, etc.).
+2. Configure ton déploiement (variables d'environnement, build commands).
+3. Déploie ton projet et vérifie que tout fonctionne en production.
+
+### Critères de validation
+- L'URL doit être accessible publiquement.
+- Pas d'erreurs critiques au chargement de la page.
+    `,
   },
   {
     id: "b4-api-integration",
@@ -152,6 +232,22 @@ const MISSIONS = [
     weightCreator: 0.0,
     weightStrategist: 0.1,
     weightCatalyst: 0.1,
+    submissionMethod: "DEMO_VIDEO_OR_LINK",
+    deliverables: ["Lien vers le code de l'intégration", "Vidéo démo ou URL d'une page test"],
+    fullBriefing: `
+# Mission : Intégration API Externe
+
+Ouvre ton application sur le monde extérieur. Utilise des services tiers pour enrichir l'expérience utilisateur.
+
+### Instructions
+1. Sélectionne une API (OpenAI, Stripe, Google Maps, Twilio, etc.).
+2. Gère l'authentification et les appels API de manière sécurisée (côté serveur de préférence).
+3. Affiche les données ou exécute l'action dans ton interface.
+
+### Critères de validation
+- Utilisation sécurisée des clés d'API (pas de clés en clair dans le frontend public).
+- Cas d'usage fonctionnel.
+    `,
   },
   {
     id: "b5-code-review",
@@ -174,6 +270,22 @@ const MISSIONS = [
     weightCreator: 0.0,
     weightStrategist: 0.1,
     weightCatalyst: 0.2,
+    submissionMethod: "GITHUB_PR",
+    deliverables: ["Lien de la PR avec commentaires", "Résumé des corrections effectuées"],
+    fullBriefing: `
+# Mission : Code Review
+
+La qualité technique ne se négocie pas. Apprends à donner et recevoir du feedback constructif.
+
+### Instructions
+1. Ouvre une Pull Request sur ton dépôt.
+2. Demande à un autre membre du profil **Builder** de relire ton code.
+3. Prends en compte les remarques et effectue au moins 3 corrections ou optimisations.
+
+### Critères de validation
+- Présence de commentaires constructifs.
+- Améliorations visibles dans l'historique des commits.
+    `,
   },
   {
     id: "b6-technical-doc",
@@ -196,6 +308,23 @@ const MISSIONS = [
     weightCreator: 0.15,
     weightStrategist: 0.15,
     weightCatalyst: 0.05,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Lien vers la documentation (README, Wiki, ou Notion)", "Schéma d'architecture"],
+    fullBriefing: `
+# Mission : Documentation Technique
+
+Un projet sans documentation est un projet mort. Transmets la connaissance nécessaire pour maintenir ton code.
+
+### Instructions
+1. Rédige un guide d'installation complet (Setup local).
+2. Explique l'architecture globale (Frontend, Backend, Database).
+3. Documente les principaux endpoints ou composants.
+4. Ajoute un schéma d'architecture (utilise Mermaid.js ou un outil visuel).
+
+### Critères de validation
+- Documentation claire et sans fautes.
+- Un développeur externe doit pouvoir lancer le projet en moins de 10 minutes.
+    `,
   },
   {
     id: "b7-open-source",
@@ -218,6 +347,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.05,
     weightCatalyst: 0.1,
+    submissionMethod: "GITHUB_PR",
+    deliverables: ["Lien vers la Pull Request externe", "Rapport de contribution (Pourquoi/Comment)"],
+    fullBriefing: `
+# Mission : Contribution Open Source
+
+Donne en retour à la communauté globale. La maîtrise technique s'exprime aussi par la collaboration sur des outils partagés.
+
+### Instructions
+1. Trouve un projet open source qui t'intéresse.
+2. Identifie une "Good First Issue" ou propose une amélioration.
+3. Soumets ta Pull Request en respectant les conventions du projet.
+
+### Critères de validation
+- La PR doit être sérieuse et documentée.
+- Même si elle n'est pas encore fusionnée, elle doit montrer un effort réel de résolution de problème.
+    `,
   },
 
   // ─── CREATOR (C1 → C7) ───────────────────────────────────────────────────
@@ -243,6 +388,22 @@ const MISSIONS = [
     weightCreator: 0.8,
     weightStrategist: 0.1,
     weightCatalyst: 0.1,
+    submissionMethod: "SOCIAL_LINK",
+    deliverables: ["Lien vers la publication publique"],
+    fullBriefing: `
+# Mission : Première Publication
+
+En tant que Créateur, ta valeur réside dans ta capacité à synthétiser et partager des idées.
+
+### Instructions
+1. Choisis un sujet qui te passionne (design, tech, productivité).
+2. Rédige un post structuré ou crée une vidéo courte.
+3. Publie-le sur LinkedIn, Twitter (X), ou ton blog personnel.
+
+### Critères de validation
+- Contenu original.
+- Engagement minimal ou structure claire.
+    `,
   },
   {
     id: "c2-design-case-study",
@@ -265,6 +426,22 @@ const MISSIONS = [
     weightCreator: 0.85,
     weightStrategist: 0.05,
     weightCatalyst: 0.05,
+    submissionMethod: "PORTFOLIO_LINK",
+    deliverables: ["Lien vers le Case Study"],
+    fullBriefing: `
+# Mission : Case Study Design
+
+Le résultat final est important, mais c'est ton processus de réflexion qui prouve ton expertise.
+
+### Instructions
+1. Sélectionne un projet récent.
+2. Documente les étapes : Problématique, Recherche utilisateur, Wireframes, Design visuel, et Tests.
+3. Publie-le sur Behance, Notion ou ton portfolio.
+
+### Critères de validation
+- Analyse critique présente.
+- Visuels de haute qualité.
+    `,
   },
   {
     id: "c3-ui-kit",
@@ -287,6 +464,22 @@ const MISSIONS = [
     weightCreator: 0.8,
     weightStrategist: 0.05,
     weightCatalyst: 0.05,
+    submissionMethod: "FIGMA_LINK",
+    deliverables: ["Lien du fichier Figma public"],
+    fullBriefing: `
+# Mission : Système de Design Personnel
+
+L'efficacité d'un créateur passe par ses outils. Crée ton propre langage visuel.
+
+### Instructions
+1. Définis une palette chromatique et une échelle typographique.
+2. Crée les composants atomiques (boutons, formulaires, cartes).
+3. Organise ton fichier Figma pour qu'il soit réutilisable par un développeur.
+
+### Critères de validation
+- Utilisation des styles et composants Figma.
+- Cohérence visuelle globale.
+    `,
   },
   {
     id: "c4-content-series",
@@ -309,6 +502,22 @@ const MISSIONS = [
     weightCreator: 0.75,
     weightStrategist: 0.1,
     weightCatalyst: 0.15,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Liste des 5 liens de publication"],
+    fullBriefing: `
+# Mission : Série de Contenu
+
+La régularité est la clé de la croissance. Prouve ta discipline sur 14 jours.
+
+### Instructions
+1. Définis un angle d'attaque (ex: "10 jours pour apprendre Rust").
+2. Publie un contenu tous les 2-3 jours.
+3. Assure-toi que chaque post apporte une valeur unique tout en restant dans le thème.
+
+### Critères de validation
+- 5 publications effectives.
+- Unité thématique respectée.
+    `,
   },
   {
     id: "c5-video-tutorial",
@@ -331,6 +540,23 @@ const MISSIONS = [
     weightCreator: 0.75,
     weightStrategist: 0.05,
     weightCatalyst: 0.15,
+    submissionMethod: "VIDEO_LINK",
+    deliverables: ["Lien vers la vidéo (YouTube, Loom, etc.)"],
+    fullBriefing: `
+# Mission : Tutoriel Vidéo
+
+Transmets ton savoir. La pédagogie est une compétence clé de tout expert.
+
+### Instructions
+1. Prépare un plan de cours structuré.
+2. Enregistre ton écran ou toi-même en expliquant le concept.
+3. Fais un montage simple mais efficace.
+4. Publie la vidéo.
+
+### Critères de validation
+- Qualité audio et vidéo décente.
+- Explication claire et progressive.
+    `,
   },
   {
     id: "c6-brand-identity",
@@ -353,6 +579,23 @@ const MISSIONS = [
     weightCreator: 0.8,
     weightStrategist: 0.1,
     weightCatalyst: 0.05,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Brand Book / Charte Graphique (PDF ou URL)"],
+    fullBriefing: `
+# Mission : Identité Visuelle Complète
+
+Donne une âme à un projet. Une identité forte est la fondation de toute marque réussie.
+
+### Instructions
+1. Recherche l'univers et les valeurs du projet.
+2. Crée un logo (déclinaisons comprises).
+3. Définis la charte graphique complète.
+4. Applique l'identité sur au moins 2 supports (ex: réseaux sociaux, site web).
+
+### Critères de validation
+- Cohérence stratégique et visuelle.
+- Livrable professionnel.
+    `,
   },
   {
     id: "c7-creative-direction",
@@ -375,6 +618,22 @@ const MISSIONS = [
     weightCreator: 0.7,
     weightStrategist: 0.1,
     weightCatalyst: 0.15,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Rapport de Direction Créative", "Livrables du projet"],
+    fullBriefing: `
+# Mission : Direction Créative
+
+Passe de l'exécution à la vision. Dirige une équipe pour atteindre un objectif esthétique et fonctionnel.
+
+### Instructions
+1. Établis un moodboard et une direction artistique claire pour le projet.
+2. Briefe les autres créateurs ou développeurs.
+3. Supervise la production et assure la cohérence finale.
+
+### Critères de validation
+- Vision claire et respectée par l'équipe.
+- Qualité supérieure du résultat final.
+    `,
   },
 
   // ─── STRATEGIST (S1 → S7) ─────────────────────────────────────────────────
@@ -400,6 +659,23 @@ const MISSIONS = [
     weightCreator: 0.0,
     weightStrategist: 0.8,
     weightCatalyst: 0.1,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Analyse de marché (1 page)"],
+    fullBriefing: `
+# Mission : Analyser un Marché en 1 Page
+
+La stratégie commence par l'observation. Apprends à voir les opportunités là où les autres voient des problèmes.
+
+### Instructions
+1. Choisis un secteur (ex: SaaS B2B, EdTech en Afrique).
+2. Identifie les 3 plus gros problèmes actuels.
+3. Analyse la concurrence.
+4. Propose une opportunité de différenciation.
+
+### Critères de validation
+- Analyse concrète et chiffrée.
+- Raisonnement logique.
+    `,
   },
   {
     id: "s2-business-model",
@@ -422,6 +698,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.8,
     weightCatalyst: 0.1,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Business Model Canvas complété"],
+    fullBriefing: `
+# Mission : Business Model Canvas
+
+Comment ton projet va-t-il créer, livrer et capturer de la valeur ?
+
+### Instructions
+1. Remplis les 9 blocs du BMC.
+2. Sois précis sur tes segments clients et tes flux de revenus.
+3. Identifie les hypothèses critiques à tester en priorité.
+
+### Critères de validation
+- Cohérence entre les blocs.
+- Réalisme économique.
+    `,
   },
   {
     id: "s3-gtm-strategy",
@@ -444,6 +736,23 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.8,
     weightCatalyst: 0.1,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Plan Go-to-Market"],
+    fullBriefing: `
+# Mission : Stratégie Go-to-Market
+
+Avoir un bon produit ne suffit pas. Il faut savoir le mettre entre les mains des bons utilisateurs.
+
+### Instructions
+1. Définis ton "Ideal Customer Profile" (ICP).
+2. Choisis tes 2 canaux d'acquisition prioritaires.
+3. Rédige ton message de vente (Value Proposition).
+4. Établis tes OKRs pour le premier trimestre.
+
+### Critères de validation
+- Stratégie actionnable immédiatement.
+- Alignement message/canal.
+    `,
   },
   {
     id: "s4-competitive-analysis",
@@ -466,6 +775,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.8,
     weightCatalyst: 0.1,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Tableau d'analyse concurrentielle"],
+    fullBriefing: `
+# Mission : Analyse Concurrentielle
+
+Ne réinvente pas la roue, mais fais-la mieux tourner. Étudie tes adversaires pour trouver leurs failles.
+
+### Instructions
+1. Liste au moins 5 concurrents.
+2. Compare : Features, Prix, Positionnement, Public cible.
+3. Conclus sur l'"Unfair Advantage" que tu peux développer.
+
+### Critères de validation
+- Profondeur de l'analyse.
+- Clarté des conclusions.
+    `,
   },
   {
     id: "s5-product-roadmap",
@@ -488,6 +813,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.75,
     weightCatalyst: 0.1,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Roadmap visuelle (URL ou Image)"],
+    fullBriefing: `
+# Mission : Roadmap Produit
+
+Gère les attentes et le temps de développement. Une roadmap est un outil de communication autant que de planification.
+
+### Instructions
+1. Identifie les "Must-Have" vs "Nice-to-Have".
+2. Utilise une méthode de priorisation (RICE ou MoSCoW).
+3. Planifie par phases (Now, Next, Later).
+
+### Critères de validation
+- Faisabilité technique apparente.
+- Impact business clair pour chaque étape.
+    `,
   },
   {
     id: "s6-financial-model",
@@ -510,6 +851,22 @@ const MISSIONS = [
     weightCreator: 0.0,
     weightStrategist: 0.85,
     weightCatalyst: 0.1,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Modèle financier (Spreadsheet)"],
+    fullBriefing: `
+# Mission : Modèle Financier Simplifié
+
+La passion ne paie pas les serveurs. Chiffre ton ambition.
+
+### Instructions
+1. Estime tes coûts fixes et variables.
+2. Modélise tes scénarios de revenus (Pessimiste, Réaliste, Optimiste).
+3. Calcule ton "Burn Rate" et ton point mort.
+
+### Critères de validation
+- Formules correctes.
+- Hypothèses de croissance justifiées.
+    `,
   },
   {
     id: "s7-pitch-deck",
@@ -532,6 +889,23 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.75,
     weightCatalyst: 0.1,
+    submissionMethod: "PRESENTATION_LINK",
+    deliverables: ["Pitch Deck (Lien public)", "Résumé des feedbacks"],
+    fullBriefing: `
+# Mission : Pitch Deck
+
+Savoir raconter une histoire qui donne envie d'investir du temps ou de l'argent.
+
+### Instructions
+1. Suis la structure standard (Problem, Solution, Market, etc.).
+2. Sois visuel, évite les blocs de texte.
+3. Entraîne-toi au "Storytelling".
+4. Présente-le et récolte des avis critiques.
+
+### Critères de validation
+- Qualité narrative et visuelle.
+- Clarté de l'"Ask" final.
+    `,
   },
 
   // ─── CATALYST (K1 → K7) ───────────────────────────────────────────────────
@@ -557,6 +931,22 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.1,
     weightCatalyst: 0.7,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Preuve de la connexion (Screenshot ou noms)"],
+    fullBriefing: `
+# Mission : Introduire 2 Personnes
+
+En tant que Catalyseur, ton pouvoir est de réduire la distance entre les talents.
+
+### Instructions
+1. Identifie deux membres ayant des besoins et compétences complémentaires.
+2. Crée un groupe de discussion ou envoie un email d'introduction.
+3. Explique clairement pourquoi ils devraient se parler.
+
+### Critères de validation
+- Introduction pertinente.
+- Réponse positive des deux parties.
+    `,
   },
   {
     id: "k2-online-event",
@@ -579,6 +969,23 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.1,
     weightCatalyst: 0.75,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Lien vers l'enregistrement ou Screenshots", "Rapport de participation"],
+    fullBriefing: `
+# Mission : Organiser un Événement en Ligne
+
+Anime la communauté et crée des moments d'échange mémorables.
+
+### Instructions
+1. Choisis un thème porteur.
+2. Planifie la date et l'outil (Discord, Google Meet, Zoom).
+3. Fais la promotion de l'événement.
+4. Anime la session et encourage la participation.
+
+### Critères de validation
+- Minimum 10 personnes présentes.
+- Qualité de l'animation.
+    `,
   },
   {
     id: "k3-mentoring-session",
@@ -601,6 +1008,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.15,
     weightCatalyst: 0.75,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Résumé de la session de mentorat"],
+    fullBriefing: `
+# Mission : Session de Mentorat
+
+"To teach is to learn twice." Aide un pair à franchir une étape dans son parcours.
+
+### Instructions
+1. Identifie un membre ayant besoin d'aide sur un sujet que tu maîtrises.
+2. Planifie une heure de discussion.
+3. Écoute activement et propose des solutions concrètes.
+
+### Critères de validation
+- Feedback positif du mentoré.
+- Plan d'action clair à la fin.
+    `,
   },
   {
     id: "k4-community-challenge",
@@ -623,6 +1046,23 @@ const MISSIONS = [
     weightCreator: 0.1,
     weightStrategist: 0.1,
     weightCatalyst: 0.75,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Annonce du challenge", "Liste des finalistes"],
+    fullBriefing: `
+# Mission : Lancer un Challenge Communautaire
+
+Crée une dynamique de groupe autour de la progression collective.
+
+### Instructions
+1. Définis un défi simple mais stimulant (ex: "7 jours de code").
+2. Crée un hashtag ou un canal dédié.
+3. Motive les troupes quotidiennement.
+4. Célèbre les résultats.
+
+### Critères de validation
+- Engagement visible de la communauté.
+- Au moins 5 personnes au bout du défi.
+    `,
   },
   {
     id: "k5-partnership",
@@ -645,6 +1085,22 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.2,
     weightCatalyst: 0.7,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Accord de partenariat / Rapport"],
+    fullBriefing: `
+# Mission : Créer un Partenariat
+
+Développe l'écosystème HASHCODE en ouvrant des portes vers l'extérieur.
+
+### Instructions
+1. Identifie un partenaire potentiel (incubateur, école, fournisseur d'outils).
+2. Prépare une proposition de valeur mutuelle.
+3. Négocie les termes.
+4. Lance l'initiative commune.
+
+### Critères de validation
+- Impact réel sur la communauté (ex: accès gratuit à un outil, événement commun).
+    `,
   },
   {
     id: "k6-ambassador-program",
@@ -667,6 +1123,21 @@ const MISSIONS = [
     weightCreator: 0.05,
     weightStrategist: 0.1,
     weightCatalyst: 0.85,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Usernames des 3 recrues"],
+    fullBriefing: `
+# Mission : Programme d'Ambassadeurs
+
+Sois le visage de HASHCODE et fais grandir notre élite.
+
+### Instructions
+1. Identifie des talents dans ton entourage.
+2. Explique-leur la valeur de HASHCODE.
+3. Aide-les à passer l'onboarding et à comprendre le fonctionnement des missions.
+
+### Critères de validation
+- Inscription effective et passage du quiz par les 3 personnes.
+    `,
   },
   {
     id: "k7-impact-report",
@@ -689,6 +1160,21 @@ const MISSIONS = [
     weightCreator: 0.15,
     weightStrategist: 0.1,
     weightCatalyst: 0.75,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Rapport d'Impact complet"],
+    fullBriefing: `
+# Mission : Rapport d'Impact Communautaire
+
+Clôture ton cycle de Catalyseur par une analyse objective de ton action.
+
+### Instructions
+1. Recueille les chiffres (participants, intros, recrues).
+2. Collecte 3 témoignages.
+3. Rédige ton bilan personnel et tes recommandations pour la communauté.
+
+### Critères de validation
+- Rapport exhaustif et inspirant.
+    `,
   },
 
   // ─── HYBRID CHALLENGES (H1 → H3) ─────────────────────────────────────────
@@ -715,6 +1201,23 @@ const MISSIONS = [
     weightCreator: 0.25,
     weightStrategist: 0.25,
     weightCatalyst: 0.2,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Lien du projet", "Pitch Slides/Vidéo", "Liste des membres de l'équipe"],
+    fullBriefing: `
+# Mission : Hackathon 48h
+
+L'épreuve de feu. Travaille sous pression pour sortir un produit minimum viable.
+
+### Instructions
+1. Trouve des partenaires avec des profils complémentaires (ex: 1 Builder, 1 Creator, 1 Strategist).
+2. Définissez un problème à résoudre.
+3. Construisez le prototype en 48 heures chronos.
+4. Présentez-le lors de la session de pitch communautaire.
+
+### Critères de validation
+- Prototype fonctionnel.
+- Collaboration interdisciplinaire visible.
+    `,
   },
   {
     id: "h2-cross-profile-collab",
@@ -722,7 +1225,7 @@ const MISSIONS = [
     title: "Collaboration Cross-Profil",
     shortDesc: "Travaille avec quelqu'un de complètement différent.",
     description:
-      "Collabore avec un membre d'un profil opposé au tien sur un projet commun pendant 2 semaines. Documente ce que tu as appris de cette collaboration.",
+      "Collabore avec un membre d'un profil opposé au thine sur un projet commun pendant 2 semaines. Documente ce que tu as appris de cette collaboration.",
     category: "community",
     difficulty: 3,
     xp: 400,
@@ -737,6 +1240,23 @@ const MISSIONS = [
     weightCreator: 0.25,
     weightStrategist: 0.25,
     weightCatalyst: 0.25,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Rapport de collaboration", "Livrable du projet commun"],
+    fullBriefing: `
+# Mission : Collaboration Cross-Profil
+
+Sortez de votre zone de confort. Un Builder doit comprendre un Strategist, un Creator doit s'aligner avec un Catalyst.
+
+### Instructions
+1. Identifie un binôme d'un profil différent.
+2. Définissez un micro-projet (ex: une landing page, une campagne marketing).
+3. Travaillez ensemble sur 14 jours.
+4. Racontez comment vous avez géré vos différences d'approche.
+
+### Critères de validation
+- Livrable de qualité.
+- Analyse profonde de l'apprentissage inter-profils.
+    `,
   },
   {
     id: "h3-community-project",
@@ -759,6 +1279,23 @@ const MISSIONS = [
     weightCreator: 0.25,
     weightStrategist: 0.2,
     weightCatalyst: 0.35,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Lien vers la ressource / outil communautaire"],
+    fullBriefing: `
+# Mission : Projet Communautaire
+
+Laisse une trace durable dans l'histoire de HASHCODE.
+
+### Instructions
+1. Identifie un manque dans la communauté (ex: pas d'annuaire des outils, besoin d'un guide de survie freelance).
+2. Forme une équipe si nécessaire.
+3. Produis et livre la ressource.
+4. Assure son adoption par les membres.
+
+### Critères de validation
+- Utilité publique démontrée.
+- Qualité de finition.
+    `,
   },
 ];
 
@@ -816,8 +1353,11 @@ async function main() {
         weightCreator: mission.weightCreator,
         weightStrategist: mission.weightStrategist,
         weightCatalyst: mission.weightCatalyst,
+        fullBriefing: (mission as any).fullBriefing,
+        submissionMethod: (mission as any).submissionMethod || "ANY_LINK",
+        deliverables: (mission as any).deliverables || [],
       },
-      create: mission,
+      create: mission as any,
     });
     console.log(`  ✓ [${mission.missionLevel}] ${mission.title} (${mission.id})`);
   }

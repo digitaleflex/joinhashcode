@@ -88,101 +88,56 @@ export async function POST(req: Request) {
       return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 400 });
     }
 
-    // For HASHCODE V1 Demo: Auto-approve missions
-    const newXp = dbUser.experience + mission.xp;
-    
-    // Calculate if level up is needed
-    let newLevel = dbUser.level;
-    for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
-      const levelNum = parseInt(levelStr);
-      if (newXp >= threshold && levelNum > newLevel) {
-        newLevel = levelNum;
-      }
+    if (existingSubmission && existingSubmission.status === "PENDING") {
+      return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
     }
 
-    const currentVibrancy = (dbUser.behavioralVibrancy as unknown as BehavioralVibrancy) || {
-      builder: 0,
-      creator: 0,
-      strategist: 0,
-      catalyst: 0,
-    };
-
-    const missionWeights: BehavioralVibrancy = {
-      builder: mission.weightBuilder || 0,
-      creator: mission.weightCreator || 0,
-      strategist: mission.weightStrategist || 0,
-      catalyst: mission.weightCatalyst || 0,
-    };
-
-    // Transaction to save submission and update user XP/Level/Vibrancy
-    const submission = await prisma.$transaction(async (tx) => {
-      const sub = await tx.missionSubmission.upsert({
-        where: {
-          userId_missionId: {
-            userId: session.user.id,
-            missionId: mission.id
-          }
-        },
-        update: {
-          content,
-          projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions,
-          status: "APPROVED",
-          xpAwarded: mission.xp
-        },
-        create: {
+    // Transaction to save submission as PENDING
+    const submission = await prisma.missionSubmission.upsert({
+      where: {
+        userId_missionId: {
           userId: session.user.id,
-          missionId: mission.id,
-          content,
-          projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions,
-          status: "APPROVED",
-          xpAwarded: mission.xp
+          missionId: mission.id
         }
-      });
-
-      const missionWeights: BehavioralVibrancy = {
-        builder: mission.weightBuilder || 0,
-        creator: mission.weightCreator || 0,
-        strategist: mission.weightStrategist || 0,
-        catalyst: mission.weightCatalyst || 0,
-      };
-
-      // Confidence gain for mission: 0.05
-      await updateUserEvolution(session.user.id, missionWeights, 0.05, tx);
-
-      await tx.user.update({
-        where: { id: session.user.id },
-        data: {
-          experience: newXp,
-          level: newLevel,
-          missionsCompletedCount: { increment: 1 },
-        }
-      });
-
-      return sub;
+      },
+      update: {
+        content,
+        projectDescription,
+        userDifficulty,
+        userRating,
+        userFeedback,
+        improvementSuggestions,
+        status: "PENDING",
+        xpAwarded: 0
+      },
+      create: {
+        userId: session.user.id,
+        missionId: mission.id,
+        content,
+        projectDescription,
+        userDifficulty,
+        userRating,
+        userFeedback,
+        improvementSuggestions,
+        status: "PENDING",
+        xpAwarded: 0
+      }
     });
 
-    // Trigger notification (replaces direct email service call)
+    // Notify admin or just confirm to user
     try {
       await triggerNotification({
         userId: session.user.id,
-        type: "MISSION_APPROVED",
-        title: `Mission validée : ${mission.title}`,
-        message: `Tu as gagné +${mission.xp} XP !`,
+        type: "SYSTEM",
+        title: `Mission soumise : ${mission.title}`,
+        message: `Ta soumission a été envoyée pour validation manuelle.`,
         link: "/missions"
       });
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);
     }
 
-    return NextResponse.json({ submission, leveledUp: newLevel > dbUser.level, newLevel });
+    return NextResponse.json({ submission, status: "PENDING" });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
     return new NextResponse("Erreur interne du système. Nos ingénieurs sont sur le coup.", { status: 500 });

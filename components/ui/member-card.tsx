@@ -3,7 +3,7 @@
 import { Download, Share2, Check } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, generatePassportId } from "@/lib/utils";
 import { CLASS_COLORS, LEVEL_NAMES, XP_MAX } from "@/lib/member-card-constants";
 
 interface MemberCardProps {
@@ -40,7 +40,7 @@ export function MemberCard({
   const levelName = LEVEL_NAMES[level] ?? "INIT";
   const xpMax = XP_MAX[level] ?? 100;
   const xpPct = Math.min(100, Math.round((experience / xpMax) * 100));
-  const memberNum = memberNumber ? String(memberNumber).padStart(4, "0") : "----";
+  const passportId = generatePassportId(memberNumber);
   const classLabel = (userClass ?? "BUILDER").toUpperCase();
   const joinDate = new Date(createdAt).toLocaleDateString("fr-FR", {
     month: "long",
@@ -57,136 +57,128 @@ export function MemberCard({
   };
 
   return (
-    <div className={cn("max-w-md mx-auto w-full space-y-6", className)}>
-      {/* Card visual - Vertical Format */}
+    <div className={cn("w-full space-y-6", className)}>
+      {/* Card visual - Horizontal Format */}
       <div
-        className="relative w-full overflow-hidden rounded-[2.5rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group"
+        className="relative w-full overflow-hidden rounded-[2rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group"
         style={{
           background: "#050505",
           borderColor: `${accent}40`,
-          aspectRatio: "3 / 4.2",
+          aspectRatio: "1.7 / 1",
         }}
       >
         {/* GUILD SPECIFIC PATTERNS */}
         <div className="absolute inset-0 opacity-20">
           {userClass === "builder" && (
-            <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(${accent}20 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
+            <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(${accent}20 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
           )}
           {userClass === "creator" && (
-            <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(45deg, ${accent}10 25%, transparent 25%, transparent 50%, ${accent}10 50%, ${accent}10 75%, transparent 75%, transparent)`, backgroundSize: '40px 40px' }} />
+            <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(45deg, ${accent}08 25%, transparent 25%, transparent 50%, ${accent}08 50%, ${accent}08 75%, transparent 75%, transparent)`, backgroundSize: '60px 60px' }} />
           )}
           {userClass === "strategist" && (
-            <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(${accent}05 1px, transparent 1px), linear-gradient(90deg, ${accent}05 1px, transparent 1px)`, backgroundSize: '10px 10px' }} />
+            <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(${accent}05 1px, transparent 1px), linear-gradient(90deg, ${accent}05 1px, transparent 1px)`, backgroundSize: '15px 15px' }} />
           )}
           {userClass === "catalyst" && (
-            <div className="absolute inset-0 rounded-full" style={{ background: `radial-gradient(circle at 50% 50%, ${accent}15 0%, transparent 70%)` }} />
+            <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 30%, ${accent}15 0%, transparent 70%)` }} />
           )}
         </div>
 
-        {/* Top Header - Grade */}
-        <div className="relative p-8 flex justify-between items-center border-b border-white/5 bg-white/[0.02] backdrop-blur-md">
-          <div className="space-y-0.5">
-            <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">Hashcode_System</span>
-            <div className="flex items-center gap-2">
-              <div className="size-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <span className="text-[11px] font-mono font-bold text-white uppercase tracking-widest">Active_Protocol</span>
+        <div className="relative h-full flex flex-col p-6 sm:p-8">
+          {/* Top Header */}
+          <div className="flex justify-between items-start mb-4">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">Hashcode_Passport_v2</span>
+              <div className="flex items-center gap-2">
+                <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-white/60 uppercase tracking-widest">Authorized_Access</span>
+              </div>
+            </div>
+            <div className="text-right">
+               <div className="text-[9px] font-mono text-zinc-600 uppercase">ID_Ref</div>
+               <div className="text-xs font-black font-mono" style={{ color: accent }}>{passportId}</div>
             </div>
           </div>
-          <div className="text-right">
-             <div className="text-[10px] font-mono text-zinc-500 uppercase">Passport_No</div>
-             <div className="text-sm font-black font-mono italic" style={{ color: accent }}>#{memberNum}</div>
-          </div>
-        </div>
 
-        <div className="relative h-full flex flex-col p-8 pb-12">
-          {/* Identity Section */}
-          <div className="flex flex-col items-center text-center mt-4 mb-8">
-            <div className="relative mb-6">
-              <div className="size-32 rounded-3xl bg-zinc-900 border-2 overflow-hidden rotate-3 group-hover:rotate-0 transition-transform duration-700" style={{ borderColor: `${accent}60` }}>
-                 <div className="w-full h-full flex items-center justify-center text-5xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent">
-                   {pseudo.charAt(0).toUpperCase()}
+          {/* Main Body */}
+          <div className="flex flex-1 gap-8 items-center">
+            {/* Avatar Cluster */}
+            <div className="relative shrink-0">
+              <div className="size-24 sm:size-32 rounded-3xl bg-zinc-900 border-2 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700" style={{ borderColor: `${accent}60` }}>
+                 <div className="w-full h-full flex items-center justify-center text-4xl sm:text-5xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent uppercase">
+                   {pseudo.charAt(0)}
                  </div>
               </div>
-              <div className="absolute -bottom-2 -right-2 px-3 py-1 bg-white text-black text-[9px] font-black uppercase tracking-tighter -rotate-3">
+              <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-white text-black text-[8px] font-black uppercase tracking-tighter -rotate-2">
                 Verified
               </div>
             </div>
-            
-            <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic mb-1">
-              {pseudo}
-            </h3>
-            <div className="inline-flex px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-zinc-400 uppercase tracking-widest">
-              {classLabel} // LEVEL_{level}
+
+            {/* Info Grid */}
+            <div className="flex-1 min-w-0 space-y-4">
+              <div className="space-y-1">
+                <h3 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tighter italic truncate">
+                  {pseudo}
+                </h3>
+                <div className="flex items-center gap-3">
+                  <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+                    {classLabel}
+                  </span>
+                  <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">Grade__{levelName}</span>
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="flex gap-4 sm:gap-8 border-t border-white/5 pt-4">
+                <div className="space-y-0.5">
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Impact_</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg font-black text-white">{missionsCompleted}</span>
+                    <span className="text-[8px] font-bold text-zinc-500 uppercase">Ops</span>
+                  </div>
+                </div>
+                <div className="space-y-0.5">
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Trust_</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
+                  </div>
+                </div>
+                <div className="hidden sm:block space-y-0.5 flex-1">
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Top_Arsenal_</span>
+                  <div className="flex gap-1.5 mt-1 truncate">
+                    {tools.slice(0, 2).map(t => (
+                      <span key={t} className="text-[8px] font-bold text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded uppercase">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Stats Area */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-1">
-              <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest block">Impact_</span>
-              <div className="flex items-end gap-1">
-                <span className="text-xl font-black text-white">{missionsCompleted}</span>
-                <span className="text-[9px] font-bold text-zinc-500 mb-1">MISSIONS</span>
-              </div>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-1">
-              <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest block">Reliability_</span>
-              <div className="flex items-end gap-1">
-                <span className="text-xl font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
-                <span className="text-[9px] font-bold text-zinc-500 mb-1">TRUST</span>
-              </div>
-            </div>
-          </div>
-
-          {/* XP & Skills */}
-          <div className="space-y-6 flex-1">
-            <div className="space-y-2">
-              <div className="flex justify-between items-end">
-                <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Progression_Radar</span>
-                <span className="text-[10px] font-bold text-white font-mono">{experience}XP</span>
-              </div>
-              <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden p-[1px]">
-                <div 
-                  className="h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(var(--primary),0.3)]"
-                  style={{ width: `${xpPct}%`, background: accent }}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-               <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Top_Arsenal</span>
-               <div className="flex flex-wrap gap-1.5">
-                  {tools.length > 0 ? tools.slice(0, 3).map(tool => (
-                    <span key={tool} className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] font-bold text-zinc-300">
-                      {tool.toUpperCase()}
-                    </span>
-                  )) : (
-                    <span className="text-[9px] font-mono text-zinc-700 italic">No tools deployed...</span>
-                  )}
-               </div>
-            </div>
-          </div>
-
-          {/* Footer - Date & QR */}
-          <div className="mt-auto pt-8 flex justify-between items-end border-t border-white/5">
-             <div className="space-y-1">
-               <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">Issued_Date</div>
-               <div className="text-xs font-bold text-zinc-400 font-mono">{joinDate.toUpperCase()}</div>
+          {/* Footer Bar */}
+          <div className="mt-4 pt-4 flex justify-between items-end border-t border-white/5">
+             <div className="space-y-0.5">
+               <div className="text-[7px] font-mono text-zinc-700 uppercase tracking-[0.2em]">Issued_Date</div>
+               <div className="text-[10px] font-bold text-zinc-500 font-mono italic uppercase">{joinDate}</div>
              </div>
-             <div className="p-1.5 bg-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/dossier`)}`}
-                  width={50}
-                  height={50}
-                  alt="QR Validation"
-                  className="opacity-90"
-                />
+             <div className="flex items-center gap-4">
+               <div className="text-right hidden sm:block">
+                 <div className="text-[7px] font-mono text-zinc-700 uppercase">Verification_Protocol</div>
+                 <div className="text-[9px] font-bold text-zinc-500 font-mono">STATUS_SYNCHRONIZED</div>
+               </div>
+               <div className="p-1 bg-white rounded-lg">
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/dossier`)}`}
+                    width={32}
+                    height={32}
+                    alt="QR"
+                    className="opacity-90"
+                  />
+               </div>
              </div>
           </div>
         </div>
-
-        {/* Magnetic Stripe / Tech Bar at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-transparent via-white/20 to-transparent" />
       </div>
 
       {/* Actions */}
@@ -194,20 +186,20 @@ export function MemberCard({
         <Button
           asChild
           variant="outline"
-          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-xs font-bold uppercase tracking-widest h-12"
+          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-widest h-10"
         >
           <a href={cardUrl} download={`hashcode-passport-${pseudo}.png`}>
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="mr-2 h-3.5 w-3.5" />
             Exporter
           </a>
         </Button>
         <Button
           variant="outline"
           onClick={handleCopy}
-          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-xs font-bold uppercase tracking-widest h-12"
+          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-widest h-10"
         >
-          {copied ? <Check className="mr-2 h-4 w-4 text-emerald-500" /> : <Share2 className="mr-2 h-4 w-4" />}
-          {copied ? "Synchronisé" : "Partager"}
+          {copied ? <Check className="mr-2 h-3.5 w-3.5 text-emerald-500" /> : <Share2 className="mr-2 h-3.5 w-3.5" />}
+          {copied ? "Copié !" : "Partager"}
         </Button>
       </div>
     </div>

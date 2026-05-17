@@ -8,99 +8,75 @@ datasource db {
 }
 
 model User {
-  id            String   @id
-  memberNumber  Int      @unique @default(autoincrement())
-  name          String
-  email         String   @unique
-  emailVerified Boolean
-  image         String?
-  level         Int      @default(1)
-  experience    Int      @default(0)
-  class         String?  @map("profile_class") // builder, creator, strategist, catalyst
-  role          String   @default("MEMBER") // MEMBER, BUILDER, MENTOR, MODERATOR, OPERATOR, ADMIN
-  createdAt     DateTime
-  updatedAt     DateTime
-
-  // 1. IDENTITY & BASIC
-  pseudo String? @unique
-  bio    String?
-
-  // 2. CONTEXT PERSONNEL
-  country          String?
-  city             String?
-  language         String  @default("fr")
-  ageRange         String? // enum: 15-18, 18-25, 25-35, 35-50, 50+
-  currentSituation String? // Étudiant, Freelance, Salarié, Entrepreneur, Sans emploi, Reconversion
-
-  // 3. CONTEXT TECHNIQUE
-  technicalLevel String? // Débutant, Intermédiaire, Avancé
-  domains        String[] // Web, Cybersecurity, Cloud, IA, Mobile, Data, Automation, UI/UX, DevOps
-  tools          String[] // GitHub, VS Code, Docker, Figma, Cursor, ChatGPT, Vercel, Linux
-  githubUrl      String?
-  portfolioUrl   String?
-  linkedinUrl    String?
-  twitterUrl     String?
-
-  // 4. OBJECTIFS UTILISATEUR
-  mainObjective       String? // Trouver emploi, Créer SaaS, Freelance, Créer startup, Cybersécurité, Maîtriser IA, Cloud Computing, Créer produits digitaux
-  secondaryObjectives String[]
-  dominantMotivation  String? // Argent, Passion, Impact, Curiosité, Carrière, Liberté, Innovation
-  longTermObjective   String?
-  preferredRhythm     String? // Intensif, Progressif, Flexible, Week-end uniquement
-
-  // 5. DONNÉES COMPORTEMENTALES
-  onboardingSpeed     Int? // Speed in ms
-  answerConsistency   Float? // Score 0-1
-  connectionFrequency Float? // Score 0-1
-  dashboardActivity   Float? // Score 0-1
-  communityEngagement Float? // Score 0-1
-
-  // 6. DONNÉES PSYCHOMÉTRIQUES (Scores des classes)
-  builderScore     Int   @default(0)
-  creatorScore     Int   @default(0)
-  strategistScore  Int   @default(0)
-  catalystScore    Int   @default(0)
-  polarization     Float @default(0)
-  profileStability Float @default(0)
-
-  // 7. DONNÉES COMMUNAUTAIRES
-  cohortsJoined         String[]
-  collaborativeProjects String[]
-  mentorId              String?
-  mentor                User?    @relation("Mentorship", fields: [mentorId], references: [id])
-  mentees               User[]   @relation("Mentorship")
-
-  // 8. DONNÉES DE PROGRESSION
-  projectsRealized       String[]
-  activePaths            String[]
-  badges                 String[]
-  missionsCompletedCount Int      @default(0)
-
-  // 9. DONNÉES IA / RECOMMANDATION
+  id                       String              @id
+  name                     String
+  email                    String              @unique
+  emailVerified            Boolean
+  image                    String?
+  createdAt                DateTime
+  updatedAt                DateTime
+  level                    Int                 @default(1)
+  experience               Int                 @default(0)
+  class                    String?             @map("profile_class")
+  role                     String              @default("MEMBER")
+  activePaths              String[]
+  ageRange                 String?
+  answerConsistency        Float?
+  badges                   String[]
+  behavioralVibrancy       Json?
+  builderScore             Int                 @default(0)
+  catalystScore            Int                 @default(0)
+  city                     String?
+  cohortsJoined            String[]
+  collaborativeProjects    String[]
+  communityEngagement      Float?
+  confidenceScore          Float               @default(0.25)
+  connectionFrequency      Float?
+  country                  String?
+  creatorScore             Int                 @default(0)
+  currentSituation         String?
+  dashboardActivity        Float?
+  domains                  String[]
+  dominantMotivation       String?
+  githubUrl                String?
+  language                 String              @default("fr")
+  lastHypothesisUpdate     DateTime?
+  longTermObjective        String?
+  mainObjective            String?
+  mentorId                 String?
+  missionsCompletedCount   Int                 @default(0)
+  onboardingSpeed          Int?
+  polarization             Float               @default(0)
+  portfolioUrl             String?
+  predictedEngagementScore Float?
+  preferredRhythm          String?
+  profileDrift             Float               @default(0)
+  profileStability         Float               @default(0)
+  projectsRealized         String[]
+  pseudo                   String?             @unique
   recommendedPath          String[]
   recommendedTools         String[]
-  predictedEngagementScore Float?
-
-  // 10. ADAPTIVE BEHAVIORAL LOOP
-  confidenceScore      Float     @default(0.25) // 0 to 1
-  profileDrift         Float     @default(0) // Difference between Quiz and Actions
-  behavioralVibrancy   Json? // Weighted sum of actions: { builder: X, creator: Y, ... }
-  lastHypothesisUpdate DateTime?
-
-  // 11. POST-QUIZ & OBJECTIVES (Profil Vivant)
-  dreamStatement String? // "Dans 12 mois..."
-  currentFocus   String[] // domaines actuels (tech, design, business...)
-  mainBlocker    String? // principal frein (compétences, réseau, temps...)
-  lastCheckinAt  DateTime?
-
-  // RELATIONS
-  sessions           Session[]
-  accounts           Account[]
-  quizResults        QuizResult[]
-  guildMembers       GuildMember[]
-  missionSubmissions MissionSubmission[]
-  dailyCheckins      DailyCheckin[]
-  notifications      Notification[]
+  strategistScore          Int                 @default(0)
+  technicalLevel           String?
+  tools                    String[]
+  secondaryObjectives      String[]
+  bio                      String?
+  linkedinUrl              String?
+  memberNumber             Int                 @unique @default(autoincrement())
+  twitterUrl               String?
+  currentFocus             String[]
+  dreamStatement           String?
+  lastCheckinAt            DateTime?
+  mainBlocker              String?
+  accounts                 Account[]
+  dailyCheckins            DailyCheckin[]
+  guildMembers             GuildMember[]
+  missionSubmissions       MissionSubmission[]
+  notifications            Notification[]
+  quizResults              QuizResult[]
+  sessions                 Session[]
+  mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
+  mentees                  User[]              @relation("Mentorship")
 
   @@index([level])
   @@index([class])
@@ -111,12 +87,12 @@ model User {
 model DailyCheckin {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   note      String   @db.VarChar(150)
   domain    String
-  energy    Int // 1-5
-  duration  Int // in minutes
+  energy    Int
+  duration  Int
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([createdAt])
@@ -124,30 +100,28 @@ model DailyCheckin {
 }
 
 model Mission {
-  id          String  @id @default(cuid())
-  title       String
-  shortDesc   String?
-  description String
-  slug        String  @unique
-  category    String // tech, design, business, community
-  difficulty  Int     @default(1)
-  xp          Int     @default(100)
-
-  // Profil Vivant fields
-  targetProfiles String[] // builder, creator, strategist, catalyst
-  missionLevel   String? // INIT, CORE, PRO
-  requirements   String[]
-  duration       String? // e.g., "2h", "4h"
-
-  // Behavioral Weights (Vecteurs)
-  weightBuilder    Float @default(0)
-  weightCreator    Float @default(0)
-  weightStrategist Float @default(0)
-  weightCatalyst   Float @default(0)
-
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  submissions MissionSubmission[]
+  id               String              @id @default(cuid())
+  title            String
+  description      String
+  slug             String              @unique
+  category         String
+  difficulty       Int                 @default(1)
+  xp               Int                 @default(100)
+  weightBuilder    Float               @default(0)
+  weightCreator    Float               @default(0)
+  weightStrategist Float               @default(0)
+  weightCatalyst   Float               @default(0)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  duration         String?
+  missionLevel     String?
+  requirements     String[]
+  shortDesc        String?
+  targetProfiles   String[]
+  deliverables     String[]
+  fullBriefing     String?
+  submissionMethod String              @default("ANY_LINK")
+  submissions      MissionSubmission[]
 
   @@index([category])
   @@index([difficulty])
@@ -172,10 +146,10 @@ model GuildMember {
   id       String   @id @default(cuid())
   userId   String
   guildId  String
-  role     String   @default("MEMBER") // MEMBER, MODERATOR, LEADER
+  role     String   @default("MEMBER")
   joinedAt DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, guildId])
   @@index([userId])
@@ -202,7 +176,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -212,6 +185,7 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([providerId, accountId])
   @@map("account")
@@ -232,56 +206,54 @@ model Verification {
 model QuizResult {
   id                    String   @id @default(cuid())
   userId                String?
-  user                  User?    @relation(fields: [userId], references: [id])
-  profileType           String // builder, creator, strategist, catalyst
+  profileType           String
   score                 Int?
-  answers               Json // Store the raw answers for analysis
-  averageResponseTime   Int?     @map("average_response_time") // Average time in ms
-  detailedResponseTimes Json?    @map("detailed_response_times") // Array of times per question
-  diagnosticAnswers     Json?    @map("diagnostic_answers")
+  answers               Json
   createdAt             DateTime @default(now())
+  averageResponseTime   Int?     @map("average_response_time")
+  detailedResponseTimes Json?    @map("detailed_response_times")
+  diagnosticAnswers     Json?    @map("diagnostic_answers")
+  user                  User?    @relation(fields: [userId], references: [id])
 
   @@index([profileType])
   @@map("quiz_result")
 }
 
 model MissionSubmission {
-  id        String  @id @default(cuid())
-  userId    String
-  missionId String
-  status    String  @default("PENDING") // PENDING, APPROVED, REJECTED
-  content   String? // The URL or text submitted by the user
-
-  // Feedback Utilisateur (Post-Submission)
-  projectDescription     String? @db.Text
-  userDifficulty         Int? // 1 to 5
-  userRating             Int? // 1 to 5
-  userFeedback           String? @db.Text
-  improvementSuggestions String? @db.Text
-
-  reviewerFeedback String? // Feedback from the reviewer/mentor
-  xpAwarded        Int     @default(0)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  id                     String   @id @default(cuid())
+  userId                 String
+  missionId              String
+  status                 String   @default("PENDING")
+  content                String?
+  xpAwarded              Int      @default(0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  improvementSuggestions String?
+  projectDescription     String?
+  reviewerFeedback       String?
+  userDifficulty         Int?
+  userFeedback           String?
+  userRating             Int?
+  adminFeedback          String?
+  reviewerId             String?
+  mission                Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, missionId])
   @@index([status])
   @@index([userId])
   @@index([missionId])
+  @@index([createdAt])
   @@map("mission_submission")
 }
 
 model ContactMessage {
   id        String   @id @default(cuid())
-  type      String // support, suggestion, partner
+  type      String
   email     String
   subject   String
   content   String
-  status    String   @default("UNREAD") // UNREAD, READ, ARCHIVED
+  status    String   @default("UNREAD")
   createdAt DateTime @default(now())
 
   @@index([type])
@@ -292,15 +264,16 @@ model ContactMessage {
 model Notification {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      String // MISSION_APPROVED, LEVEL_UP, DAILY_REMINDER, SYSTEM
+  type      String
   title     String
-  message   String   @db.Text
-  link      String? // e.g., /missions
+  message   String
+  link      String?
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([isRead])
+  @@index([createdAt])
   @@map("notification")
 }
