@@ -10,10 +10,9 @@ const safeUrl = z.string().url().startsWith("https://").max(500).optional().or(z
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional(),
   pseudo: z.string()
-    .transform(stripHtml)
-    .pipe(z.string().regex(/^[a-zA-Z0-9_]{3,20}$/, "Le pseudo doit contenir entre 3 et 20 caractères (lettres, chiffres et '_' uniquement)."))
+    .regex(/^[a-zA-Z0-9_]{3,20}$/, "Le pseudo doit contenir entre 3 et 20 caractères (lettres, chiffres et '_' uniquement).")
     .optional(),
-  bio: z.string().max(500).transform(stripHtml).optional(),
+  bio: z.string().transform(stripHtml).pipe(z.string().max(500)).optional(),
   image: z.string().url().max(500).optional().or(z.literal("")),
   country: z.string().max(100).optional(),
   city: z.string().max(100).optional(),

@@ -4,6 +4,8 @@ import { stripHtml } from "@/lib/utils";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
+import { BehavioralVibrancy } from "@/lib/evolution";
 
 const checkinSchema = z.object({
   note: z.string().transform(stripHtml).pipe(z.string().min(1).max(1000)),
@@ -53,6 +55,13 @@ export async function POST(req: Request) {
         duration,
       },
     });
+
+    // Update user evolution
+    const baseWeights: BehavioralVibrancy = { builder: 0, creator: 0, strategist: 0, catalyst: 0 };
+    const domainWeights = CHECKIN_WEIGHTS[domain] || { builder: 0.25, creator: 0.25, strategist: 0.25, catalyst: 0.25 };
+    const finalWeights = { ...baseWeights, ...domainWeights };
+    
+    await updateUserEvolution(session.user.id, finalWeights, 0.01);
 
     await prisma.user.update({
       where: { id: session.user.id },

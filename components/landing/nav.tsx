@@ -12,7 +12,7 @@ export function Nav() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/60 py-3">
+      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/60 py-3">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-1.5 group">
@@ -87,6 +87,8 @@ export function Nav() {
           </div>
         </div>
       </header>
+      {/* Spacer to offset fixed header height (~56px) */}
+      <div className="h-14" aria-hidden="true" />
       {session && <BottomNav />}
     </>
   )
