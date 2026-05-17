@@ -16,6 +16,7 @@ import {
 } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
+import { track } from "@vercel/analytics"
 
 const STEPS = [
   {
@@ -70,6 +71,7 @@ export default function OnboardingPage() {
       if (!res.ok) throw new Error("Failed to save")
 
       try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ }
+      track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective });
       toast.success("Profil initial configuré !")
       router.push("/quiz")
     } catch (error) {

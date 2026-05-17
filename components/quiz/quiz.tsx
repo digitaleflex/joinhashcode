@@ -12,6 +12,7 @@ import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
 import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
+import { track } from "@vercel/analytics"
 
 interface QuizUser {
   id: string;
@@ -150,6 +151,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
         if (res.ok) {
           const data = await res.json();
           setAnalysisResult(data.analysis);
+          track("quiz_completed", { profileType: data.analysis?.profileType ?? "unknown" });
         }
       } catch (error) {
         console.error("Failed to save results:", error)

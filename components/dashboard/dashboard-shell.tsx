@@ -163,15 +163,36 @@ export function DashboardShell({
                   </div>
                   <Progress value={(user.experience % 1000) / 10} className="h-1.5 bg-primary/10" />
                 </div>
-                
+
+                {/* Confidence Score */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground font-mono uppercase tracking-widest">Confiance Profil</span>
+                    <span className="text-primary font-bold">{Math.round((user.confidenceScore ?? 0.25) * 100)}%</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-white/5">
+                    <div
+                      className="h-1.5 rounded-full bg-primary transition-all duration-700"
+                      style={{ width: `${Math.round((user.confidenceScore ?? 0.25) * 100)}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-muted-foreground/60">
+                    {(user.confidenceScore ?? 0.25) < 0.4
+                      ? "Profil en cours de calibration — complète des missions."
+                      : (user.confidenceScore ?? 0.25) < 0.7
+                      ? "Profil stable — continue à valider ton parcours."
+                      : "Profil hautement confirmé par tes actions."}
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-3 rounded-xl bg-background/50 border border-border/50">
                     <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Missions</div>
                     <div className="text-xl font-bold text-white">{user.missionsCompletedCount || 0}</div>
                   </div>
                   <div className="p-3 rounded-xl bg-background/50 border border-border/50">
-                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Rang</div>
-                    <div className="text-xl font-bold text-white">#124</div>
+                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Niveau</div>
+                    <div className="text-xl font-bold text-white">{levelName}</div>
                   </div>
                 </div>
               </CardContent>

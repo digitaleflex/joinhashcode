@@ -3,11 +3,11 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { 
-  Layout, 
-  FileText, 
-  Target, 
-  Settings, 
+import {
+  Layout,
+  FileText,
+  Target,
+  Settings,
   ArrowLeft,
   Search,
   Bell,
@@ -15,7 +15,8 @@ import {
   MoreHorizontal,
   User as UserIcon,
   LogOut,
-  Command
+  Command,
+  ShieldAlert
 } from "lucide-react"
 
 import {
@@ -123,8 +124,22 @@ export function AppSidebar({ user }: { user: any }) {
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
+              {["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "") && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip="Admin"
+                    className="h-11 text-muted-foreground hover:text-destructive hover:bg-destructive/5"
+                  >
+                    <Link href="/admin">
+                      <ShieldAlert className="size-4" />
+                      <span>Admin</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
               <SidebarMenuItem>
-                <SidebarMenuButton 
+                <SidebarMenuButton
                   asChild
                   tooltip="Retour au site"
                   className="h-11 text-muted-foreground hover:text-primary hover:bg-primary/5"

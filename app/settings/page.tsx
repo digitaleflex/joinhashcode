@@ -357,13 +357,28 @@ export default function SettingsPage() {
                            </div>
                         </div>
 
-                        <div className="pt-8 border-t border-border/40">
+                        <div className="pt-8 border-t border-border/40 space-y-4">
                            <div className="p-8 rounded-3xl bg-destructive/5 border border-destructive/20 flex flex-col sm:flex-row items-center justify-between gap-6">
                             <div className="space-y-1 text-center sm:text-left">
-                              <h3 className="text-sm font-bold text-destructive uppercase tracking-wider italic">Effacement Complet</h3>
-                              <p className="text-[10px] text-muted-foreground max-w-sm">Supprime toutes tes données de progression et réinitialise tes accès. Cette action est irréversible.</p>
+                              <h3 className="text-sm font-bold text-destructive uppercase tracking-wider italic">Supprimer mon compte</h3>
+                              <p className="text-[10px] text-muted-foreground max-w-sm">Supprime définitivement ton compte, tes données et toute ta progression. Cette action est irréversible.</p>
                             </div>
-                            <Button variant="destructive" className="h-11 rounded-xl font-bold px-6 text-xs uppercase tracking-widest">Réinitialiser Profil</Button>
+                            <Button
+                              variant="destructive"
+                              className="h-11 rounded-xl font-bold px-6 text-xs uppercase tracking-widest"
+                              onClick={async () => {
+                                if (!confirm("Supprimer ton compte ? Cette action est irréversible.")) return;
+                                const res = await fetch("/api/user/delete", { method: "DELETE" });
+                                if (res.ok) {
+                                  await authClient.signOut();
+                                  window.location.href = "/";
+                                } else {
+                                  toast.error("Erreur lors de la suppression");
+                                }
+                              }}
+                            >
+                              Supprimer mon compte
+                            </Button>
                            </div>
                         </div>
                       </div>

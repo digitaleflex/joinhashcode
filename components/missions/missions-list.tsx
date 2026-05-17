@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { track } from "@vercel/analytics";
 import { MISSIONS, Mission } from "@/lib/missions";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -154,7 +155,8 @@ export function MissionsList({
 
       const data = await res.json();
       toast.success("Mission accomplie !");
-      
+      track("mission_completed", { missionId: selectedMission.id, leveledUp: !!data.leveledUp });
+
       if (data.leveledUp) {
         toast.success(`Niveau ${data.newLevel} débloqué ! Félicitations.`);
       }
