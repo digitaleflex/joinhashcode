@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MISSIONS, Mission } from "@/lib/missions";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,13 @@ import { toast } from "sonner";
 export function MissionsList({ 
   userLevel, 
   userXp, 
-  submissions 
+  submissions,
+  userClass
 }: { 
   userLevel: number; 
   userXp: number;
   submissions: Record<string, string>; // missionId -> status
+  userClass?: string | null;
 }) {
   const router = useRouter();
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
@@ -34,12 +36,86 @@ export function MissionsList({
   const [userFeedback, setUserFeedback] = useState("");
   const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
+  // Social Mission State
+  const [socialClicks, setSocialClicks] = useState<Record<string, boolean>>({
+    telegram: false,
+    discord: false,
+    whatsapp: false
+  });
+
+  // Sync social clicks with submission status
+  useEffect(() => {
+    const status = submissions["social-connection-protocol"];
+    if (status === "APPROVED" || status === "PENDING") {
+      setSocialClicks({ telegram: true, discord: true, whatsapp: true });
+    }
+  }, [submissions]);
+
   // Ancrage mission fields
   const [ancrageProjet, setAncrageProjet] = useState("");
   const [ancrageObjectif, setAncrageObjectif] = useState("");
 
-  const availableMissions = MISSIONS.filter(m => m.requiredLevel <= userLevel);
-  const lockedMissions = MISSIONS.filter(m => m.requiredLevel > userLevel);
+  const handleSocialClick = async (platform: string) => {
+    // If already completed or pending, don't do anything
+    if (submissions["social-connection-protocol"] === "APPROVED" || submissions["social-connection-protocol"] === "PENDING") return;
+    if (socialClicks[platform]) return;
+
+    const newClicks = { ...socialClicks, [platform]: true };
+    setSocialClicks(newClicks);
+    
+    const count = Object.values(newClicks).filter(Boolean).length;
+    const percentage = Math.round((count / 3) * 100);
+    
+    if (count < 3) {
+      toast.info(`Progression : ${percentage}% - Rejoins les autres canaux pour valider la mission !`);
+    }
+
+    if (count === 3) {
+      setIsSubmitting(true);
+      try {
+        const res = await fetch('/api/missions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            missionId: "social-connection-protocol",
+            content: "Validation automatique par clics sociaux (Telegram, Discord, WhatsApp)",
+            projectDescription: "Rejoint les canaux communautaires de HASHCODE.",
+            userDifficulty: 1,
+            userRating: 5,
+            userFeedback: "Validation automatique via clics",
+            improvementSuggestions: ""
+          })
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        const data = await res.json();
+        toast.success("Mission accomplie ! Les protocoles de connexion sont validés.");
+        
+        if (data.leveledUp) {
+          toast.success(`Niveau ${data.newLevel} débloqué ! Félicitations.`);
+        }
+
+        router.refresh();
+      } catch (error: any) {
+        toast.error(error.message || "Erreur lors de la validation");
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  const availableMissions = MISSIONS.filter(m => {
+    const isLevelMatch = m.requiredLevel <= userLevel;
+    const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (userClass && m.targetProfiles.includes(userClass.toLowerCase() as any));
+    return isLevelMatch && isClassMatch;
+  });
+
+  const lockedMissions = MISSIONS.filter(m => {
+    const isLevelLocked = m.requiredLevel > userLevel;
+    const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (userClass && m.targetProfiles.includes(userClass.toLowerCase() as any));
+    return isLevelLocked && isClassMatch;
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,17 +219,44 @@ export function MissionsList({
               
               {mission.id === "social-connection-protocol" ? (
                 <div className="flex flex-col gap-3 mt-3">
-                  <a href="https://t.me/innovcode" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#0088cc]/20 border border-[#0088cc]/30 hover:bg-[#0088cc]/30 transition-colors text-xs text-[#0088cc]">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                    Rejoindre Telegram
+                  <a 
+                    href="https://t.me/innovcode" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    onClick={() => handleSocialClick('telegram')}
+                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.telegram ? 'bg-[#0088cc]/40 border-[#0088cc] text-white' : 'bg-[#0088cc]/20 border-[#0088cc]/30 hover:bg-[#0088cc]/30 text-[#0088cc]'}`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                      Rejoindre Telegram
+                    </div>
+                    {socialClicks.telegram && <CheckCircle2 className="h-3 w-3" />}
                   </a>
-                  <a href="https://discord.gg/54J6AsrTFm" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#5865F2]/20 border border-[#5865F2]/30 hover:bg-[#5865F2]/30 transition-colors text-xs text-[#5865F2]">
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
-                    Rejoindre Discord
+                  <a 
+                    href="https://discord.gg/54J6AsrTFm" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    onClick={() => handleSocialClick('discord')}
+                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.discord ? 'bg-[#5865F2]/40 border-[#5865F2] text-white' : 'bg-[#5865F2]/20 border-[#5865F2]/30 hover:bg-[#5865F2]/30 text-[#5865F2]'}`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+                      Rejoindre Discord
+                    </div>
+                    {socialClicks.discord && <CheckCircle2 className="h-3 w-3" />}
                   </a>
-                  <a href="https://chat.whatsapp.com/JwJGgoQpS46I9r81QPrCs4" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-[#25D366]/20 border border-[#25D366]/30 hover:bg-[#25D366]/30 transition-colors text-xs text-[#25D366]">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    Groupe WhatsApp
+                  <a 
+                    href="https://chat.whatsapp.com/JwJGgoQpS46I9r81QPrCs4" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    onClick={() => handleSocialClick('whatsapp')}
+                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.whatsapp ? 'bg-[#25D366]/40 border-[#25D366] text-white' : 'bg-[#25D366]/20 border-[#25D366]/30 hover:bg-[#25D366]/30 text-[#25D366]'}`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      Groupe WhatsApp
+                    </div>
+                    {socialClicks.whatsapp && <CheckCircle2 className="h-3 w-3" />}
                   </a>
                 </div>
               ) : (
@@ -163,7 +266,22 @@ export function MissionsList({
               )}
             </div>
 
-            {!isLocked && !isCompleted && !isPending && (
+            {mission.id === "social-connection-protocol" && !isCompleted && !isPending && (
+              <div className="mt-4 space-y-2 animate-in fade-in duration-500">
+                <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-primary">
+                  <span>Progression_</span>
+                  <span>{Math.round((Object.values(socialClicks).filter(Boolean).length / 3) * 100)}%</span>
+                </div>
+                <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary transition-all duration-500 shadow-[0_0_10px_rgba(var(--primary),0.5)]" 
+                    style={{ width: `${(Object.values(socialClicks).filter(Boolean).length / 3) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
               <Dialog
                 open={selectedMission?.id === mission.id}
                 onOpenChange={(open) => {

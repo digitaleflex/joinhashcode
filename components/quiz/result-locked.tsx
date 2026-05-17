@@ -91,14 +91,14 @@ export function ResultLocked({ analysis }: Props) {
       {/* CTA */}
       <div className="flex flex-col items-center gap-4">
         <Link
-          href={`/community/${primary}`}
+          href={`/onboarding/post-quiz`}
           className="w-full max-w-sm text-center py-4 px-8 rounded-xl font-bold text-black transition-all hover:-translate-y-0.5"
           style={{
             background: color,
             boxShadow: `0 8px 30px -8px ${color}55`,
           }}
         >
-          {content.ctaLabel}
+          Finaliser mon profil
         </Link>
         <Link href="/" className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors">
           Retourner à l&apos;accueil

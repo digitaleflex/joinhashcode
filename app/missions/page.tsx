@@ -73,6 +73,7 @@ export default async function MissionsPage() {
             userLevel={dbUser.level} 
             userXp={dbUser.experience} 
             submissions={submissionsMap} 
+            userClass={dbUser.class}
           />
           </div>
         </main>

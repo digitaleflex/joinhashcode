@@ -87,12 +87,19 @@ model User {
   behavioralVibrancy Json?                // Weighted sum of actions: { builder: X, creator: Y, ... }
   lastHypothesisUpdate DateTime?
 
+  // 11. POST-QUIZ & OBJECTIVES (Profil Vivant)
+  dreamStatement  String?    // "Dans 12 mois..."
+  currentFocus    String[]   // domaines actuels (tech, design, business...)
+  mainBlocker     String?    // principal frein (compétences, réseau, temps...)
+  lastCheckinAt   DateTime?
+
   // RELATIONS
   sessions           Session[]
   accounts           Account[]
   quizResults        QuizResult[]
   guildMembers       GuildMember[]
   missionSubmissions MissionSubmission[]
+  dailyCheckins      DailyCheckin[]
 
   @@index([level])
   @@index([class])
@@ -100,15 +107,37 @@ model User {
   @@map("user")
 }
 
+model DailyCheckin {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  note      String   @db.VarChar(150)
+  domain    String
+  energy    Int      // 1-5
+  duration  Int      // in minutes
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("daily_checkin")
+}
+
 model Mission {
   id          String   @id @default(cuid())
   title       String
+  shortDesc   String?
   description String
   slug        String   @unique
   category    String   // tech, design, business, community
   difficulty  Int      @default(1)
   xp          Int      @default(100)
   
+  // Profil Vivant fields
+  targetProfiles String[] // builder, creator, strategist, catalyst
+  missionLevel   String?  // INIT, CORE, PRO
+  requirements   String[]
+  duration       String?  // e.g., "2h", "4h"
+
   // Behavioral Weights (Vecteurs)
   weightBuilder    Float @default(0)
   weightCreator    Float @default(0)

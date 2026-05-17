@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model DailyCheckin
+ * 
+ */
+export type DailyCheckin = $Result.DefaultSelection<Prisma.$DailyCheckinPayload>
+/**
  * Model Mission
  * 
  */
@@ -194,6 +199,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dailyCheckin`: Exposes CRUD operations for the **DailyCheckin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DailyCheckins
+    * const dailyCheckins = await prisma.dailyCheckin.findMany()
+    * ```
+    */
+  get dailyCheckin(): Prisma.DailyCheckinDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.mission`: Exposes CRUD operations for the **Mission** model.
@@ -719,6 +734,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    DailyCheckin: 'DailyCheckin',
     Mission: 'Mission',
     Guild: 'Guild',
     GuildMember: 'GuildMember',
@@ -743,7 +759,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "contactMessage"
+      modelProps: "user" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "contactMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -818,6 +834,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      DailyCheckin: {
+        payload: Prisma.$DailyCheckinPayload<ExtArgs>
+        fields: Prisma.DailyCheckinFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DailyCheckinFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DailyCheckinFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          findFirst: {
+            args: Prisma.DailyCheckinFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DailyCheckinFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          findMany: {
+            args: Prisma.DailyCheckinFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>[]
+          }
+          create: {
+            args: Prisma.DailyCheckinCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          createMany: {
+            args: Prisma.DailyCheckinCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DailyCheckinCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>[]
+          }
+          delete: {
+            args: Prisma.DailyCheckinDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          update: {
+            args: Prisma.DailyCheckinUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          deleteMany: {
+            args: Prisma.DailyCheckinDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DailyCheckinUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DailyCheckinUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>[]
+          }
+          upsert: {
+            args: Prisma.DailyCheckinUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyCheckinPayload>
+          }
+          aggregate: {
+            args: Prisma.DailyCheckinAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDailyCheckin>
+          }
+          groupBy: {
+            args: Prisma.DailyCheckinGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DailyCheckinGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DailyCheckinCountArgs<ExtArgs>
+            result: $Utils.Optional<DailyCheckinCountAggregateOutputType> | number
           }
         }
       }
@@ -1596,6 +1686,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    dailyCheckin?: DailyCheckinOmit
     mission?: MissionOmit
     guild?: GuildOmit
     guildMember?: GuildMemberOmit
@@ -1691,6 +1782,7 @@ export namespace Prisma {
     quizResults: number
     guildMembers: number
     missionSubmissions: number
+    dailyCheckins: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1700,6 +1792,7 @@ export namespace Prisma {
     quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
     guildMembers?: boolean | UserCountOutputTypeCountGuildMembersArgs
     missionSubmissions?: boolean | UserCountOutputTypeCountMissionSubmissionsArgs
+    dailyCheckins?: boolean | UserCountOutputTypeCountDailyCheckinsArgs
   }
 
   // Custom InputTypes
@@ -1753,6 +1846,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMissionSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MissionSubmissionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyCheckinWhereInput
   }
 
 
@@ -1922,6 +2022,9 @@ export namespace Prisma {
     confidenceScore: number | null
     profileDrift: number | null
     lastHypothesisUpdate: Date | null
+    dreamStatement: string | null
+    mainBlocker: string | null
+    lastCheckinAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1970,6 +2073,9 @@ export namespace Prisma {
     confidenceScore: number | null
     profileDrift: number | null
     lastHypothesisUpdate: Date | null
+    dreamStatement: string | null
+    mainBlocker: string | null
+    lastCheckinAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2029,6 +2135,10 @@ export namespace Prisma {
     profileDrift: number
     behavioralVibrancy: number
     lastHypothesisUpdate: number
+    dreamStatement: number
+    currentFocus: number
+    mainBlocker: number
+    lastCheckinAt: number
     _all: number
   }
 
@@ -2121,6 +2231,9 @@ export namespace Prisma {
     confidenceScore?: true
     profileDrift?: true
     lastHypothesisUpdate?: true
+    dreamStatement?: true
+    mainBlocker?: true
+    lastCheckinAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2169,6 +2282,9 @@ export namespace Prisma {
     confidenceScore?: true
     profileDrift?: true
     lastHypothesisUpdate?: true
+    dreamStatement?: true
+    mainBlocker?: true
+    lastCheckinAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2228,6 +2344,10 @@ export namespace Prisma {
     profileDrift?: true
     behavioralVibrancy?: true
     lastHypothesisUpdate?: true
+    dreamStatement?: true
+    currentFocus?: true
+    mainBlocker?: true
+    lastCheckinAt?: true
     _all?: true
   }
 
@@ -2374,6 +2494,10 @@ export namespace Prisma {
     profileDrift: number
     behavioralVibrancy: JsonValue | null
     lastHypothesisUpdate: Date | null
+    dreamStatement: string | null
+    currentFocus: string[]
+    mainBlocker: string | null
+    lastCheckinAt: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -2452,6 +2576,10 @@ export namespace Prisma {
     profileDrift?: boolean
     behavioralVibrancy?: boolean
     lastHypothesisUpdate?: boolean
+    dreamStatement?: boolean
+    currentFocus?: boolean
+    mainBlocker?: boolean
+    lastCheckinAt?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -2459,6 +2587,7 @@ export namespace Prisma {
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
     missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
+    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2519,6 +2648,10 @@ export namespace Prisma {
     profileDrift?: boolean
     behavioralVibrancy?: boolean
     lastHypothesisUpdate?: boolean
+    dreamStatement?: boolean
+    currentFocus?: boolean
+    mainBlocker?: boolean
+    lastCheckinAt?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2579,6 +2712,10 @@ export namespace Prisma {
     profileDrift?: boolean
     behavioralVibrancy?: boolean
     lastHypothesisUpdate?: boolean
+    dreamStatement?: boolean
+    currentFocus?: boolean
+    mainBlocker?: boolean
+    lastCheckinAt?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2639,9 +2776,13 @@ export namespace Prisma {
     profileDrift?: boolean
     behavioralVibrancy?: boolean
     lastHypothesisUpdate?: boolean
+    dreamStatement?: boolean
+    currentFocus?: boolean
+    mainBlocker?: boolean
+    lastCheckinAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "memberNumber" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "bio" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "memberNumber" | "name" | "email" | "emailVerified" | "image" | "level" | "experience" | "class" | "role" | "createdAt" | "updatedAt" | "pseudo" | "bio" | "country" | "city" | "language" | "ageRange" | "currentSituation" | "technicalLevel" | "domains" | "tools" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl" | "mainObjective" | "secondaryObjectives" | "dominantMotivation" | "longTermObjective" | "preferredRhythm" | "onboardingSpeed" | "answerConsistency" | "connectionFrequency" | "dashboardActivity" | "communityEngagement" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "polarization" | "profileStability" | "cohortsJoined" | "collaborativeProjects" | "mentorId" | "projectsRealized" | "activePaths" | "badges" | "missionsCompletedCount" | "recommendedPath" | "recommendedTools" | "predictedEngagementScore" | "confidenceScore" | "profileDrift" | "behavioralVibrancy" | "lastHypothesisUpdate" | "dreamStatement" | "currentFocus" | "mainBlocker" | "lastCheckinAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
@@ -2650,6 +2791,7 @@ export namespace Prisma {
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
     missionSubmissions?: boolean | User$missionSubmissionsArgs<ExtArgs>
+    dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2669,6 +2811,7 @@ export namespace Prisma {
       quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
       guildMembers: Prisma.$GuildMemberPayload<ExtArgs>[]
       missionSubmissions: Prisma.$MissionSubmissionPayload<ExtArgs>[]
+      dailyCheckins: Prisma.$DailyCheckinPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2727,6 +2870,10 @@ export namespace Prisma {
       profileDrift: number
       behavioralVibrancy: Prisma.JsonValue | null
       lastHypothesisUpdate: Date | null
+      dreamStatement: string | null
+      currentFocus: string[]
+      mainBlocker: string | null
+      lastCheckinAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3128,6 +3275,7 @@ export namespace Prisma {
     quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     guildMembers<T extends User$guildMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$guildMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     missionSubmissions<T extends User$missionSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$missionSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dailyCheckins<T extends User$dailyCheckinsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyCheckinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3213,6 +3361,10 @@ export namespace Prisma {
     readonly profileDrift: FieldRef<"User", 'Float'>
     readonly behavioralVibrancy: FieldRef<"User", 'Json'>
     readonly lastHypothesisUpdate: FieldRef<"User", 'DateTime'>
+    readonly dreamStatement: FieldRef<"User", 'String'>
+    readonly currentFocus: FieldRef<"User", 'String[]'>
+    readonly mainBlocker: FieldRef<"User", 'String'>
+    readonly lastCheckinAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -3777,6 +3929,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.dailyCheckins
+   */
+  export type User$dailyCheckinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    where?: DailyCheckinWhereInput
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    cursor?: DailyCheckinWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3792,6 +3968,1133 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DailyCheckin
+   */
+
+  export type AggregateDailyCheckin = {
+    _count: DailyCheckinCountAggregateOutputType | null
+    _avg: DailyCheckinAvgAggregateOutputType | null
+    _sum: DailyCheckinSumAggregateOutputType | null
+    _min: DailyCheckinMinAggregateOutputType | null
+    _max: DailyCheckinMaxAggregateOutputType | null
+  }
+
+  export type DailyCheckinAvgAggregateOutputType = {
+    energy: number | null
+    duration: number | null
+  }
+
+  export type DailyCheckinSumAggregateOutputType = {
+    energy: number | null
+    duration: number | null
+  }
+
+  export type DailyCheckinMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    note: string | null
+    domain: string | null
+    energy: number | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type DailyCheckinMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    note: string | null
+    domain: string | null
+    energy: number | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type DailyCheckinCountAggregateOutputType = {
+    id: number
+    userId: number
+    note: number
+    domain: number
+    energy: number
+    duration: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DailyCheckinAvgAggregateInputType = {
+    energy?: true
+    duration?: true
+  }
+
+  export type DailyCheckinSumAggregateInputType = {
+    energy?: true
+    duration?: true
+  }
+
+  export type DailyCheckinMinAggregateInputType = {
+    id?: true
+    userId?: true
+    note?: true
+    domain?: true
+    energy?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type DailyCheckinMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    note?: true
+    domain?: true
+    energy?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type DailyCheckinCountAggregateInputType = {
+    id?: true
+    userId?: true
+    note?: true
+    domain?: true
+    energy?: true
+    duration?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DailyCheckinAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyCheckin to aggregate.
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyCheckins to fetch.
+     */
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DailyCheckinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyCheckins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyCheckins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DailyCheckins
+    **/
+    _count?: true | DailyCheckinCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DailyCheckinAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DailyCheckinSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DailyCheckinMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DailyCheckinMaxAggregateInputType
+  }
+
+  export type GetDailyCheckinAggregateType<T extends DailyCheckinAggregateArgs> = {
+        [P in keyof T & keyof AggregateDailyCheckin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDailyCheckin[P]>
+      : GetScalarType<T[P], AggregateDailyCheckin[P]>
+  }
+
+
+
+
+  export type DailyCheckinGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyCheckinWhereInput
+    orderBy?: DailyCheckinOrderByWithAggregationInput | DailyCheckinOrderByWithAggregationInput[]
+    by: DailyCheckinScalarFieldEnum[] | DailyCheckinScalarFieldEnum
+    having?: DailyCheckinScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DailyCheckinCountAggregateInputType | true
+    _avg?: DailyCheckinAvgAggregateInputType
+    _sum?: DailyCheckinSumAggregateInputType
+    _min?: DailyCheckinMinAggregateInputType
+    _max?: DailyCheckinMaxAggregateInputType
+  }
+
+  export type DailyCheckinGroupByOutputType = {
+    id: string
+    userId: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt: Date
+    _count: DailyCheckinCountAggregateOutputType | null
+    _avg: DailyCheckinAvgAggregateOutputType | null
+    _sum: DailyCheckinSumAggregateOutputType | null
+    _min: DailyCheckinMinAggregateOutputType | null
+    _max: DailyCheckinMaxAggregateOutputType | null
+  }
+
+  type GetDailyCheckinGroupByPayload<T extends DailyCheckinGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DailyCheckinGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DailyCheckinGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DailyCheckinGroupByOutputType[P]>
+            : GetScalarType<T[P], DailyCheckinGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DailyCheckinSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    note?: boolean
+    domain?: boolean
+    energy?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyCheckin"]>
+
+  export type DailyCheckinSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    note?: boolean
+    domain?: boolean
+    energy?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyCheckin"]>
+
+  export type DailyCheckinSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    note?: boolean
+    domain?: boolean
+    energy?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyCheckin"]>
+
+  export type DailyCheckinSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    note?: boolean
+    domain?: boolean
+    energy?: boolean
+    duration?: boolean
+    createdAt?: boolean
+  }
+
+  export type DailyCheckinOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "note" | "domain" | "energy" | "duration" | "createdAt", ExtArgs["result"]["dailyCheckin"]>
+  export type DailyCheckinInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DailyCheckinIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DailyCheckinIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DailyCheckinPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DailyCheckin"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      note: string
+      domain: string
+      energy: number
+      duration: number
+      createdAt: Date
+    }, ExtArgs["result"]["dailyCheckin"]>
+    composites: {}
+  }
+
+  type DailyCheckinGetPayload<S extends boolean | null | undefined | DailyCheckinDefaultArgs> = $Result.GetResult<Prisma.$DailyCheckinPayload, S>
+
+  type DailyCheckinCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DailyCheckinFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DailyCheckinCountAggregateInputType | true
+    }
+
+  export interface DailyCheckinDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DailyCheckin'], meta: { name: 'DailyCheckin' } }
+    /**
+     * Find zero or one DailyCheckin that matches the filter.
+     * @param {DailyCheckinFindUniqueArgs} args - Arguments to find a DailyCheckin
+     * @example
+     * // Get one DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DailyCheckinFindUniqueArgs>(args: SelectSubset<T, DailyCheckinFindUniqueArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DailyCheckin that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DailyCheckinFindUniqueOrThrowArgs} args - Arguments to find a DailyCheckin
+     * @example
+     * // Get one DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DailyCheckinFindUniqueOrThrowArgs>(args: SelectSubset<T, DailyCheckinFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyCheckin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinFindFirstArgs} args - Arguments to find a DailyCheckin
+     * @example
+     * // Get one DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DailyCheckinFindFirstArgs>(args?: SelectSubset<T, DailyCheckinFindFirstArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyCheckin that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinFindFirstOrThrowArgs} args - Arguments to find a DailyCheckin
+     * @example
+     * // Get one DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DailyCheckinFindFirstOrThrowArgs>(args?: SelectSubset<T, DailyCheckinFindFirstOrThrowArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DailyCheckins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DailyCheckins
+     * const dailyCheckins = await prisma.dailyCheckin.findMany()
+     * 
+     * // Get first 10 DailyCheckins
+     * const dailyCheckins = await prisma.dailyCheckin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dailyCheckinWithIdOnly = await prisma.dailyCheckin.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DailyCheckinFindManyArgs>(args?: SelectSubset<T, DailyCheckinFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DailyCheckin.
+     * @param {DailyCheckinCreateArgs} args - Arguments to create a DailyCheckin.
+     * @example
+     * // Create one DailyCheckin
+     * const DailyCheckin = await prisma.dailyCheckin.create({
+     *   data: {
+     *     // ... data to create a DailyCheckin
+     *   }
+     * })
+     * 
+     */
+    create<T extends DailyCheckinCreateArgs>(args: SelectSubset<T, DailyCheckinCreateArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DailyCheckins.
+     * @param {DailyCheckinCreateManyArgs} args - Arguments to create many DailyCheckins.
+     * @example
+     * // Create many DailyCheckins
+     * const dailyCheckin = await prisma.dailyCheckin.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DailyCheckinCreateManyArgs>(args?: SelectSubset<T, DailyCheckinCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DailyCheckins and returns the data saved in the database.
+     * @param {DailyCheckinCreateManyAndReturnArgs} args - Arguments to create many DailyCheckins.
+     * @example
+     * // Create many DailyCheckins
+     * const dailyCheckin = await prisma.dailyCheckin.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DailyCheckins and only return the `id`
+     * const dailyCheckinWithIdOnly = await prisma.dailyCheckin.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DailyCheckinCreateManyAndReturnArgs>(args?: SelectSubset<T, DailyCheckinCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DailyCheckin.
+     * @param {DailyCheckinDeleteArgs} args - Arguments to delete one DailyCheckin.
+     * @example
+     * // Delete one DailyCheckin
+     * const DailyCheckin = await prisma.dailyCheckin.delete({
+     *   where: {
+     *     // ... filter to delete one DailyCheckin
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DailyCheckinDeleteArgs>(args: SelectSubset<T, DailyCheckinDeleteArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DailyCheckin.
+     * @param {DailyCheckinUpdateArgs} args - Arguments to update one DailyCheckin.
+     * @example
+     * // Update one DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DailyCheckinUpdateArgs>(args: SelectSubset<T, DailyCheckinUpdateArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DailyCheckins.
+     * @param {DailyCheckinDeleteManyArgs} args - Arguments to filter DailyCheckins to delete.
+     * @example
+     * // Delete a few DailyCheckins
+     * const { count } = await prisma.dailyCheckin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DailyCheckinDeleteManyArgs>(args?: SelectSubset<T, DailyCheckinDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyCheckins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DailyCheckins
+     * const dailyCheckin = await prisma.dailyCheckin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DailyCheckinUpdateManyArgs>(args: SelectSubset<T, DailyCheckinUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyCheckins and returns the data updated in the database.
+     * @param {DailyCheckinUpdateManyAndReturnArgs} args - Arguments to update many DailyCheckins.
+     * @example
+     * // Update many DailyCheckins
+     * const dailyCheckin = await prisma.dailyCheckin.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DailyCheckins and only return the `id`
+     * const dailyCheckinWithIdOnly = await prisma.dailyCheckin.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DailyCheckinUpdateManyAndReturnArgs>(args: SelectSubset<T, DailyCheckinUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DailyCheckin.
+     * @param {DailyCheckinUpsertArgs} args - Arguments to update or create a DailyCheckin.
+     * @example
+     * // Update or create a DailyCheckin
+     * const dailyCheckin = await prisma.dailyCheckin.upsert({
+     *   create: {
+     *     // ... data to create a DailyCheckin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DailyCheckin we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DailyCheckinUpsertArgs>(args: SelectSubset<T, DailyCheckinUpsertArgs<ExtArgs>>): Prisma__DailyCheckinClient<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DailyCheckins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinCountArgs} args - Arguments to filter DailyCheckins to count.
+     * @example
+     * // Count the number of DailyCheckins
+     * const count = await prisma.dailyCheckin.count({
+     *   where: {
+     *     // ... the filter for the DailyCheckins we want to count
+     *   }
+     * })
+    **/
+    count<T extends DailyCheckinCountArgs>(
+      args?: Subset<T, DailyCheckinCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DailyCheckinCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DailyCheckin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DailyCheckinAggregateArgs>(args: Subset<T, DailyCheckinAggregateArgs>): Prisma.PrismaPromise<GetDailyCheckinAggregateType<T>>
+
+    /**
+     * Group by DailyCheckin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyCheckinGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DailyCheckinGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DailyCheckinGroupByArgs['orderBy'] }
+        : { orderBy?: DailyCheckinGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DailyCheckinGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDailyCheckinGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DailyCheckin model
+   */
+  readonly fields: DailyCheckinFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DailyCheckin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DailyCheckinClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DailyCheckin model
+   */
+  interface DailyCheckinFieldRefs {
+    readonly id: FieldRef<"DailyCheckin", 'String'>
+    readonly userId: FieldRef<"DailyCheckin", 'String'>
+    readonly note: FieldRef<"DailyCheckin", 'String'>
+    readonly domain: FieldRef<"DailyCheckin", 'String'>
+    readonly energy: FieldRef<"DailyCheckin", 'Int'>
+    readonly duration: FieldRef<"DailyCheckin", 'Int'>
+    readonly createdAt: FieldRef<"DailyCheckin", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DailyCheckin findUnique
+   */
+  export type DailyCheckinFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyCheckin to fetch.
+     */
+    where: DailyCheckinWhereUniqueInput
+  }
+
+  /**
+   * DailyCheckin findUniqueOrThrow
+   */
+  export type DailyCheckinFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyCheckin to fetch.
+     */
+    where: DailyCheckinWhereUniqueInput
+  }
+
+  /**
+   * DailyCheckin findFirst
+   */
+  export type DailyCheckinFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyCheckin to fetch.
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyCheckins to fetch.
+     */
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyCheckins.
+     */
+    cursor?: DailyCheckinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyCheckins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyCheckins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyCheckins.
+     */
+    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
+  }
+
+  /**
+   * DailyCheckin findFirstOrThrow
+   */
+  export type DailyCheckinFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyCheckin to fetch.
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyCheckins to fetch.
+     */
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyCheckins.
+     */
+    cursor?: DailyCheckinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyCheckins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyCheckins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyCheckins.
+     */
+    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
+  }
+
+  /**
+   * DailyCheckin findMany
+   */
+  export type DailyCheckinFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyCheckins to fetch.
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyCheckins to fetch.
+     */
+    orderBy?: DailyCheckinOrderByWithRelationInput | DailyCheckinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DailyCheckins.
+     */
+    cursor?: DailyCheckinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyCheckins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyCheckins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyCheckins.
+     */
+    distinct?: DailyCheckinScalarFieldEnum | DailyCheckinScalarFieldEnum[]
+  }
+
+  /**
+   * DailyCheckin create
+   */
+  export type DailyCheckinCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DailyCheckin.
+     */
+    data: XOR<DailyCheckinCreateInput, DailyCheckinUncheckedCreateInput>
+  }
+
+  /**
+   * DailyCheckin createMany
+   */
+  export type DailyCheckinCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DailyCheckins.
+     */
+    data: DailyCheckinCreateManyInput | DailyCheckinCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DailyCheckin createManyAndReturn
+   */
+  export type DailyCheckinCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * The data used to create many DailyCheckins.
+     */
+    data: DailyCheckinCreateManyInput | DailyCheckinCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyCheckin update
+   */
+  export type DailyCheckinUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DailyCheckin.
+     */
+    data: XOR<DailyCheckinUpdateInput, DailyCheckinUncheckedUpdateInput>
+    /**
+     * Choose, which DailyCheckin to update.
+     */
+    where: DailyCheckinWhereUniqueInput
+  }
+
+  /**
+   * DailyCheckin updateMany
+   */
+  export type DailyCheckinUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DailyCheckins.
+     */
+    data: XOR<DailyCheckinUpdateManyMutationInput, DailyCheckinUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyCheckins to update
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * Limit how many DailyCheckins to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyCheckin updateManyAndReturn
+   */
+  export type DailyCheckinUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * The data used to update DailyCheckins.
+     */
+    data: XOR<DailyCheckinUpdateManyMutationInput, DailyCheckinUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyCheckins to update
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * Limit how many DailyCheckins to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyCheckin upsert
+   */
+  export type DailyCheckinUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DailyCheckin to update in case it exists.
+     */
+    where: DailyCheckinWhereUniqueInput
+    /**
+     * In case the DailyCheckin found by the `where` argument doesn't exist, create a new DailyCheckin with this data.
+     */
+    create: XOR<DailyCheckinCreateInput, DailyCheckinUncheckedCreateInput>
+    /**
+     * In case the DailyCheckin was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DailyCheckinUpdateInput, DailyCheckinUncheckedUpdateInput>
+  }
+
+  /**
+   * DailyCheckin delete
+   */
+  export type DailyCheckinDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
+    /**
+     * Filter which DailyCheckin to delete.
+     */
+    where: DailyCheckinWhereUniqueInput
+  }
+
+  /**
+   * DailyCheckin deleteMany
+   */
+  export type DailyCheckinDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyCheckins to delete
+     */
+    where?: DailyCheckinWhereInput
+    /**
+     * Limit how many DailyCheckins to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyCheckin without action
+   */
+  export type DailyCheckinDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyCheckin
+     */
+    select?: DailyCheckinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyCheckin
+     */
+    omit?: DailyCheckinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyCheckinInclude<ExtArgs> | null
   }
 
 
@@ -3828,11 +5131,14 @@ export namespace Prisma {
   export type MissionMinAggregateOutputType = {
     id: string | null
     title: string | null
+    shortDesc: string | null
     description: string | null
     slug: string | null
     category: string | null
     difficulty: number | null
     xp: number | null
+    missionLevel: string | null
+    duration: string | null
     weightBuilder: number | null
     weightCreator: number | null
     weightStrategist: number | null
@@ -3844,11 +5150,14 @@ export namespace Prisma {
   export type MissionMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    shortDesc: string | null
     description: string | null
     slug: string | null
     category: string | null
     difficulty: number | null
     xp: number | null
+    missionLevel: string | null
+    duration: string | null
     weightBuilder: number | null
     weightCreator: number | null
     weightStrategist: number | null
@@ -3860,11 +5169,16 @@ export namespace Prisma {
   export type MissionCountAggregateOutputType = {
     id: number
     title: number
+    shortDesc: number
     description: number
     slug: number
     category: number
     difficulty: number
     xp: number
+    targetProfiles: number
+    missionLevel: number
+    requirements: number
+    duration: number
     weightBuilder: number
     weightCreator: number
     weightStrategist: number
@@ -3896,11 +5210,14 @@ export namespace Prisma {
   export type MissionMinAggregateInputType = {
     id?: true
     title?: true
+    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
+    missionLevel?: true
+    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
@@ -3912,11 +5229,14 @@ export namespace Prisma {
   export type MissionMaxAggregateInputType = {
     id?: true
     title?: true
+    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
+    missionLevel?: true
+    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
@@ -3928,11 +5248,16 @@ export namespace Prisma {
   export type MissionCountAggregateInputType = {
     id?: true
     title?: true
+    shortDesc?: true
     description?: true
     slug?: true
     category?: true
     difficulty?: true
     xp?: true
+    targetProfiles?: true
+    missionLevel?: true
+    requirements?: true
+    duration?: true
     weightBuilder?: true
     weightCreator?: true
     weightStrategist?: true
@@ -4031,11 +5356,16 @@ export namespace Prisma {
   export type MissionGroupByOutputType = {
     id: string
     title: string
+    shortDesc: string | null
     description: string
     slug: string
     category: string
     difficulty: number
     xp: number
+    targetProfiles: string[]
+    missionLevel: string | null
+    requirements: string[]
+    duration: string | null
     weightBuilder: number
     weightCreator: number
     weightStrategist: number
@@ -4066,11 +5396,16 @@ export namespace Prisma {
   export type MissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
+    targetProfiles?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
@@ -4084,11 +5419,16 @@ export namespace Prisma {
   export type MissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
+    targetProfiles?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
@@ -4100,11 +5440,16 @@ export namespace Prisma {
   export type MissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
+    targetProfiles?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
@@ -4116,11 +5461,16 @@ export namespace Prisma {
   export type MissionSelectScalar = {
     id?: boolean
     title?: boolean
+    shortDesc?: boolean
     description?: boolean
     slug?: boolean
     category?: boolean
     difficulty?: boolean
     xp?: boolean
+    targetProfiles?: boolean
+    missionLevel?: boolean
+    requirements?: boolean
+    duration?: boolean
     weightBuilder?: boolean
     weightCreator?: boolean
     weightStrategist?: boolean
@@ -4129,7 +5479,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "category" | "difficulty" | "xp" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt", ExtArgs["result"]["mission"]>
+  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "shortDesc" | "description" | "slug" | "category" | "difficulty" | "xp" | "targetProfiles" | "missionLevel" | "requirements" | "duration" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt", ExtArgs["result"]["mission"]>
   export type MissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submissions?: boolean | Mission$submissionsArgs<ExtArgs>
     _count?: boolean | MissionCountOutputTypeDefaultArgs<ExtArgs>
@@ -4145,11 +5495,16 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      shortDesc: string | null
       description: string
       slug: string
       category: string
       difficulty: number
       xp: number
+      targetProfiles: string[]
+      missionLevel: string | null
+      requirements: string[]
+      duration: string | null
       weightBuilder: number
       weightCreator: number
       weightStrategist: number
@@ -4582,11 +5937,16 @@ export namespace Prisma {
   interface MissionFieldRefs {
     readonly id: FieldRef<"Mission", 'String'>
     readonly title: FieldRef<"Mission", 'String'>
+    readonly shortDesc: FieldRef<"Mission", 'String'>
     readonly description: FieldRef<"Mission", 'String'>
     readonly slug: FieldRef<"Mission", 'String'>
     readonly category: FieldRef<"Mission", 'String'>
     readonly difficulty: FieldRef<"Mission", 'Int'>
     readonly xp: FieldRef<"Mission", 'Int'>
+    readonly targetProfiles: FieldRef<"Mission", 'String[]'>
+    readonly missionLevel: FieldRef<"Mission", 'String'>
+    readonly requirements: FieldRef<"Mission", 'String[]'>
+    readonly duration: FieldRef<"Mission", 'String'>
     readonly weightBuilder: FieldRef<"Mission", 'Float'>
     readonly weightCreator: FieldRef<"Mission", 'Float'>
     readonly weightStrategist: FieldRef<"Mission", 'Float'>
@@ -14015,20 +15375,42 @@ export namespace Prisma {
     confidenceScore: 'confidenceScore',
     profileDrift: 'profileDrift',
     behavioralVibrancy: 'behavioralVibrancy',
-    lastHypothesisUpdate: 'lastHypothesisUpdate'
+    lastHypothesisUpdate: 'lastHypothesisUpdate',
+    dreamStatement: 'dreamStatement',
+    currentFocus: 'currentFocus',
+    mainBlocker: 'mainBlocker',
+    lastCheckinAt: 'lastCheckinAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const DailyCheckinScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    note: 'note',
+    domain: 'domain',
+    energy: 'energy',
+    duration: 'duration',
+    createdAt: 'createdAt'
+  };
+
+  export type DailyCheckinScalarFieldEnum = (typeof DailyCheckinScalarFieldEnum)[keyof typeof DailyCheckinScalarFieldEnum]
+
+
   export const MissionScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    shortDesc: 'shortDesc',
     description: 'description',
     slug: 'slug',
     category: 'category',
     difficulty: 'difficulty',
     xp: 'xp',
+    targetProfiles: 'targetProfiles',
+    missionLevel: 'missionLevel',
+    requirements: 'requirements',
+    duration: 'duration',
     weightBuilder: 'weightBuilder',
     weightCreator: 'weightCreator',
     weightStrategist: 'weightStrategist',
@@ -14351,6 +15733,10 @@ export namespace Prisma {
     profileDrift?: FloatFilter<"User"> | number
     behavioralVibrancy?: JsonNullableFilter<"User">
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    dreamStatement?: StringNullableFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    mainBlocker?: StringNullableFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
     sessions?: SessionListRelationFilter
@@ -14358,6 +15744,7 @@ export namespace Prisma {
     quizResults?: QuizResultListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
     missionSubmissions?: MissionSubmissionListRelationFilter
+    dailyCheckins?: DailyCheckinListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14417,6 +15804,10 @@ export namespace Prisma {
     profileDrift?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
+    dreamStatement?: SortOrderInput | SortOrder
+    currentFocus?: SortOrder
+    mainBlocker?: SortOrderInput | SortOrder
+    lastCheckinAt?: SortOrderInput | SortOrder
     mentor?: UserOrderByWithRelationInput
     mentees?: UserOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
@@ -14424,6 +15815,7 @@ export namespace Prisma {
     quizResults?: QuizResultOrderByRelationAggregateInput
     guildMembers?: GuildMemberOrderByRelationAggregateInput
     missionSubmissions?: MissionSubmissionOrderByRelationAggregateInput
+    dailyCheckins?: DailyCheckinOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14486,6 +15878,10 @@ export namespace Prisma {
     profileDrift?: FloatFilter<"User"> | number
     behavioralVibrancy?: JsonNullableFilter<"User">
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    dreamStatement?: StringNullableFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    mainBlocker?: StringNullableFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
     sessions?: SessionListRelationFilter
@@ -14493,6 +15889,7 @@ export namespace Prisma {
     quizResults?: QuizResultListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
     missionSubmissions?: MissionSubmissionListRelationFilter
+    dailyCheckins?: DailyCheckinListRelationFilter
   }, "id" | "memberNumber" | "email" | "pseudo">
 
   export type UserOrderByWithAggregationInput = {
@@ -14552,6 +15949,10 @@ export namespace Prisma {
     profileDrift?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
+    dreamStatement?: SortOrderInput | SortOrder
+    currentFocus?: SortOrder
+    mainBlocker?: SortOrderInput | SortOrder
+    lastCheckinAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -14619,6 +16020,77 @@ export namespace Prisma {
     profileDrift?: FloatWithAggregatesFilter<"User"> | number
     behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
     lastHypothesisUpdate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  }
+
+  export type DailyCheckinWhereInput = {
+    AND?: DailyCheckinWhereInput | DailyCheckinWhereInput[]
+    OR?: DailyCheckinWhereInput[]
+    NOT?: DailyCheckinWhereInput | DailyCheckinWhereInput[]
+    id?: StringFilter<"DailyCheckin"> | string
+    userId?: StringFilter<"DailyCheckin"> | string
+    note?: StringFilter<"DailyCheckin"> | string
+    domain?: StringFilter<"DailyCheckin"> | string
+    energy?: IntFilter<"DailyCheckin"> | number
+    duration?: IntFilter<"DailyCheckin"> | number
+    createdAt?: DateTimeFilter<"DailyCheckin"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DailyCheckinOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    note?: SortOrder
+    domain?: SortOrder
+    energy?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DailyCheckinWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DailyCheckinWhereInput | DailyCheckinWhereInput[]
+    OR?: DailyCheckinWhereInput[]
+    NOT?: DailyCheckinWhereInput | DailyCheckinWhereInput[]
+    userId?: StringFilter<"DailyCheckin"> | string
+    note?: StringFilter<"DailyCheckin"> | string
+    domain?: StringFilter<"DailyCheckin"> | string
+    energy?: IntFilter<"DailyCheckin"> | number
+    duration?: IntFilter<"DailyCheckin"> | number
+    createdAt?: DateTimeFilter<"DailyCheckin"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type DailyCheckinOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    note?: SortOrder
+    domain?: SortOrder
+    energy?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    _count?: DailyCheckinCountOrderByAggregateInput
+    _avg?: DailyCheckinAvgOrderByAggregateInput
+    _max?: DailyCheckinMaxOrderByAggregateInput
+    _min?: DailyCheckinMinOrderByAggregateInput
+    _sum?: DailyCheckinSumOrderByAggregateInput
+  }
+
+  export type DailyCheckinScalarWhereWithAggregatesInput = {
+    AND?: DailyCheckinScalarWhereWithAggregatesInput | DailyCheckinScalarWhereWithAggregatesInput[]
+    OR?: DailyCheckinScalarWhereWithAggregatesInput[]
+    NOT?: DailyCheckinScalarWhereWithAggregatesInput | DailyCheckinScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DailyCheckin"> | string
+    userId?: StringWithAggregatesFilter<"DailyCheckin"> | string
+    note?: StringWithAggregatesFilter<"DailyCheckin"> | string
+    domain?: StringWithAggregatesFilter<"DailyCheckin"> | string
+    energy?: IntWithAggregatesFilter<"DailyCheckin"> | number
+    duration?: IntWithAggregatesFilter<"DailyCheckin"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"DailyCheckin"> | Date | string
   }
 
   export type MissionWhereInput = {
@@ -14627,11 +16099,16 @@ export namespace Prisma {
     NOT?: MissionWhereInput | MissionWhereInput[]
     id?: StringFilter<"Mission"> | string
     title?: StringFilter<"Mission"> | string
+    shortDesc?: StringNullableFilter<"Mission"> | string | null
     description?: StringFilter<"Mission"> | string
     slug?: StringFilter<"Mission"> | string
     category?: StringFilter<"Mission"> | string
     difficulty?: IntFilter<"Mission"> | number
     xp?: IntFilter<"Mission"> | number
+    targetProfiles?: StringNullableListFilter<"Mission">
+    missionLevel?: StringNullableFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    duration?: StringNullableFilter<"Mission"> | string | null
     weightBuilder?: FloatFilter<"Mission"> | number
     weightCreator?: FloatFilter<"Mission"> | number
     weightStrategist?: FloatFilter<"Mission"> | number
@@ -14644,11 +16121,16 @@ export namespace Prisma {
   export type MissionOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrderInput | SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
+    targetProfiles?: SortOrder
+    missionLevel?: SortOrderInput | SortOrder
+    requirements?: SortOrder
+    duration?: SortOrderInput | SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
@@ -14665,10 +16147,15 @@ export namespace Prisma {
     OR?: MissionWhereInput[]
     NOT?: MissionWhereInput | MissionWhereInput[]
     title?: StringFilter<"Mission"> | string
+    shortDesc?: StringNullableFilter<"Mission"> | string | null
     description?: StringFilter<"Mission"> | string
     category?: StringFilter<"Mission"> | string
     difficulty?: IntFilter<"Mission"> | number
     xp?: IntFilter<"Mission"> | number
+    targetProfiles?: StringNullableListFilter<"Mission">
+    missionLevel?: StringNullableFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    duration?: StringNullableFilter<"Mission"> | string | null
     weightBuilder?: FloatFilter<"Mission"> | number
     weightCreator?: FloatFilter<"Mission"> | number
     weightStrategist?: FloatFilter<"Mission"> | number
@@ -14681,11 +16168,16 @@ export namespace Prisma {
   export type MissionOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrderInput | SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
+    targetProfiles?: SortOrder
+    missionLevel?: SortOrderInput | SortOrder
+    requirements?: SortOrder
+    duration?: SortOrderInput | SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
@@ -14705,11 +16197,16 @@ export namespace Prisma {
     NOT?: MissionScalarWhereWithAggregatesInput | MissionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Mission"> | string
     title?: StringWithAggregatesFilter<"Mission"> | string
+    shortDesc?: StringNullableWithAggregatesFilter<"Mission"> | string | null
     description?: StringWithAggregatesFilter<"Mission"> | string
     slug?: StringWithAggregatesFilter<"Mission"> | string
     category?: StringWithAggregatesFilter<"Mission"> | string
     difficulty?: IntWithAggregatesFilter<"Mission"> | number
     xp?: IntWithAggregatesFilter<"Mission"> | number
+    targetProfiles?: StringNullableListFilter<"Mission">
+    missionLevel?: StringNullableWithAggregatesFilter<"Mission"> | string | null
+    requirements?: StringNullableListFilter<"Mission">
+    duration?: StringNullableWithAggregatesFilter<"Mission"> | string | null
     weightBuilder?: FloatWithAggregatesFilter<"Mission"> | number
     weightCreator?: FloatWithAggregatesFilter<"Mission"> | number
     weightStrategist?: FloatWithAggregatesFilter<"Mission"> | number
@@ -15374,6 +16871,10 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -15381,6 +16882,7 @@ export namespace Prisma {
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15440,12 +16942,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -15503,6 +17010,10 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -15510,6 +17021,7 @@ export namespace Prisma {
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15569,12 +17081,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15634,6 +17151,10 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -15691,6 +17212,10 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -15750,16 +17275,94 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DailyCheckinCreateInput = {
+    id?: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutDailyCheckinsInput
+  }
+
+  export type DailyCheckinUncheckedCreateInput = {
+    id?: string
+    userId: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type DailyCheckinUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDailyCheckinsNestedInput
+  }
+
+  export type DailyCheckinUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyCheckinCreateManyInput = {
+    id?: string
+    userId: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type DailyCheckinUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyCheckinUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MissionCreateInput = {
     id?: string
     title: string
+    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
@@ -15772,11 +17375,16 @@ export namespace Prisma {
   export type MissionUncheckedCreateInput = {
     id?: string
     title: string
+    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
@@ -15789,11 +17397,16 @@ export namespace Prisma {
   export type MissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -15806,11 +17419,16 @@ export namespace Prisma {
   export type MissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -15823,11 +17441,16 @@ export namespace Prisma {
   export type MissionCreateManyInput = {
     id?: string
     title: string
+    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
@@ -15839,11 +17462,16 @@ export namespace Prisma {
   export type MissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -15855,11 +17483,16 @@ export namespace Prisma {
   export type MissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -16696,6 +18329,12 @@ export namespace Prisma {
     none?: MissionSubmissionWhereInput
   }
 
+  export type DailyCheckinListRelationFilter = {
+    every?: DailyCheckinWhereInput
+    some?: DailyCheckinWhereInput
+    none?: DailyCheckinWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -16722,6 +18361,10 @@ export namespace Prisma {
   }
 
   export type MissionSubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DailyCheckinOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16782,6 +18425,10 @@ export namespace Prisma {
     profileDrift?: SortOrder
     behavioralVibrancy?: SortOrder
     lastHypothesisUpdate?: SortOrder
+    dreamStatement?: SortOrder
+    currentFocus?: SortOrder
+    mainBlocker?: SortOrder
+    lastCheckinAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -16851,6 +18498,9 @@ export namespace Prisma {
     confidenceScore?: SortOrder
     profileDrift?: SortOrder
     lastHypothesisUpdate?: SortOrder
+    dreamStatement?: SortOrder
+    mainBlocker?: SortOrder
+    lastCheckinAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -16899,6 +18549,9 @@ export namespace Prisma {
     confidenceScore?: SortOrder
     profileDrift?: SortOrder
     lastHypothesisUpdate?: SortOrder
+    dreamStatement?: SortOrder
+    mainBlocker?: SortOrder
+    lastCheckinAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -17084,14 +18737,64 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type DailyCheckinCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    note?: SortOrder
+    domain?: SortOrder
+    energy?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyCheckinAvgOrderByAggregateInput = {
+    energy?: SortOrder
+    duration?: SortOrder
+  }
+
+  export type DailyCheckinMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    note?: SortOrder
+    domain?: SortOrder
+    energy?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyCheckinMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    note?: SortOrder
+    domain?: SortOrder
+    energy?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyCheckinSumOrderByAggregateInput = {
+    energy?: SortOrder
+    duration?: SortOrder
+  }
+
   export type MissionCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
+    targetProfiles?: SortOrder
+    missionLevel?: SortOrder
+    requirements?: SortOrder
+    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
@@ -17112,11 +18815,14 @@ export namespace Prisma {
   export type MissionMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
+    missionLevel?: SortOrder
+    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
@@ -17128,11 +18834,14 @@ export namespace Prisma {
   export type MissionMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDesc?: SortOrder
     description?: SortOrder
     slug?: SortOrder
     category?: SortOrder
     difficulty?: SortOrder
     xp?: SortOrder
+    missionLevel?: SortOrder
+    duration?: SortOrder
     weightBuilder?: SortOrder
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
@@ -17189,11 +18898,6 @@ export namespace Prisma {
 
   export type GuildSumOrderByAggregateInput = {
     requiredLevel?: SortOrder
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type GuildScalarRelationFilter = {
@@ -17580,6 +19284,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type UserCreatecurrentFocusInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutMenteesInput = {
     create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
     connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
@@ -17628,6 +19336,13 @@ export namespace Prisma {
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
   }
 
+  export type DailyCheckinCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutMentorInput = {
     create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
@@ -17668,6 +19383,13 @@ export namespace Prisma {
     connectOrCreate?: MissionSubmissionCreateOrConnectWithoutUserInput | MissionSubmissionCreateOrConnectWithoutUserInput[]
     createMany?: MissionSubmissionCreateManyUserInputEnvelope
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+  }
+
+  export type DailyCheckinUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -17772,6 +19494,11 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type UserUpdatecurrentFocusInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type UserUpdateOneWithoutMenteesNestedInput = {
     create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
     connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
@@ -17866,6 +19593,20 @@ export namespace Prisma {
     deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
   }
 
+  export type DailyCheckinUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutMentorNestedInput = {
     create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
@@ -17950,6 +19691,42 @@ export namespace Prisma {
     deleteMany?: MissionSubmissionScalarWhereInput | MissionSubmissionScalarWhereInput[]
   }
 
+  export type DailyCheckinUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput> | DailyCheckinCreateWithoutUserInput[] | DailyCheckinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyCheckinCreateOrConnectWithoutUserInput | DailyCheckinCreateOrConnectWithoutUserInput[]
+    upsert?: DailyCheckinUpsertWithWhereUniqueWithoutUserInput | DailyCheckinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyCheckinCreateManyUserInputEnvelope
+    set?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    disconnect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    delete?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    connect?: DailyCheckinWhereUniqueInput | DailyCheckinWhereUniqueInput[]
+    update?: DailyCheckinUpdateWithWhereUniqueWithoutUserInput | DailyCheckinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyCheckinUpdateManyWithWhereWithoutUserInput | DailyCheckinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutDailyCheckinsInput = {
+    create?: XOR<UserCreateWithoutDailyCheckinsInput, UserUncheckedCreateWithoutDailyCheckinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyCheckinsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDailyCheckinsNestedInput = {
+    create?: XOR<UserCreateWithoutDailyCheckinsInput, UserUncheckedCreateWithoutDailyCheckinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyCheckinsInput
+    upsert?: UserUpsertWithoutDailyCheckinsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDailyCheckinsInput, UserUpdateWithoutDailyCheckinsInput>, UserUncheckedUpdateWithoutDailyCheckinsInput>
+  }
+
+  export type MissionCreatetargetProfilesInput = {
+    set: string[]
+  }
+
+  export type MissionCreaterequirementsInput = {
+    set: string[]
+  }
+
   export type MissionSubmissionCreateNestedManyWithoutMissionInput = {
     create?: XOR<MissionSubmissionCreateWithoutMissionInput, MissionSubmissionUncheckedCreateWithoutMissionInput> | MissionSubmissionCreateWithoutMissionInput[] | MissionSubmissionUncheckedCreateWithoutMissionInput[]
     connectOrCreate?: MissionSubmissionCreateOrConnectWithoutMissionInput | MissionSubmissionCreateOrConnectWithoutMissionInput[]
@@ -17962,6 +19739,16 @@ export namespace Prisma {
     connectOrCreate?: MissionSubmissionCreateOrConnectWithoutMissionInput | MissionSubmissionCreateOrConnectWithoutMissionInput[]
     createMany?: MissionSubmissionCreateManyMissionInputEnvelope
     connect?: MissionSubmissionWhereUniqueInput | MissionSubmissionWhereUniqueInput[]
+  }
+
+  export type MissionUpdatetargetProfilesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type MissionUpdaterequirementsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type MissionSubmissionUpdateManyWithoutMissionNestedInput = {
@@ -18469,12 +20256,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMenteesInput = {
@@ -18534,11 +20326,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMenteesInput = {
@@ -18602,12 +20399,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMentorInput = {
@@ -18666,12 +20468,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMentorInput = {
@@ -18852,6 +20659,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DailyCheckinCreateWithoutUserInput = {
+    id?: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type DailyCheckinUncheckedCreateWithoutUserInput = {
+    id?: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type DailyCheckinCreateOrConnectWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
+  }
+
+  export type DailyCheckinCreateManyUserInputEnvelope = {
+    data: DailyCheckinCreateManyUserInput | DailyCheckinCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutMenteesInput = {
     update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
     create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
@@ -18918,12 +20753,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMenteesInput = {
@@ -18983,11 +20823,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutMentorInput = {
@@ -19066,6 +20911,10 @@ export namespace Prisma {
     profileDrift?: FloatFilter<"User"> | number
     behavioralVibrancy?: JsonNullableFilter<"User">
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    dreamStatement?: StringNullableFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    mainBlocker?: StringNullableFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -19227,6 +21076,326 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MissionSubmission"> | Date | string
   }
 
+  export type DailyCheckinUpsertWithWhereUniqueWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    update: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
+    create: XOR<DailyCheckinCreateWithoutUserInput, DailyCheckinUncheckedCreateWithoutUserInput>
+  }
+
+  export type DailyCheckinUpdateWithWhereUniqueWithoutUserInput = {
+    where: DailyCheckinWhereUniqueInput
+    data: XOR<DailyCheckinUpdateWithoutUserInput, DailyCheckinUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DailyCheckinUpdateManyWithWhereWithoutUserInput = {
+    where: DailyCheckinScalarWhereInput
+    data: XOR<DailyCheckinUpdateManyMutationInput, DailyCheckinUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DailyCheckinScalarWhereInput = {
+    AND?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+    OR?: DailyCheckinScalarWhereInput[]
+    NOT?: DailyCheckinScalarWhereInput | DailyCheckinScalarWhereInput[]
+    id?: StringFilter<"DailyCheckin"> | string
+    userId?: StringFilter<"DailyCheckin"> | string
+    note?: StringFilter<"DailyCheckin"> | string
+    domain?: StringFilter<"DailyCheckin"> | string
+    energy?: IntFilter<"DailyCheckin"> | number
+    duration?: IntFilter<"DailyCheckin"> | number
+    createdAt?: DateTimeFilter<"DailyCheckin"> | Date | string
+  }
+
+  export type UserCreateWithoutDailyCheckinsInput = {
+    id: string
+    memberNumber?: number
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    bio?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+    mainObjective?: string | null
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    confidenceScore?: number
+    profileDrift?: number
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDailyCheckinsInput = {
+    id: string
+    memberNumber?: number
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    createdAt: Date | string
+    updatedAt: Date | string
+    pseudo?: string | null
+    bio?: string | null
+    country?: string | null
+    city?: string | null
+    language?: string
+    ageRange?: string | null
+    currentSituation?: string | null
+    technicalLevel?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    tools?: UserCreatetoolsInput | string[]
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+    mainObjective?: string | null
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    dominantMotivation?: string | null
+    longTermObjective?: string | null
+    preferredRhythm?: string | null
+    onboardingSpeed?: number | null
+    answerConsistency?: number | null
+    connectionFrequency?: number | null
+    dashboardActivity?: number | null
+    communityEngagement?: number | null
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    polarization?: number
+    profileStability?: number
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    mentorId?: string | null
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    activePaths?: UserCreateactivePathsInput | string[]
+    badges?: UserCreatebadgesInput | string[]
+    missionsCompletedCount?: number
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    predictedEngagementScore?: number | null
+    confidenceScore?: number
+    profileDrift?: number
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDailyCheckinsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDailyCheckinsInput, UserUncheckedCreateWithoutDailyCheckinsInput>
+  }
+
+  export type UserUpsertWithoutDailyCheckinsInput = {
+    update: XOR<UserUpdateWithoutDailyCheckinsInput, UserUncheckedUpdateWithoutDailyCheckinsInput>
+    create: XOR<UserCreateWithoutDailyCheckinsInput, UserUncheckedCreateWithoutDailyCheckinsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDailyCheckinsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDailyCheckinsInput, UserUncheckedUpdateWithoutDailyCheckinsInput>
+  }
+
+  export type UserUpdateWithoutDailyCheckinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDailyCheckinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    tools?: UserUpdatetoolsInput | string[]
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    polarization?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    activePaths?: UserUpdateactivePathsInput | string[]
+    badges?: UserUpdatebadgesInput | string[]
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type MissionSubmissionCreateWithoutMissionInput = {
     id?: string
     status?: string
@@ -19381,12 +21550,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGuildMembersInput = {
@@ -19446,11 +21620,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGuildMembersInput = {
@@ -19551,12 +21730,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuildMembersInput = {
@@ -19616,11 +21800,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GuildUpsertWithoutMembersInput = {
@@ -19712,12 +21901,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -19777,11 +21971,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -19855,12 +22054,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -19920,11 +22124,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -19983,12 +22192,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -20048,11 +22262,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -20126,12 +22345,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -20191,11 +22415,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutQuizResultsInput = {
@@ -20254,12 +22483,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuizResultsInput = {
@@ -20319,11 +22553,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuizResultsInput = {
@@ -20397,12 +22636,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizResultsInput = {
@@ -20462,11 +22706,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMissionSubmissionsInput = {
@@ -20525,12 +22774,17 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
@@ -20590,11 +22844,16 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMissionSubmissionsInput = {
@@ -20605,11 +22864,16 @@ export namespace Prisma {
   export type MissionCreateWithoutSubmissionsInput = {
     id?: string
     title: string
+    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
@@ -20621,11 +22885,16 @@ export namespace Prisma {
   export type MissionUncheckedCreateWithoutSubmissionsInput = {
     id?: string
     title: string
+    shortDesc?: string | null
     description: string
     slug: string
     category: string
     difficulty?: number
     xp?: number
+    targetProfiles?: MissionCreatetargetProfilesInput | string[]
+    missionLevel?: string | null
+    requirements?: MissionCreaterequirementsInput | string[]
+    duration?: string | null
     weightBuilder?: number
     weightCreator?: number
     weightStrategist?: number
@@ -20705,12 +22974,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
@@ -20770,11 +23044,16 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MissionUpsertWithoutSubmissionsInput = {
@@ -20791,11 +23070,16 @@ export namespace Prisma {
   export type MissionUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -20807,11 +23091,16 @@ export namespace Prisma {
   export type MissionUncheckedUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     difficulty?: IntFieldUpdateOperationsInput | number
     xp?: IntFieldUpdateOperationsInput | number
+    targetProfiles?: MissionUpdatetargetProfilesInput | string[]
+    missionLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: MissionUpdaterequirementsInput | string[]
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
     weightBuilder?: FloatFieldUpdateOperationsInput | number
     weightCreator?: FloatFieldUpdateOperationsInput | number
     weightStrategist?: FloatFieldUpdateOperationsInput | number
@@ -20876,6 +23165,10 @@ export namespace Prisma {
     profileDrift?: number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: Date | string | null
+    dreamStatement?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    mainBlocker?: string | null
+    lastCheckinAt?: Date | string | null
   }
 
   export type SessionCreateManyUserInput = {
@@ -20937,6 +23230,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type DailyCheckinCreateManyUserInput = {
+    id?: string
+    note: string
+    domain: string
+    energy: number
+    duration: number
+    createdAt?: Date | string
+  }
+
   export type UserUpdateWithoutMentorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -20992,12 +23294,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUpdateManyWithoutMentorNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMentorInput = {
@@ -21056,12 +23363,17 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutMentorInput = {
@@ -21120,6 +23432,10 @@ export namespace Prisma {
     profileDrift?: FloatFieldUpdateOperationsInput | number
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -21297,6 +23613,33 @@ export namespace Prisma {
     xpAwarded?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyCheckinUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyCheckinUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyCheckinUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    domain?: StringFieldUpdateOperationsInput | string
+    energy?: IntFieldUpdateOperationsInput | number
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MissionSubmissionCreateManyMissionInput = {

@@ -1,23 +1,20 @@
-"use client"
-
 import { Users, Wrench, Compass, Sparkles } from "lucide-react"
-import { motion } from "framer-motion"
 
 const pillars = [
   {
     icon: Users,
     title: "Communauté ciblée",
-    body: "Connecte-toi avec des profils alignés sur tes objectifs. Pas de bruit, que des bonnes connexions.",
+    body: "Connecte-toi avec des profils alignés sur tes objectifs. Pas de bruit, que des connexions utiles.",
   },
   {
     icon: Wrench,
-    title: "Outils business",
-    body: "Accède à des ressources, scripts et frameworks éprouvés sur le terrain par d'autres membres.",
+    title: "Outils & ressources",
+    body: "Accède à des frameworks, scripts et ressources validés par d'autres membres sur le terrain.",
   },
   {
     icon: Compass,
     title: "Parcours sur mesure",
-    body: "Suis un chemin adapté à ton niveau — INIT, CORE, PRO, ELITE — avec des paliers clairs.",
+    body: "Un chemin adapté à ton profil — INIT, CORE, PRO, ELITE — avec des missions et des jalons clairs.",
   },
   {
     icon: Sparkles,
@@ -29,21 +26,7 @@ const pillars = [
 export function Ecosystem() {
   return (
     <section id="ecosystem" className="relative border-b border-border/60 overflow-hidden">
-      {/* Background Shapes */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 180, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-12 left-1/2 -translate-x-1/2 w-full h-full text-primary/5 opacity-10"
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            <circle cx="50" cy="50" r="45" stroke="currentColor" fill="none" strokeWidth="0.05" />
-            <circle cx="50" cy="50" r="35" stroke="currentColor" fill="none" strokeWidth="0.05" />
-          </svg>
-        </motion.div>
-      </div>
       <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-        {/* Header */}
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
@@ -53,10 +36,10 @@ export function Ecosystem() {
               </span>
             </div>
             <h2 className="mt-6 text-balance text-3xl font-medium tracking-tight text-foreground sm:text-4xl md:text-5xl">
-              Ton Espace de Travail Augmenté.
+              Ce que tu trouves une fois à l&apos;intérieur.
             </h2>
             <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-muted-foreground">
-              Un environnement pensé pour les Builders : des outils communautaires, des dashboards de performance et un hub de connexion élite.
+              Un environnement pensé pour avancer vite — des outils communautaires, un dashboard de suivi, et un réseau trié sur le volet.
             </p>
           </div>
 

@@ -1,46 +1,25 @@
-"use client"
-
-import { motion } from "framer-motion"
-
 const steps = [
   {
     n: "01",
     title: "Profile-toi",
-    body: "Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, engagement.",
+    body: "Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, mode de travail.",
   },
   {
     n: "02",
     title: "Découvre ton profil",
-    body: "Notre algorithme te positionne sur l'un des 4 niveaux : INIT, CORE, PRO ou ELITE.",
+    body: "L'algorithme identifie ton type dominant parmi quatre : Builder, Créateur, Stratège ou Catalyseur. Beaucoup de membres sont hybrides — c'est la norme.",
   },
   {
     n: "03",
-    title: "Rejoins ta communauté",
-    body: "Accède à un dashboard personnalisé, des outils dédiés et un parcours sur mesure.",
+    title: "Rejoins ta guilde",
+    body: "Accède à un dashboard personnalisé, des missions adaptées et une communauté de pairs au même niveau que toi.",
   },
 ]
 
 export function HowItWorks() {
   return (
     <section id="how" className="relative overflow-hidden border-b border-border/60 bg-black py-24 sm:py-32">
-      {/* Background Geometric Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0 text-white/5 opacity-10"
-        >
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
-            <path d="M0,0 L100,100 M0,100 L100,0" stroke="currentColor" strokeWidth="0.1" />
-          </svg>
-        </motion.div>
-        <motion.div 
-          animate={{ rotate: -360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 right-1/4 w-96 h-96 border border-primary/10 rounded-full"
-        />
-      </div>
-      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-3">

@@ -35,6 +35,7 @@ import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
+import { DailyCheckinWidget } from "./daily-checkin-widget"
 
 export function DashboardShell({ user, quizResult }: { user: any, quizResult: any }) {
   const pathname = usePathname();
@@ -81,6 +82,9 @@ export function DashboardShell({ user, quizResult }: { user: any, quizResult: an
         
         <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-6xl mx-auto space-y-8">
+          
+          <DailyCheckinWidget />
+
           {/* Welcome Banner Personalized */}
           <div className={`p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] bg-linear-to-br ${config.gradient} via-background to-transparent border border-white/5 relative overflow-hidden group`}>
             <div className="relative z-10">

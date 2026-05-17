@@ -176,17 +176,36 @@ exports.Prisma.UserScalarFieldEnum = {
   confidenceScore: 'confidenceScore',
   profileDrift: 'profileDrift',
   behavioralVibrancy: 'behavioralVibrancy',
-  lastHypothesisUpdate: 'lastHypothesisUpdate'
+  lastHypothesisUpdate: 'lastHypothesisUpdate',
+  dreamStatement: 'dreamStatement',
+  currentFocus: 'currentFocus',
+  mainBlocker: 'mainBlocker',
+  lastCheckinAt: 'lastCheckinAt'
+};
+
+exports.Prisma.DailyCheckinScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  note: 'note',
+  domain: 'domain',
+  energy: 'energy',
+  duration: 'duration',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.MissionScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  shortDesc: 'shortDesc',
   description: 'description',
   slug: 'slug',
   category: 'category',
   difficulty: 'difficulty',
   xp: 'xp',
+  targetProfiles: 'targetProfiles',
+  missionLevel: 'missionLevel',
+  requirements: 'requirements',
+  duration: 'duration',
   weightBuilder: 'weightBuilder',
   weightCreator: 'weightCreator',
   weightStrategist: 'weightStrategist',
@@ -322,6 +341,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  DailyCheckin: 'DailyCheckin',
   Mission: 'Mission',
   Guild: 'Guild',
   GuildMember: 'GuildMember',
