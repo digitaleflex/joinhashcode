@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, LayoutDashboard } from "lucide-react"
@@ -10,23 +9,10 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 
 export function Nav() {
   const { data: session } = authClient.useSession()
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", onScroll)
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${
-          scrolled
-            ? "bg-background/80 backdrop-blur-xl border-border/60 py-2"
-            : "bg-transparent border-transparent py-4"
-        }`}
-      >
+      <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/60 py-3">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-1.5 group">

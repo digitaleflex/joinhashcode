@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const PROFILES = [
   {
@@ -47,8 +48,14 @@ export function MissionsPreview() {
     <section id="profils" className="border-b border-border/60 bg-zinc-950 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        {/* Header — entrance animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex flex-col items-center text-center mb-16"
+        >
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Les 4 profils</span>
@@ -60,45 +67,58 @@ export function MissionsPreview() {
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
             L'algorithme identifie ta tendance dominante. Beaucoup de membres sont hybrides — c'est la norme, pas l'exception.
           </p>
-        </div>
+        </motion.div>
 
         {/* Desktop: two columns */}
         <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
-          {/* Left — active profile detail (sticky) */}
+          {/* Left — animated panel on profile switch */}
           <div className="sticky top-24">
-            <div
-              className="rounded-2xl border p-8 transition-all duration-500"
-              style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
-            >
-              <div
-                className="text-[11px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1.5 rounded-md inline-block mb-6"
-                style={{ color: profile.color, background: `${profile.color}15`, border: `1px solid ${profile.color}30` }}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={profile.id}
+                initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="rounded-2xl border p-8"
+                style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
               >
-                {profile.label}
-              </div>
-              <h3 className="text-4xl font-bold text-white mb-4">{profile.tagline}</h3>
-              <p className="text-zinc-400 text-base leading-relaxed mb-6">{profile.desc}</p>
-              <div className="flex flex-wrap gap-2">
-                {profile.traits.map(t => (
-                  <span
-                    key={t}
-                    className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
-                    style={{ color: `${profile.color}90`, background: `${profile.color}0d`, border: `1px solid ${profile.color}20` }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div
-                className="mt-8 h-px w-full rounded-full"
-                style={{ background: `linear-gradient(90deg, ${profile.color}60, transparent)` }}
-              />
-            </div>
+                <div
+                  className="text-[11px] font-mono font-bold uppercase tracking-[0.25em] px-3 py-1.5 rounded-md inline-block mb-6"
+                  style={{ color: profile.color, background: `${profile.color}15`, border: `1px solid ${profile.color}30` }}
+                >
+                  {profile.label}
+                </div>
+                <h3 className="text-4xl font-bold text-white mb-4">{profile.tagline}</h3>
+                <p className="text-zinc-400 text-base leading-relaxed mb-6">{profile.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {profile.traits.map(t => (
+                    <span
+                      key={t}
+                      className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
+                      style={{ color: `${profile.color}90`, background: `${profile.color}0d`, border: `1px solid ${profile.color}20` }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div
+                  className="mt-8 h-px w-full rounded-full"
+                  style={{ background: `linear-gradient(90deg, ${profile.color}60, transparent)` }}
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Right — profile selector list */}
-          <div className="space-y-2">
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
+            className="space-y-2"
+          >
             {PROFILES.map((p, i) => (
               <button
                 key={p.id}
@@ -135,14 +155,18 @@ export function MissionsPreview() {
                 </div>
               </button>
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        {/* Mobile: 4 stacked cards */}
+        {/* Mobile: 4 stacked cards with stagger */}
         <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {PROFILES.map(p => (
-            <div
+          {PROFILES.map((p, i) => (
+            <motion.div
               key={p.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 }}
               className="rounded-2xl border p-6 space-y-4"
               style={{ borderColor: `${p.color}20`, background: `${p.color}06` }}
             >
@@ -170,12 +194,18 @@ export function MissionsPreview() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-14">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex justify-center mt-14"
+        >
           <Link
             href="/quiz"
             className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
@@ -183,7 +213,7 @@ export function MissionsPreview() {
             Découvrir mon profil en 3 minutes
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

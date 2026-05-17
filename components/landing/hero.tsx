@@ -27,7 +27,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-border/60">
-      {/* Pure CSS background — no image */}
+      {/* Pure CSS background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute left-1/2 top-0 h-[700px] w-[900px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-primary/7 blur-[140px]" />
         <div className="absolute bottom-0 right-1/4 h-[300px] w-[400px] rounded-full bg-primary/4 blur-[100px]" />
@@ -48,16 +48,26 @@ export function Hero() {
       <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
 
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-sm mb-10">
+          {/* Eyebrow — fade in */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-sm mb-10"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
               Profilage tech · Ouvert à tous
             </span>
-          </div>
+          </motion.div>
 
-          {/* H1 with shuffle */}
-          <h1 className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05]">
+          {/* H1 — fade in with delay */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05]"
+          >
             Tu es
             <br />
             <span className="inline-flex items-center justify-center min-w-[280px] sm:min-w-[400px]">
@@ -74,15 +84,26 @@ export function Hero() {
                 </motion.span>
               </AnimatePresence>
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-4 text-lg text-zinc-500 font-light">
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mt-4 text-lg text-zinc-500 font-light"
+          >
             Ou peut-être autre chose.{" "}
             <span className="text-zinc-400">3 minutes pour le savoir.</span>
-          </p>
+          </motion.p>
 
           {/* CTAs */}
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+          >
             <Button
               asChild
               size="lg"
@@ -101,20 +122,30 @@ export function Hero() {
             >
               <Link href="/signin">Déjà membre ? Connexion</Link>
             </Button>
-          </div>
+          </motion.div>
 
           {/* Meta */}
-          <div className="mt-10 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/50">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mt-10 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/50"
+          >
             <span>Gratuit</span>
             <span className="h-1 w-1 rounded-full bg-border" />
             <span>3 minutes</span>
             <span className="h-1 w-1 rounded-full bg-border" />
             <span>Sans engagement</span>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Profile result card */}
-        <div className="mx-auto mt-20 max-w-2xl">
+        {/* Profile result card — delayed entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+          className="mx-auto mt-20 max-w-2xl"
+        >
           <div className="relative rounded-2xl border border-border bg-card/60 shadow-2xl shadow-black/60 backdrop-blur-md overflow-hidden">
             <div
               aria-hidden="true"
@@ -153,19 +184,28 @@ export function Hero() {
                   { label: "Builder",    pct: 22, color: "#B8FF3B" },
                   { label: "Catalyseur", pct:  7, color: "#F97316" },
                   { label: "Créateur",   pct:  3, color: "#A855F7" },
-                ].map(bar => (
-                  <div key={bar.label} className="flex items-center gap-3">
+                ].map((bar, i) => (
+                  <motion.div
+                    key={bar.label}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.7 + i * 0.07 }}
+                    className="flex items-center gap-3"
+                  >
                     <span className="font-mono text-[10px] text-zinc-500 w-20 shrink-0 uppercase tracking-wider">
                       {bar.label}
                     </span>
                     <div className="flex-1 h-1 rounded-full bg-white/5">
-                      <div
+                      <motion.div
                         className="h-1 rounded-full"
-                        style={{ width: `${bar.pct}%`, background: bar.color, opacity: 0.75 }}
+                        style={{ background: bar.color, opacity: 0.75 }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${bar.pct}%` }}
+                        transition={{ duration: 0.6, delay: 0.8 + i * 0.07, ease: "easeOut" }}
                       />
                     </div>
                     <span className="font-mono text-[10px] text-zinc-600 w-8 text-right">{bar.pct}%</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               <div className="pt-3 border-t border-white/5 flex items-center justify-between">
@@ -174,7 +214,7 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
