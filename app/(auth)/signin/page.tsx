@@ -17,11 +17,10 @@ export default function SignInPage() {
     const handleSocialSignIn = async (provider: "google" | "github") => {
         setLoadingProvider(provider)
         try {
-            const origin = window.location.origin
             const { data, error } = await authClient.signIn.social({
                 provider,
-                callbackURL: `${origin}/quiz`,
-                errorCallbackURL: `${origin}/signin`,
+                callbackURL: "/quiz",
+                errorCallbackURL: "/signin",
                 disableRedirect: true,
             })
 
