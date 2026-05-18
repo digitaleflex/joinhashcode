@@ -35,6 +35,10 @@ vi.mock("@/lib/evolution-engine", () => ({
   updateUserEvolution: vi.fn(),
 }));
 
+vi.mock("next/headers", () => ({
+  headers: vi.fn(() => Promise.resolve(new Headers())),
+}));
+
 describe("Admin Submissions API [id]", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -96,7 +100,7 @@ describe("Admin Submissions API [id]", () => {
   it("should reject submission and notify", async () => {
     (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
     (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
-    
+
     const mockSubmission = {
       id: "sub1",
       userId: "user1",
@@ -110,9 +114,9 @@ describe("Admin Submissions API [id]", () => {
       method: "PATCH",
       body: JSON.stringify({ action: "REJECT", feedback: "Try harder" }),
     });
-    
+
     const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
-    
+
     expect(res.status).toBe(200);
     expect(updateUserEvolution).not.toHaveBeenCalled();
     expect(triggerNotification).toHaveBeenCalledWith(expect.objectContaining({
@@ -123,6 +127,66 @@ describe("Admin Submissions API [id]", () => {
     expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
       where: { id: "sub1" },
       data: expect.objectContaining({ status: "REJECTED", adminFeedback: "Try harder" })
+    }));
+  });
+
+  it("should approve with GOOD quality level and award 125% XP", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
+    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+
+    const mockSubmission = {
+      id: "sub1",
+      userId: "user1",
+      status: "PENDING",
+      mission: { id: "m1", title: "Mission 1", xp: 200, category: "CODE", weightBuilder: 1, weightCreator: 0, weightStrategist: 0, weightCatalyst: 0 },
+      user: { id: "user1", experience: 0, level: 1 }
+    };
+    (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
+
+    const req = new Request("http://localhost/api/admin/submissions/sub1", {
+      method: "PATCH",
+      body: JSON.stringify({ action: "APPROVE", qualityLevel: "GOOD" }),
+    });
+
+    const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
+    expect(res.status).toBe(200);
+    expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({ xpAwarded: 250, qualityLevel: "GOOD" })
+    }));
+  });
+
+  it("should set NEEDS_REVISION with revisionNotes", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
+    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+
+    const mockSubmission = {
+      id: "sub1",
+      userId: "user1",
+      status: "PENDING",
+      revisionCount: 0,
+      mission: { id: "m1", title: "Mission 1", xp: 100, category: "CODE" },
+      user: { id: "user1", experience: 0, level: 1 }
+    };
+    (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
+
+    const req = new Request("http://localhost/api/admin/submissions/sub1", {
+      method: "PATCH",
+      body: JSON.stringify({
+        action: "NEEDS_REVISION",
+        feedback: "Le README est insuffisant et le code n'est pas fonctionnel.",
+        revisionNotes: "README présent avec description du projet\nCode fonctionnel (pas un scaffold vide)"
+      }),
+    });
+
+    const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
+    expect(res.status).toBe(200);
+    expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({
+        status: "NEEDS_REVISION",
+        adminFeedback: "Le README est insuffisant et le code n'est pas fonctionnel.",
+        revisionNotes: "README présent avec description du projet\nCode fonctionnel (pas un scaffold vide)",
+        revisionCount: { increment: 1 }
+      })
     }));
   });
 });

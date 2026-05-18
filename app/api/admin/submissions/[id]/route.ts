@@ -6,6 +6,7 @@ import { XP_THRESHOLDS } from "@/lib/missions";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVibrancy } from "@/lib/evolution";
+import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -13,10 +14,12 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     if (!session) return new NextResponse("Unauthorized", { status: 401 });
 
     const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return new NextResponse("Forbidden", { status: 403 });
+    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
+      return new NextResponse("Forbidden", { status: 403 });
+    }
 
     const body = await req.json();
-    const { action, feedback } = body;
+    const { action, feedback, qualityLevel, revisionNotes } = body;
     const { id } = await params;
 
     const submission = await prisma.missionSubmission.findUnique({
@@ -25,17 +28,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     });
 
     if (!submission) return new NextResponse("Submission not found", { status: 404 });
-    if (submission.status !== "PENDING") return new NextResponse("Submission already processed", { status: 400 });
+    if (submission.status === "APPROVED" || submission.status === "REJECTED") {
+      return new NextResponse("Submission already processed", { status: 400 });
+    }
 
     if (action === "APPROVE") {
-      const newXp = (submission.user.experience || 0) + (submission.mission.xp || 0);
+      const level: QualityLevel = qualityLevel ?? "STANDARD";
+      const xpAwarded = computeXp(submission.mission.xp, level);
+      const newXp = (submission.user.experience || 0) + xpAwarded;
+
       let newLevel = submission.user.level || 1;
-      
       for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
         const levelNum = parseInt(levelStr);
-        if (newXp >= threshold && levelNum > newLevel) {
-          newLevel = levelNum;
-        }
+        if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
       }
 
       const missionWeights: BehavioralVibrancy = {
@@ -48,34 +53,55 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       await prisma.$transaction(async (tx) => {
         await tx.missionSubmission.update({
           where: { id },
-          data: { status: "APPROVED", xpAwarded: submission.mission.xp }
+          data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
         });
-
         await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
-
         await tx.user.update({
           where: { id: submission.userId },
-          data: {
-            experience: newXp,
-            level: newLevel,
-            missionsCompletedCount: { increment: 1 }
-          }
+          data: { experience: newXp, level: newLevel, missionsCompletedCount: { increment: 1 } }
         });
       });
 
       try {
+        const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";
         await triggerNotification({
           userId: submission.userId,
           type: "MISSION_APPROVED",
           title: `Mission validée : ${submission.mission.title}`,
-          message: `Félicitations ! Tu as gagné +${submission.mission.xp} XP.`,
+          message: `Félicitations ! Tu as gagné +${xpAwarded} XP.${qualityMsg}`,
           link: "/missions"
         });
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
 
-      return NextResponse.json({ success: true, newLevel, leveledUp: newLevel > (submission.user.level || 1) });
+      return NextResponse.json({ success: true, newLevel, leveledUp: newLevel > (submission.user.level || 1), xpAwarded });
+    }
+
+    if (action === "NEEDS_REVISION") {
+      await prisma.missionSubmission.update({
+        where: { id },
+        data: {
+          status: "NEEDS_REVISION",
+          adminFeedback: feedback ?? null,
+          revisionNotes: revisionNotes ?? null,
+          revisionCount: { increment: 1 }
+        }
+      });
+
+      try {
+        await triggerNotification({
+          userId: submission.userId,
+          type: "SYSTEM",
+          title: `Révision requise : ${submission.mission.title}`,
+          message: feedback || "Ta soumission nécessite des améliorations. Consulte le feedback.",
+          link: `/missions/${submission.missionId}`
+        });
+      } catch (err) {
+        console.error("[NOTIFICATION_ERROR]", err);
+      }
+
+      return NextResponse.json({ success: true });
     }
 
     if (action === "REJECT") {
@@ -89,7 +115,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           userId: submission.userId,
           type: "SYSTEM",
           title: `Mission refusée : ${submission.mission.title}`,
-          message: feedback || "Ta soumission n'a pas été retenue. Regarde le feedback de l'admin.",
+          message: feedback || "Ta soumission n'a pas été retenue.",
           link: "/missions"
         });
       } catch (err) {
