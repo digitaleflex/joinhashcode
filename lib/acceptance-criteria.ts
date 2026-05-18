@@ -14,6 +14,12 @@ export const XP_MULTIPLIERS: Record<QualityLevel, number> = {
   EXEMPLARY: 1.5,
 }
 
+export const LEVEL_REQUIREMENT: Record<string, number> = {
+  INIT: 1,
+  CORE: 2,
+  PRO: 3,
+}
+
 export const MISSION_CRITERIA: Record<string, Criterion[]> = {
   CODE: [
     { id: "code-accessible", label: "Lien accessible (repo public ou admin invité)", weight: "REQUIRED" },
@@ -75,8 +81,8 @@ export function computeQualityLevel(
   const bonus = criteria.filter(c => c.weight === "BONUS")
   const bonusPassed = bonus.filter(c => checked[c.id]).length
 
-  if (bonusPassed >= bonus.length && bonus.length > 0) return "EXEMPLARY"
-  if (bonusPassed >= 2) return "GOOD"
+  if (bonusPassed >= bonus.length && bonus.length >= 2) return "EXEMPLARY"
+  if (bonusPassed >= 2 || (bonusPassed >= bonus.length && bonus.length > 0)) return "GOOD"
   return "STANDARD"
 }
 

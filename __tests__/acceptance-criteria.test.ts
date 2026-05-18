@@ -43,6 +43,14 @@ describe("computeQualityLevel", () => {
     criteria.forEach(c => { checked[c.id] = true })
     expect(computeQualityLevel(criteria, checked)).toBe("EXEMPLARY")
   })
+
+  it("returns GOOD (not EXEMPLARY) for a single-bonus mission with all bonus checked", () => {
+    const criteria = getCriteriaForMission("INTRO") // has 1 bonus criterion
+    const checked: Record<string, boolean> = {}
+    criteria.forEach(c => { checked[c.id] = true })
+    // INTRO has only 1 bonus criterion — should be GOOD, not EXEMPLARY (< 2 bonus required for EXEMPLARY)
+    expect(computeQualityLevel(criteria, checked)).toBe("GOOD")
+  })
 })
 
 describe("computeXp", () => {
@@ -89,6 +97,10 @@ describe("isEligibleReviewer", () => {
   it("returns false if fewer than 3 missions completed", () => {
     expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 2 })).toBe(false)
   })
+
+  it("returns false if reviewerClass is null", () => {
+    expect(isEligibleReviewer({ ...base, reviewerClass: null })).toBe(false)
+  })
 })
 
 describe("getMissingRequiredCriteria", () => {
@@ -107,5 +119,12 @@ describe("getMissingRequiredCriteria", () => {
     const checked: Record<string, boolean> = {}
     criteria.forEach(c => { checked[c.id] = true })
     expect(getMissingRequiredCriteria(criteria, checked)).toHaveLength(0)
+  })
+
+  it("returns all required labels when nothing is checked", () => {
+    const criteria = getCriteriaForMission("CODE")
+    const checked: Record<string, boolean> = {}
+    const missing = getMissingRequiredCriteria(criteria, checked)
+    expect(missing).toHaveLength(criteria.filter(c => c.weight === "REQUIRED").length)
   })
 })
