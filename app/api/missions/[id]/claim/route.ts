@@ -1,0 +1,61 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
+
+export async function POST(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
+    const { id: submissionId } = await params;
+
+    const [submission, reviewer] = await Promise.all([
+      prisma.missionSubmission.findUnique({
+        where: { id: submissionId },
+        include: { mission: true },
+      }),
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { id: true, class: true, level: true, missionsCompletedCount: true },
+      }),
+    ]);
+
+    if (!submission) return new NextResponse("Submission not found", { status: 404 });
+    if (!reviewer) return new NextResponse("User not found", { status: 404 });
+
+    if (submission.status !== "PENDING") {
+      return new NextResponse("Submission is not available for review", { status: 400 });
+    }
+
+    const missionRequiredLevel = LEVEL_REQUIREMENT[submission.mission.missionLevel ?? "INIT"] ?? 1;
+
+    const eligible = isEligibleReviewer({
+      reviewerClass: reviewer.class,
+      reviewerLevel: reviewer.level,
+      reviewerMissionsCompleted: reviewer.missionsCompletedCount,
+      reviewerId: reviewer.id,
+      submissionUserId: submission.userId,
+      missionTargetProfiles: submission.mission.targetProfiles,
+      missionRequiredLevel,
+    });
+
+    if (!eligible) {
+      return new NextResponse("Tu n'es pas éligible pour reviewer cette mission.", { status: 403 });
+    }
+
+    const updated = await prisma.missionSubmission.update({
+      where: { id: submissionId },
+      data: { status: "IN_REVIEW", reviewerId: reviewer.id, reviewerType: "PEER" },
+    });
+
+    return NextResponse.json({ success: true, submission: updated });
+  } catch (error) {
+    console.error("[CLAIM_REVIEW]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
