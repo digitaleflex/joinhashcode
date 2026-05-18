@@ -84,12 +84,17 @@ export async function POST(req: Request) {
       }
     });
 
-    if (existingSubmission && existingSubmission.status === "APPROVED") {
-      return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 400 });
-    }
-
-    if (existingSubmission && existingSubmission.status === "PENDING") {
-      return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
+    if (existingSubmission) {
+      if (existingSubmission.status === "APPROVED") {
+        return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 409 });
+      }
+      if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW") {
+        return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
+      }
+      if (existingSubmission.revisionCount >= 3) {
+        return new NextResponse("Nombre maximum de révisions atteint. Contacte un admin.", { status: 400 });
+      }
+      // status === "NEEDS_REVISION" → allow resubmission (falls through to upsert below)
     }
 
     // Transaction to save submission as PENDING
