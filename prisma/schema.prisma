@@ -71,7 +71,8 @@ model User {
   accounts                 Account[]
   dailyCheckins            DailyCheckin[]
   guildMembers             GuildMember[]
-  missionSubmissions       MissionSubmission[]
+  missionSubmissions       MissionSubmission[] @relation("SubmissionOwner")
+  submissionsInReview      MissionSubmission[] @relation("SubmissionReviewer")
   canReviewProfiles        String[]        @default([])
   reviewsCompleted         Int             @default(0)
   reviewsGiven             MissionReview[] @relation("ReviewsGiven")
@@ -247,7 +248,8 @@ model MissionSubmission {
   revisionNotes          String?
   reviewerType           String?
   mission                Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
-  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                   User     @relation("SubmissionOwner", fields: [userId], references: [id], onDelete: Cascade)
+  reviewer               User?    @relation("SubmissionReviewer", fields: [reviewerId], references: [id])
   reviews                MissionReview[]
 
   @@unique([userId, missionId])
@@ -270,6 +272,7 @@ model MissionReview {
   submission    MissionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   reviewer      User              @relation("ReviewsGiven", fields: [reviewerId], references: [id])
 
+  @@unique([submissionId, reviewerId])
   @@index([submissionId])
   @@index([reviewerId])
   @@map("mission_review")
