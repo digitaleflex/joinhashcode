@@ -72,6 +72,9 @@ model User {
   dailyCheckins            DailyCheckin[]
   guildMembers             GuildMember[]
   missionSubmissions       MissionSubmission[]
+  canReviewProfiles        String[]        @default([])
+  reviewsCompleted         Int             @default(0)
+  reviewsGiven             MissionReview[] @relation("ReviewsGiven")
   notifications            Notification[]
   quizResults              QuizResult[]
   sessions                 Session[]
@@ -120,8 +123,11 @@ model Mission {
   targetProfiles   String[]
   deliverables     String[]
   fullBriefing     String?
-  submissionMethod String              @default("ANY_LINK")
-  submissions      MissionSubmission[]
+  submissionMethod    String              @default("ANY_LINK")
+  acceptanceCriteria  Json                @default("[]")
+  evaluatorNotes      String?
+  qualityIndicators   Json                @default("[]")
+  submissions         MissionSubmission[]
 
   @@index([category])
   @@index([difficulty])
@@ -236,8 +242,13 @@ model MissionSubmission {
   userRating             Int?
   adminFeedback          String?
   reviewerId             String?
+  qualityLevel           String?
+  revisionCount          Int      @default(0)
+  revisionNotes          String?
+  reviewerType           String?
   mission                Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviews                MissionReview[]
 
   @@unique([userId, missionId])
   @@index([status])
@@ -245,6 +256,23 @@ model MissionSubmission {
   @@index([missionId])
   @@index([createdAt])
   @@map("mission_submission")
+}
+
+model MissionReview {
+  id            String            @id @default(cuid())
+  submissionId  String
+  reviewerId    String
+  criteria      Json
+  qualityLevel  String
+  feedback      String
+  revisionNotes String?
+  createdAt     DateTime          @default(now())
+  submission    MissionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  reviewer      User              @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+
+  @@index([submissionId])
+  @@index([reviewerId])
+  @@map("mission_review")
 }
 
 model ContactMessage {
