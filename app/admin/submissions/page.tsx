@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Check, X, ExternalLink, User, Zap, Activity, MessageSquare, Loader2, ArrowLeft } from "lucide-react"
+import { Check, X, ExternalLink, User, Activity, Loader2, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
@@ -13,16 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
+import { getCriteriaForMission, computeQualityLevel } from "@/lib/acceptance-criteria"
 
 interface Submission {
   id: string
@@ -47,8 +39,9 @@ export default function AdminSubmissionsPage() {
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
   const [processingId, setProcessingId] = useState<string | null>(null)
-  const [rejectFeedback, setRejectFeedback] = useState("")
-  const [rejectId, setRejectId] = useState<string | null>(null)
+  const [activeSubmission, setActiveSubmission] = useState<Submission | null>(null)
+  const [adminFeedback, setAdminFeedback] = useState("")
+  const [checkedCriteria, setCheckedCriteria] = useState<Record<string, boolean>>({})
 
   const fetchSubmissions = async () => {
     setLoading(true)
@@ -75,40 +68,44 @@ export default function AdminSubmissionsPage() {
     fetchSubmissions()
   }, [])
 
-  const handleAction = async (id: string, action: "APPROVE" | "REJECT", feedback?: string) => {
+  const handleAction = async (
+    id: string,
+    action: "APPROVE" | "REJECT" | "NEEDS_REVISION",
+    options?: { criteria?: Record<string, boolean>; feedback?: string; qualityLevel?: string }
+  ) => {
     setProcessingId(id)
     try {
       const res = await fetch(`/api/admin/submissions/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, feedback }),
+        body: JSON.stringify({
+          action,
+          feedback: options?.feedback,
+          qualityLevel: options?.qualityLevel,
+          revisionNotes: options?.criteria && activeSubmission
+            ? getCriteriaForMission(activeSubmission.mission.category)
+                .filter(c => c.weight === "REQUIRED" && !options.criteria![c.id])
+                .map(c => c.label)
+                .join("\n")
+            : undefined,
+        }),
       })
-
       if (res.ok) {
         toast({
-          title: action === "APPROVE" ? "Validée" : "Refusée",
-          description: `La soumission a été ${action === "APPROVE" ? "approuvée" : "rejetée"} avec succès.`,
+          title: action === "APPROVE" ? "Validée" : action === "NEEDS_REVISION" ? "Révision demandée" : "Refusée",
+          description: `Soumission ${action === "APPROVE" ? "approuvée" : action === "NEEDS_REVISION" ? "mise en révision" : "rejetée"} avec succès.`,
         })
-        setSubmissions(submissions.filter((s) => s.id !== id))
-        if (action === "REJECT") {
-          setRejectId(null)
-          setRejectFeedback("")
-        }
+        setSubmissions(s => s.filter(sub => sub.id !== id))
+        setActiveSubmission(null)
+        setAdminFeedback("")
+        setCheckedCriteria({})
       } else {
         const err = await res.text()
-        toast({
-          title: "Erreur",
-          description: err || "Une erreur est survenue.",
-          variant: "destructive",
-        })
+        toast({ title: "Erreur", description: err, variant: "destructive" })
       }
     } catch (e) {
       console.error(e)
-      toast({
-        title: "Erreur",
-        description: "Une erreur réseau est survenue.",
-        variant: "destructive",
-      })
+      toast({ title: "Erreur réseau", variant: "destructive" })
     } finally {
       setProcessingId(null)
     }
@@ -156,127 +153,194 @@ export default function AdminSubmissionsPage() {
             </Button>
           </div>
         ) : (
-          <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
-            <Table>
-              <TableHeader className="bg-white/5">
-                <TableRow className="border-white/5 hover:bg-transparent">
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Membre</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Mission</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Détails</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {submissions.map((s) => (
-                  <TableRow key={s.id} className="border-white/5 hover:bg-white/5 transition-colors">
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded bg-zinc-800 flex items-center justify-center border border-white/10">
-                          <User className="h-4 w-4 text-muted-foreground" />
+          <div className="space-y-6">
+            <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
+              <Table>
+                <TableHeader className="bg-white/5">
+                  <TableRow className="border-white/5 hover:bg-transparent">
+                    <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Membre</TableHead>
+                    <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Mission</TableHead>
+                    <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Détails</TableHead>
+                    <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {submissions.map((s) => (
+                    <TableRow key={s.id} className="border-white/5 hover:bg-white/5 transition-colors">
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded bg-zinc-800 flex items-center justify-center border border-white/10">
+                            <User className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{s.user.name}</p>
+                            <p className="text-[10px] text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
+                          </div>
                         </div>
+                      </TableCell>
+                      <TableCell>
                         <div>
-                          <p className="text-sm font-medium">{s.user.name}</p>
-                          <p className="text-[10px] text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
+                          <p className="text-sm font-medium">{s.mission.title}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge variant="outline" className="text-[9px] uppercase tracking-tighter bg-primary/5 text-primary border-primary/20 font-mono">
+                              {s.mission.category}
+                            </Badge>
+                            <span className="text-[10px] text-[#B8FF3B] font-mono">+{s.mission.xp} XP</span>
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <p className="text-sm font-medium">{s.mission.title}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-[9px] uppercase tracking-tighter bg-primary/5 text-primary border-primary/20 font-mono">
-                            {s.mission.category}
-                          </Badge>
-                          <span className="text-[10px] text-[#B8FF3B] font-mono">+{s.mission.xp} XP</span>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="max-w-md">
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                          <a 
-                            href={s.content || "#"} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-xs text-primary hover:underline truncate block"
-                          >
-                            {s.content}
-                          </a>
-                        </div>
-                        {s.projectDescription && (
-                          <p className="text-[11px] text-muted-foreground line-clamp-2 italic">
-                            "{s.projectDescription}"
+                      </TableCell>
+                      <TableCell className="max-w-md">
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-2">
+                            <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                            <a
+                              href={s.content || "#"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-primary hover:underline truncate block"
+                            >
+                              {s.content}
+                            </a>
+                          </div>
+                          {s.projectDescription && (
+                            <p className="text-[11px] text-muted-foreground line-clamp-2 italic">
+                              &ldquo;{s.projectDescription}&rdquo;
+                            </p>
+                          )}
+                          <p className="text-[9px] text-muted-foreground/60 font-mono">
+                            Soumis le {new Date(s.createdAt).toLocaleDateString()} à {new Date(s.createdAt).toLocaleTimeString()}
                           </p>
-                        )}
-                        <p className="text-[9px] text-muted-foreground/60 font-mono">
-                          Soumis le {new Date(s.createdAt).toLocaleDateString()} à {new Date(s.createdAt).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right">
                         <Button
                           size="sm"
                           variant="outline"
-                          className="h-8 w-8 p-0 border-green-500/30 text-green-500 hover:bg-green-500/10 hover:text-green-500"
-                          onClick={() => handleAction(s.id, "APPROVE")}
+                          className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-widest"
+                          onClick={() => {
+                            setActiveSubmission(s)
+                            setCheckedCriteria({})
+                            setAdminFeedback("")
+                          }}
                           disabled={processingId === s.id}
                         >
-                          {processingId === s.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                          Réviser
                         </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
 
-                        <Dialog open={rejectId === s.id} onOpenChange={(open) => !open && setRejectId(null)}>
-                          <DialogTrigger asChild>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="h-8 w-8 p-0 border-red-500/30 text-red-500 hover:bg-red-500/10 hover:text-red-500"
-                              onClick={() => setRejectId(s.id)}
-                              disabled={processingId === s.id}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="bg-zinc-900 border-white/10 text-white">
-                            <DialogHeader>
-                              <DialogTitle className="flex items-center gap-2">
-                                <MessageSquare className="h-5 w-5 text-red-500" /> Refuser la soumission
-                              </DialogTitle>
-                              <DialogDescription className="text-muted-foreground">
-                                Explique au membre pourquoi sa soumission a été rejetée et ce qu'il peut améliorer.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="py-4">
-                              <Textarea
-                                placeholder="Ton feedback ici..."
-                                className="bg-black/40 border-white/5 focus:border-red-500/50 min-h-[120px]"
-                                value={rejectFeedback}
-                                onChange={(e) => setRejectFeedback(e.target.value)}
-                              />
-                            </div>
-                            <DialogFooter>
-                              <Button variant="ghost" onClick={() => setRejectId(null)} className="text-muted-foreground hover:text-white">
-                                Annuler
-                              </Button>
-                              <Button 
-                                variant="destructive" 
-                                onClick={() => handleAction(s.id, "REJECT", rejectFeedback)}
-                                disabled={!rejectFeedback.trim() || processingId === s.id}
-                                className="bg-red-600 hover:bg-red-700"
-                              >
-                                {processingId === s.id ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                                Confirmer le rejet
-                              </Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            {activeSubmission && (
+              <div className="rounded-2xl border border-primary/20 bg-zinc-900/60 p-6 space-y-6">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h2 className="font-bold text-lg">{activeSubmission.mission.title}</h2>
+                    <p className="text-xs text-muted-foreground font-mono mt-1">
+                      {activeSubmission.user.name} · LVL {activeSubmission.user.level}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setActiveSubmission(null)}
+                    className="text-xs font-mono text-muted-foreground hover:text-white"
+                  >
+                    ✕ Fermer
+                  </button>
+                </div>
+
+                {activeSubmission.content && (
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">Soumission</p>
+                    <a
+                      href={activeSubmission.content}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline inline-flex items-center gap-1"
+                    >
+                      {activeSubmission.content} <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Rubrique d&apos;évaluation</p>
+                  {getCriteriaForMission(activeSubmission.mission.category).map(criterion => (
+                    <button
+                      key={criterion.id}
+                      type="button"
+                      onClick={() => setCheckedCriteria(prev => ({ ...prev, [criterion.id]: !prev[criterion.id] }))}
+                      className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all text-sm ${
+                        checkedCriteria[criterion.id]
+                          ? "border-primary/30 bg-primary/5 text-zinc-200"
+                          : "border-white/5 bg-white/[0.02] text-zinc-500 hover:border-white/10"
+                      }`}
+                    >
+                      {checkedCriteria[criterion.id]
+                        ? <Check className="w-4 h-4 text-primary shrink-0" />
+                        : <div className="w-4 h-4 rounded border border-white/20 shrink-0" />
+                      }
+                      {criterion.label}
+                      {criterion.weight === "BONUS" && (
+                        <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-widest">bonus</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Feedback</label>
+                  <Textarea
+                    placeholder="Commentaire pour le membre..."
+                    className="bg-black/40 border-white/5 min-h-[100px] text-sm"
+                    value={adminFeedback}
+                    onChange={e => setAdminFeedback(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Button
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                    onClick={() => {
+                      const criteria = getCriteriaForMission(activeSubmission.mission.category)
+                      const quality = computeQualityLevel(criteria, checkedCriteria)
+                      handleAction(activeSubmission.id, "APPROVE", {
+                        criteria: checkedCriteria,
+                        feedback: adminFeedback,
+                        qualityLevel: quality,
+                      })
+                    }}
+                    disabled={processingId === activeSubmission.id}
+                  >
+                    {processingId === activeSubmission.id
+                      ? <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      : <Check className="w-4 h-4 mr-2" />
+                    }
+                    Valider
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex-1 border-amber-500/30 text-amber-400 hover:bg-amber-500/10"
+                    onClick={() => handleAction(activeSubmission.id, "NEEDS_REVISION", {
+                      criteria: checkedCriteria,
+                      feedback: adminFeedback,
+                    })}
+                    disabled={processingId === activeSubmission.id || !adminFeedback.trim()}
+                  >
+                    Demander révision
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    onClick={() => handleAction(activeSubmission.id, "REJECT", { feedback: adminFeedback })}
+                    disabled={processingId === activeSubmission.id || !adminFeedback.trim()}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
