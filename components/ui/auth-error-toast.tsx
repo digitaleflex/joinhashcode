@@ -9,6 +9,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   unauthorized: "Tu n'es pas autorisé à accéder à cette ressource.",
   configuration_error: "Le système d'authentification est mal configuré.",
   social_login_failed: "Échec de la connexion via le fournisseur social.",
+  email_not_found: "Ton adresse e-mail n'a pas pu être récupérée. Vérifie qu'elle est vérifiée et publique sur GitHub/Google.",
 }
 
 function AuthErrorToastContent() {
