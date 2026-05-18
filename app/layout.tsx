@@ -70,6 +70,7 @@ export const viewport: Viewport = {
 
 import { Toaster } from "@/components/ui/sonner"
 import { CookieBanner } from "@/components/ui/cookie-banner"
+import { AuthErrorToast } from "@/components/ui/auth-error-toast"
 
 export default function RootLayout({
   children,
@@ -97,6 +98,7 @@ export default function RootLayout({
         <Noise />
         {children}
         <Toaster position="top-center" richColors />
+        <AuthErrorToast />
         <CookieBanner />
         {process.env.NODE_ENV === "production" && <AnalyticsConsent />}
       </body>
