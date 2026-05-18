@@ -12,9 +12,18 @@ import { Label } from "@/components/ui/label";
 interface MissionSubmissionFormProps {
   missionId: string;
   submissionMethod: string;
+  revisionNotes?: string | null;
+  reviewerFeedback?: string | null;
+  revisionCount?: number;
 }
 
-export function MissionSubmissionForm({ missionId, submissionMethod }: MissionSubmissionFormProps) {
+export function MissionSubmissionForm({
+  missionId,
+  submissionMethod,
+  revisionNotes,
+  reviewerFeedback,
+  revisionCount = 0,
+}: MissionSubmissionFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState(1);
@@ -74,44 +83,65 @@ export function MissionSubmissionForm({ missionId, submissionMethod }: MissionSu
 
   if (step === 1) {
     const isTextResponse = submissionMethod === "TEXT_RESPONSE" || missionId === "introduction-ancrage";
-    
+    const hasRevision = !!revisionNotes;
+
     return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-            {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
-          </Label>
-          {isTextResponse ? (
-            <Textarea
-              placeholder={missionId === "introduction-ancrage" 
-                ? "Ex: Je construis un SaaS de gestion de tâches. Mon objectif est d'avoir 100 utilisateurs actifs dans 3 mois." 
-                : "Rédige ta réponse ici..."}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="bg-card/30 border-border/40 min-h-[120px] rounded-xl focus:ring-primary/20 transition-all text-sm"
-              required
-              autoFocus
-            />
-          ) : (
-            <Input
-              placeholder={
-                submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
-                submissionMethod === "LIVE_URL" ? "https://ton-projet.vercel.app" :
-                "https://..."
-              }
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="bg-card/30 border-border/40 h-11 rounded-xl focus:ring-primary/20 transition-all text-sm"
-              required
-              autoFocus
-            />
-          )}
-        </div>
-        <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group">
-          Transmettre pour validation
-          <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </Button>
-      </form>
+      <div className="space-y-4">
+        {hasRevision && (
+          <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 space-y-3">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-amber-400">
+              Révision #{revisionCount} — Points à corriger
+            </p>
+            {reviewerFeedback && (
+              <p className="text-xs text-zinc-300 leading-relaxed italic">"{reviewerFeedback}"</p>
+            )}
+            <ul className="space-y-1.5">
+              {revisionNotes!.split("\n").filter(Boolean).map((note, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-amber-300/80">
+                  <span className="text-amber-500 mt-0.5">—</span>
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+              {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
+            </Label>
+            {isTextResponse ? (
+              <Textarea
+                placeholder={missionId === "introduction-ancrage"
+                  ? "Ex: Je construis un SaaS de gestion de tâches. Mon objectif est d'avoir 100 utilisateurs actifs dans 3 mois."
+                  : "Rédige ta réponse ici..."}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="bg-card/30 border-border/40 min-h-[120px] rounded-xl focus:ring-primary/20 transition-all text-sm"
+                required
+                autoFocus
+              />
+            ) : (
+              <Input
+                placeholder={
+                  submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
+                  submissionMethod === "LIVE_URL" ? "https://ton-projet.vercel.app" :
+                  "https://..."
+                }
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="bg-card/30 border-border/40 h-11 rounded-xl focus:ring-primary/20 transition-all text-sm"
+                required
+                autoFocus
+              />
+            )}
+          </div>
+          <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group">
+            Transmettre pour validation
+            <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </form>
+      </div>
     );
   }
 
