@@ -1,0 +1,46 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
+
+export async function GET() {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
+    const reviewer = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, class: true, level: true, missionsCompletedCount: true },
+    });
+
+    if (!reviewer) return new NextResponse("User not found", { status: 404 });
+
+    const pendingSubmissions = await prisma.missionSubmission.findMany({
+      where: { status: "PENDING" },
+      include: {
+        mission: { select: { id: true, title: true, category: true, xp: true, missionLevel: true, targetProfiles: true } },
+        user: { select: { id: true, name: true, pseudo: true, level: true } },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    const eligible = pendingSubmissions.filter(sub => {
+      const missionRequiredLevel = LEVEL_REQUIREMENT[sub.mission.missionLevel ?? "INIT"] ?? 1;
+      return isEligibleReviewer({
+        reviewerClass: reviewer.class,
+        reviewerLevel: reviewer.level,
+        reviewerMissionsCompleted: reviewer.missionsCompletedCount,
+        reviewerId: reviewer.id,
+        submissionUserId: sub.userId,
+        missionTargetProfiles: sub.mission.targetProfiles,
+        missionRequiredLevel,
+      });
+    });
+
+    return NextResponse.json(eligible);
+  } catch (error) {
+    console.error("[REVIEWER_QUEUE]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
