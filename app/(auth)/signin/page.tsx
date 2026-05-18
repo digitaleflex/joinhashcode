@@ -17,10 +17,23 @@ export default function SignInPage() {
     const handleSocialSignIn = async (provider: "google" | "github") => {
         setLoadingProvider(provider)
         try {
-            await authClient.signIn.social({
+            const origin = window.location.origin
+            const { data, error } = await authClient.signIn.social({
                 provider,
-                callbackURL: "/quiz"
+                callbackURL: `${origin}/quiz`,
+                errorCallbackURL: `${origin}/signin`,
+                disableRedirect: true,
             })
+
+            if (error) {
+                throw new Error(error.message || "Social sign-in failed")
+            }
+
+            if (!data?.url) {
+                throw new Error("Missing social sign-in redirect URL")
+            }
+
+            window.location.href = data.url
         } catch {
             toast.error("Erreur lors de la connexion")
             setLoadingProvider(null)
