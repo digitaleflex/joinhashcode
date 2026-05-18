@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { magicLink } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -34,10 +35,8 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  emailMagicLink: {
-    sendMagicLink: async ({ email, url }: { email: string, url: string }) => {
-      await emailService.sendMagicLink({ email, url });
-    },
+  account: {
+    storeStateStrategy: "cookie",
   },
   user: {
     additionalFields: {
@@ -99,6 +98,11 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    magicLink({
+      sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
+        await emailService.sendMagicLink({ email, url });
+      },
+    }),
     nextCookies(),
   ],
 });
