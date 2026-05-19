@@ -8,13 +8,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import type { AnalysisResult } from "@/lib/analysis"
 import {
-  ChevronRight, ChevronLeft, Sparkles
+  ChevronRight, ChevronLeft, Sparkles, Zap, ShieldAlert, ShieldCheck
 } from "lucide-react"
 import { useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { ResultPage } from "./result-page"
 import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
 import { track } from "@vercel/analytics"
+import { cn } from "@/lib/utils"
 
 interface QuizUser {
   id: string;
@@ -44,39 +45,52 @@ function AnalyzingScreen() {
   useEffect(() => {
     const timer = setInterval(() => {
       setStepIdx(prev => Math.min(prev + 1, ANALYSIS_STEPS.length - 1));
-    }, 350);
+    }, 450);
     return () => clearInterval(timer);
   }, []);
 
   const step = ANALYSIS_STEPS[stepIdx];
 
   return (
-    <div className="max-w-sm mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
-      <p className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground mb-10">
-        [ANALYSE_EN_COURS]
+    <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in-95 duration-1000 relative">
+      <div className="absolute inset-0 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
+      
+      <p className="text-[10px] font-mono uppercase tracking-[0.5em] text-primary/60 mb-12 relative">
+        [ PROCESSUS_DE_SYNCHRONISATION ]
       </p>
 
-      <div className="h-6 flex items-center justify-center mb-2">
-        <p key={stepIdx} className="text-sm font-mono text-primary animate-in fade-in duration-300">
-          {step.label}
-        </p>
+      <div className="relative mb-12">
+        <div className="size-24 rounded-full border-2 border-primary/20 flex items-center justify-center animate-spin-slow">
+            <div className="size-16 rounded-full border-2 border-primary/40 border-t-primary animate-spin" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+            <Sparkles className="size-6 text-primary animate-pulse" />
+        </div>
       </div>
-      <div className="h-5 flex items-center justify-center mb-10">
-        <p key={`d-${stepIdx}`} className="text-xs text-muted-foreground animate-in fade-in duration-300">
+
+      <div className="h-8 flex items-center justify-center mb-2 relative">
+        <h3 key={stepIdx} className="text-lg font-black uppercase tracking-tighter text-white animate-in slide-in-from-bottom-2 duration-500">
+          {step.label}
+        </h3>
+      </div>
+      <div className="h-6 flex items-center justify-center mb-12 relative">
+        <p key={`d-${stepIdx}`} className="text-xs text-zinc-500 font-mono uppercase tracking-widest animate-in fade-in duration-700">
           {step.desc}
         </p>
       </div>
 
-      <div className="w-full space-y-2">
-        <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${step.pct}%` }}
+      <div className="w-full space-y-4 relative">
+        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
+          <motion.div
+            className="h-full bg-primary shadow-[0_0_20px_#C5F441]"
+            initial={{ width: 0 }}
+            animate={{ width: `${step.pct}%` }}
+            transition={{ duration: 0.5 }}
           />
         </div>
-        <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
-          <span>Profilage comportemental</span>
-          <span>{step.pct}%</span>
+        <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+          <span>Neural_Mapping</span>
+          <span className="text-primary font-bold">{step.pct}%</span>
         </div>
       </div>
     </div>
@@ -186,67 +200,67 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
 
   if (!isStarted) {
     return (
-      <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in zoom-in-95 duration-700">
-        <div className="relative rounded-3xl border border-primary/20 bg-card/40 backdrop-blur-xl p-10 space-y-10 overflow-hidden">
-          {/* Background Glow */}
-          <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-[100px]" />
-          <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px]" />
+      <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in zoom-in-95 duration-1000">
+        <div className="relative rounded-[2.5rem] border border-white/5 bg-zinc-900/40 backdrop-blur-3xl p-8 sm:p-12 space-y-12 overflow-hidden shadow-2xl group">
+          {/* Decorative Glows */}
+          <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-[100px] group-hover:bg-primary/15 transition-all duration-1000" />
+          <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-purple-500/5 rounded-full blur-[100px]" />
 
           {/* Header */}
-          <div className="space-y-3 relative">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-2">
-              <Sparkles className="w-3 h-3 text-primary" />
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary">Initialisation du Profil</span>
+          <div className="space-y-4 relative">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-primary">Initialisation v2.0</span>
             </div>
-            <h2 className="text-3xl font-bold tracking-tight text-white uppercase font-mono">
-              Analyse de <span className="text-primary">Vibrance</span>
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tighter text-white uppercase italic leading-[0.85]">
+              Analyse de <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Vibrance</span>
             </h2>
-            <p className="text-zinc-500 text-sm leading-relaxed max-w-md">
-              Ce n&apos;est pas un test de personnalité. C&apos;est la détection de ton mode d&apos;action dominant pour construire le futur.
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-md font-light">
+              Détection chirurgicale de ton mode d&apos;action dominant pour sculpter ton avenir technologique.
             </p>
           </div>
 
-          {/* Points */}
-          <div className="grid gap-4 relative">
+          {/* Points - Optimized for persuasion */}
+          <div className="grid gap-6 relative">
             {[
               { 
-                t: "Zéro Étiquette", 
-                d: "Il n'y a pas de bon profil. Ton résultat est une hypothèse de départ, pas une destination finale.",
+                t: "ADN Dynamique", 
+                d: "Pas d'étiquettes figées. Ton profil évolue en temps réel selon tes actions de build.",
                 i: "01"
               },
               { 
-                t: "Évolution Réelle", 
-                d: "Tes actions futures (missions, check-ins) auront plus de poids que tes réponses d'aujourd'hui.",
+                t: "Impact Réel", 
+                d: "Tes missions futures pèseront plus lourd que tes réponses d'aujourd'hui.",
                 i: "02"
               },
               { 
-                t: "Alignement", 
-                d: "L&apos;objectif est de t&apos;orienter vers les missions et la guilde où tu seras le plus performant.",
+                t: "Alignement Tactique", 
+                d: "Accède aux guildes et aux arsenaux où ton potentiel est maximal.",
                 i: "03"
               }
             ].map((item, idx) => (
-              <div key={idx} className="flex gap-5 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:border-primary/20 transition-colors group">
-                <div className="text-xs font-mono text-primary/40 mt-1 group-hover:text-primary transition-colors">
-                  {item.i}
+              <div key={idx} className="flex gap-6 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-primary/30 transition-all duration-500 group/item">
+                <div className="text-xs font-mono text-primary font-black mt-1 group-hover/item:scale-110 transition-transform">
+                  [{item.i}]
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-zinc-200 mb-1 uppercase tracking-tight">{item.t}</p>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{item.d}</p>
+                  <p className="text-base font-bold text-white mb-1 uppercase tracking-tight italic group-hover/item:text-primary transition-colors">{item.t}</p>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-light">{item.d}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {hasResumable && (
-            <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
+            <div className="p-5 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-                <p className="text-xs font-medium text-primary uppercase tracking-widest">Session active détectée</p>
+                <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_#C5F441]" />
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Session_Active_Détectée</p>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="h-8 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-mono uppercase"
+                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black uppercase tracking-widest px-6"
                 onClick={() => {
                   setHasResumable(false)
                   setIsStarted(true)
@@ -257,7 +271,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             </div>
           )}
 
-          <div className="space-y-4 pt-4">
+          <div className="space-y-6 pt-4 relative">
             <Button
               onClick={() => {
                 if (hasResumable) {
@@ -267,13 +281,15 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 setIsStarted(true)
               }}
               size="lg"
-              className="w-full h-16 rounded-2xl btn-primary-glow text-base font-bold gap-3 uppercase tracking-widest"
+              className="w-full h-20 rounded-3xl btn-primary-glow text-lg font-black gap-4 uppercase tracking-[0.2em]"
             >
-              Lancer le scan <ChevronRight className="w-5 h-5" />
+              Lancer le scan <ChevronRight className="w-6 h-6" />
             </Button>
-            <p className="text-[10px] text-center text-zinc-600 font-mono italic">
-              -- Temps estimé : 2 minutes // 13 arbitrages cognitifs --
-            </p>
+            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono uppercase tracking-[0.3em]">
+              <span>[ 13_Arbitrages ]</span>
+              <span className="size-1 rounded-full bg-zinc-800" />
+              <span>[ ~2_Minutes ]</span>
+            </div>
           </div>
         </div>
       </div>
@@ -304,70 +320,94 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
   const currentQuestion = questions[currentStep]
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-6 px-4 flex flex-col">
-      <div className="mb-8">
-        <div className="flex justify-between items-end mb-4 px-1">
-          <div className="space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/60 block">
-              Séquence de Profilage
-            </span>
-            <span className="text-xs font-mono text-zinc-400">
-              Question {currentStep + 1} / {questions.length}
+    <div className="w-full max-w-3xl mx-auto py-10 px-4 flex flex-col relative z-10">
+      <div className="mb-12">
+        <div className="flex justify-between items-end mb-5 px-2">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+                <div className="size-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-zinc-500 block">
+                    Neural_Calibration_Sequence
+                </span>
+            </div>
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-widest">
+              Interrogation [{currentStep + 1} / {questions.length}]
             </span>
           </div>
           <div className="text-right">
-            <span className="text-xl font-bold font-mono text-primary">{Math.round(progress)}%</span>
+            <span className="text-2xl font-black font-mono text-primary italic">{Math.round(progress)}%</span>
           </div>
         </div>
-        <div className="h-1 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/[0.02]">
+        <div className="h-1.5 w-full bg-white/[0.03] rounded-full overflow-hidden border border-white/[0.05]">
            <motion.div 
-            className="h-full bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]"
+            className="h-full bg-primary shadow-[0_0_20px_rgba(197,244,65,0.6)]"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "circOut" }}
            />
         </div>
       </div>
 
-      <div key={currentStep} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <h2 className="text-xl sm:text-3xl font-bold mb-6 sm:mb-8 leading-[1.2] text-white tracking-tight italic">
-          &ldquo;{currentQuestion.text}&rdquo;
-        </h2>
+      <div key={currentStep} className="animate-in fade-in slide-in-from-bottom-6 duration-1000">
+        <div className="mb-12 relative">
+            <div className="absolute -left-6 top-0 w-1 h-full bg-primary/20 rounded-full" />
+            <h2 className="text-2xl sm:text-4xl font-black mb-2 leading-[1.1] text-white tracking-tighter italic uppercase">
+                {currentQuestion.text}
+            </h2>
+            <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-4">
+              -- Analyse des réflexes cognitifs --
+            </p>
+        </div>
 
         <div className="grid gap-4">
           {currentQuestion.options.map((option: { text: string; value: string }, idx: number) => (
             <button
               key={idx}
               onClick={() => handleAnswer(option.value)}
-              className="group relative flex items-center justify-between p-4 sm:p-6 rounded-2xl border border-white/[0.05] bg-card/20 text-left transition-all hover:border-primary/50 hover:bg-primary/[0.03] active:scale-[0.99] overflow-hidden"
+              className="group relative flex items-center justify-between p-6 sm:p-8 rounded-[1.5rem] border border-white/[0.08] bg-white/[0.02] text-left transition-all hover:border-primary/40 hover:bg-primary/[0.04] active:scale-[0.98] overflow-hidden shadow-xl"
             >
-              <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="text-sm sm:text-base text-zinc-300 group-hover:text-white transition-colors relative z-10 pr-6 sm:pr-8">
-                {option.text}
-              </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/10 transition-all relative z-10">
-                <ChevronRight className="h-4 w-4 text-zinc-600 group-hover:text-primary transition-all group-hover:translate-x-0.5" />
+              <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
+              
+              <div className="flex items-center gap-6 relative z-10">
+                <span className="text-[10px] font-mono text-zinc-600 group-hover:text-primary transition-colors font-bold">
+                    {String.fromCharCode(65 + idx)}
+                </span>
+                <span className="text-base sm:text-lg text-zinc-300 font-medium group-hover:text-white transition-colors pr-8">
+                    {option.text}
+                </span>
               </div>
+
+              <div className="size-10 rounded-xl border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/20 transition-all relative z-10 shadow-inner">
+                <ChevronRight className="size-5 text-zinc-700 group-hover:text-primary transition-all group-hover:translate-x-1" />
+              </div>
+              
+              {/* Animated corner accent */}
+              <div className="absolute top-0 right-0 size-8 bg-linear-to-bl from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           ))}
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between items-center">
+      <div className="mt-16 flex justify-between items-center border-t border-white/5 pt-8 relative">
         <Button
           variant="ghost"
           size="sm"
           onClick={goBack}
           disabled={currentStep === 0}
-          className="text-zinc-500 hover:text-primary hover:bg-transparent font-mono text-[10px] uppercase tracking-widest disabled:opacity-0"
+          className="h-11 px-6 text-zinc-500 hover:text-white hover:bg-white/5 font-mono text-[10px] uppercase tracking-[0.3em] disabled:opacity-0 rounded-xl border border-transparent hover:border-white/10"
         >
-          <ChevronLeft className="mr-2 h-3 w-3" />
-          Retour
+          <ChevronLeft className="mr-2 size-4" />
+          Précédent_
         </Button>
-        <div className="h-px bg-zinc-800 flex-1 mx-8 opacity-20" />
-        <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest">
-          [AUTO_SAVE_ENABLED]
-        </span>
+        
+        <div className="flex flex-col items-end gap-1">
+            <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+              [ CRYPTO_LINK_SECURED ]
+            </span>
+            <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">
+              HASHCODE_TERMINAL_V2
+            </span>
+        </div>
       </div>
     </div>
   )
