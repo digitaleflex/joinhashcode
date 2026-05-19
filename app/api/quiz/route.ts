@@ -5,6 +5,13 @@ import { NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
 
+import { z } from "zod";
+
+const QuizSubmissionSchema = z.object({
+  answers: z.array(z.string()).min(1),
+  responseTimes: z.array(z.number()).optional(),
+});
+
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({
@@ -24,21 +31,23 @@ export async function POST(req: Request) {
       return new NextResponse("Quiz déjà complété. Ton profil est verrouillé.", { status: 409 });
     }
 
-    const body = await req.json();
-    const { answers, responseTimes } = body;
+    const json = await req.json();
+    const result = QuizSubmissionSchema.safeParse(json);
 
-    if (!Array.isArray(answers) || answers.length === 0) {
-      return new NextResponse("Invalid answers", { status: 400 });
+    if (!result.success) {
+      return NextResponse.json({ error: "Réponses invalides", issues: result.error.issues }, { status: 400 });
     }
+
+    const { answers, responseTimes = [] } = result.data;
 
     // Algorithm runs server-side only — client sends raw data, never computed scores
     const analysis = analyzeQuizResults(
       answers as string[],
-      Array.isArray(responseTimes) ? (responseTimes as number[]) : []
+      responseTimes
     );
 
     const avgResponseTime =
-      responseTimes?.length > 0
+      responseTimes.length > 0
         ? Math.round(responseTimes.reduce((a: number, b: number) => a + b, 0) / responseTimes.length)
         : 0;
 

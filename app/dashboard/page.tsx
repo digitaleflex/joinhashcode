@@ -14,7 +14,7 @@ export default async function DashboardPage() {
   }
 
   // Fetch all required data in parallel
-  const [dbUser, quizResult, submissions] = await Promise.all([
+  const [dbUser, quizResult, submissions, guildMember] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
       select: {
@@ -40,6 +40,28 @@ export default async function DashboardPage() {
     prisma.missionSubmission.findMany({
       where: { userId: session.user.id },
       select: { missionId: true, status: true }
+    }),
+    prisma.guildMember.findFirst({
+      where: { userId: session.user.id },
+      include: {
+        guild: {
+          include: {
+            members: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    pseudo: true,
+                    image: true,
+                    class: true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     })
   ]);
 
@@ -53,6 +75,7 @@ export default async function DashboardPage() {
       user={dbUser || (session.user as any)} 
       quizResult={quizResult} 
       submissions={submissionsMap}
+      squad={guildMember?.guild || null}
     />
   );
 }

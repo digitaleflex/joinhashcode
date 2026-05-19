@@ -8,6 +8,15 @@ import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 
+import { z } from "zod";
+
+const UpdateSubmissionSchema = z.object({
+  action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
+  feedback: z.string().max(2000).optional(),
+  qualityLevel: z.enum(["STANDARD", "GOOD", "EXEMPLARY"]).optional(),
+  revisionNotes: z.string().max(2000).optional(),
+});
+
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
@@ -18,8 +27,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       return new NextResponse("Forbidden", { status: 403 });
     }
 
-    const body = await req.json();
-    const { action, feedback, qualityLevel, revisionNotes } = body;
+    const json = await req.json();
+    const result = UpdateSubmissionSchema.safeParse(json);
+    
+    if (!result.success) {
+      return NextResponse.json({ error: "Données invalides", issues: result.error.issues }, { status: 400 });
+    }
+
+    const { action, feedback, qualityLevel, revisionNotes } = result.data;
     const { id } = await params;
 
     const submission = await prisma.missionSubmission.findUnique({

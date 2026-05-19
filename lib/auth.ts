@@ -7,7 +7,10 @@ import { emailService } from "./email";
 import { randomInt } from "crypto";
 
 const buildTrustedOrigins = () => {
-  const origins = new Set(["http://localhost:3000"]);
+  const origins = new Set<string>();
+  if (process.env.NODE_ENV !== "production") {
+    origins.add("http://localhost:3000");
+  }
   if (process.env.BETTER_AUTH_URL) origins.add(process.env.BETTER_AUTH_URL);
   if (process.env.NEXT_PUBLIC_APP_URL) {
     const url = process.env.NEXT_PUBLIC_APP_URL;

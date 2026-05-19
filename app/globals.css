@@ -134,6 +134,31 @@
   .input-premium {
     @apply bg-card/30 border-border/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all;
   }
+
+  /* Premium Glassmorphism & Effects */
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
+  }
+
+  .bg-gradient-mesh {
+    background-color: var(--background);
+    background-image: 
+      radial-gradient(at 0% 0%, oklch(0.91 0.22 124 / 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.62 0.17 301 / 0.05) 0px, transparent 50%);
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .scanline {
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(to bottom, transparent, oklch(0.91 0.22 124 / 0.02), transparent);
+    height: 50%;
+    width: 100%;
+    animation: scanline 8s linear infinite;
+  }
 }
 
 /* Subtle dot grid utility used in hero */
