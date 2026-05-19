@@ -191,14 +191,28 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                             ))}
                         </div>
 
-                        <div className="space-y-2 relative z-10">
-                            <p className="text-xl text-white font-black uppercase tracking-tight">
-                                Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
-                            </p>
-                            <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-[0.4em]">
-                                {memberCount < 5 ? "En attente de nouvelles signatures neuronales..." : "Protocol complet. Ouverture du terminal..."}
-                            </p>
-                        </div>
+                    <div className="space-y-2 relative z-10">
+                        <p className="text-xl text-white font-black uppercase tracking-tight">
+                            Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
+                        </p>
+                        {memberCount >= 1 && (
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="text-[9px] text-primary/60 font-mono uppercase tracking-[0.3em]">Cohésion de l&apos;unité</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="h-1 w-32 bg-white/5 rounded-full overflow-hidden">
+                                        <div 
+                                            className="h-full bg-primary shadow-[0_0_10px_#C5F441] transition-all duration-1000"
+                                            style={{ width: `${Math.round((squad.cohesionScore || 0.1) * 100)}%` }}
+                                        />
+                                    </div>
+                                    <span className="text-[10px] font-bold text-primary">{Math.round((squad.cohesionScore || 0.1) * 100)}%</span>
+                                </div>
+                            </div>
+                        )}
+                        <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-[0.4em]">
+                            {memberCount < 5 ? "En attente de nouvelles signatures neuronales..." : "Protocol complet. Ouverture du terminal..."}
+                        </p>
+                    </div>
 
                         {memberCount < 5 && (
                             <div className="pt-4 relative z-10">

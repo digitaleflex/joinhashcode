@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
+import { updateSquadCohesion } from "@/lib/squad-logic";
 
 const checkinSchema = z.object({
   note: z.string().transform(stripHtml).pipe(z.string().min(1).max(1000)),
@@ -62,6 +63,16 @@ export async function POST(req: Request) {
     const finalWeights = { ...baseWeights, ...domainWeights };
     
     await updateUserEvolution(session.user.id, finalWeights, 0.01);
+
+    // Boost Squad Cohesion if member
+    const userWithGuild = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { guildMembers: { select: { guildId: true } } }
+    });
+
+    if (userWithGuild?.guildMembers?.[0]?.guildId) {
+      await updateSquadCohesion(userWithGuild.guildMembers[0].guildId, 0.05);
+    }
 
     await prisma.user.update({
       where: { id: session.user.id },

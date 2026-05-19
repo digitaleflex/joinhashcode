@@ -13,6 +13,7 @@ import { XP_THRESHOLDS } from "@/lib/missions";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
+import { updateSquadCohesion } from "@/lib/squad-logic";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -95,6 +96,16 @@ export async function POST(
           where: { id: session.user.id },
           data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
         });
+
+        // Boost Squad Cohesion
+        const userWithGuild = await tx.user.findUnique({
+          where: { id: submission.userId },
+          select: { guildMembers: { select: { guildId: true } } }
+        });
+
+        if (userWithGuild?.guildMembers?.[0]?.guildId) {
+          await updateSquadCohesion(userWithGuild.guildMembers[0].guildId, 0.1);
+        }
       });
 
       try {

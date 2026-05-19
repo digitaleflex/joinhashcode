@@ -146,6 +146,7 @@ model Guild {
   slug          String        @unique
   requiredLevel Int           @default(1)
   isPrivate     Boolean       @default(false)
+  cohesionScore Float         @default(0.1) // New: Tracks squad engagement (0 to 1)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   members       GuildMember[]
