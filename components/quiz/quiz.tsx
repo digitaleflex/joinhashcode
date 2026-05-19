@@ -304,8 +304,8 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
   const currentQuestion = questions[currentStep]
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-12 px-4 flex flex-col min-h-[80vh] justify-center">
-      <div className="mb-16">
+    <div className="w-full max-w-2xl mx-auto py-6 px-4 flex flex-col">
+      <div className="mb-8">
         <div className="flex justify-between items-end mb-4 px-1">
           <div className="space-y-1">
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/60 block">
@@ -330,7 +330,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       </div>
 
       <div key={currentStep} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <h2 className="text-2xl sm:text-4xl font-bold mb-12 leading-[1.2] text-white tracking-tight italic">
+        <h2 className="text-xl sm:text-3xl font-bold mb-6 sm:mb-8 leading-[1.2] text-white tracking-tight italic">
           &ldquo;{currentQuestion.text}&rdquo;
         </h2>
 
@@ -339,10 +339,10 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <button
               key={idx}
               onClick={() => handleAnswer(option.value)}
-              className="group relative flex items-center justify-between p-6 rounded-2xl border border-white/[0.05] bg-card/20 text-left transition-all hover:border-primary/50 hover:bg-primary/[0.03] active:scale-[0.99] overflow-hidden"
+              className="group relative flex items-center justify-between p-4 sm:p-6 rounded-2xl border border-white/[0.05] bg-card/20 text-left transition-all hover:border-primary/50 hover:bg-primary/[0.03] active:scale-[0.99] overflow-hidden"
             >
               <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="text-base sm:text-lg text-zinc-300 group-hover:text-white transition-colors relative z-10 pr-8">
+              <span className="text-sm sm:text-base text-zinc-300 group-hover:text-white transition-colors relative z-10 pr-6 sm:pr-8">
                 {option.text}
               </span>
               <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/10 transition-all relative z-10">
@@ -353,7 +353,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
         </div>
       </div>
 
-      <div className="mt-16 flex justify-between items-center">
+      <div className="mt-8 flex justify-between items-center">
         <Button
           variant="ghost"
           size="sm"

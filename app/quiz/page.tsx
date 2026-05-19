@@ -36,6 +36,10 @@ export default async function QuizPage() {
     },
   })
 
+  if (user?.class) {
+    redirect("/missions")
+  }
+
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Nav />
@@ -49,8 +53,8 @@ export default async function QuizPage() {
             ANNULER ET RETOURNER À L'ACCUEIL
           </Link>
 
-          <div className="text-center mb-12">
-            <h1 className="text-sm font-mono uppercase tracking-[0.2em] text-primary mb-4">
+          <div className="text-center mb-6">
+            <h1 className="text-sm font-mono uppercase tracking-[0.2em] text-primary mb-2">
               Analyse de potentiel
             </h1>
             <p className="text-muted-foreground text-sm">

@@ -89,9 +89,9 @@ export function PreQuizDiagnostic({ onComplete }: Props) {
   const progress = (step / QUESTIONS.length) * 100
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6">
+    <div className="w-full flex flex-col items-center px-6 py-4">
       {/* Barre de progression */}
-      <div className="w-full max-w-md mb-12">
+      <div className="w-full max-w-md mb-8">
         <div className="h-px bg-border w-full overflow-hidden rounded-full">
           <div
             className="h-full bg-foreground transition-all duration-500"

@@ -180,7 +180,9 @@ exports.Prisma.UserScalarFieldEnum = {
   currentFocus: 'currentFocus',
   dreamStatement: 'dreamStatement',
   lastCheckinAt: 'lastCheckinAt',
-  mainBlocker: 'mainBlocker'
+  mainBlocker: 'mainBlocker',
+  canReviewProfiles: 'canReviewProfiles',
+  reviewsCompleted: 'reviewsCompleted'
 };
 
 exports.Prisma.DailyCheckinScalarFieldEnum = {
@@ -214,7 +216,10 @@ exports.Prisma.MissionScalarFieldEnum = {
   targetProfiles: 'targetProfiles',
   deliverables: 'deliverables',
   fullBriefing: 'fullBriefing',
-  submissionMethod: 'submissionMethod'
+  submissionMethod: 'submissionMethod',
+  acceptanceCriteria: 'acceptanceCriteria',
+  evaluatorNotes: 'evaluatorNotes',
+  qualityIndicators: 'qualityIndicators'
 };
 
 exports.Prisma.GuildScalarFieldEnum = {
@@ -300,7 +305,22 @@ exports.Prisma.MissionSubmissionScalarFieldEnum = {
   userFeedback: 'userFeedback',
   userRating: 'userRating',
   adminFeedback: 'adminFeedback',
-  reviewerId: 'reviewerId'
+  reviewerId: 'reviewerId',
+  qualityLevel: 'qualityLevel',
+  revisionCount: 'revisionCount',
+  revisionNotes: 'revisionNotes',
+  reviewerType: 'reviewerType'
+};
+
+exports.Prisma.MissionReviewScalarFieldEnum = {
+  id: 'id',
+  submissionId: 'submissionId',
+  reviewerId: 'reviewerId',
+  criteria: 'criteria',
+  qualityLevel: 'qualityLevel',
+  feedback: 'feedback',
+  revisionNotes: 'revisionNotes',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ContactMessageScalarFieldEnum = {
@@ -366,6 +386,7 @@ exports.Prisma.ModelName = {
   Verification: 'Verification',
   QuizResult: 'QuizResult',
   MissionSubmission: 'MissionSubmission',
+  MissionReview: 'MissionReview',
   ContactMessage: 'ContactMessage',
   Notification: 'Notification'
 };
