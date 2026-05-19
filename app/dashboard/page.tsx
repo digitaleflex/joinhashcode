@@ -13,21 +13,35 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: session.user.id }
-  });
-
-  // Fetch quiz results if any
-  const quizResult = await prisma.quizResult.findFirst({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  // Fetch submissions
-  const submissions = await prisma.missionSubmission.findMany({
-    where: { userId: session.user.id },
-    select: { missionId: true, status: true }
-  });
+  // Fetch all required data in parallel
+  const [dbUser, quizResult, submissions] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        level: true,
+        experience: true,
+        class: true,
+        builderScore: true,
+        creatorScore: true,
+        strategistScore: true,
+        catalystScore: true,
+        missionsCompletedCount: true,
+        lastCheckinAt: true,
+      }
+    }),
+    prisma.quizResult.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: 'desc' }
+    }),
+    prisma.missionSubmission.findMany({
+      where: { userId: session.user.id },
+      select: { missionId: true, status: true }
+    })
+  ]);
 
   const submissionsMap = submissions.reduce((acc, s) => {
     acc[s.missionId] = s.status;
@@ -36,7 +50,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell 
-      user={dbUser || session.user} 
+      user={dbUser || (session.user as any)} 
       quizResult={quizResult} 
       submissions={submissionsMap}
     />

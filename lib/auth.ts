@@ -4,7 +4,7 @@ import { magicLink, emailOTP, admin, createAccessControl } from "better-auth/plu
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
-import { randomBytes } from "crypto";
+import { randomInt } from "crypto";
 
 const buildTrustedOrigins = () => {
   const origins = new Set(["http://localhost:3000"]);
@@ -20,10 +20,9 @@ const buildTrustedOrigins = () => {
 
 const generateSecureOTP = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  const randomBuffer = randomBytes(8);
   let result = '';
   for (let i = 0; i < 8; i++) {
-    result += chars[randomBuffer[i] % chars.length];
+    result += chars[randomInt(0, chars.length)];
   }
   return result;
 };
@@ -144,6 +143,24 @@ export const auth = betterAuth({
   },
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
+    defaultCookieAttributes: {
+      sameSite: "lax",
+    },
+  },
+  rateLimit: {
+    enabled: true,
+    window: 10,
+    max: 50, // Global limit: 50 requests per 10s
+    customRules: {
+      "/api/auth/email-otp/send-verification-otp": {
+        window: 60,
+        max: 3, // Only 3 OTP sends per minute
+      },
+      "/api/auth/sign-in/email-otp": {
+        window: 60,
+        max: 5, // Only 5 sign-in attempts per minute
+      },
+    },
   },
   plugins: [
     magicLink({

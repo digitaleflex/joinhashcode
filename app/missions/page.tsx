@@ -11,38 +11,52 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 
 export default async function MissionsPage() {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  });
+  const [session, dbUser] = await Promise.all([
+    auth.api.getSession({ headers: await headers() }),
+    null // Placeholder to allow parallel setup with session check
+  ]);
 
   if (!session) {
     redirect("/signin");
   }
 
-  const dbUser = await prisma.user.findUnique({
+  const finalDbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
-    include: {
-      missionSubmissions: true
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      level: true,
+      experience: true,
+      class: true,
+      role: true,
+      missionSubmissions: {
+        select: {
+          missionId: true,
+          status: true,
+        }
+      }
     }
   });
 
-  if (!dbUser) {
+  if (!finalDbUser) {
     redirect("/signin");
   }
 
   // Convert array to Record<missionId, status>
   const submissionsMap: Record<string, string> = {};
-  dbUser.missionSubmissions.forEach(sub => {
+  finalDbUser.missionSubmissions.forEach(sub => {
     submissionsMap[sub.missionId] = sub.status;
   });
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} />
+      <AppSidebar user={finalDbUser} />
       <BottomNav />
       
       <SidebarInset className="bg-background">
-        <UserTopBar user={dbUser} />
+        <UserTopBar user={finalDbUser} />
         
         <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-6xl mx-auto">
@@ -62,7 +76,7 @@ export default async function MissionsPage() {
           <div className="mb-12 p-6 rounded-2xl border border-border/50 bg-card">
             <div className="flex justify-between items-end mb-2">
                <div className="text-sm font-mono text-muted-foreground uppercase">Expérience Globale</div>
-               <div className="text-xl font-bold text-primary">{dbUser.experience} XP</div>
+               <div className="text-xl font-bold text-primary">{finalDbUser.experience} XP</div>
             </div>
             <div className="text-xs text-muted-foreground mt-2">
                Accomplis des missions pour gagner de l'XP et augmenter ton niveau d'habilitation dans le système.
@@ -70,10 +84,10 @@ export default async function MissionsPage() {
           </div>
 
           <MissionsList 
-            userLevel={dbUser.level} 
-            userXp={dbUser.experience} 
+            userLevel={finalDbUser.level} 
+            userXp={finalDbUser.experience} 
             submissions={submissionsMap} 
-            userClass={dbUser.class}
+            userClass={finalDbUser.class}
           />
           </div>
         </main>

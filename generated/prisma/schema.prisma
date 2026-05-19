@@ -179,6 +179,7 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("session")
 }
 
@@ -199,6 +200,7 @@ model Account {
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([providerId, accountId])
+  @@index([userId])
   @@map("account")
 }
 
@@ -227,6 +229,7 @@ model QuizResult {
   user                  User?    @relation(fields: [userId], references: [id])
 
   @@index([profileType])
+  @@index([userId])
   @@map("quiz_result")
 }
 
