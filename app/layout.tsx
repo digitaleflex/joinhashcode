@@ -38,6 +38,12 @@ export const metadata: Metadata = {
     ],
     apple: "/app-icon.png",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "HASHCODE",
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
