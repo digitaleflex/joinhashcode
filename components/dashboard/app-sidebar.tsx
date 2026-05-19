@@ -119,7 +119,17 @@ export function AppSidebar({ user }: { user: any }) {
                 </SidebarMenuItem>
               ))}
               <SidebarMenuItem>
-                <BetaFeedbackDialog />
+                <SidebarMenuButton 
+                  asChild 
+                  isActive={pathname === "/feedback"}
+                  tooltip="Feedback Bêta"
+                  className="h-11 transition-all hover:bg-primary/10 data-[active=true]:bg-primary/20 data-[active=true]:text-primary"
+                >
+                  <Link href="/feedback">
+                    <MessageSquarePlus className="size-4" />
+                    <span className="font-medium">Feedback Bêta</span>
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

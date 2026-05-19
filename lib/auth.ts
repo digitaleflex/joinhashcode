@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin } from "better-auth/plugins";
+import { magicLink, emailOTP, admin, createAccessControl } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -27,6 +27,42 @@ const generateSecureOTP = () => {
   }
   return result;
 };
+
+const ac = createAccessControl({
+  user: [
+    "create",
+    "list",
+    "set-role",
+    "ban",
+    "impersonate",
+    "impersonate-admins",
+    "delete",
+    "set-password",
+    "get",
+    "update",
+  ],
+  session: ["list", "revoke", "delete"],
+});
+
+const adminRole = ac.newRole({
+  user: [
+    "create",
+    "list",
+    "set-role",
+    "ban",
+    "impersonate",
+    "delete",
+    "set-password",
+    "get",
+    "update",
+  ],
+  session: ["list", "revoke", "delete"],
+});
+
+const memberRole = ac.newRole({
+  user: [],
+  session: [],
+});
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
@@ -123,7 +159,6 @@ export const auth = betterAuth({
     }),
     admin({
       impersonate: true,
-      adminRoles: ["ADMIN", "MODERATOR"],
     }),
     nextCookies(),
   ],
