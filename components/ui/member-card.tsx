@@ -57,10 +57,10 @@ export function MemberCard({
   };
 
   return (
-    <div className={cn("w-full space-y-6", className)}>
+    <div className={cn("w-full max-w-2xl mx-auto space-y-4", className)}>
       {/* Card visual - Horizontal Format */}
       <div
-        className="relative w-full overflow-hidden rounded-[2rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group"
+        className="relative w-full overflow-hidden rounded-[1.5rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group"
         style={{
           background: "#050505",
           borderColor: `${accent}40`,
@@ -83,70 +83,70 @@ export function MemberCard({
           )}
         </div>
 
-        <div className="relative h-full flex flex-col p-6 sm:p-8">
+        <div className="relative h-full flex flex-col p-4 sm:p-6">
           {/* Top Header */}
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex justify-between items-start mb-2">
             <div className="space-y-0.5">
-              <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">Hashcode_Passport_v2</span>
-              <div className="flex items-center gap-2">
-                <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[9px] font-mono text-white/60 uppercase tracking-widest">Authorized_Access</span>
+              <span className="text-[8px] font-black tracking-[0.4em] uppercase text-zinc-500">Hashcode_Passport_v2</span>
+              <div className="flex items-center gap-1.5">
+                <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[8px] font-mono text-white/60 uppercase tracking-widest">Authorized_Access</span>
               </div>
             </div>
             <div className="text-right">
-               <div className="text-[9px] font-mono text-zinc-600 uppercase">ID_Ref</div>
-               <div className="text-xs font-black font-mono" style={{ color: accent }}>{passportId}</div>
+               <div className="text-[8px] font-mono text-zinc-600 uppercase">ID_Ref</div>
+               <div className="text-[10px] font-black font-mono" style={{ color: accent }}>{passportId}</div>
             </div>
           </div>
 
           {/* Main Body */}
-          <div className="flex flex-1 gap-8 items-center">
+          <div className="flex flex-1 gap-4 sm:gap-6 items-center">
             {/* Avatar Cluster */}
             <div className="relative shrink-0">
-              <div className="size-24 sm:size-32 rounded-3xl bg-zinc-900 border-2 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700" style={{ borderColor: `${accent}60` }}>
-                 <div className="w-full h-full flex items-center justify-center text-4xl sm:text-5xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent uppercase">
+              <div className="size-20 sm:size-24 rounded-2xl bg-zinc-900 border-2 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700" style={{ borderColor: `${accent}60` }}>
+                 <div className="w-full h-full flex items-center justify-center text-3xl sm:text-4xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent uppercase">
                    {pseudo.charAt(0)}
                  </div>
               </div>
-              <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-white text-black text-[8px] font-black uppercase tracking-tighter -rotate-2">
+              <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 bg-white text-black text-[7px] font-black uppercase tracking-tighter -rotate-2">
                 Verified
               </div>
             </div>
 
             {/* Info Grid */}
-            <div className="flex-1 min-w-0 space-y-4">
-              <div className="space-y-1">
-                <h3 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tighter italic truncate">
+            <div className="flex-1 min-w-0 space-y-3">
+              <div className="space-y-0.5">
+                <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tighter italic truncate">
                   {pseudo}
                 </h3>
-                <div className="flex items-center gap-3">
-                  <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+                <div className="flex items-center gap-2">
+                  <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[8px] font-bold text-zinc-400 uppercase tracking-widest">
                     {classLabel}
                   </span>
-                  <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">Grade__{levelName}</span>
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">Grade__{levelName}</span>
                 </div>
               </div>
 
               {/* Quick Stats */}
-              <div className="flex gap-4 sm:gap-8 border-t border-white/5 pt-4">
+              <div className="flex gap-4 sm:gap-6 border-t border-white/5 pt-3">
                 <div className="space-y-0.5">
-                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Impact_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Impact_</span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-lg font-black text-white">{missionsCompleted}</span>
-                    <span className="text-[8px] font-bold text-zinc-500 uppercase">Ops</span>
+                    <span className="text-base font-black text-white">{missionsCompleted}</span>
+                    <span className="text-[7px] font-bold text-zinc-500 uppercase">Ops</span>
                   </div>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Trust_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Trust_</span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-lg font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
+                    <span className="text-base font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
                   </div>
                 </div>
                 <div className="hidden sm:block space-y-0.5 flex-1">
-                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest block">Top_Arsenal_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Top_Arsenal_</span>
                   <div className="flex gap-1.5 mt-1 truncate">
                     {tools.slice(0, 2).map(t => (
-                      <span key={t} className="text-[8px] font-bold text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded uppercase">
+                      <span key={t} className="text-[7px] font-bold text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded uppercase">
                         {t}
                       </span>
                     ))}
@@ -157,21 +157,21 @@ export function MemberCard({
           </div>
 
           {/* Footer Bar */}
-          <div className="mt-4 pt-4 flex justify-between items-end border-t border-white/5">
+          <div className="mt-2 pt-2 flex justify-between items-end border-t border-white/5">
              <div className="space-y-0.5">
-               <div className="text-[7px] font-mono text-zinc-700 uppercase tracking-[0.2em]">Issued_Date</div>
-               <div className="text-[10px] font-bold text-zinc-500 font-mono italic uppercase">{joinDate}</div>
+               <div className="text-[6px] font-mono text-zinc-700 uppercase tracking-[0.2em]">Issued_Date</div>
+               <div className="text-[8px] font-bold text-zinc-500 font-mono italic uppercase">{joinDate}</div>
              </div>
-             <div className="flex items-center gap-4">
+             <div className="flex items-center gap-3">
                <div className="text-right hidden sm:block">
-                 <div className="text-[7px] font-mono text-zinc-700 uppercase">Verification_Protocol</div>
-                 <div className="text-[9px] font-bold text-zinc-500 font-mono">STATUS_SYNCHRONIZED</div>
+                 <div className="text-[6px] font-mono text-zinc-700 uppercase">Verification_Protocol</div>
+                 <div className="text-[8px] font-bold text-zinc-500 font-mono">STATUS_SYNCHRONIZED</div>
                </div>
-               <div className="p-1 bg-white rounded-lg">
+               <div className="p-1 bg-white rounded-md">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/dossier`)}`}
-                    width={32}
-                    height={32}
+                    width={24}
+                    height={24}
                     alt="QR"
                     className="opacity-90"
                   />
@@ -182,7 +182,7 @@ export function MemberCard({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
         <Button
           asChild
           variant="outline"
