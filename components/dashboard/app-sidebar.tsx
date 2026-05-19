@@ -49,6 +49,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
+import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 
 const navItems = [
   {
@@ -117,6 +118,9 @@ export function AppSidebar({ user }: { user: any }) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <BetaFeedbackDialog />
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -1,0 +1,51 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+const feedbackSchema = z.object({
+  type: z.enum(["BUG", "FEATURE_REQUEST", "GENERAL"]),
+  content: z.string().min(10, "Le message doit contenir au moins 10 caractères").max(2000),
+});
+
+export const POST = async (req: NextRequest) => {
+  try {
+    const session = await auth.api.getSession({
+      headers: req.headers,
+    });
+
+    if (!session) {
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const result = feedbackSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: "Données invalides", details: result.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const feedback = await prisma.betaFeedback.create({
+      data: {
+        userId: session.user.id,
+        type: result.data.type,
+        content: result.data.content,
+      },
+    });
+
+    return NextResponse.json({ 
+      success: true, 
+      message: "Feedback envoyé avec succès !",
+      id: feedback.id 
+    });
+  } catch (error) {
+    console.error("Feedback API Error:", error);
+    return NextResponse.json(
+      { error: "Erreur interne du serveur" },
+      { status: 500 }
+    );
+  }
+};
