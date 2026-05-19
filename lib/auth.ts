@@ -158,7 +158,6 @@ export const auth = betterAuth({
       generateOTP: generateSecureOTP,
     }),
     admin({
-      impersonate: true,
     }),
     nextCookies(),
   ],

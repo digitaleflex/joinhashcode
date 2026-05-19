@@ -28,7 +28,14 @@ export default async function AdminPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-10 space-y-10">
+    <div className="max-w-7xl mx-auto space-y-8 pb-12">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold tracking-tight text-white">Dashboard Admin</h1>
+        <p className="text-sm text-muted-foreground font-mono">
+          Vue d&apos;ensemble de l&apos;activité et des indicateurs de performance.
+        </p>
+      </div>
+
       {/* KPI Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[

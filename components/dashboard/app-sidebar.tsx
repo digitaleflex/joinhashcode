@@ -16,7 +16,8 @@ import {
   User as UserIcon,
   LogOut,
   Command,
-  ShieldAlert
+  ShieldAlert,
+  MessageSquarePlus
 } from "lucide-react"
 
 import {

@@ -53,6 +53,7 @@ export default function SignInPage() {
         
         setLoadingProvider("email")
         try {
+            // @ts-ignore
             const { error } = await authClient.emailOtp.sendVerificationOtp({
                 email,
                 type: "sign-in"
@@ -79,6 +80,7 @@ export default function SignInPage() {
 
         setLoadingProvider("otp")
         try {
+            // @ts-ignore
             const { error } = await authClient.signIn.emailOtp({
                 email,
                 otp

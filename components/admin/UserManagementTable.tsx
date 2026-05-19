@@ -26,6 +26,7 @@ export function UserManagementTable() {
     async function fetchUsers() {
       setLoading(true)
       try {
+        // @ts-ignore
         const { data } = await authClient.admin.listUsers({
           query: {
             limit: 100,

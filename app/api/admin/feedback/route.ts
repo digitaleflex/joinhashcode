@@ -3,11 +3,16 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { emailService } from "@/lib/email";
+import { XP_THRESHOLDS } from "@/lib/missions";
+import { triggerNotification } from "@/lib/qstash";
+import { updateUserEvolution } from "@/lib/evolution-engine";
 
 const statusSchema = z.object({
   id: z.string(),
   status: z.enum(["NEW", "REVIEWED", "RESOLVED"]),
 });
+
+const FEEDBACK_XP_REWARD = 50;
 
 export const PATCH = async (req: NextRequest) => {
   try {
@@ -35,17 +40,71 @@ export const PATCH = async (req: NextRequest) => {
       return NextResponse.json({ error: "Données invalides" }, { status: 400 });
     }
 
-    const updatedFeedback = await prisma.betaFeedback.update({
+    const currentFeedback = await prisma.betaFeedback.findUnique({
       where: { id: result.data.id },
-      data: { status: result.data.status },
-      include: {
-        user: {
-          select: {
-            email: true,
-            name: true,
+      select: { status: true, userId: true },
+    });
+
+    if (!currentFeedback) {
+      return NextResponse.json({ error: "Feedback non trouvé" }, { status: 404 });
+    }
+
+    const updatedFeedback = await prisma.$transaction(async (tx) => {
+      const feedback = await tx.betaFeedback.update({
+        where: { id: result.data.id },
+        data: { status: result.data.status },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              experience: true,
+              level: true,
+            }
           }
         }
+      });
+
+      // Gamification: Reward XP if moving to RESOLVED and wasn't already RESOLVED
+      if (result.data.status === "RESOLVED" && currentFeedback.status !== "RESOLVED") {
+        const newXp = (feedback.user.experience || 0) + FEEDBACK_XP_REWARD;
+        let newLevel = feedback.user.level || 1;
+        
+        for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
+          const levelNum = parseInt(levelStr);
+          if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
+        }
+
+        // Generic weights for feedback contribution
+        const contributionWeights = {
+          builder: 0.1,
+          creator: 0.1,
+          strategist: 0.1,
+          catalyst: 0.1,
+        };
+
+        await tx.user.update({
+          where: { id: feedback.userId },
+          data: { experience: newXp, level: newLevel },
+        });
+
+        await updateUserEvolution(feedback.userId, contributionWeights, 0.02, tx);
+
+        try {
+          await triggerNotification({
+            userId: feedback.userId,
+            type: "SYSTEM",
+            title: "Récompense Bêta",
+            message: `Ton feedback a été résolu ! Tu reçois +${FEEDBACK_XP_REWARD} XP pour ta contribution.`,
+            link: "/dashboard",
+          });
+        } catch (err) {
+          console.error("Notification Error:", err);
+        }
       }
+
+      return feedback;
     });
 
     // Notify user of status change (if not NEW)
