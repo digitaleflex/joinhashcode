@@ -28,6 +28,7 @@ const generateSecureOTP = () => {
   return result;
 };
 
+// Define Access Control with all required permissions for the admin plugin
 const ac = createAccessControl({
   user: [
     "create",
@@ -44,6 +45,7 @@ const ac = createAccessControl({
   session: ["list", "revoke", "delete"],
 });
 
+// Create roles based on the Access Control
 const adminRole = ac.newRole({
   user: [
     "create",
@@ -158,6 +160,14 @@ export const auth = betterAuth({
       generateOTP: generateSecureOTP,
     }),
     admin({
+      // Explicitly define admin roles and map them to their access control roles
+      adminRoles: ["ADMIN", "MODERATOR"],
+      defaultRole: "MEMBER",
+      roles: {
+        ADMIN: adminRole,
+        MODERATOR: adminRole,
+        MEMBER: memberRole,
+      },
     }),
     nextCookies(),
   ],

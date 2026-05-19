@@ -50,12 +50,6 @@ export default function AdminSubmissionsPage() {
       if (res.ok) {
         const data = await res.json()
         setSubmissions(data)
-      } else {
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les soumissions.",
-          variant: "destructive",
-        })
       }
     } catch (e) {
       console.error(e)
@@ -68,34 +62,18 @@ export default function AdminSubmissionsPage() {
     fetchSubmissions()
   }, [])
 
-  const handleAction = async (
-    id: string,
-    action: "APPROVE" | "REJECT" | "NEEDS_REVISION",
-    options?: { criteria?: Record<string, boolean>; feedback?: string; qualityLevel?: string }
-  ) => {
+  const handleAction = async (id: string, action: string, details: any) => {
     setProcessingId(id)
     try {
       const res = await fetch(`/api/admin/submissions/${id}`, {
-        method: "PATCH",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action,
-          feedback: options?.feedback,
-          qualityLevel: options?.qualityLevel,
-          revisionNotes: options?.criteria && activeSubmission
-            ? getCriteriaForMission(activeSubmission.mission.category)
-                .filter(c => c.weight === "REQUIRED" && !options.criteria![c.id])
-                .map(c => c.label)
-                .join("\n")
-            : undefined,
-        }),
+        body: JSON.stringify({ action, ...details }),
       })
+
       if (res.ok) {
-        toast({
-          title: action === "APPROVE" ? "Validée" : action === "NEEDS_REVISION" ? "Révision demandée" : "Refusée",
-          description: `Soumission ${action === "APPROVE" ? "approuvée" : action === "NEEDS_REVISION" ? "mise en révision" : "rejetée"} avec succès.`,
-        })
-        setSubmissions(s => s.filter(sub => sub.id !== id))
+        toast({ title: "Succès", description: "Action enregistrée avec succès" })
+        setSubmissions(prev => prev.filter(s => s.id !== id))
         setActiveSubmission(null)
         setAdminFeedback("")
         setCheckedCriteria({})

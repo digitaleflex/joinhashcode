@@ -26,7 +26,7 @@ async function main() {
     const criteria = getCriteriaForMission(mission.category)
     await prisma.mission.update({
       where: { id: mission.id },
-      data: { acceptanceCriteria: criteria },
+      data: { acceptanceCriteria: criteria as any },
     })
     console.log(`✓ ${mission.title} — ${criteria.length} critères`)
   }

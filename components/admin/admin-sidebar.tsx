@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Users,
   FileCheck,
+  MessageSquare,
   ArrowLeft,
   Settings,
   LogOut,
@@ -56,6 +57,11 @@ const adminNavItems = [
     title: "Missions",
     url: "/admin/submissions",
     icon: FileCheck,
+  },
+  {
+    title: "Feedback Bêta",
+    url: "/admin/feedback",
+    icon: MessageSquare,
   },
 ]
 
@@ -166,7 +172,6 @@ export function AdminSidebar({ user }: { user: any }) {
                       <AvatarFallback className="rounded-lg bg-primary/20 text-primary">
                         {currentUser?.name?.charAt(0) || "A"}
                       </AvatarFallback>
-                    </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold text-white">{currentUser?.name}</span>
                       <span className="truncate text-xs text-muted-foreground">{currentUser?.email}</span>
