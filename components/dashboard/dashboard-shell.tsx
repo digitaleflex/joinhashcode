@@ -59,7 +59,7 @@ export function DashboardShell({
   const levelName = levelMap[level] || "INIT";
 
   // Squad Lock Logic
-  const isSquadFull = squad && squad.members.length >= 3;
+  const isSquadFull = squad && squad.members.length >= 5;
   const isLocked = !isSquadFull;
 
   const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {

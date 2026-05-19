@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     if (!squad) return new NextResponse("Escouade introuvable", { status: 404 });
 
     // Check if full
-    if (squad.members.length >= 3) {
-      return NextResponse.json({ error: "Cette escouade est déjà complète (max 3)." }, { status: 400 });
+    if (squad.members.length >= 5) {
+      return NextResponse.json({ error: "Cette escouade est déjà complète (max 5)." }, { status: 400 });
     }
 
     // Check if already in a squad

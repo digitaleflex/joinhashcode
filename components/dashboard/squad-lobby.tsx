@@ -16,10 +16,10 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     // Fallback pseudo if not set
     const pseudo = user.pseudo || user.name.split(' ')[0]
     
-    // Squad members (max 3 for the logic)
+    // Squad members (max 5 for the logic)
     const members = squad?.members || []
     const memberCount = members.length
-    const slots = [0, 1, 2] // 3 slots total
+    const slots = [0, 1, 2, 3, 4] // 5 slots total
 
     const inviteLink = `${window.location.origin}/invite/${squad?.slug || pseudo.toLowerCase()}`
 
@@ -61,12 +61,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 </h1>
                 <p className="text-zinc-500 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
                     Agent <span className="text-primary font-bold">@{pseudo}</span>, ton accès aux missions de haut niveau est suspendu. 
-                    Le protocole HASHCODE impose une équipe de <span className="text-white font-bold">3 membres</span> pour activer ton arsenal.
+                    Le protocole HASHCODE impose une équipe de <span className="text-white font-bold">5 membres</span> pour activer ton arsenal.
                 </p>
             </div>
 
             {/* Squad Slots */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
                 {slots.map((index) => {
                     const member = members[index]
                     const isActive = !!member
@@ -74,52 +74,52 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
 
                     return (
                         <div key={index} className={cn(
-                            "relative group rounded-[2rem] border-2 transition-all duration-500 overflow-hidden",
+                            "relative group rounded-[1.5rem] border-2 transition-all duration-500 overflow-hidden",
                             isActive 
                                 ? "bg-zinc-900/40 border-primary/30 shadow-[0_0_30px_rgba(var(--primary),0.1)]" 
                                 : "bg-black/40 border-white/5 border-dashed"
                         )}>
-                            <div className="aspect-[4/5] flex flex-col items-center justify-center p-8 space-y-6">
+                            <div className="aspect-[4/5] flex flex-col items-center justify-center p-4 md:p-6 space-y-4">
                                 {isActive ? (
                                     <>
                                         <div className="relative">
-                                            <div className="size-24 rounded-2xl bg-zinc-900 border-2 border-primary/50 overflow-hidden rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                                            <div className="size-16 md:size-20 rounded-xl bg-zinc-900 border-2 border-primary/50 overflow-hidden rotate-3 group-hover:rotate-0 transition-transform duration-500">
                                                 <Avatar className="w-full h-full rounded-none">
                                                     <AvatarImage src={member.user.image || ""} />
-                                                    <AvatarFallback className="bg-primary/20 text-primary font-black text-3xl">
+                                                    <AvatarFallback className="bg-primary/20 text-primary font-black text-xl">
                                                         {member.user.pseudo?.charAt(0) || member.user.name.charAt(0)}
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </div>
-                                            <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-primary text-black text-[8px] font-black uppercase tracking-tighter -rotate-3">
+                                            <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 bg-primary text-black text-[7px] font-black uppercase tracking-tighter -rotate-3">
                                                 Activé
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-lg font-black text-white uppercase tracking-tighter italic">
+                                            <div className="text-sm font-black text-white uppercase tracking-tighter italic truncate max-w-[100px]">
                                                 {member.user.pseudo || member.user.name.split(' ')[0]}
                                             </div>
-                                            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-1">
+                                            <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest mt-1">
                                                 {member.user.class || "Agent_Init"}
                                             </div>
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                        <div className="size-20 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/[0.02]">
-                                            <UserPlus className="size-8 text-zinc-800" />
+                                        <div className="size-12 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/[0.02]">
+                                            <UserPlus className="size-5 text-zinc-800" />
                                         </div>
-                                        <div className="text-center space-y-4 w-full">
-                                            <div className="text-xs font-mono text-zinc-600 uppercase tracking-widest">
+                                        <div className="text-center space-y-3 w-full">
+                                            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
                                                 Slot_Vide
                                             </div>
-                                            {!squad && isUser === false ? null : (
+                                            {(!squad && isUser === false) ? null : (
                                                 <Button 
                                                     variant="outline" 
                                                     onClick={copyInvite}
-                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-[10px] font-bold uppercase tracking-widest"
+                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-8 text-[8px] font-bold uppercase tracking-widest"
                                                 >
-                                                    {isCopying ? <Check className="size-3 mr-2" /> : <Copy className="size-3 mr-2" />}
+                                                    {isCopying ? <Check className="size-2 mr-1" /> : <Copy className="size-2 mr-1" />}
                                                     Recruter
                                                 </Button>
                                             )}
@@ -153,12 +153,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                         {[...Array(memberCount)].map((_, i) => (
                             <Zap key={i} className="size-5 text-primary fill-primary" />
                         ))}
-                        {[...Array(3 - memberCount)].map((_, i) => (
+                        {[...Array(5 - memberCount)].map((_, i) => (
                             <Zap key={i} className="size-5 text-zinc-800" />
                         ))}
                     </div>
                     <div className="space-y-1">
-                        <p className="text-sm text-zinc-400">Progression de l&apos;assemblage : <span className="text-white font-bold">{memberCount}/3</span></p>
+                        <p className="text-sm text-zinc-400">Progression de l&apos;assemblage : <span className="text-white font-bold">{memberCount}/5</span></p>
                         <p className="text-[10px] text-zinc-600 font-mono uppercase">En attente de synchronisation neuronale...</p>
                     </div>
                 </div>

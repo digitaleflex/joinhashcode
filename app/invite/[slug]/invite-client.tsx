@@ -99,7 +99,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                                     </Avatar>
                                 </div>
                             ))}
-                            {[...Array(3 - squad.members.length)].map((_, i) => (
+                            {[...Array(5 - squad.members.length)].map((_, i) => (
                                 <div key={i} className="size-12 rounded-full border-2 border-dashed border-white/10 bg-white/[0.02] flex items-center justify-center text-zinc-700">
                                     <Users className="size-5" />
                                 </div>
@@ -125,7 +125,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                     ) : (
                         <Button 
                             onClick={handleJoin} 
-                            disabled={isLoading || squad.members.length >= 3}
+                            disabled={isLoading || squad.members.length >= 5}
                             className="w-full h-14 btn-primary-glow font-black uppercase tracking-widest"
                         >
                             {isLoading ? <Loader2 className="animate-spin" /> : (
