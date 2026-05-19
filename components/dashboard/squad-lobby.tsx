@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Users, UserPlus, Copy, Check, ShieldAlert, Zap, Loader2 } from "lucide-react"
+import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
