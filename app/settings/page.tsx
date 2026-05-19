@@ -150,14 +150,26 @@ export default function SettingsPage() {
                 <h1 className="text-4xl font-bold tracking-tighter text-white uppercase italic">Configuration</h1>
               </div>
               
-              <div className="flex items-center gap-4 bg-card/20 border border-border/40 px-4 py-2 rounded-2xl backdrop-blur-md">
-                <div className="flex flex-col items-end">
-                  <span className="text-[9px] font-mono uppercase text-muted-foreground tracking-tighter">Status_</span>
-                  <span className={cn("text-[10px] font-mono font-bold uppercase", isDirty ? "text-amber-500" : "text-emerald-500")}>
-                    {autoSaving ? "Syncing..." : isDirty ? "Modifié" : "Synchronisé"}
-                  </span>
+              <div className="flex items-center gap-3">
+                {isDirty && !autoSaving && (
+                  <Button
+                    onClick={() => { setLoading(true); save(userData).finally(() => setLoading(false)); }}
+                    disabled={loading}
+                    className="btn-primary-glow h-9 rounded-xl px-4 text-[11px] uppercase font-bold tracking-widest gap-2"
+                  >
+                    {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                    Enregistrer
+                  </Button>
+                )}
+                <div className="flex items-center gap-3 bg-card/20 border border-border/40 px-4 py-2 rounded-2xl backdrop-blur-md">
+                  <div className="flex flex-col items-end">
+                    <span className="text-[9px] font-mono uppercase text-muted-foreground tracking-tighter">Status_</span>
+                    <span className={cn("text-[10px] font-mono font-bold uppercase", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
+                      {autoSaving ? "Syncing..." : isDirty ? "Modifié" : savedAt ? "Synchronisé" : "Prêt"}
+                    </span>
+                  </div>
+                  <div className={cn("w-2 h-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]")} />
                 </div>
-                <div className={cn("w-2 h-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]")} />
               </div>
             </div>
 
