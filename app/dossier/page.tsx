@@ -14,7 +14,10 @@ import {
   Target, 
   ShieldCheck,
   Zap,
-  ChevronRight
+  ChevronRight,
+  Fingerprint,
+  Activity,
+  Cpu
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -54,200 +57,240 @@ export default async function DossierPage() {
       <AppSidebar user={user} />
       <BottomNav />
       
-      <SidebarInset className="bg-background">
+      <SidebarInset className="bg-background relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />
+        <div className="scanline opacity-20" />
+
         <UserTopBar user={user} />
         
-        <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8 overflow-y-auto scrollbar-none">
-          <div className="max-w-5xl mx-auto space-y-8">
-          {/* Header Dossier */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-[0.2em]">
-                <FileText className="w-4 h-4" />
-                Dossier de Talent Confidentiel
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-white">
-                {user.name} <span className="text-primary/40 font-light">#{user.pseudo || "TALENT"}</span>
-              </h1>
-              <p className="text-muted-foreground max-w-xl italic">
-                "{user.bio || "Aucune bio renseignée."}"
-              </p>
-            </div>
+        <main className="flex-1 p-4 md:p-10 pb-(--bottom-nav-height) md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+          <div className="max-w-6xl mx-auto space-y-12">
             
-            <Badge variant="outline" className="h-10 px-6 border-primary/30 text-primary font-mono text-sm bg-primary/5">
-              ID: {user.id.slice(0, 8).toUpperCase()}
-            </Badge>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column: Personality & Quiz Results */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Personality Card */}
-              <Card className="border-primary/20 bg-card overflow-hidden relative group">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Brain className="w-32 h-32" />
-                </div>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-primary">
-                    <Brain className="w-5 h-5" />
-                    Analyse de Profil
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
-                    <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-white">
-                      Type: <span className="text-primary">{quizResult?.profileType || "Non défini"}</span>
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      L'analyse comportementale indique un profil de type {quizResult?.profileType || "inconnu"}. 
-                      Ce profil se distingue par ses capacités d'adaptation et son approche méthodique des problèmes complexes.
+            {/* Header Dossier - Ultra Tactical */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-10">
+                <div className="space-y-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                        <Fingerprint className="size-3.5 text-primary" />
+                        <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-primary">Dossier_Confidentiel_v2.1</span>
+                    </div>
+                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">
+                        {user.name.split(' ')[0]} <span className="text-primary italic">.Data</span>
+                    </h1>
+                    <div className="flex items-center gap-4">
+                        <Badge variant="outline" className="font-mono text-[10px] border-white/10 text-zinc-500 uppercase tracking-widest">
+                            Ref_System: {user.pseudo || "TALENT_IDENTIFIED"}
+                        </Badge>
+                        <div className="flex items-center gap-1.5">
+                            <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-[9px] font-mono text-emerald-500/60 uppercase tracking-widest">Status: Actif</span>
+                        </div>
+                    </div>
+                    <p className="text-zinc-500 max-w-xl italic text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
+                        &quot;{user.bio || "Le silence est parfois la meilleure signature."}&quot;
                     </p>
-                  </div>
-
-                  {/* Raw Answers (Simplified View) */}
-                  {quizResult && (
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-mono uppercase text-muted-foreground tracking-widest border-b border-border/40 pb-2">Réponses au Protocole d'Onboarding</h4>
-                      <div className="grid gap-3">
-                        {Object.entries(answers).slice(0, 5).map(([key, value]: any) => (
-                          <div key={key} className="flex justify-between items-center text-xs p-3 rounded-xl bg-background/40 border border-border/20">
-                            <span className="text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                            <span className="font-medium text-primary">{String(value)}</span>
-                          </div>
-                        ))}
-                        <p className="text-[10px] text-center text-muted-foreground pt-2">... et plusieurs autres points de données analysés.</p>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Tech Stack Card */}
-              <Card className="border-border/60 bg-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white">
-                    <Zap className="w-5 h-5 text-primary" />
-                    Arsenal Technique
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-mono uppercase text-muted-foreground">Domaines d'Expertise</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {user.domains?.length > 0 ? (
-                        user.domains.map((d: string) => (
-                          <Badge key={d} variant="secondary" className="bg-primary/10 text-primary border-primary/20">{d}</Badge>
-                        ))
-                      ) : (
-                        <span className="text-xs italic text-muted-foreground">Aucun domaine sélectionné.</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-mono uppercase text-muted-foreground">Outils & Stack</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {user.tools?.length > 0 ? (
-                        user.tools.map((t: string) => (
-                          <Badge key={t} variant="outline" className="border-border/60">{t}</Badge>
-                        ))
-                      ) : (
-                        <span className="text-xs italic text-muted-foreground">Aucun outil sélectionné.</span>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Right Column: Identity & Metadata */}
-            <div className="space-y-8">
-              <Card className="border-border/60 bg-card">
-                <CardHeader>
-                  <CardTitle className="text-sm font-mono uppercase text-white">Statut Personnel</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-1">
-                    <div className="text-[10px] text-muted-foreground uppercase font-mono">Objectif Actuel</div>
-                    <div className="text-sm font-bold text-primary">{user.mainObjective || "Non défini"}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-[10px] text-muted-foreground uppercase font-mono">Situation</div>
-                    <div className="text-sm font-medium text-white">{user.currentSituation || "Non défini"}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-[10px] text-muted-foreground uppercase font-mono">Localisation</div>
-                    <div className="text-sm font-medium text-white flex items-center gap-2">
-                      <Globe className="w-3 h-3 text-primary" />
-                      {user.city || "N/A"}, {user.country || "N/A"}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/60 bg-card">
-                <CardHeader>
-                  <CardTitle className="text-sm font-mono uppercase text-white">Canaux Externes</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Link href={user.githubUrl || "#"} className="flex items-center justify-between p-3 rounded-xl bg-background/40 hover:bg-primary/5 transition-colors group">
-                    <div className="flex items-center gap-3">
-                      <Github className="w-4 h-4" />
-                      <span className="text-xs text-white">GitHub</span>
-                    </div>
-                    <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                  <Link href={user.linkedinUrl || "#"} className="flex items-center justify-between p-3 rounded-xl bg-background/40 hover:bg-primary/5 transition-colors group">
-                    <div className="flex items-center gap-3">
-                      <Linkedin className="w-4 h-4 text-[#0077B5]" />
-                      <span className="text-xs text-white">LinkedIn</span>
-                    </div>
-                    <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                  <Link href={user.twitterUrl || "#"} className="flex items-center justify-between p-3 rounded-xl bg-background/40 hover:bg-primary/5 transition-colors group">
-                    <div className="flex items-center gap-3">
-                      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current text-white">
-                        <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                      </svg>
-                      <span className="text-xs text-white">X (Twitter)</span>
-                    </div>
-                    <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <div className="p-6 rounded-3xl bg-primary/10 border border-primary/20 space-y-4">
-                <div className="flex items-center gap-2 text-primary">
-                  <ShieldCheck className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase font-mono tracking-tighter">Profil Vérifié</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  Ce dossier constitue la base de ton habilitation HASHCODE. Complète tes missions pour augmenter ton rang technique.
-                </p>
-                <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11">
-                  <Link href="/settings">Mettre à jour le dossier</Link>
-                </Button>
-              </div>
-
-              {/* Carte membre */}
-              <div className="space-y-3">
-                <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
-                  Carte de Membre
-                </p>
-                <MemberCard
-                  userId={user.id}
-                  pseudo={user.pseudo ?? user.name}
-                  memberNumber={user.memberNumber}
-                  userClass={user.class}
-                  level={user.level}
-                  experience={user.experience}
-                  createdAt={user.createdAt}
-                  confidenceScore={user.confidenceScore}
-                  missionsCompleted={user.missionsCompletedCount}
-                  tools={user.tools}
-                />
-              </div>
+                
+                <div className="flex flex-col items-end gap-3 shrink-0">
+                    <div className="text-right">
+                        <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-1">Habilitation_ID</div>
+                        <div className="text-xl font-black text-white font-mono bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+                            {user.id.slice(0, 12).toUpperCase()}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                {/* Main Content Area */}
+                <div className="lg:col-span-8 space-y-12">
+                    
+                    {/* Neuro-Analysis Results */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <Brain className="size-5 text-primary" />
+                            <h2 className="text-xl font-black uppercase tracking-tight text-white">Analyse de Profil</h2>
+                        </div>
+                        
+                        <Card className="glass-card overflow-hidden relative group rounded-[2.5rem]">
+                            <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
+                                <Cpu className="size-48" />
+                            </div>
+                            <CardContent className="p-8 sm:p-10 space-y-10 relative">
+                                <div className="p-8 rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                                        <div className="space-y-1">
+                                            <span className="text-[10px] font-mono text-primary font-black uppercase tracking-[0.3em]">Vecteur_Dominant</span>
+                                            <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic">
+                                                {quizResult?.profileType || "CALIBRATION_PENDING"}
+                                            </h3>
+                                        </div>
+                                        <Badge className="bg-primary text-black font-black text-[10px] px-4 py-1.5 rounded-lg uppercase tracking-widest shadow-[0_0_20px_#C5F441]">
+                                            Expertise_V1
+                                        </Badge>
+                                    </div>
+                                    <p className="text-zinc-400 text-base leading-relaxed font-light">
+                                        L&apos;analyse comportementale profonde révèle un profil de type <span className="text-white font-bold">{quizResult?.profileType || "inconnu"}</span>. 
+                                        Tes schémas de décision montrent une prédisposition naturelle pour le build stratégique et l&apos;optimisation de systèmes complexes.
+                                    </p>
+                                </div>
+
+                                {/* Answers Grid */}
+                                {quizResult && (
+                                    <div className="space-y-6">
+                                        <h4 className="text-[10px] font-mono uppercase text-zinc-500 tracking-[0.4em] flex items-center gap-3">
+                                            Points_de_Données_Clés
+                                            <div className="h-px bg-white/5 flex-1" />
+                                        </h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            {Object.entries(answers).slice(0, 6).map(([key, value]: any) => (
+                                                <div key={key} className="flex flex-col gap-1 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all group/item">
+                                                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest group-hover/item:text-primary transition-colors">
+                                                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                                                    </span>
+                                                    <span className="text-sm font-bold text-zinc-300 uppercase tracking-tight truncate">
+                                                        {String(value)}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest animate-pulse">
+                                                -- Synchronisation de 42 autres vecteurs comportementaux --
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    {/* Technical Arsenal */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <Zap className="size-5 text-primary" />
+                            <h2 className="text-xl font-black uppercase tracking-tight text-white">Arsenal Technique</h2>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <Card className="glass-card rounded-[2rem] p-8 space-y-6">
+                                <div className="space-y-2">
+                                    <h4 className="text-[10px] font-mono uppercase text-primary font-black tracking-[0.3em]">Domaines_D_Expertise</h4>
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {user.domains?.length > 0 ? (
+                                            user.domains.map((d: string) => (
+                                                <Badge key={d} className="bg-primary/10 text-primary border-primary/20 text-[10px] font-black uppercase py-1 px-3">
+                                                    {d}
+                                                </Badge>
+                                            ))
+                                        ) : (
+                                            <span className="text-xs italic text-zinc-600 font-mono">-- Aucun domaine détecté --</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </Card>
+                            
+                            <Card className="glass-card rounded-[2rem] p-8 space-y-6">
+                                <div className="space-y-2">
+                                    <h4 className="text-[10px] font-mono uppercase text-zinc-500 font-black tracking-[0.3em]">Outils_&_Technologies</h4>
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {user.tools?.length > 0 ? (
+                                            user.tools.map((t: string) => (
+                                                <Badge key={t} variant="outline" className="border-white/10 text-zinc-400 text-[10px] font-bold uppercase py-1 px-3">
+                                                    {t}
+                                                </Badge>
+                                            ))
+                                        ) : (
+                                            <span className="text-xs italic text-zinc-600 font-mono">-- Arsenal vide --</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Sidebar Area */}
+                <div className="lg:col-span-4 space-y-12">
+                    
+                    {/* Member Card - Essential piece */}
+                    <div className="space-y-4">
+                        <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-600 flex items-center gap-3">
+                            Carte_Habilitation
+                            <div className="h-px bg-white/5 flex-1" />
+                        </p>
+                        <MemberCard
+                            userId={user.id}
+                            pseudo={user.pseudo ?? user.name}
+                            memberNumber={user.memberNumber}
+                            userClass={user.class}
+                            level={user.level}
+                            experience={user.experience}
+                            createdAt={user.createdAt}
+                            confidenceScore={user.confidenceScore}
+                            missionsCompleted={user.missionsCompletedCount}
+                            tools={user.tools}
+                        />
+                    </div>
+
+                    {/* Metadata Section */}
+                    <Card className="glass-card rounded-[2rem] p-8 space-y-8">
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <div className="text-[9px] font-mono text-primary font-black uppercase tracking-[0.3em]">Objectif_Tactique</div>
+                                <div className="text-base font-bold text-white uppercase tracking-tight italic">
+                                    {user.mainObjective || "NON_SPÉCIFIÉ"}
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase tracking-[0.3em]">Position_Géo</div>
+                                <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
+                                    <Globe className="size-3.5 text-primary" />
+                                    {user.city || "UNKNOWN_LOCATION"}, {user.country || "GLOBAL"}
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase tracking-[0.3em]">Habilitation_Réseau</div>
+                                <div className="flex items-center gap-3">
+                                    <Link href={user.githubUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all group/link">
+                                        <Github className="size-4" />
+                                    </Link>
+                                    <Link href={user.linkedinUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-[#0077B5] transition-all group/link">
+                                        <Linkedin className="size-4" />
+                                    </Link>
+                                    <Link href={user.twitterUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-white transition-all group/link">
+                                        <svg viewBox="0 0 24 24" className="size-4 fill-current">
+                                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-6 border-t border-white/5">
+                            <Button asChild className="w-full btn-primary-glow font-black uppercase tracking-[0.2em] h-14 rounded-2xl group">
+                                <Link href="/settings">
+                                    Mettre à jour .Data
+                                    <ChevronRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </Button>
+                        </div>
+                    </Card>
+
+                    {/* Verification Protocol Badge */}
+                    <div className="p-8 rounded-[2.5rem] bg-emerald-500/5 border border-emerald-500/10 flex flex-col items-center text-center space-y-4">
+                        <div className="size-16 rounded-full bg-emerald-500/10 flex items-center justify-center border-2 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                            <ShieldCheck className="size-8 text-emerald-500" />
+                        </div>
+                        <div className="space-y-1">
+                            <h4 className="text-sm font-black uppercase text-emerald-400 tracking-widest">Protocol de Confiance Actif</h4>
+                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">Vérifié_Par_IA_Hashcode</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
         </main>
       </SidebarInset>
