@@ -37,22 +37,8 @@ export default async function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <div className="border-b border-white/5 px-8 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-6 rounded bg-primary/20 border border-primary/30 flex items-center justify-center">
-            <Activity className="h-3 w-3 text-primary" />
-          </div>
-          <span className="font-mono text-sm font-bold text-white">HASHCODE · ADMIN</span>
-        </div>
-        <a href="/dashboard" className="text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest">
-          ← Dashboard
-        </a>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
-
-        {/* KPI Row */}
+    <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+      {/* KPI Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Membres total", value: userCount, icon: Users, color: "text-primary" },
@@ -145,6 +131,5 @@ export default async function AdminPage() {
         </div>
 
       </div>
-    </div>
   )
 }
