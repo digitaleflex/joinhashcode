@@ -78,6 +78,11 @@ export type ContactMessage = $Result.DefaultSelection<Prisma.$ContactMessagePayl
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model BetaFeedback
+ * 
+ */
+export type BetaFeedback = $Result.DefaultSelection<Prisma.$BetaFeedbackPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -329,6 +334,16 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.betaFeedback`: Exposes CRUD operations for the **BetaFeedback** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BetaFeedbacks
+    * const betaFeedbacks = await prisma.betaFeedback.findMany()
+    * ```
+    */
+  get betaFeedback(): Prisma.BetaFeedbackDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -775,7 +790,8 @@ export namespace Prisma {
     MissionSubmission: 'MissionSubmission',
     MissionReview: 'MissionReview',
     ContactMessage: 'ContactMessage',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    BetaFeedback: 'BetaFeedback'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -791,7 +807,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification"
+      modelProps: "user" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1757,6 +1773,80 @@ export namespace Prisma {
           }
         }
       }
+      BetaFeedback: {
+        payload: Prisma.$BetaFeedbackPayload<ExtArgs>
+        fields: Prisma.BetaFeedbackFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BetaFeedbackFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BetaFeedbackFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          findFirst: {
+            args: Prisma.BetaFeedbackFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BetaFeedbackFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          findMany: {
+            args: Prisma.BetaFeedbackFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>[]
+          }
+          create: {
+            args: Prisma.BetaFeedbackCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          createMany: {
+            args: Prisma.BetaFeedbackCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BetaFeedbackCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>[]
+          }
+          delete: {
+            args: Prisma.BetaFeedbackDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          update: {
+            args: Prisma.BetaFeedbackUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          deleteMany: {
+            args: Prisma.BetaFeedbackDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BetaFeedbackUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BetaFeedbackUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>[]
+          }
+          upsert: {
+            args: Prisma.BetaFeedbackUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaFeedbackPayload>
+          }
+          aggregate: {
+            args: Prisma.BetaFeedbackAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBetaFeedback>
+          }
+          groupBy: {
+            args: Prisma.BetaFeedbackGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BetaFeedbackGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BetaFeedbackCountArgs<ExtArgs>
+            result: $Utils.Optional<BetaFeedbackCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1878,6 +1968,7 @@ export namespace Prisma {
     missionReview?: MissionReviewOmit
     contactMessage?: ContactMessageOmit
     notification?: NotificationOmit
+    betaFeedback?: BetaFeedbackOmit
   }
 
   /* Types for Logging */
@@ -1965,6 +2056,7 @@ export namespace Prisma {
     submissionsInReview: number
     reviewsGiven: number
     notifications: number
+    betaFeedbacks: number
     quizResults: number
     sessions: number
     mentees: number
@@ -1978,6 +2070,7 @@ export namespace Prisma {
     submissionsInReview?: boolean | UserCountOutputTypeCountSubmissionsInReviewArgs
     reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    betaFeedbacks?: boolean | UserCountOutputTypeCountBetaFeedbacksArgs
     quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     mentees?: boolean | UserCountOutputTypeCountMenteesArgs
@@ -2041,6 +2134,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBetaFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BetaFeedbackWhereInput
   }
 
   /**
@@ -2267,6 +2367,9 @@ export namespace Prisma {
     dreamStatement: string | null
     lastCheckinAt: Date | null
     mainBlocker: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
     reviewsCompleted: number | null
   }
 
@@ -2319,6 +2422,9 @@ export namespace Prisma {
     dreamStatement: string | null
     lastCheckinAt: Date | null
     mainBlocker: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
     reviewsCompleted: number | null
   }
 
@@ -2383,6 +2489,9 @@ export namespace Prisma {
     dreamStatement: number
     lastCheckinAt: number
     mainBlocker: number
+    banned: number
+    banReason: number
+    banExpires: number
     canReviewProfiles: number
     reviewsCompleted: number
     _all: number
@@ -2482,6 +2591,9 @@ export namespace Prisma {
     dreamStatement?: true
     lastCheckinAt?: true
     mainBlocker?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
     reviewsCompleted?: true
   }
 
@@ -2534,6 +2646,9 @@ export namespace Prisma {
     dreamStatement?: true
     lastCheckinAt?: true
     mainBlocker?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
     reviewsCompleted?: true
   }
 
@@ -2598,6 +2713,9 @@ export namespace Prisma {
     dreamStatement?: true
     lastCheckinAt?: true
     mainBlocker?: true
+    banned?: true
+    banReason?: true
+    banExpires?: true
     canReviewProfiles?: true
     reviewsCompleted?: true
     _all?: true
@@ -2750,6 +2868,9 @@ export namespace Prisma {
     dreamStatement: string | null
     lastCheckinAt: Date | null
     mainBlocker: string | null
+    banned: boolean | null
+    banReason: string | null
+    banExpires: Date | null
     canReviewProfiles: string[]
     reviewsCompleted: number
     _count: UserCountAggregateOutputType | null
@@ -2834,6 +2955,9 @@ export namespace Prisma {
     dreamStatement?: boolean
     lastCheckinAt?: boolean
     mainBlocker?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     canReviewProfiles?: boolean
     reviewsCompleted?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -2843,6 +2967,7 @@ export namespace Prisma {
     submissionsInReview?: boolean | User$submissionsInReviewArgs<ExtArgs>
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    betaFeedbacks?: boolean | User$betaFeedbacksArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -2911,6 +3036,9 @@ export namespace Prisma {
     dreamStatement?: boolean
     lastCheckinAt?: boolean
     mainBlocker?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     canReviewProfiles?: boolean
     reviewsCompleted?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -2977,6 +3105,9 @@ export namespace Prisma {
     dreamStatement?: boolean
     lastCheckinAt?: boolean
     mainBlocker?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     canReviewProfiles?: boolean
     reviewsCompleted?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -3043,11 +3174,14 @@ export namespace Prisma {
     dreamStatement?: boolean
     lastCheckinAt?: boolean
     mainBlocker?: boolean
+    banned?: boolean
+    banReason?: boolean
+    banExpires?: boolean
     canReviewProfiles?: boolean
     reviewsCompleted?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "mainBlocker" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
@@ -3056,6 +3190,7 @@ export namespace Prisma {
     submissionsInReview?: boolean | User$submissionsInReviewArgs<ExtArgs>
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    betaFeedbacks?: boolean | User$betaFeedbacksArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -3079,6 +3214,7 @@ export namespace Prisma {
       submissionsInReview: Prisma.$MissionSubmissionPayload<ExtArgs>[]
       reviewsGiven: Prisma.$MissionReviewPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      betaFeedbacks: Prisma.$BetaFeedbackPayload<ExtArgs>[]
       quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       mentor: Prisma.$UserPayload<ExtArgs> | null
@@ -3145,6 +3281,9 @@ export namespace Prisma {
       dreamStatement: string | null
       lastCheckinAt: Date | null
       mainBlocker: string | null
+      banned: boolean | null
+      banReason: string | null
+      banExpires: Date | null
       canReviewProfiles: string[]
       reviewsCompleted: number
     }, ExtArgs["result"]["user"]>
@@ -3548,6 +3687,7 @@ export namespace Prisma {
     submissionsInReview<T extends User$submissionsInReviewArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionsInReviewArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewsGiven<T extends User$reviewsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    betaFeedbacks<T extends User$betaFeedbacksArgs<ExtArgs> = {}>(args?: Subset<T, User$betaFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3641,6 +3781,9 @@ export namespace Prisma {
     readonly dreamStatement: FieldRef<"User", 'String'>
     readonly lastCheckinAt: FieldRef<"User", 'DateTime'>
     readonly mainBlocker: FieldRef<"User", 'String'>
+    readonly banned: FieldRef<"User", 'Boolean'>
+    readonly banReason: FieldRef<"User", 'String'>
+    readonly banExpires: FieldRef<"User", 'DateTime'>
     readonly canReviewProfiles: FieldRef<"User", 'String[]'>
     readonly reviewsCompleted: FieldRef<"User", 'Int'>
   }
@@ -4209,6 +4352,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.betaFeedbacks
+   */
+  export type User$betaFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    where?: BetaFeedbackWhereInput
+    orderBy?: BetaFeedbackOrderByWithRelationInput | BetaFeedbackOrderByWithRelationInput[]
+    cursor?: BetaFeedbackWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BetaFeedbackScalarFieldEnum | BetaFeedbackScalarFieldEnum[]
   }
 
   /**
@@ -18069,6 +18236,1095 @@ export namespace Prisma {
 
 
   /**
+   * Model BetaFeedback
+   */
+
+  export type AggregateBetaFeedback = {
+    _count: BetaFeedbackCountAggregateOutputType | null
+    _min: BetaFeedbackMinAggregateOutputType | null
+    _max: BetaFeedbackMaxAggregateOutputType | null
+  }
+
+  export type BetaFeedbackMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    content: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BetaFeedbackMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    content: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BetaFeedbackCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    content: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BetaFeedbackMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BetaFeedbackMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BetaFeedbackCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    content?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BetaFeedbackAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BetaFeedback to aggregate.
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaFeedbacks to fetch.
+     */
+    orderBy?: BetaFeedbackOrderByWithRelationInput | BetaFeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BetaFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BetaFeedbacks
+    **/
+    _count?: true | BetaFeedbackCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BetaFeedbackMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BetaFeedbackMaxAggregateInputType
+  }
+
+  export type GetBetaFeedbackAggregateType<T extends BetaFeedbackAggregateArgs> = {
+        [P in keyof T & keyof AggregateBetaFeedback]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBetaFeedback[P]>
+      : GetScalarType<T[P], AggregateBetaFeedback[P]>
+  }
+
+
+
+
+  export type BetaFeedbackGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BetaFeedbackWhereInput
+    orderBy?: BetaFeedbackOrderByWithAggregationInput | BetaFeedbackOrderByWithAggregationInput[]
+    by: BetaFeedbackScalarFieldEnum[] | BetaFeedbackScalarFieldEnum
+    having?: BetaFeedbackScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BetaFeedbackCountAggregateInputType | true
+    _min?: BetaFeedbackMinAggregateInputType
+    _max?: BetaFeedbackMaxAggregateInputType
+  }
+
+  export type BetaFeedbackGroupByOutputType = {
+    id: string
+    userId: string
+    type: string
+    content: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BetaFeedbackCountAggregateOutputType | null
+    _min: BetaFeedbackMinAggregateOutputType | null
+    _max: BetaFeedbackMaxAggregateOutputType | null
+  }
+
+  type GetBetaFeedbackGroupByPayload<T extends BetaFeedbackGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BetaFeedbackGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BetaFeedbackGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BetaFeedbackGroupByOutputType[P]>
+            : GetScalarType<T[P], BetaFeedbackGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BetaFeedbackSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["betaFeedback"]>
+
+  export type BetaFeedbackSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["betaFeedback"]>
+
+  export type BetaFeedbackSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["betaFeedback"]>
+
+  export type BetaFeedbackSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    content?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BetaFeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["betaFeedback"]>
+  export type BetaFeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BetaFeedbackIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BetaFeedbackIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BetaFeedbackPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BetaFeedback"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: string
+      content: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["betaFeedback"]>
+    composites: {}
+  }
+
+  type BetaFeedbackGetPayload<S extends boolean | null | undefined | BetaFeedbackDefaultArgs> = $Result.GetResult<Prisma.$BetaFeedbackPayload, S>
+
+  type BetaFeedbackCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BetaFeedbackFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BetaFeedbackCountAggregateInputType | true
+    }
+
+  export interface BetaFeedbackDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BetaFeedback'], meta: { name: 'BetaFeedback' } }
+    /**
+     * Find zero or one BetaFeedback that matches the filter.
+     * @param {BetaFeedbackFindUniqueArgs} args - Arguments to find a BetaFeedback
+     * @example
+     * // Get one BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BetaFeedbackFindUniqueArgs>(args: SelectSubset<T, BetaFeedbackFindUniqueArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BetaFeedback that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BetaFeedbackFindUniqueOrThrowArgs} args - Arguments to find a BetaFeedback
+     * @example
+     * // Get one BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BetaFeedbackFindUniqueOrThrowArgs>(args: SelectSubset<T, BetaFeedbackFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BetaFeedback that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackFindFirstArgs} args - Arguments to find a BetaFeedback
+     * @example
+     * // Get one BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BetaFeedbackFindFirstArgs>(args?: SelectSubset<T, BetaFeedbackFindFirstArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BetaFeedback that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackFindFirstOrThrowArgs} args - Arguments to find a BetaFeedback
+     * @example
+     * // Get one BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BetaFeedbackFindFirstOrThrowArgs>(args?: SelectSubset<T, BetaFeedbackFindFirstOrThrowArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BetaFeedbacks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BetaFeedbacks
+     * const betaFeedbacks = await prisma.betaFeedback.findMany()
+     * 
+     * // Get first 10 BetaFeedbacks
+     * const betaFeedbacks = await prisma.betaFeedback.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const betaFeedbackWithIdOnly = await prisma.betaFeedback.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BetaFeedbackFindManyArgs>(args?: SelectSubset<T, BetaFeedbackFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BetaFeedback.
+     * @param {BetaFeedbackCreateArgs} args - Arguments to create a BetaFeedback.
+     * @example
+     * // Create one BetaFeedback
+     * const BetaFeedback = await prisma.betaFeedback.create({
+     *   data: {
+     *     // ... data to create a BetaFeedback
+     *   }
+     * })
+     * 
+     */
+    create<T extends BetaFeedbackCreateArgs>(args: SelectSubset<T, BetaFeedbackCreateArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BetaFeedbacks.
+     * @param {BetaFeedbackCreateManyArgs} args - Arguments to create many BetaFeedbacks.
+     * @example
+     * // Create many BetaFeedbacks
+     * const betaFeedback = await prisma.betaFeedback.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BetaFeedbackCreateManyArgs>(args?: SelectSubset<T, BetaFeedbackCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BetaFeedbacks and returns the data saved in the database.
+     * @param {BetaFeedbackCreateManyAndReturnArgs} args - Arguments to create many BetaFeedbacks.
+     * @example
+     * // Create many BetaFeedbacks
+     * const betaFeedback = await prisma.betaFeedback.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BetaFeedbacks and only return the `id`
+     * const betaFeedbackWithIdOnly = await prisma.betaFeedback.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BetaFeedbackCreateManyAndReturnArgs>(args?: SelectSubset<T, BetaFeedbackCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BetaFeedback.
+     * @param {BetaFeedbackDeleteArgs} args - Arguments to delete one BetaFeedback.
+     * @example
+     * // Delete one BetaFeedback
+     * const BetaFeedback = await prisma.betaFeedback.delete({
+     *   where: {
+     *     // ... filter to delete one BetaFeedback
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BetaFeedbackDeleteArgs>(args: SelectSubset<T, BetaFeedbackDeleteArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BetaFeedback.
+     * @param {BetaFeedbackUpdateArgs} args - Arguments to update one BetaFeedback.
+     * @example
+     * // Update one BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BetaFeedbackUpdateArgs>(args: SelectSubset<T, BetaFeedbackUpdateArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BetaFeedbacks.
+     * @param {BetaFeedbackDeleteManyArgs} args - Arguments to filter BetaFeedbacks to delete.
+     * @example
+     * // Delete a few BetaFeedbacks
+     * const { count } = await prisma.betaFeedback.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BetaFeedbackDeleteManyArgs>(args?: SelectSubset<T, BetaFeedbackDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BetaFeedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BetaFeedbacks
+     * const betaFeedback = await prisma.betaFeedback.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BetaFeedbackUpdateManyArgs>(args: SelectSubset<T, BetaFeedbackUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BetaFeedbacks and returns the data updated in the database.
+     * @param {BetaFeedbackUpdateManyAndReturnArgs} args - Arguments to update many BetaFeedbacks.
+     * @example
+     * // Update many BetaFeedbacks
+     * const betaFeedback = await prisma.betaFeedback.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BetaFeedbacks and only return the `id`
+     * const betaFeedbackWithIdOnly = await prisma.betaFeedback.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BetaFeedbackUpdateManyAndReturnArgs>(args: SelectSubset<T, BetaFeedbackUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BetaFeedback.
+     * @param {BetaFeedbackUpsertArgs} args - Arguments to update or create a BetaFeedback.
+     * @example
+     * // Update or create a BetaFeedback
+     * const betaFeedback = await prisma.betaFeedback.upsert({
+     *   create: {
+     *     // ... data to create a BetaFeedback
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BetaFeedback we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BetaFeedbackUpsertArgs>(args: SelectSubset<T, BetaFeedbackUpsertArgs<ExtArgs>>): Prisma__BetaFeedbackClient<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BetaFeedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackCountArgs} args - Arguments to filter BetaFeedbacks to count.
+     * @example
+     * // Count the number of BetaFeedbacks
+     * const count = await prisma.betaFeedback.count({
+     *   where: {
+     *     // ... the filter for the BetaFeedbacks we want to count
+     *   }
+     * })
+    **/
+    count<T extends BetaFeedbackCountArgs>(
+      args?: Subset<T, BetaFeedbackCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BetaFeedbackCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BetaFeedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BetaFeedbackAggregateArgs>(args: Subset<T, BetaFeedbackAggregateArgs>): Prisma.PrismaPromise<GetBetaFeedbackAggregateType<T>>
+
+    /**
+     * Group by BetaFeedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaFeedbackGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BetaFeedbackGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BetaFeedbackGroupByArgs['orderBy'] }
+        : { orderBy?: BetaFeedbackGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BetaFeedbackGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBetaFeedbackGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BetaFeedback model
+   */
+  readonly fields: BetaFeedbackFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BetaFeedback.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BetaFeedbackClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BetaFeedback model
+   */
+  interface BetaFeedbackFieldRefs {
+    readonly id: FieldRef<"BetaFeedback", 'String'>
+    readonly userId: FieldRef<"BetaFeedback", 'String'>
+    readonly type: FieldRef<"BetaFeedback", 'String'>
+    readonly content: FieldRef<"BetaFeedback", 'String'>
+    readonly status: FieldRef<"BetaFeedback", 'String'>
+    readonly createdAt: FieldRef<"BetaFeedback", 'DateTime'>
+    readonly updatedAt: FieldRef<"BetaFeedback", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BetaFeedback findUnique
+   */
+  export type BetaFeedbackFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaFeedback to fetch.
+     */
+    where: BetaFeedbackWhereUniqueInput
+  }
+
+  /**
+   * BetaFeedback findUniqueOrThrow
+   */
+  export type BetaFeedbackFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaFeedback to fetch.
+     */
+    where: BetaFeedbackWhereUniqueInput
+  }
+
+  /**
+   * BetaFeedback findFirst
+   */
+  export type BetaFeedbackFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaFeedback to fetch.
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaFeedbacks to fetch.
+     */
+    orderBy?: BetaFeedbackOrderByWithRelationInput | BetaFeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BetaFeedbacks.
+     */
+    cursor?: BetaFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaFeedbacks.
+     */
+    distinct?: BetaFeedbackScalarFieldEnum | BetaFeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * BetaFeedback findFirstOrThrow
+   */
+  export type BetaFeedbackFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaFeedback to fetch.
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaFeedbacks to fetch.
+     */
+    orderBy?: BetaFeedbackOrderByWithRelationInput | BetaFeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BetaFeedbacks.
+     */
+    cursor?: BetaFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaFeedbacks.
+     */
+    distinct?: BetaFeedbackScalarFieldEnum | BetaFeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * BetaFeedback findMany
+   */
+  export type BetaFeedbackFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaFeedbacks to fetch.
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaFeedbacks to fetch.
+     */
+    orderBy?: BetaFeedbackOrderByWithRelationInput | BetaFeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BetaFeedbacks.
+     */
+    cursor?: BetaFeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaFeedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaFeedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaFeedbacks.
+     */
+    distinct?: BetaFeedbackScalarFieldEnum | BetaFeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * BetaFeedback create
+   */
+  export type BetaFeedbackCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BetaFeedback.
+     */
+    data: XOR<BetaFeedbackCreateInput, BetaFeedbackUncheckedCreateInput>
+  }
+
+  /**
+   * BetaFeedback createMany
+   */
+  export type BetaFeedbackCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BetaFeedbacks.
+     */
+    data: BetaFeedbackCreateManyInput | BetaFeedbackCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BetaFeedback createManyAndReturn
+   */
+  export type BetaFeedbackCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * The data used to create many BetaFeedbacks.
+     */
+    data: BetaFeedbackCreateManyInput | BetaFeedbackCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BetaFeedback update
+   */
+  export type BetaFeedbackUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BetaFeedback.
+     */
+    data: XOR<BetaFeedbackUpdateInput, BetaFeedbackUncheckedUpdateInput>
+    /**
+     * Choose, which BetaFeedback to update.
+     */
+    where: BetaFeedbackWhereUniqueInput
+  }
+
+  /**
+   * BetaFeedback updateMany
+   */
+  export type BetaFeedbackUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BetaFeedbacks.
+     */
+    data: XOR<BetaFeedbackUpdateManyMutationInput, BetaFeedbackUncheckedUpdateManyInput>
+    /**
+     * Filter which BetaFeedbacks to update
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * Limit how many BetaFeedbacks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BetaFeedback updateManyAndReturn
+   */
+  export type BetaFeedbackUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * The data used to update BetaFeedbacks.
+     */
+    data: XOR<BetaFeedbackUpdateManyMutationInput, BetaFeedbackUncheckedUpdateManyInput>
+    /**
+     * Filter which BetaFeedbacks to update
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * Limit how many BetaFeedbacks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BetaFeedback upsert
+   */
+  export type BetaFeedbackUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BetaFeedback to update in case it exists.
+     */
+    where: BetaFeedbackWhereUniqueInput
+    /**
+     * In case the BetaFeedback found by the `where` argument doesn't exist, create a new BetaFeedback with this data.
+     */
+    create: XOR<BetaFeedbackCreateInput, BetaFeedbackUncheckedCreateInput>
+    /**
+     * In case the BetaFeedback was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BetaFeedbackUpdateInput, BetaFeedbackUncheckedUpdateInput>
+  }
+
+  /**
+   * BetaFeedback delete
+   */
+  export type BetaFeedbackDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+    /**
+     * Filter which BetaFeedback to delete.
+     */
+    where: BetaFeedbackWhereUniqueInput
+  }
+
+  /**
+   * BetaFeedback deleteMany
+   */
+  export type BetaFeedbackDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BetaFeedbacks to delete
+     */
+    where?: BetaFeedbackWhereInput
+    /**
+     * Limit how many BetaFeedbacks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BetaFeedback without action
+   */
+  export type BetaFeedbackDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaFeedback
+     */
+    select?: BetaFeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaFeedback
+     */
+    omit?: BetaFeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaFeedbackInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18143,6 +19399,9 @@ export namespace Prisma {
     dreamStatement: 'dreamStatement',
     lastCheckinAt: 'lastCheckinAt',
     mainBlocker: 'mainBlocker',
+    banned: 'banned',
+    banReason: 'banReason',
+    banExpires: 'banExpires',
     canReviewProfiles: 'canReviewProfiles',
     reviewsCompleted: 'reviewsCompleted'
   };
@@ -18345,6 +19604,19 @@ export namespace Prisma {
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+  export const BetaFeedbackScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    content: 'content',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BetaFeedbackScalarFieldEnum = (typeof BetaFeedbackScalarFieldEnum)[keyof typeof BetaFeedbackScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -18542,6 +19814,9 @@ export namespace Prisma {
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     canReviewProfiles?: StringNullableListFilter<"User">
     reviewsCompleted?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
@@ -18551,6 +19826,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionListRelationFilter
     reviewsGiven?: MissionReviewListRelationFilter
     notifications?: NotificationListRelationFilter
+    betaFeedbacks?: BetaFeedbackListRelationFilter
     quizResults?: QuizResultListRelationFilter
     sessions?: SessionListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -18618,6 +19894,9 @@ export namespace Prisma {
     dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
+    banned?: SortOrderInput | SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     canReviewProfiles?: SortOrder
     reviewsCompleted?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -18627,6 +19906,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionOrderByRelationAggregateInput
     reviewsGiven?: MissionReviewOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    betaFeedbacks?: BetaFeedbackOrderByRelationAggregateInput
     quizResults?: QuizResultOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     mentor?: UserOrderByWithRelationInput
@@ -18697,6 +19977,9 @@ export namespace Prisma {
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     canReviewProfiles?: StringNullableListFilter<"User">
     reviewsCompleted?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
@@ -18706,6 +19989,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionListRelationFilter
     reviewsGiven?: MissionReviewListRelationFilter
     notifications?: NotificationListRelationFilter
+    betaFeedbacks?: BetaFeedbackListRelationFilter
     quizResults?: QuizResultListRelationFilter
     sessions?: SessionListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -18773,6 +20057,9 @@ export namespace Prisma {
     dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
+    banned?: SortOrderInput | SortOrder
+    banReason?: SortOrderInput | SortOrder
+    banExpires?: SortOrderInput | SortOrder
     canReviewProfiles?: SortOrder
     reviewsCompleted?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -18846,6 +20133,9 @@ export namespace Prisma {
     dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
+    banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     canReviewProfiles?: StringNullableListFilter<"User">
     reviewsCompleted?: IntWithAggregatesFilter<"User"> | number
   }
@@ -19849,6 +21139,71 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
+  export type BetaFeedbackWhereInput = {
+    AND?: BetaFeedbackWhereInput | BetaFeedbackWhereInput[]
+    OR?: BetaFeedbackWhereInput[]
+    NOT?: BetaFeedbackWhereInput | BetaFeedbackWhereInput[]
+    id?: StringFilter<"BetaFeedback"> | string
+    userId?: StringFilter<"BetaFeedback"> | string
+    type?: StringFilter<"BetaFeedback"> | string
+    content?: StringFilter<"BetaFeedback"> | string
+    status?: StringFilter<"BetaFeedback"> | string
+    createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+    updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BetaFeedbackOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BetaFeedbackWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BetaFeedbackWhereInput | BetaFeedbackWhereInput[]
+    OR?: BetaFeedbackWhereInput[]
+    NOT?: BetaFeedbackWhereInput | BetaFeedbackWhereInput[]
+    userId?: StringFilter<"BetaFeedback"> | string
+    type?: StringFilter<"BetaFeedback"> | string
+    content?: StringFilter<"BetaFeedback"> | string
+    status?: StringFilter<"BetaFeedback"> | string
+    createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+    updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type BetaFeedbackOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BetaFeedbackCountOrderByAggregateInput
+    _max?: BetaFeedbackMaxOrderByAggregateInput
+    _min?: BetaFeedbackMinOrderByAggregateInput
+  }
+
+  export type BetaFeedbackScalarWhereWithAggregatesInput = {
+    AND?: BetaFeedbackScalarWhereWithAggregatesInput | BetaFeedbackScalarWhereWithAggregatesInput[]
+    OR?: BetaFeedbackScalarWhereWithAggregatesInput[]
+    NOT?: BetaFeedbackScalarWhereWithAggregatesInput | BetaFeedbackScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    userId?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    type?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    content?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    status?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BetaFeedback"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BetaFeedback"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -19909,6 +21264,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -19918,6 +21276,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -19985,6 +21344,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -19994,6 +21356,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -20058,6 +21421,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -20067,6 +21433,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -20134,6 +21501,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -20143,6 +21513,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -20209,6 +21580,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
   }
@@ -20272,6 +21646,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
   }
@@ -20337,6 +21714,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
   }
@@ -21454,6 +22834,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BetaFeedbackCreateInput = {
+    id?: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBetaFeedbacksInput
+  }
+
+  export type BetaFeedbackUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaFeedbackUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBetaFeedbacksNestedInput
+  }
+
+  export type BetaFeedbackUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaFeedbackCreateManyInput = {
+    id?: string
+    userId: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaFeedbackUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaFeedbackUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -21586,6 +23035,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -21620,6 +23074,12 @@ export namespace Prisma {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
     none?: NotificationWhereInput
+  }
+
+  export type BetaFeedbackListRelationFilter = {
+    every?: BetaFeedbackWhereInput
+    some?: BetaFeedbackWhereInput
+    none?: BetaFeedbackWhereInput
   }
 
   export type QuizResultListRelationFilter = {
@@ -21671,6 +23131,10 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BetaFeedbackOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21747,6 +23211,9 @@ export namespace Prisma {
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
     mainBlocker?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
     canReviewProfiles?: SortOrder
     reviewsCompleted?: SortOrder
   }
@@ -21822,6 +23289,9 @@ export namespace Prisma {
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
     mainBlocker?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
     reviewsCompleted?: SortOrder
   }
 
@@ -21874,6 +23344,9 @@ export namespace Prisma {
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
     mainBlocker?: SortOrder
+    banned?: SortOrder
+    banReason?: SortOrder
+    banExpires?: SortOrder
     reviewsCompleted?: SortOrder
   }
 
@@ -22059,6 +23532,14 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -22674,6 +24155,36 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type BetaFeedbackCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BetaFeedbackMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BetaFeedbackMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UserCreateactivePathsInput = {
     set: string[]
   }
@@ -22771,6 +24282,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type BetaFeedbackCreateNestedManyWithoutUserInput = {
+    create?: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput> | BetaFeedbackCreateWithoutUserInput[] | BetaFeedbackUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BetaFeedbackCreateOrConnectWithoutUserInput | BetaFeedbackCreateOrConnectWithoutUserInput[]
+    createMany?: BetaFeedbackCreateManyUserInputEnvelope
+    connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+  }
+
   export type QuizResultCreateNestedManyWithoutUserInput = {
     create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
@@ -22845,6 +24363,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type BetaFeedbackUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput> | BetaFeedbackCreateWithoutUserInput[] | BetaFeedbackUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BetaFeedbackCreateOrConnectWithoutUserInput | BetaFeedbackCreateOrConnectWithoutUserInput[]
+    createMany?: BetaFeedbackCreateManyUserInputEnvelope
+    connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
   }
 
   export type QuizResultUncheckedCreateNestedManyWithoutUserInput = {
@@ -22975,6 +24500,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type UserUpdatecanReviewProfilesInput = {
     set?: string[]
     push?: string | string[]
@@ -23076,6 +24605,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type BetaFeedbackUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput> | BetaFeedbackCreateWithoutUserInput[] | BetaFeedbackUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BetaFeedbackCreateOrConnectWithoutUserInput | BetaFeedbackCreateOrConnectWithoutUserInput[]
+    upsert?: BetaFeedbackUpsertWithWhereUniqueWithoutUserInput | BetaFeedbackUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BetaFeedbackCreateManyUserInputEnvelope
+    set?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    disconnect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    delete?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    update?: BetaFeedbackUpdateWithWhereUniqueWithoutUserInput | BetaFeedbackUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BetaFeedbackUpdateManyWithWhereWithoutUserInput | BetaFeedbackUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
   }
 
   export type QuizResultUpdateManyWithoutUserNestedInput = {
@@ -23226,6 +24769,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput> | BetaFeedbackCreateWithoutUserInput[] | BetaFeedbackUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BetaFeedbackCreateOrConnectWithoutUserInput | BetaFeedbackCreateOrConnectWithoutUserInput[]
+    upsert?: BetaFeedbackUpsertWithWhereUniqueWithoutUserInput | BetaFeedbackUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BetaFeedbackCreateManyUserInputEnvelope
+    set?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    disconnect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    delete?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
+    update?: BetaFeedbackUpdateWithWhereUniqueWithoutUserInput | BetaFeedbackUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BetaFeedbackUpdateManyWithWhereWithoutUserInput | BetaFeedbackUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
   }
 
   export type QuizResultUncheckedUpdateManyWithoutUserNestedInput = {
@@ -23595,6 +25152,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
+  export type UserCreateNestedOneWithoutBetaFeedbacksInput = {
+    create?: XOR<UserCreateWithoutBetaFeedbacksInput, UserUncheckedCreateWithoutBetaFeedbacksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaFeedbacksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBetaFeedbacksNestedInput = {
+    create?: XOR<UserCreateWithoutBetaFeedbacksInput, UserUncheckedCreateWithoutBetaFeedbacksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaFeedbacksInput
+    upsert?: UserUpsertWithoutBetaFeedbacksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBetaFeedbacksInput, UserUpdateWithoutBetaFeedbacksInput>, UserUncheckedUpdateWithoutBetaFeedbacksInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -23692,6 +25263,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -23849,6 +25425,14 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -24138,6 +25722,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BetaFeedbackCreateWithoutUserInput = {
+    id?: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaFeedbackUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaFeedbackCreateOrConnectWithoutUserInput = {
+    where: BetaFeedbackWhereUniqueInput
+    create: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput>
+  }
+
+  export type BetaFeedbackCreateManyUserInputEnvelope = {
+    data: BetaFeedbackCreateManyUserInput | BetaFeedbackCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type QuizResultCreateWithoutUserInput = {
     id?: string
     profileType: string
@@ -24260,6 +25872,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -24269,6 +25884,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -24335,6 +25951,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -24344,6 +25963,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -24413,6 +26033,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -24422,6 +26045,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -24487,6 +26111,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -24496,6 +26123,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -24720,6 +26348,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type BetaFeedbackUpsertWithWhereUniqueWithoutUserInput = {
+    where: BetaFeedbackWhereUniqueInput
+    update: XOR<BetaFeedbackUpdateWithoutUserInput, BetaFeedbackUncheckedUpdateWithoutUserInput>
+    create: XOR<BetaFeedbackCreateWithoutUserInput, BetaFeedbackUncheckedCreateWithoutUserInput>
+  }
+
+  export type BetaFeedbackUpdateWithWhereUniqueWithoutUserInput = {
+    where: BetaFeedbackWhereUniqueInput
+    data: XOR<BetaFeedbackUpdateWithoutUserInput, BetaFeedbackUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BetaFeedbackUpdateManyWithWhereWithoutUserInput = {
+    where: BetaFeedbackScalarWhereInput
+    data: XOR<BetaFeedbackUpdateManyMutationInput, BetaFeedbackUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BetaFeedbackScalarWhereInput = {
+    AND?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
+    OR?: BetaFeedbackScalarWhereInput[]
+    NOT?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
+    id?: StringFilter<"BetaFeedback"> | string
+    userId?: StringFilter<"BetaFeedback"> | string
+    type?: StringFilter<"BetaFeedback"> | string
+    content?: StringFilter<"BetaFeedback"> | string
+    status?: StringFilter<"BetaFeedback"> | string
+    createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+    updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
+  }
+
   export type QuizResultUpsertWithWhereUniqueWithoutUserInput = {
     where: QuizResultWhereUniqueInput
     update: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
@@ -24851,6 +26508,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -24860,6 +26520,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -24926,6 +26587,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -24935,6 +26599,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -25019,6 +26684,9 @@ export namespace Prisma {
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     canReviewProfiles?: StringNullableListFilter<"User">
     reviewsCompleted?: IntFilter<"User"> | number
   }
@@ -25083,6 +26751,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -25091,6 +26762,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -25158,6 +26830,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -25166,6 +26841,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -25246,6 +26922,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -25254,6 +26933,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -25321,6 +27001,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -25329,6 +27012,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -25533,6 +27217,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -25541,6 +27228,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -25608,6 +27296,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -25616,6 +27307,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -25729,6 +27421,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -25737,6 +27432,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -25804,6 +27500,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -25812,6 +27511,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -25877,6 +27577,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -25886,6 +27589,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -25952,6 +27656,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -25961,6 +27668,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
@@ -26040,6 +27748,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -26049,6 +27760,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -26115,6 +27827,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -26124,6 +27839,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
@@ -26188,6 +27904,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
@@ -26196,6 +27915,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -26263,6 +27983,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
@@ -26271,6 +27994,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -26351,6 +28075,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
@@ -26359,6 +28086,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -26426,6 +28154,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
@@ -26434,6 +28165,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -26499,6 +28231,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26508,6 +28243,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -26574,6 +28310,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26583,6 +28322,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
@@ -26662,6 +28402,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -26671,6 +28414,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -26737,6 +28481,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -26746,6 +28493,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
@@ -26869,6 +28617,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26877,6 +28628,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -26944,6 +28696,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26952,6 +28707,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -27022,6 +28778,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27030,6 +28789,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -27097,6 +28857,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27105,6 +28868,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -27280,6 +29044,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27288,6 +29055,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -27355,6 +29123,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27363,6 +29134,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -27438,6 +29210,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27446,6 +29221,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -27513,6 +29289,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27521,6 +29300,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -27653,6 +29433,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27661,6 +29444,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -27728,6 +29512,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27736,6 +29523,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -27873,6 +29661,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27881,6 +29672,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -27948,6 +29740,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27956,6 +29751,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -28021,6 +29817,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -28029,6 +29828,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -28096,6 +29896,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28104,6 +29907,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -28184,6 +29988,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28192,6 +29999,7 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -28259,6 +30067,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28267,6 +30078,334 @@ export namespace Prisma {
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserCreateWithoutBetaFeedbacksInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserUncheckedCreateWithoutBetaFeedbacksInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    mentorId?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserCreateOrConnectWithoutBetaFeedbacksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBetaFeedbacksInput, UserUncheckedCreateWithoutBetaFeedbacksInput>
+  }
+
+  export type UserUpsertWithoutBetaFeedbacksInput = {
+    update: XOR<UserUpdateWithoutBetaFeedbacksInput, UserUncheckedUpdateWithoutBetaFeedbacksInput>
+    create: XOR<UserCreateWithoutBetaFeedbacksInput, UserUncheckedCreateWithoutBetaFeedbacksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBetaFeedbacksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBetaFeedbacksInput, UserUncheckedUpdateWithoutBetaFeedbacksInput>
+  }
+
+  export type UserUpdateWithoutBetaFeedbacksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBetaFeedbacksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -28367,6 +30506,15 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type BetaFeedbackCreateManyUserInput = {
+    id?: string
+    type: string
+    content: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type QuizResultCreateManyUserInput = {
     id?: string
     profileType: string
@@ -28448,6 +30596,9 @@ export namespace Prisma {
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
     mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
     canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
     reviewsCompleted?: number
   }
@@ -28741,6 +30892,33 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BetaFeedbackUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaFeedbackUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaFeedbackUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type QuizResultUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     profileType?: StringFieldUpdateOperationsInput | string
@@ -28863,6 +31041,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28872,6 +31053,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -28937,6 +31119,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28946,6 +31131,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -29011,6 +31197,9 @@ export namespace Prisma {
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
   }

@@ -181,6 +181,9 @@ exports.Prisma.UserScalarFieldEnum = {
   dreamStatement: 'dreamStatement',
   lastCheckinAt: 'lastCheckinAt',
   mainBlocker: 'mainBlocker',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpires: 'banExpires',
   canReviewProfiles: 'canReviewProfiles',
   reviewsCompleted: 'reviewsCompleted'
 };
@@ -344,6 +347,16 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BetaFeedbackScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  content: 'content',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -388,7 +401,8 @@ exports.Prisma.ModelName = {
   MissionSubmission: 'MissionSubmission',
   MissionReview: 'MissionReview',
   ContactMessage: 'ContactMessage',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  BetaFeedback: 'BetaFeedback'
 };
 
 /**
