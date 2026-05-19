@@ -17,17 +17,6 @@ const buildTrustedOrigins = () => {
   return Array.from(origins);
 };
 
-const getCookieDomain = (): string | undefined => {
-  if (process.env.NODE_ENV !== "production") return undefined;
-  const url = process.env.NEXT_PUBLIC_APP_URL;
-  if (!url) return undefined;
-  try {
-    const hostname = new URL(url).hostname.replace(/^www\./, "");
-    return `.${hostname}`;
-  } catch {
-    return undefined;
-  }
-};
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
@@ -36,7 +25,7 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
   account: {
-    storeStateStrategy: "cookie",
+    storeStateStrategy: "database",
   },
   user: {
     additionalFields: {
@@ -93,10 +82,6 @@ export const auth = betterAuth({
   },
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
-    crossSubDomainCookies: {
-      enabled: process.env.NODE_ENV === "production",
-      domain: getCookieDomain(),
-    },
   },
   plugins: [
     magicLink({
