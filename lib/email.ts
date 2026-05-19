@@ -187,6 +187,63 @@ export const emailService = {
     });
   },
 
+  async sendFeedbackReceipt({ email, name, type }: { email: string; name: string; type: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const typeLabels: Record<string, string> = {
+      BUG: "Signalement de Bug",
+      FEATURE_REQUEST: "Suggestion d'Idée",
+      GENERAL: "Retour Général",
+    };
+
+    const content = `
+      <h1 class="title">Transmission <span class="highlight">Reçue</span></h1>
+      <p>Bâtisseur <span class="highlight">${name}</span>, ton feedback a bien été réceptionné par le centre de contrôle.</p>
+      <p><strong>Type :</strong> ${typeLabels[type] || type}</p>
+      <p>Nos équipes d'analyse vont examiner tes données pour optimiser l'écosystème. Tu recevras une notification dès que ton rapport aura été traité.</p>
+      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: UNDER_REVIEW ]</p>
+    `;
+
+    return this._send({
+      to: email,
+      subject: "Confirmation de réception : Ton feedback HASHCODE",
+      html: generateEmailTemplate(content)
+    });
+  },
+
+  async sendFeedbackUpdate({ email, name, status }: { email: string; name: string; status: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const statusInfo: Record<string, { title: string; desc: string; highlight: string }> = {
+      REVIEWED: {
+        title: "Analyse en cours",
+        desc: "Ton feedback est actuellement entre les mains de nos ingénieurs. Nous étudions la meilleure façon d'intégrer tes remarques.",
+        highlight: "#C5F441"
+      },
+      RESOLVED: {
+        title: "Mission terminée",
+        desc: "Excellente nouvelle ! Les mesures nécessaires ont été prises suite à ton retour. Ton impact sur l'écosystème est désormais concret.",
+        highlight: "#C5F441"
+      }
+    };
+
+    const info = statusInfo[status] || statusInfo.REVIEWED;
+
+    const content = `
+      <h1 class="title" style="color: ${info.highlight};">${info.title}</h1>
+      <p>Bâtisseur <span class="highlight">${name}</span>, le statut de ta transmission a évolué.</p>
+      <p>${info.desc}</p>
+      <center><a href="${APP_URL}/dashboard" class="btn">Retourner au Terminal</a></center>
+      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: ${status} ]</p>
+    `;
+
+    return this._send({
+      to: email,
+      subject: `Mise à jour : Ton feedback HASHCODE est ${status}`,
+      html: generateEmailTemplate(content)
+    });
+  },
+
   async _send({ to, subject, html }: { to: string; subject: string; html: string }) {
     if (!resend) return { success: false, error: "Resend not configured" };
     try {

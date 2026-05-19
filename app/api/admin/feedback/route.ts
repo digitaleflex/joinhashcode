@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { emailService } from "@/lib/email";
 
 const statusSchema = z.object({
   id: z.string(),
@@ -34,10 +35,27 @@ export const PATCH = async (req: NextRequest) => {
       return NextResponse.json({ error: "Données invalides" }, { status: 400 });
     }
 
-    await prisma.betaFeedback.update({
+    const updatedFeedback = await prisma.betaFeedback.update({
       where: { id: result.data.id },
       data: { status: result.data.status },
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+          }
+        }
+      }
     });
+
+    // Notify user of status change (if not NEW)
+    if (result.data.status !== "NEW") {
+      await emailService.sendFeedbackUpdate({
+        email: updatedFeedback.user.email,
+        name: updatedFeedback.user.name,
+        status: result.data.status,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

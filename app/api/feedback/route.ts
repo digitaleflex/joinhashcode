@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { emailService } from "@/lib/email";
 
 const feedbackSchema = z.object({
   type: z.enum(["BUG", "FEATURE_REQUEST", "GENERAL"]),
@@ -34,6 +35,13 @@ export const POST = async (req: NextRequest) => {
         type: result.data.type,
         content: result.data.content,
       },
+    });
+
+    // Notify user
+    await emailService.sendFeedbackReceipt({
+      email: session.user.email,
+      name: session.user.name,
+      type: result.data.type,
     });
 
     return NextResponse.json({ 
