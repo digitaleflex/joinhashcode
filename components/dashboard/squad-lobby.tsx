@@ -21,11 +21,17 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const memberCount = members.length
     const slots = [0, 1, 2, 3, 4] // 5 slots total
 
+    // Neuromarketing: Progress-based visual state
+    const isSuccess = memberCount >= 5
+    const themeColor = memberCount === 0 ? "text-zinc-500" : memberCount < 3 ? "text-amber-500" : memberCount < 5 ? "text-blue-500" : "text-primary"
+    const borderColor = memberCount === 0 ? "border-white/5" : memberCount < 3 ? "border-amber-500/30" : memberCount < 5 ? "border-blue-500/30" : "border-primary/50"
+    const glowColor = memberCount === 0 ? "bg-zinc-500/5" : memberCount < 3 ? "bg-amber-500/5" : memberCount < 5 ? "bg-blue-500/5" : "bg-primary/10"
+
     const inviteLink = `${window.location.origin}/invite/${squad?.slug || pseudo.toLowerCase()}`
 
     const copyInvite = () => {
         navigator.clipboard.writeText(inviteLink)
-        toast.success("Lien de recrutement copié !")
+        toast.success("Code de recrutement copié !")
         setIsLocked(true)
         setTimeout(() => setIsLocked(false), 2000)
     }
@@ -38,10 +44,10 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 headers: { "Content-Type": "application/json" },
             })
             if (!response.ok) throw new Error("Échec de création")
-            toast.success("Escouade initialisée !")
+            toast.success("Protocol d'escouade initialisé !")
             window.location.reload()
         } catch (error) {
-            toast.error("Erreur lors de la création de l'escouade.")
+            toast.error("Erreur lors de l'envoi du signal.")
             console.error(error)
         } finally {
             setIsCreating(false)
@@ -49,24 +55,39 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     }
 
     return (
-        <div className="max-w-4xl mx-auto space-y-10 py-10">
-            {/* Header Lock Section */}
-            <div className="text-center space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 animate-pulse">
-                    <ShieldAlert className="size-4" />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Protocole d&apos;Assemblage : Actif</span>
+        <div className="max-w-5xl mx-auto space-y-12 py-6">
+            {/* Dynamic Background Glow based on progress */}
+            <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
+
+            {/* Header Lock Section - Psychologically Reframed */}
+            <div className="text-center space-y-4 relative z-10">
+                <div className={cn(
+                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-700",
+                    memberCount === 0 ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-500" :
+                    memberCount < 5 ? "bg-amber-500/10 border-amber-500/20 text-amber-500 animate-pulse" :
+                    "bg-primary/10 border-primary/20 text-primary"
+                )}>
+                    {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
+                    <span className="text-[10px] font-mono font-black uppercase tracking-[0.2em]">
+                        {memberCount < 5 ? "Synchronisation_Requise" : "Protocol_Validé"}
+                    </span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                    Terminal <span className="text-zinc-700">Verrouillé</span>
+                
+                <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white italic leading-[0.9]">
+                    {memberCount < 5 ? (
+                        <>Initialisation <span className={cn("transition-colors duration-700", themeColor)}>Du Réseau</span></>
+                    ) : (
+                        <>Arsenal <span className="text-primary">Activé</span></>
+                    )}
                 </h1>
-                <p className="text-zinc-500 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
-                    Agent <span className="text-primary font-bold">@{pseudo}</span>, ton accès aux missions de haut niveau est suspendu. 
-                    Le protocole HASHCODE impose une équipe de <span className="text-white font-bold">5 membres</span> pour activer ton arsenal.
+                
+                <p className="text-zinc-400 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed font-light">
+                    Agent <span className="text-white font-bold italic">@{pseudo}</span>, ton écosystème nécessite une unité de <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">5 Bâtisseurs</span> pour s&apos;auto-alimenter et débloquer ton terminal de missions.
                 </p>
             </div>
 
-            {/* Squad Slots */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {/* Squad Slots - Gamified UI */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 relative z-10">
                 {slots.map((index) => {
                     const member = members[index]
                     const isActive = !!member
@@ -74,52 +95,52 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
 
                     return (
                         <div key={index} className={cn(
-                            "relative group rounded-[1.5rem] border-2 transition-all duration-500 overflow-hidden",
+                            "relative group rounded-[2rem] border-2 transition-all duration-700 overflow-hidden",
                             isActive 
-                                ? "bg-zinc-900/40 border-primary/30 shadow-[0_0_30px_rgba(var(--primary),0.1)]" 
-                                : "bg-black/40 border-white/5 border-dashed"
+                                ? "bg-zinc-900/60 border-primary/40 shadow-[0_0_40px_rgba(var(--primary),0.15)]" 
+                                : "bg-black/40 border-white/5 border-dashed hover:border-white/20"
                         )}>
-                            <div className="aspect-[4/5] flex flex-col items-center justify-center p-4 md:p-6 space-y-4">
+                            <div className="aspect-[4/5] flex flex-col items-center justify-center p-4 md:p-8 space-y-6">
                                 {isActive ? (
                                     <>
                                         <div className="relative">
-                                            <div className="size-16 md:size-20 rounded-xl bg-zinc-900 border-2 border-primary/50 overflow-hidden rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                                            <div className="size-20 md:size-28 rounded-3xl bg-zinc-900 border-2 border-primary/60 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700">
                                                 <Avatar className="w-full h-full rounded-none">
                                                     <AvatarImage src={member.user.image || ""} />
-                                                    <AvatarFallback className="bg-primary/20 text-primary font-black text-xl">
+                                                    <AvatarFallback className="bg-primary/20 text-primary font-black text-3xl">
                                                         {member.user.pseudo?.charAt(0) || member.user.name.charAt(0)}
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </div>
-                                            <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 bg-primary text-black text-[7px] font-black uppercase tracking-tighter -rotate-3">
-                                                Activé
+                                            <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-primary text-black text-[8px] font-black uppercase tracking-tighter -rotate-2 shadow-lg">
+                                                Actif
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-sm font-black text-white uppercase tracking-tighter italic truncate max-w-[100px]">
+                                            <div className="text-base font-black text-white uppercase tracking-tighter italic truncate max-w-[120px]">
                                                 {member.user.pseudo || member.user.name.split(' ')[0]}
                                             </div>
-                                            <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest mt-1">
-                                                {member.user.class || "Agent_Init"}
+                                            <div className="text-[9px] font-mono text-primary/70 uppercase tracking-widest mt-1 font-bold">
+                                                {member.user.class || "Agent_Core"}
                                             </div>
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                        <div className="size-12 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/[0.02]">
-                                            <UserPlus className="size-5 text-zinc-800" />
+                                        <div className="size-16 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/[0.02] group-hover:bg-primary/5 group-hover:border-primary/30 transition-all duration-500">
+                                            <UserPlus className="size-6 text-zinc-800 group-hover:text-primary transition-colors" />
                                         </div>
-                                        <div className="text-center space-y-3 w-full">
-                                            <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
-                                                Slot_Vide
+                                        <div className="text-center space-y-4 w-full">
+                                            <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.3em] group-hover:text-zinc-400 transition-colors">
+                                                Déploiement_
                                             </div>
                                             {(!squad && isUser === false) ? null : (
                                                 <Button 
                                                     variant="outline" 
                                                     onClick={copyInvite}
-                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-8 text-[8px] font-bold uppercase tracking-widest"
+                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-[9px] font-black uppercase tracking-widest transition-all active:scale-95"
                                                 >
-                                                    {isCopying ? <Check className="size-2 mr-1" /> : <Copy className="size-2 mr-1" />}
+                                                    {isCopying ? <Check className="size-3 mr-2" /> : <Copy className="size-3 mr-2" />}
                                                     Recruter
                                                 </Button>
                                             )}
@@ -132,37 +153,73 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 })}
             </div>
 
-            {/* Action Section */}
-            {!squad ? (
-                <div className="flex flex-col items-center gap-6 pt-10">
-                    <Button 
-                        size="lg" 
-                        onClick={createSquad}
-                        disabled={isCreating}
-                        className="btn-primary-glow px-10 h-14 text-sm font-black uppercase tracking-[0.2em]"
-                    >
-                        {isCreating ? <Loader2 className="animate-spin" /> : "Initialiser mon Escouade"}
-                    </Button>
-                    <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-[0.3em]">
-                        [ Protocol: Team_First_Onboarding ]
-                    </p>
-                </div>
-            ) : (
-                <div className="p-8 rounded-3xl border border-white/5 bg-zinc-900/20 text-center space-y-6">
-                    <div className="flex justify-center gap-2">
-                        {[...Array(memberCount)].map((_, i) => (
-                            <Zap key={i} className="size-5 text-primary fill-primary" />
-                        ))}
-                        {[...Array(5 - memberCount)].map((_, i) => (
-                            <Zap key={i} className="size-5 text-zinc-800" />
-                        ))}
+            {/* Action Section - Viral & Urgent */}
+            <div className="relative z-10">
+                {!squad ? (
+                    <div className="flex flex-col items-center gap-8 pt-6">
+                        <div className="space-y-2 text-center">
+                            <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
+                            <p className="text-xs text-zinc-500 font-mono tracking-widest uppercase">Initialise ton propre centre de commandement</p>
+                        </div>
+                        <Button 
+                            size="lg" 
+                            onClick={createSquad}
+                            disabled={isCreating}
+                            className="btn-primary-glow px-12 h-16 text-base font-black uppercase tracking-[0.2em] group"
+                        >
+                            {isCreating ? <Loader2 className="animate-spin" /> : (
+                                <span className="flex items-center gap-3">
+                                    Devenir Chef d&apos;Escouade
+                                    <Zap className="size-4 fill-primary group-hover:animate-bounce" />
+                                </span>
+                            )}
+                        </Button>
                     </div>
-                    <div className="space-y-1">
-                        <p className="text-sm text-zinc-400">Progression de l&apos;assemblage : <span className="text-white font-bold">{memberCount}/5</span></p>
-                        <p className="text-[10px] text-zinc-600 font-mono uppercase">En attente de synchronisation neuronale...</p>
+                ) : (
+                    <div className="max-w-2xl mx-auto p-10 rounded-[2.5rem] border border-white/5 bg-zinc-900/40 backdrop-blur-md text-center space-y-8 shadow-2xl relative overflow-hidden">
+                        <div className={cn("absolute inset-0 opacity-10", glowColor)} />
+                        
+                        <div className="flex justify-center gap-3 relative z-10">
+                            {[...Array(5)].map((_, i) => (
+                                <Zap 
+                                    key={i} 
+                                    className={cn(
+                                        "size-6 transition-all duration-1000", 
+                                        i < memberCount ? "text-primary fill-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]" : "text-zinc-800"
+                                    )} 
+                                />
+                            ))}
+                        </div>
+
+                        <div className="space-y-2 relative z-10">
+                            <p className="text-xl text-white font-black uppercase tracking-tight">
+                                Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
+                            </p>
+                            <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-[0.4em]">
+                                {memberCount < 5 ? "En attente de nouvelles signatures neuronales..." : "Protocol complet. Ouverture du terminal..."}
+                            </p>
+                        </div>
+
+                        {memberCount < 5 && (
+                            <div className="pt-4 relative z-10">
+                                <Button 
+                                    onClick={copyInvite}
+                                    className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-black uppercase tracking-widest text-[10px]"
+                                >
+                                    {isCopying ? "Code Copié !" : "Partager mon lien de recrutement"}
+                                </Button>
+                            </div>
+                        )}
                     </div>
-                </div>
-            )}
+                )}
+            </div>
+
+            {/* FOMO Section */}
+            <div className="text-center py-6 border-t border-white/5 opacity-50 relative z-10">
+                <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.5em]">
+                    Phase_Bêta_En_Cours // Écosystème_En_Expansion
+                </p>
+            </div>
         </div>
     )
 }
