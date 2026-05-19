@@ -121,7 +121,10 @@ export const auth = betterAuth({
       expiresIn: 300,
       generateOTP: generateSecureOTP,
     }),
-    admin({}),
+    admin({
+      impersonate: true,
+      adminRoles: ["ADMIN", "MODERATOR"],
+    }),
     nextCookies(),
   ],
 });
