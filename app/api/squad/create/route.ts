@@ -20,9 +20,10 @@ export async function POST() {
       return NextResponse.json({ error: "Déjà membre d'une escouade" }, { status: 400 });
     }
 
-    // Create a new Squad (Guild)
-    const squadName = `Squad-${generatePassportId().slice(0, 6)}`;
-    const squadSlug = squadName.toLowerCase();
+    // Create a new Squad (Guild) with a unique hash
+    const uniqueHash = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const squadName = `Unité-${uniqueHash}`;
+    const squadSlug = `unit-${uniqueHash.toLowerCase()}`;
 
     const squad = await prisma.guild.create({
       data: {
@@ -36,6 +37,7 @@ export async function POST() {
         }
       }
     });
+
 
     return NextResponse.json(squad);
   } catch (error) {
