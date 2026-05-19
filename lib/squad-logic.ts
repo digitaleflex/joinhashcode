@@ -25,8 +25,68 @@ export async function updateSquadCohesion(guildId: string, boost: number) {
         updatedAt: new Date()
       }
     });
+
+    // Check for streak update (if score >= 0.9 and not already updated today)
+    if (newScore >= 0.9) {
+      await updateSquadStreak(guildId);
+    }
   } catch (error) {
     console.error("[SQUAD_COHESION_UPDATE_ERROR]", error);
+  }
+}
+
+/**
+ * Met à jour la série (streak) d'une escouade.
+ */
+async function updateSquadStreak(guildId: string) {
+  const squad = await prisma.guild.findUnique({
+    where: { id: guildId },
+    select: { lastStreakAt: true, streakCount: true }
+  });
+
+  if (!squad) return;
+
+  const now = new Date();
+  const lastUpdate = squad.lastStreakAt ? new Date(squad.lastStreakAt) : null;
+  
+  // Vérifie si déjà mis à jour aujourd'hui (même jour calendaire)
+  const isToday = lastUpdate && 
+    lastUpdate.getDate() === now.getDate() && 
+    lastUpdate.getMonth() === now.getMonth() && 
+    lastUpdate.getFullYear() === now.getFullYear();
+
+  if (isToday) return;
+
+  const newCount = squad.streakCount + 1;
+
+  await prisma.guild.update({
+    where: { id: guildId },
+    data: { 
+      streakCount: newCount,
+      lastStreakAt: now
+    }
+  });
+
+  // Récompense Spéciale : 7 jours de synchronisation
+  if (newCount === 7) {
+    await rewardSquadMembers(guildId, "HYPER_LINK");
+  }
+}
+
+async function rewardSquadMembers(guildId: string, badgeName: string) {
+  const members = await prisma.guildMember.findMany({
+    where: { guildId },
+    select: { userId: true }
+  });
+
+  for (const member of members) {
+    await prisma.user.update({
+      where: { id: member.userId },
+      data: {
+        badges: { push: badgeName },
+        experience: { increment: 200 } // Bonus de groupe substantiel
+      }
+    });
   }
 }
 

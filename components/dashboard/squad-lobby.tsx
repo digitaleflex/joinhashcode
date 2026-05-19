@@ -207,6 +207,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                     </div>
                                     <span className="text-[10px] font-bold text-primary">{Math.round((squad.cohesionScore || 0.1) * 100)}%</span>
                                 </div>
+                                {squad.streakCount > 0 && (
+                                    <div className="mt-2 flex items-center gap-2 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
+                                        <Zap className="size-3 text-primary fill-primary" />
+                                        <span className="text-[10px] font-black text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>
+                                    </div>
+                                )}
                             </div>
                         )}
                         <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-[0.4em]">
