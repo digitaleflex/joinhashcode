@@ -1,9 +1,10 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink } from "better-auth/plugins";
+import { magicLink, emailOTP } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
+import { randomBytes } from "crypto";
 
 const buildTrustedOrigins = () => {
   const origins = new Set(["http://localhost:3000"]);
@@ -17,6 +18,15 @@ const buildTrustedOrigins = () => {
   return Array.from(origins);
 };
 
+const generateSecureOTP = () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const randomBuffer = randomBytes(8);
+  let result = '';
+  for (let i = 0; i < 8; i++) {
+    result += chars[randomBuffer[i] % chars.length];
+  }
+  return result;
+};
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
@@ -26,8 +36,15 @@ export const auth = betterAuth({
   }),
   account: {
     storeStateStrategy: "database",
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "github"],
+    },
   },
   user: {
+    changeEmail: {
+      enabled: true,
+    },
     additionalFields: {
       level: { type: "number", required: true, defaultValue: 1 },
       experience: { type: "number", required: true, defaultValue: 0 },
@@ -78,6 +95,13 @@ export const auth = betterAuth({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
       scope: ["user:email"],
+      mapProfileToUser: (profile: any) => {
+        return {
+          email: profile.email || `${profile.login}@users.noreply.github.com`,
+          name: profile.name || profile.login,
+          image: profile.avatar_url,
+        };
+      },
     },
   },
   advanced: {
@@ -88,6 +112,14 @@ export const auth = betterAuth({
       sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
         await emailService.sendMagicLink({ email, url });
       },
+    }),
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        await emailService.sendOtpEmail({ email, otp, type });
+      },
+      otpLength: 8,
+      expiresIn: 300,
+      generateOTP: generateSecureOTP,
     }),
     nextCookies(),
   ],

@@ -88,6 +88,26 @@ export const emailService = {
     });
   },
 
+  async sendOtpEmail({ email, otp, type }: { email: string; otp: string; type: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const content = `
+      <h1 class="title">Protocole d'Authentification</h1>
+      <p>Une demande d'accès sécurisé a été détectée pour ton compte.</p>
+      <p>Voici ton code de sécurité à usage unique :</p>
+      <div style="background: #111; padding: 20px; border: 1px solid #C5F441; border-radius: 12px; text-align: center; margin: 30px 0;">
+        <span style="font-size: 32px; font-weight: 900; color: #C5F441; letter-spacing: 0.2em; font-family: 'Courier New', Courier, monospace;">${otp}</span>
+      </div>
+      <p style="font-size: 13px; color: #71717a;">Ce code expirera dans 5 minutes. Si tu n'es pas à l'origine de cette transmission, ignore cet email.</p>
+    `;
+
+    return this._send({
+      to: email,
+      subject: "Ton code d'accès HASHCODE",
+      html: generateEmailTemplate(content)
+    });
+  },
+
   async sendQuizResults({ email, name, profileType }: { email: string; name: string; profileType: string }) {
     if (!resend) return { success: true, mocked: true };
 
