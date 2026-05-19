@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP } from "better-auth/plugins";
+import { magicLink, emailOTP, admin } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -121,6 +121,7 @@ export const auth = betterAuth({
       expiresIn: 300,
       generateOTP: generateSecureOTP,
     }),
+    admin({}),
     nextCookies(),
   ],
 });
