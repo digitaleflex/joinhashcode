@@ -6,10 +6,12 @@ import { MISSIONS, Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Target } from "lucide-react";
+import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export function MissionsList({ 
   userLevel, 
@@ -108,94 +110,128 @@ export function MissionsList({
     const isPending = status === "PENDING";
 
     return (
-      <Card key={mission.id} className={`relative overflow-hidden transition-all ${isLocked ? 'opacity-50 grayscale bg-muted/20' : 'bg-card hover:border-primary/50'}`}>
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-2 mb-2">
-              <span className={`text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-tighter ${isCompleted ? 'bg-emerald-500/20 text-emerald-500' : isPending ? 'bg-yellow-500/20 text-yellow-500' : 'bg-primary/20 text-primary'}`}>
-                {isCompleted ? 'COMPLÉTÉ' : isPending ? 'EN ATTENTE' : `+${mission.xpReward} XP`}
-              </span>
-              <span className="text-xs font-mono text-muted-foreground uppercase">
+      <Card key={mission.id} className={cn(
+        "relative overflow-hidden transition-all duration-500 rounded-[2rem] border-white/5 group shadow-2xl",
+        isLocked ? 'opacity-40 grayscale bg-white/[0.01]' : 'bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-primary/40'
+      )}>
+        <CardHeader className="pb-4">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex flex-wrap gap-2">
+              <Badge className={cn(
+                "text-[9px] uppercase font-black tracking-widest",
+                isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
+                isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
+                'bg-primary/10 text-primary border-primary/20'
+              )}>
+                {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
+              </Badge>
+              <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500">
                 {mission.type}
-              </span>
+              </Badge>
             </div>
             {isLocked ? (
-              <Lock className="h-4 w-4 text-muted-foreground" />
+              <div className="p-2 bg-white/5 rounded-lg border border-white/10">
+                <Lock className="h-3 w-3 text-zinc-600" />
+              </div>
             ) : isCompleted ? (
-              <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-            ) : null}
+              <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                <ShieldCheck className="h-4 w-4 text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+              </div>
+            ) : (
+                <div className="p-2 bg-primary/10 rounded-lg border border-primary/20 group-hover:bg-primary group-hover:text-black transition-all">
+                    <Zap className="h-3.5 w-3.5" />
+                </div>
+            )}
           </div>
-          <CardTitle className="text-xl">{mission.title}</CardTitle>
-          <CardDescription className="text-sm mt-2">
+          <CardTitle className="text-xl font-bold text-white uppercase tracking-tight italic">
+            {mission.title}
+          </CardTitle>
+          <CardDescription className="text-zinc-400 text-xs leading-relaxed font-light mt-2">
             {mission.shortDesc}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6 pt-0">
           <div className="space-y-4">
-            <div className="text-sm text-zinc-400 bg-background/50 p-3 rounded-lg border border-border/50">
-              <p className="font-mono text-xs uppercase text-primary mb-1 tracking-widest">Description_</p>
-              <p>{mission.description}</p>
+            <div className="text-xs text-zinc-400 bg-black/40 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-white/[0.02] -rotate-45 translate-x-8 -translate-y-8" />
               
-              <p className="font-mono text-xs uppercase text-primary mb-1 mt-3 tracking-widest">Critères_</p>
+              <p className="font-mono text-[9px] uppercase text-primary mb-2 tracking-[0.2em] font-bold">Briefing_Technique</p>
+              <p className="leading-relaxed">{mission.description}</p>
+              
+              <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 mt-4 tracking-[0.2em] font-bold">Protocole_Validation</p>
               
               {mission.id === "social-connection-protocol" ? (
-                <div className="flex flex-col gap-3 mt-3">
+                <div className="grid gap-2 mt-3">
                   <a
                     href={COMMUNITY_LINKS.telegram}
                     target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('telegram')}
-                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.telegram ? 'bg-[#0088cc]/40 border-[#0088cc] text-white' : 'bg-[#0088cc]/20 border-[#0088cc]/30 hover:bg-[#0088cc]/30 text-[#0088cc]'}`}
+                    className={cn(
+                        "flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                        socialClicks.telegram ? 'bg-[#0088cc]/10 border-[#0088cc]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#0088cc]/20 text-[#0088cc]'
+                    )}
                   >
                     <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                      Rejoindre Telegram
+                      <Globe className="h-3.5 w-3.5" />
+                      Telegram
                     </div>
-                    {socialClicks.telegram && <CheckCircle2 className="h-3 w-3" />}
+                    {socialClicks.telegram && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
                   </a>
                   <a
                     href={COMMUNITY_LINKS.discord}
                     target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('discord')}
-                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.discord ? 'bg-[#5865F2]/40 border-[#5865F2] text-white' : 'bg-[#5865F2]/20 border-[#5865F2]/30 hover:bg-[#5865F2]/30 text-[#5865F2]'}`}
+                    className={cn(
+                        "flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                        socialClicks.discord ? 'bg-[#5865F2]/10 border-[#5865F2]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#5865F2]/20 text-[#5865F2]'
+                    )}
                   >
                     <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
-                      Rejoindre Discord
+                      <MessageSquare className="h-3.5 w-3.5" />
+                      Discord
                     </div>
-                    {socialClicks.discord && <CheckCircle2 className="h-3 w-3" />}
+                    {socialClicks.discord && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
                   </a>
                   <a
                     href={COMMUNITY_LINKS.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer" 
                     onClick={() => handleSocialClick('whatsapp')}
-                    className={`flex items-center justify-between gap-2 p-2 rounded-lg border transition-all text-xs ${socialClicks.whatsapp ? 'bg-[#25D366]/40 border-[#25D366] text-white' : 'bg-[#25D366]/20 border-[#25D366]/30 hover:bg-[#25D366]/30 text-[#25D366]'}`}
+                    className={cn(
+                        "flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                        socialClicks.whatsapp ? 'bg-[#25D366]/10 border-[#25D366]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#25D366]/20 text-[#25D366]'
+                    )}
                   >
                     <div className="flex items-center gap-2">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                      Groupe WhatsApp
+                      <Zap className="h-3.5 w-3.5" />
+                      WhatsApp
                     </div>
-                    {socialClicks.whatsapp && <CheckCircle2 className="h-3 w-3" />}
+                    {socialClicks.whatsapp && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
                   </a>
                 </div>
               ) : (
-                <ul className="list-disc pl-4 space-y-1">
-                  {mission.requirements.map((req, i) => <li key={i}>{req}</li>)}
+                <ul className="space-y-1.5 list-none">
+                  {mission.requirements.map((req, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                        <div className="size-1 rounded-full bg-primary/40 mt-1.5 shrink-0" />
+                        <span className="text-[11px] leading-tight text-zinc-500">{req}</span>
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
 
             {mission.id === "social-connection-protocol" && !isCompleted && !isPending && (
               <div className="mt-4 space-y-2 animate-in fade-in duration-500">
-                <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-primary">
-                  <span>Progression_</span>
+                <div className="flex justify-between text-[9px] font-mono uppercase tracking-[0.3em] text-primary">
+                  <span>Synchronisation_</span>
                   <span>{Math.round((Object.values(socialClicks).filter(Boolean).length / 3) * 100)}%</span>
                 </div>
-                <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
                   <div 
-                    className="h-full bg-primary transition-all duration-500 shadow-[0_0_10px_rgba(var(--primary),0.5)]" 
+                    className="h-full bg-primary transition-all duration-500 shadow-[0_0_15px_rgba(var(--primary),0.6)]" 
                     style={{ width: `${(Object.values(socialClicks).filter(Boolean).length / 3) * 100}%` }}
                   />
                 </div>
@@ -203,16 +239,24 @@ export function MissionsList({
             )}
 
             {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
-              <Button asChild className="btn-primary-glow w-full gap-2">
+              <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-widest gap-2">
                 <Link href={`/missions/${mission.id}`}>
-                  {mission.type === "INTRO" ? "Me présenter" : "Démarrer la validation"}
-                  <ArrowRight className="h-4 w-4" />
+                  {mission.type === "INTRO" ? "Activer le Profilage" : "Lancer le Déploiement"}
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </Button>
             )}
 
             {isPending && (
-              <Button variant="secondary" className="w-full" disabled>En cours de revue...</Button>
+              <Button variant="secondary" className="w-full h-12 rounded-xl bg-white/5 border border-white/10 text-zinc-500 text-[10px] uppercase font-black tracking-widest" disabled>
+                Analyse en cours...
+              </Button>
+            )}
+            
+            {isCompleted && (
+              <div className="text-center py-2">
+                  <span className="text-[10px] font-mono text-emerald-500/60 uppercase tracking-[0.4em]">-- Mission Terminée --</span>
+              </div>
             )}
           </div>
         </CardContent>
@@ -221,18 +265,22 @@ export function MissionsList({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Active Missions */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold flex items-center gap-2">
-          <Target className="h-6 w-6 text-primary" />
-          Missions Disponibles
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6">
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+            <Target className="h-5 w-5 text-primary" />
+          </div>
+          <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Objectifs Disponibles</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {availableMissions.map(m => renderMission(m, false))}
           {availableMissions.length === 0 && (
-             <div className="col-span-full p-8 text-center text-muted-foreground bg-muted/10 rounded-2xl border border-dashed border-border">
-               Aucune mission disponible pour le moment.
+             <div className="col-span-full py-20 text-center text-zinc-600 bg-white/[0.01] rounded-[2.5rem] border border-dashed border-white/5">
+               <Zap className="size-10 text-zinc-900 mx-auto mb-4 opacity-50" />
+               <p className="font-mono text-xs uppercase tracking-[0.4em]">Aucune mission disponible pour ton habilitation</p>
              </div>
           )}
         </div>
@@ -240,12 +288,14 @@ export function MissionsList({
 
       {/* Locked Missions */}
       {lockedMissions.length > 0 && (
-        <div className="space-y-4 pt-8 border-t border-border/40">
-          <h2 className="text-xl font-medium text-muted-foreground flex items-center gap-2">
-            <Lock className="h-5 w-5" />
-            Missions Futures (Niveau supérieur requis)
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 opacity-80">
+        <div className="space-y-6 pt-12 border-t border-white/5">
+          <div className="flex items-center gap-3 opacity-40">
+            <div className="p-2 rounded-lg bg-zinc-900 border border-white/10">
+              <Lock className="h-5 w-5 text-zinc-500" />
+            </div>
+            <h2 className="text-xl font-black uppercase tracking-tighter text-zinc-500 italic">Arsenaux Verrouillés</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {lockedMissions.map(m => renderMission(m, true))}
           </div>
         </div>

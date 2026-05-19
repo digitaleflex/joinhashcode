@@ -1,4 +1,4 @@
-import { Zap, ChevronLeft } from "lucide-react"
+import { Zap, ChevronLeft, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
@@ -11,10 +11,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 
 export default async function MissionsPage() {
-  const [session, dbUser] = await Promise.all([
-    auth.api.getSession({ headers: await headers() }),
-    null // Placeholder to allow parallel setup with session check
-  ]);
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
     redirect("/signin");
@@ -55,40 +52,75 @@ export default async function MissionsPage() {
       <AppSidebar user={finalDbUser} />
       <BottomNav />
       
-      <SidebarInset className="bg-background">
+      <SidebarInset className="bg-background relative overflow-hidden">
+        {/* Reinforced Background Effects */}
+        <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />
+        <div className="scanline opacity-20" />
+        
         <UserTopBar user={finalDbUser} />
         
-        <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8 overflow-y-auto scrollbar-none">
-          <div className="max-w-6xl mx-auto">
-          <Link 
-            href="/dashboard" 
-            className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group"
-          >
-            <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            RETOUR AU DASHBOARD
-          </Link>
+        <main className="flex-1 p-4 md:p-10 pb-(--bottom-nav-height) md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+          <div className="max-w-6xl mx-auto space-y-10">
+            <Link 
+              href="/dashboard" 
+              className="inline-flex items-center gap-2 text-[10px] font-mono font-bold text-muted-foreground hover:text-primary transition-all mb-4 group tracking-[0.2em]"
+            >
+              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              RETOUR_AU_TERMINAL
+            </Link>
 
-          <div className="flex items-center gap-3 mb-8">
-            <Zap className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold tracking-tight">Missions & Évolution</h1>
-          </div>
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                <Zap className="size-3.5 text-primary animate-pulse" />
+                <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-primary">Centre de Commandement</span>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
+                Arsenal des <span className="text-primary">Missions</span>
+              </h1>
+              <p className="text-zinc-500 max-w-2xl font-light text-sm md:text-base leading-relaxed">
+                Chaque objectif rempli renforce ton signal et ton autorité dans l&apos;écosystème HASHCODE.
+              </p>
+            </div>
           
-          <div className="mb-12 p-6 rounded-2xl border border-border/50 bg-card">
-            <div className="flex justify-between items-end mb-2">
-               <div className="text-sm font-mono text-muted-foreground uppercase">Expérience Globale</div>
-               <div className="text-xl font-bold text-primary">{finalDbUser.experience} XP</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2 p-8 rounded-[2rem] glass-card border-white/5 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <TrendingUp className="size-12 text-primary" />
+                </div>
+                <div className="flex justify-between items-end mb-6">
+                   <div className="space-y-1">
+                      <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">Données_D_Évolution</div>
+                      <div className="text-sm font-bold text-white uppercase tracking-tight">Expérience Globale Accumulée</div>
+                   </div>
+                   <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience} <span className="text-xs not-italic text-zinc-600">XP</span></div>
+                </div>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
+                    <div 
+                        className="h-full bg-primary shadow-[0_0_20px_#C5F441] transition-all duration-1000" 
+                        style={{ width: `${Math.min(100, (finalDbUser.experience % 1000) / 10)}%` }}
+                    />
+                </div>
+                <div className="text-[10px] text-zinc-500 mt-4 font-mono uppercase tracking-widest flex items-center gap-2">
+                   <span className="size-1 rounded-full bg-primary animate-pulse" />
+                   Status: Synchronisation de ton habilitation niveau {finalDbUser.level} en cours...
+                </div>
+              </div>
+              
+              <div className="hidden md:flex p-8 rounded-[2rem] border border-dashed border-white/5 bg-white/[0.01] items-center justify-center text-center">
+                 <p className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.4em] leading-relaxed">
+                   [ Accès_Prioritaire ]<br/>
+                   Prêt pour le déploiement<br/>
+                   tactique_v2.0
+                 </p>
+              </div>
             </div>
-            <div className="text-xs text-muted-foreground mt-2">
-               Accomplis des missions pour gagner de l'XP et augmenter ton niveau d'habilitation dans le système.
-            </div>
-          </div>
 
-          <MissionsList 
-            userLevel={finalDbUser.level} 
-            userXp={finalDbUser.experience} 
-            submissions={submissionsMap} 
-            userClass={finalDbUser.class}
-          />
+            <MissionsList 
+              userLevel={finalDbUser.level} 
+              userXp={finalDbUser.experience} 
+              submissions={submissionsMap} 
+              userClass={finalDbUser.class}
+            />
           </div>
         </main>
       </SidebarInset>
