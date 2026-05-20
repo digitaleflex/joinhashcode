@@ -78,23 +78,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
@@ -104,46 +91,17 @@
   html {
     @apply bg-background overflow-x-hidden;
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
   }
   body {
     @apply bg-background text-foreground overflow-x-hidden relative min-h-screen;
     font-feature-settings: 'cv11', 'ss01';
   }
 
-  /* GLOBAL PREMIUM BACKGROUND */
-  body::before {
-    content: "";
-    @apply fixed inset-0 z-[-1] pointer-events-none;
-    background-color: var(--background);
-    background-image: 
-      radial-gradient(at 0% 0%, oklch(0.91 0.22 124 / 0.03) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, oklch(0.62 0.17 301 / 0.03) 0px, transparent 50%);
-  }
-
-  /* GLOBAL SCANLINE EFFECT */
-  body::after {
-    content: "";
-    @apply fixed inset-0 z-[-1] pointer-events-none;
-    background: linear-gradient(to bottom, transparent, oklch(0.91 0.22 124 / 0.01), transparent);
-    height: 100%;
-    width: 100%;
-    animation: scanline 12s linear infinite;
-  }
-
   section {
     scroll-margin-top: 5rem;
   }
-  ::selection {
-    background: oklch(0.91 0.22 124 / 0.3);
-    color: oklch(0.98 0 0);
-  }
 
-  /* Global Button & Interactive Hardening */
-  button, a {
-    @apply transition-all duration-300 ease-out;
-  }
-
+  /* Global Button Styles */
   .btn-primary-glow {
     @apply relative overflow-hidden bg-primary text-primary-foreground font-bold shadow-[0_0_20px_rgba(197,244,65,0.2)];
   }
@@ -152,22 +110,13 @@
     @apply shadow-[0_0_35px_rgba(197,244,65,0.4)] scale-[1.02] brightness-105;
   }
 
-  .input-premium {
-    @apply bg-card/30 border-border/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all;
-  }
-
-  /* Premium Glassmorphism & Effects */
+  /* Glassmorphism utility */
   .glass-card {
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
   }
-
-  @keyframes scanline {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-  }
 }
 
-/* DRIVER.JS CUSTOM THEME - Fixed syntax for Tailwind v4 */
+/* DRIVER.JS CUSTOM THEME */
 .hc-driver-popover {
   background-color: oklch(0.12 0 0 / 0.95) !important;
   backdrop-filter: blur(24px) !important;
@@ -175,14 +124,12 @@
   border-radius: 1.5rem !important;
   padding: 1.5rem !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-  max-width: 320px !important;
 }
 
 .driver-popover-title {
   color: white !important;
   font-weight: 900 !important;
   text-transform: uppercase !important;
-  letter-spacing: -0.05em !important;
   font-style: italic !important;
   font-size: 1.25rem !important;
   margin-bottom: 0.5rem !important;
@@ -192,56 +139,17 @@
   color: oklch(0.7 0 0) !important;
   font-size: 0.875rem !important;
   line-height: 1.625 !important;
-  font-weight: 300 !important;
-}
-
-.driver-popover-progress-text {
-  color: var(--primary) !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-  font-size: 10px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  margin-top: 1rem !important;
-}
-
-.driver-popover-next-btn, .driver-popover-prev-btn, .driver-popover-close-btn {
-  border-radius: 0.75rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  font-size: 10px !important;
-  transition: all 0.2s !important;
 }
 
 .driver-popover-next-btn {
   background-color: var(--primary) !important;
   color: black !important;
-  box-shadow: 0 0 15px oklch(0.91 0.22 124 / 0.3) !important;
+  border-radius: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
 }
 
-.driver-popover-prev-btn {
-  background-color: oklch(1 1 1 / 0.05) !important;
-  color: white !important;
-  border: 1px solid oklch(1 1 1 / 0.1) !important;
-}
-
-.driver-popover-arrow {
-  border-color: oklch(0.12 0 0) !important;
-}
-
-/* Subtle dot grid utility used in hero */
 @layer utilities {
-  .bg-dot-grid {
-    background-image: radial-gradient(
-      oklch(0.25 0 0) 1px,
-      transparent 1px
-    );
-    background-size: 32px 32px;
-  }
-  .mask-radial-fade {
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  }
   .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -252,14 +160,8 @@
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: oklch(0.2 0 0);
     border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.3 0 0);
   }
 }
