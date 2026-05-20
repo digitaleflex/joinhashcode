@@ -97,11 +97,11 @@ export function NeuralFeed() {
               />
             )}
           </div>
-          <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-zinc-500">
-            Flux Neuronal_
+          <h3 className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">
+            flux_neuronal_
           </h3>
         </div>
-        <span className="text-[9px] font-mono text-primary animate-pulse">LIVE</span>
+        <span className="text-[9px] font-mono text-primary font-bold">LIVE</span>
       </div>
 
       <div className="space-y-3">
@@ -131,9 +131,9 @@ export function NeuralFeed() {
                   <span className="text-xs font-bold text-white group-hover:text-primary transition-colors">
                     @{event.user.name.toLowerCase().replace(" ", "_")}
                   </span>
-                  <span className="text-[9px] font-mono text-zinc-600 uppercase">{event.timestamp}</span>
+                  <span className="text-[9px] font-mono text-zinc-600 lowercase">{event.timestamp}</span>
                 </div>
-                <p className="text-[11px] text-zinc-500 leading-tight">
+                <p className="text-[11px] text-zinc-400 leading-tight">
                   {getLabel(event)}
                 </p>
                 {event.user.class && (
@@ -141,8 +141,8 @@ export function NeuralFeed() {
                     <div className="h-0.5 w-4 bg-zinc-800 rounded-full overflow-hidden">
                       <div className="h-full bg-primary/40 w-1/2" />
                     </div>
-                    <span className="text-[8px] font-mono uppercase text-zinc-600 tracking-tighter">
-                      Signal: {event.user.class}
+                    <span className="text-[8px] font-mono font-bold text-zinc-600 tracking-tight">
+                      signal: {event.user.class}
                     </span>
                   </div>
                 )}
@@ -153,14 +153,14 @@ export function NeuralFeed() {
       </div>
 
       <button className="w-full group py-3 px-4 rounded-xl border border-dashed border-white/10 hover:border-primary/30 text-zinc-600 hover:text-primary transition-all flex items-center justify-center gap-2">
-        <span className="text-[9px] font-mono uppercase tracking-widest">Connectivité Globale</span>
+        <span className="text-[9px] font-mono font-bold tracking-tight">connectivité_globale</span>
         <ChevronRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       <div className="p-4 rounded-2xl bg-primary/[0.02] border border-primary/5 space-y-3">
         <div className="flex items-center gap-2 text-primary/60">
           <ShieldCheck className="size-3" />
-          <span className="text-[9px] font-mono uppercase tracking-widest">État du Réseau</span>
+          <span className="text-[9px] font-mono font-bold tracking-tight">état_du_réseau</span>
         </div>
         <div className="space-y-1.5">
           <div className="flex justify-between text-[9px] font-mono">

@@ -42,6 +42,8 @@ import { SquadLobby } from "./squad-lobby"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
+import { startDashboardTour } from "@/lib/tours"
+import { useEffect } from "react"
 
 export function DashboardShell({
   user,
@@ -66,6 +68,16 @@ export function DashboardShell({
   // Squad Lock Logic
   const isSquadFull = squad && squad.members.length >= 5;
   const isLocked = !isSquadFull;
+
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem("hc_dashboard_tour_seen")
+    if (!hasSeenTour) {
+      setTimeout(() => {
+        startDashboardTour()
+        localStorage.setItem("hc_dashboard_tour_seen", "true")
+      }, 1500)
+    }
+  }, [])
 
   const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {
     builder: { 
@@ -114,7 +126,7 @@ export function DashboardShell({
                 <DailyCheckinWidget />
                 
                 {/* Welcome Banner Personalized */}
-                <div className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
+                <div id="tour-welcome" className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
                   <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
@@ -144,12 +156,12 @@ export function DashboardShell({
             </div>
 
             {/* Core Stats Grid - Balanced 2x2 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div id="tour-evolution" className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Card 1: Level & XP */}
               <Card variant="premium" className="overflow-hidden group">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
+                    <div id="tour-checkin" className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <TrendingUp className="h-5 w-5" />
                     </div>
                     <Badge variant="outline" className="font-mono text-[10px] border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
@@ -340,7 +352,7 @@ export function DashboardShell({
             </div>
 
             {/* Member Card */}
-            <div className="space-y-6 pt-4">
+            <div id="tour-squad" className="space-y-6 pt-4">
               <h3 className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-600 flex items-center gap-4 px-2">
                 <span className="h-px w-10 bg-zinc-800"></span>
                 Carte de Membre Officielle

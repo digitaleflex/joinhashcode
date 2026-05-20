@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Syne, IBM_Plex_Mono } from "next/font/google"
 import { AnalyticsConsent } from "@/components/ui/analytics-consent"
 import "./globals.css"
 import { Noise } from "@/components/ui/noise"
 import NextTopLoader from 'nextjs-toploader'
 
-const geist = Geist({
+const syne = Syne({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-syne",
+  weight: ["400", "500", "600", "700", "800"],
 })
 
-const geistMono = Geist_Mono({
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
+  weight: ["400", "500", "600", "700"],
 })
 
 import { APP_URL } from "@/lib/config";
@@ -87,7 +89,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geist.variable} ${geistMono.variable} bg-background`}
+      className={`${syne.variable} ${ibmPlexMono.variable} bg-background`}
       data-scroll-behavior="smooth"
     >
       <body className="font-sans antialiased bg-background text-foreground relative">
