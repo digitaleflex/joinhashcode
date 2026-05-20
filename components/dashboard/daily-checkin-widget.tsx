@@ -2,15 +2,16 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Zap, Loader2, Check, Clock, 
-  Terminal, Palette, TrendingUp, 
-  Layout, Users, Brain, HelpCircle 
+import {
+  Zap, Loader2, Check, Clock,
+  Terminal, Palette, TrendingUp,
+  Layout, Users, Brain, HelpCircle
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const DOMAINS = [
   { id: "Code", icon: Terminal },
@@ -38,10 +39,9 @@ const ENERGIES = [
 ]
 
 export function DailyCheckinWidget() {
+  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSubSuccess] = useState(false)
-
+  const [surgeActive, setSurgeActive] = useState(false)
   const [formData, setFormData] = useState({
     note: "",
     domain: "",
@@ -49,73 +49,89 @@ export function DailyCheckinWidget() {
     duration: 30,
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formData.note || !formData.domain) return
-
-    setIsSubmitting(true)
-    try {
+  const checkin = useMutation({
+    mutationFn: async (data: typeof formData) => {
       const res = await fetch("/api/user/checkin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       })
+      if (!res.ok) throw new Error(await res.text())
+      return res.json()
+    },
+    onSuccess: (data) => {
+      // La cloche de notifications se rafraîchit automatiquement
+      queryClient.invalidateQueries({ queryKey: ["notifications"] })
 
-      if (!res.ok) throw new Error("Failed")
+      if (data.surge) {
+        setSurgeActive(true)
+        toast.success(`SURGE ×3 ! +${data.xpEarned} XP`, { duration: 4000 })
+      } else {
+        toast.success(`Check-in enregistré · +${data.xpEarned} XP · Streak ${data.streak}j`)
+      }
 
-      setIsSubSuccess(true)
-      toast.success("Check-in enregistré !")
       setTimeout(() => {
         setIsOpen(false)
-        setIsSubSuccess(false)
+        setSurgeActive(false)
         setFormData({ note: "", domain: "", energy: 3, duration: 30 })
-      }, 2000)
-    } catch {
-      toast.error("Erreur lors de l'enregistrement")
-    } finally {
-      setIsSubmitting(false)
-    }
+        checkin.reset()
+      }, 2200)
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || "Erreur lors de l'enregistrement")
+    },
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.note || !formData.domain) return
+    checkin.mutate(formData)
   }
 
   return (
-    <Card className="bg-card/30 border-border/40 backdrop-blur-xl relative overflow-hidden group">
+    <Card variant="premium" className="relative overflow-hidden group">
       {!isOpen ? (
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
-          <div className="space-y-1">
-            <CardTitle className="text-lg font-bold flex items-center gap-2">
-              <Zap className="h-5 w-5 text-primary" />
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 py-8 px-8">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="size-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em]">Neural Sync_</span>
+            </div>
+            <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
             </CardTitle>
-            <CardDescription className="text-xs">
-              30 secondes pour ancrer tes progrès du jour.
+            <CardDescription className="text-zinc-400 text-sm font-light">
+              30 secondes pour ancrer tes progrès et maintenir ta synchronisation.
             </CardDescription>
           </div>
-          <Button 
+          <Button
             onClick={() => setIsOpen(true)}
-            className="btn-primary-glow h-9 rounded-xl px-4 text-xs font-bold"
+            className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-widest"
           >
-            Faire mon check-in
+            DÉMARRER LA SYNC
           </Button>
         </CardHeader>
       ) : (
         <CardContent className="pt-6">
           <AnimatePresence mode="wait">
-            {isSuccess ? (
-              <motion.div 
+            {checkin.isSuccess ? (
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="py-12 flex flex-col items-center justify-center text-center space-y-4"
               >
-                <div className="h-16 w-16 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
-                  <Check className="h-8 w-8" />
+                <div className={`h-16 w-16 rounded-full flex items-center justify-center ${surgeActive ? "bg-yellow-500/20 border border-yellow-500/40 text-yellow-400" : "bg-primary/20 border border-primary/40 text-primary"}`}>
+                  {surgeActive ? <Zap className="h-8 w-8" /> : <Check className="h-8 w-8" />}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-bold">Trace enregistrée</p>
-                  <p className="text-xs text-muted-foreground">À demain pour la suite du build.</p>
+                  <p className="text-lg font-bold">{surgeActive ? "SURGE NEURAL !" : "Trace enregistrée"}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {surgeActive ? "Récompense ×3 déclenchée. Continue." : "À demain pour la suite du build."}
+                  </p>
                 </div>
               </motion.div>
             ) : (
-              <motion.form 
+              <motion.form
                 onSubmit={handleSubmit}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -123,7 +139,7 @@ export function DailyCheckinWidget() {
               >
                 <div className="space-y-2">
                   <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
-                  <Textarea 
+                  <Textarea
                     placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
                     value={formData.note}
                     onChange={(e) => setFormData({ ...formData, note: e.target.value })}
@@ -143,9 +159,9 @@ export function DailyCheckinWidget() {
                           type="button"
                           onClick={() => setFormData({ ...formData, domain: d.id })}
                           className={`p-2 rounded-lg border transition-all ${
-                            formData.domain === d.id 
-                            ? "bg-primary/10 border-primary text-primary" 
-                            : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
+                            formData.domain === d.id
+                              ? "bg-primary/10 border-primary text-primary"
+                              : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
                           }`}
                           title={d.id}
                         >
@@ -164,9 +180,9 @@ export function DailyCheckinWidget() {
                           type="button"
                           onClick={() => setFormData({ ...formData, energy: e.val })}
                           className={`flex-1 h-9 rounded-lg border text-lg transition-all ${
-                            formData.energy === e.val 
-                            ? "bg-primary/10 border-primary shadow-[0_0_10px_rgba(197,244,65,0.1)]" 
-                            : "bg-background/40 border-border/40 opacity-50 grayscale hover:opacity-100 hover:grayscale-0"
+                            formData.energy === e.val
+                              ? "bg-primary/10 border-primary shadow-[0_0_10px_rgba(197,244,65,0.1)]"
+                              : "bg-background/40 border-border/40 opacity-50 grayscale hover:opacity-100 hover:grayscale-0"
                           }`}
                         >
                           {e.emoji}
@@ -186,9 +202,9 @@ export function DailyCheckinWidget() {
                           type="button"
                           onClick={() => setFormData({ ...formData, duration: d.val })}
                           className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
-                            formData.duration === d.val 
-                            ? "bg-muted border-primary/40 text-primary" 
-                            : "border-transparent text-muted-foreground hover:bg-muted/50"
+                            formData.duration === d.val
+                              ? "bg-muted border-primary/40 text-primary"
+                              : "border-transparent text-muted-foreground hover:bg-muted/50"
                           }`}
                         >
                           {d.label}
@@ -197,7 +213,7 @@ export function DailyCheckinWidget() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button 
+                    <Button
                       type="button"
                       variant="ghost"
                       onClick={() => setIsOpen(false)}
@@ -205,12 +221,12 @@ export function DailyCheckinWidget() {
                     >
                       Annuler
                     </Button>
-                    <Button 
+                    <Button
                       type="submit"
-                      disabled={isSubmitting || !formData.note || !formData.domain}
+                      disabled={checkin.isPending || !formData.note || !formData.domain}
                       className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
                     >
-                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Signer"}
+                      {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Signer"}
                     </Button>
                   </div>
                 </div>

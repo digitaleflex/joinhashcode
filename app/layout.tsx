@@ -77,6 +77,7 @@ export const viewport: Viewport = {
 import { Toaster } from "@/components/ui/sonner"
 import { CookieBanner } from "@/components/ui/cookie-banner"
 import { AuthErrorToast } from "@/components/ui/auth-error-toast"
+import { Providers } from "@/components/providers"
 
 export default function RootLayout({
   children,
@@ -84,8 +85,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html 
-      lang="fr" 
+    <html
+      lang="fr"
       className={`${geist.variable} ${geistMono.variable} bg-background`}
       data-scroll-behavior="smooth"
     >
@@ -102,7 +103,9 @@ export default function RootLayout({
           shadow="0 0 10px oklch(0.91 0.22 124),0 0 5px oklch(0.91 0.22 124)"
         />
         <Noise />
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <Toaster position="top-center" richColors />
         <AuthErrorToast />
         <CookieBanner />

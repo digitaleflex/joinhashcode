@@ -23,6 +23,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { authClient } from "@/lib/auth-client"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 const TABS = [
   { id: "profile", label: "Profilage", icon: User, desc: "Identité et informations de base" },
@@ -33,54 +34,65 @@ const TABS = [
 
 export default function SettingsPage() {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState("profile")
   const [userData, setUserData] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [autoSaving, setAutoSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<Date | null>(null)
   const [isDirty, setIsDirty] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [toolSearch, setToolSearch] = useState("")
 
-  useEffect(() => {
-    fetch("/api/user/me")
-      .then(res => res.json())
-      .then(data => setUserData(data))
-      .catch(() => toast.error("Impossible de charger les données"))
-  }, [])
+  useQuery({
+    queryKey: ["user"],
+    queryFn: () => fetch("/api/user/me").then(r => r.json()),
+    enabled: !userData,
+    onSuccess: (data: any) => setUserData(data),
+  } as any)
 
-  const save = useCallback(async (data: any, silent = false) => {
-    try {
-      const res = await fetch("/api/user/update", {
+  const saveMutation = useMutation({
+    mutationFn: (data: any) =>
+      fetch("/api/user/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        setSavedAt(new Date());
-        setIsDirty(false);
-        if (!silent) toast.success("Données synchronisées.");
-        return true;
-      }
-      if (!silent) toast.error("Erreur de synchronisation");
-    } catch {
-      if (!silent) toast.error("Erreur réseau");
-    }
-    return false;
-  }, []);
+      }).then(r => { if (!r.ok) throw new Error(); return r.json() }),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ["user"] })
+      const prev = queryClient.getQueryData(["user"])
+      queryClient.setQueryData(["user"], data)
+      return { prev }
+    },
+    onError: (_err: any, _vars: any, ctx: any) => {
+      queryClient.setQueryData(["user"], ctx?.prev)
+      toast.error("Erreur de synchronisation")
+    },
+    onSuccess: () => {
+      setSavedAt(new Date())
+      setIsDirty(false)
+      toast.success("Données synchronisées.")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] })
+    },
+  })
+
+  const save = useCallback((data: any, silent = false) => {
+    return saveMutation.mutateAsync(data).then(() => {
+      if (!silent) {} // toast already in onSuccess
+      return true
+    }).catch(() => false)
+  }, [saveMutation])
 
   const updateData = useCallback((next: any) => {
-    setUserData(next);
-    setIsDirty(true);
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(async () => {
-      setAutoSaving(true);
-      await save(next, true);
-      setAutoSaving(false);
-    }, 2000);
-  }, [save]);
+    setUserData(next)
+    setIsDirty(true)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      saveMutation.mutate(next)
+    }, 2000)
+  }, [saveMutation])
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -161,24 +173,24 @@ export default function SettingsPage() {
               </div>
               
               <div className="flex items-center gap-4 shrink-0">
-                {isDirty && !autoSaving && (
+                {isDirty && !saveMutation.isPending && (
                   <Button
-                    onClick={() => { setLoading(true); save(userData).finally(() => setLoading(false)); }}
-                    disabled={loading}
+                    onClick={() => saveMutation.mutate(userData)}
+                    disabled={saveMutation.isPending}
                     className="btn-primary-glow h-12 rounded-xl px-6 text-[11px] uppercase font-black tracking-widest gap-2"
                   >
-                    {loading ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
+                    {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
                     Sauvegarder_Manuellement
                   </Button>
                 )}
                 <div className="flex items-center gap-4 bg-zinc-900/40 border border-white/5 px-5 py-3 rounded-2xl backdrop-blur-xl">
                   <div className="flex flex-col items-end">
                     <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Status_Lien</span>
-                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-widest", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
-                      {autoSaving ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
+                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-widest", saveMutation.isPending ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
+                      {saveMutation.isPending ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
                     </span>
                   </div>
-                  <div className={cn("size-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />
+                  <div className={cn("size-2 rounded-full", saveMutation.isPending ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />
                 </div>
               </div>
             </div>
