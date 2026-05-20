@@ -36,10 +36,12 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
-import { MISSIONS } from "@/lib/missions"
+import { MISSIONS, type Mission } from "@/lib/missions"
 import { DevNotice } from "@/components/ui/dev-notice"
 import { SquadLobby } from "./squad-lobby"
 import { MissionDeck } from "./mission-deck"
+import { NeuralFeed } from "./neural-feed"
+import { NeuralSyncGauge } from "./neural-sync-gauge"
 
 export function DashboardShell({
   user,

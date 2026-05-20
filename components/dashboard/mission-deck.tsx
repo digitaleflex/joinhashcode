@@ -2,15 +2,16 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Zap, 
-  ChevronRight, 
-  ChevronLeft, 
-  Sparkles, 
+import {
+  Zap,
+  ChevronRight,
+  ChevronLeft,
+  Sparkles,
   Flame,
   X,
   Lock,
-  ArrowRight
+  ArrowRight,
+  Check
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -74,15 +75,15 @@ export function MissionDeck({ recommendedMissions }: MissionDeckProps) {
           <Card variant="premium" className="relative overflow-hidden group min-h-[300px] flex flex-col">
             {/* Mission Watermark */}
             <div className="absolute -right-4 -top-4 text-7xl font-black text-white/[0.02] select-none pointer-events-none uppercase font-mono">
-              {currentMission.category.slice(0, 3)}
+              {currentMission.type.slice(0, 3)}
             </div>
 
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] font-mono uppercase tracking-widest px-2 py-0">
-                  {currentMission.category}
+                  {currentMission.type}
                 </Badge>
-                <span className="text-[9px] font-mono text-zinc-600">NIV. {currentMission.difficulty}</span>
+                <span className="text-[9px] font-mono text-zinc-600">NIV. {currentMission.requiredLevel}</span>
               </div>
               <CardTitle className="text-2xl font-bold text-white tracking-tight group-hover:text-primary transition-colors leading-tight">
                 {currentMission.title}
@@ -97,8 +98,9 @@ export function MissionDeck({ recommendedMissions }: MissionDeckProps) {
               <div className="flex items-center justify-between pt-4 mt-auto">
                 <div className="flex flex-col">
                   <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Récompense</span>
-                  <span className="text-2xl font-bold text-primary">+{currentMission.xp} XP</span>
+                  <span className="text-2xl font-bold text-primary">+{currentMission.xpReward} XP</span>
                 </div>
+
                 
                 <div className="flex items-center gap-3">
                   <Button 
@@ -132,4 +134,3 @@ export function MissionDeck({ recommendedMissions }: MissionDeckProps) {
   )
 }
 
-import { Check } from "lucide-react"
