@@ -11,7 +11,7 @@ function Card({ className, variant = 'default', ...props }: CardProps) {
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm transition-all duration-300',
+        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm transition-all duration-300 overflow-hidden',
         variant === 'premium' && 'glass-card hover:border-primary/30',
         className,
       )}

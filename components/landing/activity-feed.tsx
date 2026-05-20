@@ -38,24 +38,24 @@ export function ActivityFeed() {
   }, [])
 
   return (
-    <div className="w-full bg-zinc-950 border-y border-white/5 py-3 overflow-hidden relative">
-      <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
+    <div className="w-full bg-zinc-950 border-y border-white/5 py-2 sm:py-3 overflow-hidden relative">
+      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-linear-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-linear-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
 
-      <div className="mx-auto max-w-6xl px-4 flex items-center gap-6">
+      <div className="mx-auto max-w-6xl px-4 flex items-center gap-4 sm:gap-6">
         {/* Status */}
-        <div className="hidden md:flex items-center gap-2 shrink-0">
+        <div className="hidden sm:flex items-center gap-2 shrink-0">
           <div className="relative">
-            <div className="w-2 h-2 bg-[#B8FF3B] rounded-full" />
-            <div className="absolute inset-0 w-2 h-2 bg-[#B8FF3B] rounded-full animate-ping opacity-50" />
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#B8FF3B] rounded-full" />
+            <div className="absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#B8FF3B] rounded-full animate-ping opacity-50" />
           </div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#B8FF3B] font-bold">
-            Réseau_Live
+          <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-tight text-[#B8FF3B] font-bold">
+            réseau_live
           </span>
         </div>
 
         {/* Logs */}
-        <div className="flex-1 flex gap-10 overflow-hidden items-center">
+        <div className="flex-1 flex gap-6 sm:gap-10 overflow-hidden items-center">
           <AnimatePresence mode="popLayout">
             {logs.map((log) => (
               <motion.div
@@ -66,11 +66,11 @@ export function ActivityFeed() {
                 transition={{ duration: 0.4 }}
                 className="shrink-0 flex items-center gap-2"
               >
-                <span className={`font-mono text-[10px] font-bold ${log.color}`}>
-                  {log.prefix}
+                <span className={`font-mono text-[9px] sm:text-[10px] font-bold ${log.color}`}>
+                  {log.prefix.toLowerCase()}
                 </span>
-                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-tighter">
-                  {log.text}
+                <span className="font-mono text-[9px] sm:text-[10px] text-zinc-600 font-medium tracking-tight">
+                  {log.text.toLowerCase()}
                 </span>
               </motion.div>
             ))}

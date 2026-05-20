@@ -37,12 +37,12 @@ import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 import { MISSIONS, type Mission } from "@/lib/missions"
-import { DevNotice } from "@/components/ui/dev-notice"
-import { SquadLobby } from "./squad-lobby"
+import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { ProfileDriftAlert } from "./profile-drift-alert"
+import { BottomNav } from "./bottom-nav"
 
 export function DashboardShell({
   user,
@@ -105,10 +105,11 @@ export function DashboardShell({
         <UserTopBar user={user} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
-          {isLocked ? (
-            <SquadLobby user={user} squad={squad} />
-          ) : (
             <div className="max-w-6xl mx-auto space-y-10">
+
+            {isLocked && (
+              <SquadBanner user={user} squad={squad} />
+            )}
 
             {user.profileDrift > 0.3 && (
               <ProfileDriftAlert
@@ -123,18 +124,22 @@ export function DashboardShell({
                 <DailyCheckinWidget />
                 
                 {/* Welcome Banner Personalized */}
-                <div className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
+                <div className={`p-6 sm:p-12 rounded-[2rem] sm:rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
                   <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className={cn("h-2 w-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]", config.color.replace('text-', 'bg-'))}></div>
                       <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">système_prêt_</span>
                     </div>
-                    <h2 className="text-4xl sm:text-6xl font-extrabold mb-4 tracking-[-0.04em] leading-[0.9] text-white">
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-[-0.04em] leading-tight text-white">
                       Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
                     </h2>
                     <p className="text-zinc-400 max-w-2xl text-base sm:text-xl leading-relaxed font-medium">
-                      {config.message}
+                      {(() => {
+                        if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Ton signal est fort.`
+                        if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}. Quelle est la prochaine ?`
+                        return config.message
+                      })()}
                     </p>
                     {user.bio && (
                       <p className="mt-6 text-xs sm:text-sm text-primary/60 font-mono italic border-l-2 border-primary/20 pl-4 max-w-lg">
@@ -173,6 +178,9 @@ export function DashboardShell({
                       <span className="text-primary">{user.experience} XP</span>
                     </div>
                     <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
+                    <p className="text-[10px] text-zinc-600 font-mono">
+                      {1000 - (user.experience % 1000)} XP pour le niveau suivant
+                    </p>
                   </div>
 
                   {/* Neural Sync Gauge */}
@@ -370,18 +378,10 @@ export function DashboardShell({
               </div>
             </div>
 
-            {/* Upcoming Features Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
-              <div className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                <DevNotice title="IA de Recommandation" />
-              </div>
-              <div className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                <DevNotice title="Place de Marché du Build" />
-              </div>
+
             </div>
-            </div>
-          )}
         </main>
+        <BottomNav />
       </SidebarInset>
     </SidebarProvider>
   );

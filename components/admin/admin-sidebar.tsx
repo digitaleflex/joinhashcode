@@ -83,8 +83,8 @@ export function AdminSidebar({ user }: { user: any }) {
             <Activity className="size-4 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-mono font-bold text-sm tracking-tighter text-white uppercase truncate">HASHCODE</span>
-            <span className="text-[10px] font-mono text-primary font-bold tracking-widest uppercase">Admin</span>
+            <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
+            <span className="text-[10px] font-mono text-primary font-bold tracking-tight">administration_</span>
           </div>
         </div>
         <div className="group-data-[collapsible=icon]:mx-auto">
@@ -94,7 +94,7 @@ export function AdminSidebar({ user }: { user: any }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Gestion</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">gestion_système</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminNavItems.map((item) => (
@@ -117,7 +117,7 @@ export function AdminSidebar({ user }: { user: any }) {
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">navigation_retour</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
