@@ -23,7 +23,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { authClient } from "@/lib/auth-client"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
 
 const TABS = [
   { id: "profile", label: "Profilage", icon: User, desc: "Identité et informations de base" },
@@ -34,65 +34,54 @@ const TABS = [
 
 export default function SettingsPage() {
   const router = useRouter()
-  const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState("profile")
   const [userData, setUserData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [autoSaving, setAutoSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<Date | null>(null)
   const [isDirty, setIsDirty] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [toolSearch, setToolSearch] = useState("")
 
-  useQuery({
-    queryKey: ["user"],
-    queryFn: () => fetch("/api/user/me").then(r => r.json()),
-    enabled: !userData,
-    onSuccess: (data: any) => setUserData(data),
-  } as any)
+  useEffect(() => {
+    fetch("/api/user/me")
+      .then(res => res.json())
+      .then(data => setUserData(data))
+      .catch(() => toast.error("Impossible de charger les données"))
+  }, [])
 
-  const saveMutation = useMutation({
-    mutationFn: (data: any) =>
-      fetch("/api/user/update", {
+  const save = useCallback(async (data: any, silent = false) => {
+    try {
+      const res = await fetch("/api/user/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      }).then(r => { if (!r.ok) throw new Error(); return r.json() }),
-    onMutate: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ["user"] })
-      const prev = queryClient.getQueryData(["user"])
-      queryClient.setQueryData(["user"], data)
-      return { prev }
-    },
-    onError: (_err: any, _vars: any, ctx: any) => {
-      queryClient.setQueryData(["user"], ctx?.prev)
-      toast.error("Erreur de synchronisation")
-    },
-    onSuccess: () => {
-      setSavedAt(new Date())
-      setIsDirty(false)
-      toast.success("Données synchronisées.")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] })
-    },
-  })
-
-  const save = useCallback((data: any, silent = false) => {
-    return saveMutation.mutateAsync(data).then(() => {
-      if (!silent) {} // toast already in onSuccess
-      return true
-    }).catch(() => false)
-  }, [saveMutation])
+      });
+      if (res.ok) {
+        setSavedAt(new Date());
+        setIsDirty(false);
+        if (!silent) toast.success("Données synchronisées.");
+        return true;
+      }
+      if (!silent) toast.error("Erreur de synchronisation");
+    } catch {
+      if (!silent) toast.error("Erreur réseau");
+    }
+    return false;
+  }, []);
 
   const updateData = useCallback((next: any) => {
-    setUserData(next)
-    setIsDirty(true)
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
-      saveMutation.mutate(next)
-    }, 2000)
-  }, [saveMutation])
+    setUserData(next);
+    setIsDirty(true);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      setAutoSaving(true);
+      await save(next, true);
+      setAutoSaving(false);
+    }, 2000);
+  }, [save]);
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -133,15 +122,6 @@ export default function SettingsPage() {
     )
   }
 
-  const allTools = [
-    "GitHub", "VS Code", "Docker", "Figma", "Cursor", 
-    "ChatGPT", "Vercel", "Linux", "PostgreSQL", "Next.js",
-    "React", "Tailwind", "Prisma", "Node.js", "Python",
-    "Kubernetes", "AWS", "Google Cloud", "Supabase", "Redis"
-  ].sort()
-
-  const filteredTools = allTools.filter(t => t.toLowerCase().includes(toolSearch.toLowerCase()))
-
   return (
     <SidebarProvider>
       <AppSidebar user={userData} />
@@ -173,24 +153,24 @@ export default function SettingsPage() {
               </div>
               
               <div className="flex items-center gap-4 shrink-0">
-                {isDirty && !saveMutation.isPending && (
+                {isDirty && !autoSaving && (
                   <Button
-                    onClick={() => saveMutation.mutate(userData)}
-                    disabled={saveMutation.isPending}
+                    onClick={() => { setLoading(true); save(userData).finally(() => setLoading(false)); }}
+                    disabled={loading}
                     className="btn-primary-glow h-12 rounded-xl px-6 text-[11px] uppercase font-black tracking-widest gap-2"
                   >
-                    {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
+                    {loading ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
                     Sauvegarder_Manuellement
                   </Button>
                 )}
                 <div className="flex items-center gap-4 bg-zinc-900/40 border border-white/5 px-5 py-3 rounded-2xl backdrop-blur-xl">
                   <div className="flex flex-col items-end">
                     <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Status_Lien</span>
-                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-widest", saveMutation.isPending ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
-                      {saveMutation.isPending ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
+                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-widest", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
+                      {autoSaving ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
                     </span>
                   </div>
-                  <div className={cn("size-2 rounded-full", saveMutation.isPending ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />
+                  <div className={cn("size-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />
                 </div>
               </div>
             </div>
@@ -338,77 +318,7 @@ export default function SettingsPage() {
                     )}
 
                     {activeTab === "expertise" && (
-                      <div className="space-y-12">
-                        <div className="space-y-6">
-                          <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500 tracking-[0.4em] mb-4">
-                              Domaines_D_Expertise
-                          </label>
-                          <div className="flex flex-wrap gap-3">
-                            {[
-                              "Web", "Cybersecurity", "Cloud", "IA", "Mobile", 
-                              "Data", "Automation", "UI/UX", "DevOps", "Blockchain"
-                            ].map(domain => (
-                              <button
-                                key={domain}
-                                type="button"
-                                onClick={() => {
-                                  const current = userData?.domains || [];
-                                  const next = current.includes(domain) 
-                                    ? current.filter((d: string) => d !== domain)
-                                    : [...current, domain];
-                                  updateData({...userData, domains: next});
-                                }}
-                                className={cn(
-                                  "px-6 py-3 rounded-xl text-xs font-mono font-bold border transition-all duration-500 uppercase tracking-widest",
-                                  userData?.domains?.includes(domain)
-                                    ? "bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]"
-                                    : "bg-white/5 border-white/5 text-zinc-500 hover:border-white/20"
-                                )}
-                              >
-                                {domain}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                            <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500 tracking-[0.4em]"><Search className="size-3"/> Arsenal_Favori</label>
-                            <div className="relative w-full sm:w-80 group">
-                              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-600 group-focus-within:text-primary transition-colors" />
-                              <Input 
-                                value={toolSearch}
-                                onChange={e => setToolSearch(e.target.value)}
-                                placeholder="Filtrer l'arsenal..."
-                                className="input-premium h-12 pl-12 text-sm rounded-xl"
-                              />
-                            </div>
-                          </div>
-                          <div className="flex flex-wrap gap-3 max-h-[350px] overflow-y-auto p-1 pr-4 custom-scrollbar">
-                            {filteredTools.map(tool => (
-                              <button
-                                key={tool}
-                                type="button"
-                                onClick={() => {
-                                  const current = userData?.tools || [];
-                                  const next = current.includes(tool) 
-                                    ? current.filter((t: string) => t !== tool)
-                                    : [...current, tool];
-                                  updateData({...userData, tools: next});
-                                }}
-                                className={cn(
-                                  "px-4 py-2.5 rounded-lg text-[10px] font-mono font-black border transition-all duration-300 uppercase tracking-tight",
-                                  userData?.tools?.includes(tool)
-                                    ? "bg-white/10 border-white/30 text-white shadow-[0_0_10px_rgba(255,255,255,0.05)]"
-                                    : "bg-black/20 border-white/5 text-zinc-600 hover:border-primary/40 hover:text-primary"
-                                )}
-                              >
-                                {tool}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                      <ExpertiseDiagnostic userData={userData} updateData={updateData} />
                     )}
 
                     {activeTab === "links" && (

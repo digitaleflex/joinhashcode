@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const safeUrl = z.string().url().startsWith("https://").max(500).optional().or(z.literal("")).transform(v => v || undefined);
+const safeUrl = z.string().max(500).optional().or(z.literal("")).transform(v => v || undefined);
 
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional(),

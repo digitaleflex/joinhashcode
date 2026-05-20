@@ -180,6 +180,9 @@ exports.Prisma.UserScalarFieldEnum = {
   currentFocus: 'currentFocus',
   dreamStatement: 'dreamStatement',
   lastCheckinAt: 'lastCheckinAt',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastStreakDate: 'lastStreakDate',
   mainBlocker: 'mainBlocker',
   banned: 'banned',
   banReason: 'banReason',
@@ -232,6 +235,9 @@ exports.Prisma.GuildScalarFieldEnum = {
   slug: 'slug',
   requiredLevel: 'requiredLevel',
   isPrivate: 'isPrivate',
+  cohesionScore: 'cohesionScore',
+  streakCount: 'streakCount',
+  lastStreakAt: 'lastStreakAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

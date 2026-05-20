@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
 
+import { getRecommendedMissions } from "@/lib/recommendation";
+
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -31,6 +33,9 @@ export default async function DashboardPage() {
         catalystScore: true,
         missionsCompletedCount: true,
         lastCheckinAt: true,
+        behavioralVibrancy: true,
+        currentStreak: true,
+        confidenceScore: true,
       }
     }),
     prisma.quizResult.findFirst({
@@ -70,12 +75,26 @@ export default async function DashboardPage() {
     return acc;
   }, {} as Record<string, string>);
 
+  // Calculate recommendations (FYP Algorithm)
+  const completedIds = submissions
+    .filter(s => s.status === "APPROVED" || s.status === "PENDING")
+    .map(s => s.missionId);
+
+  const recommendedMissions = getRecommendedMissions(
+    dbUser?.behavioralVibrancy as any,
+    dbUser?.class || quizResult?.profileType || null,
+    dbUser?.level || 1,
+    completedIds,
+    3
+  );
+
   return (
     <DashboardShell 
       user={dbUser || (session.user as any)} 
       quizResult={quizResult} 
       submissions={submissionsMap}
       squad={guildMember?.guild || null}
+      recommendedMissions={recommendedMissions}
     />
   );
 }

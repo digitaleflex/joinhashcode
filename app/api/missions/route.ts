@@ -61,7 +61,8 @@ export async function POST(req: Request) {
         behavioralVibrancy: true,
         lastHypothesisUpdate: true,
         class: true,
-        missionsCompletedCount: true
+        missionsCompletedCount: true,
+        currentStreak: true
       }
     });
 
@@ -97,52 +98,70 @@ export async function POST(req: Request) {
       // status === "NEEDS_REVISION" → allow resubmission (falls through to upsert below)
     }
 
-    // Transaction to save submission as PENDING
-    const submission = await prisma.missionSubmission.upsert({
-      where: {
-        userId_missionId: {
+    // Transaction to save submission as PENDING and award instant Sync Bonus
+    let SYNC_BONUS_XP = 5;
+    const userStreak = dbUser.currentStreak || 0;
+    
+    if (userStreak >= 7) SYNC_BONUS_XP = 6; // 1.2x
+    else if (userStreak >= 3) SYNC_BONUS_XP = 6; // 1.1x (5.5 rounded to 6)
+
+    const result = await prisma.$transaction(async (tx) => {
+      const submission = await tx.missionSubmission.upsert({
+        where: {
+          userId_missionId: {
+            userId: session.user.id,
+            missionId: mission.id
+          }
+        },
+        update: {
+          content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions,
+          status: "PENDING",
+          xpAwarded: 0
+        },
+        create: {
           userId: session.user.id,
-          missionId: mission.id
+          missionId: mission.id,
+          content,
+          projectDescription,
+          userDifficulty,
+          userRating,
+          userFeedback,
+          improvementSuggestions,
+          status: "PENDING",
+          xpAwarded: 0
         }
-      },
-      update: {
-        content,
-        projectDescription,
-        userDifficulty,
-        userRating,
-        userFeedback,
-        improvementSuggestions,
-        status: "PENDING",
-        xpAwarded: 0
-      },
-      create: {
-        userId: session.user.id,
-        missionId: mission.id,
-        content,
-        projectDescription,
-        userDifficulty,
-        userRating,
-        userFeedback,
-        improvementSuggestions,
-        status: "PENDING",
-        xpAwarded: 0
-      }
+      });
+
+      // Award instant bonus
+      await tx.user.update({
+        where: { id: session.user.id },
+        data: {
+          experience: { increment: SYNC_BONUS_XP }
+        }
+      });
+
+      return submission;
     });
 
-    // Notify admin or just confirm to user
+    // Notify user about the submission and the instant bonus
     try {
       await triggerNotification({
         userId: session.user.id,
         type: "SYSTEM",
-        title: `Mission soumise : ${mission.title}`,
-        message: `Ta soumission a été envoyée pour validation manuelle.`,
+        title: `Mission transmise : ${mission.title}`,
+        message: `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
         link: "/missions"
       });
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);
     }
 
-    return NextResponse.json({ submission, status: "PENDING" });
+    return NextResponse.json({ submission: result, status: "PENDING", bonusXp: SYNC_BONUS_XP });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
     return new NextResponse("Erreur interne du système. Nos ingénieurs sont sur le coup.", { status: 500 });

@@ -2293,6 +2293,8 @@ export namespace Prisma {
     profileStability: number | null
     strategistScore: number | null
     memberNumber: number | null
+    currentStreak: number | null
+    longestStreak: number | null
     reviewsCompleted: number | null
   }
 
@@ -2315,6 +2317,8 @@ export namespace Prisma {
     profileStability: number | null
     strategistScore: number | null
     memberNumber: number | null
+    currentStreak: number | null
+    longestStreak: number | null
     reviewsCompleted: number | null
   }
 
@@ -2366,6 +2370,9 @@ export namespace Prisma {
     twitterUrl: string | null
     dreamStatement: string | null
     lastCheckinAt: Date | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -2421,6 +2428,9 @@ export namespace Prisma {
     twitterUrl: string | null
     dreamStatement: string | null
     lastCheckinAt: Date | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -2488,6 +2498,9 @@ export namespace Prisma {
     currentFocus: number
     dreamStatement: number
     lastCheckinAt: number
+    currentStreak: number
+    longestStreak: number
+    lastStreakDate: number
     mainBlocker: number
     banned: number
     banReason: number
@@ -2517,6 +2530,8 @@ export namespace Prisma {
     profileStability?: true
     strategistScore?: true
     memberNumber?: true
+    currentStreak?: true
+    longestStreak?: true
     reviewsCompleted?: true
   }
 
@@ -2539,6 +2554,8 @@ export namespace Prisma {
     profileStability?: true
     strategistScore?: true
     memberNumber?: true
+    currentStreak?: true
+    longestStreak?: true
     reviewsCompleted?: true
   }
 
@@ -2590,6 +2607,9 @@ export namespace Prisma {
     twitterUrl?: true
     dreamStatement?: true
     lastCheckinAt?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -2645,6 +2665,9 @@ export namespace Prisma {
     twitterUrl?: true
     dreamStatement?: true
     lastCheckinAt?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -2712,6 +2735,9 @@ export namespace Prisma {
     currentFocus?: true
     dreamStatement?: true
     lastCheckinAt?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -2867,6 +2893,9 @@ export namespace Prisma {
     currentFocus: string[]
     dreamStatement: string | null
     lastCheckinAt: Date | null
+    currentStreak: number
+    longestStreak: number
+    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -2954,6 +2983,9 @@ export namespace Prisma {
     currentFocus?: boolean
     dreamStatement?: boolean
     lastCheckinAt?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -3035,6 +3067,9 @@ export namespace Prisma {
     currentFocus?: boolean
     dreamStatement?: boolean
     lastCheckinAt?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -3104,6 +3139,9 @@ export namespace Prisma {
     currentFocus?: boolean
     dreamStatement?: boolean
     lastCheckinAt?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -3173,6 +3211,9 @@ export namespace Prisma {
     currentFocus?: boolean
     dreamStatement?: boolean
     lastCheckinAt?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -3181,7 +3222,7 @@ export namespace Prisma {
     reviewsCompleted?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
@@ -3280,6 +3321,9 @@ export namespace Prisma {
       currentFocus: string[]
       dreamStatement: string | null
       lastCheckinAt: Date | null
+      currentStreak: number
+      longestStreak: number
+      lastStreakDate: Date | null
       mainBlocker: string | null
       banned: boolean | null
       banReason: string | null
@@ -3780,6 +3824,9 @@ export namespace Prisma {
     readonly currentFocus: FieldRef<"User", 'String[]'>
     readonly dreamStatement: FieldRef<"User", 'String'>
     readonly lastCheckinAt: FieldRef<"User", 'DateTime'>
+    readonly currentStreak: FieldRef<"User", 'Int'>
+    readonly longestStreak: FieldRef<"User", 'Int'>
+    readonly lastStreakDate: FieldRef<"User", 'DateTime'>
     readonly mainBlocker: FieldRef<"User", 'String'>
     readonly banned: FieldRef<"User", 'Boolean'>
     readonly banReason: FieldRef<"User", 'String'>
@@ -6985,10 +7032,14 @@ export namespace Prisma {
 
   export type GuildAvgAggregateOutputType = {
     requiredLevel: number | null
+    cohesionScore: number | null
+    streakCount: number | null
   }
 
   export type GuildSumAggregateOutputType = {
     requiredLevel: number | null
+    cohesionScore: number | null
+    streakCount: number | null
   }
 
   export type GuildMinAggregateOutputType = {
@@ -6998,6 +7049,9 @@ export namespace Prisma {
     slug: string | null
     requiredLevel: number | null
     isPrivate: boolean | null
+    cohesionScore: number | null
+    streakCount: number | null
+    lastStreakAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7009,6 +7063,9 @@ export namespace Prisma {
     slug: string | null
     requiredLevel: number | null
     isPrivate: boolean | null
+    cohesionScore: number | null
+    streakCount: number | null
+    lastStreakAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7020,6 +7077,9 @@ export namespace Prisma {
     slug: number
     requiredLevel: number
     isPrivate: number
+    cohesionScore: number
+    streakCount: number
+    lastStreakAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7028,10 +7088,14 @@ export namespace Prisma {
 
   export type GuildAvgAggregateInputType = {
     requiredLevel?: true
+    cohesionScore?: true
+    streakCount?: true
   }
 
   export type GuildSumAggregateInputType = {
     requiredLevel?: true
+    cohesionScore?: true
+    streakCount?: true
   }
 
   export type GuildMinAggregateInputType = {
@@ -7041,6 +7105,9 @@ export namespace Prisma {
     slug?: true
     requiredLevel?: true
     isPrivate?: true
+    cohesionScore?: true
+    streakCount?: true
+    lastStreakAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7052,6 +7119,9 @@ export namespace Prisma {
     slug?: true
     requiredLevel?: true
     isPrivate?: true
+    cohesionScore?: true
+    streakCount?: true
+    lastStreakAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7063,6 +7133,9 @@ export namespace Prisma {
     slug?: true
     requiredLevel?: true
     isPrivate?: true
+    cohesionScore?: true
+    streakCount?: true
+    lastStreakAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7161,6 +7234,9 @@ export namespace Prisma {
     slug: string
     requiredLevel: number
     isPrivate: boolean
+    cohesionScore: number
+    streakCount: number
+    lastStreakAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: GuildCountAggregateOutputType | null
@@ -7191,6 +7267,9 @@ export namespace Prisma {
     slug?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    cohesionScore?: boolean
+    streakCount?: boolean
+    lastStreakAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     members?: boolean | Guild$membersArgs<ExtArgs>
@@ -7204,6 +7283,9 @@ export namespace Prisma {
     slug?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    cohesionScore?: boolean
+    streakCount?: boolean
+    lastStreakAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["guild"]>
@@ -7215,6 +7297,9 @@ export namespace Prisma {
     slug?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    cohesionScore?: boolean
+    streakCount?: boolean
+    lastStreakAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["guild"]>
@@ -7226,11 +7311,14 @@ export namespace Prisma {
     slug?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    cohesionScore?: boolean
+    streakCount?: boolean
+    lastStreakAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type GuildOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "requiredLevel" | "isPrivate" | "createdAt" | "updatedAt", ExtArgs["result"]["guild"]>
+  export type GuildOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "requiredLevel" | "isPrivate" | "cohesionScore" | "streakCount" | "lastStreakAt" | "createdAt" | "updatedAt", ExtArgs["result"]["guild"]>
   export type GuildInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Guild$membersArgs<ExtArgs>
     _count?: boolean | GuildCountOutputTypeDefaultArgs<ExtArgs>
@@ -7250,6 +7338,9 @@ export namespace Prisma {
       slug: string
       requiredLevel: number
       isPrivate: boolean
+      cohesionScore: number
+      streakCount: number
+      lastStreakAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["guild"]>
@@ -7682,6 +7773,9 @@ export namespace Prisma {
     readonly slug: FieldRef<"Guild", 'String'>
     readonly requiredLevel: FieldRef<"Guild", 'Int'>
     readonly isPrivate: FieldRef<"Guild", 'Boolean'>
+    readonly cohesionScore: FieldRef<"Guild", 'Float'>
+    readonly streakCount: FieldRef<"Guild", 'Int'>
+    readonly lastStreakAt: FieldRef<"Guild", 'DateTime'>
     readonly createdAt: FieldRef<"Guild", 'DateTime'>
     readonly updatedAt: FieldRef<"Guild", 'DateTime'>
   }
@@ -19398,6 +19492,9 @@ export namespace Prisma {
     currentFocus: 'currentFocus',
     dreamStatement: 'dreamStatement',
     lastCheckinAt: 'lastCheckinAt',
+    currentStreak: 'currentStreak',
+    longestStreak: 'longestStreak',
+    lastStreakDate: 'lastStreakDate',
     mainBlocker: 'mainBlocker',
     banned: 'banned',
     banReason: 'banReason',
@@ -19459,6 +19556,9 @@ export namespace Prisma {
     slug: 'slug',
     requiredLevel: 'requiredLevel',
     isPrivate: 'isPrivate',
+    cohesionScore: 'cohesionScore',
+    streakCount: 'streakCount',
+    lastStreakAt: 'lastStreakAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -19813,6 +19913,9 @@ export namespace Prisma {
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -19893,6 +19996,9 @@ export namespace Prisma {
     currentFocus?: SortOrder
     dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastStreakDate?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
@@ -19976,6 +20082,9 @@ export namespace Prisma {
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -20056,6 +20165,9 @@ export namespace Prisma {
     currentFocus?: SortOrder
     dreamStatement?: SortOrderInput | SortOrder
     lastCheckinAt?: SortOrderInput | SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastStreakDate?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
@@ -20132,6 +20244,9 @@ export namespace Prisma {
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    currentStreak?: IntWithAggregatesFilter<"User"> | number
+    longestStreak?: IntWithAggregatesFilter<"User"> | number
+    lastStreakDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
     banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -20369,6 +20484,9 @@ export namespace Prisma {
     slug?: StringFilter<"Guild"> | string
     requiredLevel?: IntFilter<"Guild"> | number
     isPrivate?: BoolFilter<"Guild"> | boolean
+    cohesionScore?: FloatFilter<"Guild"> | number
+    streakCount?: IntFilter<"Guild"> | number
+    lastStreakAt?: DateTimeNullableFilter<"Guild"> | Date | string | null
     createdAt?: DateTimeFilter<"Guild"> | Date | string
     updatedAt?: DateTimeFilter<"Guild"> | Date | string
     members?: GuildMemberListRelationFilter
@@ -20381,6 +20499,9 @@ export namespace Prisma {
     slug?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
+    lastStreakAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     members?: GuildMemberOrderByRelationAggregateInput
@@ -20396,6 +20517,9 @@ export namespace Prisma {
     description?: StringNullableFilter<"Guild"> | string | null
     requiredLevel?: IntFilter<"Guild"> | number
     isPrivate?: BoolFilter<"Guild"> | boolean
+    cohesionScore?: FloatFilter<"Guild"> | number
+    streakCount?: IntFilter<"Guild"> | number
+    lastStreakAt?: DateTimeNullableFilter<"Guild"> | Date | string | null
     createdAt?: DateTimeFilter<"Guild"> | Date | string
     updatedAt?: DateTimeFilter<"Guild"> | Date | string
     members?: GuildMemberListRelationFilter
@@ -20408,6 +20532,9 @@ export namespace Prisma {
     slug?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
+    lastStreakAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: GuildCountOrderByAggregateInput
@@ -20427,6 +20554,9 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Guild"> | string
     requiredLevel?: IntWithAggregatesFilter<"Guild"> | number
     isPrivate?: BoolWithAggregatesFilter<"Guild"> | boolean
+    cohesionScore?: FloatWithAggregatesFilter<"Guild"> | number
+    streakCount?: IntWithAggregatesFilter<"Guild"> | number
+    lastStreakAt?: DateTimeNullableWithAggregatesFilter<"Guild"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Guild"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Guild"> | Date | string
   }
@@ -21263,6 +21393,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -21343,6 +21476,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -21420,6 +21556,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21500,6 +21639,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21579,6 +21721,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -21645,6 +21790,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21713,6 +21861,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21990,6 +22141,9 @@ export namespace Prisma {
     slug: string
     requiredLevel?: number
     isPrivate?: boolean
+    cohesionScore?: number
+    streakCount?: number
+    lastStreakAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: GuildMemberCreateNestedManyWithoutGuildInput
@@ -22002,6 +22156,9 @@ export namespace Prisma {
     slug: string
     requiredLevel?: number
     isPrivate?: boolean
+    cohesionScore?: number
+    streakCount?: number
+    lastStreakAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: GuildMemberUncheckedCreateNestedManyWithoutGuildInput
@@ -22014,6 +22171,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GuildMemberUpdateManyWithoutGuildNestedInput
@@ -22026,6 +22186,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: GuildMemberUncheckedUpdateManyWithoutGuildNestedInput
@@ -22038,6 +22201,9 @@ export namespace Prisma {
     slug: string
     requiredLevel?: number
     isPrivate?: boolean
+    cohesionScore?: number
+    streakCount?: number
+    lastStreakAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22049,6 +22215,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22060,6 +22229,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23210,6 +23382,9 @@ export namespace Prisma {
     currentFocus?: SortOrder
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -23237,6 +23412,8 @@ export namespace Prisma {
     profileStability?: SortOrder
     strategistScore?: SortOrder
     memberNumber?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
     reviewsCompleted?: SortOrder
   }
 
@@ -23288,6 +23465,9 @@ export namespace Prisma {
     twitterUrl?: SortOrder
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -23343,6 +23523,9 @@ export namespace Prisma {
     twitterUrl?: SortOrder
     dreamStatement?: SortOrder
     lastCheckinAt?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -23369,6 +23552,8 @@ export namespace Prisma {
     profileStability?: SortOrder
     strategistScore?: SortOrder
     memberNumber?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
     reviewsCompleted?: SortOrder
   }
 
@@ -23732,12 +23917,17 @@ export namespace Prisma {
     slug?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
+    lastStreakAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type GuildAvgOrderByAggregateInput = {
     requiredLevel?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
   }
 
   export type GuildMaxOrderByAggregateInput = {
@@ -23747,6 +23937,9 @@ export namespace Prisma {
     slug?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
+    lastStreakAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23758,12 +23951,17 @@ export namespace Prisma {
     slug?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
+    lastStreakAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type GuildSumOrderByAggregateInput = {
     requiredLevel?: SortOrder
+    cohesionScore?: SortOrder
+    streakCount?: SortOrder
   }
 
   export type GuildScalarRelationFilter = {
@@ -25871,6 +26069,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -25950,6 +26151,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -26032,6 +26236,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -26110,6 +26317,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -26507,6 +26717,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26586,6 +26799,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26683,6 +26899,9 @@ export namespace Prisma {
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
     lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -26750,6 +26969,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -26829,6 +27051,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -26921,6 +27146,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27000,6 +27228,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27137,6 +27368,9 @@ export namespace Prisma {
     slug: string
     requiredLevel?: number
     isPrivate?: boolean
+    cohesionScore?: number
+    streakCount?: number
+    lastStreakAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27148,6 +27382,9 @@ export namespace Prisma {
     slug: string
     requiredLevel?: number
     isPrivate?: boolean
+    cohesionScore?: number
+    streakCount?: number
+    lastStreakAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27216,6 +27453,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -27295,6 +27535,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -27336,6 +27579,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27347,6 +27593,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    cohesionScore?: FloatFieldUpdateOperationsInput | number
+    streakCount?: IntFieldUpdateOperationsInput | number
+    lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27420,6 +27669,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27499,6 +27751,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27576,6 +27831,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -27655,6 +27913,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -27747,6 +28008,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27826,6 +28090,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27903,6 +28170,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -27982,6 +28252,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28074,6 +28347,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28153,6 +28429,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28230,6 +28509,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28309,6 +28591,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28401,6 +28686,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28480,6 +28768,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28616,6 +28907,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28695,6 +28989,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28777,6 +29074,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -28856,6 +29156,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -29043,6 +29346,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29122,6 +29428,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29209,6 +29518,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29288,6 +29600,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29432,6 +29747,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -29511,6 +29829,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -29660,6 +29981,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29739,6 +30063,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29816,6 +30143,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -29895,6 +30225,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -29987,6 +30320,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30066,6 +30402,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30143,6 +30482,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -30222,6 +30564,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -30314,6 +30659,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30393,6 +30741,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30595,6 +30946,9 @@ export namespace Prisma {
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
     lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -31040,6 +31394,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31118,6 +31475,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31196,6 +31556,9 @@ export namespace Prisma {
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
     lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null

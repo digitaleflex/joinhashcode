@@ -17,6 +17,8 @@ interface MissionSubmissionFormProps {
   revisionCount?: number;
 }
 
+import { NeuralScanner } from "@/components/missions/neural-scanner";
+
 export function MissionSubmissionForm({
   missionId,
   submissionMethod,
@@ -26,6 +28,7 @@ export function MissionSubmissionForm({
 }: MissionSubmissionFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
   const [step, setStep] = useState(1);
 
   // Form State
@@ -67,19 +70,23 @@ export function MissionSubmissionForm({
       if (!res.ok) throw new Error(await res.text());
 
       const data = await res.json();
-      toast.success("Mission transmise avec succès !");
-      
-      if (data.leveledUp) {
-        toast.success(`NIVEAU SUPÉRIEUR DÉBLOQUÉ : Rang ${data.newLevel}`);
-      }
-
-      router.refresh();
+      setShowScanner(true);
     } catch (error: any) {
       toast.error(error.message || "Erreur lors de la soumission");
-    } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (showScanner) {
+    return (
+      <NeuralScanner 
+        onComplete={() => {
+          toast.success("Analyse terminée. Synchronisation effectuée !");
+          router.refresh();
+        }} 
+      />
+    );
+  }
 
   if (step === 1) {
     const isTextResponse = submissionMethod === "TEXT_RESPONSE" || missionId === "introduction-ancrage";

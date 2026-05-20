@@ -49,7 +49,16 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     if (action === "APPROVE") {
       const level: QualityLevel = qualityLevel ?? "STANDARD";
-      const xpAwarded = computeXp(submission.mission.xp, level);
+      let xpAwarded = computeXp(submission.mission.xp, level);
+
+      // Apply streak multiplier
+      const userStreak = submission.user.currentStreak || 0;
+      let multiplier = 1.0;
+      if (userStreak >= 7) multiplier = 1.2;
+      else if (userStreak >= 3) multiplier = 1.1;
+      
+      xpAwarded = Math.round(xpAwarded * multiplier);
+
       const newXp = (submission.user.experience || 0) + xpAwarded;
 
       let newLevel = submission.user.level || 1;
