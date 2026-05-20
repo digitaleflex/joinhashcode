@@ -33,19 +33,19 @@ export function Nav() {
               <>
                 <Link
                   href="/dashboard"
-                  className="hidden sm:flex text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors items-center gap-2"
+                  className="hidden sm:flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-2"
                 >
                   <LayoutDashboard className="h-3.5 w-3.5" />
-                  Dashboard
+                  Tableau de bord
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="sm:hidden flex h-8 w-8 items-center justify-center rounded-full border border-primary/20 bg-primary/10 hover:bg-primary/20 transition-colors"
+                  className="sm:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 hover:bg-primary/20 transition-colors"
                   aria-label="Dashboard"
                 >
                   <LayoutDashboard className="h-4 w-4 text-primary" />
                 </Link>
-                <div className="h-8 w-8 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
+                <div className="h-8 w-8 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
                   {session.user.image ? (
                     <Image
                       src={session.user.image}
@@ -67,19 +67,19 @@ export function Nav() {
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="h-9 px-3 text-xs font-medium text-muted-foreground hover:text-foreground"
+                  className="h-8 px-3 text-[10px] font-bold text-muted-foreground hover:text-white"
                 >
                   <Link href="/signin">Connexion</Link>
                 </Button>
                 <Button
                   asChild
                   size="sm"
-                  className="h-9 rounded-full bg-primary px-4 sm:px-5 text-[10px] sm:text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+                  className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-[9px] sm:text-[10px] font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
                 >
                   <Link href="/quiz" className="flex items-center gap-1.5">
                     <span className="hidden sm:inline">Se profiler</span>
                     <span className="sm:hidden">Quiz</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    <ArrowRight className="h-3 w-3" />
                   </Link>
                 </Button>
               </>

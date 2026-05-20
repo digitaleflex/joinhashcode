@@ -1,0 +1,569 @@
+"use client"
+
+import { useState } from "react"
+import type { LucideIcon } from "lucide-react"
+import {
+  Shield, UserPlus, Users, Activity, Zap, Trophy,
+  Lock, Check, Copy, Loader2, Sparkles, ChevronRight,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { toast } from "sonner"
+import { cn } from "@/lib/utils"
+import { AppSidebar } from "./app-sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { UserTopBar } from "./user-topbar"
+
+// ─── Phase definitions ───────────────────────────────────────────────────────
+
+type PhaseStatus = "completed" | "current" | "locked"
+
+interface Phase {
+  id: number
+  code: string
+  title: string
+  subtitle: string
+  reward: string
+  rewardXp: number
+  icon: LucideIcon
+  status: PhaseStatus
+  unlockHint?: string
+}
+
+function buildPhases(squad: any, memberCount: number): Phase[] {
+  const cohesion = squad?.cohesionScore ?? 0
+  const streak = squad?.streakCount ?? 0
+
+  const s = (completed: boolean, current: boolean): PhaseStatus =>
+    completed ? "completed" : current ? "current" : "locked"
+
+  return [
+    {
+      id: 1,
+      code: "01",
+      title: "INITIATION",
+      subtitle: "Créer ton escouade",
+      reward: "+50 XP",
+      rewardXp: 50,
+      icon: Shield,
+      status: s(!!squad, !squad),
+    },
+    {
+      id: 2,
+      code: "02",
+      title: "RECRUTEMENT",
+      subtitle: "Recruter 3 agents",
+      reward: "+100 XP par membre",
+      rewardXp: 300,
+      icon: UserPlus,
+      status: s(memberCount >= 3, !!squad && memberCount < 3),
+      unlockHint: "Complète d'abord la Phase 01",
+    },
+    {
+      id: 3,
+      code: "03",
+      title: "ESCOUADE COMPLÈTE",
+      subtitle: "5 agents synchronisés",
+      reward: "+200 XP · Accès Missions Co-op",
+      rewardXp: 200,
+      icon: Users,
+      status: s(memberCount >= 5, memberCount >= 3 && memberCount < 5),
+      unlockHint: "Recrute 3 agents d'abord",
+    },
+    {
+      id: 4,
+      code: "04",
+      title: "PREMIER CYCLE",
+      subtitle: "Atteindre 50% de cohésion",
+      reward: "+150 XP · Badge INITIATOR",
+      rewardXp: 150,
+      icon: Activity,
+      status: s(cohesion >= 0.5, memberCount >= 5 && cohesion < 0.5),
+      unlockHint: "Complete ton escouade à 5/5 d'abord",
+    },
+    {
+      id: 5,
+      code: "05",
+      title: "SYNCHRONISATION",
+      subtitle: "3 jours de streak consécutifs",
+      reward: "+300 XP · Badge SYNC_MASTER",
+      rewardXp: 300,
+      icon: Zap,
+      status: s(streak >= 3, cohesion >= 0.5 && streak < 3),
+      unlockHint: "Atteins 50% de cohésion d'abord",
+    },
+    {
+      id: 6,
+      code: "06",
+      title: "HYPER_LINK",
+      subtitle: "7 jours consécutifs · Statut légendaire",
+      reward: "+500 XP · Badge Légendaire HYPER_LINK",
+      rewardXp: 500,
+      icon: Trophy,
+      status: s(streak >= 7, streak >= 3 && streak < 7),
+      unlockHint: "Maintiens 3 jours de streak d'abord",
+    },
+  ]
+}
+
+// ─── Main component ──────────────────────────────────────────────────────────
+
+export function SquadJourney({ user, squad }: { user: any; squad: any }) {
+  const [isCopying, setIsCopying] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
+
+  const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
+  const memberCount = squad?.members?.length ?? 0
+  const cohesion = squad?.cohesionScore ?? 0
+  const streak = squad?.streakCount ?? 0
+  const phases = buildPhases(squad, memberCount)
+  const currentPhase = phases.find((p) => p.status === "current")
+  const completedCount = phases.filter((p) => p.status === "completed").length
+  const inviteLink =
+    typeof window !== "undefined" && squad
+      ? `${window.location.origin}/invite/${squad.slug || pseudo.toLowerCase()}`
+      : ""
+
+  const copyInvite = () => {
+    if (!inviteLink) return
+    navigator.clipboard.writeText(inviteLink)
+    toast.success("Lien d'invitation copié !")
+    setIsCopying(true)
+    setTimeout(() => setIsCopying(false), 2000)
+  }
+
+  const createSquad = async () => {
+    setIsCreating(true)
+    try {
+      const res = await fetch("/api/squad/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+      if (!res.ok) throw new Error()
+      toast.success("Escouade créée — protocole initialisé !")
+      window.location.reload()
+    } catch {
+      toast.error("Erreur lors de la création.")
+    } finally {
+      setIsCreating(false)
+    }
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar user={user} />
+      <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
+        <div className="scanline" />
+        <UserTopBar user={user} />
+
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+          <div className="max-w-6xl mx-auto space-y-10">
+
+            {/* ── Page header ────────────────────────────────────── */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-zinc-500 uppercase">
+                  protocol_escouade_
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase leading-[0.9]">
+                {squad ? (
+                  <>
+                    {squad.name || "Mon"}{" "}
+                    <span className="text-primary italic">Escouade</span>
+                  </>
+                ) : (
+                  <>
+                    Lance ton{" "}
+                    <span className="text-primary italic">Réseau</span>
+                  </>
+                )}
+              </h1>
+              <p className="text-zinc-500 text-sm font-medium max-w-xl">
+                {squad
+                  ? `Unité active · ${memberCount}/5 agents · Cohésion ${Math.round(cohesion * 100)}%`
+                  : "Constitue ton escouade et débloques des avantages collectifs exclusifs."}
+              </p>
+            </div>
+
+            {/* ── Main 2-col layout ─────────────────────────────── */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
+
+              {/* ── Journey path ──────────────────────────────────── */}
+              <div className="space-y-0">
+                <div className="text-[10px] font-mono font-bold tracking-[0.3em] text-zinc-600 uppercase mb-6 flex items-center gap-3">
+                  <span className="h-px w-8 bg-zinc-800" />
+                  chemin_d_ascension
+                  <span className="text-primary">{completedCount}/6 phases</span>
+                </div>
+
+                {phases.map((phase, index) => (
+                  <PhaseNode
+                    key={phase.id}
+                    phase={phase}
+                    isLast={index === phases.length - 1}
+                    memberCount={memberCount}
+                    squad={squad}
+                    isCopying={isCopying}
+                    isCreating={isCreating}
+                    onCopy={copyInvite}
+                    onCreate={createSquad}
+                  />
+                ))}
+              </div>
+
+              {/* ── Side stats panel ───────────────────────────────── */}
+              <div className="space-y-5 lg:sticky lg:top-24">
+
+                {/* Cohesion gauge */}
+                <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Activity className="size-4 text-primary" />
+                      <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
+                        Cohésion
+                      </span>
+                    </div>
+                    <span className="text-xl font-black text-white tabular-nums">
+                      {Math.round(cohesion * 100)}
+                      <span className="text-primary text-base">%</span>
+                    </span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-primary shadow-[0_0_12px_rgba(197,244,65,0.5)] transition-all duration-1000"
+                      style={{ width: `${Math.round(cohesion * 100)}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-zinc-600 font-mono">
+                    {cohesion < 0.5
+                      ? "Complète l'escouade pour booster la cohésion"
+                      : cohesion < 0.9
+                      ? "Restez actifs pour maintenir la dynamique"
+                      : "Synchronisation quasi-parfaite !"}
+                  </p>
+                </div>
+
+                {/* Streak counter */}
+                <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 flex items-center gap-5">
+                  <div className={cn(
+                    "size-14 rounded-2xl flex items-center justify-center border-2 shrink-0",
+                    streak >= 3
+                      ? "bg-amber-500/10 border-amber-500/40 text-amber-400"
+                      : "bg-white/[0.02] border-white/5 text-zinc-700"
+                  )}>
+                    <Zap className={cn("size-6", streak >= 1 && "fill-current")} />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-black text-white tabular-nums">
+                      {streak}
+                      <span className="text-zinc-500 text-sm font-medium ml-1">jours</span>
+                    </div>
+                    <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                      streak consécutif
+                    </div>
+                  </div>
+                </div>
+
+                {/* Member roster */}
+                {squad && (
+                  <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Users className="size-4 text-primary" />
+                      <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
+                        Roster · {memberCount}/5
+                      </span>
+                    </div>
+                    <div className="space-y-3">
+                      {squad.members?.map((m: any) => (
+                        <div key={m.user.id} className="flex items-center gap-3">
+                          <Avatar className="size-9 rounded-xl border border-white/10 shrink-0">
+                            <AvatarImage src={m.user.image || ""} />
+                            <AvatarFallback className="bg-primary/10 text-primary font-black text-sm rounded-xl">
+                              {(m.user.pseudo || m.user.name || "?").charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-bold text-white truncate">
+                              @{m.user.pseudo || m.user.name?.split(" ")[0]}
+                            </div>
+                            <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-tight">
+                              {m.user.class || "Agent"} · LVL {m.user.level ?? 1}
+                            </div>
+                          </div>
+                          {m.user.id === user.id && (
+                            <span className="text-[8px] font-black font-mono bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-widest shrink-0">
+                              Vous
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                      {Array.from({ length: 5 - memberCount }).map((_, i) => (
+                        <div key={`empty-${i}`} className="flex items-center gap-3 opacity-30">
+                          <div className="size-9 rounded-xl border-2 border-dashed border-white/10 flex items-center justify-center shrink-0">
+                            <UserPlus className="size-4 text-zinc-700" />
+                          </div>
+                          <div className="text-[11px] font-mono text-zinc-700 uppercase tracking-widest">
+                            Emplacement libre
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* V2 teaser */}
+                <div className="rounded-[1.5rem] border border-white/[0.04] bg-white/[0.01] p-5 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="size-3.5 text-zinc-700" />
+                    <span className="text-[9px] font-mono font-bold text-zinc-700 uppercase tracking-[0.3em]">
+                      Prochainement — V2
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {["Missions collectives", "Défis inter-escouades", "Classement hebdo"].map((feat) => (
+                      <div key={feat} className="flex items-center gap-2 text-zinc-700">
+                        <Lock className="size-3 shrink-0" />
+                        <span className="text-[10px] font-mono">{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
+
+// ─── Phase node ───────────────────────────────────────────────────────────────
+
+function PhaseNode({
+  phase,
+  isLast,
+  memberCount,
+  squad,
+  isCopying,
+  isCreating,
+  onCopy,
+  onCreate,
+}: {
+  phase: Phase
+  isLast: boolean
+  memberCount: number
+  squad: any
+  isCopying: boolean
+  isCreating: boolean
+  onCopy: () => void
+  onCreate: () => void
+}) {
+  const { status } = phase
+  const Icon = phase.icon
+
+  return (
+    <div className="flex gap-5 md:gap-7">
+      {/* Connector line + node icon */}
+      <div className="flex flex-col items-center shrink-0">
+        <div className={cn(
+          "size-12 md:size-14 rounded-2xl flex items-center justify-center border-2 z-10 transition-all duration-700 shrink-0",
+          status === "completed" && "bg-primary/10 border-primary text-primary",
+          status === "current" && "bg-primary/5 border-primary text-primary shadow-[0_0_25px_rgba(197,244,65,0.25)] animate-pulse",
+          status === "locked" && "bg-zinc-900/40 border-white/5 text-zinc-800",
+        )}>
+          {status === "completed" ? (
+            <Check className="size-5 md:size-6" />
+          ) : status === "locked" ? (
+            <Lock className="size-4 md:size-5" />
+          ) : (
+            <Icon className="size-5 md:size-6" />
+          )}
+        </div>
+        {!isLast && (
+          <div className={cn(
+            "w-0.5 flex-1 min-h-[2.5rem] mt-1 rounded-full",
+            status === "completed" ? "bg-primary/30" : "bg-white/[0.04]",
+          )} />
+        )}
+      </div>
+
+      {/* Phase content card */}
+      <div className={cn(
+        "flex-1 rounded-[1.5rem] border p-5 md:p-6 mb-3 transition-all duration-700",
+        status === "completed" && "bg-zinc-900/30 border-primary/10",
+        status === "current" && "bg-zinc-900/60 border-primary/30 shadow-[0_0_30px_rgba(197,244,65,0.08)]",
+        status === "locked" && "bg-zinc-950/30 border-white/[0.03] opacity-50",
+      )}>
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={cn(
+                "text-[9px] font-mono font-black tracking-[0.4em] uppercase",
+                status === "completed" ? "text-primary" : status === "current" ? "text-primary/70" : "text-zinc-700",
+              )}>
+                PHASE_{phase.code}
+              </span>
+              {status === "completed" && (
+                <span className="text-[8px] font-black bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-widest font-mono">
+                  Complété
+                </span>
+              )}
+              {status === "current" && (
+                <span className="text-[8px] font-black bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full uppercase tracking-widest font-mono animate-pulse">
+                  En cours
+                </span>
+              )}
+            </div>
+            <h3 className={cn(
+              "text-lg md:text-xl font-black tracking-tighter uppercase",
+              status === "locked" ? "text-zinc-700" : "text-white",
+            )}>
+              {phase.title}
+            </h3>
+            <p className={cn(
+              "text-sm",
+              status === "locked" ? "text-zinc-800" : "text-zinc-500",
+            )}>
+              {phase.subtitle}
+            </p>
+          </div>
+
+          {/* Reward badge */}
+          <div className={cn(
+            "text-[10px] font-mono font-bold px-3 py-1.5 rounded-xl border shrink-0",
+            status === "completed" && "bg-primary/5 text-primary/60 border-primary/10",
+            status === "current" && "bg-primary/10 text-primary border-primary/20",
+            status === "locked" && "bg-white/[0.02] text-zinc-800 border-white/[0.03]",
+          )}>
+            {phase.reward}
+          </div>
+        </div>
+
+        {/* Current phase: progress + CTA */}
+        {status === "current" && (
+          <div className="mt-5 space-y-4 border-t border-white/5 pt-5">
+            {/* Progress indicator per phase */}
+            {phase.id === 2 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                  <span>Agents recrutés</span>
+                  <span className="text-primary font-bold">{memberCount}/3</span>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(100, (memberCount / 3) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {phase.id === 3 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                  <span>Escouade complète</span>
+                  <span className="text-primary font-bold">{memberCount}/5</span>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-700"
+                    style={{ width: `${(memberCount / 5) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {phase.id === 4 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                  <span>Cohésion actuelle</span>
+                  <span className="text-primary font-bold">{Math.round((squad?.cohesionScore ?? 0) * 100)}% / 50%</span>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(100, ((squad?.cohesionScore ?? 0) / 0.5) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {phase.id === 5 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                  <span>Streak actuel</span>
+                  <span className="text-primary font-bold">{squad?.streakCount ?? 0}/3 jours</span>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(100, ((squad?.streakCount ?? 0) / 3) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {phase.id === 6 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                  <span>Streak actuel</span>
+                  <span className="text-primary font-bold">{squad?.streakCount ?? 0}/7 jours</span>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-amber-400 rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(100, ((squad?.streakCount ?? 0) / 7) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* CTA per phase */}
+            <div className="flex flex-wrap gap-3">
+              {phase.id === 1 && (
+                <Button
+                  onClick={onCreate}
+                  disabled={isCreating}
+                  className="btn-primary-glow h-11 px-7 text-[11px] font-black uppercase tracking-[0.15em]"
+                >
+                  {isCreating ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <>
+                      Initialiser le protocole
+                      <ChevronRight className="size-4 ml-2" />
+                    </>
+                  )}
+                </Button>
+              )}
+              {(phase.id === 2 || phase.id === 3) && squad && (
+                <Button
+                  onClick={onCopy}
+                  variant="outline"
+                  className="h-11 px-7 text-[11px] font-black uppercase tracking-[0.15em] border-primary/30 text-primary hover:bg-primary/10"
+                >
+                  {isCopying ? (
+                    <><Check className="size-4 mr-2" />Copié !</>
+                  ) : (
+                    <><Copy className="size-4 mr-2" />Copier le lien d&apos;invitation</>
+                  )}
+                </Button>
+              )}
+              {(phase.id === 4 || phase.id === 5 || phase.id === 6) && (
+                <p className="text-[11px] text-zinc-600 font-mono italic">
+                  Les check-ins quotidiens de tes membres boostent automatiquement la cohésion.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Locked: show unlock hint */}
+        {status === "locked" && phase.unlockHint && (
+          <p className="mt-3 text-[10px] font-mono text-zinc-800 flex items-center gap-1.5">
+            <Lock className="size-3" />
+            {phase.unlockHint}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}

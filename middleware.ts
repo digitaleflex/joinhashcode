@@ -13,12 +13,13 @@ export async function middleware(request: NextRequest) {
   const session = sessionData?.session;
   const user = sessionData?.user;
 
-  const isProtectedPath = 
-    request.nextUrl.pathname.startsWith('/dashboard') || 
+  const isProtectedPath =
+    request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/community') ||
     request.nextUrl.pathname.startsWith('/missions') ||
     request.nextUrl.pathname.startsWith('/tools') ||
-    request.nextUrl.pathname.startsWith('/settings');
+    request.nextUrl.pathname.startsWith('/settings') ||
+    request.nextUrl.pathname.startsWith('/squad');
 
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
@@ -63,5 +64,7 @@ export const config = {
     "/settings/:path*",
     "/dossier/:path*",
     "/dossier",
+    "/squad/:path*",
+    "/squad",
   ],
 };

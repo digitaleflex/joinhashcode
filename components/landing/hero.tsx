@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 
 const PROFILES = [
@@ -26,59 +27,56 @@ export function Hero() {
   const current = PROFILES[index]
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-border/60">
-      {/* Pure CSS background */}
+    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-white/5 bg-background">
+      {/* Clean Ambient Background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute left-1/2 top-0 h-[700px] w-[900px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-primary/7 blur-[140px]" />
-        <div className="absolute bottom-0 right-1/4 h-[300px] w-[400px] rounded-full bg-primary/4 blur-[100px]" />
+        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 h-[300px] w-[400px] rounded-full bg-purple-500/5 blur-[100px]" />
       </div>
 
-      {/* Dot grid */}
+      {/* Subtle Grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-35 z-10"
+        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-20 z-10"
       />
 
-      {/* Top accent line */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[60%] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/40 to-transparent z-20"
-      />
-
-      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div className="scanline"></div>
+      
+      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-16 sm:py-24 lg:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
 
-          {/* Eyebrow — fade in */}
+          {/* Eyebrow — human & welcoming */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-sm mb-10"
+            className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-sm mb-12"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-              Profilage tech · Ouvert à tous
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#B8FF3B]" />
+            <span className="font-mono text-[10px] font-black text-primary tracking-tight">
+              découvre ton potentiel tech
             </span>
           </motion.div>
 
-          {/* H1 — fade in with delay */}
+          {/* H1 — Refined Avant-Garde */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05]"
+            className="text-4xl font-black tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] uppercase"
           >
             Tu es
             <br />
-            <span className="inline-flex items-center justify-center min-w-[280px] sm:min-w-[400px]">
+            <span className="inline-flex items-center justify-center min-w-[200px] sm:min-w-[360px] italic">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={current.label}
-                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  style={{ color: current.color }}
+                  initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl"
+                  style={{ color: current.color, textShadow: `0 0 20px ${current.color}20` }}
                 >
                   {current.label}
                 </motion.span>
@@ -91,10 +89,9 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="mt-4 text-lg text-zinc-500 font-light"
+            className="mt-8 text-lg text-zinc-400 font-medium tracking-tight max-w-lg"
           >
-            Ou peut-être autre chose.{" "}
-            <span className="text-zinc-400">3 minutes pour le savoir.</span>
+            Le système détecte ton potentiel tech en <span className="text-white italic">3 minutes</span> chrono.
           </motion.p>
 
           {/* CTAs */}
@@ -102,15 +99,15 @@ export function Hero() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+            className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
           >
             <Button
               asChild
               size="lg"
-              className="btn-primary-glow group h-12 rounded-xl px-8 text-sm font-bold"
+              className="btn-primary-glow group h-14 rounded-2xl px-10 text-[11px] font-black uppercase"
             >
               <Link href="/quiz">
-                Découvrir mon profil
+                Lancer le profilage
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
@@ -118,9 +115,9 @@ export function Hero() {
               asChild
               variant="ghost"
               size="lg"
-              className="h-12 rounded-xl px-5 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5"
+              className="h-14 rounded-2xl px-6 text-xs font-bold text-zinc-500 hover:text-white hover:bg-white/5 transition-all"
             >
-              <Link href="/signin">Déjà membre ? Connexion</Link>
+              <Link href="/signin">Déjà membre ?</Link>
             </Button>
           </motion.div>
 
@@ -129,56 +126,49 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="mt-10 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/50"
+            className="mt-12 flex items-center gap-4 font-mono text-[9px] font-bold text-zinc-700 tracking-tight"
           >
-            <span>Gratuit</span>
-            <span className="h-1 w-1 rounded-full bg-border" />
-            <span>3 minutes</span>
-            <span className="h-1 w-1 rounded-full bg-border" />
-            <span>Sans engagement</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">synchronisation rapide</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">anonymat total</span>
           </motion.div>
         </div>
 
-        {/* Profile result card — delayed entrance */}
+        {/* Profile result card — Premium UI */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-          className="mx-auto mt-20 max-w-2xl"
+          className="mx-auto mt-24 max-w-2xl"
         >
-          <div className="relative rounded-2xl border border-border bg-card/60 shadow-2xl shadow-black/60 backdrop-blur-md overflow-hidden">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -inset-px rounded-2xl bg-linear-to-b from-primary/15 to-transparent opacity-40"
-            />
+          <div className="relative rounded-[2.5rem] border border-white/10 glass-card p-1 shadow-2xl shadow-black/80 overflow-hidden">
             {/* Browser bar */}
-            <div className="relative flex items-center gap-2 border-b border-border/60 px-4 py-3">
-              <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+            <div className="relative flex items-center gap-2 border-b border-white/5 px-6 py-4 bg-white/[0.02]">
+              <div className="flex gap-2">
+                <span className="h-2 w-2 rounded-full bg-zinc-800" />
+                <span className="h-2 w-2 rounded-full bg-zinc-800" />
+                <span className="h-2 w-2 rounded-full bg-zinc-800" />
               </div>
-              <span className="ml-2 font-mono text-[11px] text-muted-foreground/60">
-                joinhashcode.com/dossier
+              <span className="ml-4 font-mono text-[9px] font-bold text-zinc-600 tracking-tight">
+                network.hashcode.ai/votre_profil_décodé
               </span>
             </div>
-            {/* Result */}
-            <div className="relative p-5 sm:p-6 space-y-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">Résultat · Ibrahima S.</p>
-                  <p className="text-2xl font-bold mt-1 font-mono" style={{ color: "#22D3EE" }}>
-                    STRATÈGE
+            
+            {/* Result Content */}
+            <div className="relative p-6 sm:p-10 space-y-6 sm:space-y-8">
+              <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <p className="font-mono text-[9px] font-bold text-zinc-500 tracking-tight uppercase">ton profil est prêt</p>
+                  <p className="text-2xl sm:text-4xl font-black tracking-tighter text-[#22D3EE] uppercase italic">
+                    Stratège
                   </p>
                 </div>
-                <span
-                  className="text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-md"
-                  style={{ color: "#22D3EE", background: "#22D3EE15", border: "1px solid #22D3EE30" }}
-                >
-                  CORE
-                </span>
+                <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] font-black border-[#22D3EE]/30 text-[#22D3EE] px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-[#22D3EE]/5 tracking-widest">
+                  RANG ELITE
+                </Badge>
               </div>
-              <div className="space-y-2.5">
+
+              <div className="space-y-4">
                 {[
                   { label: "Stratège",   pct: 68, color: "#22D3EE" },
                   { label: "Builder",    pct: 22, color: "#B8FF3B" },
@@ -190,27 +180,30 @@ export function Hero() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: 0.7 + i * 0.07 }}
-                    className="flex items-center gap-3"
+                    className="space-y-1.5"
                   >
-                    <span className="font-mono text-[10px] text-zinc-500 w-20 shrink-0 uppercase tracking-wider">
-                      {bar.label}
-                    </span>
-                    <div className="flex-1 h-1 rounded-full bg-white/5">
+                    <div className="flex justify-between items-end">
+                      <span className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-tight">
+                        {bar.label}
+                      </span>
+                      <span className="font-mono text-[9px] font-bold" style={{ color: bar.color }}>{bar.pct}%</span>
+                    </div>
+                    <div className="h-1 w-full rounded-full bg-white/5 overflow-hidden">
                       <motion.div
-                        className="h-1 rounded-full"
-                        style={{ background: bar.color, opacity: 0.75 }}
+                        className="h-full rounded-full shadow-[0_0_10px_currentColor]"
+                        style={{ background: bar.color }}
                         initial={{ width: 0 }}
                         animate={{ width: `${bar.pct}%` }}
-                        transition={{ duration: 0.6, delay: 0.8 + i * 0.07, ease: "easeOut" }}
+                        transition={{ duration: 1, delay: 0.8 + i * 0.07, ease: [0.23, 1, 0.32, 1] }}
                       />
                     </div>
-                    <span className="font-mono text-[10px] text-zinc-600 w-8 text-right">{bar.pct}%</span>
                   </motion.div>
                 ))}
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between">
-                <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Confiance algorithmique</span>
-                <span className="font-mono text-[11px] font-bold" style={{ color: "#22D3EE" }}>91%</span>
+              
+              <div className="pt-6 border-t border-white/5 flex items-center justify-between">
+                <span className="font-mono text-[9px] font-bold text-zinc-700 uppercase tracking-tight">force de ton momentum</span>
+                <span className="font-mono text-[11px] font-black" style={{ color: "#22D3EE" }}>98.4%</span>
               </div>
             </div>
           </div>
