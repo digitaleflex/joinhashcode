@@ -42,6 +42,7 @@ import { SquadLobby } from "./squad-lobby"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
+import { ProfileDriftAlert } from "./profile-drift-alert"
 
 export function DashboardShell({
   user,
@@ -108,6 +109,14 @@ export function DashboardShell({
             <SquadLobby user={user} squad={squad} />
           ) : (
             <div className="max-w-6xl mx-auto space-y-10">
+
+            {user.profileDrift > 0.3 && (
+              <ProfileDriftAlert
+                profileDrift={user.profileDrift}
+                userClass={user.class}
+                userId={user.id}
+              />
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">

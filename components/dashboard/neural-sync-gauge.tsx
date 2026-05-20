@@ -28,10 +28,10 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Zap className={cn("size-3", isMultiplierActive ? "text-primary animate-pulse" : "text-zinc-600")} />
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">Etat de Synchronisation_</span>
+            <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight">état_de_synchronisation_</span>
           </div>
           <h4 className="text-2xl font-bold tracking-tighter text-white">
-            {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg">Signal</span>
+            {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg tracking-tight">signal</span>
           </h4>
         </div>
 
@@ -41,13 +41,13 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
               <div className="flex flex-col items-end gap-1 cursor-help">
                 <div className="flex items-center gap-1.5">
                   <Flame className={cn("size-4", currentStreak > 0 ? "text-orange-500" : "text-zinc-800")} />
-                  <span className="text-lg font-bold font-mono">{currentStreak}</span>
+                  <span className="text-lg font-bold font-mono tracking-tight">{currentStreak}</span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest leading-none">Days Streak</span>
+                <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none">days_streak</span>
               </div>
             </TooltipTrigger>
-            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono uppercase tracking-wider text-zinc-300">
-              Maintiens ta sync pour booster ton XP
+            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300">
+              maintiens ta sync pour booster ton XP
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
