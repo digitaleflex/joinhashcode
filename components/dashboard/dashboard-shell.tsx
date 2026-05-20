@@ -124,14 +124,14 @@ export function DashboardShell({
                 <DailyCheckinWidget />
                 
                 {/* Welcome Banner Personalized */}
-                <div className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
+                <div className={`p-6 sm:p-12 rounded-[2rem] sm:rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
                   <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className={cn("h-2 w-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]", config.color.replace('text-', 'bg-'))}></div>
                       <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">système_prêt_</span>
                     </div>
-                    <h2 className="text-4xl sm:text-6xl font-extrabold mb-4 tracking-[-0.04em] leading-[0.9] text-white">
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-[-0.04em] leading-tight text-white">
                       Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
                     </h2>
                     <p className="text-zinc-400 max-w-2xl text-base sm:text-xl leading-relaxed font-medium">
