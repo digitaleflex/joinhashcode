@@ -38,7 +38,7 @@ import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 import { MISSIONS, type Mission } from "@/lib/missions"
 import { DevNotice } from "@/components/ui/dev-notice"
-import { SquadLobby } from "./squad-lobby"
+import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
@@ -105,10 +105,11 @@ export function DashboardShell({
         <UserTopBar user={user} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
-          {isLocked ? (
-            <SquadLobby user={user} squad={squad} />
-          ) : (
             <div className="max-w-6xl mx-auto space-y-10">
+
+            {isLocked && (
+              <SquadBanner user={user} squad={squad} />
+            )}
 
             {user.profileDrift > 0.3 && (
               <ProfileDriftAlert
@@ -380,7 +381,6 @@ export function DashboardShell({
               </div>
             </div>
             </div>
-          )}
         </main>
       </SidebarInset>
     </SidebarProvider>
