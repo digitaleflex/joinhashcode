@@ -57,8 +57,8 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-syne), 'Inter', sans-serif;
-  --font-mono: var(--font-mono), monospace;
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -107,17 +107,9 @@
     scroll-padding-top: 5rem;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden relative min-h-screen font-sans;
+    @apply bg-background text-foreground overflow-x-hidden relative min-h-screen;
     font-feature-settings: 'cv11', 'ss01';
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply tracking-[-0.03em] font-bold uppercase;
-  }
-
-  h1 { @apply text-5xl md:text-7xl font-extrabold leading-[0.9]; }
-  h2 { @apply text-3xl md:text-5xl tracking-[-0.02em]; }
-  h3 { @apply text-xl md:text-3xl; }
 
   /* GLOBAL PREMIUM BACKGROUND */
   body::before {
