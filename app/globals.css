@@ -57,8 +57,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-syne: var(--font-syne);
+  --font-mono: var(--font-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -93,7 +93,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden relative min-h-screen;
+    @apply bg-background text-foreground overflow-x-hidden relative min-h-screen font-syne antialiased;
     font-feature-settings: 'cv11', 'ss01';
   }
 
@@ -156,6 +156,10 @@
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.2 0 0) transparent;
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

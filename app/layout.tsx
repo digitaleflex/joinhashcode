@@ -92,7 +92,7 @@ export default function RootLayout({
       className={`${syne.variable} ${ibmPlexMono.variable} bg-background`}
       data-scroll-behavior="smooth"
     >
-      <body className="font-sans antialiased bg-background text-foreground relative">
+      <body className={`${syne.variable} font-syne antialiased bg-background text-foreground relative`}>
         <NextTopLoader
           color="oklch(0.91 0.22 124)"
           initialPosition={0.08}
