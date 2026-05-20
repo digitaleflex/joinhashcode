@@ -42,8 +42,6 @@ import { SquadLobby } from "./squad-lobby"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
-import { startDashboardTour } from "@/lib/tours"
-import { useEffect } from "react"
 
 export function DashboardShell({
   user,
@@ -68,16 +66,6 @@ export function DashboardShell({
   // Squad Lock Logic
   const isSquadFull = squad && squad.members.length >= 5;
   const isLocked = !isSquadFull;
-
-  useEffect(() => {
-    const hasSeenTour = localStorage.getItem("hc_dashboard_tour_seen")
-    if (!hasSeenTour) {
-      setTimeout(() => {
-        startDashboardTour()
-        localStorage.setItem("hc_dashboard_tour_seen", "true")
-      }, 1500)
-    }
-  }, [])
 
   const profileConfigs: Record<string, { title: string, color: string, gradient: string, message: string }> = {
     builder: { 
@@ -126,17 +114,17 @@ export function DashboardShell({
                 <DailyCheckinWidget />
                 
                 {/* Welcome Banner Personalized */}
-                <div id="tour-welcome" className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
+                <div className={`p-8 sm:p-12 rounded-[2.5rem] glass-card relative overflow-hidden group border-white/5`}>
                   <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className={cn("h-2 w-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]", config.color.replace('text-', 'bg-'))}></div>
-                      <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500">System Ready</span>
+                      <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">système_prêt_</span>
                     </div>
-                    <h2 className="text-3xl sm:text-5xl font-bold mb-4 tracking-tighter text-white">
+                    <h2 className="text-4xl sm:text-6xl font-extrabold mb-4 tracking-[-0.04em] leading-[0.9] text-white">
                       Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
                     </h2>
-                    <p className="text-zinc-400 max-w-2xl text-base sm:text-xl leading-relaxed font-light">
+                    <p className="text-zinc-400 max-w-2xl text-base sm:text-xl leading-relaxed font-medium">
                       {config.message}
                     </p>
                     {user.bio && (
@@ -156,24 +144,24 @@ export function DashboardShell({
             </div>
 
             {/* Core Stats Grid - Balanced 2x2 */}
-            <div id="tour-evolution" className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Card 1: Level & XP */}
               <Card variant="premium" className="overflow-hidden group">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-4">
-                    <div id="tour-checkin" className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
+                    <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <TrendingUp className="h-5 w-5" />
                     </div>
-                    <Badge variant="outline" className="font-mono text-[10px] border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
+                    <Badge variant="outline" className="font-mono text-[10px] font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
                   </div>
-                  <CardTitle className="text-xl text-white tracking-tight">Progression_</CardTitle>
-                  <CardDescription className="text-zinc-500">Ton évolution dans l'écosystème.</CardDescription>
+                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Ton évolution dans l'écosystème.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-widest">
-                      <span className="text-muted-foreground">Niveau {levelName}</span>
-                      <span className="text-primary font-bold">{user.experience} XP</span>
+                    <div className="flex items-center justify-between text-[11px] font-mono font-bold tracking-tight">
+                      <span className="text-muted-foreground uppercase">Niveau {levelName}</span>
+                      <span className="text-primary">{user.experience} XP</span>
                     </div>
                     <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
                   </div>
@@ -186,11 +174,11 @@ export function DashboardShell({
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] transition-colors">
-                      <div className="text-[9px] text-zinc-600 uppercase font-mono tracking-widest mb-1">Missions</div>
+                      <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">missions</div>
                       <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                     </div>
                     <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] transition-colors">
-                      <div className="text-[9px] text-zinc-600 uppercase font-mono tracking-widest mb-1">Niveau</div>
+                      <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">niveau</div>
                       <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
                     </div>
                   </div>
@@ -204,10 +192,10 @@ export function DashboardShell({
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <Users className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em]">Identité Numérique</span>
+                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">identité_numérique</span>
                   </div>
-                  <CardTitle className="text-xl text-white tracking-tight">Connectivité_</CardTitle>
-                  <CardDescription className="text-zinc-500">Tes points d'ancrage externes.</CardDescription>
+                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">connectivité_</CardTitle>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Tes points d'ancrage externes.</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-2">
                   <div className="grid gap-4">
@@ -221,8 +209,8 @@ export function DashboardShell({
                       {user.portfolioUrl ? (
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Lier</Link>
+                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                          <Link href="/settings">lier_</Link>
                         </Button>
                       )}
                     </div>
@@ -237,8 +225,8 @@ export function DashboardShell({
                       {user.linkedinUrl ? (
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Lier</Link>
+                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                          <Link href="/settings">lier_</Link>
                         </Button>
                       )}
                     </div>
@@ -255,8 +243,8 @@ export function DashboardShell({
                       {user.twitterUrl ? (
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono uppercase text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Lier</Link>
+                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                          <Link href="/settings">lier_</Link>
                         </Button>
                       )}
                     </div>
@@ -271,33 +259,33 @@ export function DashboardShell({
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <Award className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em]">Spécialisation</span>
+                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">spécialisation</span>
                   </div>
-                  <CardTitle className="text-xl text-white tracking-tight">Arsenal_</CardTitle>
-                  <CardDescription className="text-zinc-500">Ton arsenal technique actuel.</CardDescription>
+                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">arsenal_</CardTitle>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Ton arsenal technique actuel.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex flex-wrap gap-2">
                     {user.domains?.length > 0 ? (
                       user.domains.map((d: string) => (
-                        <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-[10px] font-mono border border-primary/10 uppercase tracking-wider">{d}</span>
+                        <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-[10px] font-mono border border-primary/10 font-bold tracking-tight uppercase">{d}</span>
                       ))
                     ) : (
                       <Button asChild variant="outline" size="sm" className="w-full border-dashed border-white/10 bg-white/[0.02] text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary h-12 rounded-2xl">
-                        <Link href="/settings">+ Ajouter des domaines</Link>
+                        <Link href="/settings">+ ajouter_des_domaines</Link>
                       </Button>
                     )}
                   </div>
 
                   <div className="space-y-4">
-                    <div className="text-[10px] text-zinc-600 uppercase font-mono tracking-[0.2em] border-b border-white/5 pb-2">Outils favoris</div>
+                    <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">outils_favoris</div>
                     <div className="flex flex-wrap gap-2.5">
                       {user.tools?.length > 0 ? (
                         user.tools.slice(0, 10).map((tool: string) => (
-                          <div key={tool} className="text-[10px] text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors">{tool}</div>
+                          <div key={tool} className="text-[10px] text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors font-medium">{tool}</div>
                         ))
                       ) : (
-                        <span className="text-xs italic text-zinc-600 font-mono">-- Aucun outil détecté --</span>
+                        <span className="text-xs italic text-zinc-600 font-mono tracking-tighter">-- aucun_outil_détecté --</span>
                       )}
                     </div>
                   </div>
@@ -311,26 +299,26 @@ export function DashboardShell({
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <UserIcon className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em]">Profil Personnel</span>
+                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">profil_personnel</span>
                   </div>
-                  <CardTitle className="text-xl text-white tracking-tight">Status_</CardTitle>
-                  <CardDescription className="text-zinc-500">Tes informations de base.</CardDescription>
+                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">status_</CardTitle>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Tes informations de base.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 uppercase font-mono tracking-widest">Identifiant</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">identifiant</div>
                         <div className="text-sm font-bold text-white tracking-tight">@{user.pseudo || "Talent"}</div>
                       </div>
-                      <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono text-primary hover:text-primary hover:bg-primary/10">
-                        <Link href="/settings">Editer</Link>
+                      <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                        <Link href="/settings">éditer_</Link>
                       </Button>
                     </div>
 
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 uppercase font-mono tracking-widest">Coordonnées Géo</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">coordonnées_géo</div>
                         <div className="text-sm font-medium text-white tracking-tight">{user.city || "N/A"}, {user.country || "N/A"}</div>
                       </div>
                     </div>
@@ -341,7 +329,7 @@ export function DashboardShell({
                       <Target className="h-8 w-8 text-primary" />
                     </div>
                     <div className="flex items-center gap-2 text-primary">
-                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] font-bold">Objectif Principal_</span>
+                      <span className="text-[10px] font-mono font-bold tracking-tight">objectif_principal_</span>
                     </div>
                     <div className="text-sm font-medium text-zinc-300 leading-relaxed relative z-10">
                       {user.mainObjective || "Définis ton objectif principal dans tes réglages pour aligner le système."}
@@ -352,10 +340,10 @@ export function DashboardShell({
             </div>
 
             {/* Member Card */}
-            <div id="tour-squad" className="space-y-6 pt-4">
-              <h3 className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-600 flex items-center gap-4 px-2">
+            <div className="space-y-6 pt-4">
+              <h3 className="text-[10px] font-mono font-bold tracking-[0.4em] text-zinc-600 flex items-center gap-4 px-2">
                 <span className="h-px w-10 bg-zinc-800"></span>
-                Carte de Membre Officielle
+                carte_de_membre_officielle
               </h3>
               <div className="hover:scale-[1.01] transition-transform duration-500 ease-out">
                 <MemberCard
