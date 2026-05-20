@@ -37,7 +37,6 @@ import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 import { MISSIONS, type Mission } from "@/lib/missions"
-import { DevNotice } from "@/components/ui/dev-notice"
 import { SquadLobby } from "./squad-lobby"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
@@ -134,7 +133,11 @@ export function DashboardShell({
                       Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
                     </h2>
                     <p className="text-zinc-400 max-w-2xl text-base sm:text-xl leading-relaxed font-medium">
-                      {config.message}
+                      {(() => {
+                        if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Ton signal est fort.`
+                        if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}. Quelle est la prochaine ?`
+                        return config.message
+                      })()}
                     </p>
                     {user.bio && (
                       <p className="mt-6 text-xs sm:text-sm text-primary/60 font-mono italic border-l-2 border-primary/20 pl-4 max-w-lg">
@@ -173,6 +176,9 @@ export function DashboardShell({
                       <span className="text-primary">{user.experience} XP</span>
                     </div>
                     <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
+                    <p className="text-[10px] text-zinc-600 font-mono">
+                      {1000 - (user.experience % 1000)} XP pour le niveau suivant
+                    </p>
                   </div>
 
                   {/* Neural Sync Gauge */}
@@ -370,15 +376,7 @@ export function DashboardShell({
               </div>
             </div>
 
-            {/* Upcoming Features Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
-              <div className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                <DevNotice title="IA de Recommandation" />
-              </div>
-              <div className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                <DevNotice title="Place de Marché du Build" />
-              </div>
-            </div>
+
             </div>
           )}
         </main>
