@@ -164,7 +164,7 @@ export function DashboardShell({
                     <Badge variant="outline" className="font-mono text-[10px] font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
                   </div>
                   <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
-                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Ton évolution dans l'écosystème.</CardDescription>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Ta progression vers le niveau suivant.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="space-y-3">
@@ -204,7 +204,7 @@ export function DashboardShell({
                     <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">identité_numérique</span>
                   </div>
                   <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">connectivité_</CardTitle>
-                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Tes points d'ancrage externes.</CardDescription>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Montre ton travail. Les recruteurs vérifient ces liens.</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-2">
                   <div className="grid gap-4">
@@ -219,7 +219,7 @@ export function DashboardShell({
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
                         <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">lier_</Link>
+                          <Link href="/settings">Connecter</Link>
                         </Button>
                       )}
                     </div>
@@ -235,7 +235,7 @@ export function DashboardShell({
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
                         <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">lier_</Link>
+                          <Link href="/settings">Connecter</Link>
                         </Button>
                       )}
                     </div>
@@ -253,7 +253,7 @@ export function DashboardShell({
                         <Check className="h-4 w-4 text-primary" />
                       ) : (
                         <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">lier_</Link>
+                          <Link href="/settings">Connecter</Link>
                         </Button>
                       )}
                     </div>
@@ -271,7 +271,7 @@ export function DashboardShell({
                     <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">spécialisation</span>
                   </div>
                   <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">arsenal_</CardTitle>
-                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Ton arsenal technique actuel.</CardDescription>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Les outils que tu maîtrises.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex flex-wrap gap-2">
@@ -281,7 +281,7 @@ export function DashboardShell({
                       ))
                     ) : (
                       <Button asChild variant="outline" size="sm" className="w-full border-dashed border-white/10 bg-white/[0.02] text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary h-12 rounded-2xl">
-                        <Link href="/settings">+ ajouter_des_domaines</Link>
+                        <Link href="/settings">+ Ajouter mes spécialités</Link>
                       </Button>
                     )}
                   </div>
@@ -294,7 +294,7 @@ export function DashboardShell({
                           <div key={tool} className="text-[10px] text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors font-medium">{tool}</div>
                         ))
                       ) : (
-                        <span className="text-xs italic text-zinc-600 font-mono tracking-tighter">-- aucun_outil_détecté --</span>
+                        <span className="text-xs italic text-zinc-600 font-mono tracking-tighter">Ajoute tes outils → le système affine tes missions</span>
                       )}
                     </div>
                   </div>
@@ -311,23 +311,23 @@ export function DashboardShell({
                     <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">profil_personnel</span>
                   </div>
                   <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">status_</CardTitle>
-                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Tes informations de base.</CardDescription>
+                  <CardDescription className="text-zinc-500 font-medium tracking-tight">Un profil complet = plus de visibilité dans la communauté.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">identifiant</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
                         <div className="text-sm font-bold text-white tracking-tight">@{user.pseudo || "Talent"}</div>
                       </div>
                       <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                        <Link href="/settings">éditer_</Link>
+                        <Link href="/settings">Modifier</Link>
                       </Button>
                     </div>
 
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">coordonnées_géo</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
                         <div className="text-sm font-medium text-white tracking-tight">{user.city || "N/A"}, {user.country || "N/A"}</div>
                       </div>
                     </div>
@@ -338,7 +338,7 @@ export function DashboardShell({
                       <Target className="h-8 w-8 text-primary" />
                     </div>
                     <div className="flex items-center gap-2 text-primary">
-                      <span className="text-[10px] font-mono font-bold tracking-tight">objectif_principal_</span>
+                      <span className="text-[10px] font-mono font-bold tracking-tight">Objectif principal</span>
                     </div>
                     <div className="text-sm font-medium text-zinc-300 leading-relaxed relative z-10">
                       {user.mainObjective || "Définis ton objectif principal dans tes réglages pour aligner le système."}

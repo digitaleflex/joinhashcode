@@ -43,7 +43,7 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
                   <Flame className={cn("size-4", currentStreak > 0 ? "text-orange-500" : "text-zinc-800")} />
                   <span className="text-lg font-bold font-mono tracking-tight">{currentStreak}</span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none">days_streak</span>
+                <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none">jours de suite</span>
               </div>
             </TooltipTrigger>
             <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300">
@@ -72,14 +72,14 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
         <div className="flex justify-between items-center px-1">
           <p className="text-[10px] text-zinc-500 font-mono tracking-tight max-w-[70%]">
             {syncPercentage < 40
-              ? "[!] SIGNAL FAIBLE : Ton profil se dégrade. Effectue un check-in."
+              ? "Fais ton check-in aujourd'hui pour remonter."
               : syncPercentage < 75
-              ? "[+] SIGNAL STABLE : Maintiens ta régularité pour débloquer le boost."
-              : "[*] SIGNAL OPTIMAL : Multiplicateur de Momentum activé."}
+              ? "Continue ta streak pour débloquer le bonus XP."
+              : "Signal optimal — tes gains d'XP sont boostés."}
           </p>
           {!isMultiplierActive && (
             <span className="text-[9px] font-mono text-zinc-700 uppercase">
-              Streak {currentStreak}/3 to Boost
+              {currentStreak}/3 jours pour le boost
             </span>
           )}
         </div>
@@ -93,7 +93,7 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
           <div className="space-y-0.5">
             <p className="text-[10px] font-bold text-white uppercase tracking-wider">NEURAL MOMENTUM ACTIVE</p>
             <p className="text-[9px] text-primary/60 font-mono italic">
-              Tes gains d&apos;XP sont multipliés par {multiplierValue} sur toutes les missions.
+              +{multiplierValue === "1.2x" ? "20" : "10"}% XP sur chaque mission et check-in.
             </p>
           </div>
         </div>

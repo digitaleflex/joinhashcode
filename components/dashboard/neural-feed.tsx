@@ -6,8 +6,7 @@ import {
   Zap, 
   Users, 
   Award, 
-  Activity, 
-  ShieldCheck,
+  Activity,
   ChevronRight,
   Sparkles
 } from "lucide-react"
@@ -98,7 +97,7 @@ export function NeuralFeed() {
             )}
           </div>
           <h3 className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">
-            flux_neuronal_
+            Activité récente
           </h3>
         </div>
         <span className="text-[9px] font-mono text-primary font-bold">LIVE</span>
@@ -153,25 +152,9 @@ export function NeuralFeed() {
       </div>
 
       <button className="w-full group py-3 px-4 rounded-xl border border-dashed border-white/10 hover:border-primary/30 text-zinc-600 hover:text-primary transition-all flex items-center justify-center gap-2">
-        <span className="text-[9px] font-mono font-bold tracking-tight">connectivité_globale</span>
+        <span className="text-[9px] font-mono font-bold tracking-tight">Voir toute l&apos;activité</span>
         <ChevronRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
       </button>
-
-      <div className="p-4 rounded-2xl bg-primary/[0.02] border border-primary/5 space-y-3">
-        <div className="flex items-center gap-2 text-primary/60">
-          <ShieldCheck className="size-3" />
-          <span className="text-[9px] font-mono font-bold tracking-tight">état_du_réseau</span>
-        </div>
-        <div className="space-y-1.5">
-          <div className="flex justify-between text-[9px] font-mono">
-            <span className="text-zinc-500">Node Latency</span>
-            <span className="text-white">12ms</span>
-          </div>
-          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-            <div className="h-full bg-primary/40 w-[92%]" />
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
