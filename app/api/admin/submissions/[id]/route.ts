@@ -7,7 +7,7 @@ import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
-
+import { logActivity } from "@/lib/activity-log";
 import { z } from "zod";
 
 const UpdateSubmissionSchema = z.object({
@@ -98,6 +98,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
+
+      logActivity({
+        userId: session.user.id,
+        action: "ADMIN_SUBMISSION_REVIEWED",
+        entity: "mission_submission",
+        entityId: id,
+        metadata: { action: "APPROVE", qualityLevel: level, xpAwarded, targetUserId: submission.userId },
+        request: req,
+      });
 
       return NextResponse.json({ success: true, newLevel, leveledUp: newLevel > (submission.user.level || 1), xpAwarded });
     }

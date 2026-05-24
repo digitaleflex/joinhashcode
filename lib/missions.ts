@@ -21,6 +21,7 @@ export interface Mission {
   weightCreator?: number;
   weightStrategist?: number;
   weightCatalyst?: number;
+  comingSoon?: boolean;
 }
 
 export const MISSIONS: Mission[] = [
@@ -67,6 +68,67 @@ export const MISSIONS: Mission[] = [
     weightCatalyst: 0.25
   },
 
+  // --- MISSIONS ACTIVATION (communautaires, disponibles au lancement) ---
+  {
+    id: "profil-complet",
+    title: "Dossier Opérationnel",
+    shortDesc: "Complète ton profil pour activer ta présence sur le réseau.",
+    description: "Ton dossier est ton identité sur HASHCODE. Remplis ta bio, ajoute tes liens et précise tes objectifs pour être visible des autres membres.",
+    xpReward: 50,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Remplir ta bio dans les paramètres.",
+      "Ajouter au moins un lien externe (GitHub, LinkedIn ou portfolio).",
+    ],
+    type: "INTRO",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
+  },
+  {
+    id: "squad-genesis",
+    title: "Genèse du Squad",
+    shortDesc: "Rejoins ou crée ton premier squad pour ne pas avancer seul.",
+    description: "Sur HASHCODE, on ne build pas en solo. Crée ton squad ou rejoins celui d'un membre via son lien d'invitation. Ensemble, votre cohésion monte plus vite.",
+    xpReward: 100,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Créer un squad via la page Squad, ou rejoindre un squad existant via un lien d'invitation.",
+    ],
+    type: "NETWORK",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
+  },
+  {
+    id: "invite-pioneer",
+    title: "Recrutement Pioneer",
+    shortDesc: "Invite le premier membre de ton réseau dans la communauté.",
+    description: "Les meilleures communautés grandissent par cooptation. Partage ton lien d'invite personnel et accueille un premier bâtisseur dans HASHCODE.",
+    xpReward: 75,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Partager ton lien d'invite (disponible sur la page Squad).",
+      "Un nouveau membre rejoint HASHCODE via ton lien.",
+    ],
+    type: "NETWORK",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25
+  },
+
   // --- BUILDER MISSIONS ---
   {
     id: "b1-first-commit",
@@ -84,7 +146,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 1.0,
     weightCreator: 0,
     weightStrategist: 0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
   {
     id: "b2-deploy-prod",
@@ -102,7 +165,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 1.0,
     weightCreator: 0,
     weightStrategist: 0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
   {
     id: "b3-solve-bug",
@@ -120,7 +184,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 1.0,
     weightCreator: 0,
     weightStrategist: 0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
 
   // --- CRÉATEUR MISSIONS ---
@@ -140,7 +205,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 1.0,
     weightStrategist: 0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
   {
     id: "c2-visual-identity",
@@ -158,7 +224,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 1.0,
     weightStrategist: 0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
 
   // --- STRATÈGE MISSIONS ---
@@ -178,7 +245,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 0,
     weightStrategist: 1.0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
   {
     id: "s2-mvp-definition",
@@ -196,7 +264,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 0,
     weightStrategist: 1.0,
-    weightCatalyst: 0
+    weightCatalyst: 0,
+    comingSoon: true
   },
 
   // --- CATALYSEUR MISSIONS ---
@@ -215,7 +284,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 0,
     weightStrategist: 0,
-    weightCatalyst: 1.0
+    weightCatalyst: 1.0,
+    comingSoon: true
   },
   {
     id: "k2-organize-event",
@@ -233,7 +303,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0,
     weightCreator: 0,
     weightStrategist: 0,
-    weightCatalyst: 1.0
+    weightCatalyst: 1.0,
+    comingSoon: true
   },
 
   // --- MISSIONS HYBRIDES ---
@@ -252,7 +323,8 @@ export const MISSIONS: Mission[] = [
     weightBuilder: 0.25,
     weightCreator: 0.25,
     weightStrategist: 0.25,
-    weightCatalyst: 0.25
+    weightCatalyst: 0.25,
+    comingSoon: true
   }
 ];
 

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
+import { logActivity } from "@/lib/activity-log";
 
 const checkinSchema = z.object({
   note: z.string().transform(stripHtml).pipe(z.string().min(1).max(1000)),
@@ -160,6 +161,15 @@ export async function POST(req: Request) {
     if (guildId) {
       await updateSquadCohesion(guildId, 0.05, session.user.id);
     }
+
+    logActivity({
+      userId: session.user.id,
+      action: "CHECKIN_COMPLETED",
+      entity: "checkin",
+      entityId: checkin.id,
+      metadata: { domain, energy, duration, xpEarned: totalXP, streak: nextStreak, surge },
+      request: req,
+    });
 
     return NextResponse.json({
       ...checkin,

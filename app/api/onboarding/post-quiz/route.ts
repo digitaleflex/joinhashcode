@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { triggerNotification } from "@/lib/qstash";
 import { z } from "zod";
+import { logActivity } from "@/lib/activity-log";
 
 const postQuizSchema = z.object({
   dreamStatement: z.string().min(1).max(500).optional(),
@@ -44,6 +45,15 @@ export async function PATCH(req: Request) {
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);
     }
+
+    logActivity({
+      userId: session.user.id,
+      action: "POST_QUIZ_COMPLETED",
+      entity: "user",
+      entityId: session.user.id,
+      metadata: { mainBlocker: parsed.data.mainBlocker, focusCount: parsed.data.currentFocus?.length },
+      request: req,
+    });
 
     return NextResponse.json(user);
   } catch (error) {

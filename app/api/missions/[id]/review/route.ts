@@ -14,6 +14,7 @@ import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
+import { logActivity } from "@/lib/activity-log";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -119,6 +120,15 @@ export async function POST(
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
+
+      logActivity({
+        userId: session.user.id,
+        action: "MISSION_APPROVED",
+        entity: "mission_submission",
+        entityId: submissionId,
+        metadata: { qualityLevel, xpAwarded },
+        request: req,
+      });
 
       return NextResponse.json({ success: true, qualityLevel, xpAwarded });
     }

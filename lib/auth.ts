@@ -152,16 +152,16 @@ export const auth = betterAuth({
   },
   rateLimit: {
     enabled: true,
-    window: 10,
-    max: 50, // Global limit: 50 requests per 10s
+    window: 60, // Standard window to 60s for easier reasoning
+    max: 50,    // Global limit: 50 requests per minute
     customRules: {
       "/api/auth/email-otp/send-verification-otp": {
         window: 60,
-        max: 3, // Only 3 OTP sends per minute
+        max: 2, // Only 2 OTP sends per minute (more restrictive)
       },
       "/api/auth/sign-in/email-otp": {
         window: 60,
-        max: 5, // Only 5 sign-in attempts per minute
+        max: 3, // Only 3 sign-in attempts per minute (hardens against brute-force)
       },
     },
   },
