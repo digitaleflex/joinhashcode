@@ -139,6 +139,10 @@ exports.Prisma.UserScalarFieldEnum = {
   behavioralVibrancy: 'behavioralVibrancy',
   builderScore: 'builderScore',
   catalystScore: 'catalystScore',
+  cardSecretHash: 'cardSecretHash',
+  cardSignature: 'cardSignature',
+  cardIssuedAt: 'cardIssuedAt',
+  cardTier: 'cardTier',
   city: 'city',
   cohortsJoined: 'cohortsJoined',
   collaborativeProjects: 'collaborativeProjects',
@@ -189,6 +193,18 @@ exports.Prisma.UserScalarFieldEnum = {
   banExpires: 'banExpires',
   canReviewProfiles: 'canReviewProfiles',
   reviewsCompleted: 'reviewsCompleted'
+};
+
+exports.Prisma.ActivityLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  metadata: 'metadata',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.DailyCheckinScalarFieldEnum = {
@@ -396,6 +412,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  ActivityLog: 'ActivityLog',
   DailyCheckin: 'DailyCheckin',
   Mission: 'Mission',
   Guild: 'Guild',

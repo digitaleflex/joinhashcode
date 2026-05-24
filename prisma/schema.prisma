@@ -26,6 +26,10 @@ model User {
   behavioralVibrancy       Json?
   builderScore             Int                 @default(0)
   catalystScore            Int                 @default(0)
+  cardSecretHash           String?
+  cardSignature            String?             @unique
+  cardIssuedAt             DateTime?
+  cardTier                 String?             @default("STANDARD")
   city                     String?
   cohortsJoined            String[]
   collaborativeProjects    String[]
@@ -84,6 +88,7 @@ model User {
   reviewsGiven             MissionReview[] @relation("ReviewsGiven")
   notifications            Notification[]
   betaFeedbacks            BetaFeedback[]
+  activityLogs             ActivityLog[]
   quizResults              QuizResult[]
   sessions                 Session[]
   mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
@@ -93,6 +98,25 @@ model User {
   @@index([class])
   @@index([role])
   @@map("user")
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@index([entity, entityId])
+  @@map("activity_log")
 }
 
 model DailyCheckin {
