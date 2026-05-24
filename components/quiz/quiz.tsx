@@ -341,12 +341,12 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       </div>
 
       <div key={currentStep} className="animate-in fade-in slide-in-from-bottom-6 duration-1000">
-        <div className="mb-12 relative">
+        <div className="mb-10 relative">
             <div className="absolute -left-6 top-0 w-1 h-full bg-primary/20 rounded-full" />
-            <h2 className="text-2xl sm:text-4xl font-black mb-2 leading-[1.1] text-white tracking-tighter italic uppercase">
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 leading-snug text-white tracking-tight">
                 {currentQuestion.text}
             </h2>
-            <p className="text-zinc-500 font-mono text-[10px] uppercase mt-4">
+            <p className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-3">
               -- Analyse des réflexes cognitifs --
             </p>
         </div>
