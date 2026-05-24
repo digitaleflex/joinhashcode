@@ -96,8 +96,8 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                     <Cpu className="absolute inset-0 m-auto size-6 text-primary animate-pulse" />
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-black uppercase text-white tracking-widest">Calibration de ton Arsenal</p>
-                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em]">Analyse des vecteurs technologiques...</p>
+                    <p className="text-sm font-black uppercase text-white tracking-wide">Calibration de ton Arsenal</p>
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase">Analyse des vecteurs technologiques...</p>
                 </div>
             </div>
         )
@@ -119,7 +119,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         </div>
                         <div className="space-y-6 relative z-10">
                             <div className="space-y-2">
-                                <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] uppercase tracking-widest">Diagnostic_Disponible</Badge>
+                                <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] uppercase tracking-wider">Diagnostic_Disponible</Badge>
                                 <h3 className="text-2xl font-black uppercase text-white italic tracking-tight">Définis ta Spécialisation</h3>
                                 <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-lg">
                                     Réponds à 3 questions rapides pour que l&apos;IA HASHCODE cartographie tes domaines d&apos;expertise et suggère les meilleurs outils pour ton profil.
@@ -127,7 +127,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                             </div>
                             <Button 
                                 onClick={() => setStep("quiz")}
-                                className="btn-primary-glow px-8 h-12 rounded-xl text-[10px] uppercase font-black tracking-widest gap-2"
+                                className="btn-primary-glow px-8 h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2"
                             >
                                 Lancer le scan <ChevronRight className="size-4" />
                             </Button>
@@ -144,7 +144,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                     >
                         <div className="space-y-2">
                             <div className="flex justify-between items-end">
-                                <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em]">Séquence [{currentQuestion + 1}/3]</span>
+                                <span className="text-[9px] font-mono text-zinc-500 uppercase">Séquence [{currentQuestion + 1}/3]</span>
                                 <span className="text-primary font-mono text-[10px] font-bold">{Math.round(((currentQuestion + 1) / 3) * 100)}%</span>
                             </div>
                             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -192,7 +192,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                             <div className="p-6 rounded-[2rem] border border-primary/20 bg-primary/5 space-y-4">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="size-4 text-primary" />
-                                    <span className="text-[10px] font-mono text-primary uppercase font-black tracking-widest text-primary">Synergies_Détectées</span>
+                                    <span className="text-[10px] font-mono text-primary uppercase font-black tracking-wider text-primary">Synergies_Détectées</span>
                                 </div>
                                 <p className="text-sm text-zinc-300 font-light leading-relaxed">
                                     Basé sur tes réponses, voici des outils qui complèteraient parfaitement ton arsenal actuel :
@@ -202,7 +202,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                         <button
                                             key={tool}
                                             onClick={() => toggleTool(tool)}
-                                            className="px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-black transition-all group"
+                                            className="px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-black transition-all group"
                                         >
                                             <span className="flex items-center gap-2">
                                                 <Plus className="size-3 group-hover:rotate-90 transition-transform" />
@@ -220,7 +220,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         {/* Full Arsenal Management */}
                         <div className="space-y-8 pt-6 border-t border-white/5">
                             <div className="space-y-6">
-                                <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500 tracking-[0.4em]">
+                                <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500">
                                     Domaines_D_Expertise
                                 </label>
                                 <div className="flex flex-wrap gap-3">
@@ -229,7 +229,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                             key={domain}
                                             onClick={() => toggleDomain(domain)}
                                             className={cn(
-                                                "px-6 py-3 rounded-xl text-xs font-mono font-bold border transition-all duration-500 uppercase tracking-widest",
+                                                "px-6 py-3 rounded-xl text-xs font-mono font-bold border transition-all duration-500 uppercase tracking-wider",
                                                 selectedDomains.includes(domain)
                                                     ? "bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]"
                                                     : "bg-white/5 border-white/5 text-zinc-500 hover:border-white/20"
@@ -243,7 +243,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
 
                             <div className="space-y-6">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                                    <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500 tracking-[0.4em]"><Search className="size-3"/> Arsenal_Global</label>
+                                    <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><Search className="size-3"/> Arsenal_Global</label>
                                     <div className="relative w-full sm:w-80 group">
                                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-600 group-focus-within:text-primary transition-colors" />
                                         <Input 
@@ -277,7 +277,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                             <Button 
                                 variant="ghost" 
                                 onClick={() => setStep("intro")}
-                                className="text-[9px] font-mono text-zinc-700 hover:text-zinc-500 uppercase tracking-[0.4em]"
+                                className="text-[9px] font-mono text-zinc-700 hover:text-zinc-500 uppercase"
                             >
                                 -- Relancer le diagnostic de spécialisation --
                             </Button>

@@ -19,14 +19,14 @@ export default async function CommunityHub({ params }: { params: Promise<{ class
       <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 mt-10">
         <div className="flex items-center gap-3 mb-8 text-primary">
           <Shield className="w-8 h-8" />
-          <h1 className="text-4xl font-bold tracking-tight">Guilde : {displayName}</h1>
+          <h1 className="text-xl font-bold tracking-tight text-white">Guilde : {displayName}</h1>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
             <div className="p-8 rounded-2xl bg-card border border-border/50 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-              <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+              <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
                 <Terminal className="w-5 h-5 text-primary" />
                 Flux Principal
               </h2>

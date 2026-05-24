@@ -87,10 +87,10 @@ export function MemberCard({
           {/* Top Header */}
           <div className="flex justify-between items-start mb-2">
             <div className="space-y-0.5">
-              <span className="text-[8px] font-black tracking-[0.4em] uppercase text-zinc-500">Hashcode_Passport_v2</span>
+              <span className="text-[8px] font-black uppercase text-zinc-500">Hashcode_Passport_v2</span>
               <div className="flex items-center gap-1.5">
                 <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[8px] font-mono text-white/60 uppercase tracking-widest">Authorized_Access</span>
+                <span className="text-[8px] font-mono text-white/60 uppercase tracking-wider">Authorized_Access</span>
               </div>
             </div>
             <div className="text-right">
@@ -120,30 +120,30 @@ export function MemberCard({
                   {pseudo}
                 </h3>
                 <div className="flex items-center gap-2">
-                  <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[8px] font-bold text-zinc-400 uppercase tracking-widest">
+                  <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[8px] font-bold text-zinc-400 uppercase tracking-wider">
                     {classLabel}
                   </span>
-                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">Grade__{levelName}</span>
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider">Grade__{levelName}</span>
                 </div>
               </div>
 
               {/* Quick Stats */}
               <div className="flex gap-4 sm:gap-6 border-t border-white/5 pt-3">
                 <div className="space-y-0.5">
-                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Impact_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Impact_</span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-base font-black text-white">{missionsCompleted}</span>
                     <span className="text-[7px] font-bold text-zinc-500 uppercase">Ops</span>
                   </div>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Trust_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Trust_</span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-base font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
                   </div>
                 </div>
                 <div className="hidden sm:block space-y-0.5 flex-1">
-                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest block">Top_Arsenal_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Top_Arsenal_</span>
                   <div className="flex gap-1.5 mt-1 truncate">
                     {tools.slice(0, 2).map(t => (
                       <span key={t} className="text-[7px] font-bold text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded uppercase">
@@ -159,7 +159,7 @@ export function MemberCard({
           {/* Footer Bar */}
           <div className="mt-2 pt-2 flex justify-between items-end border-t border-white/5">
              <div className="space-y-0.5">
-               <div className="text-[6px] font-mono text-zinc-700 uppercase tracking-[0.2em]">Issued_Date</div>
+               <div className="text-[6px] font-mono text-zinc-700 uppercase">Issued_Date</div>
                <div className="text-[8px] font-bold text-zinc-500 font-mono italic uppercase">{joinDate}</div>
              </div>
              <div className="flex items-center gap-3">
@@ -186,7 +186,7 @@ export function MemberCard({
         <Button
           asChild
           variant="outline"
-          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-widest h-10"
+          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-10"
         >
           <a href={cardUrl} download={`hashcode-passport-${pseudo}.png`}>
             <Download className="mr-2 h-3.5 w-3.5" />
@@ -196,7 +196,7 @@ export function MemberCard({
         <Button
           variant="outline"
           onClick={handleCopy}
-          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-widest h-10"
+          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-10"
         >
           {copied ? <Check className="mr-2 h-3.5 w-3.5 text-emerald-500" /> : <Share2 className="mr-2 h-3.5 w-3.5" />}
           {copied ? "Copié !" : "Partager"}

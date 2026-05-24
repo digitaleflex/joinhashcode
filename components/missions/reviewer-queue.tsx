@@ -57,14 +57,14 @@ export function ReviewerQueue({ reviewerId }: { reviewerId: string }) {
     return (
       <div className="rounded-2xl border border-border/40 bg-card/30 overflow-hidden">
         <div className="px-6 py-4 border-b border-border/30">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">En cours de revue</p>
+          <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">En cours de revue</p>
           <h2 className="text-lg font-bold mt-1">{activeReview.mission.title}</h2>
           <p className="text-xs text-zinc-400 mt-1">par {activeReview.user.pseudo ?? activeReview.user.name}</p>
         </div>
         <div className="p-6 space-y-6">
           {activeReview.content && (
             <div className="space-y-1">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Soumission</p>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Soumission</p>
               <a
                 href={activeReview.content}
                 target="_blank"
@@ -78,7 +78,7 @@ export function ReviewerQueue({ reviewerId }: { reviewerId: string }) {
           )}
           {activeReview.projectDescription && (
             <div className="space-y-1">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Description du projet</p>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Description du projet</p>
               <p className="text-sm text-zinc-300 leading-relaxed">{activeReview.projectDescription}</p>
             </div>
           )}
@@ -119,7 +119,7 @@ export function ReviewerQueue({ reviewerId }: { reviewerId: string }) {
           <Button
             size="sm"
             variant="outline"
-            className="shrink-0 border-primary/30 text-primary hover:bg-primary/10 font-mono text-[10px] uppercase tracking-widest"
+            className="shrink-0 border-primary/30 text-primary hover:bg-primary/10 font-mono text-[10px] uppercase tracking-wider"
             onClick={() => handleClaim(item)}
             disabled={claiming === item.id}
           >

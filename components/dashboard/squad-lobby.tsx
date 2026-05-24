@@ -68,12 +68,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                     "bg-primary/10 border-primary/20 text-primary"
                 )}>
                     {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
-                    <span className="text-[10px] font-mono font-black uppercase tracking-[0.2em]">
+                    <span className="text-[10px] font-mono font-bold uppercase">
                         {memberCount < 5 ? "Synchronisation_Requise" : "Protocol_Validé"}
                     </span>
                 </div>
                 
-                <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white italic leading-[0.9]">
+                <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-white italic leading-[0.9]">
                     {memberCount < 5 ? (
                         <>Initialisation <span className={cn("transition-colors duration-700", themeColor)}>Du Réseau</span></>
                     ) : (
@@ -107,20 +107,20 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                             <div className="size-20 md:size-28 rounded-3xl bg-zinc-900 border-2 border-primary/60 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700">
                                                 <Avatar className="w-full h-full rounded-none">
                                                     <AvatarImage src={member.user.image || ""} />
-                                                    <AvatarFallback className="bg-primary/20 text-primary font-black text-3xl">
+                                                    <AvatarFallback className="bg-primary/20 text-primary font-bold text-3xl">
                                                         {member.user.pseudo?.charAt(0) || member.user.name.charAt(0)}
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </div>
-                                            <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-primary text-black text-[8px] font-black uppercase tracking-tighter -rotate-2 shadow-lg">
+                                            <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-primary text-black text-[8px] font-bold uppercase tracking-tight -rotate-2 shadow-lg">
                                                 Actif
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-base font-black text-white uppercase tracking-tighter italic truncate max-w-[120px]">
+                                            <div className="text-base font-bold text-white uppercase tracking-tight italic truncate max-w-[120px]">
                                                 {member.user.pseudo || member.user.name.split(' ')[0]}
                                             </div>
-                                            <div className="text-[9px] font-mono text-primary/70 uppercase tracking-widest mt-1 font-bold">
+                                            <div className="text-[9px] font-mono text-primary/70 uppercase tracking-wider mt-1 font-bold">
                                                 {member.user.class || "Agent_Core"}
                                             </div>
                                         </div>
@@ -131,14 +131,14 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                             <UserPlus className="size-6 text-zinc-800 group-hover:text-primary transition-colors" />
                                         </div>
                                         <div className="text-center space-y-4 w-full">
-                                            <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.3em] group-hover:text-zinc-400 transition-colors">
+                                            <div className="text-[9px] font-mono text-zinc-600 uppercase group-hover:text-zinc-400 transition-colors">
                                                 Déploiement_
                                             </div>
                                             {(!squad && isUser === false) ? null : (
                                                 <Button 
                                                     variant="outline" 
                                                     onClick={copyInvite}
-                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-[9px] font-black uppercase tracking-widest transition-all active:scale-95"
+                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-[9px] font-bold uppercase tracking-wider transition-all active:scale-95"
                                                 >
                                                     {isCopying ? <Check className="size-3 mr-2" /> : <Copy className="size-3 mr-2" />}
                                                     Recruter
@@ -159,13 +159,13 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
                             <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
-                            <p className="text-xs text-zinc-500 font-mono tracking-widest uppercase">Initialise ton propre centre de commandement</p>
+                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Initialise ton propre centre de commandement</p>
                         </div>
                         <Button 
                             size="lg" 
                             onClick={createSquad}
                             disabled={isCreating}
-                            className="btn-primary-glow px-12 h-16 text-base font-black uppercase tracking-[0.2em] group"
+                            className="btn-primary-glow px-12 h-16 text-base font-bold uppercase group"
                         >
                             {isCreating ? <Loader2 className="animate-spin" /> : (
                                 <span className="flex items-center gap-3">
@@ -192,12 +192,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                         </div>
 
                     <div className="space-y-2 relative z-10">
-                        <p className="text-xl text-white font-black uppercase tracking-tight">
+                        <p className="text-lg text-white font-bold uppercase tracking-tight">
                             Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
                         </p>
                         {memberCount >= 1 && (
                             <div className="flex flex-col items-center gap-1">
-                                <div className="text-[9px] text-primary/60 font-mono uppercase tracking-[0.3em]">Cohésion de l&apos;unité</div>
+                                <div className="text-[9px] text-primary/60 font-mono uppercase">Cohésion de l&apos;unité</div>
                                 <div className="flex items-center gap-2">
                                     <div className="h-1 w-32 bg-white/5 rounded-full overflow-hidden">
                                         <div 
@@ -210,12 +210,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                 {squad.streakCount > 0 && (
                                     <div className="mt-2 flex items-center gap-2 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                                         <Zap className="size-3 text-primary fill-primary" />
-                                        <span className="text-[10px] font-black text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>
+                                        <span className="text-[10px] font-bold text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>
                                     </div>
                                 )}
                             </div>
                         )}
-                        <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-[0.4em]">
+                        <p className="text-[11px] text-zinc-500 font-mono uppercase">
                             {memberCount < 5 ? "En attente de nouvelles signatures neuronales..." : "Protocol complet. Ouverture du terminal..."}
                         </p>
                     </div>
@@ -224,7 +224,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                             <div className="pt-4 relative z-10">
                                 <Button 
                                     onClick={copyInvite}
-                                    className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-black uppercase tracking-widest text-[10px]"
+                                    className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-bold uppercase tracking-wider text-[10px]"
                                 >
                                     {isCopying ? "Code Copié !" : "Partager mon lien de recrutement"}
                                 </Button>
@@ -236,7 +236,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
 
             {/* FOMO Section */}
             <div className="text-center py-6 border-t border-white/5 opacity-50 relative z-10">
-                <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.5em]">
+                <p className="text-[9px] font-mono text-zinc-600 uppercase">
                     Phase_Bêta_En_Cours // Écosystème_En_Expansion
                 </p>
             </div>

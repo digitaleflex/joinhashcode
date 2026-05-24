@@ -18,7 +18,7 @@ export default function PrivacyPage() {
             className="inline-flex items-center gap-3 mb-6 sm:mb-8"
           >
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary text-glow">
+            <span className="font-mono text-[11px] uppercase text-primary text-glow">
               Privacy_Protocol_v1.1
             </span>
           </motion.div>

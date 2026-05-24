@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { submitQuiz } from "@/app/actions/quiz"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -55,7 +56,7 @@ function AnalyzingScreen() {
     <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in-95 duration-1000 relative">
       <div className="absolute inset-0 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       
-      <p className="text-[10px] font-mono uppercase tracking-[0.5em] text-primary/60 mb-12 relative">
+      <p className="text-[10px] font-mono uppercase text-primary/60 mb-12 relative">
         [ PROCESSUS_DE_SYNCHRONISATION ]
       </p>
 
@@ -74,7 +75,7 @@ function AnalyzingScreen() {
         </h3>
       </div>
       <div className="h-6 flex items-center justify-center mb-12 relative">
-        <p key={`d-${stepIdx}`} className="text-xs text-zinc-500 font-mono uppercase tracking-widest animate-in fade-in duration-700">
+        <p key={`d-${stepIdx}`} className="text-xs text-zinc-500 font-mono uppercase tracking-wider animate-in fade-in duration-700">
           {step.desc}
         </p>
       </div>
@@ -88,7 +89,7 @@ function AnalyzingScreen() {
             transition={{ duration: 0.5 }}
           />
         </div>
-        <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+        <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
           <span>Neural_Mapping</span>
           <span className="text-primary font-bold">{step.pct}%</span>
         </div>
@@ -157,24 +158,19 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       const minDelay = new Promise(res => setTimeout(res, 800));
       try {
         const [res] = await Promise.all([
-          fetch('/api/quiz', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: sortedAnswers, responseTimes: newTimes, diagnosticAnswers }),
-          }),
+          submitQuiz({ answers: sortedAnswers, responseTimes: newTimes, diagnosticAnswers }),
           minDelay,
         ]);
-        if (res.ok) {
-          const data = await res.json();
-          setAnalysisResult(data.analysis);
-          track("quiz_completed", { profileType: data.analysis?.profileType ?? "unknown" });
+        if (res.success) {
+          setAnalysisResult(res.analysis ?? null);
+          track("quiz_completed", { profileType: res.analysis?.primary ?? "unknown" });
+          setIsFinished(true); // Mark as finished immediately upon successful sync
         } else if (res.status === 409) {
           toast.info("Protocole déjà enregistré. Redirection vers le dashboard...");
           setTimeout(() => window.location.href = "/dashboard", 2000);
           return; // Exit early to avoid showing empty ResultPage
         } else {
-          const errorText = await res.text();
-          throw new Error(errorText || "Erreur lors de la synchronisation");
+          throw new Error(res.error || "Erreur lors de la synchronisation");
         }
       } catch (error: any) {
         console.error("Failed to save results:", error)
@@ -182,10 +178,6 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       } finally {
         setIsSaving(false)
         setIsAnalyzing(false)
-        // Only mark as finished if we have a result or were already finished
-        if (analysisResult) {
-          setIsFinished(true)
-        }
         try { localStorage.removeItem(QUIZ_STORAGE_KEY) } catch { /* ignore */ }
       }
     }
@@ -210,7 +202,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-primary">Initialisation v2.0</span>
+              <span className="text-[10px] font-mono font-black uppercase text-primary">Initialisation v2.0</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-black tracking-tighter text-white uppercase italic leading-[0.85]">
               Analyse de <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Vibrance</span>
@@ -255,12 +247,12 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <div className="p-5 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
               <div className="flex items-center gap-3">
                 <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_#C5F441]" />
-                <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Session_Active_Détectée</p>
+                <p className="text-[10px] font-black text-primary uppercase">Session_Active_Détectée</p>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black uppercase tracking-widest px-6"
+                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black uppercase tracking-wider px-6"
                 onClick={() => {
                   setHasResumable(false)
                   setIsStarted(true)
@@ -281,11 +273,11 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 setIsStarted(true)
               }}
               size="lg"
-              className="w-full h-20 rounded-3xl btn-primary-glow text-lg font-black gap-4 uppercase tracking-[0.2em]"
+              className="w-full h-20 rounded-3xl btn-primary-glow text-lg font-black gap-4 uppercase"
             >
               Lancer le scan <ChevronRight className="w-6 h-6" />
             </Button>
-            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono uppercase tracking-[0.3em]">
+            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono uppercase">
               <span>[ 13_Arbitrages ]</span>
               <span className="size-1 rounded-full bg-zinc-800" />
               <span>[ ~2_Minutes ]</span>
@@ -326,11 +318,11 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-zinc-500 block">
+                <span className="text-[10px] font-mono font-black uppercase text-zinc-500 block">
                     Neural_Calibration_Sequence
                 </span>
             </div>
-            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-widest">
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wide">
               Interrogation [{currentStep + 1} / {questions.length}]
             </span>
           </div>
@@ -354,7 +346,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <h2 className="text-2xl sm:text-4xl font-black mb-2 leading-[1.1] text-white tracking-tighter italic uppercase">
                 {currentQuestion.text}
             </h2>
-            <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-4">
+            <p className="text-zinc-500 font-mono text-[10px] uppercase mt-4">
               -- Analyse des réflexes cognitifs --
             </p>
         </div>
@@ -394,17 +386,17 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           size="sm"
           onClick={goBack}
           disabled={currentStep === 0}
-          className="h-11 px-6 text-zinc-500 hover:text-white hover:bg-white/5 font-mono text-[10px] uppercase tracking-[0.3em] disabled:opacity-0 rounded-xl border border-transparent hover:border-white/10"
+          className="h-11 px-6 text-zinc-500 hover:text-white hover:bg-white/5 font-mono text-[10px] uppercase disabled:opacity-0 rounded-xl border border-transparent hover:border-white/10"
         >
           <ChevronLeft className="mr-2 size-4" />
           Précédent_
         </Button>
         
         <div className="flex flex-col items-end gap-1">
-            <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+            <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
               [ CRYPTO_LINK_SECURED ]
             </span>
-            <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-widest">
+            <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-wider">
               HASHCODE_TERMINAL_V2
             </span>
         </div>

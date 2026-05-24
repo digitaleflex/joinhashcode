@@ -92,7 +92,7 @@ export default function AdminSubmissionsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Validation des Missions</h1>
+        <h1 className="text-lg font-bold tracking-tight text-white">Soumissions</h1>
         <p className="text-sm text-muted-foreground font-mono">
           Révise les soumissions en attente et valide la progression des membres.
         </p>
@@ -112,7 +112,7 @@ export default function AdminSubmissionsPage() {
             <h3 className="font-medium">Aucune soumission en attente</h3>
             <p className="text-sm text-muted-foreground">Tout est à jour. Bon travail !</p>
           </div>
-          <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-widest">
+          <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-wider">
             Actualiser
           </Button>
         </div>
@@ -122,10 +122,10 @@ export default function AdminSubmissionsPage() {
             <Table>
               <TableHeader className="bg-white/5">
                 <TableRow className="border-white/5 hover:bg-transparent">
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Membre</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Mission</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Détails</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground text-right">Actions</TableHead>
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Membre</TableHead>
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Mission</TableHead>
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Détails</TableHead>
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -180,7 +180,7 @@ export default function AdminSubmissionsPage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-widest"
+                        className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-wider"
                         onClick={() => {
                           setActiveSubmission(s)
                           setCheckedCriteria({})
@@ -216,7 +216,7 @@ export default function AdminSubmissionsPage() {
 
               {activeSubmission.content && (
                 <div>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">Soumission</p>
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1">Soumission</p>
                   <a
                     href={activeSubmission.content}
                     target="_blank"
@@ -229,7 +229,7 @@ export default function AdminSubmissionsPage() {
               )}
 
               <div className="space-y-3">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Rubrique d&apos;évaluation</p>
+                <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Rubrique d&apos;évaluation</p>
                 {getCriteriaForMission(activeSubmission.mission.category).map(criterion => (
                   <button
                     key={criterion.id}
@@ -247,14 +247,14 @@ export default function AdminSubmissionsPage() {
                     }
                     {criterion.label}
                     {criterion.weight === "BONUS" && (
-                      <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-widest">bonus</span>
+                      <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-wider">bonus</span>
                     )}
                   </button>
                 ))}
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Feedback</label>
+                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Feedback</label>
                 <Textarea
                   placeholder="Commentaire pour le membre..."
                   className="bg-black/40 border-white/5 min-h-[100px] text-sm"

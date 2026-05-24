@@ -61,8 +61,8 @@ export default function FeedbackForm() {
                     </Link>
                 </Button>
                 <div>
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-white">Zone de Feedback</h1>
-                    <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest">Amélioration Continue // Beta_Phase</p>
+                    <h1 className="text-lg font-bold tracking-tight text-white">Feedback</h1>
+                    <p className="text-zinc-500 font-mono text-xs uppercase tracking-wider">Amélioration continue · bêta</p>
                 </div>
             </div>
 
@@ -130,7 +130,7 @@ export default function FeedbackForm() {
                         <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
                             <Button 
                                 type="submit" 
-                                className="w-full sm:w-auto px-8 btn-primary-glow font-bold uppercase tracking-widest h-12"
+                                className="w-full sm:w-auto px-8 btn-primary-glow font-bold uppercase tracking-wide h-12"
                                 disabled={isSubmitting || content.length < 10}
                             >
                                 {isSubmitting ? (

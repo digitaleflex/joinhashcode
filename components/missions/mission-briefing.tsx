@@ -19,7 +19,7 @@ export function MissionBriefing({ content }: MissionBriefingProps) {
           <h2 className="text-lg font-bold text-white mt-6 mb-3 first:mt-0 uppercase tracking-wide font-mono">{children}</h2>
         ),
         h3: ({ children }) => (
-          <h3 className="text-sm font-bold text-zinc-200 mt-4 mb-2 uppercase tracking-widest font-mono">{children}</h3>
+          <h3 className="text-sm font-bold text-zinc-200 mt-4 mb-2 uppercase tracking-wide font-mono">{children}</h3>
         ),
         p: ({ children }) => (
           <p className="text-sm text-zinc-300 leading-7 mb-4 last:mb-0">{children}</p>
@@ -91,7 +91,7 @@ export function MissionBriefing({ content }: MissionBriefingProps) {
           <thead className="bg-primary/5 border-b border-border/30">{children}</thead>
         ),
         th: ({ children }) => (
-          <th className="px-4 py-2 text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <th className="px-4 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
             {children}
           </th>
         ),

@@ -79,12 +79,12 @@ export function UserManagementTable() {
         <Table>
           <TableHeader className="bg-white/5">
             <TableRow className="border-white/5 hover:bg-transparent">
-              <TableHead className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Utilisateur</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Rôle</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Classe</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Inscription</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Statut</TableHead>
-              <TableHead className="text-right text-[10px] uppercase tracking-widest font-bold text-zinc-500 py-4">Actions</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Utilisateur</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Rôle</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Classe</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Inscription</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Statut</TableHead>
+              <TableHead className="text-right text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -93,7 +93,7 @@ export function UserManagementTable() {
                 <TableCell colSpan={6} className="h-64 text-center">
                   <div className="flex flex-col items-center justify-center gap-3 text-zinc-500">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    <span className="font-mono text-[10px] uppercase tracking-widest">Chargement des membres...</span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider">Chargement des membres...</span>
                   </div>
                 </TableCell>
               </TableRow>
@@ -101,7 +101,7 @@ export function UserManagementTable() {
               <TableRow>
                 <TableCell colSpan={6} className="h-64 text-center">
                    <div className="flex flex-col items-center justify-center gap-2 text-zinc-500">
-                    <span className="font-mono text-[10px] uppercase tracking-widest">Aucun membre trouvé</span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider">Aucun membre trouvé</span>
                   </div>
                 </TableCell>
               </TableRow>

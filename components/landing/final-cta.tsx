@@ -28,7 +28,7 @@ export function FinalCta() {
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="font-mono text-[10.5px] uppercase tracking-wide text-muted-foreground">
               Prêt ?
             </span>
           </div>
@@ -61,7 +61,7 @@ export function FinalCta() {
             </Button>
           </motion.div>
 
-          <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground/60">
+          <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
             Gratuit · Sans engagement · 3 minutes
           </p>
         </motion.div>

@@ -46,7 +46,7 @@ export default async function ToolWorkspace({ params }: { params: Promise<{ id: 
             <Icon className="w-8 h-8 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold tracking-tight">{config.name}</h1>
+            <h1 className="text-xl font-bold tracking-tight text-white">{config.name}</h1>
             <p className="text-muted-foreground mt-1">{config.desc}</p>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default async function ToolWorkspace({ params }: { params: Promise<{ id: 
           <div className="absolute top-0 left-0 w-full h-full opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, #C5F441 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
           
           <Icon className="w-24 h-24 text-border/40 group-hover:text-primary/20 transition-colors duration-500 mb-6" />
-          <h2 className="text-2xl font-bold mb-2">Module en Déploiement</h2>
+          <h2 className="text-lg font-bold mb-2 text-white">Module en Déploiement</h2>
           <p className="text-muted-foreground max-w-md mx-auto relative z-10">
             Cette interface de travail spécialisée est actuellement en cours de construction par nos ingénieurs système.
           </p>

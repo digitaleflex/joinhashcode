@@ -17,6 +17,9 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
 
     const handleJoin = async () => {
         if (!isLoggedIn) {
+            // Cookie fallback: new users will traverse the full onboarding funnel
+            // before landing back here. The cookie survives the redirect chain.
+            document.cookie = `pending-squad=${squad.slug}; path=/; max-age=3600; SameSite=Lax`
             router.push(`/signin?callbackURL=/invite/${squad.slug}`)
             return
         }
@@ -32,6 +35,8 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
             const data = await response.json()
             if (!response.ok) throw new Error(data.error || "Échec de l'adhésion")
 
+            // Clear the pending invite cookie after successful join
+            document.cookie = "pending-squad=; path=/; max-age=0"
             toast.success("Tu as rejoint l'escouade !")
             router.push("/dashboard")
         } catch (error: any) {
@@ -57,9 +62,9 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                 <div className="flex flex-col items-center gap-3">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
                         <ShieldCheck className="size-3.5" />
-                        <span className="text-[10px] font-mono font-black uppercase tracking-[0.2em]">Accès_Sécurisé_Approuvé</span>
+                        <span className="text-[10px] font-mono font-black uppercase">Accès_Sécurisé_Approuvé</span>
                     </div>
-                    <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em] animate-pulse">
+                    <div className="text-[9px] font-mono text-zinc-500 uppercase animate-pulse">
                         Protocole d&apos;Assemblage en cours...
                     </div>
                 </div>
@@ -89,14 +94,14 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                         {leader.pseudo || leader.name.split(' ')[0]} <span className="text-zinc-600 not-italic">t&apos;a sélectionné</span>
                     </CardTitle>
                     <CardDescription className="text-zinc-400 mt-3 text-sm leading-relaxed">
-                        Le Bâtisseur <span className="text-white font-bold">@{leader.pseudo}</span> a besoin de ton expertise pour compléter son unité. Ensemble, débloquez l&apos;arsenal <span className="text-primary font-mono font-bold tracking-widest">HASHCODE</span>.
+                        Le Bâtisseur <span className="text-white font-bold">@{leader.pseudo}</span> a besoin de ton expertise pour compléter son unité. Ensemble, débloquez l&apos;arsenal <span className="text-primary font-mono font-bold tracking-wide">HASHCODE</span>.
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent className="pt-8 space-y-8">
                     {/* Social Proof Section */}
                     <div className="space-y-4">
-                        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-zinc-500 px-2">
+                        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-zinc-500 px-2">
                             <span>Membres de l&apos;unité</span>
                             <span className="text-primary font-bold">{squad.members.length}/5</span>
                         </div>
@@ -137,7 +142,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
 
                 <CardFooter className="pb-8 pt-2">
                     {isAlreadyMember ? (
-                        <Button asChild className="w-full h-16 btn-primary-glow font-black uppercase tracking-[0.15em] text-sm shadow-[0_0_30px_rgba(var(--primary),0.2)]">
+                        <Button asChild className="w-full h-16 btn-primary-glow font-black uppercase tracking-wide text-sm shadow-[0_0_30px_rgba(var(--primary),0.2)]">
                             <Link href="/dashboard">
                                 Entrer dans le Système
                                 <ArrowRight className="ml-2 size-5" />
@@ -148,7 +153,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                             <Button 
                                 onClick={handleJoin} 
                                 disabled={isLoading || squad.members.length >= 5}
-                                className="w-full h-16 btn-primary-glow font-black uppercase tracking-[0.15em] text-sm shadow-[0_0_30px_rgba(var(--primary),0.2)] active:scale-[0.98] transition-all"
+                                className="w-full h-16 btn-primary-glow font-black uppercase tracking-wide text-sm shadow-[0_0_30px_rgba(var(--primary),0.2)] active:scale-[0.98] transition-all"
                             >
                                 {isLoading ? <Loader2 className="animate-spin" /> : (
                                     <>
@@ -157,7 +162,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                                     </>
                                 )}
                             </Button>
-                            <div className="flex items-center justify-center gap-4 text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+                            <div className="flex items-center justify-center gap-4 text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
                                 <span className="flex items-center gap-1"><Globe className="size-3" /> Chiffrage SSL</span>
                                 <span className="flex items-center gap-1"><ShieldCheck className="size-3" /> Vérifié</span>
                             </div>
@@ -166,7 +171,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                 </CardFooter>
             </Card>
 
-            <Link href="/" className="mt-8 text-[10px] font-mono text-zinc-600 hover:text-white uppercase tracking-[0.3em] transition-colors border-b border-transparent hover:border-white/20 pb-1">
+            <Link href="/" className="mt-8 text-[10px] font-mono text-zinc-600 hover:text-white uppercase transition-colors border-b border-transparent hover:border-white/20 pb-1">
                 -- Terminal HASHCODE v2.0 --
             </Link>
         </div>

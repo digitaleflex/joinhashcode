@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Users, Copy, Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -14,11 +14,18 @@ interface SquadBannerProps {
 export function SquadBanner({ user, squad }: SquadBannerProps) {
   const [copied, setCopied] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
+  const [origin, setOrigin] = useState("")
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setOrigin(window.location.origin)
+    }
+  }, [])
 
   const memberCount = squad?.members?.length ?? 0
   const pseudo = user.pseudo || user.name.split(" ")[0]
   const inviteLink = squad
-    ? `${window.location.origin}/invite/${squad.slug || pseudo.toLowerCase()}`
+    ? `${origin}/invite/${squad.slug || pseudo.toLowerCase()}`
     : null
 
   const copyInvite = () => {
@@ -56,7 +63,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
           <Users className="size-5 text-amber-400" />
         </div>
         <div>
-          <div className="text-[9px] font-mono font-black uppercase tracking-[0.3em] text-amber-500">
+          <div className="text-[9px] font-mono font-black uppercase text-amber-500">
             Escouade requise
           </div>
           <div className="text-lg font-black text-white tracking-tighter">
@@ -93,7 +100,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
             onClick={createSquad}
             disabled={isCreating}
             size="sm"
-            className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest"
+            className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider"
           >
             {isCreating ? (
               <Loader2 className="size-3 animate-spin" />
@@ -106,7 +113,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
             onClick={copyInvite}
             size="sm"
             variant="outline"
-            className="h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+            className="h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
           >
             {copied ? (
               <Check className="size-3 mr-1.5" />

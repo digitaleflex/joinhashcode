@@ -42,7 +42,7 @@ export function BottomNav() {
               )}
               
               <Icon className={`w-5 h-5 relative z-10 transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
-              <span className="text-[9px] font-bold uppercase tracking-widest relative z-10">
+              <span className="text-[9px] font-bold uppercase tracking-wider relative z-10">
                 {item.name}
               </span>
 

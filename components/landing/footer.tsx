@@ -32,7 +32,7 @@ export function Footer() {
           {/* Links Section */}
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">Navigation</h4>
+              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
                 <li><Link href="/quiz" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Lancer le quiz</Link></li>
                 <li><Link href="/signin" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Accès membre</Link></li>
@@ -40,7 +40,7 @@ export function Footer() {
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest">Protocoles</h4>
+              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-wider">Protocoles</h4>
               <ul className="space-y-2">
                 <li><Link href="/privacy" className="text-xs font-bold text-zinc-500 hover:text-white transition-colors">Confidentialité</Link></li>
                 <li><Link href="/terms" className="text-xs font-bold text-zinc-500 hover:text-white transition-colors">Conditions</Link></li>

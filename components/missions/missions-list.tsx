@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { track } from "@vercel/analytics";
 import { MISSIONS, Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare } from "lucide-react";
+import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -42,7 +42,7 @@ export function MissionsList({
     }
   }, [submissions]);
 
-  const handleSocialClick = async (platform: string) => {
+  const handleSocialClick = useCallback(async (platform: string) => {
     // If already completed or pending, don't do anything
     if (submissions["social-connection-protocol"] === "APPROVED" || submissions["social-connection-protocol"] === "PENDING") return;
     if (socialClicks[platform]) return;
@@ -90,19 +90,30 @@ export function MissionsList({
         setIsSubmitting(false);
       }
     }
-  };
+  }, [socialClicks, submissions, router]);
 
-  const availableMissions = MISSIONS.filter(m => {
-    const isLevelMatch = m.requiredLevel <= userLevel;
-    const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (userClass && m.targetProfiles.includes(userClass.toLowerCase() as any));
-    return isLevelMatch && isClassMatch;
-  });
+  const lowerClass = useMemo(() => userClass?.toLowerCase(), [userClass])
 
-  const lockedMissions = MISSIONS.filter(m => {
-    const isLevelLocked = m.requiredLevel > userLevel;
-    const isClassMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (userClass && m.targetProfiles.includes(userClass.toLowerCase() as any));
-    return isLevelLocked && isClassMatch;
-  });
+  const { availableMissions, lockedMissions, comingSoonMissions } = useMemo(() => {
+    const available: typeof MISSIONS = []
+    const locked: typeof MISSIONS = []
+    const comingSoon: typeof MISSIONS = []
+
+    for (const m of MISSIONS) {
+      const classMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (lowerClass && m.targetProfiles.includes(lowerClass as any))
+      if (!classMatch) continue
+
+      if (m.comingSoon) {
+        comingSoon.push(m)
+      } else if (m.requiredLevel <= userLevel) {
+        available.push(m)
+      } else {
+        locked.push(m)
+      }
+    }
+
+    return { availableMissions: available, lockedMissions: locked, comingSoonMissions: comingSoon }
+  }, [userLevel, lowerClass]);
 
   const renderMission = (mission: Mission, isLocked: boolean) => {
     const status = submissions[mission.id];
@@ -118,7 +129,7 @@ export function MissionsList({
           <div className="flex items-start justify-between mb-4">
             <div className="flex flex-wrap gap-2">
               <Badge className={cn(
-                "text-[9px] uppercase font-black tracking-widest",
+                "text-[9px] uppercase font-black tracking-wider",
                 isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
                 isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
                 'bg-primary/10 text-primary border-primary/20'
@@ -155,10 +166,10 @@ export function MissionsList({
             <div className="text-xs text-zinc-400 bg-black/40 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-16 h-16 bg-white/[0.02] -rotate-45 translate-x-8 -translate-y-8" />
               
-              <p className="font-mono text-[9px] uppercase text-primary mb-2 tracking-[0.2em] font-bold">Briefing_Technique</p>
+              <p className="font-mono text-[9px] uppercase text-primary mb-2 font-bold">Briefing_Technique</p>
               <p className="leading-relaxed">{mission.description}</p>
               
-              <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 mt-4 tracking-[0.2em] font-bold">Protocole_Validation</p>
+              <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 mt-4 font-bold">Protocole_Validation</p>
               
               {mission.id === "social-connection-protocol" ? (
                 <div className="grid gap-2 mt-3">
@@ -225,7 +236,7 @@ export function MissionsList({
 
             {mission.id === "social-connection-protocol" && !isCompleted && !isPending && (
               <div className="mt-4 space-y-2 animate-in fade-in duration-500">
-                <div className="flex justify-between text-[9px] font-mono uppercase tracking-[0.3em] text-primary">
+                <div className="flex justify-between text-[9px] font-mono uppercase text-primary">
                   <span>Synchronisation_</span>
                   <span>{Math.round((Object.values(socialClicks).filter(Boolean).length / 3) * 100)}%</span>
                 </div>
@@ -239,23 +250,23 @@ export function MissionsList({
             )}
 
             {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
-              <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-widest gap-2">
+              <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2">
                 <Link href={`/missions/${mission.id}`}>
-                  {mission.type === "INTRO" ? "Activer le Profilage" : "Lancer le Déploiement"}
+                  {mission.type === "INTRO" ? "Me présenter" : "Commencer"}
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </Button>
             )}
 
             {isPending && (
-              <Button variant="secondary" className="w-full h-12 rounded-xl bg-white/5 border border-white/10 text-zinc-500 text-[10px] uppercase font-black tracking-widest" disabled>
+              <Button variant="secondary" className="w-full h-12 rounded-xl bg-white/5 border border-white/10 text-zinc-500 text-[10px] uppercase font-black tracking-wider" disabled>
                 Analyse en cours...
               </Button>
             )}
             
             {isCompleted && (
               <div className="text-center py-2">
-                  <span className="text-[10px] font-mono text-emerald-500/60 uppercase tracking-[0.4em]">-- Mission Terminée --</span>
+                  <span className="text-[10px] font-mono text-emerald-500/60 uppercase">-- Mission Terminée --</span>
               </div>
             )}
           </div>
@@ -280,23 +291,67 @@ export function MissionsList({
           {availableMissions.length === 0 && (
              <div className="col-span-full py-20 text-center text-zinc-600 bg-white/[0.01] rounded-[2.5rem] border border-dashed border-white/5">
                <Zap className="size-10 text-zinc-900 mx-auto mb-4 opacity-50" />
-               <p className="font-mono text-xs uppercase tracking-[0.4em]">Aucune mission disponible pour ton habilitation</p>
+               <p className="font-mono text-xs uppercase">Aucune mission disponible pour ton habilitation</p>
              </div>
           )}
         </div>
       </div>
 
-      {/* Locked Missions */}
+      {/* Locked by level */}
       {lockedMissions.length > 0 && (
         <div className="space-y-6 pt-12 border-t border-white/5">
           <div className="flex items-center gap-3 opacity-40">
             <div className="p-2 rounded-lg bg-zinc-900 border border-white/10">
               <Lock className="h-5 w-5 text-zinc-500" />
             </div>
-            <h2 className="text-xl font-black uppercase tracking-tighter text-zinc-500 italic">Arsenaux Verrouillés</h2>
+            <h2 className="text-xl font-black uppercase tracking-tighter text-zinc-500 italic">Missions Verrouillées</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {lockedMissions.map(m => renderMission(m, true))}
+          </div>
+        </div>
+      )}
+
+      {/* Coming Soon Missions */}
+      {comingSoonMissions.length > 0 && (
+        <div className="space-y-6 pt-12 border-t border-white/5">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+              <Clock className="h-5 w-5 text-amber-500" />
+            </div>
+            <div>
+              <h2 className="text-xl font-black uppercase tracking-tighter text-amber-500/80 italic">Missions en Déploiement</h2>
+              <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider mt-0.5">Spécifiques à ton profil — disponibles prochainement</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+            {comingSoonMissions.map(m => (
+              <div key={m.id} className="relative rounded-[2rem] border border-amber-500/10 bg-amber-500/[0.02] overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.03] to-transparent pointer-events-none" />
+                <div className="blur-[2px] pointer-events-none select-none p-6 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex gap-2 flex-wrap">
+                      <Badge className="text-[9px] uppercase font-black tracking-wider bg-amber-500/10 text-amber-500/60 border-amber-500/20">
+                        +{m.xpReward} XP
+                      </Badge>
+                      <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-600">
+                        {m.type}
+                      </Badge>
+                    </div>
+                    <div className="p-2 bg-amber-500/5 rounded-lg border border-amber-500/10">
+                      <Clock className="h-3.5 w-3.5 text-amber-500/40" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-zinc-500 uppercase tracking-tight italic">{m.title}</h3>
+                  <p className="text-zinc-600 text-xs leading-relaxed">{m.shortDesc}</p>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="px-5 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 backdrop-blur-sm">
+                    <span className="text-[10px] font-mono font-black uppercase text-amber-500">Bientôt</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

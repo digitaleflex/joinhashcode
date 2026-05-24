@@ -96,7 +96,7 @@ export function MissionSubmissionForm({
       <div className="space-y-4">
         {hasRevision && (
           <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 space-y-3">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-amber-400">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-amber-400">
               Révision #{revisionCount} — Points à corriger
             </p>
             {reviewerFeedback && (
@@ -114,7 +114,7 @@ export function MissionSubmissionForm({
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+            <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
               {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
             </Label>
             {isTextResponse ? (
@@ -164,11 +164,11 @@ export function MissionSubmissionForm({
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-primary">Rétrospection_</span>
+        <span className="text-[10px] font-mono uppercase tracking-wider text-primary">Rétrospection_</span>
       </div>
 
       <div className="space-y-2">
-        <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Explique ton projet (Brief)_</Label>
+        <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Explique ton projet (Brief)_</Label>
         <Textarea
           placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisés ?"
           value={projectDescription}
@@ -180,7 +180,7 @@ export function MissionSubmissionForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Difficulté_</Label>
+          <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Difficulté_</Label>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((val) => (
               <button
@@ -195,7 +195,7 @@ export function MissionSubmissionForm({
           </div>
         </div>
         <div className="space-y-2">
-          <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Note_</Label>
+          <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Note_</Label>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((val) => (
               <button
@@ -212,7 +212,7 @@ export function MissionSubmissionForm({
       </div>
 
       <div className="space-y-2">
-        <Label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Ton avis global_</Label>
+        <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Ton avis global_</Label>
         <Textarea
           placeholder="Qu'as-tu pensé de cet exercice ?"
           value={userFeedback}

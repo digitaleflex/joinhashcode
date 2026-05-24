@@ -27,7 +27,7 @@ export default async function ReviewerPage() {
         <main className="flex-1 p-4 md:p-8 pb-(--bottom-nav-height) md:pb-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-2xl font-bold tracking-tight">Espace Reviewer</h1>
+              <h1 className="text-lg font-bold tracking-tight text-white">Espace Reviewer</h1>
               <p className="text-sm text-muted-foreground mt-1 font-mono">
                 Soumissions éligibles pour ta revue — même profil, niveau supérieur.
               </p>

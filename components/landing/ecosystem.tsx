@@ -31,7 +31,7 @@ export function Ecosystem() {
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-primary" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+              <span className="font-mono text-[11px] uppercase text-primary">
                 L'Écosystème
               </span>
             </div>

@@ -48,7 +48,7 @@ export function ResultScores({ analysis, user }: Props) {
               }}
             >
               <p
-                className="text-[11px] tracking-widest uppercase mb-2"
+                className="text-[11px] tracking-wide uppercase mb-2"
                 style={{ color: isPrimary ? color : '#555' }}
               >
                 {PROFILE_LABELS[type]}

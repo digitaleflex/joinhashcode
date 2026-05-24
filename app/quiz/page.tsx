@@ -54,7 +54,7 @@ export default async function QuizPage() {
           </Link>
 
           <div className="text-center mb-6">
-            <h1 className="text-sm font-mono uppercase tracking-[0.2em] text-primary mb-2">
+            <h1 className="text-sm font-mono uppercase text-primary mb-2">
               Analyse de potentiel
             </h1>
             <p className="text-muted-foreground text-sm">

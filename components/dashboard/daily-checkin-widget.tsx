@@ -91,11 +91,11 @@ export function DailyCheckinWidget() {
   return (
     <Card variant="premium" className="relative overflow-hidden group">
       {!isOpen ? (
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 py-8 px-8">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-8 px-8">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 mb-1">
               <div className="size-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em]">Neural Sync_</span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">Neural Sync_</span>
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
@@ -106,7 +106,7 @@ export function DailyCheckinWidget() {
           </div>
           <Button
             onClick={() => setIsOpen(true)}
-            className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-widest"
+            className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
           >
             DÉMARRER LA SYNC
           </Button>
@@ -138,7 +138,7 @@ export function DailyCheckinWidget() {
                 className="space-y-5"
               >
                 <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
+                  <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
                   <Textarea
                     placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
                     value={formData.note}
@@ -151,7 +151,7 @@ export function DailyCheckinWidget() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Domaine</label>
+                    <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
                     <div className="flex flex-wrap gap-1.5">
                       {DOMAINS.map((d) => (
                         <button
@@ -172,7 +172,7 @@ export function DailyCheckinWidget() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Énergie</label>
+                    <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
                     <div className="flex gap-1.5 h-full items-center">
                       {ENERGIES.map((e) => (
                         <button

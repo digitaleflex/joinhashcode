@@ -28,7 +28,7 @@ export function BrandIdentity() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+            <span className="font-mono text-[11px] uppercase text-primary">
               La Communauté
             </span>
             <span className="h-px w-8 bg-primary/50" />
@@ -57,7 +57,7 @@ export function BrandIdentity() {
                 {s.value}
               </span>
               <span className="text-sm font-medium text-white">{s.label}</span>
-              <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest leading-tight">
+              <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider leading-tight">
                 {s.sub}
               </span>
             </motion.div>
@@ -69,12 +69,12 @@ export function BrandIdentity() {
           {regions.map((r) => (
             <span
               key={r}
-              className="text-[10px] font-mono uppercase tracking-widest text-zinc-600 border border-white/5 px-3 py-1 rounded-full bg-zinc-900/40 hover:text-primary hover:border-primary/20 transition-colors"
+              className="text-[10px] font-mono uppercase tracking-wider text-zinc-600 border border-white/5 px-3 py-1 rounded-full bg-zinc-900/40 hover:text-primary hover:border-primary/20 transition-colors"
             >
               {r}
             </span>
           ))}
-          <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-700 border border-white/5 px-3 py-1 rounded-full bg-zinc-900/40">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-700 border border-white/5 px-3 py-1 rounded-full bg-zinc-900/40">
             + d'autres...
           </span>
         </div>

@@ -61,14 +61,14 @@ export function CookieBanner() {
               <div className="flex flex-col sm:flex-row gap-2 pt-2">
                 <Button 
                   onClick={handleAccept}
-                  className="btn-primary-glow flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-widest"
+                  className="btn-primary-glow flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider"
                 >
                   Accepter l&apos;analyse
                 </Button>
                 <Button 
                   variant="ghost"
                   onClick={handleDecline}
-                  className="flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white border border-white/5 hover:border-white/10"
+                  className="flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider text-zinc-500 hover:text-white border border-white/5 hover:border-white/10"
                 >
                   Continuer sans cookies
                 </Button>

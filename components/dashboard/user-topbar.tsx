@@ -1,18 +1,32 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, Globe, LogOut } from "lucide-react"
+import { Search, User as UserIcon, Settings, Globe, LogOut, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
-import { NotificationBell } from "./notification-bell"
+import Image from "next/image"
+import dynamic from "next/dynamic"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+
+const NotificationBell = dynamic(
+  () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
+  {
+    ssr: false,
+    loading: () => (
+      <Button variant="ghost" size="icon" className="relative rounded-xl" disabled>
+        <Bell className="w-5 h-5 text-muted-foreground/40" />
+      </Button>
+    )
+  }
+)
 
 export function UserTopBar({ user }: { user: any }) {
   const handleSignOut = async () => {
@@ -27,9 +41,20 @@ export function UserTopBar({ user }: { user: any }) {
 
   return (
     <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between">
-      {/* Left: Quick Search / Context */}
+      {/* Left: Sidebar Trigger & Logo */}
       <div className="flex items-center gap-4 flex-1">
-        <div className="relative w-full max-w-md hidden md:block">
+        <SidebarTrigger className="md:hidden text-muted-foreground hover:text-white mr-2" />
+        <Link href="/dashboard" className="flex items-center gap-2 group shrink-0">
+          <Image
+            src="/hashcodejoin.png"
+            alt="HASHCODE"
+            width={120}
+            height={30}
+            className="h-7 w-auto object-contain relative z-10"
+            priority
+          />
+        </Link>
+        <div className="relative w-full max-w-md hidden md:block ml-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input 
             type="text" 

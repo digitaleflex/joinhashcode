@@ -44,12 +44,12 @@ export default async function AdminFeedbackPage() {
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
       <div className="flex justify-between items-end">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black uppercase tracking-tighter text-white">Retours Bêta</h1>
-          <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest">Contrôle qualité & suggestions</p>
+          <h1 className="text-lg font-bold tracking-tight text-white">Feedback</h1>
+          <p className="text-zinc-500 font-mono text-xs uppercase tracking-wider">Retours & suggestions bêta</p>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-primary">{feedbacks.length}</div>
-          <div className="text-[10px] text-zinc-600 font-mono uppercase">Total_Transmissions</div>
+          <div className="text-xl font-bold text-primary">{feedbacks.length}</div>
+          <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">total</div>
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export default async function AdminFeedbackPage() {
                 <div className="flex md:flex-col gap-3 md:w-32 shrink-0">
                    <div className={`flex items-center gap-2 ${type.color}`}>
                      <Icon className="size-4" />
-                     <span className="text-[10px] font-black uppercase tracking-widest">{type.label}</span>
+                     <span className="text-[10px] font-black uppercase tracking-wider">{type.label}</span>
                    </div>
                    <Badge className={`w-fit text-[9px] uppercase font-bold ${statusColors[f.status]}`}>
                      {f.status}
@@ -103,7 +103,7 @@ export default async function AdminFeedbackPage() {
         {feedbacks.length === 0 && (
           <div className="py-20 text-center rounded-3xl border border-dashed border-white/5">
             <MessageSquare className="size-10 text-zinc-800 mx-auto mb-4" />
-            <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest">Aucun feedback reçu pour le moment</p>
+            <p className="text-zinc-500 font-mono text-sm uppercase tracking-wide">Aucun feedback reçu pour le moment</p>
           </div>
         )}
       </div>

@@ -14,7 +14,9 @@ import {
   MoreHorizontal,
   Activity,
   ShieldCheck,
-  User as UserIcon
+  User as UserIcon,
+  Swords,
+  ScrollText,
 } from "lucide-react"
 
 import {
@@ -43,26 +45,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 
 const adminNavItems = [
-  {
-    title: "Dashboard",
-    url: "/admin",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Membres",
-    url: "/admin/users",
-    icon: Users,
-  },
-  {
-    title: "Missions",
-    url: "/admin/submissions",
-    icon: FileCheck,
-  },
-  {
-    title: "Feedback Bêta",
-    url: "/admin/feedback",
-    icon: MessageSquare,
-  },
+  { title: "Vue d'ensemble", url: "/admin",             icon: LayoutDashboard },
+  { title: "Utilisateurs",   url: "/admin/users",       icon: Users },
+  { title: "Soumissions",    url: "/admin/submissions", icon: FileCheck },
+  { title: "Escouades",      url: "/admin/squads",      icon: Swords },
+  { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
+  { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
 ]
 
 export function AdminSidebar({ user }: { user: any }) {
@@ -94,16 +82,16 @@ export function AdminSidebar({ user }: { user: any }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">gestion_système</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Gestion</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild 
+                  <SidebarMenuButton
+                    asChild
                     isActive={pathname === item.url}
                     tooltip={item.title}
-                    className="h-11 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />
@@ -117,18 +105,17 @@ export function AdminSidebar({ user }: { user: any }) {
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">navigation_retour</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  tooltip="Dashboard Utilisateur"
-                  className="h-11 text-muted-foreground hover:text-white hover:bg-white/5"
+                  tooltip="Retour"
+                  className="h-10 text-muted-foreground hover:text-white hover:bg-white/5"
                 >
                   <Link href="/dashboard">
                     <ArrowLeft className="size-4" />
-                    <span>Quitter Admin</span>
+                    <span>Retour</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

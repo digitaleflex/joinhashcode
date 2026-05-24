@@ -49,7 +49,7 @@ export function Faq() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+            <span className="font-mono text-[11px] uppercase text-primary">
               System_FAQ
             </span>
             <span className="h-px w-8 bg-primary/50" />
@@ -110,7 +110,7 @@ export function Faq() {
               <p className="text-xs text-zinc-500">Pose ta question directement à la communauté.</p>
             </div>
           </div>
-          <button className="text-xs font-mono uppercase tracking-widest text-primary hover:underline">
+          <button className="text-xs font-mono uppercase tracking-wider text-primary hover:underline">
             Contact_Support
           </button>
         </div>

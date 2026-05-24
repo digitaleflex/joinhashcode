@@ -81,7 +81,7 @@ export function ActivityFeed() {
         <div className="hidden lg:flex items-center gap-3 shrink-0 border-l border-white/10 pl-6">
           <div className="text-right">
             <div className="font-mono text-[11px] text-white font-bold tracking-tighter">20_PAYS</div>
-            <div className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest">Afrique & Diaspora</div>
+            <div className="font-mono text-[8px] text-zinc-500 uppercase tracking-wider">Afrique & Diaspora</div>
           </div>
         </div>
       </div>
