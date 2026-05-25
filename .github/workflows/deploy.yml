@@ -21,29 +21,66 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
-            # Ensure the target directory exists on the VPS
-            mkdir -p ${{ secrets.SSH_PATH }}
-            cd ${{ secrets.SSH_PATH }}
-            
-            # Safely clone on first run, or pull changes on subsequent runs
-            if [ ! -d ".git" ]; then
-              echo "==== Initializing repository on VPS ===="
-              git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
-            else
-              echo "==== Pulling latest changes ===="
-              git pull origin main
+            set -e  # Stoppe immédiatement si une commande échoue
+
+            APP_DIR="${{ secrets.SSH_PATH }}"
+            BACKUP="/tmp/.env.production.bak"
+
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "  HASHCODE — Deploiement en cours..."
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+            # 1. Creer le dossier si besoin
+            mkdir -p "$APP_DIR"
+            cd "$APP_DIR"
+
+            # 2. Sauvegarder .env.production s'il existe (contient les secrets VPS)
+            if [ -f ".env.production" ]; then
+              echo "[1/6] Sauvegarde .env.production -> $BACKUP"
+              cp .env.production "$BACKUP"
             fi
-            
-            # Recreate and build production containers
+
+            # 3. Cloner ou mettre a jour le depot
+            if [ ! -d ".git" ]; then
+              echo "[2/6] Premier deploiement — nettoyage et clone..."
+              find . -mindepth 1 -delete
+              git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
+              echo "      Clone termine OK"
+            else
+              echo "[2/6] Mise a jour (git pull)..."
+              git pull origin main
+              echo "      Pull termine OK"
+            fi
+
+            # 4. Restaurer .env.production apres clone/pull
+            if [ -f "$BACKUP" ]; then
+              echo "[3/6] Restauration .env.production..."
+              cp "$BACKUP" .env.production
+              rm -f "$BACKUP"
+            fi
+
+            # 5. Verifier que .env.production est present avant de continuer
+            if [ ! -f ".env.production" ]; then
+              echo "ERREUR : .env.production introuvable dans $APP_DIR"
+              echo "Creez-le manuellement sur le VPS puis relancez le pipeline."
+              exit 1
+            fi
+            echo "[4/6] .env.production detecte OK"
+
+            # 6. Reconstruire et relancer les conteneurs
+            echo "[5/6] Reconstruction des conteneurs Docker..."
             docker compose down
             docker compose up -d --build
-            
-            # Synchronize schema and seed initial data inside the running web container
-            # (Ensures all operations happen inside the isolated network environment)
+
+            # 7. Migrations + seed (dans le reseau Docker isole)
+            echo "[6/6] Migrations Prisma + seed..."
             docker compose exec -T web npx prisma db push --accept-data-loss
             docker compose exec -T web npx prisma db seed
-            
-            # Clean up old/dangling docker images to save server disk space
+
+            # 8. Nettoyage des images obsoletes
             docker image prune -f
-            
-            echo "==== DEPLOYMENT COMPLETED SUCCESSFULLY ===="
+
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "  DEPLOIEMENT TERMINE AVEC SUCCES"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
