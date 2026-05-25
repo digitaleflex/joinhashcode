@@ -44,10 +44,10 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 headers: { "Content-Type": "application/json" },
             })
             if (!response.ok) throw new Error("Échec de création")
-            toast.success("Protocol d'escouade initialisé !")
+            toast.success("Escouade créée avec succès !")
             window.location.reload()
         } catch (error) {
-            toast.error("Erreur lors de l'envoi du signal.")
+            toast.error("Erreur lors de la création de l'escouade.")
             console.error(error)
         } finally {
             setIsCreating(false)
@@ -69,20 +69,20 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 )}>
                     {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
                     <span className="text-[10px] font-mono font-bold uppercase">
-                        {memberCount < 5 ? "Synchronisation_Requise" : "Protocol_Validé"}
+                        {memberCount < 5 ? "Escouade incomplète" : "Escouade active !"}
                     </span>
                 </div>
                 
                 <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-white italic leading-[0.9]">
                     {memberCount < 5 ? (
-                        <>Initialisation <span className={cn("transition-colors duration-700", themeColor)}>Du Réseau</span></>
+                        <>Construis ton <span className={cn("transition-colors duration-700", themeColor)}>groupe</span></>
                     ) : (
-                        <>Arsenal <span className="text-primary">Activé</span></>
+                        <>Escouade <span className="text-primary">prête !</span></>
                     )}
                 </h1>
                 
                 <p className="text-zinc-400 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed font-light">
-                    Agent <span className="text-white font-bold italic">@{pseudo}</span>, ton écosystème nécessite une unité de <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">5 Bâtisseurs</span> pour s&apos;auto-alimenter et débloquer ton terminal de missions.
+                    Agent <span className="text-white font-bold italic">@{pseudo}</span>, tu as besoin de 4 autres membres pour former un groupe complet et débloquer tes missions.
                 </p>
             </div>
 
@@ -132,7 +132,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                         </div>
                                         <div className="text-center space-y-4 w-full">
                                             <div className="text-[9px] font-mono text-zinc-600 uppercase group-hover:text-zinc-400 transition-colors">
-                                                Déploiement_
+                                                Place libre
                                             </div>
                                             {(!squad && isUser === false) ? null : (
                                                 <Button 
@@ -158,9 +158,9 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 {!squad ? (
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
-                            <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
-                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Initialise ton propre centre de commandement</p>
-                        </div>
+                                                            <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
+                                                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Lance ton escouade</p>
+                                                        </div>
                         <Button 
                             size="lg" 
                             onClick={createSquad}
@@ -216,7 +216,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                             </div>
                         )}
                         <p className="text-[11px] text-zinc-500 font-mono uppercase">
-                            {memberCount < 5 ? "En attente de nouvelles signatures neuronales..." : "Protocol complet. Ouverture du terminal..."}
+                            {memberCount < 5 ? "En attente de nouveaux membres..." : "Escouade complète. Accès aux missions débloqué !"}
                         </p>
                     </div>
 

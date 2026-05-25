@@ -32,12 +32,12 @@ interface QuizUser {
 const QUIZ_STORAGE_KEY = "hc_quiz_progress";
 
 const ANALYSIS_STEPS = [
-  { label: "Lecture des réponses",          desc: "Traitement de tes 13 arbitrages...",          pct: 12 },
-  { label: "Analyse comportementale",       desc: "Détection des patterns de décision...",       pct: 28 },
-  { label: "Calcul des vecteurs",           desc: "Pondération par temps de réaction...",        pct: 45 },
-  { label: "Scénarios de crise",            desc: "Évaluation des réponses sous pression...",    pct: 62 },
+  { label: "Lecture des réponses",          desc: "Lecture de tes 13 réponses...",               pct: 12 },
+  { label: "Analyse comportementale",       desc: "Analyse de tes choix de dev...",              pct: 28 },
+  { label: "Calcul des vecteurs",           desc: "Analyse de tes points forts...",              pct: 45 },
+  { label: "Scénarios de crise",            desc: "Analyse de tes réflexes en équipe...",        pct: 62 },
   { label: "Profil dominant",               desc: "Identification de la tendance principale...", pct: 78 },
-  { label: "Génération de l'hypothèse",     desc: "Finalisation du diagnostic...",                pct: 94 },
+  { label: "Génération de l'hypothèse",     desc: "Génération de ton profil...",                 pct: 94 },
 ];
 
 function AnalyzingScreen() {
@@ -202,7 +202,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black text-primary">Initialisation v2.0</span>
+              <span className="text-[10px] font-mono font-black text-primary">Prêt à commencer ?</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-white italic leading-[0.95]">
               Découvre ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">style de build</span>
@@ -216,8 +216,8 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="grid gap-6 relative">
             {[
               { 
-                t: "ADN dynamique", 
-                d: "Pas d'étiquettes figées. Ton profil évolue en temps réel selon tes actions de build.",
+                t: "Profil vivant", 
+                d: "Pas de case fixe. Ton profil évolue en temps réel selon les projets que tu construis.",
                 i: "01"
               },
               { 
@@ -226,8 +226,8 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 i: "02"
               },
               { 
-                t: "Alignement tactique", 
-                d: "Accède aux guildes et aux arsenaux où ton potentiel est maximal.",
+                t: "Trouve ta place", 
+                d: "Découvre ta Guilde et débloque les outils adaptés à tes forces.",
                 i: "03"
               }
             ].map((item, idx) => (
