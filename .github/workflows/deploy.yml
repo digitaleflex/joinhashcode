@@ -21,11 +21,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
-            # Navigate to project directory
+            # Ensure the target directory exists on the VPS
+            mkdir -p ${{ secrets.SSH_PATH }}
             cd ${{ secrets.SSH_PATH }}
             
-            # Pull latest changes from main branch
-            git pull origin main
+            # Safely clone on first run, or pull changes on subsequent runs
+            if [ ! -d ".git" ]; then
+              echo "==== Initializing repository on VPS ===="
+              git clone -b main https://github.com/digitaleflex/joinhashcode.git .
+            else
+              echo "==== Pulling latest changes ===="
+              git pull origin main
+            fi
             
             # Recreate and build production containers
             docker compose down
