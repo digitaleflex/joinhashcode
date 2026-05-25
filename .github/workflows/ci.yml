@@ -35,15 +35,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 10
 
       - name: Set up Node.js (avec cache pnpm)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'pnpm'         # ← Cache node_modules entre les runs
@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "DATABASE_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
           echo "DIRECT_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
-          echo "BETTER_AUTH_SECRET=K4bEF/8phwv/Xx3fo//J0ltwp5aZDYvwF9wL79Q86+k=" >> $GITHUB_ENV
+          echo "BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET || 'ci_test_secret_32chars_placeholder' }}" >> $GITHUB_ENV
           echo "BETTER_AUTH_URL=http://localhost:3000" >> $GITHUB_ENV
           echo "QSTASH_TOKEN=dummy_ci_token" >> $GITHUB_ENV
 
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Docker Buildx (builder multi-plateforme + cache)
         uses: docker/setup-buildx-action@v3
@@ -95,7 +95,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}   # Automatique, pas de secret à créer
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata (tags, labels)
         id: meta
@@ -114,9 +114,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            DATABASE_URL=postgresql://localhost:5432/build_placeholder
-            DIRECT_URL=postgresql://localhost:5432/build_placeholder
-          # ↓ Cache Docker layers dans GitHub Actions Cache (gratuit, persistant)
+          # Les placeholders d'env build sont définis directement dans le Dockerfile (ENV)
           cache-from: type=gha
           cache-to: type=gha,mode=max

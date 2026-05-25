@@ -88,7 +88,7 @@ jobs:
             HASHCODE_IMAGE="$IMAGE" docker compose up -d
 
             # 10. Migrations + seed dans le conteneur
-            docker compose exec -T web npx prisma db push --accept-data-loss
+            docker compose exec -T web npx prisma db push
             docker compose exec -T web npx prisma db seed
 
             # 11. Nettoyage des anciennes images
