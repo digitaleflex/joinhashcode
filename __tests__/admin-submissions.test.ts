@@ -15,7 +15,23 @@ vi.mock("@/lib/prisma", () => ({
       findUnique: vi.fn(),
       update: vi.fn(),
     },
-    $transaction: vi.fn((cb) => cb(prisma)),
+    activityLog: {
+      create: vi.fn(),
+    },
+    $transaction: vi.fn((cb) => cb({
+      user: {
+        findUnique: vi.fn(),
+        update: vi.fn(),
+      },
+      missionSubmission: {
+        findUnique: vi.fn(),
+        update: vi.fn(),
+        updateMany: vi.fn(),
+      },
+      activityLog: {
+        create: vi.fn(),
+      },
+    })),
   },
 }));
 
