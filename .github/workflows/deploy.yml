@@ -75,7 +75,7 @@ jobs:
 
             # 6. Se connecter au GitHub Container Registry
             echo "[5/5] Pull de l'image pre-buildee depuis ghcr.io..."
-            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
             # 7. Mettre a jour compose.yaml pour utiliser l'image ghcr.io
             export HASHCODE_IMAGE="$IMAGE"
