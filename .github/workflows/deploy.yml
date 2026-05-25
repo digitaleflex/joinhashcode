@@ -75,7 +75,8 @@ jobs:
             echo "[4/5] .env.production detecte OK"
 
             # 6. Construire l'image et relancer les conteneurs localement
-            echo "[5/5] Construction locale de l'image et relance des conteneurs..."
+            echo "[5/5] Nettoyage et construction locale de l'image..."
+            docker compose down --remove-orphans
             docker compose up -d --build
 
             # 7. Migrations + seed dans le conteneur
