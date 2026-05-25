@@ -90,7 +90,7 @@ function AnalyzingScreen() {
           />
         </div>
         <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
-          <span>Neural_Mapping</span>
+          <span>Analyse en cours</span>
           <span className="text-primary font-bold">{step.pct}%</span>
         </div>
       </div>
@@ -278,7 +278,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
               Débuter l'évaluation <ChevronRight className="w-6 h-6" />
             </Button>
             <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono">
-              <span>[ 13 arbitrages ]</span>
+              <span>[ 13 questions ]</span>
               <span className="size-1 rounded-full bg-zinc-800" />
               <span>[ ~2 minutes ]</span>
             </div>
@@ -319,7 +319,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="text-[10px] font-mono font-black uppercase text-zinc-500 block">
-                    Neural_Calibration_Sequence
+                    Séquence d'évaluation
                 </span>
             </div>
             <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wide">

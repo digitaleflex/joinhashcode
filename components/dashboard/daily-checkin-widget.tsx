@@ -95,7 +95,7 @@ export function DailyCheckinWidget() {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 mb-1">
               <div className="size-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">Neural Sync_</span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">Ma Synchro</span>
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
@@ -108,7 +108,7 @@ export function DailyCheckinWidget() {
             onClick={() => setIsOpen(true)}
             className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
           >
-            DÉMARRER LA SYNC
+            DÉMARRER LE CHECK-IN
           </Button>
         </CardHeader>
       ) : (
@@ -124,7 +124,7 @@ export function DailyCheckinWidget() {
                   {surgeActive ? <Zap className="h-8 w-8" /> : <Check className="h-8 w-8" />}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-bold">{surgeActive ? "SURGE NEURAL !" : "Trace enregistrée"}</p>
+                  <p className="text-lg font-bold">{surgeActive ? "BOOST DE XP ACTIF !" : "Trace enregistrée"}</p>
                   <p className="text-xs text-muted-foreground">
                     {surgeActive ? "Récompense ×3 déclenchée. Continue." : "À demain pour la suite du build."}
                   </p>
@@ -226,7 +226,7 @@ export function DailyCheckinWidget() {
                       disabled={checkin.isPending || !formData.note || !formData.domain}
                       className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
                     >
-                      {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Signer"}
+                      {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enregistrer"}
                     </Button>
                   </div>
                 </div>
