@@ -1,13 +1,16 @@
 import { Client } from "@upstash/qstash";
 import { APP_URL } from "./config";
 
-if (!process.env.QSTASH_TOKEN && process.env.NODE_ENV === "production") {
-  throw new Error("QSTASH_TOKEN is required in production");
+// Initialisation lazy : le client est créé uniquement à la demande
+// pour éviter un crash au moment du build Docker (où QSTASH_TOKEN n'existe pas)
+function getQstashClient(): Client {
+  if (!process.env.QSTASH_TOKEN && process.env.NODE_ENV === "production") {
+    throw new Error("QSTASH_TOKEN is required in production");
+  }
+  return new Client({
+    token: process.env.QSTASH_TOKEN || "development_token",
+  });
 }
-
-export const qstash = new Client({
-  token: process.env.QSTASH_TOKEN || "development_token",
-});
 
 export interface NotificationPayload {
   userId: string;
@@ -23,6 +26,7 @@ export async function triggerNotification(payload: NotificationPayload) {
     process.env.QSTASH_CURRENT_SIGNING_KEY !== "test_key";
 
   if (hasQStashKeys) {
+    const qstash = getQstashClient(); // vérification à l'exécution, pas au build
     return await qstash.publishJSON({
       url: `${APP_URL}/api/internal/notify`,
       body: payload,
