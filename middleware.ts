@@ -4,14 +4,27 @@ export async function middleware(request: NextRequest) {
   let sessionData = null;
 
   try {
-    // Use the request's origin directly for internal fetch to ensure consistency
-    const baseUrl = request.nextUrl.origin;
-    const response = await fetch(`${baseUrl}/api/auth/get-session`, {
-      headers: {
-        cookie: request.headers.get("cookie") || "",
-      },
-      cache: 'no-store'
-    });
+    const requestHeaders = new Headers(request.headers);
+    const host = request.headers.get("host");
+    if (host) {
+      requestHeaders.set("host", host);
+    }
+
+    let response;
+    try {
+      // 1. Try local loopback first to bypass DNS and NAT loopback limitations in Docker/production
+      response = await fetch("http://127.0.0.1:3000/api/auth/get-session", {
+        headers: requestHeaders,
+        cache: 'no-store',
+      });
+    } catch (localError) {
+      // 2. Fallback to origin if running on a custom port locally
+      const baseUrl = request.nextUrl.origin;
+      response = await fetch(`${baseUrl}/api/auth/get-session`, {
+        headers: requestHeaders,
+        cache: 'no-store'
+      });
+    }
 
     if (response.ok) {
       sessionData = await response.json();
