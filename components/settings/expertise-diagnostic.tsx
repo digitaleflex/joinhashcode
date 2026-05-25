@@ -96,8 +96,8 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                     <Cpu className="absolute inset-0 m-auto size-6 text-primary animate-pulse" />
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-black uppercase text-white tracking-wide">Calibration de ton Arsenal</p>
-                    <p className="text-[10px] font-mono text-zinc-500 uppercase">Analyse des vecteurs technologiques...</p>
+                    <p className="text-sm font-bold text-white tracking-tight">Calibration du profil</p>
+                    <p className="text-[10px] text-zinc-500">Analyse du profil technique en cours...</p>
                 </div>
             </div>
         )
@@ -119,17 +119,17 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         </div>
                         <div className="space-y-6 relative z-10">
                             <div className="space-y-2">
-                                <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] uppercase tracking-wider">Diagnostic_Disponible</Badge>
-                                <h3 className="text-2xl font-black uppercase text-white italic tracking-tight">Définis ta Spécialisation</h3>
+                                <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold normal-case tracking-wide">Diagnostic disponible</Badge>
+                                <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">Définissez votre spécialisation</h3>
                                 <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-lg">
-                                    Réponds à 3 questions rapides pour que l&apos;IA HASHCODE cartographie tes domaines d&apos;expertise et suggère les meilleurs outils pour ton profil.
+                                    Répondez à 3 questions rapides pour cartographier vos domaines d&apos;expertise et obtenir des suggestions d&apos;outils adaptées à votre profil.
                                 </p>
                             </div>
                             <Button 
                                 onClick={() => setStep("quiz")}
-                                className="btn-primary-glow px-8 h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2"
+                                className="btn-primary-glow px-8 h-12 rounded-xl text-xs font-semibold tracking-wide gap-2"
                             >
-                                Lancer le scan <ChevronRight className="size-4" />
+                                Lancer le diagnostic <ChevronRight className="size-4" />
                             </Button>
                         </div>
                     </motion.div>
@@ -144,7 +144,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                     >
                         <div className="space-y-2">
                             <div className="flex justify-between items-end">
-                                <span className="text-[9px] font-mono text-zinc-500 uppercase">Séquence [{currentQuestion + 1}/3]</span>
+                                <span className="text-xs font-semibold text-zinc-400">Question {currentQuestion + 1} sur 3</span>
                                 <span className="text-primary font-mono text-[10px] font-bold">{Math.round(((currentQuestion + 1) / 3) * 100)}%</span>
                             </div>
                             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -153,7 +153,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         </div>
 
                         <div className="space-y-6">
-                            <h3 className="text-xl md:text-3xl font-black text-white uppercase italic tracking-tight leading-none">
+                            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
                                 {SPECIALIZATION_QUIZ[currentQuestion].question}
                             </h3>
                             <div className="grid gap-3">
@@ -185,24 +185,24 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                 <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
                                     <ShieldCheck className="size-4 text-emerald-500" />
                                 </div>
-                                <h3 className="text-lg font-black uppercase text-white tracking-tight italic">Scan Terminé : Profil Calibré</h3>
+                                <h3 className="text-lg font-bold text-white tracking-tight">Diagnostic terminé : profil mis à jour</h3>
                             </div>
 
                             {/* Recommandations Logic */}
                             <div className="p-6 rounded-[2rem] border border-primary/20 bg-primary/5 space-y-4">
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="size-4 text-primary" />
-                                    <span className="text-[10px] font-mono text-primary uppercase font-black tracking-wider text-primary">Synergies_Détectées</span>
+                                    <span className="text-xs font-semibold text-primary tracking-wide">Recommandations personnalisées</span>
                                 </div>
                                 <p className="text-sm text-zinc-300 font-light leading-relaxed">
-                                    Basé sur tes réponses, voici des outils qui complèteraient parfaitement ton arsenal actuel :
+                                    Sur la base de vos réponses, voici une sélection de technologies recommandées pour votre profil :
                                 </p>
                                 <div className="flex flex-wrap gap-2 pt-2">
                                     {suggestedTools.slice(0, 8).map(tool => (
                                         <button
                                             key={tool}
                                             onClick={() => toggleTool(tool)}
-                                            className="px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-black transition-all group"
+                                            className="px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-semibold tracking-wide hover:bg-primary hover:text-black transition-all group"
                                         >
                                             <span className="flex items-center gap-2">
                                                 <Plus className="size-3 group-hover:rotate-90 transition-transform" />
@@ -211,7 +211,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                         </button>
                                     ))}
                                     {suggestedTools.length === 0 && (
-                                        <span className="text-[10px] text-zinc-600 font-mono italic">-- Ton arsenal est déjà synchronisé avec tes domaines --</span>
+                                        <span className="text-xs text-zinc-500">Vos technologies sélectionnées correspondent à vos domaines d&apos;expertise.</span>
                                     )}
                                 </div>
                             </div>
@@ -220,8 +220,8 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         {/* Full Arsenal Management */}
                         <div className="space-y-8 pt-6 border-t border-white/5">
                             <div className="space-y-6">
-                                <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500">
-                                    Domaines_D_Expertise
+                                <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+                                    Domaines d&apos;expertise
                                 </label>
                                 <div className="flex flex-wrap gap-3">
                                     {Object.keys(TECH_TREE).map(domain => (
@@ -229,7 +229,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                             key={domain}
                                             onClick={() => toggleDomain(domain)}
                                             className={cn(
-                                                "px-6 py-3 rounded-xl text-xs font-mono font-bold border transition-all duration-500 uppercase tracking-wider",
+                                                "px-6 py-3 rounded-xl text-xs font-medium border transition-all duration-500",
                                                 selectedDomains.includes(domain)
                                                     ? "bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]"
                                                     : "bg-white/5 border-white/5 text-zinc-500 hover:border-white/20"
@@ -243,13 +243,13 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
 
                             <div className="space-y-6">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                                    <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><Search className="size-3"/> Arsenal_Global</label>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400"><Search className="size-3"/> Outils & Frameworks</label>
                                     <div className="relative w-full sm:w-80 group">
                                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-600 group-focus-within:text-primary transition-colors" />
                                         <Input 
                                             value={toolSearch}
                                             onChange={e => setToolSearch(e.target.value)}
-                                            placeholder="Filtrer l'arsenal..."
+                                            placeholder="Rechercher un outil..."
                                             className="input-premium h-12 pl-12 text-sm rounded-xl"
                                         />
                                     </div>
@@ -260,10 +260,10 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                             key={tool}
                                             onClick={() => toggleTool(tool)}
                                             className={cn(
-                                                "px-4 py-2.5 rounded-lg text-[10px] font-mono font-black border transition-all duration-300 uppercase tracking-tight",
+                                                "px-4 py-2 rounded-lg text-xs font-medium border transition-all duration-300",
                                                 selectedTools.includes(tool)
                                                     ? "bg-white/10 border-white/30 text-white shadow-[0_0_10px_rgba(255,255,255,0.05)]"
-                                                    : "bg-black/20 border-white/5 text-zinc-600 hover:border-primary/40 hover:text-primary"
+                                                    : "bg-black/20 border-white/5 text-zinc-500 hover:border-primary/40 hover:text-primary"
                                             )}
                                         >
                                             {tool}
@@ -277,9 +277,9 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                             <Button 
                                 variant="ghost" 
                                 onClick={() => setStep("intro")}
-                                className="text-[9px] font-mono text-zinc-700 hover:text-zinc-500 uppercase"
+                                className="text-xs font-semibold text-zinc-500 hover:text-zinc-300"
                             >
-                                -- Relancer le diagnostic de spécialisation --
+                                Recommencer le diagnostic
                             </Button>
                         </div>
                     </motion.div>

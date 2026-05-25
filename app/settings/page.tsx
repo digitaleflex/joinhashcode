@@ -590,10 +590,29 @@ export default function SettingsPage() {
 
   const save = useCallback(async (data: any, silent = false) => {
     try {
+      // Extract only clean, allowed payload fields to avoid Zod 400 validation failures on extra/null database values
+      const payload = {
+        name: data.name || undefined,
+        pseudo: data.pseudo || undefined,
+        bio: data.bio || undefined,
+        image: data.image || undefined,
+        country: data.country || undefined,
+        city: data.city || undefined,
+        currentSituation: data.currentSituation || undefined,
+        githubUrl: data.githubUrl || undefined,
+        portfolioUrl: data.portfolioUrl || undefined,
+        twitterUrl: data.twitterUrl || undefined,
+        linkedinUrl: data.linkedinUrl || undefined,
+        domains: data.domains || undefined,
+        tools: data.tools || undefined,
+        mainObjective: data.mainObjective || undefined,
+        secondaryObjectives: data.secondaryObjectives || undefined,
+      };
+
       const res = await fetch("/api/user/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setSavedAt(new Date());
@@ -673,18 +692,18 @@ export default function SettingsPage() {
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-12">
             
-            {/* Context Header - Tactical Style */}
+            {/* Context Header - Premium & Serious Style */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-10">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                  <Cpu className="size-3.5 text-primary" />
-                  <span className="text-[10px] font-mono font-black uppercase text-primary">System_Preferences_v2.2</span>
+                  <Settings className="size-3.5 text-primary" />
+                  <span className="text-[10px] font-mono font-bold text-primary">Paramètres utilisateur</span>
                 </div>
-                <h1 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">
-                    Configuration <span className="text-primary italic">.System</span>
+                <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+                    Configuration <span className="text-primary font-bold">du compte</span>
                 </h1>
                 <p className="text-zinc-500 max-w-xl font-light text-sm md:text-base leading-relaxed">
-                    Ajuste tes paramètres d&apos;habilitation et synchronise ton arsenal technique avec le réseau.
+                    Gère tes informations personnelles, tes préférences de compte et tes intégrations.
                 </p>
               </div>
               
@@ -761,8 +780,8 @@ export default function SettingsPage() {
                         <tab.icon className="size-5" />
                       </div>
                       <div className="space-y-0.5">
-                        <p className={cn("text-xs font-black uppercase tracking-wider transition-colors", isActive ? "text-white" : "group-hover:text-zinc-300")}
-                           style={isActive ? { textShadow: `0 0 10px ${tabColor.color}44` } : {}}
+                        <p className={cn("text-xs font-semibold tracking-tight transition-colors", isActive ? "text-white" : "group-hover:text-zinc-300")}
+                           style={isActive ? { textShadow: `0 0 10px ${tabColor.color}22` } : {}}
                         >
                             {tab.label}
                         </p>
@@ -870,30 +889,30 @@ export default function SettingsPage() {
                           <div className="lg:col-span-7 flex flex-col justify-center space-y-6 w-full">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                               <div className="space-y-2">
-                                <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><User className="size-3 text-emerald-500"/> Nom_Identité</label>
+                                <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400"><User className="size-3.5 text-emerald-500"/> Nom complet</label>
                                 <Input 
                                   value={userData?.name || ""} 
                                   onChange={e => updateData({...userData, name: e.target.value})}
-                                  className="input-premium h-14 rounded-2xl text-base px-5 font-bold focus:border-emerald-500/60 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+                                  className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
                                 />
                               </div>
                               <div className="space-y-2">
-                                <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><AtSign className="size-3 text-emerald-500"/> Pseudo_System</label>
+                                <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400"><AtSign className="size-3.5 text-emerald-500"/> Nom d'utilisateur</label>
                                 <Input 
                                   value={userData?.pseudo || ""} 
                                   onChange={e => updateData({...userData, pseudo: e.target.value})}
-                                  className="input-premium h-14 rounded-2xl text-base px-5 font-bold font-mono focus:border-emerald-500/60 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+                                  className="input-premium h-14 rounded-2xl text-base px-5 font-medium font-mono focus:border-emerald-500/60 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
                                   placeholder="votre_pseudo"
                                 />
                               </div>
                             </div>
                             <div className="space-y-2">
-                              <label className="text-[10px] font-mono font-black uppercase text-zinc-500">Bio_Signature</label>
+                              <label className="text-xs font-semibold text-zinc-400">Présentation / Bio</label>
                               <textarea 
                                 value={userData?.bio || ""} 
                                 onChange={e => updateData({...userData, bio: e.target.value})}
                                 className="w-full input-premium min-h-[120px] rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-emerald-500/60 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)] resize-none text-white leading-relaxed font-light italic"
-                                placeholder="Ta signature communautaire..."
+                                placeholder="Présente-toi en quelques mots..."
                               />
                             </div>
                           </div>
@@ -901,7 +920,7 @@ export default function SettingsPage() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                            <div className="space-y-2">
-                              <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><Languages className="size-3 text-emerald-500"/> Langue_Code</label>
+                              <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400"><Languages className="size-3.5 text-emerald-500"/> Langue d'affichage</label>
                               <div className="relative" ref={dropdownRef}>
                                 <button
                                   type="button"
@@ -960,7 +979,7 @@ export default function SettingsPage() {
                               </div>
                            </div>
                            <div className="space-y-2">
-                              <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500"><Globe className="size-3 text-emerald-500"/> Localisation_Géo</label>
+                              <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400"><Globe className="size-3.5 text-emerald-500"/> Pays de résidence</label>
                               <CountrySelector 
                                 value={userData?.country || ""} 
                                 onChange={val => updateData({...userData, country: val})}
@@ -977,15 +996,15 @@ export default function SettingsPage() {
                     {activeTab === "links" && (
                       <div className="space-y-8">
                         <div className="space-y-1 border-b border-white/5 pb-4">
-                            <p className="text-[10px] font-mono font-black uppercase text-cyan-500">Canaux_Externes</p>
-                            <p className="text-zinc-400 text-xs font-light">Lier tes réseaux renforce ton autorité et ton score de confiance.</p>
+                            <p className="text-sm font-semibold text-cyan-400">Réseaux & Liens</p>
+                            <p className="text-zinc-400 text-xs font-light">Lier tes réseaux renforce ton profil et ton score de confiance.</p>
                         </div>
                         <div className="grid gap-6">
                           {[
-                            { id: "githubUrl", icon: Github, label: "GitHub_Repo", placeholder: "github.com/votre-user", color: "group-focus-within:text-cyan-400" },
-                            { id: "linkedinUrl", icon: Linkedin, label: "LinkedIn_Network", placeholder: "linkedin.com/in/profil", color: "group-focus-within:text-[#0077B5]" },
-                            { id: "twitterUrl", icon: Twitter, label: "X_Twitter_Signal", placeholder: "x.com/votre-user", color: "group-focus-within:text-cyan-400" },
-                            { id: "portfolioUrl", icon: Globe, label: "Portfolio_Dossier", placeholder: "votre-site.com", color: "group-focus-within:text-cyan-400" },
+                            { id: "githubUrl", icon: Github, label: "Lien GitHub", placeholder: "github.com/votre-user", color: "group-focus-within:text-cyan-400" },
+                            { id: "linkedinUrl", icon: Linkedin, label: "Profil LinkedIn", placeholder: "linkedin.com/in/profil", color: "group-focus-within:text-[#0077B5]" },
+                            { id: "twitterUrl", icon: Twitter, label: "Compte X (Twitter)", placeholder: "x.com/votre-user", color: "group-focus-within:text-cyan-400" },
+                            { id: "portfolioUrl", icon: Globe, label: "Site Web / Portfolio", placeholder: "votre-site.com", color: "group-focus-within:text-cyan-400" },
                           ].map((link) => {
                             const isLinked = !!userData[link.id]
                             const latency = isLinked ? (latencies.missions - 5) : 999
@@ -996,11 +1015,11 @@ export default function SettingsPage() {
                                     <link.icon className="size-5 text-zinc-400 group-focus-within/uplink:text-cyan-400 transition-colors" />
                                   </div>
                                   <div className="space-y-0.5">
-                                    <span className="text-[9px] font-mono font-black uppercase text-zinc-500 tracking-wider block">{link.label}</span>
+                                    <span className="text-xs font-semibold text-zinc-400 block">{link.label}</span>
                                     <div className="flex items-center gap-2">
                                       <div className={cn("size-1.5 rounded-full", isLinked ? "bg-cyan-400 shadow-[0_0_10px_#06b6d4]" : "bg-amber-500 animate-pulse")} />
-                                      <span className={cn("text-[9px] font-mono font-black uppercase tracking-widest", isLinked ? "text-cyan-400" : "text-amber-500")}>
-                                        {isLinked ? "UPLINK: ACTIVE" : "UPLINK: STANDBY"}
+                                      <span className={cn("text-[9px] font-mono font-bold uppercase tracking-wider", isLinked ? "text-cyan-400" : "text-amber-500")}>
+                                        {isLinked ? "Lien actif" : "En attente"}
                                       </span>
                                     </div>
                                   </div>
@@ -1070,8 +1089,8 @@ export default function SettingsPage() {
                               <div className="space-y-2 border-b border-white/5 pb-6">
                                 <div className="flex items-center gap-2">
                                   <div className="size-2 rounded-full animate-pulse" style={{ backgroundColor: tierColor }} />
-                                  <h2 className="text-xl font-black uppercase text-white italic">
-                                    Coffre-fort d&apos;Accès <span style={{ color: tierColor }}>.Ecosystem</span>
+                                  <h2 className="text-lg font-bold text-white">
+                                    Sécurité du coffre-fort
                                   </h2>
                                 </div>
                                 <p className="text-xs text-zinc-500 font-light leading-relaxed">
@@ -1739,14 +1758,9 @@ export default function SettingsPage() {
                             </>
                           )
                         })()}
-                      </div>
-                    )}
-
-                    {activeTab === "account" && (
-                      <div className="space-y-12">
-                        <div className="space-y-6">
-                           <label className="flex items-center gap-2 text-[10px] font-mono font-black uppercase text-zinc-500">
-                             <Fingerprint className="size-4 text-red-500 animate-pulse" /> Accès_Système_Autorisé
+                                            <div className="space-y-6">
+                           <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+                             <Fingerprint className="size-4 text-emerald-500" /> Informations de connexion
                            </label>
                            
                            <div className="relative p-[1.5px] cyber-notch bg-gradient-to-r from-emerald-500/20 via-emerald-500/5 to-transparent">
@@ -1759,34 +1773,32 @@ export default function SettingsPage() {
                                 
                                 <div className="space-y-3 relative z-10">
                                   <div className="flex items-center gap-2">
-                                    <div className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse" />
-                                    <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest font-black">
-                                      {"NODE_SECURE: GRANTED // ENCRYPTION_SCHEME: SSL_TLS_1.3"}
+                                    <div className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
+                                    <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-wider font-bold">
+                                      Connexion sécurisée
                                     </span>
                                   </div>
                                   
-                                  <h3 className="text-xl font-mono font-black text-white uppercase tracking-tight flex items-center gap-3">
+                                  <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
                                     <span className="text-emerald-400">{userData?.email?.split("@")[0]}</span>
                                     <span className="text-zinc-600 font-light">@</span>
                                     <span className="text-zinc-400 text-sm">{userData?.email?.split("@")[1]}</span>
                                   </h3>
                                   <p className="text-[10px] text-zinc-500 font-mono tracking-wider">
-                                    UPLINK_IDENTITY_HASH: <span className="text-zinc-400 font-bold select-all">{userData?.id}</span>
+                                    Identifiant unifié : <span className="text-zinc-400 font-bold select-all">{userData?.id}</span>
                                   </p>
                                 </div>
 
                                 <div className="pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-4 relative z-10">
                                   <div className="flex items-center gap-2">
                                     <div className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" />
-                                    <span className="text-[9px] font-mono text-emerald-400/80 uppercase font-black tracking-wider">
-                                      AUTHENTICATOR: BETTER_AUTH v1.0
+                                    <span className="text-[9px] font-mono text-emerald-400/80 uppercase font-bold tracking-wider">
+                                      Authentification gérée par Better Auth
                                     </span>
                                   </div>
                                   
                                   <div className="flex items-center gap-4 text-[9px] font-mono text-zinc-500">
-                                    <span>INTEGRITY_SHIELD: 100%</span>
-                                    <span>•</span>
-                                    <span>SYS_VERIFIED</span>
+                                    <span>STATUT : VÉRIFIÉ</span>
                                   </div>
                                 </div>
                              </div>
@@ -1817,8 +1829,8 @@ export default function SettingsPage() {
                                  
                                  <div className="flex items-center gap-2 justify-center sm:justify-start">
                                    <div className="size-1.5 rounded-full bg-red-500 animate-ping" />
-                                   <h3 className="text-base font-black text-red-500 uppercase tracking-wider italic">
-                                     {"Destruction du Profil // ZONE_DANGER"}
+                                   <h3 className="text-base font-bold text-red-500 uppercase tracking-wider">
+                                     Suppression du profil
                                    </h3>
                                  </div>
                                  
