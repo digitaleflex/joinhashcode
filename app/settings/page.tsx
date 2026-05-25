@@ -607,7 +607,7 @@ export default function SettingsPage() {
 
                         {/* ── EXPERTISE TAB ── */}
                         {activeTab === "expertise" && (
-                          <ExpertiseDiagnostic userData={userData} updateData={updateData} />
+                          <ExpertiseDiagnostic key={userData?.id || "loading"} userData={userData} updateData={updateData} />
                         )}
 
                         {/* ── LINKS TAB ── */}

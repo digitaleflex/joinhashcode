@@ -22,7 +22,11 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
 export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, updateData: (next: any) => void }) {
-    const [step, setStep] = useState<"intro" | "quiz" | "result">("intro")
+    const [step, setStep] = useState<"intro" | "quiz" | "result">(() => {
+        const hasDomains = userData?.domains && userData.domains.length > 0
+        const hasTools = userData?.tools && userData.tools.length > 0
+        return (hasDomains || hasTools) ? "result" : "intro"
+    })
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [toolSearch, setToolSearch] = useState("")
     const [isAnalyzing, setIsAnalyzing] = useState(false)
