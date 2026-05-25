@@ -73,25 +73,15 @@ jobs:
             fi
             echo "[4/5] .env.production detecte OK"
 
-            # 6. Se connecter au GitHub Container Registry
-            echo "[5/5] Pull de l'image pre-buildee depuis ghcr.io..."
-            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+            # 6. Construire l'image et relancer les conteneurs localement
+            echo "[5/5] Construction locale de l'image et relance des conteneurs..."
+            docker compose up -d --build
 
-            # 7. Mettre a jour compose.yaml pour utiliser l'image ghcr.io
-            export HASHCODE_IMAGE="$IMAGE"
-
-            # 8. Pull de la nouvelle image (ultra-rapide, layers en cache)
-            docker pull "$IMAGE"
-
-            # 9. Relancer les conteneurs avec la nouvelle image
-            docker compose down
-            HASHCODE_IMAGE="$IMAGE" docker compose up -d
-
-            # 10. Migrations + seed dans le conteneur
+            # 7. Migrations + seed dans le conteneur
             docker compose exec -T web npx prisma db push
             docker compose exec -T web npx prisma db seed
 
-            # 11. Nettoyage des anciennes images
+            # 8. Nettoyage des anciennes images
             docker image prune -f
 
             echo ""

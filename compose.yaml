@@ -26,7 +26,10 @@ services:
   web:
     # Image pre-buildee par GitHub Actions et stockee sur ghcr.io
     # Injectee via : HASHCODE_IMAGE=ghcr.io/digitaleflex/joinhashcode:latest docker compose up -d
-    image: ${HASHCODE_IMAGE:-ghcr.io/digitaleflex/joinhashcode:latest}
+    image: ${HASHCODE_IMAGE:-hashcode-web:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: hashcode-web
     restart: always
     ports:
