@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -28,14 +28,14 @@ export async function POST(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("AccÃ¨s non autorisÃ©. Connecte-toi pour valider ta mission.", { status: 401 });
+      return new NextResponse("Accès non autorisé. Connecte-toi pour valider ta mission.", { status: 401 });
     }
 
     const body = await req.json();
     const validatedData = submissionSchema.safeParse(body);
 
     if (!validatedData.success) {
-      return new NextResponse("DonnÃ©es d'envoi invalides. VÃ©rifie tes champs.", { status: 400 });
+      return new NextResponse("Données d'envoi invalides. Vérifie tes champs.", { status: 400 });
     }
 
     const { 
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     const mission = await prisma.mission.findUnique({ where: { id: missionId } });
     if (!mission) {
-      return new NextResponse("Mission introuvable dans le systÃ¨me.", { status: 404 });
+      return new NextResponse("Mission introuvable dans le système.", { status: 404 });
     }
 
     const dbUser = await prisma.user.findUnique({
@@ -88,15 +88,15 @@ export async function POST(req: Request) {
 
     if (existingSubmission) {
       if (existingSubmission.status === "APPROVED") {
-        return new NextResponse("Cette mission a dÃ©jÃ  Ã©tÃ© validÃ©e. Passe Ã  la suivante !", { status: 409 });
+        return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 409 });
       }
       if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW") {
-        return new NextResponse("Ta soumission est dÃ©jÃ  en attente de validation. Patience !", { status: 400 });
+        return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
       }
       if (existingSubmission.revisionCount >= 3) {
-        return new NextResponse("Nombre maximum de rÃ©visions atteint. Contacte un admin.", { status: 400 });
+        return new NextResponse("Nombre maximum de révisions atteint. Contacte un admin.", { status: 400 });
       }
-      // status === "NEEDS_REVISION" â†’ allow resubmission (falls through to upsert below)
+      // status === "NEEDS_REVISION" → allow resubmission (falls through to upsert below)
     }
 
     // Transaction to save submission as PENDING and award instant Sync Bonus
@@ -155,7 +155,7 @@ export async function POST(req: Request) {
         userId: session.user.id,
         type: "SYSTEM",
         title: `Mission transmise : ${mission.title}`,
-        message: `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordÃ© immÃ©diatement !`,
+        message: `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
         link: "/missions"
       });
     } catch (notificationError) {
@@ -165,6 +165,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ submission: result, status: "PENDING", bonusXp: SYNC_BONUS_XP });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
-    return new NextResponse("Erreur interne du systÃ¨me. Nos ingÃ©nieurs sont sur le coup.", { status: 500 });
+    return new NextResponse("Erreur interne du système. Nos ingénieurs sont sur le coup.", { status: 500 });
   }
 }

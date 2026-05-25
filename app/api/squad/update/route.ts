@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -15,12 +15,12 @@ export async function PATCH(req: Request) {
     const { name, slug } = await req.json();
 
     if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 40) {
-      return NextResponse.json({ error: "Nom invalide (2â€“40 caractÃ¨res)." }, { status: 400 });
+      return NextResponse.json({ error: "Nom invalide (2–40 caractères)." }, { status: 400 });
     }
 
     if (!slug || !SLUG_REGEX.test(slug)) {
       return NextResponse.json(
-        { error: "Lien invalide : 3â€“30 caractÃ¨res, lettres minuscules, chiffres et tirets uniquement." },
+        { error: "Lien invalide : 3–30 caractères, lettres minuscules, chiffres et tirets uniquement." },
         { status: 400 }
       );
     }
@@ -42,7 +42,7 @@ export async function PATCH(req: Request) {
     });
 
     if (conflict) {
-      return NextResponse.json({ error: "Ce lien est dÃ©jÃ  pris. Essaie un autre." }, { status: 409 });
+      return NextResponse.json({ error: "Ce lien est déjà pris. Essaie un autre." }, { status: 409 });
     }
 
     const updated = await prisma.guild.update({

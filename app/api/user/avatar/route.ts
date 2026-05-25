@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getSupabaseAdmin } from "@/lib/supabase";
@@ -12,20 +12,20 @@ export async function POST(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("AccÃ¨s non autorisÃ©. Connecte-toi pour uploader ton avatar.", { status: 401 });
+      return new NextResponse("Accès non autorisé. Connecte-toi pour uploader ton avatar.", { status: 401 });
     }
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
     if (!file) {
-      return new NextResponse("Aucun fichier dÃ©tectÃ©.", { status: 400 });
+      return new NextResponse("Aucun fichier détecté.", { status: 400 });
     }
 
     // Validation
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!validTypes.includes(file.type)) {
-      return new NextResponse("Format non supportÃ©. Utilise JPEG, PNG ou WEBP.", { status: 400 });
+      return new NextResponse("Format non supporté. Utilise JPEG, PNG ou WEBP.", { status: 400 });
     }
 
     if (file.size > 2 * 1024 * 1024) {
@@ -60,6 +60,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: publicUrl });
   } catch (error) {
     console.error("[AVATAR_POST]", error);
-    return new NextResponse("Une erreur systÃ¨me est survenue. RÃ©essaie dans un instant.", { status: 500 });
+    return new NextResponse("Une erreur système est survenue. Réessaie dans un instant.", { status: 500 });
   }
 }

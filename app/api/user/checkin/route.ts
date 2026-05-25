@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { stripHtml } from "@/lib/utils";
@@ -29,17 +29,17 @@ function computeStreak(lastStreakDate: Date | null): {
   const diffMs = now.getTime() - lastStreakDate.getTime();
   const diffHours = diffMs / (1000 * 60 * 60);
 
-  // Entre 20h et 48h depuis le dernier check-in â†’ streak maintenu
+  // Entre 20h et 48h depuis le dernier check-in → streak maintenu
   if (diffHours >= 20 && diffHours < 48) {
-    return { newStreak: 0, streakBroken: false }; // 0 = incrÃ©menter depuis la DB
+    return { newStreak: 0, streakBroken: false }; // 0 = incrémenter depuis la DB
   }
 
-  // Plus de 48h â†’ streak cassÃ©
+  // Plus de 48h → streak cassé
   return { newStreak: 1, streakBroken: true };
 }
 
 function isSurge(energy: number, domain: string, lastCheckinAt: Date | null): boolean {
-  // 10% de base, +5% si Ã©nergie max, +5% si retour aprÃ¨s 48h d'absence
+  // 10% de base, +5% si énergie max, +5% si retour après 48h d'absence
   let chance = 0.1;
   if (energy === 5) chance += 0.05;
   if (lastCheckinAt) {
@@ -61,14 +61,14 @@ export async function POST(req: Request) {
 
     if (existingCheckin) {
       return new NextResponse(
-        "Tu as dÃ©jÃ  signÃ© ton check-in aujourd'hui. Garde ton Ã©nergie pour demain !",
+        "Tu as déjà signé ton check-in aujourd'hui. Garde ton énergie pour demain !",
         { status: 429 }
       );
     }
 
     const body = await req.json();
     const parsed = checkinSchema.safeParse(body);
-    if (!parsed.success) return new NextResponse("DonnÃ©es invalides", { status: 400 });
+    if (!parsed.success) return new NextResponse("Données invalides", { status: 400 });
 
     const { note, domain, energy, duration } = parsed.data;
 
@@ -135,9 +135,9 @@ export async function POST(req: Request) {
           title: `${nextStreak} jours de Neural Momentum !`,
           message:
             nextStreak === 7
-              ? "Tu enchaÃ®nes 7 jours consÃ©cutifs. Multiplicateur Ã—1.5 dÃ©bloquÃ© !"
+              ? "Tu enchaînes 7 jours consécutifs. Multiplicateur ×1.5 débloqué !"
               : nextStreak === 14
-              ? "14 jours de continuitÃ©. Multiplicateur Ã—2.0 dÃ©bloquÃ© !"
+              ? "14 jours de continuité. Multiplicateur ×2.0 débloqué !"
               : "30 jours. Tu fais partie des 1%. Badge NEURAL_CORE en route.",
           link: "/dashboard",
         },
@@ -151,7 +151,7 @@ export async function POST(req: Request) {
           userId: session.user.id,
           type: "STREAK_BROKEN",
           title: "Momentum Neural interrompu",
-          message: `Ta sÃ©rie de ${user.currentStreak} jours est rÃ©initialisÃ©e. Recommence dÃ¨s maintenant.`,
+          message: `Ta série de ${user.currentStreak} jours est réinitialisée. Recommence dès maintenant.`,
           link: "/dashboard",
         },
       });

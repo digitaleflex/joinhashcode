@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,7 +22,7 @@ export const PATCH = async (req: NextRequest) => {
     });
 
     if (!session) {
-      return NextResponse.json({ error: "Non autorisÃ©" }, { status: 401 });
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
     const dbUser = await prisma.user.findUnique({
@@ -38,7 +38,7 @@ export const PATCH = async (req: NextRequest) => {
     const result = statusSchema.safeParse(body);
 
     if (!result.success) {
-      return NextResponse.json({ error: "DonnÃ©es invalides" }, { status: 400 });
+      return NextResponse.json({ error: "Données invalides" }, { status: 400 });
     }
 
     const currentFeedback = await prisma.betaFeedback.findUnique({
@@ -47,7 +47,7 @@ export const PATCH = async (req: NextRequest) => {
     });
 
     if (!currentFeedback) {
-      return NextResponse.json({ error: "Feedback non trouvÃ©" }, { status: 404 });
+      return NextResponse.json({ error: "Feedback non trouvé" }, { status: 404 });
     }
 
     const updatedFeedback = await prisma.$transaction(async (tx) => {
@@ -96,8 +96,8 @@ export const PATCH = async (req: NextRequest) => {
           await triggerNotification({
             userId: feedback.userId,
             type: "SYSTEM",
-            title: "RÃ©compense BÃªta",
-            message: `Ton feedback a Ã©tÃ© rÃ©solu ! Tu reÃ§ois +${FEEDBACK_XP_REWARD} XP pour ta contribution.`,
+            title: "Récompense Bêta",
+            message: `Ton feedback a été résolu ! Tu reçois +${FEEDBACK_XP_REWARD} XP pour ta contribution.`,
             link: "/dashboard",
           });
         } catch (err) {

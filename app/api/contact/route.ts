@@ -1,4 +1,4 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { emailService } from "@/lib/email"
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     if (isRateLimited(ip)) {
       return NextResponse.json(
-        { error: "Trop de messages envoyÃ©s. RÃ©essaie dans une heure." },
+        { error: "Trop de messages envoyés. Réessaie dans une heure." },
         { status: 429 }
       );
     }
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "DonnÃ©es invalides", details: parsed.error.flatten().fieldErrors },
+        { error: "Données invalides", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       )
     }
