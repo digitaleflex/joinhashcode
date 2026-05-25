@@ -74,14 +74,14 @@ jobs:
             fi
             echo "[4/5] .env.production detecte OK"
 
-            # 6. Construire l'image et relancer les conteneurs localement
-            echo "[5/5] Nettoyage et construction locale de l'image..."
-            docker compose down --remove-orphans
-            docker compose up -d --build
+            # 6. Reconstruire et redémarrer UNIQUEMENT le conteneur web
+            # Cela évite de stopper ou de recréer la base de données (zéro risque de perte de données)
+            echo "[5/5] Reconstruction et mise à jour du conteneur web..."
+            docker compose up -d --build --no-deps web
 
-            # 7. Migrations + seed dans le conteneur
+            # 7. Appliquer les modifications de schéma en toute sécurité
+            # (On ne lance plus 'db seed' automatiquement à chaque commit pour préserver l'intégrité)
             docker compose exec -T web npx prisma db push
-            docker compose exec -T web npx prisma db seed
 
             # 8. Nettoyage des anciennes images
             docker image prune -f
