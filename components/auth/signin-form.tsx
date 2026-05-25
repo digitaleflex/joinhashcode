@@ -174,7 +174,7 @@ export function SignInForm() {
                                 </div>
                                 <Button 
                                     type="submit" 
-                                    className="w-full btn-primary-glow h-11 text-[11px] uppercase font-black tracking-wider rounded-xl transition-all cursor-pointer"
+                                    className="w-full btn-primary-glow h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
                                     disabled={!!loadingProvider}
                                 >
                                     {loadingProvider === "email" ? (
@@ -274,7 +274,7 @@ export function SignInForm() {
                             </div>
                             <Button 
                                 type="submit" 
-                                className="w-full btn-primary-glow h-11 text-[11px] uppercase font-black tracking-wider rounded-xl transition-all cursor-pointer"
+                                className="w-full btn-primary-glow h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
                                 disabled={!!loadingProvider || otp.length !== 8}
                             >
                                 {loadingProvider === "otp" ? (

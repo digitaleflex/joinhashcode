@@ -149,6 +149,7 @@ export const auth = betterAuth({
     defaultCookieAttributes: {
       sameSite: "lax",
     },
+    trustedProxyHeaders: true,
   },
   rateLimit: {
     enabled: true,
