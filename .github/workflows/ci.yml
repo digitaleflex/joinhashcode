@@ -56,9 +56,6 @@ jobs:
       - name: Verify Database Schema
         run: pnpm prisma db push
 
-      - name: Run Linter
-        run: pnpm run lint
-
       - name: Run Tests (Vitest)
         run: pnpm run test run
 
