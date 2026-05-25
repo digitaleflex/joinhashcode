@@ -1,6 +1,6 @@
 # Lancement : docker compose up -d  (pas de flag --env-file nécessaire)
-# Variables Docker (DB_USER, DB_PASSWORD, APP_DOMAIN...) → .env  (lu automatiquement)
-# Secrets app (clés API, auth...)              → .env.local (chargé via env_file)
+# Variables Docker (DB_USER, DB_PASSWORD, APP_DOMAIN...) → .env.production  (lu automatiquement)
+# Secrets app (clés API, auth...)              → .env.production (chargé via env_file)
 
 services:
   db:
@@ -32,7 +32,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env.local
+      - .env.production
     environment:
       # Overrides du .env.local pour l'environnement Docker
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
