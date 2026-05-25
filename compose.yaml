@@ -24,9 +24,9 @@ services:
       retries: 5
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # Image pre-buildee par GitHub Actions et stockee sur ghcr.io
+    # Injectee via : HASHCODE_IMAGE=ghcr.io/digitaleflex/joinhashcode:latest docker compose up -d
+    image: ${HASHCODE_IMAGE:-ghcr.io/digitaleflex/joinhashcode:latest}
     container_name: hashcode-web
     restart: always
     ports:

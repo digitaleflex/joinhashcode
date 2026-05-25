@@ -1,18 +1,24 @@
 name: CD (Continuous Deployment)
 
 on:
-  push:
-    branches:
-      - main
+  # Se déclenche UNIQUEMENT après que le CI a terminé avec succès
+  workflow_run:
+    workflows: ["CI (Continuous Integration)"]
+    types: [completed]
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   deploy:
+    name: Deploy to VPS
     runs-on: ubuntu-latest
+    # Ne déployer que si le CI a réussi
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -20,11 +26,13 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
+          envs: REGISTRY,IMAGE_NAME
           script: |
-            set -e  # Stoppe immédiatement si une commande échoue
+            set -e
 
             APP_DIR="${{ secrets.SSH_PATH }}"
             BACKUP="/tmp/.env.production.bak"
+            IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:latest"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "  HASHCODE — Deploiement en cours..."
@@ -34,53 +42,60 @@ jobs:
             mkdir -p "$APP_DIR"
             cd "$APP_DIR"
 
-            # 2. Sauvegarder .env.production s'il existe (contient les secrets VPS)
+            # 2. Sauvegarder .env.production
             if [ -f ".env.production" ]; then
-              echo "[1/6] Sauvegarde .env.production -> $BACKUP"
+              echo "[1/5] Sauvegarde .env.production -> $BACKUP"
               cp .env.production "$BACKUP"
             fi
 
-            # 3. Cloner ou mettre a jour le depot
+            # 3. Cloner ou mettre a jour le depot (pour compose.yaml + prisma)
             if [ ! -d ".git" ]; then
-              echo "[2/6] Premier deploiement — nettoyage et clone..."
+              echo "[2/5] Premier deploiement — clone du depot..."
               find . -mindepth 1 -delete
               git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
-              echo "      Clone termine OK"
             else
-              echo "[2/6] Mise a jour (git pull)..."
+              echo "[2/5] Mise a jour du depot (git pull)..."
               git pull origin main
-              echo "      Pull termine OK"
             fi
 
-            # 4. Restaurer .env.production apres clone/pull
+            # 4. Restaurer .env.production (non versionne dans Git)
             if [ -f "$BACKUP" ]; then
-              echo "[3/6] Restauration .env.production..."
+              echo "[3/5] Restauration .env.production..."
               cp "$BACKUP" .env.production
               rm -f "$BACKUP"
             fi
 
-            # 5. Verifier que .env.production est present avant de continuer
+            # 5. Verifier que .env.production est present
             if [ ! -f ".env.production" ]; then
               echo "ERREUR : .env.production introuvable dans $APP_DIR"
-              echo "Creez-le manuellement sur le VPS puis relancez le pipeline."
+              echo "Creez-le manuellement sur le VPS puis relancez."
               exit 1
             fi
-            echo "[4/6] .env.production detecte OK"
+            echo "[4/5] .env.production detecte OK"
 
-            # 6. Reconstruire et relancer les conteneurs
-            echo "[5/6] Reconstruction des conteneurs Docker..."
+            # 6. Se connecter au GitHub Container Registry
+            echo "[5/5] Pull de l'image pre-buildee depuis ghcr.io..."
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # 7. Mettre a jour compose.yaml pour utiliser l'image ghcr.io
+            export HASHCODE_IMAGE="$IMAGE"
+
+            # 8. Pull de la nouvelle image (ultra-rapide, layers en cache)
+            docker pull "$IMAGE"
+
+            # 9. Relancer les conteneurs avec la nouvelle image
             docker compose down
-            docker compose up -d --build
+            HASHCODE_IMAGE="$IMAGE" docker compose up -d
 
-            # 7. Migrations + seed (dans le reseau Docker isole)
-            echo "[6/6] Migrations Prisma + seed..."
+            # 10. Migrations + seed dans le conteneur
             docker compose exec -T web npx prisma db push --accept-data-loss
             docker compose exec -T web npx prisma db seed
 
-            # 8. Nettoyage des images obsoletes
+            # 11. Nettoyage des anciennes images
             docker image prune -f
 
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "  DEPLOIEMENT TERMINE AVEC SUCCES"
+            echo "  Image deployee : $IMAGE"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",   // Génère un serveur Node.js autonome (image Docker légère)
   typescript: {
     ignoreBuildErrors: true,
   },
