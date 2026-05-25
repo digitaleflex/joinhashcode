@@ -5,8 +5,8 @@ import { auth } from "@/lib/auth";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 
-vi.mock("@/lib/prisma", () => ({
-  prisma: {
+const { mockPrisma } = vi.hoisted(() => {
+  const m = {
     user: {
       findUnique: vi.fn(),
       update: vi.fn(),
@@ -14,25 +14,19 @@ vi.mock("@/lib/prisma", () => ({
     missionSubmission: {
       findUnique: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
     },
     activityLog: {
       create: vi.fn(),
     },
-    $transaction: vi.fn((cb) => cb({
-      user: {
-        findUnique: vi.fn(),
-        update: vi.fn(),
-      },
-      missionSubmission: {
-        findUnique: vi.fn(),
-        update: vi.fn(),
-        updateMany: vi.fn(),
-      },
-      activityLog: {
-        create: vi.fn(),
-      },
-    })),
-  },
+    $transaction: vi.fn(),
+  };
+  m.$transaction.mockImplementation((cb) => cb(m));
+  return { mockPrisma: m };
+});
+
+vi.mock("@/lib/prisma", () => ({
+  prisma: mockPrisma,
 }));
 
 vi.mock("@/lib/auth", () => ({

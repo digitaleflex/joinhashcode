@@ -55,16 +55,6 @@ function getClientIp(request: Request): string | null {
 export async function logActivity(opts: LogOptions): Promise<void> {
   const { userId, action, entity, entityId, metadata, request } = opts
   try {
-    if (!prisma) {
-      console.error("[ACTIVITY_LOG_ERROR] Prisma client is undefined");
-      return;
-    }
-    
-    // @ts-ignore - inspecting internal models
-    if (!prisma.activityLog) {
-      console.error("[ACTIVITY_LOG_ERROR] prisma.activityLog is undefined. Available models:", Object.keys(prisma).filter(k => !k.startsWith("$") && !k.startsWith("_")));
-    }
-
     await prisma.activityLog.create({
       data: {
         userId: userId ?? null,
