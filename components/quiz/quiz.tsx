@@ -137,7 +137,8 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
     const elapsed = endTime - startTime
     
     const newAnswers = { ...answers, [questions[currentStep].id]: value }
-    const newTimes = [...responseTimes, elapsed]
+    const newTimes = [...responseTimes]
+    newTimes[currentStep] = elapsed
     
     setAnswers(newAnswers)
     setResponseTimes(newTimes)
