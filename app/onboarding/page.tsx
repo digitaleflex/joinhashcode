@@ -120,7 +120,7 @@ export default function OnboardingPage() {
                 })()}
               </div>
               <div className="space-y-2">
-                <h1 className="text-4xl font-bold tracking-tight uppercase font-mono text-foreground">
+                <h1 className="text-2xl font-bold tracking-tight uppercase font-mono text-foreground">
                   {STEPS[step].title}
                 </h1>
                 <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
@@ -133,14 +133,14 @@ export default function OnboardingPage() {
               {step === 0 && (
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground ml-1">Pays</label>
+                    <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Pays</label>
                     <CountrySelector 
                       value={formData.country}
                       onChange={(val) => updateForm({ ...formData, country: val })}
                     />
                   </div>
                   <div className="space-y-4">
-                    <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground ml-1">Situation Actuelle</label>
+                    <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Situation Actuelle</label>
                     <div className="grid grid-cols-2 gap-3">
                       {Object.values(UserSituation).map((sit) => {
                         const Icon = {
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
                   variant="ghost" 
                   onClick={prev}
                   disabled={step === 0 || isSubmitting}
-                  className="font-mono text-xs uppercase tracking-widest"
+                  className="font-mono text-xs uppercase tracking-wider"
                 >
                   Retour
                 </Button>
@@ -291,7 +291,7 @@ export default function OnboardingPage() {
         </AnimatePresence>
 
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] bg-muted/30 px-3 py-1 rounded-full border border-border/50">
+          <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase bg-muted/30 px-3 py-1 rounded-full border border-border/50">
             <Sparkles className="w-3 h-3 text-primary" />
             Étape {step + 1} / {STEPS.length}
           </div>

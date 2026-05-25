@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logActivity } from "@/lib/activity-log";
 
 const onboardingSchema = z.object({
   country: z.string().min(1).max(100).optional(),
@@ -35,6 +36,15 @@ export async function PATCH(req: Request) {
         ...parsed.data,
         secondaryObjectives: parsed.data.secondaryObjectives || [],
       },
+    });
+
+    logActivity({
+      userId: session.user.id,
+      action: "ONBOARDING_COMPLETED",
+      entity: "user",
+      entityId: session.user.id,
+      metadata: { currentSituation: parsed.data.currentSituation, country: parsed.data.country },
+      request: req,
     });
 
     return NextResponse.json(updatedUser);

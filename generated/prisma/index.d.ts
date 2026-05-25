@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model ActivityLog
+ * 
+ */
+export type ActivityLog = $Result.DefaultSelection<Prisma.$ActivityLogPayload>
+/**
  * Model DailyCheckin
  * 
  */
@@ -214,6 +219,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.activityLog`: Exposes CRUD operations for the **ActivityLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActivityLogs
+    * const activityLogs = await prisma.activityLog.findMany()
+    * ```
+    */
+  get activityLog(): Prisma.ActivityLogDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.dailyCheckin`: Exposes CRUD operations for the **DailyCheckin** model.
@@ -779,6 +794,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    ActivityLog: 'ActivityLog',
     DailyCheckin: 'DailyCheckin',
     Mission: 'Mission',
     Guild: 'Guild',
@@ -807,7 +823,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback"
+      modelProps: "user" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -882,6 +898,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      ActivityLog: {
+        payload: Prisma.$ActivityLogPayload<ExtArgs>
+        fields: Prisma.ActivityLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivityLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivityLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivityLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivityLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          findMany: {
+            args: Prisma.ActivityLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          create: {
+            args: Prisma.ActivityLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          createMany: {
+            args: Prisma.ActivityLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivityLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivityLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          update: {
+            args: Prisma.ActivityLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivityLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivityLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActivityLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActivityLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityLogPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivityLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivityLog>
+          }
+          groupBy: {
+            args: Prisma.ActivityLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivityLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivityLogCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivityLogCountAggregateOutputType> | number
           }
         }
       }
@@ -1956,6 +2046,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    activityLog?: ActivityLogOmit
     dailyCheckin?: DailyCheckinOmit
     mission?: MissionOmit
     guild?: GuildOmit
@@ -2057,6 +2148,7 @@ export namespace Prisma {
     reviewsGiven: number
     notifications: number
     betaFeedbacks: number
+    activityLogs: number
     quizResults: number
     sessions: number
     mentees: number
@@ -2071,6 +2163,7 @@ export namespace Prisma {
     reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     betaFeedbacks?: boolean | UserCountOutputTypeCountBetaFeedbacksArgs
+    activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs
     quizResults?: boolean | UserCountOutputTypeCountQuizResultsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     mentees?: boolean | UserCountOutputTypeCountMenteesArgs
@@ -2141,6 +2234,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBetaFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BetaFeedbackWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityLogWhereInput
   }
 
   /**
@@ -2338,6 +2438,10 @@ export namespace Prisma {
     answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
+    cardSecretHash: string | null
+    cardSignature: string | null
+    cardIssuedAt: Date | null
+    cardTier: string | null
     city: string | null
     communityEngagement: number | null
     confidenceScore: number | null
@@ -2396,6 +2500,10 @@ export namespace Prisma {
     answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
+    cardSecretHash: string | null
+    cardSignature: string | null
+    cardIssuedAt: Date | null
+    cardTier: string | null
     city: string | null
     communityEngagement: number | null
     confidenceScore: number | null
@@ -2457,6 +2565,10 @@ export namespace Prisma {
     behavioralVibrancy: number
     builderScore: number
     catalystScore: number
+    cardSecretHash: number
+    cardSignature: number
+    cardIssuedAt: number
+    cardTier: number
     city: number
     cohortsJoined: number
     collaborativeProjects: number
@@ -2575,6 +2687,10 @@ export namespace Prisma {
     answerConsistency?: true
     builderScore?: true
     catalystScore?: true
+    cardSecretHash?: true
+    cardSignature?: true
+    cardIssuedAt?: true
+    cardTier?: true
     city?: true
     communityEngagement?: true
     confidenceScore?: true
@@ -2633,6 +2749,10 @@ export namespace Prisma {
     answerConsistency?: true
     builderScore?: true
     catalystScore?: true
+    cardSecretHash?: true
+    cardSignature?: true
+    cardIssuedAt?: true
+    cardTier?: true
     city?: true
     communityEngagement?: true
     confidenceScore?: true
@@ -2694,6 +2814,10 @@ export namespace Prisma {
     behavioralVibrancy?: true
     builderScore?: true
     catalystScore?: true
+    cardSecretHash?: true
+    cardSignature?: true
+    cardIssuedAt?: true
+    cardTier?: true
     city?: true
     cohortsJoined?: true
     collaborativeProjects?: true
@@ -2852,6 +2976,10 @@ export namespace Prisma {
     behavioralVibrancy: JsonValue | null
     builderScore: number
     catalystScore: number
+    cardSecretHash: string | null
+    cardSignature: string | null
+    cardIssuedAt: Date | null
+    cardTier: string | null
     city: string | null
     cohortsJoined: string[]
     collaborativeProjects: string[]
@@ -2942,6 +3070,10 @@ export namespace Prisma {
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
+    cardSecretHash?: boolean
+    cardSignature?: boolean
+    cardIssuedAt?: boolean
+    cardTier?: boolean
     city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
@@ -3000,6 +3132,7 @@ export namespace Prisma {
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     betaFeedbacks?: boolean | User$betaFeedbacksArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -3026,6 +3159,10 @@ export namespace Prisma {
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
+    cardSecretHash?: boolean
+    cardSignature?: boolean
+    cardIssuedAt?: boolean
+    cardTier?: boolean
     city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
@@ -3098,6 +3235,10 @@ export namespace Prisma {
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
+    cardSecretHash?: boolean
+    cardSignature?: boolean
+    cardIssuedAt?: boolean
+    cardTier?: boolean
     city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
@@ -3170,6 +3311,10 @@ export namespace Prisma {
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
+    cardSecretHash?: boolean
+    cardSignature?: boolean
+    cardIssuedAt?: boolean
+    cardTier?: boolean
     city?: boolean
     cohortsJoined?: boolean
     collaborativeProjects?: boolean
@@ -3222,7 +3367,7 @@ export namespace Prisma {
     reviewsCompleted?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSecretHash" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
@@ -3232,6 +3377,7 @@ export namespace Prisma {
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     betaFeedbacks?: boolean | User$betaFeedbacksArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
     quizResults?: boolean | User$quizResultsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
@@ -3256,6 +3402,7 @@ export namespace Prisma {
       reviewsGiven: Prisma.$MissionReviewPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       betaFeedbacks: Prisma.$BetaFeedbackPayload<ExtArgs>[]
+      activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
       quizResults: Prisma.$QuizResultPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       mentor: Prisma.$UserPayload<ExtArgs> | null
@@ -3280,6 +3427,10 @@ export namespace Prisma {
       behavioralVibrancy: Prisma.JsonValue | null
       builderScore: number
       catalystScore: number
+      cardSecretHash: string | null
+      cardSignature: string | null
+      cardIssuedAt: Date | null
+      cardTier: string | null
       city: string | null
       cohortsJoined: string[]
       collaborativeProjects: string[]
@@ -3732,6 +3883,7 @@ export namespace Prisma {
     reviewsGiven<T extends User$reviewsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MissionReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     betaFeedbacks<T extends User$betaFeedbacksArgs<ExtArgs> = {}>(args?: Subset<T, User$betaFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityLogs<T extends User$activityLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quizResults<T extends User$quizResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$quizResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3783,6 +3935,10 @@ export namespace Prisma {
     readonly behavioralVibrancy: FieldRef<"User", 'Json'>
     readonly builderScore: FieldRef<"User", 'Int'>
     readonly catalystScore: FieldRef<"User", 'Int'>
+    readonly cardSecretHash: FieldRef<"User", 'String'>
+    readonly cardSignature: FieldRef<"User", 'String'>
+    readonly cardIssuedAt: FieldRef<"User", 'DateTime'>
+    readonly cardTier: FieldRef<"User", 'String'>
     readonly city: FieldRef<"User", 'String'>
     readonly cohortsJoined: FieldRef<"User", 'String[]'>
     readonly collaborativeProjects: FieldRef<"User", 'String[]'>
@@ -4426,6 +4582,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.activityLogs
+   */
+  export type User$activityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    where?: ActivityLogWhereInput
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    cursor?: ActivityLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
    * User.quizResults
    */
   export type User$quizResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4532,6 +4712,1136 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ActivityLog
+   */
+
+  export type AggregateActivityLog = {
+    _count: ActivityLogCountAggregateOutputType | null
+    _min: ActivityLogMinAggregateOutputType | null
+    _max: ActivityLogMaxAggregateOutputType | null
+  }
+
+  export type ActivityLogMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    action: string | null
+    entity: string | null
+    entityId: string | null
+    ip: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type ActivityLogMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    action: string | null
+    entity: string | null
+    entityId: string | null
+    ip: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type ActivityLogCountAggregateOutputType = {
+    id: number
+    userId: number
+    action: number
+    entity: number
+    entityId: number
+    metadata: number
+    ip: number
+    userAgent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ActivityLogMinAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    entity?: true
+    entityId?: true
+    ip?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type ActivityLogMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    entity?: true
+    entityId?: true
+    ip?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type ActivityLogCountAggregateInputType = {
+    id?: true
+    userId?: true
+    action?: true
+    entity?: true
+    entityId?: true
+    metadata?: true
+    ip?: true
+    userAgent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ActivityLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityLog to aggregate.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActivityLogs
+    **/
+    _count?: true | ActivityLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivityLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivityLogMaxAggregateInputType
+  }
+
+  export type GetActivityLogAggregateType<T extends ActivityLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivityLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivityLog[P]>
+      : GetScalarType<T[P], AggregateActivityLog[P]>
+  }
+
+
+
+
+  export type ActivityLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityLogWhereInput
+    orderBy?: ActivityLogOrderByWithAggregationInput | ActivityLogOrderByWithAggregationInput[]
+    by: ActivityLogScalarFieldEnum[] | ActivityLogScalarFieldEnum
+    having?: ActivityLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivityLogCountAggregateInputType | true
+    _min?: ActivityLogMinAggregateInputType
+    _max?: ActivityLogMaxAggregateInputType
+  }
+
+  export type ActivityLogGroupByOutputType = {
+    id: string
+    userId: string | null
+    action: string
+    entity: string | null
+    entityId: string | null
+    metadata: JsonValue | null
+    ip: string | null
+    userAgent: string | null
+    createdAt: Date
+    _count: ActivityLogCountAggregateOutputType | null
+    _min: ActivityLogMinAggregateOutputType | null
+    _max: ActivityLogMaxAggregateOutputType | null
+  }
+
+  type GetActivityLogGroupByPayload<T extends ActivityLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivityLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivityLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivityLogGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivityLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivityLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    entity?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    entity?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    entity?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }, ExtArgs["result"]["activityLog"]>
+
+  export type ActivityLogSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    action?: boolean
+    entity?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    ip?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+  }
+
+  export type ActivityLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "action" | "entity" | "entityId" | "metadata" | "ip" | "userAgent" | "createdAt", ExtArgs["result"]["activityLog"]>
+  export type ActivityLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }
+  export type ActivityLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }
+  export type ActivityLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ActivityLog$userArgs<ExtArgs>
+  }
+
+  export type $ActivityLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActivityLog"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      action: string
+      entity: string | null
+      entityId: string | null
+      metadata: Prisma.JsonValue | null
+      ip: string | null
+      userAgent: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["activityLog"]>
+    composites: {}
+  }
+
+  type ActivityLogGetPayload<S extends boolean | null | undefined | ActivityLogDefaultArgs> = $Result.GetResult<Prisma.$ActivityLogPayload, S>
+
+  type ActivityLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActivityLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActivityLogCountAggregateInputType | true
+    }
+
+  export interface ActivityLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActivityLog'], meta: { name: 'ActivityLog' } }
+    /**
+     * Find zero or one ActivityLog that matches the filter.
+     * @param {ActivityLogFindUniqueArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivityLogFindUniqueArgs>(args: SelectSubset<T, ActivityLogFindUniqueArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ActivityLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActivityLogFindUniqueOrThrowArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivityLogFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivityLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindFirstArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivityLogFindFirstArgs>(args?: SelectSubset<T, ActivityLogFindFirstArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivityLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindFirstOrThrowArgs} args - Arguments to find a ActivityLog
+     * @example
+     * // Get one ActivityLog
+     * const activityLog = await prisma.activityLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivityLogFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivityLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ActivityLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActivityLogs
+     * const activityLogs = await prisma.activityLog.findMany()
+     * 
+     * // Get first 10 ActivityLogs
+     * const activityLogs = await prisma.activityLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivityLogFindManyArgs>(args?: SelectSubset<T, ActivityLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ActivityLog.
+     * @param {ActivityLogCreateArgs} args - Arguments to create a ActivityLog.
+     * @example
+     * // Create one ActivityLog
+     * const ActivityLog = await prisma.activityLog.create({
+     *   data: {
+     *     // ... data to create a ActivityLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivityLogCreateArgs>(args: SelectSubset<T, ActivityLogCreateArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ActivityLogs.
+     * @param {ActivityLogCreateManyArgs} args - Arguments to create many ActivityLogs.
+     * @example
+     * // Create many ActivityLogs
+     * const activityLog = await prisma.activityLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivityLogCreateManyArgs>(args?: SelectSubset<T, ActivityLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActivityLogs and returns the data saved in the database.
+     * @param {ActivityLogCreateManyAndReturnArgs} args - Arguments to create many ActivityLogs.
+     * @example
+     * // Create many ActivityLogs
+     * const activityLog = await prisma.activityLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActivityLogs and only return the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivityLogCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivityLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ActivityLog.
+     * @param {ActivityLogDeleteArgs} args - Arguments to delete one ActivityLog.
+     * @example
+     * // Delete one ActivityLog
+     * const ActivityLog = await prisma.activityLog.delete({
+     *   where: {
+     *     // ... filter to delete one ActivityLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivityLogDeleteArgs>(args: SelectSubset<T, ActivityLogDeleteArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ActivityLog.
+     * @param {ActivityLogUpdateArgs} args - Arguments to update one ActivityLog.
+     * @example
+     * // Update one ActivityLog
+     * const activityLog = await prisma.activityLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivityLogUpdateArgs>(args: SelectSubset<T, ActivityLogUpdateArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ActivityLogs.
+     * @param {ActivityLogDeleteManyArgs} args - Arguments to filter ActivityLogs to delete.
+     * @example
+     * // Delete a few ActivityLogs
+     * const { count } = await prisma.activityLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivityLogDeleteManyArgs>(args?: SelectSubset<T, ActivityLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActivityLogs
+     * const activityLog = await prisma.activityLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivityLogUpdateManyArgs>(args: SelectSubset<T, ActivityLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivityLogs and returns the data updated in the database.
+     * @param {ActivityLogUpdateManyAndReturnArgs} args - Arguments to update many ActivityLogs.
+     * @example
+     * // Update many ActivityLogs
+     * const activityLog = await prisma.activityLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ActivityLogs and only return the `id`
+     * const activityLogWithIdOnly = await prisma.activityLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActivityLogUpdateManyAndReturnArgs>(args: SelectSubset<T, ActivityLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ActivityLog.
+     * @param {ActivityLogUpsertArgs} args - Arguments to update or create a ActivityLog.
+     * @example
+     * // Update or create a ActivityLog
+     * const activityLog = await prisma.activityLog.upsert({
+     *   create: {
+     *     // ... data to create a ActivityLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActivityLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivityLogUpsertArgs>(args: SelectSubset<T, ActivityLogUpsertArgs<ExtArgs>>): Prisma__ActivityLogClient<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ActivityLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogCountArgs} args - Arguments to filter ActivityLogs to count.
+     * @example
+     * // Count the number of ActivityLogs
+     * const count = await prisma.activityLog.count({
+     *   where: {
+     *     // ... the filter for the ActivityLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivityLogCountArgs>(
+      args?: Subset<T, ActivityLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivityLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActivityLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivityLogAggregateArgs>(args: Subset<T, ActivityLogAggregateArgs>): Prisma.PrismaPromise<GetActivityLogAggregateType<T>>
+
+    /**
+     * Group by ActivityLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivityLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivityLogGroupByArgs['orderBy'] }
+        : { orderBy?: ActivityLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivityLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivityLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActivityLog model
+   */
+  readonly fields: ActivityLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActivityLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivityLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends ActivityLog$userArgs<ExtArgs> = {}>(args?: Subset<T, ActivityLog$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActivityLog model
+   */
+  interface ActivityLogFieldRefs {
+    readonly id: FieldRef<"ActivityLog", 'String'>
+    readonly userId: FieldRef<"ActivityLog", 'String'>
+    readonly action: FieldRef<"ActivityLog", 'String'>
+    readonly entity: FieldRef<"ActivityLog", 'String'>
+    readonly entityId: FieldRef<"ActivityLog", 'String'>
+    readonly metadata: FieldRef<"ActivityLog", 'Json'>
+    readonly ip: FieldRef<"ActivityLog", 'String'>
+    readonly userAgent: FieldRef<"ActivityLog", 'String'>
+    readonly createdAt: FieldRef<"ActivityLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActivityLog findUnique
+   */
+  export type ActivityLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog findUniqueOrThrow
+   */
+  export type ActivityLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog findFirst
+   */
+  export type ActivityLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityLogs.
+     */
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog findFirstOrThrow
+   */
+  export type ActivityLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLog to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityLogs.
+     */
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog findMany
+   */
+  export type ActivityLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivityLogs to fetch.
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivityLogs to fetch.
+     */
+    orderBy?: ActivityLogOrderByWithRelationInput | ActivityLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActivityLogs.
+     */
+    cursor?: ActivityLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivityLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivityLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivityLogs.
+     */
+    distinct?: ActivityLogScalarFieldEnum | ActivityLogScalarFieldEnum[]
+  }
+
+  /**
+   * ActivityLog create
+   */
+  export type ActivityLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ActivityLog.
+     */
+    data: XOR<ActivityLogCreateInput, ActivityLogUncheckedCreateInput>
+  }
+
+  /**
+   * ActivityLog createMany
+   */
+  export type ActivityLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActivityLogs.
+     */
+    data: ActivityLogCreateManyInput | ActivityLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivityLog createManyAndReturn
+   */
+  export type ActivityLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many ActivityLogs.
+     */
+    data: ActivityLogCreateManyInput | ActivityLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivityLog update
+   */
+  export type ActivityLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ActivityLog.
+     */
+    data: XOR<ActivityLogUpdateInput, ActivityLogUncheckedUpdateInput>
+    /**
+     * Choose, which ActivityLog to update.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog updateMany
+   */
+  export type ActivityLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActivityLogs.
+     */
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityLogs to update
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityLog updateManyAndReturn
+   */
+  export type ActivityLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * The data used to update ActivityLogs.
+     */
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivityLogs to update
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivityLog upsert
+   */
+  export type ActivityLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ActivityLog to update in case it exists.
+     */
+    where: ActivityLogWhereUniqueInput
+    /**
+     * In case the ActivityLog found by the `where` argument doesn't exist, create a new ActivityLog with this data.
+     */
+    create: XOR<ActivityLogCreateInput, ActivityLogUncheckedCreateInput>
+    /**
+     * In case the ActivityLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivityLogUpdateInput, ActivityLogUncheckedUpdateInput>
+  }
+
+  /**
+   * ActivityLog delete
+   */
+  export type ActivityLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
+    /**
+     * Filter which ActivityLog to delete.
+     */
+    where: ActivityLogWhereUniqueInput
+  }
+
+  /**
+   * ActivityLog deleteMany
+   */
+  export type ActivityLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivityLogs to delete
+     */
+    where?: ActivityLogWhereInput
+    /**
+     * Limit how many ActivityLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivityLog.user
+   */
+  export type ActivityLog$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ActivityLog without action
+   */
+  export type ActivityLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityLog
+     */
+    select?: ActivityLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivityLog
+     */
+    omit?: ActivityLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityLogInclude<ExtArgs> | null
   }
 
 
@@ -19451,6 +20761,10 @@ export namespace Prisma {
     behavioralVibrancy: 'behavioralVibrancy',
     builderScore: 'builderScore',
     catalystScore: 'catalystScore',
+    cardSecretHash: 'cardSecretHash',
+    cardSignature: 'cardSignature',
+    cardIssuedAt: 'cardIssuedAt',
+    cardTier: 'cardTier',
     city: 'city',
     cohortsJoined: 'cohortsJoined',
     collaborativeProjects: 'collaborativeProjects',
@@ -19504,6 +20818,21 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const ActivityLogScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    action: 'action',
+    entity: 'entity',
+    entityId: 'entityId',
+    metadata: 'metadata',
+    ip: 'ip',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt'
+  };
+
+  export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
 
 
   export const DailyCheckinScalarFieldEnum: {
@@ -19872,6 +21201,10 @@ export namespace Prisma {
     behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
+    cardSecretHash?: StringNullableFilter<"User"> | string | null
+    cardSignature?: StringNullableFilter<"User"> | string | null
+    cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
@@ -19930,6 +21263,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewListRelationFilter
     notifications?: NotificationListRelationFilter
     betaFeedbacks?: BetaFeedbackListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
     quizResults?: QuizResultListRelationFilter
     sessions?: SessionListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -19955,6 +21289,10 @@ export namespace Prisma {
     behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
+    cardSecretHash?: SortOrderInput | SortOrder
+    cardSignature?: SortOrderInput | SortOrder
+    cardIssuedAt?: SortOrderInput | SortOrder
+    cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
@@ -20013,6 +21351,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     betaFeedbacks?: BetaFeedbackOrderByRelationAggregateInput
+    activityLogs?: ActivityLogOrderByRelationAggregateInput
     quizResults?: QuizResultOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     mentor?: UserOrderByWithRelationInput
@@ -20022,6 +21361,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    cardSignature?: string
     pseudo?: string
     memberNumber?: number
     AND?: UserWhereInput | UserWhereInput[]
@@ -20043,6 +21383,9 @@ export namespace Prisma {
     behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
+    cardSecretHash?: StringNullableFilter<"User"> | string | null
+    cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
@@ -20099,11 +21442,12 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewListRelationFilter
     notifications?: NotificationListRelationFilter
     betaFeedbacks?: BetaFeedbackListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
     quizResults?: QuizResultListRelationFilter
     sessions?: SessionListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
-  }, "id" | "email" | "pseudo" | "memberNumber">
+  }, "id" | "email" | "cardSignature" | "pseudo" | "memberNumber">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20124,6 +21468,10 @@ export namespace Prisma {
     behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
+    cardSecretHash?: SortOrderInput | SortOrder
+    cardSignature?: SortOrderInput | SortOrder
+    cardIssuedAt?: SortOrderInput | SortOrder
+    cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
@@ -20203,6 +21551,10 @@ export namespace Prisma {
     behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
     builderScore?: IntWithAggregatesFilter<"User"> | number
     catalystScore?: IntWithAggregatesFilter<"User"> | number
+    cardSecretHash?: StringNullableWithAggregatesFilter<"User"> | string | null
+    cardSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
+    cardIssuedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    cardTier?: StringNullableWithAggregatesFilter<"User"> | string | null
     city?: StringNullableWithAggregatesFilter<"User"> | string | null
     cohortsJoined?: StringNullableListFilter<"User">
     collaborativeProjects?: StringNullableListFilter<"User">
@@ -20253,6 +21605,81 @@ export namespace Prisma {
     banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     canReviewProfiles?: StringNullableListFilter<"User">
     reviewsCompleted?: IntWithAggregatesFilter<"User"> | number
+  }
+
+  export type ActivityLogWhereInput = {
+    AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    OR?: ActivityLogWhereInput[]
+    NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    id?: StringFilter<"ActivityLog"> | string
+    userId?: StringNullableFilter<"ActivityLog"> | string | null
+    action?: StringFilter<"ActivityLog"> | string
+    entity?: StringNullableFilter<"ActivityLog"> | string | null
+    entityId?: StringNullableFilter<"ActivityLog"> | string | null
+    metadata?: JsonNullableFilter<"ActivityLog">
+    ip?: StringNullableFilter<"ActivityLog"> | string | null
+    userAgent?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type ActivityLogOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    entity?: SortOrderInput | SortOrder
+    entityId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    OR?: ActivityLogWhereInput[]
+    NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
+    userId?: StringNullableFilter<"ActivityLog"> | string | null
+    action?: StringFilter<"ActivityLog"> | string
+    entity?: StringNullableFilter<"ActivityLog"> | string | null
+    entityId?: StringNullableFilter<"ActivityLog"> | string | null
+    metadata?: JsonNullableFilter<"ActivityLog">
+    ip?: StringNullableFilter<"ActivityLog"> | string | null
+    userAgent?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type ActivityLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    action?: SortOrder
+    entity?: SortOrderInput | SortOrder
+    entityId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ActivityLogCountOrderByAggregateInput
+    _max?: ActivityLogMaxOrderByAggregateInput
+    _min?: ActivityLogMinOrderByAggregateInput
+  }
+
+  export type ActivityLogScalarWhereWithAggregatesInput = {
+    AND?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
+    OR?: ActivityLogScalarWhereWithAggregatesInput[]
+    NOT?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ActivityLog"> | string
+    userId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    action?: StringWithAggregatesFilter<"ActivityLog"> | string
+    entity?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    entityId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"ActivityLog">
+    ip?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ActivityLog"> | Date | string
   }
 
   export type DailyCheckinWhereInput = {
@@ -21353,6 +22780,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -21410,6 +22841,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -21435,6 +22867,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -21493,6 +22929,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -21517,6 +22954,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -21573,6 +23014,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -21598,6 +23040,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -21656,6 +23102,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -21680,6 +23127,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -21751,6 +23202,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -21820,6 +23275,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -21870,6 +23329,89 @@ export namespace Prisma {
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
     reviewsCompleted?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivityLogCreateInput = {
+    id?: string
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutActivityLogsInput
+  }
+
+  export type ActivityLogUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutActivityLogsNestedInput
+  }
+
+  export type ActivityLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogCreateManyInput = {
+    id?: string
+    userId?: string | null
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DailyCheckinCreateInput = {
@@ -23174,17 +24716,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -23194,6 +24725,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -23254,6 +24796,12 @@ export namespace Prisma {
     none?: BetaFeedbackWhereInput
   }
 
+  export type ActivityLogListRelationFilter = {
+    every?: ActivityLogWhereInput
+    some?: ActivityLogWhereInput
+    none?: ActivityLogWhereInput
+  }
+
   export type QuizResultListRelationFilter = {
     every?: QuizResultWhereInput
     some?: QuizResultWhereInput
@@ -23310,6 +24858,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ActivityLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type QuizResultOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -23341,6 +24893,10 @@ export namespace Prisma {
     behavioralVibrancy?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
+    cardSecretHash?: SortOrder
+    cardSignature?: SortOrder
+    cardIssuedAt?: SortOrder
+    cardTier?: SortOrder
     city?: SortOrder
     cohortsJoined?: SortOrder
     collaborativeProjects?: SortOrder
@@ -23433,6 +24989,10 @@ export namespace Prisma {
     answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
+    cardSecretHash?: SortOrder
+    cardSignature?: SortOrder
+    cardIssuedAt?: SortOrder
+    cardTier?: SortOrder
     city?: SortOrder
     communityEngagement?: SortOrder
     confidenceScore?: SortOrder
@@ -23491,6 +25051,10 @@ export namespace Prisma {
     answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
+    cardSecretHash?: SortOrder
+    cardSignature?: SortOrder
+    cardIssuedAt?: SortOrder
+    cardTier?: SortOrder
     city?: SortOrder
     communityEngagement?: SortOrder
     confidenceScore?: SortOrder
@@ -23673,6 +25237,20 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -23687,20 +25265,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -23725,6 +25289,40 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type ActivityLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    metadata?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActivityLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    action?: SortOrder
+    entity?: SortOrder
+    entityId?: SortOrder
+    ip?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserScalarRelationFilter = {
@@ -24487,6 +26085,13 @@ export namespace Prisma {
     connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
   }
 
+  export type ActivityLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+  }
+
   export type QuizResultCreateNestedManyWithoutUserInput = {
     create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
@@ -24570,6 +26175,13 @@ export namespace Prisma {
     connect?: BetaFeedbackWhereUniqueInput | BetaFeedbackWhereUniqueInput[]
   }
 
+  export type ActivityLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+  }
+
   export type QuizResultUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
@@ -24633,6 +26245,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type UserUpdatecohortsJoinedInput = {
     set?: string[]
     push?: string | string[]
@@ -24654,10 +26270,6 @@ export namespace Prisma {
   export type UserUpdatedomainsInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -24817,6 +26429,20 @@ export namespace Prisma {
     update?: BetaFeedbackUpdateWithWhereUniqueWithoutUserInput | BetaFeedbackUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: BetaFeedbackUpdateManyWithWhereWithoutUserInput | BetaFeedbackUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
+  }
+
+  export type ActivityLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutUserInput | ActivityLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutUserInput | ActivityLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutUserInput | ActivityLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
   }
 
   export type QuizResultUpdateManyWithoutUserNestedInput = {
@@ -24983,6 +26609,20 @@ export namespace Prisma {
     deleteMany?: BetaFeedbackScalarWhereInput | BetaFeedbackScalarWhereInput[]
   }
 
+  export type ActivityLogUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput> | ActivityLogCreateWithoutUserInput[] | ActivityLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityLogCreateOrConnectWithoutUserInput | ActivityLogCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityLogUpsertWithWhereUniqueWithoutUserInput | ActivityLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityLogCreateManyUserInputEnvelope
+    set?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    disconnect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    delete?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    connect?: ActivityLogWhereUniqueInput | ActivityLogWhereUniqueInput[]
+    update?: ActivityLogUpdateWithWhereUniqueWithoutUserInput | ActivityLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityLogUpdateManyWithWhereWithoutUserInput | ActivityLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+  }
+
   export type QuizResultUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<QuizResultCreateWithoutUserInput, QuizResultUncheckedCreateWithoutUserInput> | QuizResultCreateWithoutUserInput[] | QuizResultUncheckedCreateWithoutUserInput[]
     connectOrCreate?: QuizResultCreateOrConnectWithoutUserInput | QuizResultCreateOrConnectWithoutUserInput[]
@@ -25023,6 +26663,22 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
     updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutActivityLogsInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutActivityLogsNestedInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
+    upsert?: UserUpsertWithoutActivityLogsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityLogsInput, UserUpdateWithoutActivityLogsInput>, UserUncheckedUpdateWithoutActivityLogsInput>
   }
 
   export type UserCreateNestedOneWithoutDailyCheckinsInput = {
@@ -25430,17 +27086,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -25450,6 +27095,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -25579,6 +27235,20 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -25593,20 +27263,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -25948,6 +27604,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityLogCreateWithoutUserInput = {
+    id?: string
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ActivityLogCreateOrConnectWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    create: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityLogCreateManyUserInputEnvelope = {
+    data: ActivityLogCreateManyUserInput | ActivityLogCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type QuizResultCreateWithoutUserInput = {
     id?: string
     profileType: string
@@ -26029,6 +27717,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -26086,6 +27778,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -26110,6 +27803,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -26168,6 +27865,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -26196,6 +27894,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -26253,6 +27955,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -26277,6 +27980,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -26334,6 +28041,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -26587,6 +28295,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
   }
 
+  export type ActivityLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    update: XOR<ActivityLogUpdateWithoutUserInput, ActivityLogUncheckedUpdateWithoutUserInput>
+    create: XOR<ActivityLogCreateWithoutUserInput, ActivityLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: ActivityLogWhereUniqueInput
+    data: XOR<ActivityLogUpdateWithoutUserInput, ActivityLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ActivityLogUpdateManyWithWhereWithoutUserInput = {
+    where: ActivityLogScalarWhereInput
+    data: XOR<ActivityLogUpdateManyMutationInput, ActivityLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ActivityLogScalarWhereInput = {
+    AND?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+    OR?: ActivityLogScalarWhereInput[]
+    NOT?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
+    id?: StringFilter<"ActivityLog"> | string
+    userId?: StringNullableFilter<"ActivityLog"> | string | null
+    action?: StringFilter<"ActivityLog"> | string
+    entity?: StringNullableFilter<"ActivityLog"> | string | null
+    entityId?: StringNullableFilter<"ActivityLog"> | string | null
+    metadata?: JsonNullableFilter<"ActivityLog">
+    ip?: StringNullableFilter<"ActivityLog"> | string | null
+    userAgent?: StringNullableFilter<"ActivityLog"> | string | null
+    createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
+  }
+
   export type QuizResultUpsertWithWhereUniqueWithoutUserInput = {
     where: QuizResultWhereUniqueInput
     update: XOR<QuizResultUpdateWithoutUserInput, QuizResultUncheckedUpdateWithoutUserInput>
@@ -26678,6 +28417,463 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMenteesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutMentorInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    emailVerified?: BoolFilter<"User"> | boolean
+    image?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    level?: IntFilter<"User"> | number
+    experience?: IntFilter<"User"> | number
+    class?: StringNullableFilter<"User"> | string | null
+    role?: StringFilter<"User"> | string
+    activePaths?: StringNullableListFilter<"User">
+    ageRange?: StringNullableFilter<"User"> | string | null
+    answerConsistency?: FloatNullableFilter<"User"> | number | null
+    badges?: StringNullableListFilter<"User">
+    behavioralVibrancy?: JsonNullableFilter<"User">
+    builderScore?: IntFilter<"User"> | number
+    catalystScore?: IntFilter<"User"> | number
+    cardSecretHash?: StringNullableFilter<"User"> | string | null
+    cardSignature?: StringNullableFilter<"User"> | string | null
+    cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    cardTier?: StringNullableFilter<"User"> | string | null
+    city?: StringNullableFilter<"User"> | string | null
+    cohortsJoined?: StringNullableListFilter<"User">
+    collaborativeProjects?: StringNullableListFilter<"User">
+    communityEngagement?: FloatNullableFilter<"User"> | number | null
+    confidenceScore?: FloatFilter<"User"> | number
+    connectionFrequency?: FloatNullableFilter<"User"> | number | null
+    country?: StringNullableFilter<"User"> | string | null
+    creatorScore?: IntFilter<"User"> | number
+    currentSituation?: StringNullableFilter<"User"> | string | null
+    dashboardActivity?: FloatNullableFilter<"User"> | number | null
+    domains?: StringNullableListFilter<"User">
+    dominantMotivation?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    language?: StringFilter<"User"> | string
+    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
+    longTermObjective?: StringNullableFilter<"User"> | string | null
+    mainObjective?: StringNullableFilter<"User"> | string | null
+    mentorId?: StringNullableFilter<"User"> | string | null
+    missionsCompletedCount?: IntFilter<"User"> | number
+    onboardingSpeed?: IntNullableFilter<"User"> | number | null
+    polarization?: FloatFilter<"User"> | number
+    portfolioUrl?: StringNullableFilter<"User"> | string | null
+    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
+    preferredRhythm?: StringNullableFilter<"User"> | string | null
+    profileDrift?: FloatFilter<"User"> | number
+    profileStability?: FloatFilter<"User"> | number
+    projectsRealized?: StringNullableListFilter<"User">
+    pseudo?: StringNullableFilter<"User"> | string | null
+    recommendedPath?: StringNullableListFilter<"User">
+    recommendedTools?: StringNullableListFilter<"User">
+    strategistScore?: IntFilter<"User"> | number
+    technicalLevel?: StringNullableFilter<"User"> | string | null
+    tools?: StringNullableListFilter<"User">
+    secondaryObjectives?: StringNullableListFilter<"User">
+    bio?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    memberNumber?: IntFilter<"User"> | number
+    twitterUrl?: StringNullableFilter<"User"> | string | null
+    currentFocus?: StringNullableListFilter<"User">
+    dreamStatement?: StringNullableFilter<"User"> | string | null
+    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    currentStreak?: IntFilter<"User"> | number
+    longestStreak?: IntFilter<"User"> | number
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    mainBlocker?: StringNullableFilter<"User"> | string | null
+    banned?: BoolNullableFilter<"User"> | boolean | null
+    banReason?: StringNullableFilter<"User"> | string | null
+    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
+    canReviewProfiles?: StringNullableListFilter<"User">
+    reviewsCompleted?: IntFilter<"User"> | number
+  }
+
+  export type UserCreateWithoutActivityLogsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserUncheckedCreateWithoutActivityLogsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    mentorId?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserCreateOrConnectWithoutActivityLogsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+  }
+
+  export type UserUpsertWithoutActivityLogsInput = {
+    update: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
+  }
+
+  export type UserUpdateWithoutActivityLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -26737,9 +28933,10 @@ export namespace Prisma {
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutMenteesInput = {
+  export type UserUncheckedUpdateWithoutActivityLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -26758,6 +28955,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -26818,96 +29019,7 @@ export namespace Prisma {
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
-    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
-  }
-
-  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
-  }
-
-  export type UserUpdateManyWithWhereWithoutMentorInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
-  }
-
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    emailVerified?: BoolFilter<"User"> | boolean
-    image?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    level?: IntFilter<"User"> | number
-    experience?: IntFilter<"User"> | number
-    class?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
-    activePaths?: StringNullableListFilter<"User">
-    ageRange?: StringNullableFilter<"User"> | string | null
-    answerConsistency?: FloatNullableFilter<"User"> | number | null
-    badges?: StringNullableListFilter<"User">
-    behavioralVibrancy?: JsonNullableFilter<"User">
-    builderScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
-    city?: StringNullableFilter<"User"> | string | null
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
-    confidenceScore?: FloatFilter<"User"> | number
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
-    country?: StringNullableFilter<"User"> | string | null
-    creatorScore?: IntFilter<"User"> | number
-    currentSituation?: StringNullableFilter<"User"> | string | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
-    domains?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
-    githubUrl?: StringNullableFilter<"User"> | string | null
-    language?: StringFilter<"User"> | string
-    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
-    mainObjective?: StringNullableFilter<"User"> | string | null
-    mentorId?: StringNullableFilter<"User"> | string | null
-    missionsCompletedCount?: IntFilter<"User"> | number
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
-    polarization?: FloatFilter<"User"> | number
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    profileDrift?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
-    projectsRealized?: StringNullableListFilter<"User">
-    pseudo?: StringNullableFilter<"User"> | string | null
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
-    strategistScore?: IntFilter<"User"> | number
-    technicalLevel?: StringNullableFilter<"User"> | string | null
-    tools?: StringNullableListFilter<"User">
-    secondaryObjectives?: StringNullableListFilter<"User">
-    bio?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    memberNumber?: IntFilter<"User"> | number
-    twitterUrl?: StringNullableFilter<"User"> | string | null
-    currentFocus?: StringNullableListFilter<"User">
-    dreamStatement?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    mainBlocker?: StringNullableFilter<"User"> | string | null
-    banned?: BoolNullableFilter<"User"> | boolean | null
-    banReason?: StringNullableFilter<"User"> | string | null
-    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
-    canReviewProfiles?: StringNullableListFilter<"User">
-    reviewsCompleted?: IntFilter<"User"> | number
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutDailyCheckinsInput = {
@@ -26929,6 +29041,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -26985,6 +29101,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -27010,6 +29127,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -27067,6 +29188,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -27107,6 +29229,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -27162,6 +29288,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -27187,6 +29314,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -27244,6 +29375,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -27413,6 +29545,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -27469,6 +29605,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -27494,6 +29631,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -27551,6 +29692,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -27630,6 +29772,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -27685,6 +29831,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -27710,6 +29857,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -27767,6 +29918,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -27791,6 +29943,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -27848,6 +30004,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -27872,6 +30029,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -27930,6 +30091,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
@@ -27969,6 +30131,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28025,6 +30191,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -28049,6 +30216,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28107,6 +30278,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
@@ -28130,6 +30302,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -28186,6 +30362,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -28211,6 +30388,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -28268,6 +30449,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -28308,6 +30490,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28363,6 +30549,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -28388,6 +30575,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28445,6 +30636,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -28469,6 +30661,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -28526,6 +30722,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
@@ -28550,6 +30747,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -28608,6 +30809,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
@@ -28647,6 +30849,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28703,6 +30909,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -28727,6 +30934,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -28785,6 +30996,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
@@ -28867,6 +31079,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -28923,6 +31139,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -28948,6 +31165,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -29005,6 +31226,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -29034,6 +31256,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -29090,6 +31316,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -29115,6 +31342,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -29172,6 +31403,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -29307,6 +31539,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -29362,6 +31598,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -29387,6 +31624,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -29444,6 +31685,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -29479,6 +31721,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -29534,6 +31780,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -29559,6 +31806,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -29616,6 +31867,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -29707,6 +31959,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -29763,6 +32019,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -29788,6 +32045,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -29845,6 +32106,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -29942,6 +32204,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -29997,6 +32263,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -30022,6 +32289,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -30079,6 +32350,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -30103,6 +32375,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -30159,6 +32435,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -30184,6 +32461,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -30241,6 +32522,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -30281,6 +32563,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -30336,6 +32622,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -30361,6 +32648,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -30418,6 +32709,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -30442,6 +32734,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -30498,6 +32794,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
     quizResults?: QuizResultCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
@@ -30523,6 +32820,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -30580,6 +32881,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
     reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
@@ -30620,6 +32922,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -30675,6 +32981,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
@@ -30700,6 +33007,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -30757,6 +33068,7 @@ export namespace Prisma {
     submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -30866,6 +33178,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ActivityLogCreateManyUserInput = {
+    id?: string
+    action: string
+    entity?: string | null
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
   export type QuizResultCreateManyUserInput = {
     id?: string
     profileType: string
@@ -30906,6 +33229,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
     city?: string | null
     cohortsJoined?: UserCreatecohortsJoinedInput | string[]
     collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
@@ -31273,6 +33600,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ActivityLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entity?: NullableStringFieldUpdateOperationsInput | string | null
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type QuizResultUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     profileType?: StringFieldUpdateOperationsInput | string
@@ -31355,6 +33715,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -31411,6 +33775,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
@@ -31435,6 +33800,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
@@ -31492,6 +33861,7 @@ export namespace Prisma {
     reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
@@ -31516,6 +33886,10 @@ export namespace Prisma {
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
     collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]

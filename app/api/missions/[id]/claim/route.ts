@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
+import { logActivity } from "@/lib/activity-log";
 
 export async function POST(
   _req: Request,
@@ -51,6 +52,15 @@ export async function POST(
     const updated = await prisma.missionSubmission.update({
       where: { id: submissionId },
       data: { status: "IN_REVIEW", reviewerId: reviewer.id, reviewerType: "PEER" },
+    });
+
+    logActivity({
+      userId: reviewer.id,
+      action: "MISSION_CLAIMED",
+      entity: "mission_submission",
+      entityId: submissionId,
+      metadata: { missionId: submission.missionId, missionTitle: submission.mission.title },
+      request: _req,
     });
 
     return NextResponse.json({ success: true, submission: updated });

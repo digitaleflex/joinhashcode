@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | HASHCODE",
   },
   description:
-    "HASHCODE est une plateforme de profilage qui détecte ton profil, t'oriente vers la bonne communauté et t'accompagne dans ton parcours technologique.",
+    "HASHCODE est un accélérateur de carrière qui décode ton potentiel, t'oriente vers la communauté d'élite adaptée à tes forces et t'accompagne dans ton parcours technologique.",
   keywords: ["tech", "communauté", "formation", "développement", "afrique", "talents", "hashcode"],
   authors: [{ name: "HASHCODE Team" }],
   creator: "HASHCODE",

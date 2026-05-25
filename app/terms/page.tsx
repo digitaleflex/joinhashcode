@@ -12,7 +12,7 @@ export default function TermsPage() {
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-6 sm:mb-8">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary text-glow">
+            <span className="font-mono text-[11px] uppercase text-primary text-glow">
               Service_Protocol_v1.0
             </span>
           </div>
@@ -28,7 +28,7 @@ export default function TermsPage() {
                 Acceptation du Protocole
               </h2>
               <p className="leading-relaxed">
-                En accédant à HASHCODE, vous acceptez de vous soumettre à nos règles de fonctionnement. La plateforme est un environnement d'apprentissage et de validation technique. Tout comportement visant à fausser les résultats du profilage (automatisation, scripts de triche) entraînera une suspension immédiate.
+                En accédant à HASHCODE, vous acceptez de vous soumettre à nos règles de fonctionnement. La plateforme est un environnement d'apprentissage et de validation technique. Tout comportement visant à fausser les résultats de l'évaluation (automatisation, scripts de triche) entraînera une suspension immédiate.
               </p>
             </section>
 
@@ -48,7 +48,7 @@ export default function TermsPage() {
                 Propriété Intellectuelle
               </h2>
               <p className="leading-relaxed">
-                Le code que vous soumettez lors des missions reste votre propriété. HASHCODE détient la propriété exclusive des algorithmes de profilage, des designs de l'interface et du concept de "Confidence Score".
+                Le code que vous soumettez lors des missions reste votre propriété. HASHCODE détient la propriété exclusive des algorithmes d'évaluation, des designs de l'interface et du concept de "Confidence Score".
               </p>
             </section>
 

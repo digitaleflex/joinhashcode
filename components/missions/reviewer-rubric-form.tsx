@@ -74,7 +74,7 @@ export function ReviewerRubricForm({ submissionId, missionCategory, missionXp }:
       }
       <span className="text-sm leading-relaxed">{criterion.label}</span>
       {criterion.weight === "BONUS" && (
-        <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-widest shrink-0 mt-0.5">bonus</span>
+        <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-wider shrink-0 mt-0.5">bonus</span>
       )}
     </button>
   )
@@ -82,25 +82,25 @@ export function ReviewerRubricForm({ submissionId, missionCategory, missionXp }:
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-3">
-        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Critères requis</p>
+        <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Critères requis</p>
         {required.map(c => <CriterionRow key={c.id} criterion={c} />)}
       </div>
 
       {bonus.length > 0 && (
         <div className="space-y-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Critères bonus</p>
+          <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Critères bonus</p>
           {bonus.map(c => <CriterionRow key={c.id} criterion={c} />)}
         </div>
       )}
 
       {suggestedQuality && (
-        <div className="p-3 rounded-xl bg-primary/5 border border-primary/20 text-xs font-mono text-primary text-center uppercase tracking-widest">
+        <div className="p-3 rounded-xl bg-primary/5 border border-primary/20 text-xs font-mono text-primary text-center uppercase tracking-wider">
           Niveau suggéré : {suggestedQuality} · +{Math.round(missionXp * (suggestedQuality === "EXEMPLARY" ? 1.5 : suggestedQuality === "GOOD" ? 1.25 : 1))} XP
         </div>
       )}
 
       <div className="space-y-2">
-        <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+        <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
           Feedback pour le membre {!allRequiredPassed && <span className="text-amber-400">(explique ce qui manque)</span>}
         </label>
         <Textarea

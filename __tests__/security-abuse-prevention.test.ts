@@ -59,6 +59,14 @@ describe("Security & Abuse Prevention", () => {
     test("strips HTML from note", async () => {
       (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
       (prisma.dailyCheckin.findFirst as any).mockResolvedValue(null);
+      (prisma.user.findUnique as any).mockResolvedValue({
+        id: "user-1",
+        lastCheckinAt: null,
+        currentStreak: 0,
+        longestStreak: 0,
+        lastStreakDate: null,
+        guildMembers: [],
+      });
       (prisma.dailyCheckin.create as any).mockResolvedValue({ id: "checkin-2" });
 
       const req = new NextRequest("http://localhost/api/user/checkin", {
@@ -97,7 +105,7 @@ describe("Security & Abuse Prevention", () => {
       const res = await updatePATCH(req);
       expect(res.status).toBe(429);
       const text = await res.text();
-      expect(text).toContain("Doucement ! Tu as mis à jour ton profil il y a moins d'une minute.");
+      expect(text).toContain("Doucement, bâtisseur ! Laisse ton terminal souffler une minute");
     });
 
     test("strips HTML from pseudo and bio", async () => {

@@ -34,13 +34,23 @@
   --ring: oklch(0.91 0.22 124);
 
   /* Fluid Typography - Industry Standard Scales */
-  --h1-size: clamp(2rem, 8vw, 4.5rem);
-  --h2-size: clamp(1.5rem, 6vw, 3rem);
-  --h3-size: clamp(1.25rem, 4vw, 2.25rem);
-  --body-lg: clamp(1rem, 2vw, 1.25rem);
+  --h1-size: clamp(1.75rem, 6vw, 3.5rem);
+  --h2-size: clamp(1.35rem, 4.5vw, 2.5rem);
+  --h3-size: clamp(1.15rem, 3vw, 1.85rem);
+  --body-lg: clamp(0.95rem, 1.5vw, 1.15rem);
 
   --radius: 0.75rem;
   --bottom-nav-height: 5rem;
+
+  /* Sidebar configuration */
+  --sidebar: oklch(0.08 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.91 0.22 124);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.91 0.22 124 / 0.15);
+  --sidebar-accent-foreground: oklch(0.91 0.22 124);
+  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-ring: oklch(0.91 0.22 124);
 }
 
 .dark {
@@ -60,11 +70,36 @@
   --accent-foreground: oklch(0.91 0.22 124);
   --border: oklch(0.18 0 0);
   --input: oklch(0.18 0 0);
+
+  /* Sidebar configuration */
+  --sidebar: oklch(0.08 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.91 0.22 124);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.91 0.22 124 / 0.15);
+  --sidebar-accent-foreground: oklch(0.91 0.22 124);
+  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-ring: oklch(0.91 0.22 124);
 }
 
 @theme inline {
   --font-syne: var(--font-syne);
   --font-mono: var(--font-mono);
+
+  /* Resserrer l'échelle typographique par défaut de Tailwind CSS v4 */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.8125rem;    /* 13px */
+  --font-size-base: 0.875rem;   /* 14px (au lieu de 16px) - pour un style HUD plus dense */
+  --font-size-lg: 1rem;         /* 16px */
+  --font-size-xl: 1.125rem;     /* 18px */
+  --font-size-2xl: 1.25rem;     /* 20px */
+  --font-size-3xl: 1.5rem;      /* 24px */
+  --font-size-4xl: 1.75rem;     /* 28px (au lieu de 36px) */
+  --font-size-5xl: 2.25rem;     /* 36px (au lieu de 48px) */
+  --font-size-6xl: 2.75rem;     /* 44px (au lieu de 60px) */
+  --font-size-7xl: 3.5rem;      /* 56px (au lieu de 72px) */
+  --font-size-8xl: 4.5rem;      /* 72px (au lieu de 96px) */
+  --font-size-9xl: 5.5rem;      /* 88px (au lieu de 128px) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -88,6 +123,16 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Color sidebar mapping */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
@@ -101,6 +146,11 @@
   body {
     @apply bg-background text-foreground overflow-x-hidden relative min-h-screen font-syne antialiased w-full;
     font-feature-settings: 'cv11', 'ss01';
+  }
+  
+  /* Resserre le crénage pour compenser la largeur naturelle de la police Syne */
+  h1, h2, h3, h4, h5, h6, .font-syne {
+    letter-spacing: -0.015em;
   }
 
   section {
@@ -119,6 +169,74 @@
   /* Glassmorphism utility */
   .glass-card {
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
+  }
+
+  /* Cyberpunk Premium UI Facelift Classes */
+  .input-premium {
+    background: rgba(4, 4, 4, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: white !important;
+    backdrop-filter: blur(8px) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .input-premium:hover {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    background: rgba(4, 4, 4, 0.55) !important;
+  }
+  .input-premium:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 20px rgba(197, 244, 65, 0.15) !important;
+    background: rgba(4, 4, 4, 0.75) !important;
+  }
+
+  /* Holographic Foil Sheen Animation */
+  .holographic-sheen {
+    position: relative;
+  }
+  .holographic-sheen::after {
+    content: '';
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+      115deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.01) 38%,
+      rgba(255, 255, 255, 0.12) 43%,
+      rgba(197, 244, 65, 0.15) 45%,
+      rgba(34, 211, 238, 0.1) 47%,
+      rgba(255, 255, 255, 0.01) 52%,
+      transparent 55%
+    );
+    transform: rotate(-8deg);
+    animation: holo-sheen-sweep 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 8;
+    mix-blend-mode: color-dodge;
+  }
+
+  @keyframes holo-sheen-sweep {
+    0% {
+      transform: translate(-10%, -10%) rotate(-8deg);
+    }
+    40%, 100% {
+      transform: translate(60%, 60%) rotate(-8deg);
+    }
+  }
+
+  /* Pulse animation for HUD brackets */
+  @keyframes hud-pulse {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+  .animate-hud-pulse {
+    animation: hud-pulse 3s infinite ease-in-out;
   }
 }
 
@@ -174,4 +292,94 @@
     background: oklch(0.2 0 0);
     border-radius: 10px;
   }
+
+  /* Cyber Laser Sweep Animation */
+  @keyframes laser-sweep {
+    0% {
+      top: 0%;
+      opacity: 0.1;
+    }
+    15% {
+      opacity: 0.85;
+    }
+    85% {
+      opacity: 0.85;
+    }
+    100% {
+      top: 100%;
+      opacity: 0.1;
+    }
+  }
+  .animate-laser-sweep {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--laser-color, var(--primary));
+    box-shadow: 0 0 12px 1px var(--laser-color, var(--primary));
+    animation: laser-sweep 4s infinite linear;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Grid Drift background animation */
+  @keyframes grid-drift {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: 24px 24px;
+    }
+  }
+  .animate-grid-drift {
+    animation: grid-drift 30s infinite linear;
+  }
+
+  /* Hazard stripes sliding animation */
+  @keyframes hazard-sweep {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 40px 0;
+    }
+  }
+  .animate-hazard-sweep {
+    background-size: 40px 40px;
+    animation: hazard-sweep 1s infinite linear;
+  }
+
+  /* Cybernetic notched shape utility */
+  .cyber-notch {
+    clip-path: polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px);
+  }
+  .cyber-notch-sm {
+    clip-path: polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px);
+  }
+
+  /* Cybernetic background grids */
+  .cyber-grid-emerald {
+    background-image: linear-gradient(rgba(16, 185, 129, 0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(16, 185, 129, 0.015) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  .cyber-grid-red {
+    background-image: linear-gradient(rgba(239, 68, 68, 0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(239, 68, 68, 0.015) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  .hazard-header-strip {
+    background-image: repeating-linear-gradient(45deg, #ef4444, #ef4444 10px, #450a0a 10px, #450a0a 20px);
+  }
+
+  /* Shake animation for validation errors */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
 }
+

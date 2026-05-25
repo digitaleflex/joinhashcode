@@ -47,32 +47,15 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 
-const navItems = [
-  {
-    title: "Tableau de Bord",
-    url: "/dashboard",
-    icon: Layout,
-  },
-  {
-    title: "Mon Dossier",
-    url: "/dossier",
-    icon: FileText,
-  },
-  {
-    title: "Missions",
-    url: "/missions",
-    icon: Target,
-  },
-  {
-    title: "Mon Escouade",
-    url: "/squad",
-    icon: Users,
-  },
-  {
-    title: "Paramètres",
-    url: "/settings",
-    icon: Settings,
-  },
+const navMain = [
+  { title: "Accueil",   url: "/dashboard", icon: Layout },
+  { title: "Profil",    url: "/dossier",   icon: FileText },
+  { title: "Missions",  url: "/missions",  icon: Target },
+  { title: "Escouade",  url: "/squad",     icon: Users },
+]
+
+const navGeneral = [
+  { title: "Paramètres", url: "/settings", icon: Settings },
 ]
 
 export function AppSidebar({ user }: { user: any }) {
@@ -93,7 +76,7 @@ export function AppSidebar({ user }: { user: any }) {
             <Activity className="size-4 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
+            <span className="font-sans font-extrabold text-sm tracking-tighter text-white uppercase truncate">HASHCODE</span>
             <span className="text-[10px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
         </div>
@@ -104,16 +87,39 @@ export function AppSidebar({ user }: { user: any }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">navigation_principale</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
+              {navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild 
+                  <SidebarMenuButton
+                    asChild
                     isActive={pathname === item.url}
                     tooltip={item.title}
-                    className="h-11 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  >
+                    <Link href={item.url}>
+                      <item.icon className="size-4" />
+                      <span className="font-medium">{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navGeneral.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.url}
+                    tooltip={item.title}
+                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />
@@ -123,36 +129,28 @@ export function AppSidebar({ user }: { user: any }) {
                 </SidebarMenuItem>
               ))}
               <SidebarMenuItem>
-                <SidebarMenuButton 
-                  asChild 
+                <SidebarMenuButton
+                  asChild
                   isActive={pathname === "/feedback"}
-                  tooltip="Feedback Bêta"
-                  className="h-11 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  tooltip="Feedback"
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/feedback">
                     <MessageSquarePlus className="size-4" />
-                    <span className="font-medium">Feedback Bêta</span>
+                    <span className="font-medium">Feedback</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 mb-2 px-2">système_global</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
               {["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "") && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    tooltip="Admin"
-                    className="h-11 text-muted-foreground hover:text-white hover:bg-white/5"
+                    tooltip="Administration"
+                    className="h-10 text-muted-foreground hover:text-white hover:bg-white/5"
                   >
                     <Link href="/admin">
                       <ShieldAlert className="size-4" />
-                      <span>Admin</span>
+                      <span>Administration</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -160,12 +158,12 @@ export function AppSidebar({ user }: { user: any }) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  tooltip="Quitter le terminal"
-                  className="h-11 text-muted-foreground hover:text-white hover:bg-white/5"
+                  tooltip="Site public"
+                  className="h-10 text-muted-foreground hover:text-white hover:bg-white/5"
                 >
                   <Link href="/">
                     <ArrowLeft className="size-4" />
-                    <span>Retour au site</span>
+                    <span>Site public</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

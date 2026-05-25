@@ -7,9 +7,11 @@ dotenv.config();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+const useSSL = process.env.DATABASE_URL?.includes("sslmode=require");
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: useSSL ? { rejectUnauthorized: false } : false,
 });
 
 const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
@@ -94,1086 +96,232 @@ La force de HASHCODE réside dans son intelligence collective. Pour ne rien manq
     `,
   },
 
-  // ─── BUILDER (B1 → B7) ───────────────────────────────────────────────────
+  // ─── MISSIONS ACTIVATION (communautaires, disponibles au lancement) ─────────
 
   {
-    id: "b1-first-commit",
-    slug: "b1-first-commit",
-    title: "Premier Commit",
-    shortDesc: "Prouve ton engagement en partageant ton code.",
+    id: "profil-complet",
+    slug: "profil-complet",
+    title: "Dossier Opérationnel",
+    shortDesc: "Complète ton profil pour activer ta présence sur le réseau.",
     description:
-      "Ton premier test : montre-nous ce que tu construis techniquement. Crée ou partage un dépôt GitHub avec un README clair décrivant le projet.",
-    category: "tech",
+      "Ton dossier est ton identité sur HASHCODE. Remplis ta bio, ajoute tes liens et précise tes objectifs pour être visible des autres membres.",
+    category: "community",
+    difficulty: 1,
+    xp: 50,
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    duration: "15min",
+    requirements: [
+      "Remplir ta bio dans les paramètres.",
+      "Ajouter au moins un lien externe (GitHub, LinkedIn ou portfolio).",
+    ],
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Capture d'écran de ton profil complété"],
+    fullBriefing: `
+# Mission : Dossier Opérationnel
+
+Ton profil HASHCODE est ta carte d'identité dans la communauté. Sans lui, tu es invisible. C'est la première mission que chaque agent doit accomplir.
+
+### Instructions
+1. Va dans **Paramètres → Identité** et remplis ta bio (minimum 2 lignes).
+2. Ajoute au moins **un lien externe** : GitHub, LinkedIn, portfolio ou tout autre lien professionnel.
+3. Vérifie que ton pseudo est unique et mémorisable.
+
+### Critères de validation
+- Bio remplie et cohérente avec ton profil.
+- Au moins un lien externe valide.
+    `,
+  },
+  {
+    id: "squad-genesis",
+    slug: "squad-genesis",
+    title: "Genèse du Squad",
+    shortDesc: "Rejoins ou crée ton premier squad pour ne pas avancer seul.",
+    description:
+      "Sur HASHCODE, on ne build pas en solo. Crée ton squad ou rejoins celui d'un membre via son lien d'invitation. Ensemble, votre cohésion monte plus vite.",
+    category: "community",
     difficulty: 1,
     xp: 100,
-    targetProfiles: ["builder"],
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "INIT",
-    duration: "2h",
+    duration: "10min",
     requirements: [
-      "Lien GitHub avec README comprenant la description du projet.",
-      "Au moins 1 commit visible.",
+      "Créer un squad via la page Squad, ou rejoindre un squad existant via un lien d'invitation.",
     ],
-    weightBuilder: 0.8,
-    weightCreator: 0.0,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.1,
-    submissionMethod: "GITHUB_LINK",
-    deliverables: ["Lien du dépôt GitHub", "Fichier README.md documenté"],
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Nom de ton squad ou lien d'invitation utilisé"],
     fullBriefing: `
-# Mission : Premier Commit
+# Mission : Genèse du Squad
 
-L'objectif de cette mission est d'initier ton parcours technique sur HASHCODE en livrant ton premier dépôt officiel.
+Sur HASHCODE, personne ne build seul. Un squad, c'est ton unité de combat : 5 agents synchronisés qui progressent ensemble, partagent leurs ressources et décuplent leur impact.
 
 ### Instructions
-1. Crée un nouveau dépôt sur GitHub.
-2. Initialise-le avec un fichier README.md décrivant ton projet (Le "Pourquoi", le "Comment", le "Quoi").
-3. Fais ton premier commit et push sur la branche principale.
+**Option A — Créer ton squad :**
+1. Va sur la page **Squad** dans le menu de navigation.
+2. Clique sur **"Initialiser le protocole"**.
+3. Personnalise le nom et le lien d'invitation de ton squad (si tu es Leader).
+
+**Option B — Rejoindre un squad :**
+1. Obtiens un lien d'invitation d'un membre de la communauté.
+2. Clique sur le lien et accepte l'invitation.
 
 ### Critères de validation
-- Le code doit être accessible publiquement sur GitHub.
-- Le README doit expliquer clairement l'utilité du projet.
+- Être membre actif d'un squad (créé ou rejoint).
     `,
   },
   {
-    id: "b2-working-feature",
-    slug: "b2-working-feature",
-    title: "Fonctionnalité Fonctionnelle",
-    shortDesc: "Livre une feature complète, de A à Z.",
+    id: "invite-pioneer",
+    slug: "invite-pioneer",
+    title: "Recrutement Pioneer",
+    shortDesc: "Invite le premier membre de ton réseau dans la communauté.",
     description:
-      "Choisis une fonctionnalité de ton projet (auth, CRUD, API, dashboard). Implémente-la, teste-la manuellement, et documente-la dans ton README.",
-    category: "tech",
-    difficulty: 2,
-    xp: 200,
-    targetProfiles: ["builder"],
+      "Les meilleures communautés grandissent par cooptation. Partage ton lien d'invite personnel et accueille un premier bâtisseur dans HASHCODE.",
+    category: "community",
+    difficulty: 1,
+    xp: 75,
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "INIT",
-    duration: "4h",
+    duration: "5min",
     requirements: [
-      "Lien vers le commit ou la PR qui ajoute la feature.",
-      "README mis à jour avec instructions d'utilisation.",
+      "Partager ton lien d'invite (disponible sur la page Squad).",
+      "Un nouveau membre rejoint HASHCODE via ton lien.",
     ],
-    weightBuilder: 0.85,
-    weightCreator: 0.05,
-    weightStrategist: 0.05,
-    weightCatalyst: 0.05,
-    submissionMethod: "GITHUB_PR",
-    deliverables: ["Lien de la PR ou du Commit spécifique", "Documentation de la feature"],
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Pseudo du membre que tu as invité"],
     fullBriefing: `
-# Mission : Fonctionnalité Fonctionnelle
+# Mission : Recrutement Pioneer
 
-Passe de l'idée à la réalisation. Tu dois livrer une brique fonctionnelle de ton application.
+Chaque grand réseau a commencé par une première invitation. Tu es l'un des pionniers de HASHCODE — c'est à toi de faire grandir la tribu.
 
 ### Instructions
-1. Identifie une fonctionnalité atomique (ex: système de login, création de profil, appel API).
-2. Implémente le code nécessaire.
-3. Teste ton implémentation.
-4. Documente comment utiliser ou tester cette feature dans ton README.
+1. Va sur la page **Squad** et copie ton lien d'invitation personnel.
+2. Envoie-le à quelqu'un de ton réseau qui mérite de rejoindre HASHCODE (développeur, designer, entrepreneur, marketer, etc.).
+3. Attends qu'il crée son compte via ton lien.
 
 ### Critères de validation
-- Code propre et fonctionnel.
-- Documentation succincte mais efficace.
+- Un membre rejoint HASHCODE via ton lien d'invitation unique.
+- Note le pseudo de ce nouveau membre pour valider ta mission.
     `,
   },
+
+  // ─── MISSIONS UNIVERSELLES (MVP PHASE) ───────────────────────────────────
+
+
   {
-    id: "b3-deploy-live",
-    slug: "b3-deploy-live",
-    title: "En Ligne",
-    shortDesc: "Déploie ton projet sur internet.",
-    description:
-      "Un projet qui n'est pas en ligne n'existe pas. Déploie ton application sur Vercel, Railway, Render ou toute plateforme cloud et partage l'URL publique.",
-    category: "tech",
+    id: "uni-01-portfolio-launch",
+    slug: "uni-01-portfolio-launch",
+    title: "Mise en Orbite : Le Portfolio Actif",
+    shortDesc: "Prouve ta valeur en publiant ton espace personnel en ligne.",
+    description: "Le monde doit savoir qui tu es. Déploie un site web personnel (portfolio, blog, ou landing page) et prouve ton expertise selon les standards de ta Guilde.",
+    category: "core",
     difficulty: 2,
     xp: 250,
-    targetProfiles: ["builder"],
-    missionLevel: "CORE",
-    duration: "3h",
-    requirements: [
-      "URL publique du projet déployé et fonctionnel.",
-      "Expliquer la stack de déploiement utilisée (1-2 phrases).",
-    ],
-    weightBuilder: 0.8,
-    weightCreator: 0.05,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.05,
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    duration: "4h",
+    requirements: ["URL publique et fonctionnelle.", "Validation de l'objectif spécifique à ta Guilde."],
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
     submissionMethod: "LIVE_URL",
-    deliverables: ["URL publique du projet", "Courte description de la stack de déploiement"],
+    deliverables: ["URL du projet", "Explication de ton choix de guilde (2 lignes)"],
     fullBriefing: `
-# Mission : En Ligne
+# Mission Universelle 01 : Mise en Orbite
 
-"If it's not live, it doesn't exist." Ton projet doit maintenant sortir de ta machine locale pour être accessible au monde entier.
+Un profil Hashcode n'est rien sans preuve de travail. Ta première mission est de déployer un espace personnel en ligne (Portfolio ou Landing Page).
+Cependant, l'évaluation dépendra de la Guilde que tu as rejointe.
 
-### Instructions
-1. Choisis une plateforme de déploiement (Vercel, Railway, Netlify, Render, etc.).
-2. Configure ton déploiement (variables d'environnement, build commands).
-3. Déploie ton projet et vérifie que tout fonctionne en production.
+### Objectifs par Guilde (Choisis celui de ton profil) :
+* 🛠️ **Guilde des Builders :** Le design n'a pas d'importance. Prouve-nous que ton code est propre. Déploie via Vercel/Railway, mets en place ton repo GitHub proprement, et obtiens un score Lighthouse de 90+ en performance.
+* 🎨 **Guilde des Creators :** La technique passe au second plan. On veut voir une identité visuelle marquante. Un Dark Mode soigné, une typographie parfaite, et au moins une micro-animation (Framer Motion ou CSS pur).
+* 🧠 **Guilde des Strategists :** On veut voir de l'impact. Ton site doit être optimisé pour le SEO (balises meta parfaites) et intégrer un outil d'Analytics (Google Analytics, Plausible) pour traquer tes visiteurs.
+* 🗣️ **Guilde des Catalysts :** Le site n'est qu'un prétexte. Ta mission est de déployer la page, puis d'écrire un post LinkedIn ou Twitter pour annoncer son lancement et d'attirer au moins 20 visiteurs uniques le premier jour.
 
-### Critères de validation
-- L'URL doit être accessible publiquement.
-- Pas d'erreurs critiques au chargement de la page.
+### Critères de validation (Généraux)
+- L'URL doit être publique.
+- Le projet ne doit pas crasher.
     `,
   },
   {
-    id: "b4-api-integration",
-    slug: "b4-api-integration",
-    title: "Intégration API Externe",
-    shortDesc: "Connecte ton projet au monde réel.",
-    description:
-      "Intègre une API externe dans ton projet (paiement, carte, IA, météo, SMS...). Démontre un cas d'usage concret qui ajoute de la valeur réelle.",
-    category: "tech",
+    id: "uni-02-audit-teardown",
+    slug: "uni-02-audit-teardown",
+    title: "Le Scalpel : Audit de l'Existant",
+    shortDesc: "Détruis pour mieux reconstruire.",
+    description: "Prends un projet open-source, le site d'une entreprise locale, ou un de tes anciens projets, et audite-le sous le prisme de ta Guilde.",
+    category: "core",
     difficulty: 3,
     xp: 300,
-    targetProfiles: ["builder"],
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "CORE",
-    duration: "6h",
-    requirements: [
-      "Nom et documentation de l'API intégrée.",
-      "Démonstration du flux fonctionnel (screen ou vidéo).",
-    ],
-    weightBuilder: 0.8,
-    weightCreator: 0.0,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.1,
-    submissionMethod: "DEMO_VIDEO_OR_LINK",
-    deliverables: ["Lien vers le code de l'intégration", "Vidéo démo ou URL d'une page test"],
-    fullBriefing: `
-# Mission : Intégration API Externe
-
-Ouvre ton application sur le monde extérieur. Utilise des services tiers pour enrichir l'expérience utilisateur.
-
-### Instructions
-1. Sélectionne une API (OpenAI, Stripe, Google Maps, Twilio, etc.).
-2. Gère l'authentification et les appels API de manière sécurisée (côté serveur de préférence).
-3. Affiche les données ou exécute l'action dans ton interface.
-
-### Critères de validation
-- Utilisation sécurisée des clés d'API (pas de clés en clair dans le frontend public).
-- Cas d'usage fonctionnel.
-    `,
-  },
-  {
-    id: "b5-code-review",
-    slug: "b5-code-review",
-    title: "Code Review",
-    shortDesc: "Améliore ton code avec un pair.",
-    description:
-      "Soumets ton code à un autre membre Builder pour une revue. Corrige au minimum 3 points identifiés. La qualité se construit ensemble.",
-    category: "tech",
-    difficulty: 3,
-    xp: 350,
-    targetProfiles: ["builder"],
-    missionLevel: "CORE",
-    duration: "4h",
-    requirements: [
-      "Lien vers la PR ou le thread de revue.",
-      "Liste des 3 améliorations appliquées suite à la revue.",
-    ],
-    weightBuilder: 0.7,
-    weightCreator: 0.0,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.2,
-    submissionMethod: "GITHUB_PR",
-    deliverables: ["Lien de la PR avec commentaires", "Résumé des corrections effectuées"],
-    fullBriefing: `
-# Mission : Code Review
-
-La qualité technique ne se négocie pas. Apprends à donner et recevoir du feedback constructif.
-
-### Instructions
-1. Ouvre une Pull Request sur ton dépôt.
-2. Demande à un autre membre du profil **Builder** de relire ton code.
-3. Prends en compte les remarques et effectue au moins 3 corrections ou optimisations.
-
-### Critères de validation
-- Présence de commentaires constructifs.
-- Améliorations visibles dans l'historique des commits.
-    `,
-  },
-  {
-    id: "b6-technical-doc",
-    slug: "b6-technical-doc",
-    title: "Documentation Technique",
-    shortDesc: "Un bon code se lit, un grand code se comprend.",
-    description:
-      "Rédige la documentation technique de ton projet : architecture, choix techniques, guide d'installation, API reference. Rends-le utilisable par un inconnu.",
-    category: "tech",
-    difficulty: 4,
-    xp: 400,
-    targetProfiles: ["builder"],
-    missionLevel: "PRO",
-    duration: "5h",
-    requirements: [
-      "README ou Wiki couvrant architecture, setup et utilisation.",
-      "Schéma d'architecture (diagramme ou texte structuré).",
-    ],
-    weightBuilder: 0.65,
-    weightCreator: 0.15,
-    weightStrategist: 0.15,
-    weightCatalyst: 0.05,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Lien vers la documentation (README, Wiki, ou Notion)", "Schéma d'architecture"],
-    fullBriefing: `
-# Mission : Documentation Technique
-
-Un projet sans documentation est un projet mort. Transmets la connaissance nécessaire pour maintenir ton code.
-
-### Instructions
-1. Rédige un guide d'installation complet (Setup local).
-2. Explique l'architecture globale (Frontend, Backend, Database).
-3. Documente les principaux endpoints ou composants.
-4. Ajoute un schéma d'architecture (utilise Mermaid.js ou un outil visuel).
-
-### Critères de validation
-- Documentation claire et sans fautes.
-- Un développeur externe doit pouvoir lancer le projet en moins de 10 minutes.
-    `,
-  },
-  {
-    id: "b7-open-source",
-    slug: "b7-open-source",
-    title: "Contribution Open Source",
-    shortDesc: "Participe à un projet qui compte pour tous.",
-    description:
-      "Fais une contribution significative à un projet open source : bug fix, feature, documentation ou test. Montre que tu codes pour l'écosystème, pas seulement pour toi.",
-    category: "tech",
-    difficulty: 5,
-    xp: 500,
-    targetProfiles: ["builder"],
-    missionLevel: "PRO",
-    duration: "8h",
-    requirements: [
-      "Lien vers la Pull Request fusionnée ou en revue.",
-      "Contexte : quel problème résout ta contribution ?",
-    ],
-    weightBuilder: 0.8,
-    weightCreator: 0.05,
-    weightStrategist: 0.05,
-    weightCatalyst: 0.1,
-    submissionMethod: "GITHUB_PR",
-    deliverables: ["Lien vers la Pull Request externe", "Rapport de contribution (Pourquoi/Comment)"],
-    fullBriefing: `
-# Mission : Contribution Open Source
-
-Donne en retour à la communauté globale. La maîtrise technique s'exprime aussi par la collaboration sur des outils partagés.
-
-### Instructions
-1. Trouve un projet open source qui t'intéresse.
-2. Identifie une "Good First Issue" ou propose une amélioration.
-3. Soumets ta Pull Request en respectant les conventions du projet.
-
-### Critères de validation
-- La PR doit être sérieuse et documentée.
-- Même si elle n'est pas encore fusionnée, elle doit montrer un effort réel de résolution de problème.
-    `,
-  },
-
-  // ─── CREATOR (C1 → C7) ───────────────────────────────────────────────────
-
-  {
-    id: "c1-first-publication",
-    slug: "c1-first-publication",
-    title: "Première Publication",
-    shortDesc: "Partage ton univers avec le monde.",
-    description:
-      "Publie un contenu original lié à ton expertise : article, post LinkedIn, thread Twitter, ou vidéo courte. Ta voix compte.",
-    category: "design",
-    difficulty: 1,
-    xp: 100,
-    targetProfiles: ["creator"],
-    missionLevel: "INIT",
-    duration: "2h",
-    requirements: [
-      "Lien vers le contenu publié (article, post, vidéo).",
-      "Thème lié à la tech, au design ou à l'entrepreneuriat.",
-    ],
-    weightBuilder: 0.0,
-    weightCreator: 0.8,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.1,
-    submissionMethod: "SOCIAL_LINK",
-    deliverables: ["Lien vers la publication publique"],
-    fullBriefing: `
-# Mission : Première Publication
-
-En tant que Créateur, ta valeur réside dans ta capacité à synthétiser et partager des idées.
-
-### Instructions
-1. Choisis un sujet qui te passionne (design, tech, productivité).
-2. Rédige un post structuré ou crée une vidéo courte.
-3. Publie-le sur LinkedIn, Twitter (X), ou ton blog personnel.
-
-### Critères de validation
-- Contenu original.
-- Engagement minimal ou structure claire.
-    `,
-  },
-  {
-    id: "c2-design-case-study",
-    slug: "c2-design-case-study",
-    title: "Case Study Design",
-    shortDesc: "Documente ton processus de création.",
-    description:
-      "Présente un projet de design (UI, brand, motion) avec ton processus complet : problème, recherche, itérations, résultat final.",
-    category: "design",
-    difficulty: 2,
-    xp: 200,
-    targetProfiles: ["creator"],
-    missionLevel: "INIT",
-    duration: "4h",
-    requirements: [
-      "Lien vers le case study (Behance, Notion, PDF, ou site).",
-      "Minimum 3 étapes du processus documentées.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.85,
-    weightStrategist: 0.05,
-    weightCatalyst: 0.05,
-    submissionMethod: "PORTFOLIO_LINK",
-    deliverables: ["Lien vers le Case Study"],
-    fullBriefing: `
-# Mission : Case Study Design
-
-Le résultat final est important, mais c'est ton processus de réflexion qui prouve ton expertise.
-
-### Instructions
-1. Sélectionne un projet récent.
-2. Documente les étapes : Problématique, Recherche utilisateur, Wireframes, Design visuel, et Tests.
-3. Publie-le sur Behance, Notion ou ton portfolio.
-
-### Critères de validation
-- Analyse critique présente.
-- Visuels de haute qualité.
-    `,
-  },
-  {
-    id: "c3-ui-kit",
-    slug: "c3-ui-kit",
-    title: "Système de Design Personnel",
-    shortDesc: "Crée les fondations visuelles d'un produit.",
-    description:
-      "Construis un design system minimal : couleurs, typographie, composants de base (boutons, inputs, cartes). Exportable et réutilisable.",
-    category: "design",
-    difficulty: 3,
-    xp: 300,
-    targetProfiles: ["creator"],
-    missionLevel: "CORE",
-    duration: "6h",
-    requirements: [
-      "Lien Figma ou autre outil avec le design system.",
-      "Comprend : palette couleurs, typographie, 5+ composants.",
-    ],
-    weightBuilder: 0.1,
-    weightCreator: 0.8,
-    weightStrategist: 0.05,
-    weightCatalyst: 0.05,
-    submissionMethod: "FIGMA_LINK",
-    deliverables: ["Lien du fichier Figma public"],
-    fullBriefing: `
-# Mission : Système de Design Personnel
-
-L'efficacité d'un créateur passe par ses outils. Crée ton propre langage visuel.
-
-### Instructions
-1. Définis une palette chromatique et une échelle typographique.
-2. Crée les composants atomiques (boutons, formulaires, cartes).
-3. Organise ton fichier Figma pour qu'il soit réutilisable par un développeur.
-
-### Critères de validation
-- Utilisation des styles et composants Figma.
-- Cohérence visuelle globale.
-    `,
-  },
-  {
-    id: "c4-content-series",
-    slug: "c4-content-series",
-    title: "Série de Contenu",
-    shortDesc: "Construis une audience avec de la régularité.",
-    description:
-      "Publie une série cohérente de 5 contenus sur un même sujet en 2 semaines. La consistance bat la perfection.",
-    category: "design",
-    difficulty: 3,
-    xp: 350,
-    targetProfiles: ["creator"],
-    missionLevel: "CORE",
-    duration: "2 semaines",
-    requirements: [
-      "Liens vers les 5 publications.",
-      "Thème unique et fil conducteur visible.",
-    ],
-    weightBuilder: 0.0,
-    weightCreator: 0.75,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.15,
-    submissionMethod: "ANY_LINK",
-    deliverables: ["Liste des 5 liens de publication"],
-    fullBriefing: `
-# Mission : Série de Contenu
-
-La régularité est la clé de la croissance. Prouve ta discipline sur 14 jours.
-
-### Instructions
-1. Définis un angle d'attaque (ex: "10 jours pour apprendre Rust").
-2. Publie un contenu tous les 2-3 jours.
-3. Assure-toi que chaque post apporte une valeur unique tout en restant dans le thème.
-
-### Critères de validation
-- 5 publications effectives.
-- Unité thématique respectée.
-    `,
-  },
-  {
-    id: "c5-video-tutorial",
-    slug: "c5-video-tutorial",
-    title: "Tutoriel Vidéo",
-    shortDesc: "Enseigne ce que tu sais faire.",
-    description:
-      "Crée un tutoriel vidéo (5-15 min) sur un outil, une technique ou un concept que tu maîtrises. Le meilleur moyen d'apprendre est d'enseigner.",
-    category: "design",
-    difficulty: 3,
-    xp: 350,
-    targetProfiles: ["creator"],
-    missionLevel: "CORE",
-    duration: "8h",
-    requirements: [
-      "Lien vers la vidéo publiée (YouTube, Loom, etc.).",
-      "Description du concept enseigné.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.75,
-    weightStrategist: 0.05,
-    weightCatalyst: 0.15,
-    submissionMethod: "VIDEO_LINK",
-    deliverables: ["Lien vers la vidéo (YouTube, Loom, etc.)"],
-    fullBriefing: `
-# Mission : Tutoriel Vidéo
-
-Transmets ton savoir. La pédagogie est une compétence clé de tout expert.
-
-### Instructions
-1. Prépare un plan de cours structuré.
-2. Enregistre ton écran ou toi-même en expliquant le concept.
-3. Fais un montage simple mais efficace.
-4. Publie la vidéo.
-
-### Critères de validation
-- Qualité audio et vidéo décente.
-- Explication claire et progressive.
-    `,
-  },
-  {
-    id: "c6-brand-identity",
-    slug: "c6-brand-identity",
-    title: "Identité Visuelle Complète",
-    shortDesc: "Crée une identité visuelle pour un projet réel.",
-    description:
-      "Développe l'identité visuelle complète d'un projet (personnel, communautaire ou client) : logo, palette, typographie, charte graphique.",
-    category: "design",
-    difficulty: 4,
-    xp: 400,
-    targetProfiles: ["creator"],
-    missionLevel: "PRO",
-    duration: "10h",
-    requirements: [
-      "Livrable : charte graphique ou brand book.",
-      "Inclut logo, couleurs, typographie et usage.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.8,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.05,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Brand Book / Charte Graphique (PDF ou URL)"],
-    fullBriefing: `
-# Mission : Identité Visuelle Complète
-
-Donne une âme à un projet. Une identité forte est la fondation de toute marque réussie.
-
-### Instructions
-1. Recherche l'univers et les valeurs du projet.
-2. Crée un logo (déclinaisons comprises).
-3. Définis la charte graphique complète.
-4. Applique l'identité sur au moins 2 supports (ex: réseaux sociaux, site web).
-
-### Critères de validation
-- Cohérence stratégique et visuelle.
-- Livrable professionnel.
-    `,
-  },
-  {
-    id: "c7-creative-direction",
-    slug: "c7-creative-direction",
-    title: "Direction Créative",
-    shortDesc: "Dirige la vision créative d'un projet collectif.",
-    description:
-      "Prends en charge la direction créative d'un projet d'équipe : définis la vision, coordonne les contributions visuelles, valide les livrables.",
-    category: "design",
-    difficulty: 5,
-    xp: 500,
-    targetProfiles: ["creator"],
-    missionLevel: "PRO",
-    duration: "2 semaines",
-    requirements: [
-      "Description du projet et de ton rôle de directeur créatif.",
-      "Livrables finaux validés par l'équipe.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.7,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.15,
-    submissionMethod: "ANY_LINK",
-    deliverables: ["Rapport de Direction Créative", "Livrables du projet"],
-    fullBriefing: `
-# Mission : Direction Créative
-
-Passe de l'exécution à la vision. Dirige une équipe pour atteindre un objectif esthétique et fonctionnel.
-
-### Instructions
-1. Établis un moodboard et une direction artistique claire pour le projet.
-2. Briefe les autres créateurs ou développeurs.
-3. Supervise la production et assure la cohérence finale.
-
-### Critères de validation
-- Vision claire et respectée par l'équipe.
-- Qualité supérieure du résultat final.
-    `,
-  },
-
-  // ─── STRATEGIST (S1 → S7) ─────────────────────────────────────────────────
-
-  {
-    id: "s1-market-analysis",
-    slug: "s1-market-analysis",
-    title: "Analyser un Marché en 1 Page",
-    shortDesc: "Identifie les opportunités business.",
-    description:
-      "Rédige une analyse concise d'un marché qui t'intéresse : problème existant, acteurs en présence, opportunité identifiée.",
-    category: "business",
-    difficulty: 1,
-    xp: 100,
-    targetProfiles: ["strategist"],
-    missionLevel: "INIT",
     duration: "3h",
-    requirements: [
-      "Document structuré : problème, acteurs, opportunité.",
-      "Marché réel, pas hypothétique.",
-    ],
-    weightBuilder: 0.1,
-    weightCreator: 0.0,
-    weightStrategist: 0.8,
-    weightCatalyst: 0.1,
+    requirements: ["Le lien vers le projet audité.", "Un rapport contenant 3 problèmes identifiés et 3 solutions proposées."],
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
     submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Analyse de marché (1 page)"],
+    deliverables: ["Lien du rapport d'audit (Notion, PDF ou GitHub Gist)"],
     fullBriefing: `
-# Mission : Analyser un Marché en 1 Page
+# Mission Universelle 02 : Le Scalpel
 
-La stratégie commence par l'observation. Apprends à voir les opportunités là où les autres voient des problèmes.
+Les meilleurs professionnels savent lire l'existant avant de créer du nouveau. Choisis un projet numérique existant (site web, app, repo open-source) et réalise un audit complet.
 
-### Instructions
-1. Choisis un secteur (ex: SaaS B2B, EdTech en Afrique).
-2. Identifie les 3 plus gros problèmes actuels.
-3. Analyse la concurrence.
-4. Propose une opportunité de différenciation.
+### L'angle d'attaque de ta Guilde :
+* 🛠️ **Builders :** Fais un audit de la dette technique ou de la sécurité. Pointe les vulnérabilités (XSS, Auth faible) ou les requêtes lentes, et propose une refonte architecturale.
+* 🎨 **Creators :** Fais un audit UX/UI. Quels sont les points de friction ? L'accessibilité est-elle respectée ? Propose un wireframe ou un nouveau design system pour réparer ça.
+* 🧠 **Strategists :** Fais un audit du Business Model et du Funnel de conversion. Où perdent-ils des clients ? Propose une stratégie Go-To-Market ou de rétention plus agressive.
+* 🗣️ **Catalysts :** Fais un audit du positionnement communautaire et de la marque. Leur communication est-elle plate ? Propose une stratégie de création de contenu et de distribution virale.
 
 ### Critères de validation
-- Analyse concrète et chiffrée.
-- Raisonnement logique.
+- Le rapport doit être lisible, clair, et aller droit au but (pas de blabla).
+- Les solutions proposées doivent être réalistes et actionnables.
     `,
   },
   {
-    id: "s2-business-model",
-    slug: "s2-business-model",
-    title: "Business Model Canvas",
-    shortDesc: "Structure la logique économique d'un projet.",
-    description:
-      "Complète un Business Model Canvas pour un projet réel (le tien ou un projet fictif solide). Chaque bloc doit être justifié, pas juste rempli.",
-    category: "business",
-    difficulty: 2,
-    xp: 200,
-    targetProfiles: ["strategist"],
-    missionLevel: "INIT",
-    duration: "4h",
-    requirements: [
-      "BMC rempli (9 blocs) en format image, PDF ou Notion.",
-      "Annotation de tes 3 hypothèses les plus risquées.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.05,
-    weightStrategist: 0.8,
-    weightCatalyst: 0.1,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Business Model Canvas complété"],
-    fullBriefing: `
-# Mission : Business Model Canvas
-
-Comment ton projet va-t-il créer, livrer et capturer de la valeur ?
-
-### Instructions
-1. Remplis les 9 blocs du BMC.
-2. Sois précis sur tes segments clients et tes flux de revenus.
-3. Identifie les hypothèses critiques à tester en priorité.
-
-### Critères de validation
-- Cohérence entre les blocs.
-- Réalisme économique.
-    `,
-  },
-  {
-    id: "s3-gtm-strategy",
-    slug: "s3-gtm-strategy",
-    title: "Stratégie Go-to-Market",
-    shortDesc: "Planifie le lancement d'un produit.",
-    description:
-      "Définis la stratégie de lancement d'un produit : segment cible, canal d'acquisition, message clé, métriques de succès pour les 90 premiers jours.",
-    category: "business",
-    difficulty: 3,
-    xp: 300,
-    targetProfiles: ["strategist"],
-    missionLevel: "CORE",
-    duration: "5h",
-    requirements: [
-      "Document GTM couvrant : cible, canal, message, métriques.",
-      "Justification du canal d'acquisition choisi.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.05,
-    weightStrategist: 0.8,
-    weightCatalyst: 0.1,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Plan Go-to-Market"],
-    fullBriefing: `
-# Mission : Stratégie Go-to-Market
-
-Avoir un bon produit ne suffit pas. Il faut savoir le mettre entre les mains des bons utilisateurs.
-
-### Instructions
-1. Définis ton "Ideal Customer Profile" (ICP).
-2. Choisis tes 2 canaux d'acquisition prioritaires.
-3. Rédige ton message de vente (Value Proposition).
-4. Établis tes OKRs pour le premier trimestre.
-
-### Critères de validation
-- Stratégie actionnable immédiatement.
-- Alignement message/canal.
-    `,
-  },
-  {
-    id: "s4-competitive-analysis",
-    slug: "s4-competitive-analysis",
-    title: "Analyse Concurrentielle",
-    shortDesc: "Comprends le terrain avant d'avancer.",
-    description:
-      "Cartographie les concurrents d'un marché : leurs forces, faiblesses, positionnement, et l'espace laissé libre pour se différencier.",
-    category: "business",
-    difficulty: 3,
-    xp: 300,
-    targetProfiles: ["strategist"],
-    missionLevel: "CORE",
-    duration: "5h",
-    requirements: [
-      "Analyse d'au moins 5 concurrents directs ou indirects.",
-      "Tableau comparatif + opportunité de différenciation identifiée.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.05,
-    weightStrategist: 0.8,
-    weightCatalyst: 0.1,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Tableau d'analyse concurrentielle"],
-    fullBriefing: `
-# Mission : Analyse Concurrentielle
-
-Ne réinvente pas la roue, mais fais-la mieux tourner. Étudie tes adversaires pour trouver leurs failles.
-
-### Instructions
-1. Liste au moins 5 concurrents.
-2. Compare : Features, Prix, Positionnement, Public cible.
-3. Conclus sur l'"Unfair Advantage" que tu peux développer.
-
-### Critères de validation
-- Profondeur de l'analyse.
-- Clarté des conclusions.
-    `,
-  },
-  {
-    id: "s5-product-roadmap",
-    slug: "s5-product-roadmap",
-    title: "Roadmap Produit",
-    shortDesc: "Planifie l'évolution d'un produit sur 6 mois.",
-    description:
-      "Crée une roadmap produit réaliste pour 6 mois : priorise les fonctionnalités selon l'impact et la faisabilité, organise les sprints ou phases.",
-    category: "business",
+    id: "uni-03-cross-pollination",
+    slug: "uni-03-cross-pollination",
+    title: "Pollinisation Croisée",
+    shortDesc: "Sors de ta zone de confort avec un pair.",
+    description: "Trouve un membre d'une autre Guilde sur Hashcode. Aidez-vous mutuellement sur une problématique spécifique à votre expertise.",
+    category: "community",
     difficulty: 4,
     xp: 400,
-    targetProfiles: ["strategist"],
-    missionLevel: "CORE",
-    duration: "6h",
-    requirements: [
-      "Roadmap visuelle (Notion, Figma, ou tableau).",
-      "Justification de la priorisation (impact vs effort).",
-    ],
-    weightBuilder: 0.1,
-    weightCreator: 0.05,
-    weightStrategist: 0.75,
-    weightCatalyst: 0.1,
-    submissionMethod: "ANY_LINK",
-    deliverables: ["Roadmap visuelle (URL ou Image)"],
-    fullBriefing: `
-# Mission : Roadmap Produit
-
-Gère les attentes et le temps de développement. Une roadmap est un outil de communication autant que de planification.
-
-### Instructions
-1. Identifie les "Must-Have" vs "Nice-to-Have".
-2. Utilise une méthode de priorisation (RICE ou MoSCoW).
-3. Planifie par phases (Now, Next, Later).
-
-### Critères de validation
-- Faisabilité technique apparente.
-- Impact business clair pour chaque étape.
-    `,
-  },
-  {
-    id: "s6-financial-model",
-    slug: "s6-financial-model",
-    title: "Modèle Financier Simplifié",
-    shortDesc: "Mets des chiffres sur ta vision.",
-    description:
-      "Construis un modèle financier pour un projet : revenus projetés, coûts opérationnels, point d'équilibre, et besoins de financement pour 12 mois.",
-    category: "business",
-    difficulty: 4,
-    xp: 400,
-    targetProfiles: ["strategist"],
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "PRO",
-    duration: "8h",
-    requirements: [
-      "Tableau ou spreadsheet avec projections sur 12 mois.",
-      "Hypothèses clairement documentées.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.0,
-    weightStrategist: 0.85,
-    weightCatalyst: 0.1,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Modèle financier (Spreadsheet)"],
-    fullBriefing: `
-# Mission : Modèle Financier Simplifié
-
-La passion ne paie pas les serveurs. Chiffre ton ambition.
-
-### Instructions
-1. Estime tes coûts fixes et variables.
-2. Modélise tes scénarios de revenus (Pessimiste, Réaliste, Optimiste).
-3. Calcule ton "Burn Rate" et ton point mort.
-
-### Critères de validation
-- Formules correctes.
-- Hypothèses de croissance justifiées.
-    `,
-  },
-  {
-    id: "s7-pitch-deck",
-    slug: "s7-pitch-deck",
-    title: "Pitch Deck",
-    shortDesc: "Convaincs en 10 slides.",
-    description:
-      "Crée un pitch deck de 10-12 slides pour un projet : problème, solution, marché, business model, traction, équipe, et ask. Teste-le devant au moins 2 personnes.",
-    category: "business",
-    difficulty: 5,
-    xp: 500,
-    targetProfiles: ["strategist"],
-    missionLevel: "PRO",
-    duration: "12h",
-    requirements: [
-      "Lien vers le pitch deck (Google Slides, Canva, etc.).",
-      "Retour de 2 personnes ayant assisté à la présentation.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.1,
-    weightStrategist: 0.75,
-    weightCatalyst: 0.1,
-    submissionMethod: "PRESENTATION_LINK",
-    deliverables: ["Pitch Deck (Lien public)", "Résumé des feedbacks"],
-    fullBriefing: `
-# Mission : Pitch Deck
-
-Savoir raconter une histoire qui donne envie d'investir du temps ou de l'argent.
-
-### Instructions
-1. Suis la structure standard (Problem, Solution, Market, etc.).
-2. Sois visuel, évite les blocs de texte.
-3. Entraîne-toi au "Storytelling".
-4. Présente-le et récolte des avis critiques.
-
-### Critères de validation
-- Qualité narrative et visuelle.
-- Clarté de l'"Ask" final.
-    `,
-  },
-
-  // ─── CATALYST (K1 → K7) ───────────────────────────────────────────────────
-
-  {
-    id: "k1-introduction",
-    slug: "k1-introduction",
-    title: "Introduire 2 Personnes",
-    shortDesc: "Crée de la valeur par la mise en relation.",
-    description:
-      "Connecte deux membres de la communauté qui peuvent s'apporter mutuellement. Présente-les avec contexte et raison.",
-    category: "community",
-    difficulty: 1,
-    xp: 100,
-    targetProfiles: ["catalyst"],
-    missionLevel: "INIT",
-    duration: "1h",
-    requirements: [
-      "Témoignage ou confirmation des 2 personnes connectées.",
-      "Contexte de la mise en relation (pourquoi ces 2 personnes).",
-    ],
-    weightBuilder: 0.1,
-    weightCreator: 0.1,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.7,
-    submissionMethod: "TEXT_RESPONSE",
-    deliverables: ["Preuve de la connexion (Screenshot ou noms)"],
-    fullBriefing: `
-# Mission : Introduire 2 Personnes
-
-En tant que Catalyseur, ton pouvoir est de réduire la distance entre les talents.
-
-### Instructions
-1. Identifie deux membres ayant des besoins et compétences complémentaires.
-2. Crée un groupe de discussion ou envoie un email d'introduction.
-3. Explique clairement pourquoi ils devraient se parler.
-
-### Critères de validation
-- Introduction pertinente.
-- Réponse positive des deux parties.
-    `,
-  },
-  {
-    id: "k2-online-event",
-    slug: "k2-online-event",
-    title: "Organiser un Événement en Ligne",
-    shortDesc: "Rassemble la communauté autour d'un sujet.",
-    description:
-      "Organise et anime un événement en ligne (AMA, workshop, débat, session Q&A) avec minimum 10 participants actifs.",
-    category: "community",
-    difficulty: 2,
-    xp: 200,
-    targetProfiles: ["catalyst"],
-    missionLevel: "INIT",
     duration: "1 semaine",
-    requirements: [
-      "Preuve de l'événement (recording, screenshots, rapport).",
-      "Nombre de participants et résumé du sujet traité.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.1,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.75,
+    requirements: ["Le pseudo du membre avec qui tu as collaboré.", "La preuve de l'échange (Screenshot de PR, document collaboratif, etc.)."],
+    weightBuilder: 0.20,
+    weightCreator: 0.20,
+    weightStrategist: 0.20,
+    weightCatalyst: 0.40,
     submissionMethod: "ANY_LINK",
-    deliverables: ["Lien vers l'enregistrement ou Screenshots", "Rapport de participation"],
+    deliverables: ["Preuve de la collaboration", "Bilan de ce que tu as appris de l'autre guilde"],
     fullBriefing: `
-# Mission : Organiser un Événement en Ligne
+# Mission Universelle 03 : Pollinisation Croisée
 
-Anime la communauté et crée des moments d'échange mémorables.
+L'élite technologique n'est jamais isolée. Ta force réside dans ta capacité à parler le langage des autres disciplines. 
 
 ### Instructions
-1. Choisis un thème porteur.
-2. Planifie la date et l'outil (Discord, Google Meet, Zoom).
-3. Fais la promotion de l'événement.
-4. Anime la session et encourage la participation.
+1. Identifie un membre actif qui appartient à une Guilde DIFFÉRENTE de la tienne.
+2. Propose-lui un échange de compétences (Ex: "Je suis Builder, je te règle ton problème de base de données si tu m'aides à améliorer le design de ma page d'accueil (Creator)").
+3. Réalisez cet échange de manière asynchrone ou lors d'un call.
 
 ### Critères de validation
-- Minimum 10 personnes présentes.
-- Qualité de l'animation.
-    `,
-  },
-  {
-    id: "k3-mentoring-session",
-    slug: "k3-mentoring-session",
-    title: "Session de Mentorat",
-    shortDesc: "Transmets ce que tu sais à quelqu'un qui débute.",
-    description:
-      "Donne une session de mentorat de 45-60 minutes à un membre moins avancé. Prépare un agenda, guide la conversation, partage des ressources.",
-    category: "community",
-    difficulty: 2,
-    xp: 250,
-    targetProfiles: ["catalyst"],
-    missionLevel: "CORE",
-    duration: "2h",
-    requirements: [
-      "Confirmation du mentoré et résumé de la session.",
-      "Ressources ou plan d'action partagé avec le mentoré.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.05,
-    weightStrategist: 0.15,
-    weightCatalyst: 0.75,
-    submissionMethod: "TEXT_RESPONSE",
-    deliverables: ["Résumé de la session de mentorat"],
-    fullBriefing: `
-# Mission : Session de Mentorat
-
-"To teach is to learn twice." Aide un pair à franchir une étape dans son parcours.
-
-### Instructions
-1. Identifie un membre ayant besoin d'aide sur un sujet que tu maîtrises.
-2. Planifie une heure de discussion.
-3. Écoute activement et propose des solutions concrètes.
-
-### Critères de validation
-- Feedback positif du mentoré.
-- Plan d'action clair à la fin.
-    `,
-  },
-  {
-    id: "k4-community-challenge",
-    slug: "k4-community-challenge",
-    title: "Lancer un Challenge Communautaire",
-    shortDesc: "Inspire les autres à passer à l'action.",
-    description:
-      "Crée et lance un challenge de 7 jours pour la communauté. Définis les règles, anime la progression, et fête les participants qui terminent.",
-    category: "community",
-    difficulty: 3,
-    xp: 350,
-    targetProfiles: ["catalyst"],
-    missionLevel: "CORE",
-    duration: "10 jours",
-    requirements: [
-      "Description du challenge et règles publiées.",
-      "Minimum 5 participants qui ont complété le challenge.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.1,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.75,
-    submissionMethod: "ANY_LINK",
-    deliverables: ["Annonce du challenge", "Liste des finalistes"],
-    fullBriefing: `
-# Mission : Lancer un Challenge Communautaire
-
-Crée une dynamique de groupe autour de la progression collective.
-
-### Instructions
-1. Définis un défi simple mais stimulant (ex: "7 jours de code").
-2. Crée un hashtag ou un canal dédié.
-3. Motive les troupes quotidiennement.
-4. Célèbre les résultats.
-
-### Critères de validation
-- Engagement visible de la communauté.
-- Au moins 5 personnes au bout du défi.
-    `,
-  },
-  {
-    id: "k5-partnership",
-    slug: "k5-partnership",
-    title: "Créer un Partenariat",
-    shortDesc: "Construis un pont entre deux entités.",
-    description:
-      "Identifie et concrétise un partenariat entre HASHCODE ou un projet membre et une organisation externe (école, entreprise, communauté).",
-    category: "community",
-    difficulty: 4,
-    xp: 400,
-    targetProfiles: ["catalyst"],
-    missionLevel: "PRO",
-    duration: "2 semaines",
-    requirements: [
-      "Description du partenariat et des parties impliquées.",
-      "Résultat concret : accord, échange, collaboration documentée.",
-    ],
-    weightBuilder: 0.05,
-    weightCreator: 0.05,
-    weightStrategist: 0.2,
-    weightCatalyst: 0.7,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Accord de partenariat / Rapport"],
-    fullBriefing: `
-# Mission : Créer un Partenariat
-
-Développe l'écosystème HASHCODE en ouvrant des portes vers l'extérieur.
-
-### Instructions
-1. Identifie un partenaire potentiel (incubateur, école, fournisseur d'outils).
-2. Prépare une proposition de valeur mutuelle.
-3. Négocie les termes.
-4. Lance l'initiative commune.
-
-### Critères de validation
-- Impact réel sur la communauté (ex: accès gratuit à un outil, événement commun).
-    `,
-  },
-  {
-    id: "k6-ambassador-program",
-    slug: "k6-ambassador-program",
-    title: "Programme d'Ambassadeurs",
-    shortDesc: "Étends le réseau en recrutant des représentants.",
-    description:
-      "Recrute et onboarde 3 nouveaux membres via ton réseau personnel. Accompagne-les dans leurs 2 premières semaines.",
-    category: "community",
-    difficulty: 4,
-    xp: 450,
-    targetProfiles: ["catalyst"],
-    missionLevel: "PRO",
-    duration: "3 semaines",
-    requirements: [
-      "Usernames des 3 nouveaux membres recrutés.",
-      "Confirmation qu'ils ont complété l'onboarding.",
-    ],
-    weightBuilder: 0.0,
-    weightCreator: 0.05,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.85,
-    submissionMethod: "TEXT_RESPONSE",
-    deliverables: ["Usernames des 3 recrues"],
-    fullBriefing: `
-# Mission : Programme d'Ambassadeurs
-
-Sois le visage de HASHCODE et fais grandir notre élite.
-
-### Instructions
-1. Identifie des talents dans ton entourage.
-2. Explique-leur la valeur de HASHCODE.
-3. Aide-les à passer l'onboarding et à comprendre le fonctionnement des missions.
-
-### Critères de validation
-- Inscription effective et passage du quiz par les 3 personnes.
-    `,
-  },
-  {
-    id: "k7-impact-report",
-    slug: "k7-impact-report",
-    title: "Rapport d'Impact Communautaire",
-    shortDesc: "Mesure et raconte ce que tu as construit.",
-    description:
-      "Rédige un rapport documentant ton impact sur la communauté : connexions créées, événements organisés, membres aidés, valeur générée.",
-    category: "community",
-    difficulty: 5,
-    xp: 500,
-    targetProfiles: ["catalyst"],
-    missionLevel: "PRO",
-    duration: "5h",
-    requirements: [
-      "Rapport structuré avec données chiffrées.",
-      "Témoignages de membres impactés.",
-    ],
-    weightBuilder: 0.0,
-    weightCreator: 0.15,
-    weightStrategist: 0.1,
-    weightCatalyst: 0.75,
-    submissionMethod: "DOCUMENT_LINK",
-    deliverables: ["Rapport d'Impact complet"],
-    fullBriefing: `
-# Mission : Rapport d'Impact Communautaire
-
-Clôture ton cycle de Catalyseur par une analyse objective de ton action.
-
-### Instructions
-1. Recueille les chiffres (participants, intros, recrues).
-2. Collecte 3 témoignages.
-3. Rédige ton bilan personnel et tes recommandations pour la communauté.
-
-### Critères de validation
-- Rapport exhaustif et inspirant.
+- La preuve du travail accompli ensemble (Lien vers une Pull Request, un Figma commenté, etc.).
+- Les deux membres de la collaboration obtiendront les points d'XP pour cette mission !
     `,
   },
 

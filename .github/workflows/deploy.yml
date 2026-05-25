@@ -1,0 +1,42 @@
+name: CD (Continuous Deployment)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            # Navigate to project directory
+            cd ${{ secrets.SSH_PATH }}
+            
+            # Pull latest changes from main branch
+            git pull origin main
+            
+            # Recreate and build production containers
+            docker compose down
+            docker compose up -d --build
+            
+            # Synchronize schema and seed initial data inside the running web container
+            # (Ensures all operations happen inside the isolated network environment)
+            docker compose exec -T web npx prisma db push --accept-data-loss
+            docker compose exec -T web npx prisma db seed
+            
+            # Clean up old/dangling docker images to save server disk space
+            docker image prune -f
+            
+            echo "==== DEPLOYMENT COMPLETED SUCCESSFULLY ===="

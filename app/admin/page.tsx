@@ -1,13 +1,23 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, BarChart2, FileText, TrendingUp } from "lucide-react"
+import { Users, Zap, BarChart2, FileText, TrendingUp, Filter, Activity } from "lucide-react"
 
 export default async function AdminPage() {
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
   const [
     userCount,
     recentUsers,
     quizByProfile,
     missionStats,
     submissionStats,
+    // Funnel
+    usersWithOnboarding,
+    usersWithClass,
+    usersInSquad,
+    usersWithMission,
+    // Retention
+    activeRecently,
+    totalCheckins7d,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.findMany({
@@ -18,6 +28,17 @@ export default async function AdminPage() {
     prisma.quizResult.groupBy({ by: ["profileType"], _count: { profileType: true } }),
     prisma.mission.findMany({ select: { id: true, title: true, missionLevel: true, targetProfiles: true, _count: { select: { submissions: true } } }, orderBy: { createdAt: "desc" }, take: 20 }),
     prisma.missionSubmission.groupBy({ by: ["status"], _count: { status: true } }),
+    // Funnel steps
+    prisma.user.count({ where: { currentSituation: { not: null } } }),
+    prisma.user.count({ where: { class: { not: null } } }),
+    prisma.guildMember.count().then(async () => {
+      const distinct = await prisma.guildMember.findMany({ select: { userId: true }, distinct: ["userId"] })
+      return distinct.length
+    }),
+    prisma.missionSubmission.findMany({ select: { userId: true }, distinct: ["userId"] }).then(r => r.length),
+    // Retention
+    prisma.user.count({ where: { lastCheckinAt: { gte: sevenDaysAgo } } }),
+    prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
   ])
 
   const profileColors: Record<string, string> = {
@@ -30,7 +51,7 @@ export default async function AdminPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Dashboard Admin</h1>
+        <h1 className="text-lg font-bold tracking-tight text-white">Vue d&apos;ensemble</h1>
         <p className="text-sm text-muted-foreground font-mono">
           Vue d&apos;ensemble de l&apos;activité et des indicateurs de performance.
         </p>
@@ -47,16 +68,81 @@ export default async function AdminPage() {
           <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3 shadow-sm hover:border-white/10 transition-colors">
             <div className={`flex items-center gap-2 ${kpi.color}`}>
               <kpi.icon className="h-4 w-4" />
-              <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{kpi.label}</span>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
           </div>
         ))}
       </div>
 
+      {/* Onboarding Funnel */}
+      <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
+        <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <Filter className="h-3 w-3" /> Funnel d&apos;acquisition
+        </h2>
+        <div className="space-y-3">
+          {[
+            { label: "Inscrits", value: userCount, desc: "comptes créés" },
+            { label: "Onboarding", value: usersWithOnboarding, desc: "ont renseigné leur situation" },
+            { label: "Quiz complété", value: usersWithClass, desc: "ont un profil assigné" },
+            { label: "Dans une escouade", value: usersInSquad, desc: "membres actifs" },
+            { label: "Missions", value: usersWithMission, desc: "ont soumis au moins une mission" },
+          ].map((step, i, arr) => {
+            const base = i === 0 ? userCount : arr[i - 1].value
+            const dropPct = base > 0 ? Math.round(((base - step.value) / base) * 100) : 0
+            const fillPct = userCount > 0 ? Math.round((step.value / userCount) * 100) : 0
+            return (
+              <div key={step.label} className="space-y-1.5">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="w-4 h-4 rounded-full bg-white/5 flex items-center justify-center text-[8px] text-zinc-500 shrink-0">{i + 1}</span>
+                    <span className="text-zinc-300 font-bold">{step.label}</span>
+                    <span className="text-zinc-600">{step.desc}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {i > 0 && dropPct > 0 && (
+                      <span className="text-red-400 text-[9px]">-{dropPct}%</span>
+                    )}
+                    <span className="text-white font-bold tabular-nums">{step.value}</span>
+                    <span className="text-zinc-600 w-8 text-right">{fillPct}%</span>
+                  </div>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{
+                      width: `${fillPct}%`,
+                      background: fillPct >= 60 ? "#C5F441" : fillPct >= 30 ? "#F59E0B" : "#EF4444",
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Retention row */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {[
+          { label: "Actifs 7 derniers jours", value: activeRecently, icon: Activity, color: "text-primary", sub: `sur ${userCount} inscrits` },
+          { label: "Taux d'activité 7j", value: `${userCount > 0 ? Math.round((activeRecently / userCount) * 100) : 0}%`, icon: TrendingUp, color: "text-amber-400", sub: "check-in récent" },
+          { label: "Ont déjà check-iné", value: totalCheckins7d, icon: Zap, color: "text-violet-400", sub: `sur ${userCount} inscrits` },
+        ].map(kpi => (
+          <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
+            <div className={`flex items-center gap-2 ${kpi.color}`}>
+              <kpi.icon className="h-4 w-4" />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
+            </div>
+            <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
+            <p className="text-[10px] font-mono text-zinc-600">{kpi.sub}</p>
+          </div>
+        ))}
+      </div>
+
       {/* Profile Distribution */}
       <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-        <h2 className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2"><TrendingUp className="h-3 w-3" /> Distribution des Profils</h2>
+        <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2"><TrendingUp className="h-3 w-3" /> Distribution des Profils</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {["builder", "creator", "strategist", "catalyst"].map((p) => {
             const count = quizByProfile.find(q => q.profileType === p)?._count.profileType ?? 0
@@ -80,7 +166,7 @@ export default async function AdminPage() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Recent Users */}
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-6">
-          <h2 className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2"><Users className="h-3 w-3" /> Derniers Membres</h2>
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2"><Users className="h-3 w-3" /> Derniers Membres</h2>
           <div className="space-y-4">
             {recentUsers.map((u) => (
               <div key={u.id} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0 group">
@@ -105,7 +191,7 @@ export default async function AdminPage() {
 
         {/* Mission Activity */}
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-6">
-          <h2 className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2"><Zap className="h-3 w-3" /> Activité Missions</h2>
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2"><Zap className="h-3 w-3" /> Activité Missions</h2>
           <div className="space-y-4">
             {missionStats.map((m) => (
               <div key={m.id} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0 group">
@@ -122,7 +208,7 @@ export default async function AdminPage() {
               </div>
             ))}
             {missionStats.length === 0 && (
-              <p className="text-sm text-muted-foreground py-8 text-center font-mono text-[10px] uppercase tracking-widest">Aucune soumission active</p>
+              <p className="text-sm text-muted-foreground py-8 text-center font-mono text-[10px] uppercase tracking-wider">Aucune soumission active</p>
             )}
           </div>
         </div>

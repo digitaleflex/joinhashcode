@@ -7,15 +7,15 @@ import { Plus, Minus, HelpCircle } from "lucide-react"
 const faqs = [
   {
     question: "C'est quoi exactement HASHCODE ?",
-    answer: "HASHCODE est une infrastructure de progression pour Builders. Ce n'est pas juste une communauté, c'est un système qui profile tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes (Guildes) où tu peux avoir un impact immédiat."
+    answer: "HASHCODE est une infrastructure de progression pour Builders. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes (Guildes) où tu peux avoir un impact immédiat."
   },
   {
-    question: "Comment fonctionne le profilage par l'action ?",
-    answer: "Contrairement aux tests classiques, HASHCODE utilise une boucle comportementale. Ton profil initial (Quiz) n'est qu'une hypothèse. Elle est validée ou corrigée au fil de tes soumissions de code et de tes interactions dans le système."
+    question: "Comment fonctionne le diagnostic par l'action ?",
+    answer: "Contrairement aux tests classiques, HASHCODE utilise une boucle comportementale. Ton diagnostic initial (Quiz) n'est qu'une hypothèse. Elle est validée ou corrigée au fil de tes soumissions de code et de tes interactions dans le système."
   },
   {
     question: "Est-ce que l'accès est gratuit ?",
-    answer: "L'accès au profilage et aux premières missions de validation est gratuit. Les accès aux Guildes Elite et aux ressources avancées dépendent de ton niveau d'évolution (INIT, CORE, PRO, ELITE) et de ta contribution au réseau."
+    answer: "L'accès à l'évaluation et aux premières missions de validation est gratuit. Les accès aux Guildes Elite et aux ressources avancées dépendent de ton niveau d'évolution (INIT, CORE, PRO, ELITE) et de ta contribution au réseau."
   },
   {
     question: "Quels sont les prérequis techniques ?",
@@ -49,7 +49,7 @@ export function Faq() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+            <span className="font-mono text-[11px] uppercase text-primary">
               System_FAQ
             </span>
             <span className="h-px w-8 bg-primary/50" />
@@ -110,7 +110,7 @@ export function Faq() {
               <p className="text-xs text-zinc-500">Pose ta question directement à la communauté.</p>
             </div>
           </div>
-          <button className="text-xs font-mono uppercase tracking-widest text-primary hover:underline">
+          <button className="text-xs font-mono uppercase tracking-wider text-primary hover:underline">
             Contact_Support
           </button>
         </div>

@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="lg:col-span-5">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="h-px w-8 bg-primary/50" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+                <span className="font-mono text-[11px] uppercase text-primary">
                   Communications_HUB
                 </span>
               </div>
@@ -79,7 +79,7 @@ export default function ContactPage() {
                     <div className="p-2 rounded-lg bg-primary/10 text-primary">
                       <Shield className="h-5 w-5" />
                     </div>
-                    <span className="font-mono text-xs uppercase tracking-widest text-white">System Status</span>
+                    <span className="font-mono text-xs uppercase tracking-wider text-white">System Status</span>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-[10px] font-mono uppercase">
@@ -131,7 +131,7 @@ export default function ContactPage() {
                           }`}
                         >
                           <item.icon className="h-5 w-5 shrink-0" />
-                          <span className="text-[10px] font-mono uppercase tracking-widest">{item.label}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-wider">{item.label}</span>
                         </button>
                       ))}
                     </div>
@@ -173,7 +173,7 @@ export default function ContactPage() {
                     <Button 
                       type="submit" 
                       disabled={isSending}
-                      className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-bold uppercase tracking-widest rounded-xl shadow-[0_10px_30px_-10px_rgba(197,244,65,0.3)] group"
+                      className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-bold uppercase tracking-wide rounded-xl shadow-[0_10px_30px_-10px_rgba(197,244,65,0.3)] group"
                     >
                       {isSending ? (
                         <>

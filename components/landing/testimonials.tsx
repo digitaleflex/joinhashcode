@@ -60,7 +60,7 @@ export function Testimonials() {
         <div className="flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">Retours terrain</span>
+            <span className="font-mono text-[11px] uppercase text-primary">Retours terrain</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-3">
@@ -102,7 +102,7 @@ export function Testimonials() {
                   <p className="text-xs text-zinc-500 mt-0.5">{t.location}</p>
                 </div>
                 <span
-                  className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-1 rounded"
+                  className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded"
                   style={{ color: t.color, background: `${t.color}12`, border: `1px solid ${t.color}25` }}
                 >
                   {t.profile}

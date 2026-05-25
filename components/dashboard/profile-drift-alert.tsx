@@ -108,7 +108,7 @@ export function ProfileDriftAlert({ profileDrift, userClass, userId }: ProfileDr
               />
             </div>
             <div className="space-y-1">
-              <div className={cn("text-[9px] font-mono font-black uppercase tracking-[0.4em]", level.color)}>
+              <div className={cn("text-[9px] font-mono font-black uppercase", level.color)}>
                 {level.label}
               </div>
               <div className="flex items-end gap-1">
@@ -130,7 +130,7 @@ export function ProfileDriftAlert({ profileDrift, userClass, userId }: ProfileDr
               <Button
                 asChild
                 size="sm"
-                className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest gap-2"
+                className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider gap-2"
               >
                 <Link href="/quiz">
                   <RefreshCw className="size-3" />

@@ -63,7 +63,7 @@ export default async function UserDossierPage({ params }: PageProps) {
       <div className="flex items-center justify-between">
         <Link 
           href="/admin/users"
-          className="flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-primary transition-colors uppercase tracking-widest group"
+          className="flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-primary transition-colors uppercase tracking-wider group"
         >
           <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Retour à la liste
@@ -87,8 +87,8 @@ export default async function UserDossierPage({ params }: PageProps) {
                   </Avatar>
                 </div>
               </div>
-              <CardTitle className="text-2xl font-bold text-white tracking-tight">{user.name}</CardTitle>
-              <CardDescription className="font-mono text-xs uppercase tracking-widest text-zinc-500 flex items-center justify-center gap-2 mt-1">
+              <CardTitle className="text-lg font-bold text-white tracking-tight">{user.name}</CardTitle>
+              <CardDescription className="font-mono text-xs uppercase tracking-wider text-zinc-500 flex items-center justify-center gap-2 mt-1">
                 {user.pseudo ? `@${user.pseudo}` : "ID NEURONAL"} · LVL {user.level}
               </CardDescription>
             </CardHeader>
@@ -128,7 +128,7 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
 
               <div className="pt-4 space-y-3">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 px-1">Classe de Profil</p>
+                <p className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 px-1">Classe de Profil</p>
                 {user.class ? (
                   <div 
                     className="p-4 rounded-2xl border flex items-center justify-between"
@@ -149,7 +149,7 @@ export default async function UserDossierPage({ params }: PageProps) {
           {/* User Stats Card */}
           <Card className="bg-zinc-900/50 border-white/5">
             <CardHeader>
-              <CardTitle className="text-sm font-mono uppercase tracking-widest text-primary flex items-center gap-2">
+              <CardTitle className="text-sm font-mono uppercase tracking-wide text-primary flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" /> Vecteurs de Compétences
               </CardTitle>
             </CardHeader>
@@ -162,7 +162,7 @@ export default async function UserDossierPage({ params }: PageProps) {
               ].map((stat) => (
                 <div key={stat.label} className="space-y-2">
                   <div className="flex justify-between items-end text-[10px] font-mono">
-                    <span className="text-zinc-400 uppercase tracking-widest">{stat.label}</span>
+                    <span className="text-zinc-400 uppercase tracking-wide">{stat.label}</span>
                     <span style={{ color: stat.color }}>{stat.value} PTS</span>
                   </div>
                   <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -196,7 +196,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                 <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
                   <BrainCircuit className="h-6 w-6 text-primary" /> Analyse du Quiz Initial
                 </CardTitle>
-                <CardDescription className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">
+                <CardDescription className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-wider">
                   {quizResult ? `Effectué le ${new Date(quizResult.createdAt).toLocaleDateString('fr-FR')}` : "Données non disponibles"}
                 </CardDescription>
               </div>
@@ -212,7 +212,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                   <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
                     <Target className="h-8 w-8 text-zinc-700" />
                   </div>
-                  <p className="text-zinc-500 font-mono text-sm">Cet utilisateur n'a pas encore passé le quiz de profilage.</p>
+                  <p className="text-zinc-500 font-mono text-sm">Cet utilisateur n'a pas encore passé le quiz d'évolution.</p>
                 </div>
               ) : (
                 <div className="space-y-10">
@@ -224,7 +224,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                       <div key={q.id} className="space-y-4 relative pl-8 border-l border-white/5 last:border-0">
                         <div className="absolute -left-[5px] top-1 h-2.5 w-2.5 rounded-full bg-zinc-800 border border-white/10" />
                         <div className="space-y-1">
-                          <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Question {idx + 1} · {q.type}</p>
+                          <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">Question {idx + 1} · {q.type}</p>
                           <h3 className="text-lg font-bold text-white leading-snug italic">&ldquo;{q.text}&rdquo;</h3>
                         </div>
                         
@@ -248,7 +248,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                                 </span>
                                 {isUserChoice && (
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[9px] font-mono uppercase tracking-widest font-bold" style={{ color: optColor }}>
+                                    <span className="text-[9px] font-mono uppercase tracking-wider font-bold" style={{ color: optColor }}>
                                       +{q.weight * opt.score} {opt.value}
                                     </span>
                                     <div className="h-2 w-2 rounded-full" style={{ background: optColor }} />
@@ -289,14 +289,14 @@ export default async function UserDossierPage({ params }: PageProps) {
                         </div>
                         <div>
                           <p className="text-sm font-bold text-white">{sub.mission.title}</p>
-                          <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                          <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
                             Soumis le {new Date(sub.createdAt).toLocaleDateString()} · {sub.status}
                           </p>
                         </div>
                       </div>
                       <Badge 
                         variant="outline" 
-                        className={`font-mono text-[9px] uppercase tracking-widest ${
+                        className={`font-mono text-[9px] uppercase tracking-wider ${
                           sub.status === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
                           sub.status === 'REJECTED' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 
                           'bg-amber-500/10 text-amber-500 border-amber-500/20'

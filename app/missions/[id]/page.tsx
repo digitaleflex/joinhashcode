@@ -93,17 +93,17 @@ export default async function MissionBriefingPage({
                 {/* Left: title + badges */}
                 <div className="space-y-4 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] font-mono text-primary/50 uppercase tracking-[0.3em]">
+                    <span className="text-[10px] font-mono text-primary/50 uppercase">
                       MISSION // {id.toUpperCase().replace(/-/g, "_")}
                     </span>
                   </div>
 
-                  <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1]">
+                  <h1 className="text-xl md:text-2xl font-bold tracking-tight leading-[1.1]">
                     {mission.title}
                   </h1>
 
                   <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <Badge className="bg-primary/10 text-primary border-primary/20 uppercase font-mono tracking-widest text-[10px] rounded-md px-2 py-0.5">
+                    <Badge className="bg-primary/10 text-primary border-primary/20 uppercase font-mono tracking-wider text-[10px] rounded-md px-2 py-0.5">
                       {mission.category}
                     </Badge>
                     <Badge variant="outline" className="text-muted-foreground border-border/60 font-mono text-[10px] rounded-md px-2 py-0.5">
@@ -129,13 +129,13 @@ export default async function MissionBriefingPage({
 
                 {/* Right: XP reward */}
                 <div className="shrink-0 flex flex-col items-end justify-start">
-                  <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] mb-1">
+                  <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">
                     Récompense
                   </div>
                   <div className="text-6xl md:text-7xl font-black font-mono text-primary leading-none">
                     +{mission.xp}
                   </div>
-                  <div className="text-xs font-mono text-primary/60 tracking-[0.3em] uppercase mt-1">
+                  <div className="text-xs font-mono text-primary/60 uppercase mt-1">
                     XP
                   </div>
                 </div>
@@ -146,18 +146,18 @@ export default async function MissionBriefingPage({
                 {mission.duration && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
                     <Clock className="w-3.5 h-3.5 text-primary/40" />
-                    <span className="uppercase tracking-widest text-[10px]">Durée</span>
+                    <span className="uppercase tracking-wider text-[10px]">Durée</span>
                     <span className="text-zinc-300">{mission.duration}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
                   {methodIcon}
-                  <span className="uppercase tracking-widest text-[10px]">Méthode</span>
+                  <span className="uppercase tracking-wider text-[10px]">Méthode</span>
                   <span className="text-zinc-300">{mission.submissionMethod.replace(/_/g, " ")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
                   <Layers className="w-3.5 h-3.5 text-primary/40" />
-                  <span className="uppercase tracking-widest text-[10px]">Livrables</span>
+                  <span className="uppercase tracking-wider text-[10px]">Livrables</span>
                   <span className="text-zinc-300">{mission.deliverables.length} élément{mission.deliverables.length > 1 ? "s" : ""}</span>
                 </div>
               </div>
@@ -172,10 +172,10 @@ export default async function MissionBriefingPage({
                 {/* 01 — Briefing */}
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <span className="text-[10px] font-mono text-primary/40 tracking-[0.3em]">01</span>
+                    <span className="text-[10px] font-mono text-primary/40">01</span>
                     <div className="flex items-center gap-2">
                       <Shield className="w-4 h-4 text-primary" />
-                      <h2 className="text-xs font-mono uppercase tracking-[0.25em] text-primary">Briefing</h2>
+                      <h2 className="text-xs font-mono uppercase text-primary">Briefing</h2>
                     </div>
                     <div className="flex-1 h-px bg-border/30" />
                   </div>
@@ -188,10 +188,10 @@ export default async function MissionBriefingPage({
                 {/* 02 — Livrables */}
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <span className="text-[10px] font-mono text-primary/40 tracking-[0.3em]">02</span>
+                    <span className="text-[10px] font-mono text-primary/40">02</span>
                     <div className="flex items-center gap-2">
                       <Rocket className="w-4 h-4 text-primary" />
-                      <h2 className="text-xs font-mono uppercase tracking-[0.25em] text-primary">Livrables attendus</h2>
+                      <h2 className="text-xs font-mono uppercase text-primary">Livrables attendus</h2>
                     </div>
                     <div className="flex-1 h-px bg-border/30" />
                   </div>
@@ -232,7 +232,7 @@ export default async function MissionBriefingPage({
                   <div className="px-5 py-4 border-b border-border/30">
                     <div className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-primary" />
-                      <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">
+                      <span className="text-[10px] font-mono uppercase text-muted-foreground">
                         Statut de la mission
                       </span>
                     </div>
@@ -245,7 +245,7 @@ export default async function MissionBriefingPage({
                           <CheckCircle2 className="w-7 h-7 text-emerald-500" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-emerald-400 font-mono text-sm uppercase tracking-widest">Mission validée</h3>
+                          <h3 className="font-bold text-emerald-400 font-mono text-sm uppercase tracking-wide">Mission validée</h3>
                           {submission?.qualityLevel && submission.qualityLevel !== "STANDARD" && (
                             <p className="text-xs text-emerald-400/60 mt-1 font-mono">
                               {submission.qualityLevel === "EXEMPLARY" ? "⭐ Travail exemplaire" : "✦ Très bon travail"}
@@ -260,7 +260,7 @@ export default async function MissionBriefingPage({
                           <Rocket className="w-7 h-7 text-blue-400 animate-pulse" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-blue-400 font-mono text-sm uppercase tracking-widest">En cours de revue</h3>
+                          <h3 className="font-bold text-blue-400 font-mono text-sm uppercase tracking-wide">En cours de revue</h3>
                           <p className="text-xs text-zinc-500 mt-2">Un reviewer analyse ta soumission.</p>
                         </div>
                       </div>
@@ -270,7 +270,7 @@ export default async function MissionBriefingPage({
                           <Rocket className="w-7 h-7 text-amber-400 animate-pulse" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-amber-400 font-mono text-sm uppercase tracking-widest">En attente de revue</h3>
+                          <h3 className="font-bold text-amber-400 font-mono text-sm uppercase tracking-wide">En attente de revue</h3>
                           <p className="text-xs text-zinc-500 mt-2 leading-relaxed">Nos opérateurs analysent ta transmission.</p>
                         </div>
                       </div>
@@ -292,7 +292,7 @@ export default async function MissionBriefingPage({
                     <div className="px-5 py-4 border-b border-border/30">
                       <div className="flex items-center gap-2">
                         <Lock className="w-4 h-4 text-muted-foreground/60" />
-                        <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground">
+                        <span className="text-[10px] font-mono uppercase text-muted-foreground">
                           Pré-requis
                         </span>
                       </div>

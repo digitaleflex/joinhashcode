@@ -24,7 +24,7 @@ export function HowItWorks() {
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-3">
             <span className="h-px w-8 bg-primary" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+            <span className="font-mono text-[11px] uppercase text-primary">
               Fonctionnement
             </span>
             <span className="h-px w-8 bg-primary" />
@@ -46,7 +46,7 @@ export function HowItWorks() {
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs text-primary">{step.n}</span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">
                   Étape {i + 1}
                 </span>
               </div>

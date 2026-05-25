@@ -24,7 +24,7 @@ export function DevNotice({ title, className }: DevNoticeProps) {
         </div>
         
         <div className="space-y-1">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-white">
             {title || "Fonctionnalité en cours"}
           </h3>
           <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-primary/60 uppercase tracking-tighter">

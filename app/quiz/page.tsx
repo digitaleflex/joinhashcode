@@ -9,7 +9,7 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 
 export const metadata = {
-  title: "Profilage — HASHCODE",
+  title: "Évaluation — HASHCODE",
   description: "Découvre ton profil et rejoins la communauté qui te correspond.",
 }
 
@@ -54,11 +54,11 @@ export default async function QuizPage() {
           </Link>
 
           <div className="text-center mb-6">
-            <h1 className="text-sm font-mono uppercase tracking-[0.2em] text-primary mb-2">
+            <h1 className="text-sm font-mono uppercase text-primary mb-2">
               Analyse de potentiel
             </h1>
             <p className="text-muted-foreground text-sm">
-              Réponds sincèrement pour obtenir le profilage le plus précis possible.
+              Réponds sincèrement pour obtenir le diagnostic le plus précis possible.
             </p>
           </div>
           <QuizWithDiagnostic user={user ?? undefined} />

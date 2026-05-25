@@ -122,7 +122,7 @@ export function BetaFeedbackDialog() {
                     <DialogFooter className="pt-2">
                         <Button 
                             type="submit" 
-                            className="w-full btn-primary-glow font-bold uppercase tracking-widest h-11"
+                            className="w-full btn-primary-glow font-bold uppercase tracking-wide h-11"
                             disabled={isSubmitting || content.length < 10}
                         >
                             {isSubmitting ? (

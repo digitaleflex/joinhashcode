@@ -72,18 +72,18 @@ export default async function DossierPage() {
                 <div className="space-y-4">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                         <Fingerprint className="size-3.5 text-primary" />
-                        <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-primary">Dossier_Confidentiel_v2.1</span>
+                        <span className="text-[10px] font-mono font-black uppercase text-primary">Dossier_Confidentiel_v2.1</span>
                     </div>
                     <h1 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">
                         {user.name.split(' ')[0]} <span className="text-primary italic">.Data</span>
                     </h1>
                     <div className="flex items-center gap-4">
-                        <Badge variant="outline" className="font-mono text-[10px] border-white/10 text-zinc-500 uppercase tracking-widest">
+                        <Badge variant="outline" className="font-mono text-[10px] border-white/10 text-zinc-500 uppercase tracking-wider">
                             Ref_System: {user.pseudo || "TALENT_IDENTIFIED"}
                         </Badge>
                         <div className="flex items-center gap-1.5">
                             <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-[9px] font-mono text-emerald-500/60 uppercase tracking-widest">Status: Actif</span>
+                            <span className="text-[9px] font-mono text-emerald-500/60 uppercase tracking-wider">Status: Actif</span>
                         </div>
                     </div>
                     <p className="text-zinc-500 max-w-xl italic text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
@@ -93,7 +93,7 @@ export default async function DossierPage() {
                 
                 <div className="flex flex-col items-end gap-3 shrink-0">
                     <div className="text-right">
-                        <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-1">Habilitation_ID</div>
+                        <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider mb-1">Habilitation_ID</div>
                         <div className="text-xl font-black text-white font-mono bg-white/5 px-4 py-2 rounded-xl border border-white/5">
                             {user.id.slice(0, 12).toUpperCase()}
                         </div>
@@ -120,12 +120,12 @@ export default async function DossierPage() {
                                 <div className="p-8 rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                                         <div className="space-y-1">
-                                            <span className="text-[10px] font-mono text-primary font-black uppercase tracking-[0.3em]">Vecteur_Dominant</span>
+                                            <span className="text-[10px] font-mono text-primary font-black uppercase">Vecteur_Dominant</span>
                                             <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic">
                                                 {quizResult?.profileType || "CALIBRATION_PENDING"}
                                             </h3>
                                         </div>
-                                        <Badge className="bg-primary text-black font-black text-[10px] px-4 py-1.5 rounded-lg uppercase tracking-widest shadow-[0_0_20px_#C5F441]">
+                                        <Badge className="bg-primary text-black font-black text-[10px] px-4 py-1.5 rounded-lg uppercase tracking-wider shadow-[0_0_20px_#C5F441]">
                                             Expertise_V1
                                         </Badge>
                                     </div>
@@ -138,14 +138,14 @@ export default async function DossierPage() {
                                 {/* Answers Grid */}
                                 {quizResult && (
                                     <div className="space-y-6">
-                                        <h4 className="text-[10px] font-mono uppercase text-zinc-500 tracking-[0.4em] flex items-center gap-3">
+                                        <h4 className="text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
                                             Points_de_Données_Clés
                                             <div className="h-px bg-white/5 flex-1" />
                                         </h4>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             {Object.entries(answers).slice(0, 6).map(([key, value]: any) => (
                                                 <div key={key} className="flex flex-col gap-1 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all group/item">
-                                                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest group-hover/item:text-primary transition-colors">
+                                                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider group-hover/item:text-primary transition-colors">
                                                         {key.replace(/([A-Z])/g, ' $1').trim()}
                                                     </span>
                                                     <span className="text-sm font-bold text-zinc-300 uppercase tracking-tight truncate">
@@ -155,7 +155,7 @@ export default async function DossierPage() {
                                             ))}
                                         </div>
                                         <div className="text-center">
-                                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest animate-pulse">
+                                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider animate-pulse">
                                                 -- Synchronisation de 42 autres vecteurs comportementaux --
                                             </p>
                                         </div>
@@ -175,7 +175,7 @@ export default async function DossierPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <Card className="glass-card rounded-[2rem] p-8 space-y-6">
                                 <div className="space-y-2">
-                                    <h4 className="text-[10px] font-mono uppercase text-primary font-black tracking-[0.3em]">Domaines_D_Expertise</h4>
+                                    <h4 className="text-[10px] font-mono uppercase text-primary font-black">Domaines_D_Expertise</h4>
                                     <div className="flex flex-wrap gap-2 pt-2">
                                         {user.domains?.length > 0 ? (
                                             user.domains.map((d: string) => (
@@ -192,7 +192,7 @@ export default async function DossierPage() {
                             
                             <Card className="glass-card rounded-[2rem] p-8 space-y-6">
                                 <div className="space-y-2">
-                                    <h4 className="text-[10px] font-mono uppercase text-zinc-500 font-black tracking-[0.3em]">Outils_&_Technologies</h4>
+                                    <h4 className="text-[10px] font-mono uppercase text-zinc-500 font-black">Outils_&_Technologies</h4>
                                     <div className="flex flex-wrap gap-2 pt-2">
                                         {user.tools?.length > 0 ? (
                                             user.tools.map((t: string) => (
@@ -215,7 +215,7 @@ export default async function DossierPage() {
                     
                     {/* Member Card - Essential piece */}
                     <div className="space-y-4">
-                        <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-600 flex items-center gap-3">
+                        <p className="text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
                             Carte_Habilitation
                             <div className="h-px bg-white/5 flex-1" />
                         </p>
@@ -237,14 +237,14 @@ export default async function DossierPage() {
                     <Card className="glass-card rounded-[2rem] p-8 space-y-8">
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-primary font-black uppercase tracking-[0.3em]">Objectif_Tactique</div>
+                                <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif_Tactique</div>
                                 <div className="text-base font-bold text-white uppercase tracking-tight italic">
                                     {user.mainObjective || "NON_SPÉCIFIÉ"}
                                 </div>
                             </div>
                             
                             <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase tracking-[0.3em]">Position_Géo</div>
+                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Position_Géo</div>
                                 <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
                                     <Globe className="size-3.5 text-primary" />
                                     {user.city || "UNKNOWN_LOCATION"}, {user.country || "GLOBAL"}
@@ -252,7 +252,7 @@ export default async function DossierPage() {
                             </div>
                             
                             <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase tracking-[0.3em]">Habilitation_Réseau</div>
+                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Habilitation_Réseau</div>
                                 <div className="flex items-center gap-3">
                                     <Link href={user.githubUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all group/link">
                                         <Github className="size-4" />
@@ -270,7 +270,7 @@ export default async function DossierPage() {
                         </div>
 
                         <div className="pt-6 border-t border-white/5">
-                            <Button asChild className="w-full btn-primary-glow font-black uppercase tracking-[0.2em] h-14 rounded-2xl group">
+                            <Button asChild className="w-full btn-primary-glow font-black uppercase h-14 rounded-2xl group">
                                 <Link href="/settings">
                                     Mettre à jour .Data
                                     <ChevronRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
@@ -285,8 +285,8 @@ export default async function DossierPage() {
                             <ShieldCheck className="size-8 text-emerald-500" />
                         </div>
                         <div className="space-y-1">
-                            <h4 className="text-sm font-black uppercase text-emerald-400 tracking-widest">Protocol de Confiance Actif</h4>
-                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">Vérifié_Par_IA_Hashcode</p>
+                            <h4 className="text-sm font-black uppercase text-emerald-400 tracking-wide">Protocol de Confiance Actif</h4>
+                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">Vérifié_Par_IA_Hashcode</p>
                         </div>
                     </div>
                 </div>

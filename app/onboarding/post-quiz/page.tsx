@@ -68,8 +68,10 @@ export default function PostQuizOnboarding() {
       if (!res.ok) throw new Error("Failed to save")
 
       toast.success("Configuration terminée !")
-      // Use window.location for a full refresh to ensure middleware sees the updated session
-      window.location.href = "/dashboard"
+      // Check for a pending squad invite set before the user went through sign-up
+      const pendingCookie = document.cookie.split(";").find(c => c.trim().startsWith("pending-squad="))
+      const pendingSlug = pendingCookie?.split("=")[1]?.trim()
+      window.location.href = pendingSlug ? `/invite/${pendingSlug}` : "/dashboard"
     } catch (error) {
       toast.error("Une erreur est survenue")
     } finally {
@@ -102,7 +104,7 @@ export default function PostQuizOnboarding() {
                 {step === 2 && <AlertCircle className="w-8 h-8" />}
               </div>
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight uppercase font-mono">
+                <h1 className="text-xl font-bold tracking-tight uppercase font-mono">
                   {step === 0 && "Ton Rêve à 12 Mois"}
                   {step === 1 && "Tes Domaines de Focus"}
                   {step === 2 && "Ton Principal Obstacle"}
@@ -208,7 +210,7 @@ export default function PostQuizOnboarding() {
                   variant="ghost" 
                   onClick={() => setStep(step - 1)}
                   disabled={step === 0 || isSubmitting}
-                  className="font-mono text-xs uppercase tracking-widest"
+                  className="font-mono text-xs uppercase tracking-wider"
                 >
                   Retour
                 </Button>
@@ -237,7 +239,7 @@ export default function PostQuizOnboarding() {
         </AnimatePresence>
 
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] bg-muted/30 px-3 py-1 rounded-full border border-border/50">
+          <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase bg-muted/30 px-3 py-1 rounded-full border border-border/50">
             <Sparkles className="w-3 h-3 text-primary" />
             Phase Finale d&apos;Analyse
           </div>

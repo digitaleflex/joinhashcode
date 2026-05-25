@@ -58,7 +58,7 @@ export const emailService = {
       <h1 class="title">Transmission Initiale : <span class="highlight">Accès Autorisé</span></h1>
       <p>Bienvenue dans l'Écosystème, <span class="highlight">${name}</span>.</p>
       <p>Ton identifiant est désormais actif sur le réseau neuronal de HASHCODE. Tu ne rejoins pas qu'une plateforme, tu rejoins une force de frappe composée de bâtisseurs, de créateurs et de stratèges.</p>
-      <p><strong>Prochaine étape :</strong> Complète ton profilage pour synchroniser tes objectifs avec les missions disponibles.</p>
+      <p><strong>Prochaine étape :</strong> Complète ton diagnostic pour synchroniser tes objectifs avec les missions disponibles.</p>
       <center><a href="${APP_URL}/onboarding" class="btn">Initialiser mon profil</a></center>
       <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: READY_TO_BUILD ]</p>
     `;
@@ -113,7 +113,7 @@ export const emailService = {
 
     const content = `
       <h1 class="title">Analyse Terminée : <span class="highlight">Hypothèse Confirmée</span></h1>
-      <p>Félicitations <span class="highlight">${name}</span>, ton profilage comportemental est désormais gravé dans la base de données.</p>
+      <p>Félicitations <span class="highlight">${name}</span>, ton diagnostic comportemental est désormais gravé dans la base de données.</p>
       <p>Tes vecteurs cognitifs indiquent une dominance critique : <strong class="highlight">${profileType.toUpperCase()}</strong>.</p>
       <p>L'écosystème vient de débloquer une série de missions spécifiquement calibrées pour ton mode d'action.</p>
       <center><a href="${APP_URL}/dashboard" class="btn">Prendre les commandes</a></center>

@@ -63,11 +63,11 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-4xl font-black tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] uppercase"
+            className="text-3xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
             Tu es
             <br />
-            <span className="inline-flex items-center justify-center min-w-[200px] sm:min-w-[360px] italic">
+            <span className="inline-flex items-center justify-center min-w-[180px] sm:min-w-[320px] italic">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={current.label}
@@ -75,7 +75,7 @@ export function Hero() {
                   animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                   exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl"
+                  className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl"
                   style={{ color: current.color, textShadow: `0 0 20px ${current.color}20` }}
                 >
                   {current.label}
@@ -91,7 +91,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="mt-8 text-lg text-zinc-400 font-medium tracking-tight max-w-lg"
           >
-            Le système détecte ton potentiel tech en <span className="text-white italic">3 minutes</span> chrono.
+            Le système décode tes forces en <span className="text-white italic">3 minutes</span> chrono.
           </motion.p>
 
           {/* CTAs */}
@@ -107,7 +107,7 @@ export function Hero() {
               className="btn-primary-glow group h-14 rounded-2xl px-10 text-[11px] font-black uppercase"
             >
               <Link href="/quiz">
-                Lancer le profilage
+                Révéler mon potentiel
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
@@ -163,7 +163,7 @@ export function Hero() {
                     Stratège
                   </p>
                 </div>
-                <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] font-black border-[#22D3EE]/30 text-[#22D3EE] px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-[#22D3EE]/5 tracking-widest">
+                <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] font-black border-[#22D3EE]/30 text-[#22D3EE] px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-[#22D3EE]/5 tracking-wide">
                   RANG ELITE
                 </Badge>
               </div>

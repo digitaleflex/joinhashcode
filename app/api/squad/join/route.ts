@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { logActivity } from "@/lib/activity-log";
 
 export async function POST(req: Request) {
   try {
@@ -42,6 +43,15 @@ export async function POST(req: Request) {
         guildId: squad.id,
         role: "MEMBER"
       }
+    });
+
+    logActivity({
+      userId,
+      action: "SQUAD_JOINED",
+      entity: "squad",
+      entityId: squad.id,
+      metadata: { slug: squad.slug, memberCount: squad.members.length + 1 },
+      request: req,
     });
 
     return NextResponse.json({ success: true });
