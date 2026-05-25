@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Syne, IBM_Plex_Mono } from "next/font/google"
+import { Syne, Outfit, IBM_Plex_Mono } from "next/font/google"
 import { AnalyticsConsent } from "@/components/ui/analytics-consent"
 import "./globals.css"
 import { Noise } from "@/components/ui/noise"
@@ -9,6 +9,12 @@ const syne = Syne({
   subsets: ["latin"],
   variable: "--font-syne",
   weight: ["400", "500", "600", "700", "800"],
+})
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -89,10 +95,10 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${syne.variable} ${ibmPlexMono.variable} bg-background`}
+      className={`${syne.variable} ${outfit.variable} ${ibmPlexMono.variable} bg-background`}
       data-scroll-behavior="smooth"
     >
-      <body className={`${syne.variable} font-syne antialiased bg-background text-foreground relative`}>
+      <body className={`${outfit.variable} font-sans antialiased bg-background text-foreground relative`}>
         <NextTopLoader
           color="oklch(0.91 0.22 124)"
           initialPosition={0.08}
