@@ -2,7 +2,8 @@ node_modules
 .next
 out
 .git
-.env*.local
+.env
+.env.*
 *.log
 npm-debug.log*
 Dockerfile

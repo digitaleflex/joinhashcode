@@ -1,17 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { triggerNotification, qstash } from "../lib/qstash";
+import { Client } from "@upstash/qstash";
+import { triggerNotification } from "../lib/qstash";
 
-vi.mock("@upstash/qstash", () => {
-  return {
-    Client: vi.fn().mockImplementation(() => ({
-      publishJSON: vi.fn().mockResolvedValue({ messageId: "msg_123" }),
-    })),
-  };
-});
+const mockPublishJSON = vi.fn().mockResolvedValue({ messageId: "msg_123" });
+
+vi.mock("@upstash/qstash", () => ({
+  Client: vi.fn().mockImplementation(() => ({
+    publishJSON: mockPublishJSON,
+  })),
+}));
 
 describe("triggerNotification", () => {
   beforeEach(() => {
     vi.stubEnv("QSTASH_CURRENT_SIGNING_KEY", "real_key");
+    vi.stubEnv("QSTASH_TOKEN", "test_token");
+    mockPublishJSON.mockClear();
+    vi.mocked(Client).mockClear();
   });
 
   it("should call qstash.publishJSON with correct parameters", async () => {
@@ -24,7 +28,7 @@ describe("triggerNotification", () => {
 
     const result = await triggerNotification(payload);
 
-    expect(qstash.publishJSON).toHaveBeenCalledWith({
+    expect(mockPublishJSON).toHaveBeenCalledWith({
       url: expect.stringContaining("/api/internal/notify"),
       body: payload,
     });
