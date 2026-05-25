@@ -28,7 +28,7 @@ jobs:
             # Safely clone on first run, or pull changes on subsequent runs
             if [ ! -d ".git" ]; then
               echo "==== Initializing repository on VPS ===="
-              git clone -b main https://github.com/digitaleflex/joinhashcode.git .
+              git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
             else
               echo "==== Pulling latest changes ===="
               git pull origin main
