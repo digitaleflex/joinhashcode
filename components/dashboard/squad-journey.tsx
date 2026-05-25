@@ -114,6 +114,8 @@ const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/
 export function SquadJourney({ user, squad }: { user: any; squad: any }) {
   const [isCopying, setIsCopying] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
+  const [isAuditing, setIsAuditing] = useState(false)
+  const [auditDone, setAuditDone] = useState(false)
 
   // Local squad identity — updated optimistically after a successful save
   const [localName, setLocalName] = useState<string>(squad?.name ?? "")
@@ -132,6 +134,85 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
 
   const phases = useMemo(() => buildPhases(squad, memberCount), [squad, memberCount])
   const completedCount = useMemo(() => phases.filter((p) => p.status === "completed").length, [phases])
+
+  const auditResult = useMemo(() => {
+    if (!squad) return null
+    const members = squad.members || []
+    if (members.length === 0) return null
+
+    const classes = members.map((m: any) => m.user?.class?.toLowerCase()).filter(Boolean)
+    const uniqueClasses = Array.from(new Set(classes))
+    const hasBuilder = classes.includes("builder")
+    const hasCreator = classes.includes("creator")
+    const hasStrategist = classes.includes("strategist")
+    const hasCatalyst = classes.includes("catalyst")
+
+    let score = 0
+    if (members.length === 1) {
+      score = 25
+    } else {
+      score += uniqueClasses.length * 20 // max 80
+      score += Math.min(5, members.length) * 4 // max 20
+    }
+    if (score > 100) score = 100
+
+    const strengths: string[] = []
+    const warnings: string[] = []
+    const advices: string[] = []
+
+    // Strengths
+    if (uniqueClasses.length >= 3) {
+      strengths.push("Grande diversité de profils : votre squad bénéficie de multiples angles de réflexion.")
+    }
+    if (hasBuilder && hasCreator) {
+      strengths.push("Binôme d'action solide : la synergie Builder-Créateur assure un pont direct du concept au code.")
+    }
+    if (hasStrategist && hasCatalyst) {
+      strengths.push("Moteur de croissance actif : la synergie Stratège-Catalyseur permet de cibler et diffuser efficacement.")
+    }
+
+    // Warnings & Advices
+    if (!hasBuilder) {
+      warnings.push("Carence technique : Aucun Builder n'est présent. Votre équipe risque de stagner au stade des idées.")
+      advices.push("Recrutez en priorité un Builder (développeur ou ingénieur système) pour ancrer vos projets dans la réalité technique.")
+    }
+    if (!hasCreator) {
+      warnings.push("Carence d'expérience : Aucun Créateur n'est présent. Vos réalisations risquent d'être complexes ou froides pour les utilisateurs.")
+      advices.push("Invitez un Créateur (designer ou storyteller) pour soigner l'ergonomie et l'impact visuel.")
+    }
+    if (!hasStrategist) {
+      warnings.push("Carence d'impact : Aucun Stratège n'est présent. Votre énergie risque de s'éparpiller sans objectifs de croissance.")
+      advices.push("Recrutez un Stratège (product manager ou marketeur) pour focaliser vos efforts sur des leviers mesurables.")
+    }
+    if (!hasCatalyst) {
+      warnings.push("Carence de cohésion : Aucun Catalyseur n'est présent. Les dynamiques de groupe risquent d'être trop transactionnelles.")
+      advices.push("Intégrez un Catalyseur (ambassadeur ou animateur) pour faciliter l'entraide et décupler la diffusion du projet.")
+    }
+
+    // Monoculture warnings
+    const classCounts: Record<string, number> = {}
+    classes.forEach((c: string) => { classCounts[c] = (classCounts[c] || 0) + 1 })
+
+    Object.entries(classCounts).forEach(([cls, count]) => {
+      if (count > 2) {
+        const nameMap: Record<string, string> = { builder: "Builders", creator: "Créateurs", strategist: "Stratèges", catalyst: "Catalyseurs" }
+        warnings.push(`Hyper-concentration : Trop de ${nameMap[cls] || cls} (${count}). Cela peut créer des goulots d'étranglement ou des discussions stériles.`)
+      }
+    })
+
+    if (uniqueClasses.length === 4) {
+      strengths.push("Harmonie cognitive complète ! Les 4 piliers fondamentaux de HASHCODE sont représentés.")
+      advices.push("Votre structure de squad est théoriquement parfaite. Utilisez les check-ins réguliers pour maintenir le streak.")
+    }
+
+    return {
+      score,
+      strengths,
+      warnings,
+      advices,
+      memberCount: members.length,
+    }
+  }, [squad])
   const isLeader = useMemo(
     () => squad?.members?.some((m: any) => m.user?.id === user.id && m.role === "LEADER") ?? false,
     [squad, user.id]
@@ -375,6 +456,146 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* Squad Compatibility Analyzer */}
+                {squad && (
+                  <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4 relative overflow-hidden group">
+                    <div className="absolute -top-12 -right-12 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-700" />
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="size-4 text-primary animate-pulse" />
+                        <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">
+                          Audit de compatibilité
+                        </span>
+                      </div>
+                      {auditDone && (
+                        <span className="text-[10px] font-mono text-primary font-bold">
+                          Analyse complétée
+                        </span>
+                      )}
+                    </div>
+
+                    {!auditDone ? (
+                      <div className="space-y-4">
+                        <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                          Évalue l&apos;équilibre cognitif, la force de frappe et la cohésion de ton équipe pour obtenir des conseils stratégiques d&apos;optimisation.
+                        </p>
+                        <Button
+                          onClick={() => {
+                            setIsAuditing(true)
+                            setTimeout(() => {
+                              setIsAuditing(false)
+                              setAuditDone(true)
+                              toast.success("Audit de cohésion de squad généré avec succès !")
+                            }, 1200)
+                          }}
+                          disabled={isAuditing}
+                          className="w-full h-10 text-[11px] font-bold uppercase tracking-wide btn-primary-glow"
+                        >
+                          {isAuditing ? (
+                            <>
+                              <Loader2 className="size-3.5 mr-2 animate-spin" />
+                              Calcul de synchronicité...
+                            </>
+                          ) : (
+                            <>
+                              Lancer l&apos;audit de squad
+                              <ChevronRight className="size-3.5 ml-1.5" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-5 animate-in fade-in zoom-in-95 duration-500">
+                        {/* Score Indicator */}
+                        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                          <div>
+                            <div className="text-3xl font-extrabold text-white tracking-tight">
+                              {auditResult?.score}
+                              <span className="text-primary text-lg">%</span>
+                            </div>
+                            <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider mt-0.5">
+                              Taux de compatibilité
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className={cn(
+                              "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono tracking-wide",
+                              (auditResult?.score ?? 0) >= 80 ? "bg-primary/10 text-primary border border-primary/20" :
+                              (auditResult?.score ?? 0) >= 50 ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
+                              "bg-red-500/10 text-red-400 border border-red-500/20"
+                            )}>
+                              {(auditResult?.score ?? 0) >= 80 ? "Synchro élevée" :
+                               (auditResult?.score ?? 0) >= 50 ? "Synchro moyenne" : "Synchro critique"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Strengths */}
+                        {auditResult?.strengths && auditResult.strengths.length > 0 && (
+                          <div className="space-y-2">
+                            <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
+                              Points forts
+                            </h4>
+                            <ul className="space-y-1.5">
+                              {auditResult.strengths.map((str, idx) => (
+                                <li key={idx} className="text-xs text-zinc-300 flex items-start gap-2 leading-relaxed">
+                                  <span className="text-primary shrink-0 mt-0.5">✓</span>
+                                  <span>{str}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Warnings */}
+                        {auditResult?.warnings && auditResult.warnings.length > 0 && (
+                          <div className="space-y-2 border-t border-white/5 pt-4">
+                            <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
+                              Points d&apos;attention
+                            </h4>
+                            <ul className="space-y-1.5">
+                              {auditResult.warnings.map((warn, idx) => (
+                                <li key={idx} className="text-xs text-amber-400 flex items-start gap-2 leading-relaxed">
+                                  <span className="shrink-0 mt-0.5">⚠️</span>
+                                  <span>{warn}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Advices */}
+                        {auditResult?.advices && auditResult.advices.length > 0 && (
+                          <div className="space-y-2 border-t border-white/5 pt-4">
+                            <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
+                              Conseils de recrutement
+                            </h4>
+                            <ul className="space-y-1.5">
+                              {auditResult.advices.map((adv, idx) => (
+                                <li key={idx} className="text-xs text-zinc-400 flex items-start gap-2 leading-relaxed">
+                                  <span className="text-primary shrink-0 mt-0.5">→</span>
+                                  <span>{adv}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Reset button */}
+                        <div className="pt-2">
+                          <button
+                            onClick={() => setAuditDone(false)}
+                            className="text-[10px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors underline"
+                          >
+                            Réanalyser l&apos;équipe
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 

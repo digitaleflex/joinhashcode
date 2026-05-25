@@ -18,6 +18,7 @@ vi.mock("@/lib/qstash", () => ({
 describe("Daily Activity Cron", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.stubEnv("INTERNAL_API_SECRET", "test_secret");
   });
 
   it("should trigger notifications for inactive users", async () => {
@@ -30,6 +31,9 @@ describe("Daily Activity Cron", () => {
 
     const req = new Request("http://localhost/api/internal/cron/check-activity", {
       method: "POST",
+      headers: {
+        "x-internal-secret": "test_secret",
+      },
     });
 
     const response = await POST(req);

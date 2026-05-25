@@ -73,7 +73,7 @@ export async function submitQuiz(rawData: unknown) {
     if (!guildSlug) {
       return {
         success: false,
-        error: `Profil psychométrique invalide : ${analysis.primary}`,
+        error: `Profil d'évolution comportementale invalide : ${analysis.primary}`,
         status: 500,
       };
     }
@@ -94,7 +94,7 @@ export async function submitQuiz(rawData: unknown) {
         },
       });
 
-      // 2. Update the user psychometric scores, level and class
+      // 2. Update the user scores, level and class
       await tx.user.update({
         where: { id: session.user.id },
         data: {

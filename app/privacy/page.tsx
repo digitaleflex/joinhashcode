@@ -126,7 +126,7 @@ export default function PrivacyPage() {
               </p>
               <ul className="list-disc pl-5 space-y-2">
                 <li><strong className="text-zinc-200">Droit à l&apos;Oubli :</strong> Vous pouvez demander la suppression complète de votre compte et de toutes les données associées.</li>
-                <li><strong className="text-zinc-200">Droit d&apos;Export :</strong> Vous pouvez demander une copie de vos données d&apos;activité et de profilage.</li>
+                <li><strong className="text-zinc-200">Droit d&apos;Export :</strong> Vous pouvez demander une copie de vos données d&apos;activité et d&apos;évaluation.</li>
                 <li><strong className="text-zinc-200">Analytics :</strong> Vous pouvez choisir de limiter la collecte de données analytiques via vos réglages.</li>
               </ul>
             </section>

@@ -49,7 +49,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden text-white">
             {/* Background Effects */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
 
             <div className="mb-10 text-center space-y-4 relative z-10">
                 <Image
@@ -77,7 +77,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                 <CardHeader className="text-center pb-8 border-b border-white/5 relative">
                     <div className="flex justify-center mb-8">
                         <div className="relative">
-                            <div className="size-28 rounded-[2rem] bg-zinc-800 border-2 border-primary/40 rotate-6 group-hover:rotate-0 transition-transform duration-700 overflow-hidden shadow-2xl">
+                            <div className="size-28 rounded-4xl bg-zinc-800 border-2 border-primary/40 rotate-6 group-hover:rotate-0 transition-transform duration-700 overflow-hidden shadow-2xl">
                                 <Avatar className="w-full h-full rounded-none">
                                     <AvatarImage src={leader.image || ""} />
                                     <AvatarFallback className="bg-primary/20 text-primary font-black text-4xl">
@@ -124,7 +124,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                                 </div>
                             ))}
                             {[...Array(5 - squad.members.length)].map((_, i) => (
-                                <div key={i} className="size-14 rounded-2xl border-2 border-dashed border-white/5 bg-white/[0.02] flex items-center justify-center text-zinc-800 animate-pulse">
+                                <div key={i} className="size-14 rounded-2xl border-2 border-dashed border-white/5 bg-white/2 flex items-center justify-center text-zinc-800 animate-pulse">
                                     <Lock className="size-5" />
                                 </div>
                             ))}
@@ -132,7 +132,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                     </div>
 
                     {/* Mission Benefit Box */}
-                    <div className="bg-primary/[0.03] border border-primary/10 rounded-[1.5rem] p-5 text-center relative group/box overflow-hidden">
+                    <div className="bg-primary/3 border border-primary/10 rounded-3xl p-5 text-center relative group/box overflow-hidden">
                         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover/box:opacity-100 transition-opacity duration-500" />
                         <p className="text-xs text-zinc-300 leading-relaxed relative z-10 italic">
                             &quot;Une escouade complète débloque <span className="text-white font-bold">100% des missions</span> et active les bonus d&apos;évolution collective.&quot;

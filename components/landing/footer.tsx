@@ -21,7 +21,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm text-zinc-500 font-medium leading-relaxed max-w-xs">
-              Le premier écosystème de profilage neuronal dédié aux bâtisseurs de la nouvelle ère technologique.
+              Le premier écosystème d'évolution neuronale dédié aux bâtisseurs de la nouvelle ère technologique.
             </p>
             <div className="flex items-center gap-3">
               <div className="size-2 rounded-full bg-emerald-500/50 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
@@ -50,7 +50,7 @@ export function Footer() {
           </div>
 
           {/* Technical Info / CTA */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-4">
+          <div className="bg-white/2 border border-white/5 rounded-2xl p-6 space-y-4">
             <div className="space-y-1">
               <span className="text-[9px] font-mono text-primary font-black uppercase">node_location_</span>
               <p className="text-xs text-zinc-400 font-bold uppercase tracking-tight">Afrique & Diaspora Connectée</p>

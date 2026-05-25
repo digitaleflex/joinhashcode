@@ -27,6 +27,7 @@ describe("POST /api/internal/notify", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("INTERNAL_API_SECRET", "test_secret");
   });
 
   it("should create a notification and return success", async () => {
@@ -41,6 +42,9 @@ describe("POST /api/internal/notify", () => {
     const req = new Request("http://localhost/api/internal/notify", {
       method: "POST",
       body: JSON.stringify(payload),
+      headers: {
+        "x-internal-secret": "test_secret",
+      },
     });
 
     (prisma.notification.create as any).mockResolvedValue({
@@ -72,6 +76,9 @@ describe("POST /api/internal/notify", () => {
     const req = new Request("http://localhost/api/internal/notify", {
       method: "POST",
       body: JSON.stringify(payload),
+      headers: {
+        "x-internal-secret": "test_secret",
+      },
     });
 
     (prisma.notification.create as any).mockResolvedValue({
@@ -101,6 +108,9 @@ describe("POST /api/internal/notify", () => {
     const req = new Request("http://localhost/api/internal/notify", {
       method: "POST",
       body: JSON.stringify(payload),
+      headers: {
+        "x-internal-secret": "test_secret",
+      },
     });
 
     (prisma.notification.create as any).mockRejectedValue(new Error("DB Error"));

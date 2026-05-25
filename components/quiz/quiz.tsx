@@ -37,7 +37,7 @@ const ANALYSIS_STEPS = [
   { label: "Calcul des vecteurs",           desc: "Pondération par temps de réaction...",        pct: 45 },
   { label: "Scénarios de crise",            desc: "Évaluation des réponses sous pression...",    pct: 62 },
   { label: "Profil dominant",               desc: "Identification de la tendance principale...", pct: 78 },
-  { label: "Génération de l'hypothèse",     desc: "Finalisation du profilage...",                pct: 94 },
+  { label: "Génération de l'hypothèse",     desc: "Finalisation du diagnostic...",                pct: 94 },
 ];
 
 function AnalyzingScreen() {
@@ -81,7 +81,7 @@ function AnalyzingScreen() {
       </div>
 
       <div className="w-full space-y-4 relative">
-        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
+        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
           <motion.div
             className="h-full bg-primary shadow-[0_0_20px_#C5F441]"
             initial={{ width: 0 }}
@@ -202,13 +202,13 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black uppercase text-primary">Initialisation v2.0</span>
+              <span className="text-[10px] font-mono font-black text-primary">Initialisation v2.0</span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-black tracking-tighter text-white uppercase italic leading-[0.85]">
-              Analyse de <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Vibrance</span>
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-white italic leading-[0.95]">
+              Découvre ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">style de build</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-md font-light">
-              Détection chirurgicale de ton mode d&apos;action dominant pour sculpter ton avenir technologique.
+              Évalue ta façon de concevoir, de coder et de collaborer pour trouver la guilde qui te correspond.
             </p>
           </div>
 
@@ -216,27 +216,27 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
           <div className="grid gap-6 relative">
             {[
               { 
-                t: "ADN Dynamique", 
+                t: "ADN dynamique", 
                 d: "Pas d'étiquettes figées. Ton profil évolue en temps réel selon tes actions de build.",
                 i: "01"
               },
               { 
-                t: "Impact Réel", 
+                t: "Impact réel", 
                 d: "Tes missions futures pèseront plus lourd que tes réponses d'aujourd'hui.",
                 i: "02"
               },
               { 
-                t: "Alignement Tactique", 
+                t: "Alignement tactique", 
                 d: "Accède aux guildes et aux arsenaux où ton potentiel est maximal.",
                 i: "03"
               }
             ].map((item, idx) => (
-              <div key={idx} className="flex gap-6 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-primary/30 transition-all duration-500 group/item">
+              <div key={idx} className="flex gap-6 p-5 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 hover:border-primary/30 transition-all duration-500 group/item">
                 <div className="text-xs font-mono text-primary font-black mt-1 group-hover/item:scale-110 transition-transform">
                   [{item.i}]
                 </div>
                 <div>
-                  <p className="text-base font-bold text-white mb-1 uppercase tracking-tight italic group-hover/item:text-primary transition-colors">{item.t}</p>
+                  <p className="text-base font-bold text-white mb-1 tracking-tight italic group-hover/item:text-primary transition-colors">{item.t}</p>
                   <p className="text-sm text-zinc-500 leading-relaxed font-light">{item.d}</p>
                 </div>
               </div>
@@ -247,12 +247,12 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <div className="p-5 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
               <div className="flex items-center gap-3">
                 <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_#C5F441]" />
-                <p className="text-[10px] font-black text-primary uppercase">Session_Active_Détectée</p>
+                <p className="text-[10px] font-black text-primary">Session active détectée</p>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black uppercase tracking-wider px-6"
+                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black tracking-wider px-6"
                 onClick={() => {
                   setHasResumable(false)
                   setIsStarted(true)
@@ -273,14 +273,14 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 setIsStarted(true)
               }}
               size="lg"
-              className="w-full h-20 rounded-3xl btn-primary-glow text-lg font-black gap-4 uppercase"
+              className="w-full h-20 rounded-3xl btn-primary-glow text-lg font-black gap-4"
             >
-              Lancer le scan <ChevronRight className="w-6 h-6" />
+              Débuter l'évaluation <ChevronRight className="w-6 h-6" />
             </Button>
-            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono uppercase">
-              <span>[ 13_Arbitrages ]</span>
+            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono">
+              <span>[ 13 arbitrages ]</span>
               <span className="size-1 rounded-full bg-zinc-800" />
-              <span>[ ~2_Minutes ]</span>
+              <span>[ ~2 minutes ]</span>
             </div>
           </div>
         </div>
@@ -330,7 +330,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <span className="text-2xl font-black font-mono text-primary italic">{Math.round(progress)}%</span>
           </div>
         </div>
-        <div className="h-1.5 w-full bg-white/[0.03] rounded-full overflow-hidden border border-white/[0.05]">
+        <div className="h-1.5 w-full bg-white/3 rounded-full overflow-hidden border border-white/5">
            <motion.div 
             className="h-full bg-primary shadow-[0_0_20px_rgba(197,244,65,0.6)]"
             initial={{ width: 0 }}
@@ -356,7 +356,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <button
               key={idx}
               onClick={() => handleAnswer(option.value)}
-              className="group relative flex items-center justify-between p-6 sm:p-8 rounded-[1.5rem] border border-white/[0.08] bg-white/[0.02] text-left transition-all hover:border-primary/40 hover:bg-primary/[0.04] active:scale-[0.98] overflow-hidden shadow-xl"
+              className="group relative flex items-center justify-between p-6 sm:p-8 rounded-3xl border border-white/8 bg-white/2 text-left transition-all hover:border-primary/40 hover:bg-primary/4 active:scale-[0.98] overflow-hidden shadow-xl"
             >
               <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
               

@@ -30,7 +30,7 @@ export function Vision() {
                 Il existe des milliers de développeurs, designers et entrepreneurs en Afrique. Ils manquent rarement de talent — ils manquent de visibilité, de contexte et de pairs au même niveau.
               </p>
               <p className="max-w-2xl text-pretty text-base leading-relaxed text-zinc-500">
-                HASHCODE est construit pour changer ça. Pas une plateforme généraliste, pas un énième Discord. Un système de profilage précis qui te place là où tu as de la valeur.
+                HASHCODE est construit pour changer ça. Pas une plateforme généraliste, pas un énième Discord. Un système de diagnostic précis qui te place là où tu as de la valeur.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/5">
@@ -52,7 +52,7 @@ export function Vision() {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-mono text-[10px] uppercase text-zinc-500">Résultat de profilage</p>
+                  <p className="font-mono text-[10px] uppercase text-zinc-500">Résultat du diagnostic</p>
                   <p className="text-xl font-bold text-white mt-1">Ibrahima S.</p>
                 </div>
                 <div className="text-right">

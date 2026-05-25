@@ -7,9 +7,11 @@ dotenv.config();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+const useSSL = process.env.DATABASE_URL?.includes("sslmode=require");
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: useSSL ? { rejectUnauthorized: false } : false,
 });
 
 const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });

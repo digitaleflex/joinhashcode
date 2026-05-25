@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { triggerNotification, qstash } from "../lib/qstash";
 
 vi.mock("@upstash/qstash", () => {
@@ -10,6 +10,10 @@ vi.mock("@upstash/qstash", () => {
 });
 
 describe("triggerNotification", () => {
+  beforeEach(() => {
+    vi.stubEnv("QSTASH_CURRENT_SIGNING_KEY", "real_key");
+  });
+
   it("should call qstash.publishJSON with correct parameters", async () => {
     const payload = {
       userId: "user_123",

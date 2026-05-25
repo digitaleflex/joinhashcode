@@ -28,7 +28,7 @@ export default function TermsPage() {
                 Acceptation du Protocole
               </h2>
               <p className="leading-relaxed">
-                En accédant à HASHCODE, vous acceptez de vous soumettre à nos règles de fonctionnement. La plateforme est un environnement d'apprentissage et de validation technique. Tout comportement visant à fausser les résultats du profilage (automatisation, scripts de triche) entraînera une suspension immédiate.
+                En accédant à HASHCODE, vous acceptez de vous soumettre à nos règles de fonctionnement. La plateforme est un environnement d'apprentissage et de validation technique. Tout comportement visant à fausser les résultats de l'évaluation (automatisation, scripts de triche) entraînera une suspension immédiate.
               </p>
             </section>
 
@@ -48,7 +48,7 @@ export default function TermsPage() {
                 Propriété Intellectuelle
               </h2>
               <p className="leading-relaxed">
-                Le code que vous soumettez lors des missions reste votre propriété. HASHCODE détient la propriété exclusive des algorithmes de profilage, des designs de l'interface et du concept de "Confidence Score".
+                Le code que vous soumettez lors des missions reste votre propriété. HASHCODE détient la propriété exclusive des algorithmes d'évaluation, des designs de l'interface et du concept de "Confidence Score".
               </p>
             </section>
 

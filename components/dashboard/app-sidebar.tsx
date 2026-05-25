@@ -76,7 +76,7 @@ export function AppSidebar({ user }: { user: any }) {
             <Activity className="size-4 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
+            <span className="font-sans font-extrabold text-sm tracking-tighter text-white uppercase truncate">HASHCODE</span>
             <span className="text-[10px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
         </div>

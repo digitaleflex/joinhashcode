@@ -33,7 +33,7 @@ export function ResultPage({ analysis, user }: Props) {
       <div ref={scoresRef} className="flex items-center gap-4 px-6 max-w-2xl mx-auto py-2">
         <div className="flex-1 h-px bg-zinc-800" />
         <span className="text-[11px] text-zinc-600 uppercase whitespace-nowrap">
-          Analyse psychométrique
+          Analyse du diagnostic
         </span>
         <div className="flex-1 h-px bg-zinc-800" />
       </div>

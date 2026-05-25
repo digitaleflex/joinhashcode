@@ -351,7 +351,7 @@ function CyberButton({ glowColor = "#B8FF3B", className, children, ...props }: C
 }
 
 const TABS = [
-  { id: "profile", label: "Profilage", icon: User, desc: "Identité et informations de base" },
+  { id: "profile", label: "Diagnostic", icon: User, desc: "Identité et informations de base" },
   { id: "expertise", label: "Spécialisation", icon: Sparkles, desc: "Tes domaines et outils favoris" },
   { id: "links", label: "Connectivité", icon: LinkIcon, desc: "Tes points d'ancrage externes" },
   { id: "vault", label: "Coffre-fort", icon: Fingerprint, desc: "Ta carte membre & clés d'accès" },

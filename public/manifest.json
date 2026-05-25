@@ -1,7 +1,7 @@
 {
   "name": "HASHCODE Community",
   "short_name": "HASHCODE",
-  "description": "Plateforme de profilage et d'évolution technologique.",
+  "description": "Plateforme d'évaluation et d'évolution technologique.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",

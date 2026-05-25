@@ -7,15 +7,15 @@ import { Plus, Minus, HelpCircle } from "lucide-react"
 const faqs = [
   {
     question: "C'est quoi exactement HASHCODE ?",
-    answer: "HASHCODE est une infrastructure de progression pour Builders. Ce n'est pas juste une communauté, c'est un système qui profile tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes (Guildes) où tu peux avoir un impact immédiat."
+    answer: "HASHCODE est une infrastructure de progression pour Builders. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes (Guildes) où tu peux avoir un impact immédiat."
   },
   {
-    question: "Comment fonctionne le profilage par l'action ?",
-    answer: "Contrairement aux tests classiques, HASHCODE utilise une boucle comportementale. Ton profil initial (Quiz) n'est qu'une hypothèse. Elle est validée ou corrigée au fil de tes soumissions de code et de tes interactions dans le système."
+    question: "Comment fonctionne le diagnostic par l'action ?",
+    answer: "Contrairement aux tests classiques, HASHCODE utilise une boucle comportementale. Ton diagnostic initial (Quiz) n'est qu'une hypothèse. Elle est validée ou corrigée au fil de tes soumissions de code et de tes interactions dans le système."
   },
   {
     question: "Est-ce que l'accès est gratuit ?",
-    answer: "L'accès au profilage et aux premières missions de validation est gratuit. Les accès aux Guildes Elite et aux ressources avancées dépendent de ton niveau d'évolution (INIT, CORE, PRO, ELITE) et de ta contribution au réseau."
+    answer: "L'accès à l'évaluation et aux premières missions de validation est gratuit. Les accès aux Guildes Elite et aux ressources avancées dépendent de ton niveau d'évolution (INIT, CORE, PRO, ELITE) et de ta contribution au réseau."
   },
   {
     question: "Quels sont les prérequis techniques ?",

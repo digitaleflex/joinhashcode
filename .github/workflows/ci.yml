@@ -1,0 +1,66 @@
+name: CI (Continuous Integration)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: localpassword
+          POSTGRES_DB: hashcode
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10 # Matches the workspace lock file pnpm@10.33.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set up test environment variables
+        run: |
+          echo "DATABASE_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
+          echo "DIRECT_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
+          echo "BETTER_AUTH_SECRET=K4bEF/8phwv/Xx3fo//J0ltwp5aZDYvwF9wL79Q86+k=" >> $GITHUB_ENV
+          echo "BETTER_AUTH_URL=http://localhost:3000" >> $GITHUB_ENV
+
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
+
+      - name: Verify Database Schema
+        run: pnpm prisma db push --skip-generate
+
+      - name: Run Linter
+        run: pnpm run lint
+
+      - name: Run Tests (Vitest)
+        run: pnpm run test run
+
+      - name: Build Next.js Production Bundle
+        run: pnpm run build

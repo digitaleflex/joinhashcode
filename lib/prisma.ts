@@ -13,12 +13,22 @@ const globalForPrisma = globalThis as unknown as {
 
 const pool =
   globalForPrisma.pool ||
-  new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
+  (() => {
+    const isLocalDb =
+      !process.env.DATABASE_URL ||
+      process.env.DATABASE_URL.includes("localhost") ||
+      process.env.DATABASE_URL.includes("127.0.0.1") ||
+      process.env.DATABASE_URL.includes("@db:");
+
+    return new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: isLocalDb
+        ? false
+        : {
+            rejectUnauthorized: false,
+          },
+    });
+  })();
 
 const adapter = new PrismaPg(pool);
 
@@ -35,6 +45,6 @@ globalForPrisma.prisma = prisma;
 if (process.env.NODE_ENV !== "production") {
   // Database connection logging (only in development)
   pool.connect()
-    .then(() => console.log("🟢 [Prisma] Connected to Database (Supabase)"))
+    .then(() => console.log("🟢 [Prisma] Connected to Database"))
     .catch((err) => console.error("🔴 [Prisma] Database connection error:", err));
 }

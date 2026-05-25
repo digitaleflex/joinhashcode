@@ -34,10 +34,10 @@
   --ring: oklch(0.91 0.22 124);
 
   /* Fluid Typography - Industry Standard Scales */
-  --h1-size: clamp(2rem, 8vw, 4.5rem);
-  --h2-size: clamp(1.5rem, 6vw, 3rem);
-  --h3-size: clamp(1.25rem, 4vw, 2.25rem);
-  --body-lg: clamp(1rem, 2vw, 1.25rem);
+  --h1-size: clamp(1.75rem, 6vw, 3.5rem);
+  --h2-size: clamp(1.35rem, 4.5vw, 2.5rem);
+  --h3-size: clamp(1.15rem, 3vw, 1.85rem);
+  --body-lg: clamp(0.95rem, 1.5vw, 1.15rem);
 
   --radius: 0.75rem;
   --bottom-nav-height: 5rem;
@@ -85,6 +85,21 @@
 @theme inline {
   --font-syne: var(--font-syne);
   --font-mono: var(--font-mono);
+
+  /* Resserrer l'échelle typographique par défaut de Tailwind CSS v4 */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.8125rem;    /* 13px */
+  --font-size-base: 0.875rem;   /* 14px (au lieu de 16px) - pour un style HUD plus dense */
+  --font-size-lg: 1rem;         /* 16px */
+  --font-size-xl: 1.125rem;     /* 18px */
+  --font-size-2xl: 1.25rem;     /* 20px */
+  --font-size-3xl: 1.5rem;      /* 24px */
+  --font-size-4xl: 1.75rem;     /* 28px (au lieu de 36px) */
+  --font-size-5xl: 2.25rem;     /* 36px (au lieu de 48px) */
+  --font-size-6xl: 2.75rem;     /* 44px (au lieu de 60px) */
+  --font-size-7xl: 3.5rem;      /* 56px (au lieu de 72px) */
+  --font-size-8xl: 4.5rem;      /* 72px (au lieu de 96px) */
+  --font-size-9xl: 5.5rem;      /* 88px (au lieu de 128px) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -131,6 +146,11 @@
   body {
     @apply bg-background text-foreground overflow-x-hidden relative min-h-screen font-syne antialiased w-full;
     font-feature-settings: 'cv11', 'ss01';
+  }
+  
+  /* Resserre le crénage pour compenser la largeur naturelle de la police Syne */
+  h1, h2, h3, h4, h5, h6, .font-syne {
+    letter-spacing: -0.015em;
   }
 
   section {
@@ -350,6 +370,16 @@
   }
   .hazard-header-strip {
     background-image: repeating-linear-gradient(45deg, #ef4444, #ef4444 10px, #450a0a 10px, #450a0a 20px);
+  }
+
+  /* Shake animation for validation errors */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
 }
 

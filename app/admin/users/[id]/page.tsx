@@ -212,7 +212,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                   <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
                     <Target className="h-8 w-8 text-zinc-700" />
                   </div>
-                  <p className="text-zinc-500 font-mono text-sm">Cet utilisateur n'a pas encore passé le quiz de profilage.</p>
+                  <p className="text-zinc-500 font-mono text-sm">Cet utilisateur n'a pas encore passé le quiz d'évolution.</p>
                 </div>
               ) : (
                 <div className="space-y-10">
