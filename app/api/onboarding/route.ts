@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -27,7 +28,7 @@ export async function PATCH(req: Request) {
     const parsed = onboardingSchema.safeParse(body);
 
     if (!parsed.success) {
-      return new NextResponse("Données invalides", { status: 400 });
+      return new NextResponse("DonnÃ©es invalides", { status: 400 });
     }
 
     const updatedUser = await prisma.user.update({

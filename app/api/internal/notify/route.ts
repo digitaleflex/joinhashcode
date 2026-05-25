@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { emailService } from "@/lib/email";
 import { NextResponse } from "next/server";
@@ -59,7 +60,7 @@ async function handleNotify({ userId, type, title, message, link }: z.infer<type
     await emailService.sendMissionApproval({
       email: notification.user.email,
       name: notification.user.name,
-      missionTitle: title.replace("Mission validée : ", ""),
+      missionTitle: title.replace("Mission validÃ©e : ", ""),
       xp: 0,
     });
   } else if (type === "DAILY_REMINDER") {

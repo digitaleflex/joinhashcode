@@ -1,16 +1,17 @@
+﻿export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from "next/server";
 import { applySquadCohesionDecay } from "@/lib/squad-logic";
 
 /**
- * Endpoint de maintenance pour la cohésion des escouades.
- * Ce endpoint doit être appelé toutes les 24h par une tâche cron (ex: Vercel Cron ou QStash).
+ * Endpoint de maintenance pour la cohÃ©sion des escouades.
+ * Ce endpoint doit Ãªtre appelÃ© toutes les 24h par une tÃ¢che cron (ex: Vercel Cron ou QStash).
  */
 export async function GET(req: NextRequest) {
-  // Protection simple par clé secrète (Header auth) pour éviter les appels abusifs
+  // Protection simple par clÃ© secrÃ¨te (Header auth) pour Ã©viter les appels abusifs
   const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.QSTASH_TOKEN}`) {
-    // En développement, on laisse passer si le token n'est pas configuré, 
-    // mais en prod c'est une sécurité.
+    // En dÃ©veloppement, on laisse passer si le token n'est pas configurÃ©, 
+    // mais en prod c'est une sÃ©curitÃ©.
     if (process.env.NODE_ENV === "production") {
       return new NextResponse("Unauthorized", { status: 401 });
     }

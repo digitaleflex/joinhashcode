@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
@@ -7,7 +8,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { identifier, secretCode } = body;
 
-    // Validation stricte des entrées (Conformité EHAF)
+    // Validation stricte des entrÃ©es (ConformitÃ© EHAF)
     if (!identifier || !secretCode) {
       return NextResponse.json(
         { error: "Identifiant et code secret requis" },
@@ -15,11 +16,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Protection contre l'injection de types de données étranges
+    // Protection contre l'injection de types de donnÃ©es Ã©tranges
     const stringIdentifier = String(identifier).trim();
     const stringSecretCode = String(secretCode).trim();
 
-    // Recherche de l'utilisateur (par email, pseudo ou numéro de membre)
+    // Recherche de l'utilisateur (par email, pseudo ou numÃ©ro de membre)
     const memberNum = isNaN(Number(stringIdentifier)) ? -1 : Number(stringIdentifier);
     const user = await prisma.user.findFirst({
       where: {
@@ -32,10 +33,10 @@ export async function POST(request: Request) {
     });
 
     // 1. Protection contre les attaques de timing (Timing Attacks / User Enumeration)
-    // Nous calculons toujours le hash SHA-256 de la clé entrante.
+    // Nous calculons toujours le hash SHA-256 de la clÃ© entrante.
     const incomingHash = crypto.createHash("sha256").update(stringSecretCode).digest("hex");
     
-    // Si l'utilisateur n'existe pas ou n'a pas de clé, nous le comparons à un hash factice
+    // Si l'utilisateur n'existe pas ou n'a pas de clÃ©, nous le comparons Ã  un hash factice
     const dummyHash = "0000000000000000000000000000000000000000000000000000000000000000";
     const hashToCompare = user?.cardSecretHash || dummyHash;
 
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
       isMatch = crypto.timingSafeEqual(bufferA, bufferB);
     }
 
-    // Si pas de correspondance ou utilisateur inexistant : réponse générique de sécurité
+    // Si pas de correspondance ou utilisateur inexistant : rÃ©ponse gÃ©nÃ©rique de sÃ©curitÃ©
     if (!user || !user.cardSecretHash || !isMatch) {
       return NextResponse.json(
         { error: "Identifiants invalides" },
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Préparation du payload de l'écosystème SSO
+    // 2. PrÃ©paration du payload de l'Ã©cosystÃ¨me SSO
     const ssoUser = {
       id: user.id,
       name: user.name,
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
       role: user.role,
     };
 
-    // 3. Signature HMAC-SHA256 pour prouver l'authenticité de la validation au site connexe
+    // 3. Signature HMAC-SHA256 pour prouver l'authenticitÃ© de la validation au site connexe
     const payloadString = JSON.stringify(ssoUser);
     const signature = crypto
       .createHmac("sha256", process.env.BETTER_AUTH_SECRET || "hashcode_ecosystem_default_sign")

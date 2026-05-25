@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,7 +7,7 @@ import { emailService } from "@/lib/email";
 
 const feedbackSchema = z.object({
   type: z.enum(["BUG", "FEATURE_REQUEST", "GENERAL"]),
-  content: z.string().min(10, "Le message doit contenir au moins 10 caractères").max(2000),
+  content: z.string().min(10, "Le message doit contenir au moins 10 caractÃ¨res").max(2000),
 });
 
 export const POST = async (req: NextRequest) => {
@@ -16,7 +17,7 @@ export const POST = async (req: NextRequest) => {
     });
 
     if (!session) {
-      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+      return NextResponse.json({ error: "Non autorisÃ©" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -24,7 +25,7 @@ export const POST = async (req: NextRequest) => {
 
     if (!result.success) {
       return NextResponse.json(
-        { error: "Données invalides", details: result.error.format() },
+        { error: "DonnÃ©es invalides", details: result.error.format() },
         { status: 400 }
       );
     }
@@ -46,7 +47,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({ 
       success: true, 
-      message: "Feedback envoyé avec succès !",
+      message: "Feedback envoyÃ© avec succÃ¨s !",
       id: feedback.id 
     });
   } catch (error) {

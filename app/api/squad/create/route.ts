@@ -1,14 +1,15 @@
+﻿export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 
-// ── Curated name generator ────────────────────────────────────────────────────
+// â”€â”€ Curated name generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
-// instead of meaningless hashes like "Unité-MDUH".
+// instead of meaningless hashes like "UnitÃ©-MDUH".
 const SQUAD_PREFIXES = [
-  "Protocole", "Réseau", "Signal", "Nexus", "Vecteur",
+  "Protocole", "RÃ©seau", "Signal", "Nexus", "Vecteur",
   "Cipher", "Forge", "Noyau", "Circuit", "Matrice",
   "Flux", "Cellule", "Syntaxe", "Archive", "Bande",
 ];
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
     });
 
     if (existingMember) {
-      return NextResponse.json({ error: "Déjà membre d'une escouade" }, { status: 400 });
+      return NextResponse.json({ error: "DÃ©jÃ  membre d'une escouade" }, { status: 400 });
     }
 
     // Generate a memorable squad name, retry once on slug collision (extremely rare)
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
           },
         });
       } catch (createErr: any) {
-        // Unique constraint on slug → retry with a disambiguator
+        // Unique constraint on slug â†’ retry with a disambiguator
         if (createErr?.code === "P2002") {
           attempts++;
           continue;

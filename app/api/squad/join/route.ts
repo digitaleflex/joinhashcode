@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
 
     // Check if full
     if (squad.members.length >= 5) {
-      return NextResponse.json({ error: "Cette escouade est déjà complète (max 5)." }, { status: 400 });
+      return NextResponse.json({ error: "Cette escouade est dÃ©jÃ  complÃ¨te (max 5)." }, { status: 400 });
     }
 
     // Check if already in a squad
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
     });
 
     if (existingMember) {
-      return NextResponse.json({ error: "Tu es déjà membre d'une escouade." }, { status: 400 });
+      return NextResponse.json({ error: "Tu es dÃ©jÃ  membre d'une escouade." }, { status: 400 });
     }
 
     // Join

@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { triggerNotification } from "@/lib/qstash";
 import { NextResponse } from "next/server";
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
         userId: user.id,
         type: "DAILY_REMINDER",
         title: "Ton build t'attend",
-        message: "Tu n'as pas signé ton check-in aujourd'hui. Garde le rythme !",
+        message: "Tu n'as pas signÃ© ton check-in aujourd'hui. Garde le rythme !",
         link: "/dashboard",
       })
     );
