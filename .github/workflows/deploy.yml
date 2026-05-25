@@ -55,6 +55,7 @@ jobs:
               git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
             else
               echo "[2/5] Mise a jour du depot (git pull)..."
+              git reset --hard
               git pull origin main
             fi
 
