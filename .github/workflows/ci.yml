@@ -49,6 +49,7 @@ jobs:
           echo "DIRECT_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
           echo "BETTER_AUTH_SECRET=K4bEF/8phwv/Xx3fo//J0ltwp5aZDYvwF9wL79Q86+k=" >> $GITHUB_ENV
           echo "BETTER_AUTH_URL=http://localhost:3000" >> $GITHUB_ENV
+          echo "QSTASH_TOKEN=dummy_ci_token" >> $GITHUB_ENV
 
       - name: Generate Prisma Client
         run: pnpm prisma generate
