@@ -25,7 +25,8 @@ import {
   Compass,
   Users,
   Share2,
-  Download
+  Download,
+  Lightbulb
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,8 @@ import { BottomNav } from "@/components/dashboard/bottom-nav";
 import { Button } from "@/components/ui/button";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
 import { MemberCard } from "@/components/ui/member-card";
+import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
+import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
 
 export default async function DossierPage() {
   const session = await auth.api.getSession({
@@ -61,7 +64,7 @@ export default async function DossierPage() {
       },
       activityLogs: {
         orderBy: { createdAt: 'desc' },
-        take: 5
+        take: 50 // Increased to build a better chart
       },
       members: {
         include: {
@@ -78,6 +81,13 @@ export default async function DossierPage() {
 
   const quizResult = user.quizResults?.[0];
   const answers = quizResult?.answers as any || {};
+
+  // Neural Loop Logic: Engagement tips based on stats
+  const engagementTips = [];
+  if (user.currentStreak < 3) engagementTips.push("Active le boost de Vibrancy en complétant un Check-in 3 jours de suite.");
+  if (user.missionSubmissions.length === 0) engagementTips.push("Initialise ta première mission pour calibrer ton Profile Drift.");
+  if (!activeOrg) engagementTips.push("Rejoins une Squad pour débloquer les bonus de Cohésion Réseau.");
+  if (user.experience < 500) engagementTips.push("Atteins 500 XP pour débloquer l'Habilitation Niveau 2.");
 
   return (
     <SidebarProvider>
@@ -99,7 +109,7 @@ export default async function DossierPage() {
                 <div className="space-y-4">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                         <Fingerprint className="size-3.5 text-primary" />
-                        <span className="text-[10px] font-mono font-black uppercase text-primary">Dossier_Confidentiel_v2.1</span>
+                        <span className="text-[10px] font-mono font-black uppercase text-primary">Dossier_Confidentiel_v2.5</span>
                     </div>
                     <h1 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">
                         {user.name.split(' ')[0]} <span className="text-primary italic">.Data</span>
@@ -143,96 +153,98 @@ export default async function DossierPage() {
                 {/* Main Content Area */}
                 <div className="lg:col-span-8 space-y-12">
                     
-                    {/* Neuro-Analysis Results */}
+                    {/* Neuro-Analysis Results & Radar */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-3">
                             <Brain className="size-5 text-primary" />
-                            <h2 className="text-xl font-black uppercase tracking-tight text-white">Analyse de Profil</h2>
+                            <h2 className="text-xl font-black uppercase tracking-tight text-white">Neuro-Mapping</h2>
                         </div>
                         
                         <Card className="glass-card overflow-hidden relative group rounded-[2.5rem]">
-                            <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-                                <Cpu className="size-48" />
-                            </div>
-                            <CardContent className="p-8 sm:p-10 space-y-10 relative">
-                                <div className="p-8 rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                                        <div className="space-y-1">
-                                            <span className="text-[10px] font-mono text-primary font-black uppercase">Vecteur_Dominant</span>
-                                            <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic">
-                                                {quizResult?.profileType || "CALIBRATION_PENDING"}
-                                            </h3>
-                                        </div>
-                                        <Badge className="bg-primary text-black font-black text-[10px] px-4 py-1.5 rounded-lg uppercase tracking-wider shadow-[0_0_20px_#C5F441]">
-                                            Expertise_V1
-                                        </Badge>
-                                    </div>
-                                    <p className="text-zinc-400 text-base leading-relaxed font-light">
-                                        L&apos;analyse comportementale profonde révèle un profil de type <span className="text-white font-bold">{quizResult?.profileType || "inconnu"}</span>. 
-                                        Tes schémas de décision montrent une prédisposition naturelle pour le build stratégique et l&apos;optimisation de systèmes complexes.
-                                    </p>
-                                </div>
-
-                                {/* Answers Grid */}
-                                {quizResult && (
-                                    <div className="space-y-6">
-                                        <h4 className="text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
-                                            Points_de_Données_Clés
-                                            <div className="h-px bg-white/5 flex-1" />
-                                        </h4>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            {Object.entries(answers).slice(0, 6).map(([key, value]: any) => (
-                                                <div key={key} className="flex flex-col gap-1 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all group/item">
-                                                    <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider group-hover/item:text-primary transition-colors">
-                                                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                                                    </span>
-                                                    <span className="text-sm font-bold text-zinc-300 uppercase tracking-tight truncate">
-                                                        {String(value)}
-                                                    </span>
+                            <CardContent className="p-8 sm:p-10">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                    <div className="space-y-8">
+                                        <div className="p-6 rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
+                                            <div className="flex items-center justify-between gap-4 mb-4">
+                                                <div className="space-y-1">
+                                                    <span className="text-[10px] font-mono text-primary font-black uppercase">Vecteur_Dominant</span>
+                                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">
+                                                        {quizResult?.profileType || "CALIBRATION_PENDING"}
+                                                    </h3>
                                                 </div>
-                                            ))}
-                                        </div>
-                                        <div className="text-center">
-                                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider animate-pulse">
-                                                -- Synchronisation de 42 autres vecteurs comportementaux --
+                                            </div>
+                                            <p className="text-zinc-400 text-sm leading-relaxed font-light">
+                                                L&apos;analyse comportementale profonde révèle un profil de type <span className="text-white font-bold">{quizResult?.profileType || "inconnu"}</span>. 
+                                                Tes schémas de décision montrent une prédisposition naturelle pour le build stratégique.
                                             </p>
                                         </div>
+
+                                        <div className="space-y-4">
+                                            <h4 className="text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
+                                                Vecteurs_Comportementaux
+                                                <div className="h-px bg-white/5 flex-1" />
+                                            </h4>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {[
+                                                    { label: 'BUILDER', value: user.builderScore, color: 'text-blue-400' },
+                                                    { label: 'CREATOR', value: user.creatorScore, color: 'text-purple-400' },
+                                                    { label: 'STRATEGIST', value: user.strategistScore, color: 'text-amber-400' },
+                                                    { label: 'CATALYST', value: user.catalystScore, color: 'text-emerald-400' }
+                                                ].map((stat) => (
+                                                    <div key={stat.label} className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                                                        <div className="text-[8px] font-mono text-zinc-600 uppercase mb-1">{stat.label}</div>
+                                                        <div className={cn("text-lg font-black font-mono italic", stat.color)}>{stat.value}%</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
+
+                                    <div className="flex justify-center">
+                                        <EvolutionRadar 
+                                            builderScore={user.builderScore}
+                                            creatorScore={user.creatorScore}
+                                            strategistScore={user.strategistScore}
+                                            catalystScore={user.catalystScore}
+                                            userClass={user.class || "builder"}
+                                        />
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
-                        </div>
+                    </div>
 
-                        {/* Badges & Distinctions */}
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-3">
-                                <Medal className="size-5 text-primary" />
-                                <h2 className="text-xl font-black uppercase tracking-tight text-white">Distinctions Système</h2>
+                    {/* Growth Timeline Chart */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <TrendingUp className="size-5 text-primary" />
+                            <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
+                        </div>
+                        
+                        <Card className="glass-card rounded-[2.5rem] p-8 overflow-hidden relative">
+                            <div className="absolute top-0 right-0 p-6">
+                                <div className="text-[10px] font-mono text-zinc-600 uppercase">Total_Accumulé</div>
+                                <div className="text-2xl font-black text-white font-mono">{user.experience}<span className="text-primary text-xs ml-1">XP</span></div>
                             </div>
-                            
-                            <Card className="glass-card rounded-[2rem] p-8">
-                                <div className="flex flex-wrap gap-4">
-                                    {user.badges.length > 0 ? (
-                                        user.badges.map((badge: string) => (
-                                            <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[11px] font-black uppercase py-2 px-4 rounded-xl shadow-[0_0_15px_rgba(197,244,65,0.1)]">
-                                                {badge}
-                                            </Badge>
-                                        ))
-                                    ) : (
-                                        <div className="w-full py-6 flex flex-col items-center justify-center border border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
-                                            <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">[ AUCUN_INSIGNE_DÉTECTÉ ]</span>
-                                            <p className="text-[9px] text-zinc-700 font-mono mt-2 italic">-- En attente de faits d'armes remarquables --</p>
-                                        </div>
-                                    )}
+                            <XPGrowthChart logs={user.activityLogs} currentXP={user.experience} />
+                            <div className="mt-6 flex items-center gap-6 justify-center border-t border-white/5 pt-6">
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 rounded-full bg-primary" />
+                                    <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">XP_Gain_Velocity</span>
                                 </div>
-                            </Card>
-                        </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="size-2 rounded-full bg-zinc-600" />
+                                    <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Baseline_Mean</span>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
 
-                        {/* Evolution Engine & Timeline */}
+                    {/* Missions & Logs Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-6">
                             <div className="flex items-center gap-3">
-                                <TrendingUp className="size-5 text-primary" />
+                                <Target className="size-5 text-primary" />
                                 <h2 className="text-xl font-black uppercase tracking-tight text-white">Missions Récentes</h2>
                             </div>
                             
@@ -270,61 +282,19 @@ export default async function DossierPage() {
                             </div>
                             
                             <div className="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-white/5">
-                                {user.activityLogs.length > 0 ? (
-                                    user.activityLogs.map((log: any) => (
-                                        <div key={log.id} className="flex gap-4 relative">
-                                            <div className="size-[23px] rounded-full bg-background border border-white/10 flex items-center justify-center shrink-0 z-10">
-                                                <div className="size-1 rounded-full bg-primary" />
-                                            </div>
-                                            <div className="space-y-0.5">
-                                                <div className="text-[11px] text-zinc-300 font-bold uppercase tracking-tight">{log.action.replace(/_/g, ' ')}</div>
-                                                <div className="text-[9px] font-mono text-zinc-600 uppercase">
-                                                    {new Date(log.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                                                </div>
+                                {user.activityLogs.slice(0, 6).map((log: any) => (
+                                    <div key={log.id} className="flex gap-4 relative">
+                                        <div className="size-[23px] rounded-full bg-background border border-white/10 flex items-center justify-center shrink-0 z-10">
+                                            <div className="size-1 rounded-full bg-primary" />
+                                        </div>
+                                        <div className="space-y-0.5">
+                                            <div className="text-[11px] text-zinc-300 font-bold uppercase tracking-tight">{log.action.replace(/_/g, ' ')}</div>
+                                            <div className="text-[9px] font-mono text-zinc-600 uppercase">
+                                                {new Date(log.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                             </div>
                                         </div>
-                                    ))
-                                ) : (
-                                    <p className="text-[10px] font-mono text-zinc-600 uppercase pl-8 italic">Flux de données vide</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Evolution Engine Metrics */}
-                    <div className="p-8 rounded-[2.5rem] bg-linear-to-r from-primary/5 to-transparent border border-white/5">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <Zap className="size-3.5 text-primary" />
-                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Vibrancy_Level</span>
-                                </div>
-                                <div className="text-2xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
-                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                    <div className="h-full bg-primary shadow-[0_0_10px_#C5F441]" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <Compass className="size-3.5 text-zinc-400" />
-                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Profile_Drift</span>
-                                </div>
-                                <div className="text-2xl font-black text-white font-mono italic">{user.profileDrift.toFixed(2)}<span className="text-zinc-600 text-xs ml-1">Δ</span></div>
-                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                    <div className="h-full bg-zinc-400" style={{ width: `${Math.min(user.profileDrift * 100, 100)}%` }} />
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <ShieldCheck className="size-3.5 text-emerald-500" />
-                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Confidence_Index</span>
-                                </div>
-                                <div className="text-2xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
-                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                    <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
-                                </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -406,6 +376,54 @@ export default async function DossierPage() {
                         </Button>
                     </div>
 
+                    {/* Evolution Engine Metrics & Tips (Neural Loop) */}
+                    <div className="space-y-4">
+                        <p className="text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                            Neural_Loop_Feedback
+                            <div className="h-px bg-white/5 flex-1" />
+                        </p>
+                        <Card className="glass-card rounded-[2.5rem] p-8 space-y-8">
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <Zap className="size-3.5 text-primary" />
+                                        <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Vibrancy</span>
+                                    </div>
+                                    <div className="text-xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
+                                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                        <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <ShieldCheck className="size-3.5 text-emerald-500" />
+                                        <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Conf.</span>
+                                    </div>
+                                    <div className="text-xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
+                                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                        <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4 pt-6 border-t border-white/5">
+                                <h5 className="text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
+                                    <Lightbulb className="size-3 text-primary" />
+                                    Optimisations_Suggérées
+                                </h5>
+                                <div className="space-y-3">
+                                    {engagementTips.map((tip, i) => (
+                                        <div key={i} className="flex gap-3 items-start p-3 rounded-xl bg-primary/5 border border-primary/10">
+                                            <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_#C5F441]" />
+                                            <p className="text-[10px] text-zinc-300 font-bold leading-tight">{tip}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+
                     {/* Squad Intel Area */}
                     <div className="space-y-4">
                         <p className="text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
@@ -456,43 +474,9 @@ export default async function DossierPage() {
                         </Card>
                     </div>
 
-                    {/* Metadata Section */}
-                    <Card className="glass-card rounded-[2rem] p-8 space-y-8">
-                        <div className="space-y-6">
-                            <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif_Tactique</div>
-                                <div className="text-base font-bold text-white uppercase tracking-tight italic">
-                                    {user.mainObjective || "NON_SPÉCIFIÉ"}
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Position_Géo</div>
-                                <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
-                                    <Globe className="size-3.5 text-primary" />
-                                    {user.city || "UNKNOWN_LOCATION"}, {user.country || "GLOBAL"}
-                                </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Habilitation_Réseau</div>
-                                <div className="flex items-center gap-3">
-                                    <Link href={user.githubUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all group/link">
-                                        <Github className="size-4" />
-                                    </Link>
-                                    <Link href={user.linkedinUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-[#0077B5] transition-all group/link">
-                                        <Linkedin className="size-4" />
-                                    </Link>
-                                    <Link href={user.twitterUrl || "#"} className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-white transition-all group/link">
-                                        <svg viewBox="0 0 24 24" className="size-4 fill-current">
-                                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3 pt-6 border-t border-white/5">
+                    {/* Secondary Actions */}
+                    <Card className="glass-card rounded-[2rem] p-8 space-y-6">
+                        <div className="grid grid-cols-2 gap-3">
                             <Button asChild variant="outline" className="border-white/10 text-white font-black uppercase h-14 rounded-2xl group hover:bg-white/5">
                                 <Link href="/tech-tree">
                                     Tech Tree
@@ -513,14 +497,22 @@ export default async function DossierPage() {
                         </Button>
                     </Card>
 
-                    {/* Verification Protocol Badge */}
-                    <div className="p-8 rounded-[2.5rem] bg-emerald-500/5 border border-emerald-500/10 flex flex-col items-center text-center space-y-4">
-                        <div className="size-16 rounded-full bg-emerald-500/10 flex items-center justify-center border-2 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-                            <ShieldCheck className="size-8 text-emerald-500" />
-                        </div>
-                        <div className="space-y-1">
-                            <h4 className="text-sm font-black uppercase text-emerald-400 tracking-wide">Protocol de Confiance Actif</h4>
-                            <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">Vérifié_Par_IA_Hashcode</p>
+                    {/* Badges & Distinctions (Sidebar view if many) */}
+                    <div className="space-y-4">
+                        <p className="text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                            Distinctions_Système
+                            <div className="h-px bg-white/5 flex-1" />
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {user.badges.length > 0 ? (
+                                user.badges.map((badge: string) => (
+                                    <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[9px] font-black uppercase py-1 px-3 rounded-lg">
+                                        {badge}
+                                    </Badge>
+                                ))
+                            ) : (
+                                <p className="text-[9px] text-zinc-700 font-mono italic">-- En attente de faits d'armes --</p>
+                            )}
                         </div>
                     </div>
                 </div>
