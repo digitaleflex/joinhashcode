@@ -14,10 +14,18 @@ import {
   Target, 
   ShieldCheck,
   Zap,
+  Medal,
   ChevronRight,
   Fingerprint,
   Activity,
-  Cpu
+  Cpu,
+  Flame,
+  TrendingUp,
+  History,
+  Compass,
+  Users,
+  Share2,
+  Download
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -44,10 +52,29 @@ export default async function DossierPage() {
         orderBy: { createdAt: 'desc' },
         take: 1
       },
+      missionSubmissions: {
+        orderBy: { createdAt: 'desc' },
+        take: 3,
+        include: {
+          mission: true
+        }
+      },
+      activityLogs: {
+        orderBy: { createdAt: 'desc' },
+        take: 5
+      },
+      members: {
+        include: {
+          organization: true
+        }
+      }
     },
   });
 
   if (!user) return null;
+
+  const activeOrgMember = user.members.find(m => m.organizationId === session.session.activeOrganizationId) || user.members[0];
+  const activeOrg = activeOrgMember?.organization;
 
   const quizResult = user.quizResults?.[0];
   const answers = quizResult?.answers as any || {};
@@ -85,6 +112,17 @@ export default async function DossierPage() {
                             <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
                             <span className="text-[9px] font-mono text-emerald-500/60 uppercase tracking-wider">Status: Actif</span>
                         </div>
+                        {user.technicalLevel && (
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
+                              <span className="text-[9px] font-mono font-black text-primary uppercase tracking-tighter">CLASSE: {user.technicalLevel}</span>
+                          </div>
+                        )}
+                        {user.currentStreak > 0 && (
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/10 border border-orange-500/20">
+                              <Flame className="size-3 text-orange-500" />
+                              <span className="text-[10px] font-mono font-bold text-orange-500">{user.currentStreak}D STREAK</span>
+                          </div>
+                        )}
                     </div>
                     <p className="text-zinc-500 max-w-xl italic text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
                         &quot;{user.bio || "Le silence est parfois la meilleure signature."}&quot;
@@ -163,6 +201,132 @@ export default async function DossierPage() {
                                 )}
                             </CardContent>
                         </Card>
+                        </div>
+
+                        {/* Badges & Distinctions */}
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-3">
+                                <Medal className="size-5 text-primary" />
+                                <h2 className="text-xl font-black uppercase tracking-tight text-white">Distinctions Système</h2>
+                            </div>
+                            
+                            <Card className="glass-card rounded-[2rem] p-8">
+                                <div className="flex flex-wrap gap-4">
+                                    {user.badges.length > 0 ? (
+                                        user.badges.map((badge: string) => (
+                                            <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[11px] font-black uppercase py-2 px-4 rounded-xl shadow-[0_0_15px_rgba(197,244,65,0.1)]">
+                                                {badge}
+                                            </Badge>
+                                        ))
+                                    ) : (
+                                        <div className="w-full py-6 flex flex-col items-center justify-center border border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
+                                            <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">[ AUCUN_INSIGNE_DÉTECTÉ ]</span>
+                                            <p className="text-[9px] text-zinc-700 font-mono mt-2 italic">-- En attente de faits d'armes remarquables --</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </Card>
+                        </div>
+
+                        {/* Evolution Engine & Timeline */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-3">
+                                <TrendingUp className="size-5 text-primary" />
+                                <h2 className="text-xl font-black uppercase tracking-tight text-white">Missions Récentes</h2>
+                            </div>
+                            
+                            <div className="space-y-4">
+                                {user.missionSubmissions.length > 0 ? (
+                                    user.missionSubmissions.map((sub: any) => (
+                                        <div key={sub.id} className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
+                                            <div className="space-y-1">
+                                                <div className="text-[10px] font-mono text-zinc-500 uppercase">{sub.mission.category}</div>
+                                                <div className="text-sm font-bold text-white uppercase group-hover:text-primary transition-colors">{sub.mission.title}</div>
+                                            </div>
+                                            <Badge variant="outline" className={cn(
+                                                "text-[9px] font-mono border-white/5",
+                                                sub.status === "COMPLETED" ? "text-emerald-500 bg-emerald-500/5" : "text-amber-500 bg-amber-500/5"
+                                            )}>
+                                                {sub.status}
+                                            </Badge>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="p-8 rounded-2xl bg-white/[0.01] border border-dashed border-white/5 text-center">
+                                        <p className="text-[10px] font-mono text-zinc-600 uppercase">Aucune mission enregistrée</p>
+                                        <Button asChild variant="link" className="text-primary text-[10px] uppercase font-black mt-2">
+                                            <Link href="/missions">Initialiser la première mission</Link>
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-3">
+                                <History className="size-5 text-primary" />
+                                <h2 className="text-xl font-black uppercase tracking-tight text-white">Logs Tactiques</h2>
+                            </div>
+                            
+                            <div className="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-white/5">
+                                {user.activityLogs.length > 0 ? (
+                                    user.activityLogs.map((log: any) => (
+                                        <div key={log.id} className="flex gap-4 relative">
+                                            <div className="size-[23px] rounded-full bg-background border border-white/10 flex items-center justify-center shrink-0 z-10">
+                                                <div className="size-1 rounded-full bg-primary" />
+                                            </div>
+                                            <div className="space-y-0.5">
+                                                <div className="text-[11px] text-zinc-300 font-bold uppercase tracking-tight">{log.action.replace(/_/g, ' ')}</div>
+                                                <div className="text-[9px] font-mono text-zinc-600 uppercase">
+                                                    {new Date(log.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-[10px] font-mono text-zinc-600 uppercase pl-8 italic">Flux de données vide</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Evolution Engine Metrics */}
+                    <div className="p-8 rounded-[2.5rem] bg-linear-to-r from-primary/5 to-transparent border border-white/5">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <Zap className="size-3.5 text-primary" />
+                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Vibrancy_Level</span>
+                                </div>
+                                <div className="text-2xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
+                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div className="h-full bg-primary shadow-[0_0_10px_#C5F441]" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <Compass className="size-3.5 text-zinc-400" />
+                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Profile_Drift</span>
+                                </div>
+                                <div className="text-2xl font-black text-white font-mono italic">{user.profileDrift.toFixed(2)}<span className="text-zinc-600 text-xs ml-1">Δ</span></div>
+                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div className="h-full bg-zinc-400" style={{ width: `${Math.min(user.profileDrift * 100, 100)}%` }} />
+                                </div>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <ShieldCheck className="size-3.5 text-emerald-500" />
+                                    <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">Confidence_Index</span>
+                                </div>
+                                <div className="text-2xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
+                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Technical Arsenal */}
@@ -231,6 +395,65 @@ export default async function DossierPage() {
                             missionsCompleted={user.missionsCompletedCount}
                             tools={user.tools}
                         />
+
+                        {/* Social Share Action */}
+                        <Button asChild className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 text-white font-black uppercase group transition-all">
+                            <Link href={`/api/card/${user.id}`} target="_blank">
+                                <Share2 className="mr-2 size-4 group-hover:text-primary" />
+                                Générer Carte Partage
+                                <Download className="ml-auto size-4 opacity-30 group-hover:opacity-100" />
+                            </Link>
+                        </Button>
+                    </div>
+
+                    {/* Squad Intel Area */}
+                    <div className="space-y-4">
+                        <p className="text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                            Squad_Intel
+                            <div className="h-px bg-white/5 flex-1" />
+                        </p>
+                        <Card className="glass-card rounded-[2rem] p-6 space-y-6">
+                            {activeOrg ? (
+                                <>
+                                    <div className="flex items-center gap-4">
+                                        <div className="size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                                            <Users className="size-6 text-primary" />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="text-[10px] font-mono text-zinc-500 uppercase">Squad_Active</div>
+                                            <div className="text-lg font-black text-white uppercase tracking-tighter italic">{activeOrg.name}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-[9px] font-mono text-zinc-600 uppercase font-black">Cohésion_Réseau</span>
+                                            <span className="text-[10px] font-mono text-primary font-black">{(activeOrg.cohesionScore * 100).toFixed(0)}%</span>
+                                        </div>
+                                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                            <div className="h-full bg-primary" style={{ width: `${activeOrg.cohesionScore * 100}%` }} />
+                                        </div>
+                                    </div>
+
+                                    <Button asChild variant="outline" className="w-full border-white/5 bg-white/[0.02] text-[10px] font-black uppercase h-10 rounded-xl">
+                                        <Link href="/squad">Voir le Dashboard Squad</Link>
+                                    </Button>
+                                </>
+                            ) : (
+                                <div className="space-y-4 text-center py-4">
+                                    <div className="size-12 rounded-full bg-zinc-900 border border-white/5 flex items-center justify-center mx-auto opacity-20">
+                                        <Users className="size-6" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] font-mono text-zinc-600 uppercase">Aucune Squad Détectée</p>
+                                        <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Le build solitaire a ses limites.</p>
+                                    </div>
+                                    <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px]">
+                                        <Link href="/squad">Rejoindre une Squad</Link>
+                                    </Button>
+                                </div>
+                            )}
+                        </Card>
                     </div>
 
                     {/* Metadata Section */}
@@ -269,14 +492,25 @@ export default async function DossierPage() {
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-white/5">
-                            <Button asChild className="w-full btn-primary-glow font-black uppercase h-14 rounded-2xl group">
-                                <Link href="/settings">
-                                    Mettre à jour .Data
+                        <div className="grid grid-cols-2 gap-3 pt-6 border-t border-white/5">
+                            <Button asChild variant="outline" className="border-white/10 text-white font-black uppercase h-14 rounded-2xl group hover:bg-white/5">
+                                <Link href="/tech-tree">
+                                    Tech Tree
+                                    <Compass className="ml-2 size-4 group-hover:rotate-45 transition-transform" />
+                                </Link>
+                            </Button>
+                            <Button asChild className="btn-primary-glow font-black uppercase h-14 rounded-2xl group">
+                                <Link href="/missions">
+                                    Mission
                                     <ChevronRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                             </Button>
                         </div>
+                        <Button asChild variant="link" className="w-full text-zinc-600 font-mono text-[10px] uppercase hover:text-white">
+                            <Link href="/settings">
+                                Paramètres .Data
+                            </Link>
+                        </Button>
                     </Card>
 
                     {/* Verification Protocol Badge */}
