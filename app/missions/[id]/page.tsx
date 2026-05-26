@@ -219,9 +219,9 @@ export default async function MissionBriefingPage({
                   <div className="flex gap-3 p-4 rounded-xl bg-blue-500/5 border border-blue-500/15">
                     <Info className="w-4 h-4 text-blue-400/70 shrink-0 mt-0.5" />
                     <p className="text-xs text-zinc-400 leading-relaxed">
-                      Si ton dépôt GitHub est privé, invite{" "}
-                      <span className="font-mono text-blue-400">admin@joinhashcode.com</span>{" "}
-                      afin que nous puissions valider ton travail.
+                      Si ton dépôt GitHub est privé, invite le compte{" "}
+                      <span className="font-mono text-blue-400">joinhashcode</span>{" "}
+                      comme collaborateur afin que nous puissions valider ton travail.
                     </p>
                   </div>
                 </div>
