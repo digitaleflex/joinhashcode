@@ -170,7 +170,7 @@ export async function POST(req: Request) {
         type: "SYSTEM",
         title: isAutoApproved ? `Challenge Validé : ${mission.title}` : `Mission transmise : ${mission.title}`,
         message: isAutoApproved 
-          ? `Ton challenge hebdomadaire est validé. +${xpAwarded} XP accordés !`
+          ? `Ton challenge hebdomadaire est validé. +${xpToAward} XP accordés !`
           : `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
         link: "/missions"
       });
@@ -182,7 +182,7 @@ export async function POST(req: Request) {
       submission: result, 
       status: finalStatus, 
       bonusXp: SYNC_BONUS_XP, 
-      missionXp: xpAwarded 
+      missionXp: xpToAward
     });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
