@@ -65,7 +65,8 @@ export function MissionsPreview() {
             Qui es-tu dans la tech ?
           </h2>
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
-            L'algorithme identifie ta tendance dominante. Beaucoup de membres sont hybrides — c'est la norme, pas l'exception.
+            L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
+            Beaucoup de membres sont hybrides. C'est la norme, pas l'exception.
           </p>
         </motion.div>
 

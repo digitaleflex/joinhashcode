@@ -18,6 +18,8 @@ export interface NotificationPayload {
   title: string;
   message: string;
   link?: string;
+  xp?: number;
+  newLevel?: number;
 }
 
 export async function triggerNotification(payload: NotificationPayload) {

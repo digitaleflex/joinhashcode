@@ -19,6 +19,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# NEXT_PUBLIC_* vars must be available at build time (baked into client bundle)
+ARG NEXT_PUBLIC_APP_URL=https://joinhashcode.com
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
 ENV NEXT_TELEMETRY_DISABLED=1
 # URLs fictives pour satisfaire Prisma au build (aucune connexion réelle)
 ENV DIRECT_URL=postgresql://localhost:5432/build_placeholder

@@ -17,7 +17,13 @@ import {
   Clock, 
   Globe,
   User as UserIcon,
-  MessageSquare
+  MessageSquare,
+  Compass,
+  Briefcase,
+  AlertCircle,
+  Sparkles,
+  Layers,
+  BookOpen
 } from "lucide-react"
 import Link from "next/link"
 import { CLASS_COLORS } from "@/lib/member-card-constants"
@@ -48,6 +54,28 @@ export default async function UserDossierPage({ params }: PageProps) {
   const quizResult = user.quizResults[0]
   const answers = quizResult?.answers as Record<number, string> || {}
   
+  const blockerLabels: Record<string, string> = {
+    skills: "Manque de compétences techniques",
+    network: "Manque de visibilité / réseau",
+    clarity: "Manque de clarté sur ma direction",
+    time: "Manque de temps / organisation",
+    resources: "Manque de ressources / financement",
+    other: "Autre"
+  }
+
+  const focusLabels: Record<string, string> = {
+    tech: "Tech / Code",
+    design: "Design / UI-UX",
+    business: "Business / Stratégie",
+    content: "Contenu / Vidéo",
+    education: "Éducation / Formation",
+    health: "Santé / Bien-être",
+    fintech: "Fintech / Finance",
+    ecology: "Écologie / Impact",
+    community: "Communauté / Réseau",
+    other: "Autre"
+  }
+
   const profileColors: Record<string, string> = {
     builder: "#B8FF3B",
     creator: "#A855F7",
@@ -61,14 +89,30 @@ export default async function UserDossierPage({ params }: PageProps) {
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
       {/* Header / Back Link */}
       <div className="flex items-center justify-between">
-        <Link 
+        <Link
           href="/admin/users"
           className="flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-primary transition-colors uppercase tracking-wider group"
         >
           <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Retour à la liste
         </Link>
-        <UserRowActions user={user as any} />
+        <div className="flex items-center gap-2">
+          <a
+            href={`/api/admin/users/${id}/export?format=json`}
+            download
+            className="h-8 px-3 inline-flex items-center text-[9px] font-mono font-black uppercase tracking-wider border border-zinc-700 text-zinc-400 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors rounded"
+          >
+            Export JSON
+          </a>
+          <a
+            href={`/api/admin/users/${id}/export?format=zip`}
+            download
+            className="h-8 px-3 inline-flex items-center text-[9px] font-mono font-black uppercase tracking-wider border border-zinc-700 text-zinc-400 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors rounded"
+          >
+            Export ZIP
+          </a>
+          <UserRowActions user={user as any} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -184,6 +228,95 @@ export default async function UserDossierPage({ params }: PageProps) {
                   <p className="text-xl font-bold text-primary">{user.experience}</p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Onboarding & Context Card */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader>
+              <CardTitle className="text-sm font-mono uppercase tracking-wide text-primary flex items-center gap-2">
+                <Compass className="h-4 w-4" /> Contexte & Objectifs
+              </CardTitle>
+              <CardDescription className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider">
+                Données d&apos;onboarding & post-quiz
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Situation Actuelle */}
+              <div className="space-y-1">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                  <Briefcase className="h-3 w-3 text-zinc-600" /> Situation Actuelle
+                </p>
+                <p className="text-sm text-zinc-200 font-medium pl-4">
+                  {user.currentSituation || "Non spécifiée"}
+                </p>
+              </div>
+
+              {/* Objectif Principal */}
+              <div className="space-y-1">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                  <Target className="h-3 w-3 text-zinc-600" /> Objectif Principal
+                </p>
+                <p className="text-sm text-zinc-200 font-medium pl-4">
+                  {user.mainObjective || "Non spécifié"}
+                </p>
+              </div>
+
+              {/* Objectifs Secondaires */}
+              {user.secondaryObjectives && user.secondaryObjectives.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                    <BookOpen className="h-3 w-3 text-zinc-600" /> Objectifs Secondaires
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 pl-4">
+                    {user.secondaryObjectives.map((obj) => (
+                      <Badge key={obj} variant="secondary" className="text-[10px] bg-zinc-800 text-zinc-300 border-white/5 font-normal">
+                        {obj}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Principal Obstacle */}
+              {user.mainBlocker && (
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                    <AlertCircle className="h-3 w-3 text-zinc-600" /> Obstacle Principal
+                  </p>
+                  <p className="text-sm text-zinc-200 font-medium pl-4">
+                    {blockerLabels[user.mainBlocker] || user.mainBlocker}
+                  </p>
+                </div>
+              )}
+
+              {/* Domaines de Focus */}
+              {user.currentFocus && user.currentFocus.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                    <Layers className="h-3 w-3 text-zinc-600" /> Domaines de Focus
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 pl-4">
+                    {user.currentFocus.map((foc) => (
+                      <Badge key={foc} variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/20 font-mono uppercase tracking-wider font-bold">
+                        {focusLabels[foc] || foc}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Rêve à 12 Mois */}
+              {user.dreamStatement && (
+                <div className="space-y-2 pt-2 border-t border-white/5">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                    <Sparkles className="h-3 w-3 text-zinc-600" /> Rêve à 12 Mois
+                  </p>
+                  <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 relative overflow-hidden italic text-xs text-zinc-400 font-light leading-relaxed pl-4">
+                    &ldquo;{user.dreamStatement}&rdquo;
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

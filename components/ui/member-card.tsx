@@ -60,13 +60,13 @@ export function MemberCard({
     <div className={cn("w-full max-w-2xl mx-auto space-y-4", className)}>
       {/* Card visual - Horizontal Format */}
       <div
-        className="relative w-full overflow-hidden rounded-[1.5rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group"
+        className="relative w-full overflow-hidden rounded-[1.5rem] border-2 shadow-2xl transition-all duration-500 hover:shadow-[0_0_50px_rgba(var(--primary),0.1)] group flex flex-col"
         style={{
           background: "#050505",
           borderColor: `${accent}40`,
-          aspectRatio: "1.7 / 1",
         }}
       >
+        <div className="absolute inset-0 aspect-[1.7/1] sm:aspect-auto opacity-20">
         {/* GUILD SPECIFIC PATTERNS */}
         <div className="absolute inset-0 opacity-20">
           {userClass === "builder" && (
@@ -182,23 +182,23 @@ export function MemberCard({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+      <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
         <Button
           asChild
           variant="outline"
-          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-10"
+          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
         >
           <a href={cardUrl} download={`hashcode-passport-${pseudo}.png`}>
-            <Download className="mr-2 h-3.5 w-3.5" />
+            <Download className="mr-2 h-4 w-4" />
             Exporter
           </a>
         </Button>
         <Button
           variant="outline"
           onClick={handleCopy}
-          className="rounded-xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-10"
+          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
         >
-          {copied ? <Check className="mr-2 h-3.5 w-3.5 text-emerald-500" /> : <Share2 className="mr-2 h-3.5 w-3.5" />}
+          {copied ? <Check className="mr-2 h-4 w-4 text-emerald-500" /> : <Share2 className="mr-2 h-4 w-4" />}
           {copied ? "Copié !" : "Partager"}
         </Button>
       </div>

@@ -47,7 +47,7 @@ The signin page is a server component (`app/(auth)/signin/page.tsx`) that redire
 
 ### Database
 
-PostgreSQL on Supabase, accessed via Prisma 7 with `@prisma/adapter-pg` (connection pooling). Singleton client is in `lib/db.ts`. Two URLs required: `DATABASE_URL` (pooled, for queries) and `DIRECT_URL` (direct, for migrations).
+PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client dans `lib/db.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
 
 The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Guild`, `GuildMember`, `ContactMessage`, `ActivityLog`.
 
@@ -78,7 +78,7 @@ REST endpoints under `app/api/`:
 
 | Route | Method | Auth | Purpose |
 |---|---|---|---|
-| `quiz/` | POST | session | Submit quiz answers, compute profile classification |
+| `quiz/` | — | — | Quiz uses a Server Action at `app/actions/quiz.ts` (not an API route) |
 | `onboarding/` | PATCH | session | Save step 1 onboarding (situation, country, objective) |
 | `onboarding/post-quiz/` | PATCH | session | Save final onboarding step (dream, focus, blocker) |
 | `missions/` | GET | session | List available missions |
@@ -112,8 +112,8 @@ Required:
 BETTER_AUTH_SECRET, BETTER_AUTH_URL
 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
-DATABASE_URL          # pooled (PgBouncer)
-DIRECT_URL            # direct connection for migrations
+DATABASE_URL          # connexion PostgreSQL VPS Docker (Hostinger)
+DIRECT_URL            # connexion directe pour les migrations
 ```
 
 Optional:
@@ -122,7 +122,7 @@ RESEND_API_KEY        # email (mocked if absent)
 NEXT_PUBLIC_APP_URL   # base URL for auth callbacks
 ```
 
-The repo uses `.env.development` and `.env.production` for environment-specific Supabase instances, with `.env.local` for local overrides.
+Le repo utilise `.env.development` et `.env.production` pour les environnements. La production pointe vers le VPS Hostinger. `.env.local` pour les overrides locaux.
 
 ### Squad System
 
@@ -150,3 +150,30 @@ Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashb
 | `components/dashboard/squad-journey.tsx` | Gamified squad page |
 | `components/ui/` | shadcn/ui base components |
 | `next.config.mjs` | Build error suppression, unoptimized images |
+
+## Working Guidelines
+
+### Rules (always follow)
+
+1. **Prisma schema change** → run `npx prisma db push` immediately after modifying `prisma/schema.prisma` to apply changes and regenerate the client.
+2. **ActivityLog** → always fire-and-forget. Never `await logActivity(...)` on the critical path; swallow errors silently.
+3. **Server vs. client components** → pages and layouts are server components by default. Add `"use client"` only when the component needs browser APIs, event handlers, or React hooks.
+4. **DB safety** → never reset, truncate, or delete data without explicit user confirmation. Dev and prod share the same Supabase project — schema changes affect both.
+5. **Scope discipline** → implement only what was asked. Don't refactor surrounding code, extract helpers, or add abstractions unless directly required by the task.
+6. **Auth guard** → every new API route must match the auth pattern in the table above (session / ADMIN+MOD / internal CRON_SECRET). Never skip the guard.
+
+### Verification
+
+- Run `npm run lint` after any TypeScript changes.
+- Run `npm run test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
+- For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
+
+### Commit format
+
+```
+type(scope): short description
+
+# types: feat, fix, chore, refactor, test, docs
+# examples: feat(missions): add XP multiplier for streaks
+#           fix(auth): handle expired magic-link tokens
+```

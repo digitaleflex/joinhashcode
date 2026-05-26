@@ -9,6 +9,7 @@ import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
+import { emailService } from "@/lib/email";
 import { z } from "zod";
 
 const UpdateSubmissionSchema = z.object({
@@ -69,6 +70,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         const levelNum = parseInt(levelStr);
         if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
       }
+      const leveledUp = newLevel > (submission.user.level || 1);
 
       const missionWeights: BehavioralVibrancy = {
         builder: submission.mission.weightBuilder || 0,
@@ -96,8 +98,20 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           type: "MISSION_APPROVED",
           title: `Mission validée : ${submission.mission.title}`,
           message: `Félicitations ! Tu as gagné +${xpAwarded} XP.${qualityMsg}`,
-          link: "/missions"
+          link: "/missions",
+          xp: xpAwarded,
         });
+
+        if (leveledUp) {
+          await triggerNotification({
+            userId: submission.userId,
+            type: "LEVEL_UP",
+            title: `Niveau ${newLevel} atteint !`,
+            message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
+            link: "/dashboard",
+            newLevel,
+          });
+        }
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
@@ -111,7 +125,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         request: req,
       });
 
-      return NextResponse.json({ success: true, newLevel, leveledUp: newLevel > (submission.user.level || 1), xpAwarded });
+      if (leveledUp) {
+        emailService.sendLevelUp({ email: submission.user.email, name: submission.user.name, newLevel });
+      }
+
+      return NextResponse.json({ success: true, newLevel, leveledUp, xpAwarded });
     }
 
     if (action === "NEEDS_REVISION") {
@@ -137,6 +155,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         console.error("[NOTIFICATION_ERROR]", err);
       }
 
+      emailService.sendMissionNeedsRevision({
+        email: submission.user.email,
+        name: submission.user.name,
+        missionTitle: submission.mission.title,
+        feedback: feedback || "Ta soumission nécessite des améliorations.",
+        revisionCount: (submission.revisionCount ?? 0) + 1,
+      });
+
       return NextResponse.json({ success: true });
     }
 
@@ -157,6 +183,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
+
+      emailService.sendMissionRejected({
+        email: submission.user.email,
+        name: submission.user.name,
+        missionTitle: submission.mission.title,
+        feedback: feedback,
+      });
 
       return NextResponse.json({ success: true });
     }

@@ -72,12 +72,12 @@ export function AppSidebar({ user }: { user: any }) {
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-zinc-950">
       <SidebarHeader className="h-16 border-b border-white/5 flex flex-row items-center justify-between px-4">
         <div className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden">
-          <div className="size-8 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
-            <Activity className="size-4 text-primary" />
+          <div className="size-10 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
+            <Activity className="size-5 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-sm tracking-tighter text-white uppercase truncate">HASHCODE</span>
-            <span className="text-[10px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
+            <span className="font-sans font-extrabold text-base tracking-tighter text-white uppercase truncate">HASHCODE</span>
+            <span className="text-[11px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
         </div>
         <div className="group-data-[collapsible=icon]:mx-auto">

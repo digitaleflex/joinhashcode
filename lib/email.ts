@@ -10,40 +10,96 @@ const escHtml = (str: string) =>
 
 const LOGO_URL = `${APP_URL}/hashcode-logo.png`;
 
+const PROFILE_DATA: Record<string, { headline: string; description: string; cta: string }> = {
+  BUILDER: {
+    headline: "Tu es un Bâtisseur.",
+    description: "Tu transformes les idées en réalité. Méthodique, technique, orienté résultats — tu construis des choses qui durent. Les missions qui t'attendent sont conçues pour des esprits comme le tien : concrets, exigeants, ambitieux.",
+    cta: "Voir mes missions Builder",
+  },
+  CREATOR: {
+    headline: "Tu es un Créateur.",
+    description: "Tu vois ce que les autres n'imaginent pas encore. Ta force : trouver des angles nouveaux, concevoir des expériences qui marquent. L'écosystème t'a réservé des missions qui valorisent ton originalité et ton sens de l'esthétique.",
+    cta: "Voir mes missions Creator",
+  },
+  STRATEGIST: {
+    headline: "Tu es un Stratège.",
+    description: "Tu penses en systèmes. Là où d'autres voient un problème, tu vois un jeu d'échecs à trois coups d'avance. Les missions qui t'attendent exploitent ta capacité à structurer, planifier et optimiser.",
+    cta: "Voir mes missions Strategist",
+  },
+  CATALYST: {
+    headline: "Tu es un Catalyseur.",
+    description: "Tu mets les équipes en mouvement. Ton énergie est contagieuse, ta capacité à fédérer est rare. L'écosystème t'attend pour ce qu'il y a de plus difficile : créer de la cohésion et transformer un groupe en force collective.",
+    cta: "Voir mes missions Catalyst",
+  },
+};
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&nbsp;/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
 const generateEmailTemplate = (content: string, previewText?: string) => `
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HASHCODE</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #000; color: #fff; }
-    .container { max-width: 600px; margin: 0 auto; background-color: #0a0a0a; border: 1px solid #1a1a1a; }
-    .header { padding: 40px 20px; text-align: center; border-bottom: 1px solid #1a1a1a; }
-    .content { padding: 40px 30px; line-height: 1.6; color: #d4d4d8; }
-    .footer { padding: 30px; text-align: center; border-top: 1px solid #1a1a1a; color: #52525b; font-size: 12px; }
-    .btn { display: inline-block; background-color: #C5F441; color: #000; padding: 14px 28px; font-size: 16px; font-weight: 700; text-decoration: none; border-radius: 8px; margin: 25px 0; text-transform: uppercase; letter-spacing: 0.05em; }
-    .logo { height: 40px; margin-bottom: 10px; }
-    .title { color: #fff; font-size: 24px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em; }
-    .highlight { color: #C5F441; font-weight: 700; }
-    .mono { font-family: 'Courier New', Courier, monospace; color: #71717a; }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #080808; color: #e4e4e7; -webkit-text-size-adjust: 100%; }
+    .wrapper { padding: 40px 16px; background-color: #080808; }
+    .container { max-width: 580px; margin: 0 auto; background-color: #0f0f0f; border: 1px solid #1f1f1f; border-radius: 12px; overflow: hidden; }
+    .accent-bar { height: 3px; background: linear-gradient(90deg, #C5F441 0%, #8fd62a 100%); }
+    .header { padding: 32px 40px 24px; text-align: center; border-bottom: 1px solid #1a1a1a; }
+    .logo { height: 56px; }
+    .tagline { font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 10px; }
+    .content { padding: 40px 40px 32px; line-height: 1.7; color: #a1a1aa; font-size: 15px; }
+    .content h1 { color: #ffffff; font-size: 22px; font-weight: 700; margin: 0 0 20px; line-height: 1.3; }
+    .content p { margin: 0 0 16px; }
+    .content p:last-of-type { margin-bottom: 0; }
+    .content strong { color: #e4e4e7; font-weight: 600; }
+    .accent { color: #C5F441; font-weight: 600; }
+    .btn-wrap { text-align: center; margin: 32px 0 24px; }
+    .btn { display: inline-block; background-color: #C5F441; color: #080808; padding: 14px 32px; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .btn-secondary { display: inline-block; background-color: transparent; color: #C5F441; padding: 12px 28px; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px; border: 1px solid #C5F441; letter-spacing: 0.04em; }
+    .card { background: #161616; border: 1px solid #262626; border-radius: 10px; padding: 24px; margin: 24px 0; text-align: center; }
+    .card-value { font-size: 36px; font-weight: 800; color: #C5F441; letter-spacing: 0.05em; font-family: 'Courier New', Courier, monospace; }
+    .card-label { font-size: 11px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; }
+    .divider { border: none; border-top: 1px solid #1a1a1a; margin: 24px 0; }
+    .note { font-size: 13px; color: #52525b; }
+    .footer { padding: 24px 40px; text-align: center; border-top: 1px solid #1a1a1a; }
+    .footer p { font-size: 12px; color: #3f3f46; margin: 4px 0; }
+    .footer a { color: #52525b; text-decoration: underline; }
+    @media (max-width: 600px) {
+      .wrapper { padding: 0; }
+      .container { border-radius: 0; border-left: none; border-right: none; }
+      .header { padding: 24px 24px 20px; }
+      .content { padding: 28px 24px 24px; }
+      .footer { padding: 20px 24px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <img src="${LOGO_URL}" alt="HASHCODE" class="logo">
-    </div>
-    <div class="content">
-      ${content}
-    </div>
-    <div class="footer">
-      <p>© ${new Date().getFullYear()} HASHCODE COMMUNITY. TOUS DROITS RÉSERVÉS.</p>
-      <p class="mono">[ CONNECTED // BUILD_THE_FUTURE ]</p>
-      <p style="margin-top: 15px;">
-        <a href="${APP_URL}/settings" style="color: #52525b; text-decoration: underline;">Préférences de notification</a>
-      </p>
+  ${previewText ? `<div style="display:none;font-size:1px;color:#080808;max-height:0;max-width:0;opacity:0;overflow:hidden;">${escHtml(previewText)}&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>` : ""}
+  <div class="wrapper">
+    <div class="container">
+      <div class="accent-bar"></div>
+      <div class="header">
+        <img src="${LOGO_URL}" alt="HASHCODE" class="logo">
+        <div class="tagline">Bâtir l'Afrique Tech — Ensemble</div>
+      </div>
+      <div class="content">
+        ${content}
+      </div>
+      <div class="footer">
+        <p>© ${new Date().getFullYear()} HASHCODE COMMUNITY. Tous droits réservés.</p>
+        <p style="margin-top: 8px;"><a href="${APP_URL}/settings">Gérer mes notifications</a></p>
+      </div>
     </div>
   </div>
 </body>
@@ -54,116 +110,120 @@ export const emailService = {
   async sendWelcomeEmail({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
+    const firstName = name.split(" ")[0];
     const content = `
-      <h1 class="title">Transmission Initiale : <span class="highlight">Accès Autorisé</span></h1>
-      <p>Bienvenue dans l'Écosystème, <span class="highlight">${name}</span>.</p>
-      <p>Ton identifiant est désormais actif sur le réseau neuronal de HASHCODE. Tu ne rejoins pas qu'une plateforme, tu rejoins une force de frappe composée de bâtisseurs, de créateurs et de stratèges.</p>
-      <p><strong>Prochaine étape :</strong> Complète ton diagnostic pour synchroniser tes objectifs avec les missions disponibles.</p>
-      <center><a href="${APP_URL}/onboarding" class="btn">Initialiser mon profil</a></center>
-      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: READY_TO_BUILD ]</p>
+      <h1>Bienvenue, <span class="accent">${escHtml(firstName)}</span>. Tu es au bon endroit.</h1>
+      <p>HASHCODE n'est pas une plateforme de plus. C'est un réseau de bâtisseurs africains qui choisissent d'agir — pas seulement d'apprendre.</p>
+      <p>En rejoignant la communauté, tu accèdes à un système conçu pour te faire progresser : un profil psychométrique qui te connaît, des missions réelles qui testent tes capacités, et une guilde de pairs qui avancent avec toi.</p>
+      <p><strong>Pour commencer, complète ton profil.</strong> Cela prend moins de 5 minutes et débloque l'intégralité de l'écosystème.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/onboarding" class="btn">Compléter mon profil →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Des questions ? Réponds directement à cet email — on est là.</p>
     `;
 
-    return this._send({
-      to: email,
-      subject: "Bienvenue sur HASHCODE : Ton accès est activé",
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, "Ton aventure commence maintenant. Complète ton profil pour débloquer l'écosystème.");
+    return this._send({ to: email, subject: `Bienvenue dans HASHCODE, ${escHtml(firstName)} 👋`, html, text: stripHtml(content) });
   },
 
   async sendMagicLink({ email, url }: { email: string; url: string }) {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Protocole de Connexion</h1>
-      <p>Une demande d'accès sécurisé a été détectée pour ton compte.</p>
-      <p>Clique sur le bouton ci-dessous pour forcer la connexion à ton espace de build.</p>
-      <center><a href="${url}" class="btn">Entrer dans le Dashboard</a></center>
-      <p style="font-size: 13px; color: #71717a;">Ce lien est à usage unique et expirera dans 10 minutes. Si tu n'es pas à l'origine de cette transmission, ignore cet email.</p>
+      <h1>Ton lien de connexion</h1>
+      <p>Quelqu'un a demandé un accès sécurisé à ton compte HASHCODE avec cette adresse email. Si c'est toi, clique sur le bouton ci-dessous.</p>
+      <div class="btn-wrap">
+        <a href="${url}" class="btn">Se connecter à HASHCODE →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Ce lien est à usage unique et expire dans <strong>10 minutes</strong>. Si tu n'es pas à l'origine de cette demande, ignore simplement cet email — ton compte reste sécurisé.</p>
     `;
 
-    return this._send({
-      to: email,
-      subject: "Ton accès sécurisé HASHCODE",
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, "Clique pour te connecter — lien valable 10 minutes.");
+    return this._send({ to: email, subject: "Ton lien de connexion HASHCODE (expire dans 10 min)", html, text: stripHtml(content) });
   },
 
   async sendOtpEmail({ email, otp, type }: { email: string; otp: string; type: string }) {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Protocole d'Authentification</h1>
-      <p>Une demande d'accès sécurisé a été détectée pour ton compte.</p>
-      <p>Voici ton code de sécurité à usage unique :</p>
-      <div style="background: #111; padding: 20px; border: 1px solid #C5F441; border-radius: 12px; text-align: center; margin: 30px 0;">
-        <span style="font-size: 32px; font-weight: 900; color: #C5F441; letter-spacing: 0.2em; font-family: 'Courier New', Courier, monospace;">${otp}</span>
+      <h1>Ton code de vérification</h1>
+      <p>Utilise ce code pour confirmer ton accès à HASHCODE. Il est valable pendant <strong>5 minutes</strong>.</p>
+      <div class="card">
+        <div class="card-value">${escHtml(otp)}</div>
+        <div class="card-label">Code de vérification</div>
       </div>
-      <p style="font-size: 13px; color: #71717a;">Ce code expirera dans 5 minutes. Si tu n'es pas à l'origine de cette transmission, ignore cet email.</p>
+      <p class="note">Ne partage jamais ce code. Si tu n'as pas demandé cette vérification, ignore cet email.</p>
     `;
 
-    return this._send({
-      to: email,
-      subject: "Ton code d'accès HASHCODE",
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, `Ton code : ${otp} — valable 5 minutes.`);
+    return this._send({ to: email, subject: `${escHtml(otp)} — Ton code de vérification HASHCODE`, html, text: stripHtml(content) });
   },
 
   async sendQuizResults({ email, name, profileType }: { email: string; name: string; profileType: string }) {
     if (!resend) return { success: true, mocked: true };
 
+    const firstName = name.split(" ")[0];
+    const profile = PROFILE_DATA[profileType.toUpperCase()] ?? PROFILE_DATA.BUILDER;
+
     const content = `
-      <h1 class="title">Analyse Terminée : <span class="highlight">Hypothèse Confirmée</span></h1>
-      <p>Félicitations <span class="highlight">${name}</span>, ton diagnostic comportemental est désormais gravé dans la base de données.</p>
-      <p>Tes vecteurs cognitifs indiquent une dominance critique : <strong class="highlight">${profileType.toUpperCase()}</strong>.</p>
-      <p>L'écosystème vient de débloquer une série de missions spécifiquement calibrées pour ton mode d'action.</p>
-      <center><a href="${APP_URL}/dashboard" class="btn">Prendre les commandes</a></center>
+      <h1><span class="accent">${escHtml(firstName)},</span> ${escHtml(profile.headline)}</h1>
+      <p>${escHtml(profile.description)}</p>
+      <div class="card">
+        <div class="card-value">${escHtml(profileType.toUpperCase())}</div>
+        <div class="card-label">Ton profil HASHCODE</div>
+      </div>
+      <p>Ton espace de travail est prêt. Missions, guilde, tableau de bord — tout est calibré pour ton mode d'action.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/dashboard" class="btn">${escHtml(profile.cta)} →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Tu peux consulter le détail de ton profil à tout moment depuis ton tableau de bord.</p>
     `;
 
-    return this._send({
-      to: email,
-      subject: `Analyse HASHCODE : Tu es un ${profileType.toUpperCase()}`,
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, `${profile.headline} Découvre tes missions.`);
+    return this._send({ to: email, subject: `${escHtml(firstName)}, tu es un·e ${escHtml(profileType.toUpperCase())} — voici ce que ça signifie`, html, text: stripHtml(content) });
   },
 
   async sendMissionApproval({ email, name, missionTitle, xp }: { email: string; name: string; missionTitle: string; xp: number }) {
     if (!resend) return { success: true, mocked: true };
 
+    const firstName = name.split(" ")[0];
     const content = `
-      <h1 class="title">Mission Validée : <span class="highlight">Impact Détecté</span></h1>
-      <p>Excellent travail, <span class="highlight">${name}</span>.</p>
-      <p>Tes actes parlent pour toi. La mission <strong class="highlight">${missionTitle}</strong> a été approuvée par le protocole de vérification.</p>
-      <div style="background: #111; padding: 20px; border: 1px solid #C5F441; border-radius: 12px; text-align: center; margin: 30px 0;">
-        <span style="font-size: 28px; font-weight: 900; color: #C5F441; letter-spacing: 0.1em;">+${xp} XP</span>
-        <p style="font-size: 10px; font-mono; color: #71717a; margin-top: 5px; text-transform: uppercase;">Injectés dans ton profil d'évolution</p>
+      <h1>Mission validée, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Ta soumission pour <strong>${escHtml(missionTitle)}</strong> a été examinée et approuvée. Le travail que tu as fourni fait la différence.</p>
+      <div class="card">
+        <div class="card-value">+${xp} XP</div>
+        <div class="card-label">Ajoutés à ton profil</div>
       </div>
-      <center><a href="${APP_URL}/missions" class="btn">Lancer la suite</a></center>
+      <p>Continue sur cette lancée. Chaque mission validée renforce ta réputation dans la communauté et te rapproche du niveau suivant.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Voir les prochaines missions →</a>
+      </div>
     `;
 
-    return this._send({
-      to: email,
-      subject: `Transmission Reçue : +${xp} XP pour ${missionTitle}`,
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, `+${xp} XP crédités pour "${missionTitle}". Continue sur ta lancée.`);
+    return this._send({ to: email, subject: `✓ Mission validée — +${xp} XP pour "${escHtml(missionTitle)}"`, html, text: stripHtml(content) });
   },
 
   async sendDailyReminder({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
+    const firstName = name.split(" ")[0];
     const content = `
-      <h1 class="title">Alerte : <span style="color: #ff4545;">Build Interrompu</span></h1>
-      <p>Bâtisseur <span class="highlight">${name}</span>, le réseau détecte une baisse d'activité sur ton terminal.</p>
-      <p>Chaque jour sans action est une opportunité qui s'évapore. Ton "Confidence Score" risque de stagner si tu n'ancres pas tes progrès aujourd'hui.</p>
-      <p><strong>30 secondes suffisent :</strong> Signe ton check-in quotidien pour maintenir ta Vibrance et garder le rythme.</p>
-      <center><a href="${APP_URL}/dashboard" class="btn" style="background-color: #ff4545; color: #fff;">Reprendre le Build</a></center>
-      <p class="mono" style="font-size: 11px; text-align: center; color: #ff4545;">[ WARNING: SYSTEM_IDLE_DETECTED ]</p>
+      <h1>Ça fait un moment, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>On ne veut pas te brusquer — mais ton tableau de bord te réclame. Ton score de cohésion et ta progression t'attendent.</p>
+      <p>Un check-in quotidien suffit à maintenir ton élan. <strong>Moins de 30 secondes.</strong> Et chaque jour compté renforce ta position dans ta guilde.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/dashboard" class="btn">Reprendre là où j'en étais →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Tu ne veux plus recevoir ces rappels ? <a href="${APP_URL}/settings">Gère tes préférences ici.</a></p>
     `;
 
-    return this._send({
-      to: email,
-      subject: "Alerte Build : Ton check-in quotidien t'attend",
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, "Un check-in rapide suffit pour maintenir ton élan. 30 secondes.");
+    return this._send({ to: email, subject: `${escHtml(firstName)}, ton check-in quotidien t'attend`, html, text: stripHtml(content) });
   },
 
   async sendContactNotification({ type, email, subject, content: messageContent }: { type: string; email: string; subject: string; content: string }) {
@@ -171,80 +231,282 @@ export const emailService = {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
-      <h1 class="title">Nouvelle Transmission</h1>
+      <h1>Nouveau message reçu</h1>
       <p><strong>Type :</strong> ${escHtml(type.toUpperCase())}</p>
       <p><strong>De :</strong> ${escHtml(email)}</p>
       <p><strong>Sujet :</strong> ${escHtml(subject)}</p>
-      <div style="background: #111; padding: 20px; border: 1px solid #1a1a1a; border-radius: 8px; margin-top: 20px; color: #fff;">
-        <p style="white-space: pre-wrap; font-size: 14px;">${escHtml(messageContent)}</p>
+      <hr class="divider">
+      <div class="card" style="text-align: left;">
+        <p style="white-space: pre-wrap; font-size: 14px; color: #a1a1aa; margin: 0;">${escHtml(messageContent)}</p>
       </div>
     `;
 
-    return this._send({
-      to: adminEmail,
-      subject: `[${escHtml(type.toUpperCase())}] ${escHtml(subject)}`,
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content);
+    return this._send({ to: adminEmail, subject: `[${escHtml(type.toUpperCase())}] ${escHtml(subject)}`, html, text: stripHtml(content) });
   },
 
   async sendFeedbackReceipt({ email, name, type }: { email: string; name: string; type: string }) {
     if (!resend) return { success: true, mocked: true };
 
+    const firstName = name.split(" ")[0];
     const typeLabels: Record<string, string> = {
-      BUG: "Signalement de Bug",
-      FEATURE_REQUEST: "Suggestion d'Idée",
-      GENERAL: "Retour Général",
+      BUG: "un signalement de bug",
+      FEATURE_REQUEST: "une suggestion de fonctionnalité",
+      GENERAL: "un retour général",
     };
 
     const content = `
-      <h1 class="title">Transmission <span class="highlight">Reçue</span></h1>
-      <p>Bâtisseur <span class="highlight">${name}</span>, ton feedback a bien été réceptionné par le centre de contrôle.</p>
-      <p><strong>Type :</strong> ${typeLabels[type] || type}</p>
-      <p>Nos équipes d'analyse vont examiner tes données pour optimiser l'écosystème. Tu recevras une notification dès que ton rapport aura été traité.</p>
-      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: UNDER_REVIEW ]</p>
+      <h1>Merci, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>On a bien reçu ${typeLabels[type] ?? "ton retour"}. Ce genre de contribution compte vraiment — c'est comme ça qu'on construit quelque chose de solide ensemble.</p>
+      <p>Notre équipe va l'examiner et tu recevras une mise à jour dès qu'une décision sera prise.</p>
+      <hr class="divider">
+      <p class="note">Tu peux continuer à utiliser HASHCODE normalement. On s'occupe du reste.</p>
     `;
 
-    return this._send({
-      to: email,
-      subject: "Confirmation de réception : Ton feedback HASHCODE",
-      html: generateEmailTemplate(content)
-    });
+    const html = generateEmailTemplate(content, "Ton retour a bien été reçu. On s'en occupe.");
+    return this._send({ to: email, subject: "Feedback reçu — merci pour ta contribution", html, text: stripHtml(content) });
   },
 
   async sendFeedbackUpdate({ email, name, status }: { email: string; name: string; status: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const statusInfo: Record<string, { title: string; desc: string; highlight: string }> = {
+    const firstName = name.split(" ")[0];
+    const statusInfo: Record<string, { headline: string; body: string; cta: boolean }> = {
       REVIEWED: {
-        title: "Analyse en cours",
-        desc: "Ton feedback est actuellement entre les mains de nos ingénieurs. Nous étudions la meilleure façon d'intégrer tes remarques.",
-        highlight: "#C5F441"
+        headline: "Ton feedback est en cours d'analyse.",
+        body: "Notre équipe l'a pris en main et travaille dessus. On te recontacte dès qu'une décision est prise.",
+        cta: false,
       },
       RESOLVED: {
-        title: "Mission terminée",
-        desc: "Excellente nouvelle ! Les mesures nécessaires ont été prises suite à ton retour. Ton impact sur l'écosystème est désormais concret.",
-        highlight: "#C5F441"
-      }
+        headline: "Ton feedback a été traité.",
+        body: "Les mesures nécessaires ont été prises suite à ton retour. Ton impact sur la plateforme est concret et visible. Merci d'avoir pris le temps de contribuer.",
+        cta: true,
+      },
     };
 
-    const info = statusInfo[status] || statusInfo.REVIEWED;
+    const info = statusInfo[status] ?? statusInfo.REVIEWED;
 
     const content = `
-      <h1 class="title" style="color: ${info.highlight};">${info.title}</h1>
-      <p>Bâtisseur <span class="highlight">${name}</span>, le statut de ta transmission a évolué.</p>
-      <p>${info.desc}</p>
-      <center><a href="${APP_URL}/dashboard" class="btn">Retourner au Terminal</a></center>
-      <p class="mono" style="font-size: 11px; text-align: center;">[ STATUS: ${status} ]</p>
+      <h1><span class="accent">${escHtml(firstName)},</span> ${escHtml(info.headline)}</h1>
+      <p>${escHtml(info.body)}</p>
+      ${info.cta ? `<div class="btn-wrap"><a href="${APP_URL}/dashboard" class="btn">Retourner au tableau de bord →</a></div>` : ""}
+      <hr class="divider">
+      <p class="note">Des questions sur ce retour ? Réponds directement à cet email.</p>
     `;
 
+    const preview = status === "RESOLVED" ? "Les mesures nécessaires ont été prises. Merci pour ta contribution." : "Notre équipe l'a pris en main.";
+    const html = generateEmailTemplate(content, preview);
     return this._send({
       to: email,
-      subject: `Mise à jour : Ton feedback HASHCODE est ${status}`,
-      html: generateEmailTemplate(content)
+      subject: status === "RESOLVED" ? "Ton feedback a été résolu — merci ✓" : "Mise à jour : ton feedback HASHCODE est en cours d'analyse",
+      html,
+      text: stripHtml(content),
     });
   },
 
-  async _send({ to, subject, html }: { to: string; subject: string; html: string }) {
+  async sendMissionSubmitted({ email, name, missionTitle, bonusXp }: { email: string; name: string; missionTitle: string; bonusXp: number }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = name.split(" ")[0];
+    const content = `
+      <h1>Soumission reçue, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Ta soumission pour <strong>${escHtml(missionTitle)}</strong> a bien été enregistrée. Tu seras notifié(e) par email dès qu'un pair l'aura examinée.</p>
+      <div class="card">
+        <div class="card-value">+${bonusXp} XP</div>
+        <div class="card-label">Bonus de synchronisation — déjà crédité</div>
+      </div>
+      <p><strong>Et maintenant ?</strong> Un membre de la communauté va prendre en charge ta soumission pour la passer en revue. Le processus prend généralement 24 à 48 heures.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Voir mes missions →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">En attendant, tu peux explorer d'autres missions ou suivre l'avancement de ta squad.</p>
+    `;
+
+    const html = generateEmailTemplate(content, `Ta soumission pour "${missionTitle}" est en attente de revue. +${bonusXp} XP déjà crédités.`);
+    return this._send({ to: email, subject: `Soumission reçue — "${escHtml(missionTitle)}"`, html, text: stripHtml(content) });
+  },
+
+  async sendMissionNeedsRevision({ email, name, missionTitle, feedback, revisionCount }: { email: string; name: string; missionTitle: string; feedback: string; revisionCount?: number }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = name.split(" ")[0];
+    const content = `
+      <h1><span class="accent">${escHtml(firstName)},</span> ta soumission demande quelques ajustements.</h1>
+      <p>Ton travail sur <strong>${escHtml(missionTitle)}</strong> a été examiné. Le reviewer a identifié des points à améliorer avant de pouvoir valider.</p>
+      <div class="card" style="text-align: left;">
+        <div class="card-label" style="margin-bottom: 12px;">Feedback du reviewer</div>
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0; white-space: pre-wrap;">${escHtml(feedback)}</p>
+      </div>
+      <p>Prends le temps de relire ce feedback, apporte les corrections nécessaires, et resoumet ta mission. Chaque itération te rend meilleur(e).</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Retravailler ma soumission →</a>
+      </div>
+      ${revisionCount && revisionCount >= 2 ? `<hr class="divider"><p class="note">Attention : tu as atteint ${revisionCount}/3 révisions autorisées pour cette mission.</p>` : ""}
+    `;
+
+    const html = generateEmailTemplate(content, `Quelques ajustements sont nécessaires pour valider "${missionTitle}".`);
+    return this._send({ to: email, subject: `Révision requise — "${escHtml(missionTitle)}"`, html, text: stripHtml(content) });
+  },
+
+  async sendMissionRejected({ email, name, missionTitle, feedback }: { email: string; name: string; missionTitle: string; feedback?: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = name.split(" ")[0];
+    const content = `
+      <h1><span class="accent">${escHtml(firstName)},</span> ta soumission n'a pas été retenue.</h1>
+      <p>Après examen, la soumission pour <strong>${escHtml(missionTitle)}</strong> n'a pas pu être validée.</p>
+      ${feedback ? `
+      <div class="card" style="text-align: left;">
+        <div class="card-label" style="margin-bottom: 12px;">Retour de l'équipe</div>
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0; white-space: pre-wrap;">${escHtml(feedback)}</p>
+      </div>` : ""}
+      <p>Ce n'est pas une fin — c'est un cap. Les builders qui progressent le plus vite sont ceux qui tirent les leçons de chaque tentative. D'autres missions t'attendent.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Explorer d'autres missions →</a>
+      </div>
+    `;
+
+    const html = generateEmailTemplate(content, `Ta soumission pour "${missionTitle}" n'a pas été retenue. D'autres missions t'attendent.`);
+    return this._send({ to: email, subject: `Résultat de ta soumission — "${escHtml(missionTitle)}"`, html, text: stripHtml(content) });
+  },
+
+  async sendLevelUp({ email, name, newLevel }: { email: string; name: string; newLevel: number }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = name.split(" ")[0];
+    const content = `
+      <h1><span class="accent">${escHtml(firstName)},</span> tu viens de passer un cap.</h1>
+      <p>Ton travail constant porte ses fruits. Tu as officiellement atteint un nouveau niveau dans l'écosystème HASHCODE.</p>
+      <div class="card">
+        <div class="card-value">Niveau ${newLevel}</div>
+        <div class="card-label">Ton nouveau rang dans la communauté</div>
+      </div>
+      <p>Ce niveau te donne accès à de nouvelles missions et renforce ta position dans ta guilde. Continue sur cette lancée.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/dashboard" class="btn">Voir mon tableau de bord →</a>
+      </div>
+    `;
+
+    const html = generateEmailTemplate(content, `Niveau ${newLevel} atteint. De nouvelles missions s'ouvrent à toi.`);
+    return this._send({ to: email, subject: `${escHtml(firstName)}, tu es maintenant niveau ${newLevel} sur HASHCODE 🎯`, html, text: stripHtml(content) });
+  },
+
+  async sendSquadMemberJoined({ leaderEmail, leaderName, newMemberName, squadName, memberCount }: { leaderEmail: string; leaderName: string; newMemberName: string; squadName: string; memberCount: number }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = leaderName.split(" ")[0];
+    const content = `
+      <h1><span class="accent">${escHtml(newMemberName)}</span> a rejoint ta squad.</h1>
+      <p>Bonne nouvelle, <strong>${escHtml(firstName)}</strong> — un nouveau membre vient de rejoindre <strong>${escHtml(squadName)}</strong>.</p>
+      <div class="card">
+        <div class="card-value">${memberCount} / 5</div>
+        <div class="card-label">Membres dans ta squad</div>
+      </div>
+      <p>Accueille-le/la et synchronisez vos objectifs. Plus votre squad est soudée, plus votre score de cohésion grimpe — et plus les récompenses sont importantes.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/squad" class="btn">Voir ma squad →</a>
+      </div>
+    `;
+
+    const html = generateEmailTemplate(content, `${newMemberName} a rejoint ${squadName}. Ta squad compte maintenant ${memberCount} membres.`);
+    return this._send({ to: leaderEmail, subject: `${escHtml(newMemberName)} vient de rejoindre ${escHtml(squadName)}`, html, text: stripHtml(content) });
+  },
+
+  async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, level, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; level: number; missionsCount: number }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = adminName.split(" ")[0];
+    const content = `
+      <h1>Suppression de compte, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Un utilisateur vient de supprimer son compte HASHCODE.</p>
+      <div class="card" style="text-align: left;">
+        <div class="card-label" style="margin-bottom: 12px;">Informations du compte supprimé</div>
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0 0 6px;"><strong style="color: #e4e4e7;">Nom :</strong> ${escHtml(deletedName)}</p>
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0 0 6px;"><strong style="color: #e4e4e7;">Email :</strong> ${escHtml(deletedEmail)}</p>
+        ${memberNumber ? `<p style="font-size: 14px; color: #a1a1aa; margin: 0 0 6px;"><strong style="color: #e4e4e7;">Membre #:</strong> ${memberNumber}</p>` : ""}
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0 0 6px;"><strong style="color: #e4e4e7;">Niveau :</strong> ${level}</p>
+        <p style="font-size: 14px; color: #a1a1aa; margin: 0;"><strong style="color: #e4e4e7;">Missions complétées :</strong> ${missionsCount}</p>
+      </div>
+      <p class="note">Ce compte et toutes ses données associées ont été définitivement supprimés. Aucune action supplémentaire n'est requise.</p>
+    `;
+    const html = generateEmailTemplate(content, `${deletedName} vient de supprimer son compte HASHCODE.`);
+    return this._send({ to: adminEmail, subject: `Compte supprimé — ${escHtml(deletedName)} (${escHtml(deletedEmail)})`, html, text: stripHtml(content) });
+  },
+
+  async sendAccountDeleted({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = name.split(" ")[0];
+    const content = `
+      <h1>Ton compte a été supprimé, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Comme demandé, ton compte HASHCODE et toutes les données associées ont été définitivement supprimés.</p>
+      <p>Si tu n'es pas à l'origine de cette action ou si tu penses qu'il s'agit d'une erreur, contacte-nous immédiatement en répondant à cet email.</p>
+      <hr class="divider">
+      <p class="note">Tu pourras toujours créer un nouveau compte si tu souhaites rejoindre la communauté à nouveau. Ce sera reparti de zéro.</p>
+    `;
+    const html = generateEmailTemplate(content, "Ton compte HASHCODE a été supprimé. Réponds si ce n'est pas toi.");
+    return this._send({ to: email, subject: "Confirmation : ton compte HASHCODE a été supprimé", html, text: stripHtml(content) });
+  },
+
+  async sendAdminCoreMissionPending({ adminEmail, adminName, submitterName, missionTitle }: { adminEmail: string; adminName: string; submitterName: string; missionTitle: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = adminName.split(" ")[0];
+    const content = `
+      <h1>Confirmation requise, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>La mission CORE <strong>${escHtml(missionTitle)}</strong> soumise par <strong>${escHtml(submitterName)}</strong> vient d'être validée par un pair et attend ta confirmation finale.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/admin/submissions" class="btn">Voir la soumission →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Les missions CORE nécessitent une validation admin après la revue par pair. L'utilisateur attend ta décision.</p>
+    `;
+    const html = generateEmailTemplate(content, `${submitterName} attend la confirmation admin pour "${missionTitle}".`);
+    return this._send({ to: adminEmail, subject: `[CORE] Validation requise — ${escHtml(missionTitle)}`, html, text: stripHtml(content) });
+  },
+
+  async sendSquadCohesionAlert({ leaderEmail, leaderName, squadName, cohesionScore, level }: { leaderEmail: string; leaderName: string; squadName: string; cohesionScore: number; level: "low" | "critical" }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = leaderName.split(" ")[0];
+    const isCritical = level === "critical";
+    const scorePercent = Math.round(cohesionScore * 100);
+
+    const content = `
+      <h1><span class="accent">${escHtml(firstName)},</span> ${isCritical ? "ta squad est en danger." : "la cohésion de ta squad baisse."}</h1>
+      <p>Le score de cohésion de <strong>${escHtml(squadName)}</strong> est passé à <strong>${scorePercent}%</strong>${isCritical ? " — niveau critique" : ""}.</p>
+      <div class="card">
+        <div class="card-value" style="color: ${isCritical ? "#ef4444" : "#f97316"};">${scorePercent}%</div>
+        <div class="card-label">Score de cohésion actuel</div>
+      </div>
+      <p>${isCritical
+        ? "Sans action rapide, la dynamique de ta squad va continuer à se dégrader. Encourage tes membres à faire un check-in dès aujourd'hui."
+        : "Un check-in quotidien de chaque membre suffit à inverser la tendance. Partage le lien de ta squad pour relancer la dynamique."
+      }</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/squad" class="btn">Voir ma squad →</a>
+      </div>
+    `;
+    const preview = isCritical
+      ? `Cohésion critique à ${scorePercent}% — action immédiate requise.`
+      : `La cohésion de ${squadName} est à ${scorePercent}%. Relance ta squad.`;
+    const html = generateEmailTemplate(content, preview);
+    return this._send({
+      to: leaderEmail,
+      subject: isCritical
+        ? `🔴 Alerte critique — ${escHtml(squadName)} à ${scorePercent}% de cohésion`
+        : `Cohésion en baisse — ${escHtml(squadName)} à ${scorePercent}%`,
+      html,
+      text: stripHtml(content),
+    });
+  },
+
+  async sendEmail({ to, subject, html, text }: { to: string; subject: string; html: string; text?: string }) {
+    return this._send({ to, subject, html, text });
+  },
+
+  async _send({ to, subject, html, text }: { to: string; subject: string; html: string; text?: string }) {
     if (!resend) return { success: false, error: "Resend not configured" };
     try {
       const { data, error } = await resend.emails.send({
@@ -252,6 +514,7 @@ export const emailService = {
         to,
         subject,
         html,
+        ...(text ? { text } : {}),
       });
       if (error) return { success: false, error };
       return { success: true, data };
@@ -265,5 +528,5 @@ export const emailService = {
       connected: !!resend,
       provider: resend ? "Resend" : "Mock (Missing API Key)",
     };
-  }
+  },
 };

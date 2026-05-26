@@ -16,6 +16,8 @@ const PayloadSchema = z.object({
   title: z.string().min(1),
   message: z.string().min(1),
   link: z.string().optional(),
+  xp: z.number().optional(),
+  newLevel: z.number().optional(),
 });
 
 export async function POST(req: Request) {
@@ -50,23 +52,29 @@ export async function POST(req: Request) {
   }
 }
 
-async function handleNotify({ userId, type, title, message, link }: z.infer<typeof PayloadSchema>) {
+async function handleNotify({ userId, type, title, message, link, xp, newLevel }: z.infer<typeof PayloadSchema>) {
   const notification = await prisma.notification.create({
     data: { userId, type, title, message, link },
-    include: { user: true }
+    include: { user: true },
   });
 
   if (type === "MISSION_APPROVED") {
-    await emailService.sendMissionApproval({
+    emailService.sendMissionApproval({
       email: notification.user.email,
       name: notification.user.name,
       missionTitle: title.replace("Mission validée : ", ""),
-      xp: 0,
+      xp: xp ?? 0,
     });
   } else if (type === "DAILY_REMINDER") {
-    await emailService.sendDailyReminder({
+    emailService.sendDailyReminder({
       email: notification.user.email,
       name: notification.user.name,
+    });
+  } else if (type === "LEVEL_UP" && newLevel) {
+    emailService.sendLevelUp({
+      email: notification.user.email,
+      name: notification.user.name,
+      newLevel,
     });
   }
 

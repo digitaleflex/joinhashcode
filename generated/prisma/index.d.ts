@@ -16598,7 +16598,7 @@ export namespace Prisma {
   export type MissionReviewGroupByOutputType = {
     id: string
     submissionId: string
-    reviewerId: string
+    reviewerId: string | null
     criteria: JsonValue
     qualityLevel: string
     feedback: string
@@ -16633,7 +16633,7 @@ export namespace Prisma {
     revisionNotes?: boolean
     createdAt?: boolean
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }, ExtArgs["result"]["missionReview"]>
 
   export type MissionReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16646,7 +16646,7 @@ export namespace Prisma {
     revisionNotes?: boolean
     createdAt?: boolean
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }, ExtArgs["result"]["missionReview"]>
 
   export type MissionReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16659,7 +16659,7 @@ export namespace Prisma {
     revisionNotes?: boolean
     createdAt?: boolean
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }, ExtArgs["result"]["missionReview"]>
 
   export type MissionReviewSelectScalar = {
@@ -16676,27 +16676,27 @@ export namespace Prisma {
   export type MissionReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "submissionId" | "reviewerId" | "criteria" | "qualityLevel" | "feedback" | "revisionNotes" | "createdAt", ExtArgs["result"]["missionReview"]>
   export type MissionReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }
   export type MissionReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }
   export type MissionReviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submission?: boolean | MissionSubmissionDefaultArgs<ExtArgs>
-    reviewer?: boolean | UserDefaultArgs<ExtArgs>
+    reviewer?: boolean | MissionReview$reviewerArgs<ExtArgs>
   }
 
   export type $MissionReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MissionReview"
     objects: {
       submission: Prisma.$MissionSubmissionPayload<ExtArgs>
-      reviewer: Prisma.$UserPayload<ExtArgs>
+      reviewer: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       submissionId: string
-      reviewerId: string
+      reviewerId: string | null
       criteria: Prisma.JsonValue
       qualityLevel: string
       feedback: string
@@ -17097,7 +17097,7 @@ export namespace Prisma {
   export interface Prisma__MissionReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     submission<T extends MissionSubmissionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MissionSubmissionDefaultArgs<ExtArgs>>): Prisma__MissionSubmissionClient<$Result.GetResult<Prisma.$MissionSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    reviewer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reviewer<T extends MissionReview$reviewerArgs<ExtArgs> = {}>(args?: Subset<T, MissionReview$reviewerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17533,6 +17533,25 @@ export namespace Prisma {
      * Limit how many MissionReviews to delete.
      */
     limit?: number
+  }
+
+  /**
+   * MissionReview.reviewer
+   */
+  export type MissionReview$reviewerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -22557,20 +22576,20 @@ export namespace Prisma {
     NOT?: MissionReviewWhereInput | MissionReviewWhereInput[]
     id?: StringFilter<"MissionReview"> | string
     submissionId?: StringFilter<"MissionReview"> | string
-    reviewerId?: StringFilter<"MissionReview"> | string
+    reviewerId?: StringNullableFilter<"MissionReview"> | string | null
     criteria?: JsonFilter<"MissionReview">
     qualityLevel?: StringFilter<"MissionReview"> | string
     feedback?: StringFilter<"MissionReview"> | string
     revisionNotes?: StringNullableFilter<"MissionReview"> | string | null
     createdAt?: DateTimeFilter<"MissionReview"> | Date | string
     submission?: XOR<MissionSubmissionScalarRelationFilter, MissionSubmissionWhereInput>
-    reviewer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reviewer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type MissionReviewOrderByWithRelationInput = {
     id?: SortOrder
     submissionId?: SortOrder
-    reviewerId?: SortOrder
+    reviewerId?: SortOrderInput | SortOrder
     criteria?: SortOrder
     qualityLevel?: SortOrder
     feedback?: SortOrder
@@ -22587,20 +22606,20 @@ export namespace Prisma {
     OR?: MissionReviewWhereInput[]
     NOT?: MissionReviewWhereInput | MissionReviewWhereInput[]
     submissionId?: StringFilter<"MissionReview"> | string
-    reviewerId?: StringFilter<"MissionReview"> | string
+    reviewerId?: StringNullableFilter<"MissionReview"> | string | null
     criteria?: JsonFilter<"MissionReview">
     qualityLevel?: StringFilter<"MissionReview"> | string
     feedback?: StringFilter<"MissionReview"> | string
     revisionNotes?: StringNullableFilter<"MissionReview"> | string | null
     createdAt?: DateTimeFilter<"MissionReview"> | Date | string
     submission?: XOR<MissionSubmissionScalarRelationFilter, MissionSubmissionWhereInput>
-    reviewer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    reviewer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "submissionId_reviewerId">
 
   export type MissionReviewOrderByWithAggregationInput = {
     id?: SortOrder
     submissionId?: SortOrder
-    reviewerId?: SortOrder
+    reviewerId?: SortOrderInput | SortOrder
     criteria?: SortOrder
     qualityLevel?: SortOrder
     feedback?: SortOrder
@@ -22617,7 +22636,7 @@ export namespace Prisma {
     NOT?: MissionReviewScalarWhereWithAggregatesInput | MissionReviewScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MissionReview"> | string
     submissionId?: StringWithAggregatesFilter<"MissionReview"> | string
-    reviewerId?: StringWithAggregatesFilter<"MissionReview"> | string
+    reviewerId?: StringNullableWithAggregatesFilter<"MissionReview"> | string | null
     criteria?: JsonWithAggregatesFilter<"MissionReview">
     qualityLevel?: StringWithAggregatesFilter<"MissionReview"> | string
     feedback?: StringWithAggregatesFilter<"MissionReview"> | string
@@ -24417,13 +24436,13 @@ export namespace Prisma {
     revisionNotes?: string | null
     createdAt?: Date | string
     submission: MissionSubmissionCreateNestedOneWithoutReviewsInput
-    reviewer: UserCreateNestedOneWithoutReviewsGivenInput
+    reviewer?: UserCreateNestedOneWithoutReviewsGivenInput
   }
 
   export type MissionReviewUncheckedCreateInput = {
     id?: string
     submissionId: string
-    reviewerId: string
+    reviewerId?: string | null
     criteria: JsonNullValueInput | InputJsonValue
     qualityLevel: string
     feedback: string
@@ -24439,13 +24458,13 @@ export namespace Prisma {
     revisionNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: MissionSubmissionUpdateOneRequiredWithoutReviewsNestedInput
-    reviewer?: UserUpdateOneRequiredWithoutReviewsGivenNestedInput
+    reviewer?: UserUpdateOneWithoutReviewsGivenNestedInput
   }
 
   export type MissionReviewUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionId?: StringFieldUpdateOperationsInput | string
-    reviewerId?: StringFieldUpdateOperationsInput | string
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: JsonNullValueInput | InputJsonValue
     qualityLevel?: StringFieldUpdateOperationsInput | string
     feedback?: StringFieldUpdateOperationsInput | string
@@ -24456,7 +24475,7 @@ export namespace Prisma {
   export type MissionReviewCreateManyInput = {
     id?: string
     submissionId: string
-    reviewerId: string
+    reviewerId?: string | null
     criteria: JsonNullValueInput | InputJsonValue
     qualityLevel: string
     feedback: string
@@ -24476,7 +24495,7 @@ export namespace Prisma {
   export type MissionReviewUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     submissionId?: StringFieldUpdateOperationsInput | string
-    reviewerId?: StringFieldUpdateOperationsInput | string
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: JsonNullValueInput | InputJsonValue
     qualityLevel?: StringFieldUpdateOperationsInput | string
     feedback?: StringFieldUpdateOperationsInput | string
@@ -27078,10 +27097,12 @@ export namespace Prisma {
     update?: XOR<XOR<MissionSubmissionUpdateToOneWithWhereWithoutReviewsInput, MissionSubmissionUpdateWithoutReviewsInput>, MissionSubmissionUncheckedUpdateWithoutReviewsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutReviewsGivenNestedInput = {
+  export type UserUpdateOneWithoutReviewsGivenNestedInput = {
     create?: XOR<UserCreateWithoutReviewsGivenInput, UserUncheckedCreateWithoutReviewsGivenInput>
     connectOrCreate?: UserCreateOrConnectWithoutReviewsGivenInput
     upsert?: UserUpsertWithoutReviewsGivenInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsGivenInput, UserUpdateWithoutReviewsGivenInput>, UserUncheckedUpdateWithoutReviewsGivenInput>
   }
@@ -28327,7 +28348,7 @@ export namespace Prisma {
     NOT?: MissionReviewScalarWhereInput | MissionReviewScalarWhereInput[]
     id?: StringFilter<"MissionReview"> | string
     submissionId?: StringFilter<"MissionReview"> | string
-    reviewerId?: StringFilter<"MissionReview"> | string
+    reviewerId?: StringNullableFilter<"MissionReview"> | string | null
     criteria?: JsonFilter<"MissionReview">
     qualityLevel?: StringFilter<"MissionReview"> | string
     feedback?: StringFilter<"MissionReview"> | string
@@ -31526,12 +31547,12 @@ export namespace Prisma {
     feedback: string
     revisionNotes?: string | null
     createdAt?: Date | string
-    reviewer: UserCreateNestedOneWithoutReviewsGivenInput
+    reviewer?: UserCreateNestedOneWithoutReviewsGivenInput
   }
 
   export type MissionReviewUncheckedCreateWithoutSubmissionInput = {
     id?: string
-    reviewerId: string
+    reviewerId?: string | null
     criteria: JsonNullValueInput | InputJsonValue
     qualityLevel: string
     feedback: string
@@ -34186,7 +34207,7 @@ export namespace Prisma {
 
   export type MissionReviewCreateManySubmissionInput = {
     id?: string
-    reviewerId: string
+    reviewerId?: string | null
     criteria: JsonNullValueInput | InputJsonValue
     qualityLevel: string
     feedback: string
@@ -34201,12 +34222,12 @@ export namespace Prisma {
     feedback?: StringFieldUpdateOperationsInput | string
     revisionNotes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reviewer?: UserUpdateOneRequiredWithoutReviewsGivenNestedInput
+    reviewer?: UserUpdateOneWithoutReviewsGivenNestedInput
   }
 
   export type MissionReviewUncheckedUpdateWithoutSubmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    reviewerId?: StringFieldUpdateOperationsInput | string
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: JsonNullValueInput | InputJsonValue
     qualityLevel?: StringFieldUpdateOperationsInput | string
     feedback?: StringFieldUpdateOperationsInput | string
@@ -34216,7 +34237,7 @@ export namespace Prisma {
 
   export type MissionReviewUncheckedUpdateManyWithoutSubmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    reviewerId?: StringFieldUpdateOperationsInput | string
+    reviewerId?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: JsonNullValueInput | InputJsonValue
     qualityLevel?: StringFieldUpdateOperationsInput | string
     feedback?: StringFieldUpdateOperationsInput | string

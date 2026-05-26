@@ -196,7 +196,7 @@ export default function OnboardingPage() {
                 <div className="space-y-4">
                   <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mb-2">
                     <p className="text-[10px] font-mono uppercase tracking-wider text-primary text-center">
-                      Sélectionnez 1 objectif principal + jusqu&apos;à 3 secondaires
+                      Sélectionnez 1 objectif principal + jusqu&apos;à 2 secondaires
                     </p>
                   </div>
                   <div className="grid gap-2">
@@ -214,13 +214,13 @@ export default function OnboardingPage() {
                           })
                         } else if (!formData.mainObjective) {
                           updateForm({ ...formData, mainObjective: obj })
-                        } else if (formData.secondaryObjectives.length < 3) {
+                        } else if (formData.secondaryObjectives.length < 2) {
                           updateForm({
                             ...formData,
                             secondaryObjectives: [...formData.secondaryObjectives, obj]
                           })
                         } else {
-                          toast.error("Maximum 3 objectifs secondaires")
+                          toast.error("Maximum 2 objectifs secondaires")
                         }
                       }
 

@@ -15,7 +15,7 @@ const retrospectiveSchema = z.object({
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -26,7 +26,7 @@ export async function PATCH(
       return new NextResponse("Accès non autorisé.", { status: 401 });
     }
 
-    const missionId = params.id;
+    const { id: missionId } = await params;
     const body = await req.json();
     const validatedData = retrospectiveSchema.safeParse(body);
 
@@ -45,9 +45,10 @@ export async function PATCH(
     // Update the submission
     const submission = await prisma.missionSubmission.update({
       where: {
-        userId_missionId: {
+        userId_missionId_cycleKey: {
           userId: session.user.id,
-          missionId: missionId
+          missionId: missionId,
+          cycleKey: "PERMANENT",
         }
       },
       data: {

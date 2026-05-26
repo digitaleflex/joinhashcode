@@ -24,11 +24,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
 
     try {
       const { error } = await authClient.organization.update({
-        name,
-        slug,
-        metadata: {
-            isPrivate: isPrivate
-        }
+        data: { name, slug, metadata: { isPrivate } },
       });
 
       if (error) {
@@ -46,7 +42,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
   return (
     <form onSubmit={handleUpdate} className="space-y-6 border p-4 rounded-lg bg-card">
       <div className="space-y-2">
-        <Label htmlFor="org-name">Nom de l"escouade</Label>
+        <Label htmlFor="org-name">Nom de l'escouade</Label>
         <Input
           id="org-name"
           value={name}
@@ -71,7 +67,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
         <div className="space-y-0.5">
           <Label>Escouade Privée</Label>
           <p className="text-[10px] text-muted-foreground">
-            Si activé, l"escouade ne sera pas visible sur la page d"accueil.
+            Si activé, l'escouade ne sera pas visible sur la page d"accueil.
           </p>
         </div>
         <Switch

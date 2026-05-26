@@ -33,7 +33,7 @@ yarn-error.log*
 .env.development
 .env.local
 .env.test
-
+docker-compose.yml
 # Vercel
 .vercel
 

@@ -352,37 +352,183 @@ Les meilleurs professionnels savent lire l'existant avant de créer du nouveau. 
   },
   {
     id: "uni-03-cross-pollination",
-    title: "Pollinisation Croisée",
-    shortDesc: "Sors de ta zone de confort avec un pair.",
-    description: "Trouve un membre d'une autre Guilde sur Hashcode. Aidez-vous mutuellement sur une problématique spécifique à votre expertise.",
+    title: "Projet Inter-Guildes",
+    shortDesc: "Co-construis quelque chose de réel avec un profil différent.",
+    description: "Forme un binôme avec un membre d'une autre Guilde et co-construisez un livrable commun sur 2 semaines minimum. Le projet doit être visible, utilisable ou publiable.",
     xpReward: 400,
     requiredLevel: 4,
     targetLevel: 4,
-    requirements: ["Le pseudo du membre avec qui tu as collaboré.", "La preuve de l'échange (Screenshot de PR, document collaboratif, etc.)."],
+    requirements: [
+      "Le pseudo du co-créateur et sa Guilde.",
+      "Lien vers le livrable co-construit.",
+      "Répartition claire des rôles dans le projet.",
+      "Bilan de ce que chaque profil a apporté (3-5 lignes).",
+    ],
     type: "NETWORK",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "PRO",
-    duration: "1 semaine",
+    duration: "2 semaines",
     weightBuilder: 0.20,
     weightCreator: 0.20,
     weightStrategist: 0.20,
     weightCatalyst: 0.40,
     submissionMethod: "ANY_LINK",
-    deliverables: ["Preuve de la collaboration", "Bilan de ce que tu as appris de l'autre guilde"],
-    fullBriefing: `
-# Mission Universelle 03 : Pollinisation Croisée
+    deliverables: ["Lien vers le livrable commun", "Bilan de collaboration (rôles + apprentissages)"],
+    fullBriefing: `## Contexte
+Un échange de compétences (Échange de Compétences, niveau CORE) c'est bien. Un projet co-construit, c'est différent. Ici, il s'agit de produire quelque chose ensemble qui n'aurait pas existé sans la complémentarité de vos deux profils.
 
-L'élite technologique n'est jamais isolée. Ta force réside dans ta capacité à parler le langage des autres disciplines. 
+## Objectif
+Co-construire un livrable réel, visible et utilisable avec un membre d'une Guilde différente — en assumant pleinement votre complémentarité.
 
-### Instructions
-1. Identifie un membre actif qui appartient à une Guilde DIFFÉRENTE de la tienne.
-2. Propose-lui un échange de compétences (Ex: "Je suis Builder, je te règle ton problème de base de données si tu m'aides à améliorer le design de ma page d'accueil (Creator)").
-3. Réalisez cet échange de manière asynchrone ou lors d'un call.
+## Ce que "livrable réel" signifie
+- Un produit en ligne (landing page, outil, app)
+- Un contenu publié (article, vidéo, guide, newsletter)
+- Une ressource communautaire (template, dataset, framework)
+- Un projet open-source avec README et usage réel
 
-### Critères de validation
-- La preuve du travail accompli ensemble (Lien vers une Pull Request, un Figma commenté, etc.).
-- Les deux membres de la collaboration obtiendront les points d'XP pour cette mission !
-    `
+## Exemples de binômes productifs
+| Binôme | Ce qu'ils peuvent produire |
+|---|---|
+| Builder + Creator | Un SaaS ou app avec une interface soignée |
+| Strategist + Creator | Un contenu de marque avec une analyse de marché intégrée |
+| Builder + Catalyst | Un outil communautaire déployé et adopté |
+| Strategist + Builder | Un MVP validé par la donnée |
+
+## Instructions
+1. Identifie un co-créateur avec un profil complémentaire au tien
+2. Définis ensemble le projet en 1 session de cadrage (30-60 min max)
+3. Travaillez sur 2 semaines minimum avec au moins 2 points de sync
+4. Publiez ou déployez le livrable
+5. Documentez la répartition des rôles et ce que le cross-profil vous a apporté
+
+## Critères d'acceptation
+- Le livrable est public et accessible
+- Les deux rôles sont clairement distincts (pas un simple "on a travaillé ensemble")
+- Le bilan montre une réelle complémentarité inter-guildes exploitée`
+  },
+
+  // --- MISSIONS CORE SOLO ---
+  {
+    id: "core-transmission-savoir",
+    title: "Transmission de Savoir",
+    shortDesc: "Enseigne ce que tu sais. Solidifie ce que tu maîtrises.",
+    description: "Rédige un tutoriel, un guide ou un article qui enseigne quelque chose de concret dans ton domaine. Publie-le publiquement et partage-le dans la communauté.",
+    xpReward: 200,
+    requiredLevel: 2,
+    targetLevel: 2,
+    requirements: [
+      "Un contenu pédagogique publié publiquement (article, guide, vidéo, thread).",
+      "Le contenu doit enseigner une compétence ou un concept précis.",
+      "Lien vers la publication.",
+    ],
+    type: "GENERAL",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "CORE",
+    duration: "2-3h",
+    weightBuilder: 0.25,
+    weightCreator: 0.30,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.20,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Lien vers le contenu publié", "En une phrase : ce que le lecteur/spectateur apprend"],
+    fullBriefing: `## Contexte
+Enseigner est la meilleure façon de valider une maîtrise. Si tu ne peux pas l'expliquer simplement, tu ne le comprends pas vraiment. Cette mission te demande de produire un contenu pédagogique réel — pas un résumé générique, mais quelque chose d'utile pour quelqu'un qui apprend.
+
+## Objectif
+Publier un contenu qui enseigne une compétence ou un concept précis dans ton domaine, adapté à ton profil.
+
+## Le contenu doit être
+- **Ciblé** : une seule compétence ou un seul concept, pas un survol général
+- **Actionnable** : le lecteur peut appliquer ce qu'il apprend immédiatement
+- **Original** : ta perspective, ton expérience, pas un copier-coller de documentation
+
+## Formats acceptés par Guilde
+
+🛠️ **Builders** — Tutoriel technique :
+1. Choisis une librairie, un pattern ou un concept que tu maîtrises
+2. Écris un tutoriel étape par étape avec exemples de code réels (GitHub Gist, article, README)
+3. Teste le tutoriel sur un projet vierge pour confirmer qu'il fonctionne
+
+🎨 **Creators** — Guide visuel ou template :
+1. Crée un guide visuel (Figma, Canva, PDF) ou un template réutilisable
+2. Inclus une explication de tes choix (pourquoi ce layout, cette palette, cette typo)
+3. Publie sur Behance, Notion, ou un lien public
+
+🧠 **Strategists** — Framework ou playbook :
+1. Formalise un process ou un cadre de décision que tu utilises
+2. Structure-le en étapes claires avec des exemples concrets
+3. Publie sur Notion, LinkedIn ou Medium
+
+🗣️ **Catalysts** — Case study communautaire :
+1. Documente comment tu as lancé, développé ou animé une communauté ou un groupe
+2. Partage les tactiques qui ont fonctionné et celles qui ont échoué
+3. Publie sous forme d'article ou de thread LinkedIn/X
+
+## Critères d'acceptation
+- Le contenu est publié et accessible via un lien
+- Il enseigne quelque chose de précis (pas un survol)
+- Il est clairement le tien (ton expérience, ton angle)`
+  },
+  {
+    id: "core-veille-strategique",
+    title: "Veille Stratégique",
+    shortDesc: "Analyse un marché, une tendance ou un écosystème dans ton domaine.",
+    description: "Produis une analyse structurée d'un sujet de ton domaine : tendance tech, marché émergent, outil, ou évolution d'un écosystème. Pas de survol — un vrai point de vue avec des données.",
+    xpReward: 250,
+    requiredLevel: 3,
+    targetLevel: 3,
+    requirements: [
+      "Un sujet précis et délimité (pas générique).",
+      "Au moins 3 sources citées.",
+      "Une conclusion avec ton point de vue personnel.",
+      "Lien vers le document ou la publication.",
+    ],
+    type: "GENERAL",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "CORE",
+    duration: "2-4h",
+    weightBuilder: 0.20,
+    weightCreator: 0.20,
+    weightStrategist: 0.40,
+    weightCatalyst: 0.20,
+    submissionMethod: "DOCUMENT_LINK",
+    deliverables: ["Lien vers l'analyse (Notion, PDF, article)", "Le sujet analysé en une phrase"],
+    fullBriefing: `## Contexte
+Les meilleurs professionnels tech ne réagissent pas à l'actualité — ils l'anticipent. La veille stratégique est une compétence rare : savoir lire les signaux faibles, les croiser avec des données, et en tirer une perspective actionnelle.
+
+## Objectif
+Produire une analyse structurée d'un sujet précis dans ton domaine — avec des données, un angle clair, et un point de vue personnel.
+
+## Le sujet doit être
+- **Précis** : pas "l'IA en Afrique" mais "l'adoption des LLMs par les fintech africaines en 2025"
+- **Délimité** : un marché, un outil, une tendance, un acteur — pas tout à la fois
+- **Pertinent** : quelque chose qui impacte ton travail ou ta communauté
+
+## Angle d'analyse par Guilde
+
+🛠️ **Builders — Analyse technique :**
+Compare 3 outils, frameworks ou architectures sur un cas d'usage précis. Documente les trade-offs, les cas où chaque option gagne, et ta recommandation finale.
+
+🎨 **Creators — Analyse de tendance visuelle ou éditoriale :**
+Identifie une tendance émergente dans le design, le contenu ou les médias. Montre des exemples concrets, analyse pourquoi ça monte, et préds ce qui vient ensuite.
+
+🧠 **Strategists — Analyse de marché ou business model :**
+Évalue un marché ou un acteur : taille, dynamiques, avantages compétitifs, angles d'entrée. Inclus au moins une donnée chiffrée et une recommandation actionnable.
+
+🗣️ **Catalysts — Cartographie d'écosystème :**
+Mappe les acteurs clés d'un écosystème (communauté, secteur, réseau) : qui influence qui, quels sont les hubs, où est l'énergie. Propose une stratégie de positionnement dans cet écosystème.
+
+## Structure recommandée
+1. **Contexte** — Pourquoi ce sujet maintenant ?
+2. **Analyse** — Ce que les données et les signaux montrent
+3. **Implications** — Ce que ça change pour ton domaine
+4. **Point de vue** — Ta prise de position personnelle
+
+## Critères d'acceptation
+- Le sujet est précis et délimité
+- Au moins 3 sources sont citées (liens, études, données)
+- La conclusion contient ton point de vue (pas juste une description)
+- Le document est lisible et structuré`
   },
 
   // --- HYBRID CHALLENGES ---
@@ -401,7 +547,7 @@ L'élite technologique n'est jamais isolée. Ta force réside dans ta capacité 
     ],
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-    missionLevel: "CORE",
+    missionLevel: "PRO",
     duration: "48h",
     weightBuilder: 0.3,
     weightCreator: 0.25,
@@ -427,41 +573,63 @@ L'épreuve de feu. Travaille sous pression pour sortir un produit minimum viable
   },
   {
     id: "h2-cross-profile-collab",
-    title: "Collaboration Cross-Profil",
-    shortDesc: "Travaille avec quelqu'un de complètement différent.",
-    description: "Collabore avec un membre d'un profil opposé au thine sur un projet commun pendant 2 semaines. Documente ce que tu as appris de cette collaboration.",
+    title: "Échange de Compétences",
+    shortDesc: "Résous un problème concret avec un profil différent du tien.",
+    description: "Trouve un membre d'une autre Guilde et organisez un échange de compétences ciblé : tu l'aides sur un problème de ton domaine, il t'aide sur un problème du sien. Un livrable de chaque côté.",
     xpReward: 400,
     requiredLevel: 3,
     targetLevel: 3,
     requirements: [
-      "Profil du collaborateur et nature du projet.",
-      "Livrable commun + retour d'expérience sur la collaboration.",
+      "Le pseudo du membre de l'autre Guilde.",
+      "Description du problème que tu as résolu pour lui.",
+      "Description du problème qu'il a résolu pour toi.",
+      "Preuve de l'échange (capture, doc, lien).",
     ],
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "CORE",
-    duration: "2 semaines",
+    duration: "3-5 jours",
     weightBuilder: 0.25,
     weightCreator: 0.25,
     weightStrategist: 0.25,
     weightCatalyst: 0.25,
     submissionMethod: "ANY_LINK",
-    deliverables: ["Rapport de collaboration", "Livrable du projet commun"],
-    fullBriefing: `
-# Mission : Collaboration Cross-Profil
+    deliverables: ["Preuve de l'échange bidirectionnel", "Ce que tu as appris de l'autre guilde (2-3 lignes)"],
+    fullBriefing: `## Contexte
+Les meilleurs acteurs tech ne restent pas dans leur silo. Cette mission te force à sortir de ton domaine et à créer de la valeur pour quelqu'un qui pense différemment — en échange de valeur pour toi.
 
-Sortez de votre zone de confort. Un Builder doit comprendre un Strategist, un Creator doit s'aligner avec un Catalyst.
+## Objectif
+Organiser un échange de compétences ciblé avec un membre d'une Guilde différente. Chacun résout un problème concret pour l'autre.
 
-### Instructions
-1. Identifie un binôme d'un profil différent.
-2. Définissez un micro-projet (ex: une landing page, une campagne marketing).
-3. Travaillez ensemble sur 14 jours.
-4. Racontez comment vous avez géré vos différences d'approche.
+## Instructions
 
-### Critères de validation
-- Livrable de qualité.
-- Analyse profonde de l'apprentissage inter-profils.
-    `
+**Étape 1 — Identifier le binôme**
+Trouve un membre actif d'une Guilde différente de la tienne. Les paires les plus productives :
+- Builder + Creator (technique ↔ design/contenu)
+- Strategist + Catalyst (analyse ↔ réseau/activation)
+- Builder + Strategist (produit ↔ go-to-market)
+
+**Étape 2 — Définir les problèmes**
+Chacun identifie UN problème concret et limité qu'il n'arrive pas à résoudre seul :
+- Ex: "J'ai un bug CSS que je n'arrive pas à isoler" (Builder pour Creator)
+- Ex: "J'ai besoin d'une analyse concurrente pour mon marché" (Creator pour Strategist)
+
+**Étape 3 — Échanger**
+Organisez un call ou échangez de façon asynchrone. L'objectif est que chacun reparte avec son problème résolu (ou avancé).
+
+**Étape 4 — Documenter**
+Capture l'échange : screenshot de conversation, document partagé, lien vers la PR/le Figma commenté.
+
+## Angle par Guilde
+- 🛠️ **Builders** : Aide sur du code, un setup technique, une architecture — et demande en échange du feedback sur ton UX ou ton positionnement.
+- 🎨 **Creators** : Aide sur un design, un contenu, une story — et demande en échange un audit technique ou une analyse stratégique.
+- 🧠 **Strategists** : Aide sur une analyse, un business model, une roadmap — et demande en échange un support créatif ou une mise en réseau.
+- 🗣️ **Catalysts** : Aide à connecter des personnes, animer une dynamique — et demande en échange une compétence technique ou créative spécifique.
+
+## Critères d'acceptation
+- L'échange est réel et bidirectionnel (les deux membres en bénéficient)
+- Le problème résolu est concret, pas générique
+- Tu articules ce que tu as appris de l'autre discipline`
   },
   {
     id: "h3-community-project",

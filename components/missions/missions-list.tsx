@@ -19,7 +19,6 @@ export interface MissionWithStats extends Mission {
   completionsCount: number;
   avgRating: number | null;
   ratingsCount: number;
-  missionLevel?: string;
 }
 
 type ProgressionStage = "INIT" | "CORE" | "PRO";
@@ -102,9 +101,9 @@ export function MissionsList({
 
   const missionsByStage = useMemo(() => {
     return {
-      INIT: availableMissions.filter(m => (m.missionLevel || m.progressionLevel) === "INIT" || (!m.missionLevel && !m.progressionLevel && m.requiredLevel <= 1)),
-      CORE: availableMissions.filter(m => (m.missionLevel || m.progressionLevel) === "CORE" || (!m.missionLevel && !m.progressionLevel && m.requiredLevel > 1 && m.requiredLevel <= 3)),
-      PRO: availableMissions.filter(m => (m.missionLevel || m.progressionLevel) === "PRO" || (!m.missionLevel && !m.progressionLevel && m.requiredLevel > 3)),
+      INIT: availableMissions.filter(m => m.missionLevel === "INIT"),
+      CORE: availableMissions.filter(m => m.missionLevel === "CORE"),
+      PRO: availableMissions.filter(m => m.missionLevel === "PRO"),
     };
   }, [availableMissions]);
 
@@ -210,7 +209,7 @@ export function MissionsList({
                   {mission.title}
                 </span>
                 <span className="text-[8px] font-mono text-zinc-700 ml-1">
-                  +{mission.xpReward || mission.xp} XP
+                  +{mission.xpReward} XP
                 </span>
               </div>
             ))}
@@ -324,7 +323,7 @@ function MissionCard({
               isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
               'bg-primary/10 text-primary border-primary/20'
             )}>
-              {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward || mission.xp} XP`}
+              {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
             </Badge>
             <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500">
               {mission.type}

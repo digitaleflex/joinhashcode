@@ -1,15 +1,15 @@
-﻿import { prisma } from "./prisma";
+import { prisma } from "./prisma";
 import { emailService } from "./email";
 
 async function notifySquadMembers(
-  organizationId: string,
+  guildId: string,
   type: string,
   title: string,
   message: string,
   link?: string
 ) {
-  const members = await prisma.member.findMany({
-    where: { organizationId },
+  const members = await prisma.guildMember.findMany({
+    where: { guildId },
     select: { userId: true },
   });
 
@@ -28,13 +28,13 @@ async function notifySquadMembers(
 }
 
 export async function updateSquadCohesion(
-  organizationId: string,
+  guildId: string,
   boost: number,
   triggerUserId?: string
 ) {
   try {
-    const squad = await prisma.organization.findUnique({
-      where: { id: organizationId },
+    const squad = await prisma.guild.findUnique({
+      where: { id: guildId },
       select: { cohesionScore: true, name: true },
     });
 
@@ -42,27 +42,25 @@ export async function updateSquadCohesion(
 
     const newScore = Math.min(1.0, squad.cohesionScore + boost);
 
-    await prisma.organization.update({
-      where: { id: organizationId },
+    await prisma.guild.update({
+      where: { id: guildId },
       data: { cohesionScore: newScore },
     });
 
     if (newScore >= 0.9) {
-      await updateSquadStreak(organizationId, squad.name);
+      await updateSquadStreak(guildId, squad.name);
     }
 
-    // Notify squad when cohesion hits 100%
     if (newScore === 1.0 && squad.cohesionScore < 1.0) {
       await notifySquadMembers(
-        organizationId,
+        guildId,
         "SQUAD_COHESION_MAX",
         "Cohésion Maximale",
-        `L"escouade ${squad.name} est en synchronisation parfaite ! Continuez sur cette lancée.`,
+        `L'escouade ${squad.name} est en synchronisation parfaite ! Continuez sur cette lancée.`,
         "/community"
       );
     }
 
-    // Notify others when a member checks in (if we know who triggered it)
     if (triggerUserId) {
       const actor = await prisma.user.findUnique({
         where: { id: triggerUserId },
@@ -70,8 +68,8 @@ export async function updateSquadCohesion(
       });
       if (actor) {
         const pct = Math.round(boost * 100);
-        const others = await prisma.member.findMany({
-          where: { organizationId, userId: { not: triggerUserId } },
+        const others = await prisma.guildMember.findMany({
+          where: { guildId, userId: { not: triggerUserId } },
           select: { userId: true },
         });
         if (others.length > 0) {
@@ -79,7 +77,7 @@ export async function updateSquadCohesion(
             data: others.map(({ userId }) => ({
               userId,
               type: "SQUAD_MEMBER_CHECKIN",
-              title: "Activité dans l"escouade",
+              title: "Activité dans l'escouade",
               message: `${actor.name} vient de booster la cohésion (+${pct}%).`,
               link: "/community",
             })),
@@ -93,9 +91,9 @@ export async function updateSquadCohesion(
   }
 }
 
-async function updateSquadStreak(organizationId: string, squadName: string) {
-  const squad = await prisma.organization.findUnique({
-    where: { id: organizationId },
+async function updateSquadStreak(guildId: string, squadName: string) {
+  const squad = await prisma.guild.findUnique({
+    where: { id: guildId },
     select: { lastStreakAt: true, streakCount: true },
   });
 
@@ -113,23 +111,23 @@ async function updateSquadStreak(organizationId: string, squadName: string) {
 
   const newCount = squad.streakCount + 1;
 
-  await prisma.organization.update({
-    where: { id: organizationId },
+  await prisma.guild.update({
+    where: { id: guildId },
     data: { streakCount: newCount, lastStreakAt: now },
   });
 
   if (newCount === 7) {
-    await rewardSquadMembers(organizationId, "HYPER_LINK", 200);
+    await rewardSquadMembers(guildId, "HYPER_LINK", 200);
     await notifySquadMembers(
-      organizationId,
+      guildId,
       "SQUAD_STREAK_7",
-      "🔗 Hyper Link débloqué !",
+      "Hyper Link débloqué !",
       `${squadName} a atteint 7 jours consécutifs de synchronisation. Badge HYPER_LINK accordé à tous les membres.`,
       "/community"
     );
   } else if (newCount === 3) {
     await notifySquadMembers(
-      organizationId,
+      guildId,
       "SQUAD_STREAK_3",
       "3 jours de sync !",
       `${squadName} enchaîne 3 jours de haute cohésion. Continuez pour décrocher HYPER_LINK à J+7.`,
@@ -139,12 +137,12 @@ async function updateSquadStreak(organizationId: string, squadName: string) {
 }
 
 async function rewardSquadMembers(
-  organizationId: string,
+  guildId: string,
   badgeName: string,
   xp: number
 ) {
-  const members = await prisma.member.findMany({
-    where: { organizationId },
+  const members = await prisma.guildMember.findMany({
+    where: { guildId },
     select: { userId: true },
   });
 
@@ -161,31 +159,28 @@ async function rewardSquadMembers(
 
 export async function applySquadCohesionDecay() {
   try {
-    const squads = await prisma.organization.findMany({
-      where: {
-        cohesionScore: { gt: 0.05 },
-      },
+    const squads = await prisma.guild.findMany({
+      where: { cohesionScore: { gt: 0.05 } },
       select: { id: true, name: true, cohesionScore: true },
     });
 
     for (const squad of squads) {
       const newScore = Math.max(0.05, squad.cohesionScore - 0.02);
-      await prisma.organization.update({
+      await prisma.guild.update({
         where: { id: squad.id },
         data: { cohesionScore: newScore },
       });
 
-      // Alerte quand la cohésion passe sous 0.4
       if (newScore < 0.4 && squad.cohesionScore >= 0.4) {
         await notifySquadMembers(
           squad.id,
           "SQUAD_COHESION_LOW",
           "Synchronisation en baisse",
-          `L"escouade ${squad.name} perd de la cohésion. Faites un check-in pour maintenir la dynamique.`,
+          `L'escouade ${squad.name} perd de la cohésion. Faites un check-in pour maintenir la dynamique.`,
           "/community"
         );
-        const leader = await prisma.member.findFirst({
-          where: { organizationId: squad.id, role: "owner" },
+        const leader = await prisma.guildMember.findFirst({
+          where: { guildId: squad.id, role: "LEADER" },
           include: { user: { select: { email: true, name: true } } },
         });
         if (leader) {
@@ -199,7 +194,6 @@ export async function applySquadCohesionDecay() {
         }
       }
 
-      // Alerte critique sous 0.15
       if (newScore < 0.15 && squad.cohesionScore >= 0.15) {
         await notifySquadMembers(
           squad.id,
@@ -208,8 +202,8 @@ export async function applySquadCohesionDecay() {
           `${squad.name} est en danger de désynchronisation. Agissez maintenant.`,
           "/community"
         );
-        const leader = await prisma.member.findFirst({
-          where: { organizationId: squad.id, role: "owner" },
+        const leader = await prisma.guildMember.findFirst({
+          where: { guildId: squad.id, role: "LEADER" },
           include: { user: { select: { email: true, name: true } } },
         });
         if (leader) {

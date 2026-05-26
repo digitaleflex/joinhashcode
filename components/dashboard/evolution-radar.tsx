@@ -213,29 +213,30 @@ export function EvolutionRadar({
                 className="cursor-pointer"
                 onMouseEnter={() => setHoveredAxis(axis.key)}
                 onMouseLeave={() => setHoveredAxis(null)}
+                onClick={() => setHoveredAxis(axis.key)}
               >
-                {/* Transparent interactive touch area */}
+                {/* Transparent interactive touch area - ENHANCED FOR MOBILE 48pt feel */}
                 <circle
                   cx={coords.x}
                   cy={coords.y}
-                  r={14}
-                  className="fill-transparent stroke-none"
+                  r={24}
+                  className="fill-white/0 stroke-none active:fill-white/5 transition-colors"
                 />
                 
                 {/* Visual Node Dot */}
                 <motion.circle
                   cx={coords.x}
                   cy={coords.y}
-                  r={hoveredAxis === axis.key ? 5.5 : 4}
+                  r={hoveredAxis === axis.key ? 7 : 5}
                   className={cn("transition-colors duration-200")}
                   style={{
                     fill: axis.stroke,
-                    stroke: "rgba(0,0,0,0.8)",
-                    strokeWidth: 2,
-                    filter: hoveredAxis === axis.key ? `drop-shadow(0 0 6px ${axis.stroke})` : "none"
+                    stroke: "rgba(0,0,0,0.9)",
+                    strokeWidth: 2.5,
+                    filter: hoveredAxis === axis.key ? `drop-shadow(0 0 10px ${axis.stroke})` : "none"
                   }}
                   animate={{
-                    r: hoveredAxis === axis.key ? 5.5 : 4,
+                    r: hoveredAxis === axis.key ? 7 : 5,
                   }}
                 />
               </g>
@@ -249,7 +250,7 @@ export function EvolutionRadar({
             const labelY = center + offsetDist * Math.sin(axis.angle)
 
             // Adjust text anchor alignment based on quadrant
-            let textAnchor = "middle"
+            let textAnchor: "start" | "middle" | "end" | "inherit" = "middle"
             let dy = "0.33em"
 
             if (axis.angle === 0) {

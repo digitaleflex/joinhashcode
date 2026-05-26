@@ -38,9 +38,7 @@ export async function middleware(request: NextRequest) {
 
   const isProtectedPath =
     request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/community') ||
     request.nextUrl.pathname.startsWith('/missions') ||
-    request.nextUrl.pathname.startsWith('/tools') ||
     request.nextUrl.pathname.startsWith('/settings') ||
     request.nextUrl.pathname.startsWith('/squad') ||
     request.nextUrl.pathname.startsWith('/dossier') ||
@@ -84,9 +82,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/dashboard", "/dashboard/:path*",
-    "/community", "/community/:path*",
     "/missions",  "/missions/:path*",
-    "/tools",     "/tools/:path*",
     "/settings",  "/settings/:path*",
     "/dossier",   "/dossier/:path*",
     "/squad",     "/squad/:path*",

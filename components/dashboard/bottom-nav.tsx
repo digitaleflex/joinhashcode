@@ -2,18 +2,15 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users as GuildeIcon, Zap, FileText } from "lucide-react"
-import { authClient } from "@/lib/auth-client"
+import { LayoutDashboard, Users, Zap, FileText } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function BottomNav() {
   const pathname = usePathname()
-  const { data: session } = authClient.useSession()
-  const userClass = (session?.user as any)?.class || "builder"
 
   const navItems = [
     { name: "Home", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Guilde", href: `/community/${userClass}`, icon: GuildeIcon },
+    { name: "Escouade", href: "/squad", icon: Users },
     { name: "Missions", href: "/missions", icon: Zap },
     { name: "Dossier", href: "/dossier", icon: FileText },
   ]

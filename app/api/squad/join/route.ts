@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
+import { emailService } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -15,10 +16,14 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
 
-    // Find the squad
+    // Find the squad with leader info
     const squad = await prisma.guild.findUnique({
       where: { slug },
-      include: { members: true }
+      include: {
+        members: {
+          include: { user: { select: { id: true, email: true, name: true } } },
+        },
+      },
     });
 
     if (!squad) return new NextResponse("Escouade introuvable", { status: 404 });
@@ -54,6 +59,23 @@ export async function POST(req: Request) {
       metadata: { slug: squad.slug, memberCount: squad.members.length + 1 },
       request: req,
     });
+
+    const leader = squad.members.find((m) => m.role === "LEADER");
+    if (leader && leader.user.id !== userId) {
+      const joiner = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { name: true },
+      });
+      if (joiner) {
+        emailService.sendSquadMemberJoined({
+          leaderEmail: leader.user.email,
+          leaderName: leader.user.name,
+          newMemberName: joiner.name,
+          squadName: squad.name,
+          memberCount: squad.members.length + 1,
+        });
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

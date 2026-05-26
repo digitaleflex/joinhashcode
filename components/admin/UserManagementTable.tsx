@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { UserRowActions } from "./UserRowActions"
 import { Search, Loader2 } from "lucide-react"
 import { CLASS_COLORS } from "@/lib/member-card-constants"
+import Link from "next/link"
 
 export function UserManagementTable() {
   const [users, setUsers] = useState<any[]>([])
@@ -112,17 +113,21 @@ export function UserManagementTable() {
                   <TableRow key={user.id} className="border-white/5 hover:bg-white/5 transition-colors group">
                     <TableCell className="py-4">
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-9 w-9 border border-white/10 group-hover:border-primary/30 transition-colors">
-                          <AvatarImage src={user.image} />
-                          <AvatarFallback className="bg-zinc-900 text-zinc-400 text-[10px] font-bold">
-                            {user.name.substring(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
+                        <Link href={`/admin/users/${user.id}`} className="transition-opacity hover:opacity-80">
+                          <Avatar className="h-9 w-9 border border-white/10 group-hover:border-primary/30 transition-colors">
+                            <AvatarImage src={user.image} />
+                            <AvatarFallback className="bg-zinc-900 text-zinc-400 text-[10px] font-bold">
+                              {user.name.substring(0, 2).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Link>
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold text-white leading-none mb-1">
-                            {user.name} 
-                            {user.pseudo && <span className="text-zinc-500 ml-2 font-mono text-[10px] font-normal">@{user.pseudo}</span>}
-                          </span>
+                          <Link href={`/admin/users/${user.id}`} className="hover:underline">
+                            <span className="text-sm font-bold text-white leading-none mb-1">
+                              {user.name} 
+                              {user.pseudo && <span className="text-zinc-500 ml-2 font-mono text-[10px] font-normal">@{user.pseudo}</span>}
+                            </span>
+                          </Link>
                           <span className="text-[10px] font-mono text-zinc-500">{user.email}</span>
                         </div>
                       </div>

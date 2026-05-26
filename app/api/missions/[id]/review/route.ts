@@ -16,6 +16,7 @@ import { updateUserEvolution } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
+import { emailService } from "@/lib/email";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -79,10 +80,10 @@ export async function POST(
           });
         });
 
-        // Notify all admins
+        // Notify all admins (in-app + email)
         const admins = await prisma.user.findMany({
           where: { role: { in: ["ADMIN", "MODERATOR"] } },
-          select: { id: true },
+          select: { id: true, email: true, name: true },
         });
         for (const admin of admins) {
           try {
@@ -96,6 +97,12 @@ export async function POST(
           } catch (err) {
             console.error("[NOTIFICATION_ERROR]", err);
           }
+          emailService.sendAdminCoreMissionPending({
+            adminEmail: admin.email,
+            adminName: admin.name,
+            submitterName: submission.user.name,
+            missionTitle: submission.mission.title,
+          });
         }
 
         try {
@@ -165,6 +172,8 @@ export async function POST(
         }
       });
 
+      const didLevelUp = newLevel > (submission.user.level || 1);
+
       try {
         await triggerNotification({
           userId: submission.userId,
@@ -172,7 +181,19 @@ export async function POST(
           title: `Mission validée : ${submission.mission.title}`,
           message: `Félicitations ! +${xpAwarded} XP. Niveau : ${qualityLevel}.`,
           link: `/missions/${submission.missionId}`,
+          xp: xpAwarded,
         });
+
+        if (didLevelUp) {
+          await triggerNotification({
+            userId: submission.userId,
+            type: "LEVEL_UP",
+            title: `Niveau ${newLevel} atteint !`,
+            message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
+            link: "/dashboard",
+            newLevel,
+          });
+        }
       } catch (err) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
@@ -224,6 +245,14 @@ export async function POST(
     } catch (err) {
       console.error("[NOTIFICATION_ERROR]", err);
     }
+
+    emailService.sendMissionNeedsRevision({
+      email: submission.user.email,
+      name: submission.user.name,
+      missionTitle: submission.mission.title,
+      feedback,
+      revisionCount: updatedSubmission.revisionCount,
+    });
 
     // Escalate to admin after 3 failed revisions
     if (updatedSubmission.revisionCount >= 3) {

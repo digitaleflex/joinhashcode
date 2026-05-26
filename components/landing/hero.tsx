@@ -121,16 +121,28 @@ export function Hero() {
             </Button>
           </motion.div>
 
+          {/* Disclaimer pédagogique */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.42 }}
+            className="mt-8 max-w-md text-center text-xs text-zinc-600 leading-relaxed"
+          >
+            Ce quiz ne te classe pas — il identifie ta <span className="text-zinc-500">tendance dominante du moment</span>.
+            Ton profil est une hypothèse de travail, pas une étiquette définitive.
+            Il peut évoluer. Beaucoup de membres sont hybrides.
+          </motion.p>
+
           {/* Meta */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="mt-12 flex items-center gap-4 font-mono text-[9px] font-bold text-zinc-700 tracking-tight"
+            className="mt-6 flex items-center gap-4 font-mono text-[9px] font-bold text-zinc-700 tracking-tight"
           >
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">synchronisation rapide</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">anonymat total</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes chrono</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">sans engagement</span>
           </motion.div>
         </div>
 
@@ -150,7 +162,7 @@ export function Hero() {
                 <span className="h-2 w-2 rounded-full bg-zinc-800" />
               </div>
               <span className="ml-4 font-mono text-[9px] font-bold text-zinc-600 tracking-tight">
-                network.hashcode.ai/votre_profil_décodé
+                exemple de résultat
               </span>
             </div>
             
@@ -164,7 +176,7 @@ export function Hero() {
                   </p>
                 </div>
                 <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] font-black border-[#22D3EE]/30 text-[#22D3EE] px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-[#22D3EE]/5 tracking-wide">
-                  RANG ELITE
+                  PROFIL DOMINANT
                 </Badge>
               </div>
 
@@ -202,8 +214,8 @@ export function Hero() {
               </div>
               
               <div className="pt-6 border-t border-white/5 flex items-center justify-between">
-                <span className="font-mono text-[9px] font-bold text-zinc-700 uppercase tracking-tight">force de ton momentum</span>
-                <span className="font-mono text-[11px] font-black" style={{ color: "#22D3EE" }}>98.4%</span>
+                <span className="font-mono text-[9px] font-bold text-zinc-700 uppercase tracking-tight">cohérence du profil</span>
+                <span className="font-mono text-[11px] font-black" style={{ color: "#22D3EE" }}>élevée</span>
               </div>
             </div>
           </div>
