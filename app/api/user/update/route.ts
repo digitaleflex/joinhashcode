@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { stripHtml } from "@/lib/utils";
+import { containsProfanity } from "@/lib/security";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -13,10 +14,13 @@ const updateSchema = z.object({
   pseudo: z.string()
     .transform(stripHtml)
     .pipe(z.string().regex(/^[a-zA-Z0-9_]{3,20}$/, "Le pseudo doit contenir entre 3 et 20 caractères (lettres, chiffres et '_' uniquement)."))
+    .refine(v => !containsProfanity(v), "Ce pseudo n'est pas autorisé par le protocole de sécurité HASHCODE.")
     .optional()
     .nullable()
     .transform(v => v || undefined),
-  bio: z.string().transform(stripHtml).pipe(z.string().max(500)).optional().nullable().transform(v => v || undefined),
+  bio: z.string().transform(stripHtml).pipe(z.string().max(500))
+    .refine(v => !containsProfanity(v), "Ta biographie contient des termes non autorisés.")
+    .optional().nullable().transform(v => v || undefined),
   image: z.string().url().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined),
   country: z.string().max(100).optional().nullable().transform(v => v || undefined),
   city: z.string().max(100).optional().nullable().transform(v => v || undefined),

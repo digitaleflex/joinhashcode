@@ -1,186 +1,109 @@
-export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { stripHtml } from "@/lib/utils";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
-import { BehavioralVibrancy } from "@/lib/evolution";
+import { updateUserEvolution } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
-import { logActivity } from "@/lib/activity-log";
+import { triggerNotification } from "@/lib/qstash";
+import { z } from "zod";
 
 const checkinSchema = z.object({
-  note: z.string().transform(stripHtml).pipe(z.string().min(1).max(1000)),
-  domain: z.string().min(1).max(100),
-  energy: z.number().int().min(1).max(5),
-  duration: z.number().int().min(1).max(1440),
+  note: z.string().min(20, "Ta note doit faire au moins 20 caractères pour être validée par le protocole."),
+  domain: z.string(),
+  energy: z.number().min(1).max(5),
+  duration: z.number().min(15).max(480),
 });
 
-const BASE_CHECKIN_XP = 25;
-
-function computeStreak(lastStreakDate: Date | null): {
-  newStreak: number;
-  streakBroken: boolean;
-} {
-  if (!lastStreakDate) return { newStreak: 1, streakBroken: false };
-
-  const now = new Date();
-  const diffMs = now.getTime() - lastStreakDate.getTime();
-  const diffHours = diffMs / (1000 * 60 * 60);
-
-  // Entre 20h et 48h depuis le dernier check-in → streak maintenu
-  if (diffHours >= 20 && diffHours < 48) {
-    return { newStreak: 0, streakBroken: false }; // 0 = incrémenter depuis la DB
-  }
-
-  // Plus de 48h → streak cassé
-  return { newStreak: 1, streakBroken: true };
+// Basic similarity check (Levenshtein distance simplified)
+function getSimilarity(s1: string, s2: string): number {
+  if (!s1 || !s2) return 0;
+  const longer = s1.length > s2.length ? s1 : s2;
+  const shorter = s1.length > s2.length ? s2 : s1;
+  if (longer.length === 0) return 1.0;
+  
+  // Simplified overlap check for performance
+  const words1 = new Set(s1.toLowerCase().split(/\s+/));
+  const words2 = new Set(s2.toLowerCase().split(/\s+/));
+  const intersection = [...words1].filter(w => words2.has(w));
+  return intersection.length / Math.max(words1.size, words2.size);
 }
 
-function isSurge(energy: number, domain: string, lastCheckinAt: Date | null): boolean {
-  // 10% de base, +5% si énergie max, +5% si retour après 48h d'absence
-  let chance = 0.1;
-  if (energy === 5) chance += 0.05;
-  if (lastCheckinAt) {
-    const diffH = (Date.now() - lastCheckinAt.getTime()) / (1000 * 60 * 60);
-    if (diffH > 48) chance += 0.05;
-  }
-  return Math.random() < chance;
-}
+const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Unauthorized", { status: 401 });
 
-    const twentyHoursAgo = new Date(Date.now() - 20 * 60 * 60 * 1000);
-    const existingCheckin = await prisma.dailyCheckin.findFirst({
-      where: { userId: session.user.id, createdAt: { gte: twentyHoursAgo } },
-    });
-
-    if (existingCheckin) {
-      return new NextResponse(
-        "Tu as déjà signé ton check-in aujourd'hui. Garde ton énergie pour demain !",
-        { status: 429 }
-      );
-    }
-
     const body = await req.json();
-    const parsed = checkinSchema.safeParse(body);
-    if (!parsed.success) return new NextResponse("Données invalides", { status: 400 });
+    body.note = stripHtml(body.note || "");
+    
+    const validated = checkinSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json({ message: validated.error.errors[0].message }, { status: 400 });
+    }
 
-    const { note, domain, energy, duration } = parsed.data;
+    const { note, domain, energy, duration } = validated.data;
 
-    // Fetch user data needed for streak + surge
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        lastCheckinAt: true,
-        currentStreak: true,
-        longestStreak: true,
-        lastStreakDate: true,
-        guildMembers: { select: { guildId: true } },
-      },
+    // 1. Cooldown check (20h)
+    const lastCheckin = await prisma.dailyCheckin.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
     });
 
-    if (!user) return new NextResponse("Unauthorized", { status: 401 });
+    if (lastCheckin) {
+      const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
+      if (hoursSince < 20) {
+        return NextResponse.json({ 
+            message: "Tu as déjà signé ton check-in aujourd\"hui. Reviens dans quelques heures pour la suite de ton build !" 
+        }, { status: 429 });
+      }
 
-    // --- Streak calculation ---
-    const { newStreak, streakBroken } = computeStreak(user.lastStreakDate);
-    const nextStreak = newStreak === 1 ? 1 : user.currentStreak + 1;
-    const nextLongest = Math.max(user.longestStreak, nextStreak);
+      // 2. Similarity check (> 80%)
+      if (getSimilarity(note, lastCheckin.note) > 0.8) {
+        return NextResponse.json({ 
+            message: "Ta note est trop similaire à celle d\"hier. Dis-nous ce qui a VRAIMENT changé aujourd\"hui !" 
+        }, { status: 400 });
+      }
+    }
 
-    // --- Surge XP ---
-    const surge = isSurge(energy, domain, user.lastCheckinAt);
-    const xpMultiplier = surge ? 3 : 1;
-
-    // Bonus streak: +10 XP tous les 7 jours
-    const streakBonus = nextStreak % 7 === 0 ? 50 : 0;
-    const totalXP = BASE_CHECKIN_XP * xpMultiplier + streakBonus;
-
-    // --- Create check-in ---
-    const checkin = await prisma.dailyCheckin.create({
-      data: { userId: session.user.id, note, domain, energy, duration },
-    });
-
-    // --- Update evolution ---
-    const baseWeights: BehavioralVibrancy = { builder: 0, creator: 0, strategist: 0, catalyst: 0 };
-    const domainWeights = CHECKIN_WEIGHTS[domain] || {
-      builder: 0.25,
-      creator: 0.25,
-      strategist: 0.25,
-      catalyst: 0.25,
-    };
-    await updateUserEvolution(session.user.id, { ...baseWeights, ...domainWeights }, 0.01);
-
-    // --- Persist streak + XP + lastCheckinAt ---
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data: {
-        lastCheckinAt: new Date(),
-        currentStreak: nextStreak,
-        longestStreak: nextLongest,
-        lastStreakDate: new Date(),
-        experience: { increment: totalXP },
-      },
-    });
-
-    // Streak milestone notifications
-    if ([7, 14, 30].includes(nextStreak)) {
-      await prisma.notification.create({
+    // Process check-in
+    const result = await prisma.$transaction(async (tx) => {
+      const checkin = await tx.dailyCheckin.create({
         data: {
           userId: session.user.id,
-          type: "STREAK_MILESTONE",
-          title: `${nextStreak} jours de Neural Momentum !`,
-          message:
-            nextStreak === 7
-              ? "Tu enchaînes 7 jours consécutifs. Multiplicateur ×1.5 débloqué !"
-              : nextStreak === 14
-              ? "14 jours de continuité. Multiplicateur ×2.0 débloqué !"
-              : "30 jours. Tu fais partie des 1%. Badge NEURAL_CORE en route.",
-          link: "/dashboard",
+          note,
+          domain,
+          energy,
+          duration,
         },
       });
-    }
 
-    // Streak broken notification
-    if (streakBroken && user.currentStreak >= 3) {
-      await prisma.notification.create({
+      // Update user streak and vibrancy
+      await tx.user.update({
+        where: { id: session.user.id },
         data: {
-          userId: session.user.id,
-          type: "STREAK_BROKEN",
-          title: "Momentum Neural interrompu",
-          message: `Ta série de ${user.currentStreak} jours est réinitialisée. Recommence dès maintenant.`,
-          link: "/dashboard",
+          lastCheckinAt: new Date(),
+          currentStreak: { increment: 1 },
         },
       });
-    }
 
-    // --- Squad cohesion ---
-    const guildId = user.guildMembers?.[0]?.guildId;
-    if (guildId) {
-      await updateSquadCohesion(guildId, 0.05, session.user.id);
-    }
+      // Recalculate evolution
+      const weights = domain === "Code" ? { builder: 1, creator: 0, strategist: 0, catalyst: 0 } : { builder: 0, creator: 0, strategist: 0, catalyst: 1 };
+      await updateUserEvolution(session.user.id, weights as any, 0.05, tx);
 
-    logActivity({
-      userId: session.user.id,
-      action: "CHECKIN_COMPLETED",
-      entity: "checkin",
-      entityId: checkin.id,
-      metadata: { domain, energy, duration, xpEarned: totalXP, streak: nextStreak, surge },
-      request: req,
+      return checkin;
     });
 
-    return NextResponse.json({
-      ...checkin,
-      streak: nextStreak,
-      xpEarned: totalXP,
-      surge,
-      streakBroken,
-    });
+    // Update squad cohesion if member
+    const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
+    if (membership) {
+        await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+    }
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("[DAILY_CHECKIN_POST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.error("[CHECKIN_POST]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

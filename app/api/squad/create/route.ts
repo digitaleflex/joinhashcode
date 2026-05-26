@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
+import { containsProfanity } from "@/lib/security";
 
 // ── Curated name generator ────────────────────────────────────────────────────
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
@@ -55,6 +56,13 @@ export async function POST(req: Request) {
 
     while (!squad && attempts < 5) {
       const { name, slug } = generateSquadName();
+
+      // Ensure generated name is not offensive (safety first)
+      if (containsProfanity(name) || containsProfanity(slug)) {
+        attempts++;
+        continue;
+      }
+
       const candidateSlug = attempts === 0
         ? slug
         : `${slug}-${Math.random().toString(36).substring(2, 4)}`;

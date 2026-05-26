@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
+import { containsProfanity } from "@/lib/security";
 
 const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/;
 
@@ -21,6 +22,14 @@ export async function PATCH(req: Request) {
     if (!slug || !SLUG_REGEX.test(slug)) {
       return NextResponse.json(
         { error: "Lien invalide : 3–30 caractères, lettres minuscules, chiffres et tirets uniquement." },
+        { status: 400 }
+      );
+    }
+
+    // Profanity Filter
+    if (containsProfanity(name) || containsProfanity(slug)) {
+      return NextResponse.json(
+        { error: "Ce nom n'est pas autorisé par le protocole de sécurité HASHCODE." },
         { status: 400 }
       );
     }
