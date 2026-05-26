@@ -19,7 +19,7 @@ export default function LegalPage() {
           >
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase text-primary text-glow">
-              Legal_Notice_v1.0
+              Legal_Notice_v1.1
             </span>
           </motion.div>
 
@@ -59,16 +59,14 @@ export default function LegalPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Globe className="w-5 h-5 text-primary" />
-                2. Hébergement
+                2. Hébergement & Infrastructure
               </h2>
               <p className="leading-relaxed">
-                Le site est hébergé par :
+                Le site et ses bases de données sont hébergés sur une infrastructure privée et souveraine (Serveur Privé Virtuel - VPS). 
                 <br />
-                <strong className="text-zinc-200">Vercel Inc.</strong>
+                <strong className="text-zinc-200">Localisation physique :</strong> Europe (France/Allemagne).
                 <br />
-                340 S Lemon Ave #1107, Walnut, CA 91789, États-Unis.
-                <br />
-                Site web : https://vercel.com
+                La gestion technique de l&apos;infrastructure est assurée par l&apos;Éditeur via des technologies de conteneurisation (Docker).
               </p>
             </section>
 
@@ -98,7 +96,7 @@ export default function LegalPage() {
 
             <section className="p-8 rounded-2xl bg-zinc-900/50 border border-white/5 border-dashed">
               <p className="text-sm italic">
-                En utilisant HASHCODE, vous reconnaissez avoir pris connaissance de ces mentions et vous engagez à les respecter. HASHCODE est une marque déposée.
+                Dernière mise à jour : 25 Mai 2026. En utilisant HASHCODE, vous reconnaissez avoir pris connaissance de ces mentions et vous engagez à les respecter. HASHCODE est une marque déposée.
               </p>
             </section>
           </motion.div>

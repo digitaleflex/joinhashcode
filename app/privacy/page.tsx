@@ -19,7 +19,7 @@ export default function PrivacyPage() {
           >
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase text-primary text-glow">
-              Privacy_Protocol_v1.1
+              Privacy_Protocol_v1.2
             </span>
           </motion.div>
 
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
               </p>
               <ul className="list-disc pl-5 space-y-2">
                 <li><strong className="text-zinc-200">Cookies Essentiels :</strong> Nécessaires à l&apos;authentification (maintien de votre session sécurisée). Ils ne peuvent pas être désactivés.</li>
-                <li><strong className="text-zinc-200">Cookies Analytiques :</strong> Utilisés via Vercel Analytics pour comprendre comment les bâtisseurs utilisent la plateforme et identifier les bugs potentiels.</li>
+                <li><strong className="text-zinc-200">Cookies Analytiques :</strong> Utilisés via Vercel Analytics (ou équivalent auto-hébergé) pour comprendre comment les bâtisseurs utilisent la plateforme et identifier les bugs potentiels.</li>
               </ul>
               <p className="text-sm">
                 Vous pouvez gérer vos préférences de cookies à tout moment via la bannière de consentement présente lors de votre première visite.
@@ -108,10 +108,10 @@ export default function PrivacyPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Lock className="w-5 h-5 text-primary" />
-                4. Sécurité & Infrastructure
+                5. Sécurité & Infrastructure
               </h2>
               <p className="leading-relaxed">
-                Vos données sont stockées sur des infrastructures sécurisées (via Supabase) utilisant des protocoles de chiffrement de pointe. L&apos;accès est restreint par un système de Row-Level Security (RLS), garantissant que seul vous (et nos systèmes automatisés de personnalisation) pouvez accéder à votre profil détaillé.
+                Vos données sont stockées sur une infrastructure privée et souveraine (Serveur Privé Virtuel - VPS) utilisant une base de données PostgreSQL sécurisée. L&apos;infrastructure est protégée par des pare-feux, des protocoles de chiffrement de pointe et des sauvegardes régulières. L&apos;accès est restreint au personnel autorisé et aux systèmes automatisés de personnalisation.
               </p>
             </section>
 
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Trash2 className="w-5 h-5 text-primary" />
-                5. Vos Droits & Contrôle
+                6. Vos Droits & Contrôle
               </h2>
               <p className="leading-relaxed">
                 Vous restez maître de vos données à tout moment :
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary" />
-                6. Contact & Transmission
+                7. Contact & Transmission
               </h2>
               <p className="leading-relaxed">
                 Pour toute question concernant le traitement de vos données ou pour exercer vos droits, contactez-nous via le Hub de Transmission : <a href="mailto:privacy@joinhashcode.com" className="text-primary hover:underline">privacy@joinhashcode.com</a>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
 
             <section className="p-8 rounded-2xl bg-zinc-900/50 border border-white/5 border-dashed">
               <p className="text-sm italic">
-                Dernière mise à jour : 11 Mai 2026. HASHCODE s&apos;engage à maintenir une documentation humaine, lisible et premium, à l&apos;image de sa plateforme.
+                Dernière mise à jour : 25 Mai 2026. HASHCODE s&apos;engage à maintenir une documentation humaine, lisible et premium, à l&apos;image de sa plateforme.
               </p>
             </section>
           </motion.div>
