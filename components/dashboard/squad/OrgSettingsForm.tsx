@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 interface OrgSettingsFormProps {
   organization: any;
@@ -14,6 +15,7 @@ interface OrgSettingsFormProps {
 export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
   const [name, setName] = useState(organization.name);
   const [slug, setSlug] = useState(organization.slug || "");
+  const [isPrivate, setIsPrivate] = useState(organization.isPrivate ?? false);
   const [isPending, setIsPending] = useState(false);
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -24,6 +26,9 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
       const { error } = await authClient.organization.update({
         name,
         slug,
+        metadata: {
+            isPrivate: isPrivate
+        }
       });
 
       if (error) {
@@ -39,7 +44,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
   };
 
   return (
-    <form onSubmit={handleUpdate} className="space-y-4 border p-4 rounded-lg bg-card">
+    <form onSubmit={handleUpdate} className="space-y-6 border p-4 rounded-lg bg-card">
       <div className="space-y-2">
         <Label htmlFor="org-name">Nom de l"escouade</Label>
         <Input
@@ -60,9 +65,19 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
           required
           className="bg-background"
         />
-        <p className="text-xs text-muted-foreground">
-          Exemple : hashcode.com/squad/{slug || "votre-escouade"}
-        </p>
+      </div>
+
+      <div className="flex items-center justify-between p-3 border rounded-md bg-background/50">
+        <div className="space-y-0.5">
+          <Label>Escouade Privée</Label>
+          <p className="text-[10px] text-muted-foreground">
+            Si activé, l"escouade ne sera pas visible sur la page d"accueil.
+          </p>
+        </div>
+        <Switch
+          checked={isPrivate}
+          onCheckedChange={setIsPrivate}
+        />
       </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>

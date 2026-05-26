@@ -1,7 +1,7 @@
 ﻿"use client"
 
 import { useState } from "react"
-import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail } from "lucide-react"
+import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail, UserSearch } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -18,6 +18,7 @@ import { InviteMemberForm } from "./squad/InviteMemberForm"
 import { MemberList } from "./squad/MemberList"
 import { OrgSettingsForm } from "./squad/OrgSettingsForm"
 import { PendingInvitations } from "./squad/PendingInvitations"
+import { JoinRequestsManager } from "./squad/JoinRequestsManager"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
@@ -37,9 +38,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const isOwner = currentUserMember?.role === "owner"
 
     // Neuromarketing: Progress-based visual state
-    const isSuccess = memberCount >= 5
     const themeColor = memberCount === 0 ? "text-zinc-500" : memberCount < 3 ? "text-amber-500" : memberCount < 5 ? "text-blue-500" : "text-primary"
-    const borderColor = memberCount === 0 ? "border-white/5" : memberCount < 3 ? "border-amber-500/30" : memberCount < 5 ? "border-blue-500/30" : "border-primary/50"
     const glowColor = memberCount === 0 ? "bg-zinc-500/5" : memberCount < 3 ? "bg-amber-500/5" : memberCount < 5 ? "bg-blue-500/5" : "bg-primary/10"
 
     const inviteLink = `${window.location.origin}/invite/${squad?.slug || pseudo.toLowerCase()}`
@@ -109,13 +108,17 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                     <DialogTitle className="text-xl font-bold uppercase italic tracking-tight">Configuration de l"Escouade</DialogTitle>
                                 </DialogHeader>
                                 <Tabs defaultValue="members" className="mt-4">
-                                    <TabsList className="bg-zinc-900 border-white/5">
-                                        <TabsTrigger value="members" className="gap-2"><Users className="size-4" /> Membres</TabsTrigger>
-                                        <TabsTrigger value="invite" className="gap-2"><Mail className="size-4" /> Inviter</TabsTrigger>
-                                        <TabsTrigger value="settings" className="gap-2"><Settings className="size-4" /> Paramètres</TabsTrigger>
+                                    <TabsList className="bg-zinc-900 border-white/5 grid grid-cols-4 h-auto p-1">
+                                        <TabsTrigger value="members" className="gap-2 py-2"><Users className="size-4" /> Membres</TabsTrigger>
+                                        <TabsTrigger value="requests" className="gap-2 py-2"><UserSearch className="size-4" /> Candidats</TabsTrigger>
+                                        <TabsTrigger value="invite" className="gap-2 py-2"><Mail className="size-4" /> Inviter</TabsTrigger>
+                                        <TabsTrigger value="settings" className="gap-2 py-2"><Settings className="size-4" /> Réglages</TabsTrigger>
                                     </TabsList>
                                     <TabsContent value="members" className="mt-6">
                                         <MemberList members={members} currentUserId={user.id} />
+                                    </TabsContent>
+                                    <TabsContent value="requests" className="mt-6">
+                                        <JoinRequestsManager organizationId={squad.id} />
                                     </TabsContent>
                                     <TabsContent value="invite" className="mt-6">
                                         <InviteMemberForm />
