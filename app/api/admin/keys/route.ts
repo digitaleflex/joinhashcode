@@ -59,6 +59,13 @@ export async function POST(req: Request) {
       keysToCreate.map(data => prisma.betaKey.create({ data }))
     );
 
+    await logActivity({
+      userId: admin.id,
+      action: "ADMIN_BETA_KEY_GENERATED",
+      metadata: { count, prefix },
+      request: req
+    });
+
     return NextResponse.json(createdKeys);
   } catch (error) {
     console.error("[ADMIN_KEYS_POST]", error);

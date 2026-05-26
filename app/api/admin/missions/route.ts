@@ -74,6 +74,15 @@ export async function POST(req: Request) {
       },
     });
 
+    await logActivity({
+      userId: admin.id,
+      action: "ADMIN_MISSION_CREATED",
+      entity: "Mission",
+      entityId: mission.id,
+      metadata: { title: mission.title, slug: mission.slug },
+      request: req
+    });
+
     return NextResponse.json(mission);
   } catch (error) {
     if (error instanceof z.ZodError) {

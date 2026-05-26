@@ -66,6 +66,13 @@ export async function GET() {
     
     const csv = [headers, ...rows].join("\n");
 
+    await logActivity({
+      userId: admin.id,
+      action: "ADMIN_USER_EXPORTED",
+      metadata: { count: users.length, format: "csv" },
+      request: req
+    });
+
     return new NextResponse(csv, {
       headers: {
         "Content-Type": "text/csv",

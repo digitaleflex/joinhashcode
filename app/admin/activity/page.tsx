@@ -24,6 +24,14 @@ const ACTION_COLORS: Record<string, { bg: string; color: string; hex: string }> 
   ADMIN_SUBMISSION_REVIEWED:  { bg: "bg-rose-400/10 border-rose-400/20",       color: "text-rose-400",   hex: "#fb7185" },
   ADMIN_USER_BANNED:          { bg: "bg-red-400/10 border-red-400/20",         color: "text-red-400",    hex: "#f87171" },
   ADMIN_USER_UNBANNED:        { bg: "bg-emerald-400/10 border-emerald-400/20", color: "text-emerald-400", hex: "#34d399" },
+  ADMIN_MISSION_CREATED:      { bg: "bg-primary/10 border-primary/20",         color: "text-primary",    hex: "#C5F441" },
+  ADMIN_MISSION_UPDATED:      { bg: "bg-primary/10 border-primary/20",         color: "text-primary",    hex: "#C5F441" },
+  ADMIN_MISSION_DELETED:      { bg: "bg-red-400/10 border-red-400/20",         color: "text-red-400",    hex: "#f87171" },
+  ADMIN_BETA_KEY_GENERATED:   { bg: "bg-amber-400/10 border-amber-400/20",     color: "text-amber-400",  hex: "#fbbf24" },
+  ADMIN_BETA_KEY_DELETED:     { bg: "bg-red-400/10 border-red-400/20",         color: "text-red-400",    hex: "#f87171" },
+  ADMIN_BROADCAST_SENT:       { bg: "bg-violet-400/10 border-violet-400/20",   color: "text-violet-400", hex: "#a78bfa" },
+  ADMIN_USER_IMPERSONATED:    { bg: "bg-orange-400/10 border-orange-400/20",   color: "text-orange-400", hex: "#fb923c" },
+  ADMIN_USER_EXPORTED:        { bg: "bg-zinc-700/40 border-zinc-600/30",       color: "text-zinc-300",   hex: "#a1a1aa" },
   ACCOUNT_DELETED:            { bg: "bg-red-400/10 border-red-400/20",         color: "text-red-400",    hex: "#f87171" },
 }
 
@@ -48,6 +56,14 @@ const ACTION_LABELS: Record<string, string> = {
   ADMIN_SUBMISSION_REVIEWED:  "Soumission révisée",
   ADMIN_USER_BANNED:          "Utilisateur banni",
   ADMIN_USER_UNBANNED:        "Ban levé",
+  ADMIN_MISSION_CREATED:      "Mission créée",
+  ADMIN_MISSION_UPDATED:      "Mission modifiée",
+  ADMIN_MISSION_DELETED:      "Mission supprimée",
+  ADMIN_BETA_KEY_GENERATED:   "Clés beta générées",
+  ADMIN_BETA_KEY_DELETED:     "Clé beta supprimée",
+  ADMIN_BROADCAST_SENT:       "Broadcast envoyé",
+  ADMIN_USER_IMPERSONATED:    "Impersonation",
+  ADMIN_USER_EXPORTED:        "Export CSV",
   ACCOUNT_DELETED:            "Compte supprimé",
 }
 

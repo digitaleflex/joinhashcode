@@ -163,6 +163,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         revisionCount: (submission.revisionCount ?? 0) + 1,
       });
 
+      await logActivity({
+        userId: session.user.id,
+        action: "ADMIN_SUBMISSION_REVIEWED",
+        entity: "mission_submission",
+        entityId: id,
+        metadata: { action: "NEEDS_REVISION", targetUserId: submission.userId },
+        request: req,
+      });
+
       return NextResponse.json({ success: true });
     }
 
@@ -189,6 +198,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         name: submission.user.name,
         missionTitle: submission.mission.title,
         feedback: feedback,
+      });
+
+      await logActivity({
+        userId: session.user.id,
+        action: "ADMIN_SUBMISSION_REVIEWED",
+        entity: "mission_submission",
+        entityId: id,
+        metadata: { action: "REJECT", targetUserId: submission.userId },
+        request: req,
       });
 
       return NextResponse.json({ success: true });

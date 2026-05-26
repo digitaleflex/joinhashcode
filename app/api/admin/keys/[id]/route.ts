@@ -28,9 +28,23 @@ export async function DELETE(
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   try {
+    const betaKey = await prisma.betaKey.findUnique({
+      where: { id: params.id },
+      select: { key: true }
+    });
+
     await prisma.betaKey.delete({
       where: { id: params.id },
     });
+
+    if (betaKey) {
+      await logActivity({
+        userId: admin.id,
+        action: "ADMIN_BETA_KEY_DELETED",
+        metadata: { key: betaKey.key },
+        request: req
+      });
+    }
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {

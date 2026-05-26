@@ -54,4 +54,21 @@ Ce document définit les travaux de sécurisation et de modération nécessaires
 
 ---
 
-## 📅 Planning du Sprint Suivant
+## ✅ Sprint C : Optimisation & Analytics (Terminé)
+
+### Issue #C1 : Funnel Analytics
+*   **Action :** Création de `lib/analytics.ts` et intégration des événements clés (Onboarding, Première Mission, MFA).
+*   **Fichiers :** `lib/analytics.ts`, `app/api/onboarding/route.ts`, `app/api/missions/route.ts`.
+
+### Issue #C2 : Gestion des Email Bounces
+*   **Action :** Webhook pour Resend qui marque les emails invalides ou signalés comme spam pour protéger la réputation du domaine.
+*   **Fichiers :** `app/api/webhooks/resend/route.ts`, schéma Prisma mis à jour.
+
+### Issue #C3 : Optimisation du Cache
+*   **Action :** Implémentation d"une couche de cache en mémoire (`lib/cache.ts`) pour les requêtes de découverte des escouades.
+*   **Fichiers :** `lib/cache.ts`, `app/api/squad/public/route.ts`.
+
+---
+
+## 🏆 Statut Final : Plateforme Hardened & Ready
+Le backlog de sécurisation et de fiabilisation est désormais **entièrement complété**. HASHCODE dispose d"une infrastructure de niveau industriel, prête pour une montée en charge sécurisée.

@@ -50,6 +50,16 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         userId: user.id,
         role: role as any,
       })
+      
+      await fetch("/api/admin/log", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "ADMIN_ROLE_UPDATED",
+          entityId: user.id,
+          metadata: { targetEmail: user.email, newRole: role }
+        })
+      });
+
       toast.success(`Rôle mis à jour : ${role}`)
     } catch (error) {
       toast.error("Erreur lors de la mise à jour du rôle")
@@ -64,6 +74,16 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         userId: user.id,
         banReason: banReason,
       })
+
+      await fetch("/api/admin/log", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "ADMIN_USER_BANNED",
+          entityId: user.id,
+          metadata: { targetEmail: user.email, reason: banReason }
+        })
+      });
+
       toast.success("Utilisateur banni")
       setIsBanDialogOpen(false)
     } catch (error) {
@@ -79,6 +99,16 @@ export function UserRowActions({ user }: UserRowActionsProps) {
       await authClient.admin.unbanUser({
         userId: user.id,
       })
+
+      await fetch("/api/admin/log", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "ADMIN_USER_UNBANNED",
+          entityId: user.id,
+          metadata: { targetEmail: user.email }
+        })
+      });
+
       toast.success("Utilisateur débanni")
     } catch (error) {
       toast.error("Erreur lors du débannissement")
@@ -91,6 +121,16 @@ export function UserRowActions({ user }: UserRowActionsProps) {
       await authClient.admin.impersonate({
         userId: user.id,
       })
+
+      await fetch("/api/admin/log", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "ADMIN_USER_IMPERSONATED",
+          entityId: user.id,
+          metadata: { targetEmail: user.email }
+        })
+      });
+
       toast.success(`Impersonification de ${user.name}`)
       window.location.href = "/dashboard"
     } catch (error) {

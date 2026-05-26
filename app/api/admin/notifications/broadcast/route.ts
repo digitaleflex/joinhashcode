@@ -47,6 +47,13 @@ export async function POST(req: Request) {
       data: notifications
     });
 
+    await logActivity({
+      userId: admin.id,
+      action: "ADMIN_BROADCAST_SENT",
+      metadata: { title, type, count: users.length },
+      request: req
+    });
+
     return NextResponse.json({ count: users.length });
   } catch (error) {
     console.error("[ADMIN_NOTIFICATIONS_BROADCAST]", error);

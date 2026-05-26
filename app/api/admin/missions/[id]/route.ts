@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { logActivity } from "@/lib/activity-log";
 
 const missionSchema = z.object({
   title: z.string().min(1),
@@ -36,12 +37,12 @@ async function checkAdmin() {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { role: true },
+    select: { role: true, id: true },
   });
 
   if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
 
-  return session.user;
+  return user;
 }
 
 export async function PUT(
@@ -63,6 +64,15 @@ export async function PUT(
       },
     });
 
+    await logActivity({
+      userId: admin.id,
+      action: "ADMIN_MISSION_UPDATED",
+      entity: "Mission",
+      entityId: mission.id,
+      metadata: { title: mission.title, slug: mission.slug },
+      request: req
+    });
+
     return NextResponse.json(mission);
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -81,9 +91,25 @@ export async function DELETE(
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   try {
+    const mission = await prisma.mission.findUnique({
+      where: { id: params.id },
+      select: { title: true, slug: true }
+    });
+
     await prisma.mission.delete({
       where: { id: params.id },
     });
+
+    if (mission) {
+      await logActivity({
+        userId: admin.id,
+        action: "ADMIN_MISSION_DELETED",
+        entity: "Mission",
+        entityId: params.id,
+        metadata: { title: mission.title, slug: mission.slug },
+        request: req
+      });
+    }
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
