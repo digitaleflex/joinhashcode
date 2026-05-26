@@ -14,7 +14,7 @@ function getQstashClient(): Client {
 
 export interface NotificationPayload {
   userId: string;
-  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM";
+  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM" | "MISSION_REVIEW_RELEASED";
   title: string;
   message: string;
   link?: string;

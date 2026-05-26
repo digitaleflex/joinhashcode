@@ -241,7 +241,9 @@ exports.Prisma.MissionScalarFieldEnum = {
   submissionMethod: 'submissionMethod',
   acceptanceCriteria: 'acceptanceCriteria',
   evaluatorNotes: 'evaluatorNotes',
-  qualityIndicators: 'qualityIndicators'
+  qualityIndicators: 'qualityIndicators',
+  isWeeklyChallenge: 'isWeeklyChallenge',
+  weeklySlot: 'weeklySlot'
 };
 
 exports.Prisma.GuildScalarFieldEnum = {
@@ -318,6 +320,7 @@ exports.Prisma.MissionSubmissionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   missionId: 'missionId',
+  cycleKey: 'cycleKey',
   status: 'status',
   content: 'content',
   xpAwarded: 'xpAwarded',

@@ -6991,6 +6991,7 @@ export namespace Prisma {
     weightCreator: number | null
     weightStrategist: number | null
     weightCatalyst: number | null
+    weeklySlot: number | null
   }
 
   export type MissionSumAggregateOutputType = {
@@ -7000,6 +7001,7 @@ export namespace Prisma {
     weightCreator: number | null
     weightStrategist: number | null
     weightCatalyst: number | null
+    weeklySlot: number | null
   }
 
   export type MissionMinAggregateOutputType = {
@@ -7022,6 +7024,8 @@ export namespace Prisma {
     fullBriefing: string | null
     submissionMethod: string | null
     evaluatorNotes: string | null
+    isWeeklyChallenge: boolean | null
+    weeklySlot: number | null
   }
 
   export type MissionMaxAggregateOutputType = {
@@ -7044,6 +7048,8 @@ export namespace Prisma {
     fullBriefing: string | null
     submissionMethod: string | null
     evaluatorNotes: string | null
+    isWeeklyChallenge: boolean | null
+    weeklySlot: number | null
   }
 
   export type MissionCountAggregateOutputType = {
@@ -7071,6 +7077,8 @@ export namespace Prisma {
     acceptanceCriteria: number
     evaluatorNotes: number
     qualityIndicators: number
+    isWeeklyChallenge: number
+    weeklySlot: number
     _all: number
   }
 
@@ -7082,6 +7090,7 @@ export namespace Prisma {
     weightCreator?: true
     weightStrategist?: true
     weightCatalyst?: true
+    weeklySlot?: true
   }
 
   export type MissionSumAggregateInputType = {
@@ -7091,6 +7100,7 @@ export namespace Prisma {
     weightCreator?: true
     weightStrategist?: true
     weightCatalyst?: true
+    weeklySlot?: true
   }
 
   export type MissionMinAggregateInputType = {
@@ -7113,6 +7123,8 @@ export namespace Prisma {
     fullBriefing?: true
     submissionMethod?: true
     evaluatorNotes?: true
+    isWeeklyChallenge?: true
+    weeklySlot?: true
   }
 
   export type MissionMaxAggregateInputType = {
@@ -7135,6 +7147,8 @@ export namespace Prisma {
     fullBriefing?: true
     submissionMethod?: true
     evaluatorNotes?: true
+    isWeeklyChallenge?: true
+    weeklySlot?: true
   }
 
   export type MissionCountAggregateInputType = {
@@ -7162,6 +7176,8 @@ export namespace Prisma {
     acceptanceCriteria?: true
     evaluatorNotes?: true
     qualityIndicators?: true
+    isWeeklyChallenge?: true
+    weeklySlot?: true
     _all?: true
   }
 
@@ -7276,6 +7292,8 @@ export namespace Prisma {
     acceptanceCriteria: JsonValue
     evaluatorNotes: string | null
     qualityIndicators: JsonValue
+    isWeeklyChallenge: boolean
+    weeklySlot: number | null
     _count: MissionCountAggregateOutputType | null
     _avg: MissionAvgAggregateOutputType | null
     _sum: MissionSumAggregateOutputType | null
@@ -7322,6 +7340,8 @@ export namespace Prisma {
     acceptanceCriteria?: boolean
     evaluatorNotes?: boolean
     qualityIndicators?: boolean
+    isWeeklyChallenge?: boolean
+    weeklySlot?: boolean
     submissions?: boolean | Mission$submissionsArgs<ExtArgs>
     _count?: boolean | MissionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mission"]>
@@ -7351,6 +7371,8 @@ export namespace Prisma {
     acceptanceCriteria?: boolean
     evaluatorNotes?: boolean
     qualityIndicators?: boolean
+    isWeeklyChallenge?: boolean
+    weeklySlot?: boolean
   }, ExtArgs["result"]["mission"]>
 
   export type MissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7378,6 +7400,8 @@ export namespace Prisma {
     acceptanceCriteria?: boolean
     evaluatorNotes?: boolean
     qualityIndicators?: boolean
+    isWeeklyChallenge?: boolean
+    weeklySlot?: boolean
   }, ExtArgs["result"]["mission"]>
 
   export type MissionSelectScalar = {
@@ -7405,9 +7429,11 @@ export namespace Prisma {
     acceptanceCriteria?: boolean
     evaluatorNotes?: boolean
     qualityIndicators?: boolean
+    isWeeklyChallenge?: boolean
+    weeklySlot?: boolean
   }
 
-  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "category" | "difficulty" | "xp" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt" | "duration" | "missionLevel" | "requirements" | "shortDesc" | "targetProfiles" | "deliverables" | "fullBriefing" | "submissionMethod" | "acceptanceCriteria" | "evaluatorNotes" | "qualityIndicators", ExtArgs["result"]["mission"]>
+  export type MissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "category" | "difficulty" | "xp" | "weightBuilder" | "weightCreator" | "weightStrategist" | "weightCatalyst" | "createdAt" | "updatedAt" | "duration" | "missionLevel" | "requirements" | "shortDesc" | "targetProfiles" | "deliverables" | "fullBriefing" | "submissionMethod" | "acceptanceCriteria" | "evaluatorNotes" | "qualityIndicators" | "isWeeklyChallenge" | "weeklySlot", ExtArgs["result"]["mission"]>
   export type MissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submissions?: boolean | Mission$submissionsArgs<ExtArgs>
     _count?: boolean | MissionCountOutputTypeDefaultArgs<ExtArgs>
@@ -7445,6 +7471,8 @@ export namespace Prisma {
       acceptanceCriteria: Prisma.JsonValue
       evaluatorNotes: string | null
       qualityIndicators: Prisma.JsonValue
+      isWeeklyChallenge: boolean
+      weeklySlot: number | null
     }, ExtArgs["result"]["mission"]>
     composites: {}
   }
@@ -7893,6 +7921,8 @@ export namespace Prisma {
     readonly acceptanceCriteria: FieldRef<"Mission", 'Json'>
     readonly evaluatorNotes: FieldRef<"Mission", 'String'>
     readonly qualityIndicators: FieldRef<"Mission", 'Json'>
+    readonly isWeeklyChallenge: FieldRef<"Mission", 'Boolean'>
+    readonly weeklySlot: FieldRef<"Mission", 'Int'>
   }
     
 
@@ -15066,6 +15096,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     missionId: string | null
+    cycleKey: string | null
     status: string | null
     content: string | null
     xpAwarded: number | null
@@ -15089,6 +15120,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     missionId: string | null
+    cycleKey: string | null
     status: string | null
     content: string | null
     xpAwarded: number | null
@@ -15112,6 +15144,7 @@ export namespace Prisma {
     id: number
     userId: number
     missionId: number
+    cycleKey: number
     status: number
     content: number
     xpAwarded: number
@@ -15151,6 +15184,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     missionId?: true
+    cycleKey?: true
     status?: true
     content?: true
     xpAwarded?: true
@@ -15174,6 +15208,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     missionId?: true
+    cycleKey?: true
     status?: true
     content?: true
     xpAwarded?: true
@@ -15197,6 +15232,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     missionId?: true
+    cycleKey?: true
     status?: true
     content?: true
     xpAwarded?: true
@@ -15307,6 +15343,7 @@ export namespace Prisma {
     id: string
     userId: string
     missionId: string
+    cycleKey: string
     status: string
     content: string | null
     xpAwarded: number
@@ -15349,6 +15386,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     missionId?: boolean
+    cycleKey?: boolean
     status?: boolean
     content?: boolean
     xpAwarded?: boolean
@@ -15377,6 +15415,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     missionId?: boolean
+    cycleKey?: boolean
     status?: boolean
     content?: boolean
     xpAwarded?: boolean
@@ -15403,6 +15442,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     missionId?: boolean
+    cycleKey?: boolean
     status?: boolean
     content?: boolean
     xpAwarded?: boolean
@@ -15429,6 +15469,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     missionId?: boolean
+    cycleKey?: boolean
     status?: boolean
     content?: boolean
     xpAwarded?: boolean
@@ -15448,7 +15489,7 @@ export namespace Prisma {
     reviewerType?: boolean
   }
 
-  export type MissionSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "missionId" | "status" | "content" | "xpAwarded" | "createdAt" | "updatedAt" | "improvementSuggestions" | "projectDescription" | "reviewerFeedback" | "userDifficulty" | "userFeedback" | "userRating" | "adminFeedback" | "reviewerId" | "qualityLevel" | "revisionCount" | "revisionNotes" | "reviewerType", ExtArgs["result"]["missionSubmission"]>
+  export type MissionSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "missionId" | "cycleKey" | "status" | "content" | "xpAwarded" | "createdAt" | "updatedAt" | "improvementSuggestions" | "projectDescription" | "reviewerFeedback" | "userDifficulty" | "userFeedback" | "userRating" | "adminFeedback" | "reviewerId" | "qualityLevel" | "revisionCount" | "revisionNotes" | "reviewerType", ExtArgs["result"]["missionSubmission"]>
   export type MissionSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mission?: boolean | MissionDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -15479,6 +15520,7 @@ export namespace Prisma {
       id: string
       userId: string
       missionId: string
+      cycleKey: string
       status: string
       content: string | null
       xpAwarded: number
@@ -15926,6 +15968,7 @@ export namespace Prisma {
     readonly id: FieldRef<"MissionSubmission", 'String'>
     readonly userId: FieldRef<"MissionSubmission", 'String'>
     readonly missionId: FieldRef<"MissionSubmission", 'String'>
+    readonly cycleKey: FieldRef<"MissionSubmission", 'String'>
     readonly status: FieldRef<"MissionSubmission", 'String'>
     readonly content: FieldRef<"MissionSubmission", 'String'>
     readonly xpAwarded: FieldRef<"MissionSubmission", 'Int'>
@@ -20872,7 +20915,9 @@ export namespace Prisma {
     submissionMethod: 'submissionMethod',
     acceptanceCriteria: 'acceptanceCriteria',
     evaluatorNotes: 'evaluatorNotes',
-    qualityIndicators: 'qualityIndicators'
+    qualityIndicators: 'qualityIndicators',
+    isWeeklyChallenge: 'isWeeklyChallenge',
+    weeklySlot: 'weeklySlot'
   };
 
   export type MissionScalarFieldEnum = (typeof MissionScalarFieldEnum)[keyof typeof MissionScalarFieldEnum]
@@ -20970,6 +21015,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     missionId: 'missionId',
+    cycleKey: 'cycleKey',
     status: 'status',
     content: 'content',
     xpAwarded: 'xpAwarded',
@@ -21777,6 +21823,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonFilter<"Mission">
     evaluatorNotes?: StringNullableFilter<"Mission"> | string | null
     qualityIndicators?: JsonFilter<"Mission">
+    isWeeklyChallenge?: BoolFilter<"Mission"> | boolean
+    weeklySlot?: IntNullableFilter<"Mission"> | number | null
     submissions?: MissionSubmissionListRelationFilter
   }
 
@@ -21805,6 +21853,8 @@ export namespace Prisma {
     acceptanceCriteria?: SortOrder
     evaluatorNotes?: SortOrderInput | SortOrder
     qualityIndicators?: SortOrder
+    isWeeklyChallenge?: SortOrder
+    weeklySlot?: SortOrderInput | SortOrder
     submissions?: MissionSubmissionOrderByRelationAggregateInput
   }
 
@@ -21836,6 +21886,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonFilter<"Mission">
     evaluatorNotes?: StringNullableFilter<"Mission"> | string | null
     qualityIndicators?: JsonFilter<"Mission">
+    isWeeklyChallenge?: BoolFilter<"Mission"> | boolean
+    weeklySlot?: IntNullableFilter<"Mission"> | number | null
     submissions?: MissionSubmissionListRelationFilter
   }, "id" | "slug">
 
@@ -21864,6 +21916,8 @@ export namespace Prisma {
     acceptanceCriteria?: SortOrder
     evaluatorNotes?: SortOrderInput | SortOrder
     qualityIndicators?: SortOrder
+    isWeeklyChallenge?: SortOrder
+    weeklySlot?: SortOrderInput | SortOrder
     _count?: MissionCountOrderByAggregateInput
     _avg?: MissionAvgOrderByAggregateInput
     _max?: MissionMaxOrderByAggregateInput
@@ -21899,6 +21953,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonWithAggregatesFilter<"Mission">
     evaluatorNotes?: StringNullableWithAggregatesFilter<"Mission"> | string | null
     qualityIndicators?: JsonWithAggregatesFilter<"Mission">
+    isWeeklyChallenge?: BoolWithAggregatesFilter<"Mission"> | boolean
+    weeklySlot?: IntNullableWithAggregatesFilter<"Mission"> | number | null
   }
 
   export type GuildWhereInput = {
@@ -22355,6 +22411,7 @@ export namespace Prisma {
     id?: StringFilter<"MissionSubmission"> | string
     userId?: StringFilter<"MissionSubmission"> | string
     missionId?: StringFilter<"MissionSubmission"> | string
+    cycleKey?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
@@ -22382,6 +22439,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     missionId?: SortOrder
+    cycleKey?: SortOrder
     status?: SortOrder
     content?: SortOrderInput | SortOrder
     xpAwarded?: SortOrder
@@ -22407,12 +22465,13 @@ export namespace Prisma {
 
   export type MissionSubmissionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId_missionId?: MissionSubmissionUserIdMissionIdCompoundUniqueInput
+    userId_missionId_cycleKey?: MissionSubmissionUserIdMissionIdCycleKeyCompoundUniqueInput
     AND?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
     OR?: MissionSubmissionWhereInput[]
     NOT?: MissionSubmissionWhereInput | MissionSubmissionWhereInput[]
     userId?: StringFilter<"MissionSubmission"> | string
     missionId?: StringFilter<"MissionSubmission"> | string
+    cycleKey?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
@@ -22434,12 +22493,13 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     reviewer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     reviews?: MissionReviewListRelationFilter
-  }, "id" | "userId_missionId">
+  }, "id" | "userId_missionId_cycleKey">
 
   export type MissionSubmissionOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     missionId?: SortOrder
+    cycleKey?: SortOrder
     status?: SortOrder
     content?: SortOrderInput | SortOrder
     xpAwarded?: SortOrder
@@ -22471,6 +22531,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"MissionSubmission"> | string
     userId?: StringWithAggregatesFilter<"MissionSubmission"> | string
     missionId?: StringWithAggregatesFilter<"MissionSubmission"> | string
+    cycleKey?: StringWithAggregatesFilter<"MissionSubmission"> | string
     status?: StringWithAggregatesFilter<"MissionSubmission"> | string
     content?: StringNullableWithAggregatesFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntWithAggregatesFilter<"MissionSubmission"> | number
@@ -23508,6 +23569,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: boolean
+    weeklySlot?: number | null
     submissions?: MissionSubmissionCreateNestedManyWithoutMissionInput
   }
 
@@ -23536,6 +23599,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: boolean
+    weeklySlot?: number | null
     submissions?: MissionSubmissionUncheckedCreateNestedManyWithoutMissionInput
   }
 
@@ -23564,6 +23629,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
     submissions?: MissionSubmissionUpdateManyWithoutMissionNestedInput
   }
 
@@ -23592,6 +23659,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
     submissions?: MissionSubmissionUncheckedUpdateManyWithoutMissionNestedInput
   }
 
@@ -23620,6 +23689,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: boolean
+    weeklySlot?: number | null
   }
 
   export type MissionUpdateManyMutationInput = {
@@ -23647,6 +23718,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MissionUncheckedUpdateManyInput = {
@@ -23674,6 +23747,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type GuildCreateInput = {
@@ -24167,6 +24242,7 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateInput = {
     id?: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -24193,6 +24269,7 @@ export namespace Prisma {
     id?: string
     userId: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -24215,6 +24292,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -24241,6 +24319,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -24265,6 +24344,7 @@ export namespace Prisma {
     id?: string
     userId: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -24286,6 +24366,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -24308,6 +24389,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -25418,6 +25500,8 @@ export namespace Prisma {
     acceptanceCriteria?: SortOrder
     evaluatorNotes?: SortOrder
     qualityIndicators?: SortOrder
+    isWeeklyChallenge?: SortOrder
+    weeklySlot?: SortOrder
   }
 
   export type MissionAvgOrderByAggregateInput = {
@@ -25427,6 +25511,7 @@ export namespace Prisma {
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
+    weeklySlot?: SortOrder
   }
 
   export type MissionMaxOrderByAggregateInput = {
@@ -25449,6 +25534,8 @@ export namespace Prisma {
     fullBriefing?: SortOrder
     submissionMethod?: SortOrder
     evaluatorNotes?: SortOrder
+    isWeeklyChallenge?: SortOrder
+    weeklySlot?: SortOrder
   }
 
   export type MissionMinOrderByAggregateInput = {
@@ -25471,6 +25558,8 @@ export namespace Prisma {
     fullBriefing?: SortOrder
     submissionMethod?: SortOrder
     evaluatorNotes?: SortOrder
+    isWeeklyChallenge?: SortOrder
+    weeklySlot?: SortOrder
   }
 
   export type MissionSumOrderByAggregateInput = {
@@ -25480,6 +25569,7 @@ export namespace Prisma {
     weightCreator?: SortOrder
     weightStrategist?: SortOrder
     weightCatalyst?: SortOrder
+    weeklySlot?: SortOrder
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -25759,15 +25849,17 @@ export namespace Prisma {
     isNot?: MissionWhereInput
   }
 
-  export type MissionSubmissionUserIdMissionIdCompoundUniqueInput = {
+  export type MissionSubmissionUserIdMissionIdCycleKeyCompoundUniqueInput = {
     userId: string
     missionId: string
+    cycleKey: string
   }
 
   export type MissionSubmissionCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     missionId?: SortOrder
+    cycleKey?: SortOrder
     status?: SortOrder
     content?: SortOrder
     xpAwarded?: SortOrder
@@ -25798,6 +25890,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     missionId?: SortOrder
+    cycleKey?: SortOrder
     status?: SortOrder
     content?: SortOrder
     xpAwarded?: SortOrder
@@ -25821,6 +25914,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     missionId?: SortOrder
+    cycleKey?: SortOrder
     status?: SortOrder
     content?: SortOrder
     xpAwarded?: SortOrder
@@ -27406,6 +27500,7 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateWithoutUserInput = {
     id?: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -27430,6 +27525,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedCreateWithoutUserInput = {
     id?: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -27462,6 +27558,7 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateWithoutReviewerInput = {
     id?: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -27487,6 +27584,7 @@ export namespace Prisma {
     id?: string
     userId: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -28171,6 +28269,7 @@ export namespace Prisma {
     id?: StringFilter<"MissionSubmission"> | string
     userId?: StringFilter<"MissionSubmission"> | string
     missionId?: StringFilter<"MissionSubmission"> | string
+    cycleKey?: StringFilter<"MissionSubmission"> | string
     status?: StringFilter<"MissionSubmission"> | string
     content?: StringNullableFilter<"MissionSubmission"> | string | null
     xpAwarded?: IntFilter<"MissionSubmission"> | number
@@ -29383,6 +29482,7 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateWithoutMissionInput = {
     id?: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -29407,6 +29507,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedCreateWithoutMissionInput = {
     id?: string
     userId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -31026,6 +31127,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: boolean
+    weeklySlot?: number | null
   }
 
   export type MissionUncheckedCreateWithoutSubmissionsInput = {
@@ -31053,6 +31156,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: boolean
+    weeklySlot?: number | null
   }
 
   export type MissionCreateOrConnectWithoutSubmissionsInput = {
@@ -31480,6 +31585,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type MissionUncheckedUpdateWithoutSubmissionsInput = {
@@ -31507,6 +31614,8 @@ export namespace Prisma {
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     evaluatorNotes?: NullableStringFieldUpdateOperationsInput | string | null
     qualityIndicators?: JsonNullValueInput | InputJsonValue
+    isWeeklyChallenge?: BoolFieldUpdateOperationsInput | boolean
+    weeklySlot?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserUpsertWithoutMissionSubmissionsInput = {
@@ -31891,6 +32000,7 @@ export namespace Prisma {
 
   export type MissionSubmissionCreateWithoutReviewsInput = {
     id?: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -31916,6 +32026,7 @@ export namespace Prisma {
     id?: string
     userId: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -32130,6 +32241,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -32155,6 +32267,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33108,6 +33221,7 @@ export namespace Prisma {
   export type MissionSubmissionCreateManyUserInput = {
     id?: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -33131,6 +33245,7 @@ export namespace Prisma {
     id?: string
     userId: string
     missionId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -33379,6 +33494,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33403,6 +33519,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33426,6 +33543,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33447,6 +33565,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateWithoutReviewerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33472,6 +33591,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33495,6 +33615,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     missionId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33944,6 +34065,7 @@ export namespace Prisma {
   export type MissionSubmissionCreateManyMissionInput = {
     id?: string
     userId: string
+    cycleKey?: string
     status?: string
     content?: string | null
     xpAwarded?: number
@@ -33965,6 +34087,7 @@ export namespace Prisma {
 
   export type MissionSubmissionUpdateWithoutMissionInput = {
     id?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -33989,6 +34112,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedUpdateWithoutMissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number
@@ -34012,6 +34136,7 @@ export namespace Prisma {
   export type MissionSubmissionUncheckedUpdateManyWithoutMissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    cycleKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content?: NullableStringFieldUpdateOperationsInput | string | null
     xpAwarded?: IntFieldUpdateOperationsInput | number

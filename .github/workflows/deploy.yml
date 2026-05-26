@@ -80,8 +80,9 @@ jobs:
             docker compose up -d --build --no-deps web
 
             # 7. Appliquer les modifications de schéma en toute sécurité
-            # (On ne lance plus 'db seed' automatiquement à chaque commit pour préserver l'intégrité)
+            # (Seed initial des missions — safe car idempotent via upsert)
             docker compose exec -T web npx prisma db push
+            docker compose exec -T web npx prisma db seed
 
             # 8. Nettoyage des anciennes images
             docker image prune -f

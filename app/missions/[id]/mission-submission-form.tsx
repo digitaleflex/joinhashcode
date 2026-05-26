@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2, Send, Star, ChevronRight, ChevronLeft } from "lucide-react";
+import { Loader2, Send, Star, ChevronRight, ChevronLeft, Check, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,6 +30,8 @@ export function MissionSubmissionForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
   const [step, setStep] = useState(1);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showRetroForm, setShowRetroForm] = useState(false);
 
   // Form State
   const [content, setContent] = useState("");
@@ -39,15 +41,11 @@ export function MissionSubmissionForm({
   const [userFeedback, setUserFeedback] = useState("");
   const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitStep1 = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (step === 1) {
-      if (!content.trim()) {
-        toast.error("Veuillez fournir le lien ou le contenu requis.");
-        return;
-      }
-      setStep(2);
+    if (!content.trim()) {
+      toast.error("Veuillez fournir le lien ou le contenu requis.");
       return;
     }
 
@@ -59,6 +57,29 @@ export function MissionSubmissionForm({
         body: JSON.stringify({
           missionId,
           content,
+        })
+      });
+
+      if (!res.ok) throw new Error(await res.text());
+
+      await res.json();
+      setSubmitSuccess(true);
+      toast.success("Mission transmise avec succès !");
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la soumission");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmitRetro = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`/api/missions/${missionId}/retrospective`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           projectDescription,
           userDifficulty,
           userRating,
@@ -69,10 +90,9 @@ export function MissionSubmissionForm({
 
       if (!res.ok) throw new Error(await res.text());
 
-      const data = await res.json();
       setShowScanner(true);
     } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la soumission");
+      toast.error(error.message || "Erreur lors de la rétrospective");
       setIsSubmitting(false);
     }
   };
@@ -88,7 +108,54 @@ export function MissionSubmissionForm({
     );
   }
 
-  if (step === 1) {
+  if (submitSuccess && !showRetroForm) {
+    return (
+      <div className="space-y-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-16 rounded-full bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center">
+            <Check className="size-8 text-emerald-400" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-base font-bold text-white">Mission soumise ✓</h3>
+            <p className="text-xs text-zinc-400 font-light max-w-xs">
+              Ta soumission est en file d'attente. Un reviewer va l'examiner sous 48h.
+            </p>
+          </div>
+        </div>
+
+        <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="size-3.5 text-primary shrink-0" />
+            <p className="text-[10px] font-mono font-bold text-primary uppercase tracking-wider">
+              Partage ton expérience — optionnel
+            </p>
+          </div>
+          <p className="text-[9px] text-zinc-500 leading-relaxed">
+            Tes retours aident à améliorer les missions pour tous les membres.
+            Ça prend 30 secondes.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowRetroForm(true)}
+              className="flex-1 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
+            >
+              Donner mon avis
+            </button>
+            <button
+              onClick={() => {
+                setShowScanner(true);
+              }}
+              className="px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/5 text-zinc-400 text-[10px] font-bold hover:text-white transition-all"
+            >
+              Plus tard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!showRetroForm) {
     const isTextResponse = submissionMethod === "TEXT_RESPONSE" || missionId === "introduction-ancrage";
     const hasRevision = !!revisionNotes;
 
@@ -112,7 +179,7 @@ export function MissionSubmissionForm({
             </ul>
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmitStep1} className="space-y-4">
           <div className="space-y-2">
             <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
               {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
@@ -143,7 +210,8 @@ export function MissionSubmissionForm({
               />
             )}
           </div>
-          <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group">
+          <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group" disabled={isSubmitting}>
+            {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
             Transmettre pour validation
             <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
@@ -153,13 +221,13 @@ export function MissionSubmissionForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <form onSubmit={handleSubmitRetro} className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <div className="flex items-center gap-2 mb-2">
         <Button
           variant="ghost"
           size="icon"
           className="h-6 w-6 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
-          onClick={() => setStep(1)}
+          onClick={() => setShowRetroForm(false)}
           type="button"
         >
           <ChevronLeft className="h-4 w-4" />

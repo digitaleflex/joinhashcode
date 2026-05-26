@@ -14,6 +14,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { MissionSubmissionForm } from "./mission-submission-form"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
+import { SubmissionTimeline } from "@/components/missions/submission-timeline"
 
 export default async function MissionBriefingPage({
   params,
@@ -31,14 +32,16 @@ export default async function MissionBriefingPage({
       include: {
         missionSubmissions: {
           where: { missionId: id },
-          select: {
-            status: true,
-            revisionNotes: true,
-            revisionCount: true,
-            adminFeedback: true,
-            qualityLevel: true,
-            xpAwarded: true,
+          include: {
+            reviewer: {
+              select: {
+                id: true,
+                pseudo: true,
+                image: true,
+              }
+            }
           },
+          orderBy: { createdAt: "desc" },
         },
       },
     }),
@@ -285,6 +288,12 @@ export default async function MissionBriefingPage({
                     )}
                   </div>
                 </div>
+
+                {submission && submission.status !== "APPROVED" && (
+                  <div className="mt-6 p-5 bg-zinc-950/40 border border-white/5 rounded-[1.5rem]">
+                    <SubmissionTimeline submission={submission as any} />
+                  </div>
+                )}
 
                 {/* Requirements card */}
                 {mission.requirements.length > 0 && (

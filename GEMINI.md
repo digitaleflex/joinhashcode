@@ -18,6 +18,12 @@ HASHCODE is a community platform focused on project building, collaboration, and
 - **Security:** Follow EHAF Security Engineering Standard (Strict validation, no hardcoded secrets).
 - **Architecture:** Keep logic inside `lib/` and UI inside `components/`.
 
+## Developer Velocity & Autonomy
+To reduce authorization prompts and speed up implementation:
+- **Auto-Edit Mode:** Start the CLI with `--approval-mode=auto_edit` to auto-approve surgical edits (`replace`, `write_file`) while retaining prompts for shell commands and destructive actions.
+- **YOLO Mode:** For trusted environments where maximum speed is required, use `--yolo` (or `-y`) to auto-approve all actions.
+- **Session Trust:** Use `--skip-trust` to bypass the workspace trust prompt on startup.
+
 ## Augmented Engineering Cockpit
 - **Governance:** Use `.gemini/settings.json` for project-wide AI behavior.
 - **Plan Mode:** Systematic use of `/plan` (or Shift+Tab) for architectural changes.

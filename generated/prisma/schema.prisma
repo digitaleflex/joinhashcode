@@ -159,6 +159,8 @@ model Mission {
   acceptanceCriteria Json                @default("[]")
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
+  isWeeklyChallenge  Boolean             @default(false)
+  weeklySlot         Int?
   submissions        MissionSubmission[]
 
   @@index([category])
@@ -267,6 +269,7 @@ model MissionSubmission {
   id                     String          @id @default(cuid())
   userId                 String
   missionId              String
+  cycleKey               String          @default("PERMANENT")
   status                 String          @default("PENDING")
   content                String?
   xpAwarded              Int             @default(0)
@@ -289,7 +292,7 @@ model MissionSubmission {
   reviewer               User?           @relation("SubmissionReviewer", fields: [reviewerId], references: [id])
   reviews                MissionReview[]
 
-  @@unique([userId, missionId])
+  @@unique([userId, missionId, cycleKey])
   @@index([status])
   @@index([userId])
   @@index([missionId])

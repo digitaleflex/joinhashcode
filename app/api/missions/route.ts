@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { XP_THRESHOLDS } from "@/lib/missions";
+import { XP_THRESHOLDS, getCurrentCycleKey } from "@/lib/missions";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
@@ -76,19 +76,23 @@ export async function POST(req: Request) {
       return new NextResponse("Ton rang est trop bas pour cette mission. Continue de build !", { status: 403 });
     }
 
-    // Check if already submitted
+    // CYCLE KEY LOGIC (Roadmap Security Audit Fix)
+    const cycleKey = getCurrentCycleKey(mission);
+
+    // Check if already submitted for THIS cycle
     const existingSubmission = await prisma.missionSubmission.findUnique({
       where: {
-        userId_missionId: {
+        userId_missionId_cycleKey: {
           userId: session.user.id,
-          missionId: mission.id
+          missionId: mission.id,
+          cycleKey: cycleKey
         }
       }
     });
 
     if (existingSubmission) {
       if (existingSubmission.status === "APPROVED") {
-        return new NextResponse("Cette mission a déjà été validée. Passe à la suivante !", { status: 409 });
+        return new NextResponse("Cette mission a déjà été validée pour cette période.", { status: 409 });
       }
       if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW") {
         return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
@@ -96,22 +100,29 @@ export async function POST(req: Request) {
       if (existingSubmission.revisionCount >= 3) {
         return new NextResponse("Nombre maximum de révisions atteint. Contacte un admin.", { status: 400 });
       }
-      // status === "NEEDS_REVISION" → allow resubmission (falls through to upsert below)
+      // status === "NEEDS_REVISION" → allow resubmission
     }
 
-    // Transaction to save submission as PENDING and award instant Sync Bonus
+    // Transaction to save submission and award XP safely
     let SYNC_BONUS_XP = 5;
     const userStreak = dbUser.currentStreak || 0;
     
-    if (userStreak >= 7) SYNC_BONUS_XP = 6; // 1.2x
-    else if (userStreak >= 3) SYNC_BONUS_XP = 6; // 1.1x (5.5 rounded to 6)
+    if (userStreak >= 7) SYNC_BONUS_XP = 6;
+    else if (userStreak >= 3) SYNC_BONUS_XP = 6;
+
+    // AUTO-APPROVAL for weekly challenges
+    const isAutoApproved = mission.isWeeklyChallenge;
+    const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
+    const xpToAward = isAutoApproved ? mission.xp : 0;
 
     const result = await prisma.$transaction(async (tx) => {
+      // 1. Upsert submission
       const submission = await tx.missionSubmission.upsert({
         where: {
-          userId_missionId: {
+          userId_missionId_cycleKey: {
             userId: session.user.id,
-            missionId: mission.id
+            missionId: mission.id,
+            cycleKey: cycleKey
           }
         },
         update: {
@@ -121,48 +132,58 @@ export async function POST(req: Request) {
           userRating,
           userFeedback,
           improvementSuggestions,
-          status: "PENDING",
-          xpAwarded: 0
+          status: finalStatus,
+          xpAwarded: { increment: 0 } // Don't reset if already awarded (though we check status above)
         },
         create: {
           userId: session.user.id,
           missionId: mission.id,
+          cycleKey: cycleKey,
           content,
           projectDescription,
           userDifficulty,
           userRating,
           userFeedback,
           improvementSuggestions,
-          status: "PENDING",
-          xpAwarded: 0
+          status: finalStatus,
+          xpAwarded: xpToAward
         }
       });
 
-      // Award instant bonus
+      // 2. Award experience ONLY if creating or if not already approved
+      // (Since we return 409 above if APPROVED, this is double safety)
       await tx.user.update({
         where: { id: session.user.id },
         data: {
-          experience: { increment: SYNC_BONUS_XP }
+          experience: { increment: SYNC_BONUS_XP + xpToAward },
+          missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined
         }
       });
 
       return submission;
     });
 
-    // Notify user about the submission and the instant bonus
+    // Notify user
     try {
       await triggerNotification({
         userId: session.user.id,
         type: "SYSTEM",
-        title: `Mission transmise : ${mission.title}`,
-        message: `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
+        title: isAutoApproved ? `Challenge Validé : ${mission.title}` : `Mission transmise : ${mission.title}`,
+        message: isAutoApproved 
+          ? `Ton challenge hebdomadaire est validé. +${xpAwarded} XP accordés !`
+          : `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
         link: "/missions"
       });
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);
     }
 
-    return NextResponse.json({ submission: result, status: "PENDING", bonusXp: SYNC_BONUS_XP });
+    return NextResponse.json({ 
+      submission: result, 
+      status: finalStatus, 
+      bonusXp: SYNC_BONUS_XP, 
+      missionXp: xpAwarded 
+    });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
     return new NextResponse("Erreur interne du système. Nos ingénieurs sont sur le coup.", { status: 500 });

@@ -45,6 +45,7 @@ import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { ProfileDriftAlert } from "./profile-drift-alert"
 import { BottomNav } from "./bottom-nav"
 import { EvolutionRadar } from "./evolution-radar"
+import { TechTreeVisualizer } from "./tech-tree-visualizer"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -318,6 +319,18 @@ export function DashboardShell({
                   />
                 </CardContent>
               </Card>
+
+              {/* Bento Box: neural_graph_ (spans 3 cols) */}
+              <div className="md:col-span-3 space-y-4">
+                <div className="flex items-center gap-3 px-2">
+                  <Terminal className="size-4 text-primary" />
+                  <h3 className="text-sm font-mono font-bold text-white uppercase tracking-widest">neural_graph_</h3>
+                </div>
+                <TechTreeVisualizer 
+                  unlockedSkills={user.tools || []} 
+                  userClass={user.class} 
+                />
+              </div>
 
               {/* Bento Box 3: status_ (spans 1 col) */}
               <Card variant="premium" className="md:col-span-1 overflow-hidden group">

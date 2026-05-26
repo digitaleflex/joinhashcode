@@ -4,11 +4,28 @@ import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
+import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
 import { MissionsList } from "@/components/missions/missions-list"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
+import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-banner"
+
+function daysUntilMonday(): number {
+  const today = new Date()
+  const day = today.getDay() // 0=dim, 1=lun, ...
+  return day === 0 ? 1 : 8 - day
+}
+
+function getWeekStart(): Date {
+  const d = new Date()
+  const day = d.getDay()
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
+  const monday = new Date(d.setDate(diff))
+  monday.setHours(0, 0, 0, 0)
+  return monday
+}
 
 export default async function MissionsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -47,6 +64,62 @@ export default async function MissionsPage() {
     submissionsMap[sub.missionId] = sub.status;
   });
 
+  // --- WEEKLY CHALLENGE LOGIC (Roadmap P9) ---
+  const currentWeeklyChallenge = getCurrentWeeklyChallenge();
+  const weeklyMission = await prisma.mission.findUnique({
+    where: { slug: currentWeeklyChallenge.id }
+  });
+
+  const weekStart = getWeekStart();
+  const weeklySubmission = weeklyMission ? await prisma.missionSubmission.findFirst({
+    where: {
+      userId: session.user.id,
+      missionId: weeklyMission.id,
+      createdAt: { gte: weekStart },
+    }
+  }) : null;
+  // --- END WEEKLY ---
+
+  // --- START ENRICHMENT (Roadmap P5) ---
+  // 1. Fetch completions count
+  const completionsRaw = await prisma.missionSubmission.groupBy({
+    by: ["missionId"],
+    where: { status: "APPROVED" },
+    _count: { _all: true },
+  });
+
+  // 2. Fetch average ratings
+  const ratingsRaw = await prisma.missionSubmission.groupBy({
+    by: ["missionId"],
+    where: {
+      status: "APPROVED",
+      userRating: { not: null },
+    },
+    _avg: { userRating: true },
+    _count: { userRating: true },
+  });
+
+  // 3. Build maps
+  const completionsMap = Object.fromEntries(
+    completionsRaw.map(c => [c.missionId, c._count._all])
+  );
+
+  const ratingsMap = Object.fromEntries(
+    ratingsRaw.map(r => [r.missionId, {
+      avg: r._avg.userRating,
+      count: r._count.userRating,
+    }])
+  );
+
+  // 4. Enrich MISSIONS
+  const enrichedMissions = MISSIONS.map(m => ({
+    ...m,
+    completionsCount: completionsMap[m.id] || 0,
+    avgRating: ratingsMap[m.id]?.avg || null,
+    ratingsCount: ratingsMap[m.id]?.count || 0,
+  }));
+  // --- END ENRICHMENT ---
+
   return (
     <SidebarProvider>
       <AppSidebar user={finalDbUser} />
@@ -77,10 +150,20 @@ export default async function MissionsPage() {
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
                 Arsenal des <span className="text-primary">Missions</span>
               </h1>
-              <p className="text-zinc-500 max-w-2xl font-light text-sm md:text-base leading-relaxed">
+              <p className="text-zinc-500 max-w-2xl font-light text-sm md:base leading-relaxed">
                 Chaque objectif rempli renforce ton signal et ton autorité dans l&apos;écosystème HASHCODE.
               </p>
             </div>
+
+            {weeklyMission && (
+              <div className="max-w-3xl">
+                <WeeklyChallengeBanner 
+                  mission={weeklyMission} 
+                  isCompleted={!!weeklySubmission && weeklySubmission.status === "APPROVED"} 
+                  daysLeft={daysUntilMonday()} 
+                />
+              </div>
+            )}
           
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2 p-8 rounded-[2rem] glass-card border-white/5 relative overflow-hidden group">
@@ -120,6 +203,7 @@ export default async function MissionsPage() {
               userXp={finalDbUser.experience} 
               submissions={submissionsMap} 
               userClass={finalDbUser.class}
+              missions={enrichedMissions}
             />
           </div>
         </main>
