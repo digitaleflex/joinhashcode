@@ -96,7 +96,7 @@ export default function LegalPage() {
 
             <section className="p-8 rounded-2xl bg-zinc-900/50 border border-white/5 border-dashed">
               <p className="text-sm italic">
-                Dernière mise à jour : 25 Mai 2026. En utilisant HASHCODE, vous reconnaissez avoir pris connaissance de ces mentions et vous engagez à les respecter. HASHCODE est une marque déposée.
+                Dernière mise à jour : 25 Mai 2026. En utilisant HASHCODE, vous reconnaissez avoir pris connaissance de ces mentions et vous engagez à les respecter.
               </p>
             </section>
           </motion.div>
