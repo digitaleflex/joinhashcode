@@ -6,7 +6,8 @@ import { Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare, Clock } from "lucide-react";
+import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare, Clock, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -253,6 +254,7 @@ function MissionCard({
   const [socialClicks, setSocialClicks] = useState<Record<string, boolean>>({
     telegram: false, discord: false, whatsapp: false
   });
+  const [socialForm, setSocialForm] = useState({ telegram: '', discord: '', whatsapp: '' });
 
   useEffect(() => {
     if (mission.id === "social-connection-protocol" && (status === "APPROVED" || status === "PENDING")) {
@@ -260,48 +262,53 @@ function MissionCard({
     }
   }, [status, mission.id]);
 
-  const handleSocialClick = useCallback(async (platform: string) => {
+  const allLinksClicked = Object.values(socialClicks).every(Boolean);
+
+  const handleSocialClick = useCallback((platform: string) => {
     if (mission.id !== "social-connection-protocol") return;
     if (status === "APPROVED" || status === "PENDING") return;
     if (socialClicks[platform]) return;
-
     const newClicks = { ...socialClicks, [platform]: true };
     setSocialClicks(newClicks);
-    
     const count = Object.values(newClicks).filter(Boolean).length;
-    
     if (count < 3) {
-      toast.info(`Progression : ${Math.round((count / 3) * 100)}% - Rejoins les autres canaux pour valider la mission !`);
+      toast.info(`${count}/3 canaux rejoints — continue !`);
+    } else {
+      toast.success("Tous les canaux rejoints ! Entre tes identifiants pour valider.");
     }
+  }, [socialClicks, status, mission.id]);
 
-    if (count === 3) {
-      setIsSubmitting(true);
-      try {
-        const res = await fetch('/api/missions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            missionId: "social-connection-protocol",
-            content: "Validation automatique par clics sociaux",
-            projectDescription: "Rejoint les canaux communautaires de HASHCODE.",
-            userDifficulty: 1,
-            userRating: 5,
-            userFeedback: "Validation automatique via clics",
-            improvementSuggestions: ""
-          })
-        });
-        if (!res.ok) throw new Error(await res.text());
-        const data = await res.json();
-        toast.success("Mission accomplie ! Les protocoles de connexion sont validés.");
-        if (data.leveledUp) toast.success(`Niveau ${data.newLevel} débloqué ! Félicitations.`);
-        router.refresh();
-      } catch (error: any) {
-        toast.error(error.message || "Erreur lors de la validation");
-      } finally {
-        setIsSubmitting(false);
-      }
+  const handleSocialSubmit = useCallback(async () => {
+    const { telegram, discord, whatsapp } = socialForm;
+    if (!telegram.trim() || !discord.trim() || !whatsapp.trim()) {
+      toast.error("Remplis les 3 champs pour valider la mission.");
+      return;
     }
-  }, [socialClicks, status, router, mission.id]);
+    setIsSubmitting(true);
+    try {
+      const content = `Protocole de Connexion Globale — Vérification admin\nTelegram : ${telegram.trim()}\nDiscord : ${discord.trim()}\nWhatsApp : ${whatsapp.trim()}`;
+      const res = await fetch('/api/missions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          missionId: "social-connection-protocol",
+          content,
+          projectDescription: "Rejoint les 3 canaux communautaires HASHCODE.",
+          userDifficulty: 1,
+          userRating: 5,
+          userFeedback: "Validation via identifiants communautaires",
+          improvementSuggestions: ""
+        })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      toast.success("Soumission envoyée ! Un admin va vérifier et valider sous 24h.");
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la validation");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [socialForm, router]);
 
   return (
     <Card className={cn(
@@ -353,21 +360,64 @@ function MissionCard({
             <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 font-bold">Protocole_Validation</p>
             
             {mission.id === "social-connection-protocol" ? (
-              <div className="grid gap-2 mt-3">
-                <a href={COMMUNITY_LINKS.telegram} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('telegram')}
-                  className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
-                    socialClicks.telegram ? 'bg-[#0088cc]/10 border-[#0088cc]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#0088cc]/20 text-[#0088cc]'
-                  )}>
-                  <div className="flex items-center gap-2"><Globe className="h-3.5 w-3.5" />Telegram</div>
-                  {socialClicks.telegram && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
-                </a>
-                <a href={COMMUNITY_LINKS.discord} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('discord')}
-                  className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
-                    socialClicks.discord ? 'bg-[#5865F2]/10 border-[#5865F2]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#5865F2]/20 text-[#5865F2]'
-                  )}>
-                  <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />Discord</div>
-                  {socialClicks.discord && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
-                </a>
+              <div className="space-y-2 mt-3">
+                {/* Step 1 — join the 3 channels */}
+                <div className="grid gap-2">
+                  <a href={COMMUNITY_LINKS.telegram} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('telegram')}
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                      socialClicks.telegram ? 'bg-[#0088cc]/10 border-[#0088cc]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#0088cc]/20 text-[#0088cc]'
+                    )}>
+                    <div className="flex items-center gap-2"><Globe className="h-3.5 w-3.5" />Telegram</div>
+                    {socialClicks.telegram ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                  </a>
+                  <a href={COMMUNITY_LINKS.discord} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('discord')}
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                      socialClicks.discord ? 'bg-[#5865F2]/10 border-[#5865F2]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#5865F2]/20 text-[#5865F2]'
+                    )}>
+                    <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />Discord</div>
+                    {socialClicks.discord ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                  </a>
+                  <a href={COMMUNITY_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('whatsapp')}
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                      socialClicks.whatsapp ? 'bg-[#25D366]/10 border-[#25D366]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#25D366]/20 text-[#25D366]'
+                    )}>
+                    <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />WhatsApp</div>
+                    {socialClicks.whatsapp ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                  </a>
+                </div>
+
+                {/* Step 2 — identify yourself for admin review */}
+                {allLinksClicked && !isPending && !isCompleted && (
+                  <div className="mt-3 space-y-2 p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Étape 2 — Confirme tes identifiants</p>
+                    <Input
+                      value={socialForm.telegram}
+                      onChange={e => setSocialForm(f => ({ ...f, telegram: e.target.value }))}
+                      placeholder="Pseudo Telegram (ex: @mon_pseudo)"
+                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                    />
+                    <Input
+                      value={socialForm.discord}
+                      onChange={e => setSocialForm(f => ({ ...f, discord: e.target.value }))}
+                      placeholder="Pseudo Discord (ex: mon_pseudo)"
+                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                    />
+                    <Input
+                      value={socialForm.whatsapp}
+                      onChange={e => setSocialForm(f => ({ ...f, whatsapp: e.target.value }))}
+                      placeholder="Numéro WhatsApp (ex: +225XXXXXXXXXX)"
+                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                    />
+                    <Button
+                      onClick={handleSocialSubmit}
+                      disabled={isSubmitting || !socialForm.telegram.trim() || !socialForm.discord.trim() || !socialForm.whatsapp.trim()}
+                      className="w-full h-10 rounded-xl btn-primary-glow text-[10px] uppercase font-black tracking-wider gap-2"
+                    >
+                      <Send className="h-3.5 w-3.5" />
+                      {isSubmitting ? "Envoi..." : "Envoyer pour validation admin"}
+                    </Button>
+                  </div>
+                )}
               </div>
             ) : (
               <ul className="space-y-1.5 list-none">

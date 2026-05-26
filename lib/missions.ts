@@ -76,9 +76,9 @@ Bienvenue dans la communauté HASHCODE. Avant toute chose, présente-toi. Qui es
     requiredLevel: 1,
     targetLevel: 1,
     requirements: [
-      "Rejoindre le canal Telegram @innovcode.",
-      "Rejoindre le serveur Discord officiel.",
-      "Rejoindre le groupe WhatsApp de ta communauté."
+      "Rejoindre le canal Telegram et renseigner ton pseudo (@mon_pseudo).",
+      "Rejoindre le serveur Discord et renseigner ton pseudo.",
+      "Rejoindre le groupe WhatsApp et renseigner ton numéro de téléphone."
     ],
     type: "NETWORK",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
@@ -89,7 +89,7 @@ Bienvenue dans la communauté HASHCODE. Avant toute chose, présente-toi. Qui es
     weightStrategist: 0.1,
     weightCatalyst: 0.8,
     submissionMethod: "TEXT_RESPONSE",
-    deliverables: ["Pseudos Telegram/Discord", "Capture d'écran (optionnel)"],
+    deliverables: ["Pseudo Telegram", "Pseudo Discord", "Numéro WhatsApp"],
     fullBriefing: `
 # Mission : Protocole de Connexion Globale
 
