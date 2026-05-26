@@ -221,182 +221,61 @@ Chaque grand réseau a commencé par une première invitation. Tu es l'un des pi
     `
   },
 
-  // --- BUILDER MISSIONS ---
+  // --- PREMIÈRE PREUVE DE MAÎTRISE (remplace les 9 missions profil-spécifiques) ---
   {
-    id: "b1-first-commit",
-    title: "Premier Commit",
-    shortDesc: "Prouve ton engagement en partageant ton code.",
-    description: "Ton premier test : montre-nous ce que tu construis techniquement.",
-    xpReward: 100,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Lien GitHub avec README + description du projet"],
-    type: "CODE",
-    targetProfiles: ["builder"],
-    missionLevel: "INIT",
-    duration: "2h",
-    weightBuilder: 1.0,
-    weightCreator: 0,
-    weightStrategist: 0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
-  {
-    id: "b2-deploy-prod",
-    title: "Deploy en production",
-    shortDesc: "Rends ton projet accessible au monde.",
-    description: "Un code qui n'est pas en ligne n'existe pas. Déploie ton application.",
+    id: "premiere-preuve-maitrise",
+    title: "Première Preuve de Maîtrise",
+    shortDesc: "Ton premier livrable concret, adapté à ton profil.",
+    description: "HASHCODE n'est pas un réseau de déclarations d'intention. C'est un réseau de preuves. Produis ton premier livrable concret selon les standards de ta guilde.",
     xpReward: 150,
     requiredLevel: 1,
     targetLevel: 2,
-    requirements: ["URL live fonctionnelle + screenshot"],
-    type: "CODE",
-    targetProfiles: ["builder"],
+    requirements: [
+      "Un livrable public correspondant à ton profil (lien requis).",
+      "2-3 lignes expliquant ce que tu as voulu prouver.",
+    ],
+    type: "GENERAL",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "INIT",
     duration: "3h",
-    weightBuilder: 1.0,
-    weightCreator: 0,
-    weightStrategist: 0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
-  {
-    id: "b3-solve-bug",
-    title: "Résoudre un vrai bug",
-    shortDesc: "Démontre tes capacités de diagnostic.",
-    description: "Identifie et corrige un bug complexe dans un de tes projets ou un projet open source.",
-    xpReward: 200,
-    requiredLevel: 2,
-    targetLevel: 2,
-    requirements: ["Lien PR + explication du diagnostic"],
-    type: "CODE",
-    targetProfiles: ["builder"],
-    missionLevel: "CORE",
-    duration: "4h",
-    weightBuilder: 1.0,
-    weightCreator: 0,
-    weightStrategist: 0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Lien vers ton livrable", "Explication de ce que tu as voulu prouver (2-3 lignes)"],
+    fullBriefing: `## Contexte
+HASHCODE n'est pas un réseau de déclarations d'intention. C'est un réseau de preuves. Chaque profil a ses standards — cette mission te demande de respecter les tiens.
 
-  // --- CRÉATEUR MISSIONS ---
-  {
-    id: "c1-first-publication",
-    title: "Première publication",
-    shortDesc: "Partage ton univers avec le monde.",
-    description: "Publie un contenu original (article, post, vidéo) lié à ton expertise.",
-    xpReward: 100,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Lien vers l'article/post/vidéo publiée"],
-    type: "DESIGN",
-    targetProfiles: ["creator"],
-    missionLevel: "INIT",
-    duration: "2h",
-    weightBuilder: 0,
-    weightCreator: 1.0,
-    weightStrategist: 0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
-  {
-    id: "c2-visual-identity",
-    title: "Identité visuelle d'un projet",
-    shortDesc: "Donne une âme graphique à une idée.",
-    description: "Crée le logo, la palette de couleurs et la typographie pour un nouveau projet.",
-    xpReward: 150,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Fichier Figma ou PDF avec logo, couleurs, typo"],
-    type: "DESIGN",
-    targetProfiles: ["creator"],
-    missionLevel: "INIT",
-    duration: "4h",
-    weightBuilder: 0,
-    weightCreator: 1.0,
-    weightStrategist: 0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
+## Objectif
+Produire un premier livrable concret, public et personnel, selon les critères de ta guilde.
 
-  // --- STRATÈGE MISSIONS ---
-  {
-    id: "s1-market-analysis",
-    title: "Analyser un marché en 1 page",
-    shortDesc: "Identifie les opportunités business.",
-    description: "Rédige une analyse concise d'un marché : problème, acteurs, opportunité.",
-    xpReward: 100,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Document structuré (problème, acteurs, opportunité)"],
-    type: "BUSINESS",
-    targetProfiles: ["strategist"],
-    missionLevel: "INIT",
-    duration: "3h",
-    weightBuilder: 0,
-    weightCreator: 0,
-    weightStrategist: 1.0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
-  {
-    id: "s2-mvp-definition",
-    title: "Définir le MVP d'une idée",
-    shortDesc: "Sépare l'essentiel du superflu.",
-    description: "Crée la fiche produit de ton idée : problème, cible, 3 features max.",
-    xpReward: 150,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Fiche produit complète"],
-    type: "BUSINESS",
-    targetProfiles: ["strategist"],
-    missionLevel: "INIT",
-    duration: "2h",
-    weightBuilder: 0,
-    weightCreator: 0,
-    weightStrategist: 1.0,
-    weightCatalyst: 0,
-    comingSoon: true
-  },
+## Étapes suggérées par guilde
 
-  // --- CATALYSEUR MISSIONS ---
-  {
-    id: "k1-introduction",
-    title: "Introduire 2 personnes",
-    shortDesc: "Crée de la valeur par la mise en relation.",
-    description: "Connecte deux membres de la communauté qui peuvent s'apporter mutuellement.",
-    xpReward: 100,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Témoignage des 2 personnes + contexte"],
-    type: "NETWORK",
-    targetProfiles: ["catalyst"],
-    missionLevel: "INIT",
-    weightBuilder: 0,
-    weightCreator: 0,
-    weightStrategist: 0,
-    weightCatalyst: 1.0,
-    comingSoon: true
-  },
-  {
-    id: "k2-organize-event",
-    title: "Organiser un événement",
-    shortDesc: "Rassemble la communauté.",
-    description: "Organise un petit événement (meetup, call, atelier) pour HASHCODE.",
-    xpReward: 150,
-    requiredLevel: 1,
-    targetLevel: 2,
-    requirements: ["Recap avec photos + liste participants"],
-    type: "NETWORK",
-    targetProfiles: ["catalyst"],
-    missionLevel: "INIT",
-    duration: "4h",
-    weightBuilder: 0,
-    weightCreator: 0,
-    weightStrategist: 0,
-    weightCatalyst: 1.0,
-    comingSoon: true
+🛠️ **Builders** — Partage un projet personnel avec un repo GitHub public :
+1. Crée ou prépare un repo avec un README qui explique ce que fait le projet et comment le lancer
+2. Assure-toi d'avoir minimum 5 commits réels (pas un seul "initial commit")
+3. Le code doit être fonctionnel sur la branche main
+
+🎨 **Creators** — Publie un contenu original lié à ton domaine :
+1. Rédige un article, crée une vidéo, un design ou une série de posts
+2. Publie-le sur une plateforme publique (blog, Medium, LinkedIn, Behance, YouTube…)
+3. Le contenu doit être ta propre création (pas un repost ni de la curation)
+
+🧠 **Strategists** — Rédige une analyse d'une page sur un marché ou une opportunité :
+1. Identifie le problème, les acteurs en présence et ton angle d'attaque
+2. Inclus au moins une donnée chiffrée avec sa source
+3. Termine par une conclusion actionnable (pas juste descriptive)
+
+🗣️ **Catalysts** — Documente une mise en relation ou une connexion que tu as créée :
+1. Présente le contexte : qui, pourquoi, comment tu les as connectés
+2. Décris le résultat concret de cette connexion
+3. Obtiens un témoignage ou une confirmation d'au moins une des parties
+
+## Critères d'acceptation
+- Le livrable correspond au profil déclaré
+- Le travail est clairement personnel (non généré, non copié)
+- L'objectif spécifique à la guilde est atteint selon les critères ci-dessus`
   },
 
   // --- MISSIONS UNIVERSELLES ---
@@ -626,19 +505,50 @@ Laisse une trace durable dans l'histoire de HASHCODE.
     id: "h1-solve-real-problem",
     title: "Résoudre un problème réel",
     shortDesc: "Passe de l'idée à la solution concrète.",
-    description: "Identifie un problème dans ton environnement et apporte une solution adaptée à ton profil.",
+    description: "Identifie un problème concret dans ton environnement et apporte une solution adaptée à ton profil.",
     xpReward: 200,
     requiredLevel: 2,
     targetLevel: 3,
-    requirements: ["Preuve de la solution (code, contenu, plan ou mise en relation)"],
+    requirements: [
+      "Description du problème réel observé (contexte précis).",
+      "Preuve de ta solution : lien, document ou description détaillée.",
+      "Résultat obtenu ou attendu avec indicateur mesurable.",
+    ],
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "CORE",
+    duration: "1 semaine",
     weightBuilder: 0.25,
     weightCreator: 0.25,
     weightStrategist: 0.25,
     weightCatalyst: 0.25,
-    comingSoon: true
+    submissionMethod: "ANY_LINK",
+    deliverables: ["Description du problème", "Lien ou document de ta solution", "Résultat / impact mesuré"],
+    fullBriefing: `## Contexte
+Les meilleurs acteurs tech ne résolvent pas des exercices — ils résolvent de vrais problèmes. Cette mission valide ta capacité à identifier une friction réelle et à passer à l'action.
+
+## Objectif
+Trouver un problème concret dans ton environnement, produire une solution adaptée à ton profil, et documenter l'impact.
+
+## Le problème doit être réel
+- Quelque chose que tu as observé ou vécu (pas un cas fictif ou générique)
+- Une vraie friction : process manuel, manque d'information, frustration récurrente
+- Contexte précis : ta ville, ton école, ton secteur, ta communauté, ton équipe
+
+## Étapes suggérées par guilde
+
+🛠️ **Builders** — Développe un outil ou un script qui automatise ou résout le problème. Même petit, même basique — mais fonctionnel, avec le code partagé et le problème expliqué dans le README.
+
+🎨 **Creators** — Crée un contenu (guide visuel, vidéo explicative, template) qui résout un problème de communication ou d'accès à l'information. Mesure l'engagement ou le feedback reçu.
+
+🧠 **Strategists** — Rédige un plan d'action structuré avec des étapes concrètes, des ressources nécessaires et un indicateur de succès. Le plan doit être assez précis pour être exécutable par quelqu'un d'autre.
+
+🗣️ **Catalysts** — Mobilise les bonnes personnes autour du problème et documente les premières étapes d'une initiative collective : qui tu as contacté, comment, et quelle réponse tu as obtenu.
+
+## Critères d'acceptation
+- Le problème est réel et le contexte est précis (pas générique)
+- La solution est concrète et adaptée au profil déclaré
+- L'impact est décrit, même modeste — un chiffre, un témoignage, un avant/après`
   }
 ];
 
