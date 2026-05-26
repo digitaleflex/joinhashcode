@@ -14,14 +14,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { UserRowActions } from "./UserRowActions"
-import { Search, Loader2 } from "lucide-react"
+import { Search, Loader2, Download } from "lucide-react"
 import { CLASS_COLORS } from "@/lib/member-card-constants"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export function UserManagementTable() {
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
+
+  const handleExport = () => {
+    window.open("/api/admin/users/export", "_blank")
+  }
 
   useEffect(() => {
     async function fetchUsers() {
@@ -65,14 +70,24 @@ export function UserManagementTable() {
             {users.length} membres enregistrés
           </p>
         </div>
-        <div className="relative w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-          <Input 
-            placeholder="Rechercher un membre..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-zinc-900 border-white/5 text-white placeholder:text-zinc-600 h-10"
-          />
+        <div className="flex items-center gap-4">
+          <Button 
+            onClick={handleExport}
+            variant="outline"
+            className="h-10 border-white/10 bg-zinc-900 text-white font-mono text-[10px] uppercase hover:bg-white/5"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Exporter CSV
+          </Button>
+          <div className="relative w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Input 
+              placeholder="Rechercher un membre..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 bg-zinc-900 border-white/5 text-white placeholder:text-zinc-600 h-10"
+            />
+          </div>
         </div>
       </div>
 

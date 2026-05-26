@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, Globe, LogOut, Bell } from "lucide-react"
+import { Search, User as UserIcon, Settings, Globe, LogOut, Bell, ShieldAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { toast } from "sonner"
 
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
@@ -29,6 +30,19 @@ const NotificationBell = dynamic(
 )
 
 export function UserTopBar({ user }: { user: any }) {
+  const isImpersonated = authClient.useSession().data?.session?.impersonatedBy;
+
+  const handleStopImpersonation = async () => {
+    try {
+      // @ts-ignore
+      await authClient.admin.stopImpersonating();
+      toast.success("Retour au compte administrateur");
+      window.location.href = "/admin/users";
+    } catch (error) {
+      toast.error("Erreur lors de l'arrêt de l'impersonation");
+    }
+  }
+
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -40,7 +54,22 @@ export function UserTopBar({ user }: { user: any }) {
   }
 
   return (
-    <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between">
+    <>
+      {isImpersonated && (
+        <div className="bg-amber-500 text-black py-2 px-4 flex items-center justify-between font-mono text-[10px] font-black uppercase tracking-widest animate-pulse relative z-50">
+            <div className="flex items-center gap-2">
+                <ShieldAlert className="size-3" />
+                Mode Visionneuse Actif : Navigue en tant que {user?.name}
+            </div>
+            <button 
+                onClick={handleStopImpersonation}
+                className="bg-black text-white px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors"
+            >
+                Quitter le mode visionneuse
+            </button>
+        </div>
+      )}
+      <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between">
       {/* Left: Sidebar Trigger & Logo */}
       <div className="flex items-center gap-4 flex-1">
         <SidebarTrigger className="md:hidden text-muted-foreground hover:text-white mr-2" />
