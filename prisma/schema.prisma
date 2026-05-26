@@ -92,6 +92,9 @@ model User {
   quizResults              QuizResult[]
   sessions                 Session[]
   members                  Member[]
+  twoFactorEnabled         Boolean             @default(false)
+  twoFactorSecret          String?
+  twoFactorBackupCodes     String?
   invitations              Invitation[]
   joinRequests             JoinRequest[]
   mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
@@ -116,6 +119,9 @@ model Organization {
   requiredLevel Int          @default(1)
   isPrivate     Boolean      @default(false)
   members       Member[]
+  twoFactorEnabled         Boolean             @default(false)
+  twoFactorSecret          String?
+  twoFactorBackupCodes     String?
   invitations   Invitation[]
   joinRequests             JoinRequest[]
 
@@ -426,3 +432,4 @@ model JoinRequest {
   @@unique([userId, organizationId])
   @@map("join_request")
 }
+

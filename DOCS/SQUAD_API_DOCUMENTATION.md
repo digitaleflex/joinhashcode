@@ -19,6 +19,18 @@ Ces routes sont gérées nativement par le plugin Better Auth, mais elles sont u
 
 ---
 
+## 🛡️ Sécurité Avancée (2FA)
+
+HASHCODE implémente la double authentification pour protéger les comptes des agents.
+
+| Route (Action Client) | Rôle | Accès |
+| :--- | :--- | :--- |
+| `authClient.twoFactor.enable` | Démarre la configuration 2FA (génère QR Code & Codes de secours). | Tout utilisateur (mdp requis) |
+| `authClient.twoFactor.verifyTotp` | Vérifie le code de l"appli pour finaliser l"activation ou se connecter. | Tout utilisateur |
+| `authClient.twoFactor.disable` | Désactive la protection 2FA. | Tout utilisateur (mdp requis) |
+
+---
+
 ## 🚀 Routes API Personnalisées (HASHCODE)
 
 Ces routes étendent les capacités de Better Auth pour ajouter la dimension "Place de marché" et "Candidature".

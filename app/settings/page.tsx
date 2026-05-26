@@ -26,6 +26,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { authClient } from "@/lib/auth-client"
 import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
 import { CLASS_COLORS, XP_MAX } from "@/lib/member-card-constants"
+import { TwoFactorSetup } from "@/components/settings/TwoFactorSetup"
 
 function DecryptingText({ text, speed = 25 }: { text: string; speed?: number }) {
   const [displayText, setDisplayText] = useState("")
@@ -1078,6 +1079,48 @@ export default function SettingsPage() {
                                       <span className="text-[9px] font-mono text-emerald-400/80 uppercase font-bold tracking-wider">Authentification gérée par Better Auth</span>
                                     </div>
                                     <div className="text-[9px] font-mono text-zinc-500">STATUT : VÉRIFIÉ</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 2FA Section */}
+                            <div className="pt-4 border-t border-white/5 space-y-6">
+                                <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+                                    <Lock className="size-4 text-primary" /> Protection du compte (2FA)
+                                </label>
+                                <TwoFactorSetup user={userData} />
+                            </div>
+
+                            {/* Export data */}
+                            <div className="pt-4 border-t border-white/5 space-y-6">
+                              <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-zinc-700/30 to-zinc-900/10 overflow-hidden">
+                                <div className="p-8 md:p-10 bg-zinc-950/90 cyber-notch flex flex-col sm:flex-row items-center justify-between gap-8 relative overflow-hidden">
+                                  <div className="absolute top-3 left-3 size-3 border-t border-l border-zinc-500/30 pointer-events-none" aria-hidden="true" />
+                                  <div className="absolute top-3 right-3 size-3 border-t border-r border-zinc-500/30 pointer-events-none" aria-hidden="true" />
+                                  <div className="absolute bottom-3 left-3 size-3 border-b border-l border-zinc-500/30 pointer-events-none" aria-hidden="true" />
+                                  <div className="absolute bottom-3 right-3 size-3 border-b border-r border-zinc-500/30 pointer-events-none" aria-hidden="true" />
+                                  <div className="space-y-2 text-center sm:text-left relative z-10 flex-1">
+                                    <h3 className="text-base font-bold text-zinc-200 uppercase tracking-wider">Télécharger mes données</h3>
+                                    <p className="text-xs text-zinc-400 max-w-sm font-light leading-relaxed">
+                                      Exporte toutes tes données personnelles conformément au RGPD (Art. 20). Profil, missions, check-ins, activité.
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center gap-3 shrink-0 z-10">
+                                    <a
+                                      href="/api/user/export?format=json"
+                                      download
+                                      className="h-10 px-5 inline-flex items-center justify-center text-[10px] font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors"
+                                    >
+                                      JSON
+                                    </a>
+                                    <a
+                                      href="/api/user/export?format=zip"
+                                      download
+                                      className="h-10 px-5 inline-flex items-center justify-center text-[10px] font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors"
+                                    >
+                                      ZIP
+                                    </a>
                                   </div>
                                 </div>
                               </div>

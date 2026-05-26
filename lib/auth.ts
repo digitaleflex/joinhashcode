@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin, createAccessControl, organization } from "better-auth/plugins";
+import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -234,6 +234,18 @@ export const auth = betterAuth({
             requiredLevel: { type: "number", defaultValue: 1 },
             isPrivate: { type: "boolean", defaultValue: false },
           },
+        },
+      },
+    }),
+    twoFactor({
+      issuer: "HASHCODE",
+      otpOptions: {
+        sendOTP: async ({ user, otp }) => {
+          await emailService.sendOtpEmail({
+            email: user.email,
+            otp,
+            type: "sign-in"
+          });
         },
       },
     }),
