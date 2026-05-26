@@ -29,6 +29,7 @@ export type ActivityAction =
   | "ADMIN_SUBMISSION_REVIEWED"
   | "ADMIN_USER_BANNED"
   | "ADMIN_USER_UNBANNED"
+  | "ADMIN_USER_EXPORTED"
 
 interface LogOptions {
   userId?: string | null

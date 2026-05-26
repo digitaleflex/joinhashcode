@@ -128,6 +128,7 @@ export const auth = betterAuth({
       currentFocus: { type: "string[]", required: false },
       mainBlocker: { type: "string", required: false },
       lastCheckinAt: { type: "date", required: false },
+      betaKeyId: { type: "string", required: false },
     },
   },
   databaseHooks: {

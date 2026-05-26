@@ -115,7 +115,7 @@ export function EvolutionRadar({
   return (
     <div className="flex flex-col lg:flex-row items-center gap-8 w-full p-1">
       {/* Visual HUD Radar Chart Container */}
-      <div className="relative flex-shrink-0 select-none">
+      <div className="relative shrink-0 select-none">
         {/* Glow behind the HUD */}
         <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl" />
 
@@ -156,7 +156,7 @@ export function EvolutionRadar({
                   cx={center}
                   cy={center}
                   r={currentR}
-                  className="fill-none stroke-white/[0.03] stroke-1"
+                  className="fill-none stroke-white/3 stroke-1"
                 />
                 {/* Concentric Diamond Grid */}
                 <polygon
@@ -306,7 +306,7 @@ export function EvolutionRadar({
                   <HelpCircle className="size-3.5" />
                 </button>
               </TooltipTrigger>
-              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-400 max-w-[200px]">
+              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-400 max-w-50">
                 Survole les sommets du graphique pour analyser chaque facette de tes compétences comportementales.
               </TooltipContent>
             </Tooltip>
@@ -327,8 +327,8 @@ export function EvolutionRadar({
                 className={cn(
                   "p-3 rounded-xl border transition-all duration-300 cursor-pointer flex items-center justify-between gap-3",
                   isActive
-                    ? "bg-white/[0.03] border-white/10 shadow-xs"
-                    : "bg-white/[0.005] border-white/[0.02] hover:border-white/5"
+                    ? "bg-white/3 border-white/10 shadow-xs"
+                    : "bg-white/0.5 border-white/2 hover:border-white/5"
                 )}
               >
                 <div className="flex items-center gap-2.5">
@@ -350,7 +350,7 @@ export function EvolutionRadar({
         </div>
 
         {/* Adaptive Description Bento Block */}
-        <div className="relative p-4 rounded-xl bg-white/[0.01] border border-white/5 overflow-hidden group min-h-[96px] flex flex-col justify-center">
+        <div className="relative p-4 rounded-xl bg-white/1 border border-white/5 overflow-hidden group min-h-24 flex flex-col justify-center">
           <div
             className="absolute top-0 right-0 p-3 opacity-15 filter blur-xs text-zinc-600 select-none pointer-events-none group-hover:scale-105 transition-transform duration-700"
             style={{ color: activeAxis.stroke }}

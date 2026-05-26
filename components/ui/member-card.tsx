@@ -180,6 +180,7 @@ export function MemberCard({
           </div>
         </div>
       </div>
+    </div>
 
       {/* Actions */}
       <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">

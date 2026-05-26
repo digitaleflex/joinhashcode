@@ -1,4 +1,4 @@
-generator client {
+﻿generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
@@ -12,6 +12,8 @@ model User {
   name                     String
   email                    String              @unique
   emailVerified            Boolean
+  emailStatus              String              @default("VALID") // VALID, BOUNCED, COMPLAINED
+  emailLastBounced         DateTime?
   image                    String?
   createdAt                DateTime
   updatedAt                DateTime
@@ -99,6 +101,7 @@ model User {
   joinRequests             JoinRequest[]
   mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
   mentees                  User[]              @relation("Mentorship")
+  betaKey                  BetaKey?            @relation("UserBetaKey")
 
   @@index([level])
   @@index([class])
@@ -432,3 +435,4 @@ model JoinRequest {
   @@unique([userId, organizationId])
   @@map("join_request")
 }
+

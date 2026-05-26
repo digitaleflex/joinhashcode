@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { Receiver } from "@upstash/qstash";
 import { subHours, subDays } from "date-fns";
 import { emailService } from "@/lib/email";
+import { logError } from "@/lib/logger";
 
 const receiver = new Receiver({
   currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY || "test_key",
@@ -83,7 +84,7 @@ export async function POST(req: Request) {
       emailsSent: criticalInactiveUsers.length,
     });
   } catch (error) {
-    console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);
+    await logError("Cron Check Activity", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
       { status: 500 }

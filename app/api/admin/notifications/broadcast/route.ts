@@ -1,0 +1,55 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+
+async function checkAdmin() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return null;
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
+
+  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
+
+  return session.user;
+}
+
+export async function POST(req: Request) {
+  const admin = await checkAdmin();
+  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+
+  try {
+    const { title, message, type = "SYSTEM", link = null } = await req.json();
+
+    if (!title || !message) {
+      return new NextResponse("Missing title or message", { status: 400 });
+    }
+
+    const users = await prisma.user.findMany({
+      select: { id: true }
+    });
+
+    const notifications = users.map(user => ({
+      userId: user.id,
+      title,
+      message,
+      type,
+      link
+    }));
+
+    await prisma.notification.createMany({
+      data: notifications
+    });
+
+    return NextResponse.json({ count: users.length });
+  } catch (error) {
+    console.error("[ADMIN_NOTIFICATIONS_BROADCAST]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

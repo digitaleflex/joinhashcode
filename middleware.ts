@@ -1,6 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+  // CVE-2025-29927: strip header that would bypass middleware execution
+  if (request.headers.get("x-middleware-subrequest")) {
+    return new NextResponse("Forbidden", { status: 403 });
+  }
+
   let sessionData = null;
 
   try {
@@ -47,12 +52,22 @@ export async function middleware(request: NextRequest) {
 
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
+  const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
 
   if (isProtectedPath && !session) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
   if (session && user) {
+    // 0. Beta Access Enforcement (Skip for ADMIN/MODERATOR)
+    const isSpecialRole = ["ADMIN", "MODERATOR"].includes(user.role);
+    if (!isSpecialRole && !user.betaKeyId && !isBetaAccessPath && !request.nextUrl.pathname.startsWith('/api')) {
+       // Only block if on a protected path
+       if (isProtectedPath || isOnboardingPath || isQuizPath) {
+          return NextResponse.redirect(new URL("/beta-access", request.url));
+       }
+    }
+
     // Determine if we are on an onboarding/quiz path
     const isPostQuizPath = request.nextUrl.pathname.startsWith('/onboarding/post-quiz');
 
@@ -88,5 +103,8 @@ export const config = {
     "/squad",     "/squad/:path*",
     "/reviewer",  "/reviewer/:path*",
     "/feedback",  "/feedback/:path*",
+    "/onboarding", "/onboarding/:path*",
+    "/quiz",      "/quiz/:path*",
+    "/beta-access"
   ],
 };

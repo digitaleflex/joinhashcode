@@ -91,6 +91,12 @@ model User {
   activityLogs             ActivityLog[]
   quizResults              QuizResult[]
   sessions                 Session[]
+  members                  Member[]
+  twoFactorEnabled         Boolean             @default(false)
+  twoFactorSecret          String?
+  twoFactorBackupCodes     String?
+  invitations              Invitation[]
+  joinRequests             JoinRequest[]
   mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
   mentees                  User[]              @relation("Mentorship")
 
@@ -98,6 +104,54 @@ model User {
   @@index([class])
   @@index([role])
   @@map("user")
+}
+
+model Organization {
+  id                   String        @id
+  name                 String
+  slug                 String?       @unique
+  logo                 String?
+  createdAt            DateTime
+  metadata             String?
+  cohesionScore        Float         @default(0.1)
+  streakCount          Int           @default(0)
+  lastStreakAt         DateTime?
+  requiredLevel        Int           @default(1)
+  isPrivate            Boolean       @default(false)
+  members              Member[]
+  twoFactorEnabled     Boolean       @default(false)
+  twoFactorSecret      String?
+  twoFactorBackupCodes String?
+  invitations          Invitation[]
+  joinRequests         JoinRequest[]
+
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  userId         String
+  role           String
+  createdAt      DateTime
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  email          String
+  role           String
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
 }
 
 model ActivityLog {
@@ -201,15 +255,16 @@ model GuildMember {
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String   @unique
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String   @id
+  expiresAt            DateTime
+  token                String   @unique
+  createdAt            DateTime
+  updatedAt            DateTime
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  activeOrganizationId String?
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("session")
@@ -363,4 +418,17 @@ model BetaFeedback {
   @@index([status])
   @@index([type])
   @@map("beta_feedback")
+}
+
+model JoinRequest {
+  id             String       @id @default(cuid())
+  organizationId String
+  userId         String
+  status         String       @default("PENDING")
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("join_request")
 }

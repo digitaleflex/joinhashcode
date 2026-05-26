@@ -1,0 +1,67 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { randomBytes } from "crypto";
+
+async function checkAdmin() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return null;
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
+
+  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
+
+  return session.user;
+}
+
+export async function GET() {
+  const admin = await checkAdmin();
+  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+
+  try {
+    const keys = await prisma.betaKey.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(keys);
+  } catch (error) {
+    console.error("[ADMIN_KEYS_GET]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  const admin = await checkAdmin();
+  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+
+  try {
+    const { count = 1, prefix = "H26-" } = await req.json();
+    
+    const keysToCreate = Array.from({ length: count }).map(() => ({
+      key: `${prefix}${randomBytes(4).toString('hex').toUpperCase()}`,
+    }));
+
+    const createdKeys = await Promise.all(
+      keysToCreate.map(data => prisma.betaKey.create({ data }))
+    );
+
+    return NextResponse.json(createdKeys);
+  } catch (error) {
+    console.error("[ADMIN_KEYS_POST]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

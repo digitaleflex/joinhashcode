@@ -1,14 +1,19 @@
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { CLASS_COLORS, LEVEL_NAMES, XP_MAX } from "@/lib/member-card-constants";
 
 export const runtime = "nodejs";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   const { userId } = await params;
 
   const user = await prisma.user.findUnique({

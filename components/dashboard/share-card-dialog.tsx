@@ -39,7 +39,7 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
           <ExternalLink className="ml-auto size-4 opacity-30 group-hover:opacity-100" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-zinc-950 border-white/10 p-0 overflow-hidden rounded-[2.5rem]">
+      <DialogContent className="sm:max-w-150 bg-zinc-950 border-white/10 p-0 overflow-hidden rounded-[2.5rem]">
         <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" />
         
         <div className="p-8 space-y-6 relative z-10">
@@ -53,7 +53,7 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="aspect-[1200/630] w-full rounded-2xl border border-white/10 bg-black/50 overflow-hidden relative group">
+          <div className="aspect-1200/630 w-full rounded-2xl border border-white/10 bg-black/50 overflow-hidden relative group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={imageUrl} 

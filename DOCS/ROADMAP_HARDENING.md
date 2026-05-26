@@ -34,7 +34,24 @@ Ce document définit les travaux de sécurisation et de modération nécessaires
 
 ---
 
-## 📅 Planning des Sprints Suivants
+## ✅ Sprint B : Fiabilité & Infrastructure (Terminé)
 
-*   **Sprint B (Fiabilité) :** Backups automatisés, Alerting Discord, Pagination Découverte.
-*   **Sprint C (Optimisation) :** Funnel Analytics, Webhooks Bounces, Prisma Cache.
+### Issue #B1 : Sauvegardes Automatisées
+*   **Action :** Création d"un workflow GitHub Action qui effectue un `pg_dump` quotidien à 04:00 UTC.
+*   **Fichiers :** `.github/workflows/backup-db.yml`
+
+### Issue #B2 : Centre d"Alerting Discord
+*   **Action :** Centralisation des erreurs via `lib/logger.ts` et envoi vers un Webhook Discord.
+*   **Fichiers :** `lib/logger.ts`, tous les crons mis à jour.
+
+### Issue #B3 : Pagination de la Découverte
+*   **Action :** API supportant `cursor` et `limit` pour une scalabilité infinie.
+*   **Fichiers :** `app/api/squad/public/route.ts`
+
+### Issue #B4 : Cron de Nettoyage
+*   **Action :** Tâche hebdomadaire pour purger les invitations expirées et les vieux logs.
+*   **Fichiers :** `app/api/internal/cron/cleanup/route.ts`
+
+---
+
+## 📅 Planning du Sprint Suivant

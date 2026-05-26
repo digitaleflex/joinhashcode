@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from "next/server";
 import { applySquadCohesionDecay } from "@/lib/squad-logic";
+import { logError } from "@/lib/logger";
 
 /**
  * Endpoint de maintenance pour la cohésion des escouades.
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
       processed: result?.processed || 0
     });
   } catch (error) {
-    console.error("[CRON_SQUAD_DECAY_ERROR]", error);
+    await logError("Cron Squad Decay", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

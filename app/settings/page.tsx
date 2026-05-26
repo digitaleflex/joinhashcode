@@ -121,7 +121,7 @@ function ClassBackground({ userClass, tierColor }: { userClass: string; tierColo
   if (cl === "catalyst") {
     return (
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-25" aria-hidden="true">
-        <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-80 h-80 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.12),transparent_70%)] blur-2xl" />
+        <div className="absolute -bottom-25 left-1/2 -translate-x-1/2 w-80 h-80 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.12),transparent_70%)] blur-2xl" />
         <svg className="absolute inset-0 w-full h-full text-orange-400/30" viewBox="0 0 300 200">
           <path d="M150,200 L0,50 M150,200 L50,0 M150,200 L150,0 M150,200 L250,0 M150,200 L300,50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="5 15" />
           <circle cx="150" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="0.75" />
@@ -428,7 +428,7 @@ export default function SettingsPage() {
                       onClick={() => setActiveTab(tab.id)}
                       className={cn(
                         "w-full flex items-start gap-5 p-5 rounded-3xl transition-all duration-500 border group text-left relative overflow-hidden cursor-pointer",
-                        isActive ? "text-white backdrop-blur-md z-10" : "bg-white/[0.01] border-white/5 text-zinc-500 hover:bg-white/[0.03] hover:border-white/10 z-0"
+                        isActive ? "text-white backdrop-blur-md z-10" : "bg-white/1 border-white/5 text-zinc-500 hover:bg-white/3 hover:border-white/10 z-0"
                       )}
                       style={isActive ? {
                         backgroundColor: `${tabColor.color}12`,
@@ -463,7 +463,7 @@ export default function SettingsPage() {
                 const activeColor = TAB_COLORS[activeTab] || TAB_COLORS.profile
                 return (
                   <div
-                    className="glass-card rounded-[2.5rem] overflow-hidden min-h-[650px] relative group/content transition-all duration-700 w-full"
+                    className="glass-card rounded-[2.5rem] overflow-hidden min-h-162.5 relative group/content transition-all duration-700 w-full"
                     style={{ borderColor: `${activeColor.color}25`, boxShadow: `0 8px 32px 0 rgba(0,0,0,0.8), 0 0 40px ${activeColor.color}05` }}
                   >
                     {/* HUD corner brackets */}
@@ -497,7 +497,7 @@ export default function SettingsPage() {
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-b border-white/5 pb-12">
 
                               {/* Avatar dock */}
-                              <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 bg-zinc-950/40 border border-emerald-500/20 rounded-[2.5rem] relative overflow-hidden group/avatar-dock min-h-[280px]">
+                              <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 bg-zinc-950/40 border border-emerald-500/20 rounded-[2.5rem] relative overflow-hidden group/avatar-dock min-h-70">
                                 <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.015)_1px,transparent_1px)] bg-size-[16px_16px] opacity-40 pointer-events-none" aria-hidden="true" />
                                 <div className="absolute inset-x-0 w-full animate-laser-sweep pointer-events-none" style={{ '--laser-color': '#10B981' } as React.CSSProperties} aria-hidden="true" />
                                 <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-emerald-500/30 pointer-events-none" aria-hidden="true" />
@@ -546,7 +546,7 @@ export default function SettingsPage() {
                                   <textarea
                                     value={userData?.bio || ""}
                                     onChange={e => updateData({ ...userData, bio: e.target.value })}
-                                    className="w-full input-premium min-h-[120px] rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-emerald-500/60 resize-none text-white leading-relaxed font-light italic"
+                                    className="w-full input-premium min-h-30 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-emerald-500/60 resize-none text-white leading-relaxed font-light italic"
                                     placeholder="Présente-toi en quelques mots..."
                                   />
                                 </div>
@@ -627,7 +627,7 @@ export default function SettingsPage() {
                               ].map((link) => {
                                 const isLinked = !!userData[link.id]
                                 return (
-                                  <div key={link.id} className="relative p-5 bg-zinc-950/40 border border-cyan-500/10 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-5 group/uplink">
+                                  <div key={link.id} className="relative p-5 bg-zinc-950/40 border border-cyan-500/10 rounded-4xl flex flex-col md:flex-row items-center justify-between gap-5 group/uplink">
                                     <div className="flex items-center gap-4 w-full md:w-auto">
                                       <div className="flex items-center justify-center size-10 rounded-xl bg-zinc-900 border border-white/5 shrink-0">
                                         <link.icon className="size-5 text-zinc-400 group-focus-within/uplink:text-cyan-400 transition-colors" />
@@ -682,7 +682,7 @@ export default function SettingsPage() {
                               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
                                 {/* Member card dock */}
-                                <div className="lg:col-span-6 relative rounded-[2.5rem] bg-zinc-950/40 border border-white/5 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[380px] group/dock">
+                                <div className="lg:col-span-6 relative rounded-[2.5rem] bg-zinc-950/40 border border-white/5 p-6 flex flex-col items-center justify-center overflow-hidden min-h-95 group/dock">
                                   <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-size-[16px_16px] opacity-45 pointer-events-none" aria-hidden="true" />
                                   <div className="absolute inset-x-0 w-full animate-laser-sweep pointer-events-none" style={{ '--laser-color': tierColor } as React.CSSProperties} aria-hidden="true" />
                                   <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/20 pointer-events-none" aria-hidden="true" />
@@ -690,13 +690,13 @@ export default function SettingsPage() {
                                   <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-white/20 pointer-events-none" aria-hidden="true" />
                                   <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-white/20 pointer-events-none" aria-hidden="true" />
 
-                                  <div className="w-full max-w-[390px] relative group/card-wrapper z-10 hover:scale-[1.01] transition-transform duration-500">
+                                  <div className="w-full max-w-97.5 relative group/card-wrapper z-10 hover:scale-[1.01] transition-transform duration-500">
                                     <div className="absolute -inset-1.5 rounded-[2.2rem] blur-2xl opacity-25 group-hover/card-wrapper:opacity-50 transition-all duration-1000" style={{ backgroundColor: tierColor }} aria-hidden="true" />
                                     <div
                                       ref={cardRef}
                                       onMouseMove={handleMouseMove}
                                       onMouseLeave={handleMouseLeave}
-                                      className="relative w-full aspect-[1.586/1] rounded-[2rem] p-5 text-white overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] border transition-all duration-200 select-none cursor-pointer holographic-sheen"
+                                      className="relative w-full aspect-[1.586/1] rounded-4xl p-5 text-white overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] border transition-all duration-200 select-none cursor-pointer holographic-sheen"
                                       style={{
                                         transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
                                         borderColor: `${tierColor}33`,
@@ -861,7 +861,7 @@ export default function SettingsPage() {
                                     <AnimatePresence mode="wait">
                                       {activeVaultMode === "auto" ? (
                                         <motion.div key="auto" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.3 }} className="space-y-6">
-                                          <div className="flex items-center gap-4 bg-zinc-900/30 border border-white/[0.03] p-5 rounded-2xl">
+                                          <div className="flex items-center gap-4 bg-zinc-900/30 border border-white/3 p-5 rounded-2xl">
                                             <div className="p-3 rounded-xl" style={{ backgroundColor: `${tierColor}15`, border: `1px solid ${tierColor}30` }}>
                                               <Shield className="size-6" style={{ color: tierColor }} />
                                             </div>
@@ -1280,7 +1280,7 @@ export default function SettingsPage() {
                       {biometricState === "SUCCESS" && "DÉVERROUILLAGE RÉUSSI"}
                       {biometricState === "FAILED" && "NUMÉRISATION ÉCHOUÉE"}
                     </span>
-                    <p className="text-[9px] text-zinc-500 font-light max-w-[220px] leading-relaxed">
+                    <p className="text-[9px] text-zinc-500 font-light max-w-55 leading-relaxed">
                       {biometricState === "STANDBY" && "Clique pour démarrer la génération sécurisée de ta clé."}
                       {biometricState === "SCANNING" && "Génération de l'entropie et synchronisation en cours..."}
                       {biometricState === "SUCCESS" && "Ta clé a été scellée dans le coffre. Tu peux la copier."}

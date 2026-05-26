@@ -192,7 +192,45 @@ exports.Prisma.UserScalarFieldEnum = {
   banReason: 'banReason',
   banExpires: 'banExpires',
   canReviewProfiles: 'canReviewProfiles',
-  reviewsCompleted: 'reviewsCompleted'
+  reviewsCompleted: 'reviewsCompleted',
+  twoFactorEnabled: 'twoFactorEnabled',
+  twoFactorSecret: 'twoFactorSecret',
+  twoFactorBackupCodes: 'twoFactorBackupCodes'
+};
+
+exports.Prisma.OrganizationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  logo: 'logo',
+  createdAt: 'createdAt',
+  metadata: 'metadata',
+  cohesionScore: 'cohesionScore',
+  streakCount: 'streakCount',
+  lastStreakAt: 'lastStreakAt',
+  requiredLevel: 'requiredLevel',
+  isPrivate: 'isPrivate',
+  twoFactorEnabled: 'twoFactorEnabled',
+  twoFactorSecret: 'twoFactorSecret',
+  twoFactorBackupCodes: 'twoFactorBackupCodes'
+};
+
+exports.Prisma.MemberScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  userId: 'userId',
+  role: 'role',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  email: 'email',
+  role: 'role',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  inviterId: 'inviterId'
 };
 
 exports.Prisma.ActivityLogScalarFieldEnum = {
@@ -276,7 +314,8 @@ exports.Prisma.SessionScalarFieldEnum = {
   updatedAt: 'updatedAt',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
-  userId: 'userId'
+  userId: 'userId',
+  activeOrganizationId: 'activeOrganizationId'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -382,6 +421,14 @@ exports.Prisma.BetaFeedbackScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.JoinRequestScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -415,6 +462,9 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Organization: 'Organization',
+  Member: 'Member',
+  Invitation: 'Invitation',
   ActivityLog: 'ActivityLog',
   DailyCheckin: 'DailyCheckin',
   Mission: 'Mission',
@@ -428,7 +478,8 @@ exports.Prisma.ModelName = {
   MissionReview: 'MissionReview',
   ContactMessage: 'ContactMessage',
   Notification: 'Notification',
-  BetaFeedback: 'BetaFeedback'
+  BetaFeedback: 'BetaFeedback',
+  JoinRequest: 'JoinRequest'
 };
 
 /**

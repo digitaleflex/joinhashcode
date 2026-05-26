@@ -83,89 +83,99 @@ export async function POST(req: Request) {
     // CYCLE KEY LOGIC (Roadmap Security Audit Fix)
     const cycleKey = getCurrentCycleKey(mission);
 
-    // Check if already submitted for THIS cycle
-    const existingSubmission = await prisma.missionSubmission.findUnique({
-      where: {
-        userId_missionId_cycleKey: {
-          userId: session.user.id,
-          missionId: mission.id,
-          cycleKey: cycleKey
-        }
-      }
-    });
-
-    if (existingSubmission) {
-      if (existingSubmission.status === "APPROVED") {
-        return new NextResponse("Cette mission a déjà été validée pour cette période.", { status: 409 });
-      }
-      if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW") {
-        return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
-      }
-      if (existingSubmission.revisionCount >= 3) {
-        return new NextResponse("Nombre maximum de révisions atteint. Contacte un admin.", { status: 400 });
-      }
-      // status === "NEEDS_REVISION" → allow resubmission
-    }
-
-    // Transaction to save submission and award XP safely
+    // Transaction to save submission and award XP safely.
+    // The existingSubmission check is INSIDE the transaction to prevent race conditions:
+    // two parallel requests would otherwise both pass the check and double-award XP.
     let SYNC_BONUS_XP = 5;
     const userStreak = dbUser.currentStreak || 0;
-    
-    if (userStreak >= 7) SYNC_BONUS_XP = 6;
-    else if (userStreak >= 3) SYNC_BONUS_XP = 6;
+    if (userStreak >= 3) SYNC_BONUS_XP = 6;
 
-    // AUTO-APPROVAL for weekly challenges
     const isAutoApproved = mission.isWeeklyChallenge;
     const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
     const xpToAward = isAutoApproved ? mission.xp : 0;
 
-    const result = await prisma.$transaction(async (tx) => {
-      // 1. Upsert submission
-      const submission = await tx.missionSubmission.upsert({
-        where: {
-          userId_missionId_cycleKey: {
-            userId: session.user.id,
-            missionId: mission.id,
-            cycleKey: cycleKey
+    type SubmitError = { _code: number; _msg: string };
+    const isSubmitError = (e: unknown): e is SubmitError =>
+      typeof e === "object" && e !== null && "_code" in e;
+
+    let result: Awaited<ReturnType<typeof prisma.missionSubmission.upsert>>;
+    try {
+      result = await prisma.$transaction(
+        async (tx) => {
+          const existingSubmission = await tx.missionSubmission.findUnique({
+            where: {
+              userId_missionId_cycleKey: {
+                userId: session.user.id,
+                missionId: mission.id,
+                cycleKey,
+              },
+            },
+          });
+
+          if (existingSubmission) {
+            if (existingSubmission.status === "APPROVED")
+              throw Object.assign(new Error(), { _code: 409, _msg: "Cette mission a déjà été validée pour cette période." } satisfies SubmitError);
+            if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW")
+              throw Object.assign(new Error(), { _code: 400, _msg: "Ta soumission est déjà en attente de validation. Patience !" } satisfies SubmitError);
+            if (existingSubmission.revisionCount >= 3)
+              throw Object.assign(new Error(), { _code: 400, _msg: "Nombre maximum de révisions atteint. Contacte un admin." } satisfies SubmitError);
           }
-        },
-        update: {
-          content,
-          projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions,
-          status: finalStatus,
-          xpAwarded: { increment: 0 } // Don't reset if already awarded (though we check status above)
-        },
-        create: {
-          userId: session.user.id,
-          missionId: mission.id,
-          cycleKey: cycleKey,
-          content,
-          projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions,
-          status: finalStatus,
-          xpAwarded: xpToAward
-        }
-      });
 
-      // 2. Award experience ONLY if creating or if not already approved
-      // (Since we return 409 above if APPROVED, this is double safety)
-      await tx.user.update({
-        where: { id: session.user.id },
-        data: {
-          experience: { increment: SYNC_BONUS_XP + xpToAward },
-          missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined
-        }
-      });
+          const isNew = !existingSubmission;
 
-      return submission;
-    });
+          const submission = await tx.missionSubmission.upsert({
+            where: {
+              userId_missionId_cycleKey: {
+                userId: session.user.id,
+                missionId: mission.id,
+                cycleKey,
+              },
+            },
+            update: {
+              content,
+              projectDescription,
+              userDifficulty,
+              userRating,
+              userFeedback,
+              improvementSuggestions,
+              status: finalStatus,
+            },
+            create: {
+              userId: session.user.id,
+              missionId: mission.id,
+              cycleKey,
+              content,
+              projectDescription,
+              userDifficulty,
+              userRating,
+              userFeedback,
+              improvementSuggestions,
+              status: finalStatus,
+              xpAwarded: xpToAward,
+            },
+          });
+
+          // Award XP only on new submissions (revisions don't re-award sync bonus)
+          if (isNew) {
+            await tx.user.update({
+              where: { id: session.user.id },
+              data: {
+                experience: { increment: SYNC_BONUS_XP + xpToAward },
+                missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined,
+              },
+            });
+          }
+
+          return submission;
+        },
+        { isolationLevel: "Serializable" }
+      );
+    } catch (e) {
+      if (isSubmitError(e)) {
+        return new NextResponse(e._msg, { status: e._code });
+      }
+      throw e;
+    }
 
     // RECALCULATE LEVEL AND BADGES
     const finalUser = await prisma.user.findUnique({

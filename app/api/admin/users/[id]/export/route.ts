@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { collectUserData } from "@/lib/user-export";
+import { logActivity } from "@/lib/activity-log";
 import JSZip from "jszip";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -26,6 +27,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   if (!targetUser) return new NextResponse("User not found", { status: 404 });
 
   const format = new URL(req.url).searchParams.get("format") ?? "json";
+
+  logActivity({
+    userId: session.user.id,
+    action: "ADMIN_USER_EXPORTED",
+    entity: "user",
+    entityId: targetUserId,
+    metadata: { format, targetEmail: targetUser.email, targetName: targetUser.name },
+    request: req,
+  });
   const data = await collectUserData(targetUserId);
   const safeId = targetUserId.slice(0, 8);
   const date = new Date().toISOString().split("T")[0];

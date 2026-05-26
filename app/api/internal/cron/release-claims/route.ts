@@ -4,6 +4,7 @@ import { triggerNotification } from "@/lib/qstash";
 import { NextResponse } from "next/server";
 import { Receiver } from "@upstash/qstash";
 import { subHours } from "date-fns";
+import { logError } from "@/lib/logger";
 
 const receiver = new Receiver({
   currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY || "test_key",
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
       const configuredSecret = process.env.INTERNAL_API_SECRET;
       
       if (!configuredSecret || configuredSecret.length < 16) {
-        console.error("[CRON_SECURITY_ALERT] INTERNAL_API_SECRET is missing or too weak.");
+        await logError("Cron Release Claims Security", new Error("INTERNAL_API_SECRET is missing or too weak."));
         return new NextResponse("Security Configuration Error", { status: 500 });
       }
 
@@ -102,7 +103,7 @@ export async function POST(req: Request) {
       ids: staleSubmissions.map(s => s.id)
     });
   } catch (error) {
-    console.error("[CRON_RELEASE_CLAIMS_ERROR]", error);
+    await logError("Cron Release Claims", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
       { status: 500 }
