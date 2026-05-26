@@ -17,6 +17,7 @@ import {
 import { InviteMemberForm } from "./squad/InviteMemberForm"
 import { MemberList } from "./squad/MemberList"
 import { OrgSettingsForm } from "./squad/OrgSettingsForm"
+import { PendingInvitations } from "./squad/PendingInvitations"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
@@ -74,6 +75,11 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
         <div className="max-w-5xl mx-auto space-y-12 py-6">
             {/* Dynamic Background Glow based on progress */}
             <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
+
+            {/* In-app Invitations Center */}
+            <div className="max-w-xl mx-auto relative z-20">
+                <PendingInvitations />
+            </div>
 
             {/* Header Lock Section */}
             <div className="text-center space-y-4 relative z-10">

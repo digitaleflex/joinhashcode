@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal, Trash2, ShieldAlert } from "lucide-react";
+import { MoreHorizontal, Trash2, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +39,24 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
         toast.error(error.message || "Erreur lors de la suppression");
       } else {
         toast.success(`${name} a été retiré de l"escouade`);
-        // Refresh would be handled by the parent component or a state update
+        window.location.reload();
+      }
+    } catch (err) {
+      toast.error("Une erreur inattendue est survenue");
+    }
+  };
+
+  const handleLeave = async () => {
+    if (!confirm("Es-tu sûr de vouloir quitter cette escouade ?")) return;
+
+    try {
+      const { error } = await authClient.organization.leave();
+
+      if (error) {
+        toast.error(error.message || "Erreur lors du départ");
+      } else {
+        toast.success("Tu as quitté l"escouade");
+        window.location.reload();
       }
     } catch (err) {
       toast.error("Une erreur inattendue est survenue");
@@ -75,7 +92,19 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
-                {member.userId !== currentUserId && (
+                {member.userId === currentUserId ? (
+                  member.role !== "owner" && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10 gap-2"
+                      onClick={handleLeave}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Quitter
+                    </Button>
+                  )
+                ) : (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
