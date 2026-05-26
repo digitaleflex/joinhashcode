@@ -116,7 +116,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-8 rounded-[2rem] border border-white/5 bg-white/[0.01] relative overflow-hidden"
+                        className="p-8 rounded-4xl border border-white/5 bg-white/1 relative overflow-hidden"
                     >
                         <div className="absolute top-0 right-0 p-6 opacity-[0.05]">
                             <Target className="size-24" />
@@ -165,7 +165,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                     <button
                                         key={idx}
                                         onClick={() => handleAnswer(option)}
-                                        className="w-full flex items-center justify-between p-5 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-primary/[0.03] hover:border-primary/40 transition-all text-left group"
+                                        className="w-full flex items-center justify-between p-5 rounded-2xl border border-white/5 bg-white/2 hover:bg-primary/3 hover:border-primary/40 transition-all text-left group"
                                     >
                                         <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors">{option.text}</span>
                                         <ChevronRight className="size-4 text-zinc-700 group-hover:text-primary transition-all group-hover:translate-x-1" />
@@ -258,7 +258,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
                                         />
                                     </div>
                                 </div>
-                                <div className="flex flex-wrap gap-3 max-h-[400px] overflow-y-auto p-1 pr-4 custom-scrollbar">
+                                <div className="flex flex-wrap gap-3 max-h-100 overflow-y-auto p-1 pr-4 custom-scrollbar">
                                     {allAvailableTools.map(tool => (
                                         <button
                                             key={tool}

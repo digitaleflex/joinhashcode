@@ -83,7 +83,7 @@ function ClassBackground({ userClass, tierColor }: { userClass: string; tierColo
   if (cl === "builder") {
     return (
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(184,255,59,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,255,59,0.08)_1px,transparent_1px)] bg-[size:12px_12px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(184,255,59,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,255,59,0.08)_1px,transparent_1px)] bg-size-[12px_12px]" />
         <div className="absolute bottom-0 right-0 w-24 h-6 bg-[repeating-linear-gradient(45deg,rgba(184,255,59,0.25),rgba(184,255,59,0.25)_8px,transparent_8px,transparent_16px)]" />
         <svg className="absolute top-4 right-4 w-12 h-12 text-[#B8FF3B]" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="3 3" />
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={cn(
-                        "w-full flex items-start gap-5 p-5 rounded-[1.5rem] transition-all duration-500 border group text-left relative overflow-hidden cursor-pointer",
+                        "w-full flex items-start gap-5 p-5 rounded-3xl transition-all duration-500 border group text-left relative overflow-hidden cursor-pointer",
                         isActive ? "text-white backdrop-blur-md z-10" : "bg-white/[0.01] border-white/5 text-zinc-500 hover:bg-white/[0.03] hover:border-white/10 z-0"
                       )}
                       style={isActive ? {
@@ -497,7 +497,7 @@ export default function SettingsPage() {
 
                               {/* Avatar dock */}
                               <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 bg-zinc-950/40 border border-emerald-500/20 rounded-[2.5rem] relative overflow-hidden group/avatar-dock min-h-[280px]">
-                                <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.015)_1px,transparent_1px)] bg-[size:16px_16px] opacity-40 pointer-events-none" aria-hidden="true" />
+                                <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.015)_1px,transparent_1px)] bg-size-[16px_16px] opacity-40 pointer-events-none" aria-hidden="true" />
                                 <div className="absolute inset-x-0 w-full animate-laser-sweep pointer-events-none" style={{ '--laser-color': '#10B981' } as React.CSSProperties} aria-hidden="true" />
                                 <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-emerald-500/30 pointer-events-none" aria-hidden="true" />
                                 <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-emerald-500/30 pointer-events-none" aria-hidden="true" />
@@ -682,7 +682,7 @@ export default function SettingsPage() {
 
                                 {/* Member card dock */}
                                 <div className="lg:col-span-6 relative rounded-[2.5rem] bg-zinc-950/40 border border-white/5 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[380px] group/dock">
-                                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:16px_16px] opacity-45 pointer-events-none" aria-hidden="true" />
+                                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-size-[16px_16px] opacity-45 pointer-events-none" aria-hidden="true" />
                                   <div className="absolute inset-x-0 w-full animate-laser-sweep pointer-events-none" style={{ '--laser-color': tierColor } as React.CSSProperties} aria-hidden="true" />
                                   <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/20 pointer-events-none" aria-hidden="true" />
                                   <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-white/20 pointer-events-none" aria-hidden="true" />
@@ -704,7 +704,7 @@ export default function SettingsPage() {
                                       }}
                                     >
                                       <ClassBackground userClass={userData?.class} tierColor={tierColor} />
-                                      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:12px_12px] opacity-40 pointer-events-none" aria-hidden="true" />
+                                      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-size-[12px_12px] opacity-40 pointer-events-none" aria-hidden="true" />
                                       <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-overlay transition-opacity duration-300" style={{ background: `radial-gradient(circle at ${50 + rotate.y * 3.5}% ${50 - rotate.x * 3.5}%, rgba(255,255,255,0.3) 0%, transparent 60%)` }} aria-hidden="true" />
                                       <div className="absolute inset-0 pointer-events-none mix-blend-color-dodge opacity-30 transition-all duration-300" style={{ background: `radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.18) 0%, transparent 40%), radial-gradient(circle at calc(var(--mx, 50%) - 10%) calc(var(--my, 50%) - 10%), ${tierColor}1a 0%, transparent 60%)` }} aria-hidden="true" />
 
@@ -809,7 +809,7 @@ export default function SettingsPage() {
                                       })()}
 
                                       {/* Card footer */}
-                                      <div className="absolute bottom-3 left-5 right-5 flex justify-between items-end border-t border-white/5 pt-1.5 relative z-10">
+                                      <div className="absolute bottom-3 left-5 right-5 flex justify-between items-end border-t border-white/5 pt-1.5 z-10">
                                         <div className="flex items-center gap-2.5">
                                           <div>
                                             <span className="text-[5px] font-mono text-zinc-600 uppercase block leading-none">Access_Lvl</span>
@@ -1052,7 +1052,7 @@ export default function SettingsPage() {
                               <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
                                 <Fingerprint className="size-4 text-emerald-500" /> Informations de connexion
                               </label>
-                              <div className="relative p-[1.5px] cyber-notch bg-gradient-to-r from-emerald-500/20 via-emerald-500/5 to-transparent">
+                              <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-emerald-500/20 via-emerald-500/5 to-transparent">
                                 <div className="p-8 bg-black/85 cyber-notch space-y-6 relative overflow-hidden group/acc">
                                   <div className="absolute inset-0 cyber-grid-emerald pointer-events-none opacity-40" aria-hidden="true" />
                                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover/acc:opacity-10 transition-opacity" aria-hidden="true">
@@ -1085,7 +1085,7 @@ export default function SettingsPage() {
 
                             {/* Delete account */}
                             <div className="pt-4 border-t border-white/5 space-y-6">
-                              <div className="relative p-[1.5px] cyber-notch bg-gradient-to-r from-red-500/30 to-red-950/10 overflow-hidden">
+                              <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-red-500/30 to-red-950/10 overflow-hidden">
                                 <div className="absolute inset-x-0 h-[1.5px] bg-red-500 opacity-30 shadow-[0_0_12px_#ef4444] animate-laser-sweep z-10 pointer-events-none" style={{ '--laser-color': '#ef4444' } as React.CSSProperties} aria-hidden="true" />
                                 <div className="p-8 md:p-10 bg-zinc-950/90 cyber-notch flex flex-col sm:flex-row items-center justify-between gap-8 relative overflow-hidden">
                                   <div className="absolute top-0 inset-x-0 h-1 bg-[repeating-linear-gradient(45deg,#ef4444,#ef4444_10px,#450a0a_10px,#450a0a_20px)] pointer-events-none" aria-hidden="true" />
@@ -1154,7 +1154,7 @@ export default function SettingsPage() {
                 transition={{ type: "spring", duration: 0.5 }}
                 className="w-full max-w-sm bg-zinc-950 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] relative"
               >
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none opacity-40" aria-hidden="true" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none opacity-40" aria-hidden="true" />
                 <div className="scanline opacity-10 pointer-events-none" aria-hidden="true" />
                 <div className="absolute top-6 left-6 w-5 h-5 border-t-2 border-l-2 border-primary/40 pointer-events-none" aria-hidden="true" />
                 <div className="absolute top-6 right-6 w-5 h-5 border-t-2 border-r-2 border-primary/40 pointer-events-none" aria-hidden="true" />

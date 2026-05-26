@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prisma.ts"
+import { prisma } from "../lib/prisma"
 
 async function main() {
   console.log("Verifying P5 Data Enrichment Logic...")

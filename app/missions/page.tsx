@@ -166,7 +166,7 @@ export default async function MissionsPage() {
             )}
           
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2 p-8 rounded-[2rem] glass-card border-white/5 relative overflow-hidden group">
+              <div className="md:col-span-2 p-8 rounded-4xl glass-card border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <TrendingUp className="size-12 text-primary" />
                 </div>
@@ -177,7 +177,7 @@ export default async function MissionsPage() {
                    </div>
                    <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience} <span className="text-xs not-italic text-zinc-600">XP</span></div>
                 </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
                     <div 
                         className="h-full bg-primary shadow-[0_0_20px_#C5F441] transition-all duration-1000" 
                         style={{ width: `${Math.min(100, (finalDbUser.experience % 1000) / 10)}%` }}
@@ -189,7 +189,7 @@ export default async function MissionsPage() {
                 </div>
               </div>
               
-              <div className="hidden md:flex p-8 rounded-[2rem] border border-dashed border-white/5 bg-white/[0.01] items-center justify-center text-center">
+              <div className="hidden md:flex p-8 rounded-4xl border border-dashed border-white/5 bg-white/1 items-center justify-center text-center">
                  <p className="text-[9px] font-mono text-zinc-700 uppercase leading-relaxed">
                    [ Accès_Prioritaire ]<br/>
                    Prêt pour le déploiement<br/>

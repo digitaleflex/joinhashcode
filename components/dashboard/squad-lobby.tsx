@@ -57,7 +57,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     return (
         <div className="max-w-5xl mx-auto space-y-12 py-6">
             {/* Dynamic Background Glow based on progress */}
-            <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
+            <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
 
             {/* Header Lock Section - Psychologically Reframed */}
             <div className="text-center space-y-4 relative z-10">
@@ -95,12 +95,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
 
                     return (
                         <div key={index} className={cn(
-                            "relative group rounded-[2rem] border-2 transition-all duration-700 overflow-hidden",
+                            "relative group rounded-4xl border-2 transition-all duration-700 overflow-hidden",
                             isActive 
                                 ? "bg-zinc-900/60 border-primary/40 shadow-[0_0_40px_rgba(var(--primary),0.15)]" 
                                 : "bg-black/40 border-white/5 border-dashed hover:border-white/20"
                         )}>
-                            <div className="aspect-[4/5] flex flex-col items-center justify-center p-4 md:p-8 space-y-6">
+                            <div className="aspect-4/5 flex flex-col items-center justify-center p-4 md:p-8 space-y-6">
                                 {isActive ? (
                                     <>
                                         <div className="relative">
@@ -117,7 +117,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-base font-bold text-white uppercase tracking-tight italic truncate max-w-[120px]">
+                                            <div className="text-base font-bold text-white uppercase tracking-tight italic truncate max-w-30">
                                                 {member.user.pseudo || member.user.name.split(' ')[0]}
                                             </div>
                                             <div className="text-[9px] font-mono text-primary/70 uppercase tracking-wider mt-1 font-bold">
@@ -127,7 +127,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                     </>
                                 ) : (
                                     <>
-                                        <div className="size-16 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/[0.02] group-hover:bg-primary/5 group-hover:border-primary/30 transition-all duration-500">
+                                        <div className="size-16 rounded-full border-2 border-dashed border-white/10 flex items-center justify-center bg-white/2 group-hover:bg-primary/5 group-hover:border-primary/30 transition-all duration-500">
                                             <UserPlus className="size-6 text-zinc-800 group-hover:text-primary transition-colors" />
                                         </div>
                                         <div className="text-center space-y-4 w-full">
