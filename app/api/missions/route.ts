@@ -6,7 +6,9 @@ import { NextResponse } from "next/server";
 import { XP_THRESHOLDS, getCurrentCycleKey } from "@/lib/missions";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateUserEvolution } from "@/lib/evolution-engine";
+import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
+import { emailService } from "@/lib/email";
 import { z } from "zod";
 
 const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
@@ -55,15 +57,17 @@ export async function POST(req: Request) {
 
     const dbUser = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { 
-        id: true, 
-        level: true, 
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        level: true,
         experience: true,
         behavioralVibrancy: true,
         lastHypothesisUpdate: true,
         class: true,
         missionsCompletedCount: true,
-        currentStreak: true
+        currentStreak: true,
       }
     });
 
@@ -163,19 +167,37 @@ export async function POST(req: Request) {
       return submission;
     });
 
+    // RECALCULATE LEVEL AND BADGES
+    const finalUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { experience: true }
+    });
+    if (finalUser) {
+      await calculateAndSetLevel(session.user.id, finalUser.experience, prisma);
+    }
+
     // Notify user
     try {
       await triggerNotification({
         userId: session.user.id,
         type: "SYSTEM",
         title: isAutoApproved ? `Challenge Validé : ${mission.title}` : `Mission transmise : ${mission.title}`,
-        message: isAutoApproved 
+        message: isAutoApproved
           ? `Ton challenge hebdomadaire est validé. +${xpToAward} XP accordés !`
           : `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
         link: "/missions"
       });
     } catch (notificationError) {
       console.error("[NOTIFICATION_ERROR]", notificationError);
+    }
+
+    if (!isAutoApproved) {
+      emailService.sendMissionSubmitted({
+        email: dbUser.email,
+        name: dbUser.name,
+        missionTitle: mission.title,
+        bonusXp: SYNC_BONUS_XP,
+      });
     }
 
     return NextResponse.json({ 

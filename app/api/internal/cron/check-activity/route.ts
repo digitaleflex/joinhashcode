@@ -1,9 +1,10 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { triggerNotification } from "@/lib/qstash";
 import { NextResponse } from "next/server";
 import { Receiver } from "@upstash/qstash";
-import { subHours } from "date-fns";
+import { subHours, subDays } from "date-fns";
+import { emailService } from "@/lib/email";
 
 const receiver = new Receiver({
   currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY || "test_key",
@@ -29,7 +30,9 @@ export async function POST(req: Request) {
     }
 
     const twentyFourHoursAgo = subHours(new Date(), 24);
+    const threeDaysAgo = subDays(new Date(), 3);
 
+    // 1. Daily In-app Reminders (24h)
     const inactiveUsers = await prisma.user.findMany({
       where: {
         class: { not: null },
@@ -41,7 +44,19 @@ export async function POST(req: Request) {
       select: { id: true },
     });
 
-    console.log(`[CRON_CHECK_ACTIVITY] Found ${inactiveUsers.length} inactive users.`);
+    // 2. Critical Email Reminders (3 days)
+    const criticalInactiveUsers = await prisma.user.findMany({
+        where: {
+          class: { not: null },
+          OR: [
+            { lastCheckinAt: { lt: threeDaysAgo } },
+            { lastCheckinAt: null },
+          ],
+        },
+        select: { id: true, email: true, name: true },
+    });
+
+    console.log(`[CRON_CHECK_ACTIVITY] Inactive: ${inactiveUsers.length}, Critical: ${criticalInactiveUsers.length}`);
 
     const notificationPromises = inactiveUsers.map((user) =>
       triggerNotification({
@@ -53,11 +68,19 @@ export async function POST(req: Request) {
       })
     );
 
-    await Promise.all(notificationPromises);
+    const emailPromises = criticalInactiveUsers.map((user) => 
+        emailService.sendDailyReminder({
+            email: user.email,
+            name: user.name
+        })
+    );
+
+    await Promise.all([...notificationPromises, ...emailPromises]);
 
     return NextResponse.json({
       success: true,
       processed: inactiveUsers.length,
+      emailsSent: criticalInactiveUsers.length,
     });
   } catch (error) {
     console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);

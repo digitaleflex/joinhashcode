@@ -19,7 +19,9 @@ import { MemberList } from "./squad/MemberList"
 import { OrgSettingsForm } from "./squad/OrgSettingsForm"
 import { PendingInvitations } from "./squad/PendingInvitations"
 import { JoinRequestsManager } from "./squad/JoinRequestsManager"
+import { SquadActivityFeed } from "./squad/SquadActivityFeed"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Activity } from "lucide-react"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const [isCopying, setIsLocked] = useState(false)
@@ -108,14 +110,18 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                     <DialogTitle className="text-xl font-bold uppercase italic tracking-tight">Configuration de l"Escouade</DialogTitle>
                                 </DialogHeader>
                                 <Tabs defaultValue="members" className="mt-4">
-                                    <TabsList className="bg-zinc-900 border-white/5 grid grid-cols-4 h-auto p-1">
+                                    <TabsList className="bg-zinc-900 border-white/5 grid grid-cols-5 h-auto p-1">
                                         <TabsTrigger value="members" className="gap-2 py-2"><Users className="size-4" /> Membres</TabsTrigger>
+                                        <TabsTrigger value="journal" className="gap-2 py-2"><Activity className="size-4" /> Journal</TabsTrigger>
                                         <TabsTrigger value="requests" className="gap-2 py-2"><UserSearch className="size-4" /> Candidats</TabsTrigger>
                                         <TabsTrigger value="invite" className="gap-2 py-2"><Mail className="size-4" /> Inviter</TabsTrigger>
                                         <TabsTrigger value="settings" className="gap-2 py-2"><Settings className="size-4" /> Réglages</TabsTrigger>
                                     </TabsList>
                                     <TabsContent value="members" className="mt-6">
                                         <MemberList members={members} currentUserId={user.id} />
+                                    </TabsContent>
+                                    <TabsContent value="journal" className="mt-6">
+                                        <SquadActivityFeed organizationId={squad.id} />
                                     </TabsContent>
                                     <TabsContent value="requests" className="mt-6">
                                         <JoinRequestsManager organizationId={squad.id} />
