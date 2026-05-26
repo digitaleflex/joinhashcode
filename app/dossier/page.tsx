@@ -38,6 +38,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar";
 import { MemberCard } from "@/components/ui/member-card";
 import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
+import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 
 export default async function DossierPage() {
   const session = await auth.api.getSession({
@@ -66,9 +67,9 @@ export default async function DossierPage() {
         orderBy: { createdAt: 'desc' },
         take: 50 // Increased to build a better chart
       },
-      members: {
+      guildMembers: {
         include: {
-          organization: true
+          guild: true
         }
       }
     },
@@ -76,8 +77,7 @@ export default async function DossierPage() {
 
   if (!user) return null;
 
-  const activeOrgMember = user.members.find(m => m.organizationId === session.session.activeOrganizationId) || user.members[0];
-  const activeOrg = activeOrgMember?.organization;
+  const activeOrg = user.guildMembers[0]?.guild ?? null;
 
   const quizResult = user.quizResults?.[0];
   const answers = quizResult?.answers as any || {};
@@ -366,14 +366,8 @@ export default async function DossierPage() {
                             tools={user.tools}
                         />
 
-                        {/* Social Share Action */}
-                        <Button asChild className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 text-white font-black uppercase group transition-all">
-                            <Link href={`/api/card/${user.id}`} target="_blank">
-                                <Share2 className="mr-2 size-4 group-hover:text-primary" />
-                                Générer Carte Partage
-                                <Download className="ml-auto size-4 opacity-30 group-hover:opacity-100" />
-                            </Link>
-                        </Button>
+                        {/* Social Share Action Modal */}
+                        <ShareCardDialog userId={user.id} userName={user.name} />
                     </div>
 
                     {/* Evolution Engine Metrics & Tips (Neural Loop) */}
