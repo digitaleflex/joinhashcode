@@ -1,4 +1,4 @@
-name: CD (Continuous Deployment)
+﻿name: CD (Continuous Deployment)
 
 on:
   # Se déclenche UNIQUEMENT après que le CI a terminé avec succès
@@ -82,12 +82,17 @@ jobs:
             # 7. Appliquer les modifications de schéma en toute sécurité
             docker compose exec -T web npx prisma db push
 
-            # 8. Synchroniser le catalogue (missions, weekly challenges, guilds, admins)
+            # 8. Migration automatique des Escouades vers Better Auth Organization
+            # Utilise upsert pour éviter les doublons — Aucun risque de perte de données
+            echo "[MIGRATION] Migration des Guilds vers Organizations..."
+            docker compose exec -T web npx tsx scripts/migrate-guilds-to-orgs.ts
+
+            # 9. Synchroniser le catalogue (missions, weekly challenges, guilds, admins)
             # Safe : upsert uniquement — aucune donnée user touchée
             docker compose exec -T web npx tsx prisma/seed.ts
             docker compose exec -T web npx prisma db seed
 
-            # 9. Nettoyage des anciennes images
+            # 10. Nettoyage des anciennes images
             docker image prune -f
 
             echo ""
@@ -95,3 +100,4 @@ jobs:
             echo "  DEPLOIEMENT TERMINE AVEC SUCCES"
             echo "  Image deployee : $IMAGE"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+

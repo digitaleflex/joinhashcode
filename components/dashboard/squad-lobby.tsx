@@ -1,25 +1,39 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
-import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2 } from "lucide-react"
+import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
-import { ScrambleText } from "@/components/ui/scramble-text"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { authClient } from "@/lib/auth-client"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog"
+import { InviteMemberForm } from "./squad/InviteMemberForm"
+import { MemberList } from "./squad/MemberList"
+import { OrgSettingsForm } from "./squad/OrgSettingsForm"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const [isCopying, setIsLocked] = useState(false)
     const [isCreating, setIsCreating] = useState(false)
     
     // Fallback pseudo if not set
-    const pseudo = user.pseudo || user.name.split(' ')[0]
+    const pseudo = user.pseudo || user.name.split(" ")[0]
     
     // Squad members (max 5 for the logic)
     const members = squad?.members || []
     const memberCount = members.length
     const slots = [0, 1, 2, 3, 4] // 5 slots total
+
+    // Find current user membership
+    const currentUserMember = members.find((m: any) => m.userId === user.id)
+    const isOwner = currentUserMember?.role === "owner"
 
     // Neuromarketing: Progress-based visual state
     const isSuccess = memberCount >= 5
@@ -39,15 +53,17 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const createSquad = async () => {
         setIsCreating(true)
         try {
-            const response = await fetch("/api/squad/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+            const { data, error } = await authClient.organization.create({
+                name: `${pseudo} Squad`,
+                slug: pseudo.toLowerCase().replace(/\s+/g, "-"),
             })
-            if (!response.ok) throw new Error("Échec de création")
+            
+            if (error) throw error
+            
             toast.success("Escouade créée avec succès !")
             window.location.reload()
-        } catch (error) {
-            toast.error("Erreur lors de la création de l'escouade.")
+        } catch (error: any) {
+            toast.error(error.message || "Erreur lors de la création de l\"escouade.")
             console.error(error)
         } finally {
             setIsCreating(false)
@@ -59,18 +75,52 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             {/* Dynamic Background Glow based on progress */}
             <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
 
-            {/* Header Lock Section - Psychologically Reframed */}
+            {/* Header Lock Section */}
             <div className="text-center space-y-4 relative z-10">
-                <div className={cn(
-                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-700",
-                    memberCount === 0 ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-500" :
-                    memberCount < 5 ? "bg-amber-500/10 border-amber-500/20 text-amber-500 animate-pulse" :
-                    "bg-primary/10 border-primary/20 text-primary"
-                )}>
-                    {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
-                    <span className="text-[10px] font-mono font-bold uppercase">
-                        {memberCount < 5 ? "Escouade incomplète" : "Escouade active !"}
-                    </span>
+                <div className="flex justify-center items-center gap-4">
+                    <div className={cn(
+                        "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-700",
+                        memberCount === 0 ? "bg-zinc-500/10 border-zinc-500/20 text-zinc-500" :
+                        memberCount < 5 ? "bg-amber-500/10 border-amber-500/20 text-amber-500 animate-pulse" :
+                        "bg-primary/10 border-primary/20 text-primary"
+                    )}>
+                        {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
+                        <span className="text-[10px] font-mono font-bold uppercase">
+                            {memberCount < 5 ? "Escouade incomplète" : "Escouade active !"}
+                        </span>
+                    </div>
+
+                    {isOwner && (
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" size="sm" className="h-8 gap-2 bg-zinc-900/50 border-white/10 hover:border-primary/50 text-[10px] font-bold uppercase font-mono">
+                                    <Settings className="size-3" />
+                                    Gestion
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl bg-zinc-950 border-white/10 text-white">
+                                <DialogHeader>
+                                    <DialogTitle className="text-xl font-bold uppercase italic tracking-tight">Configuration de l"Escouade</DialogTitle>
+                                </DialogHeader>
+                                <Tabs defaultValue="members" className="mt-4">
+                                    <TabsList className="bg-zinc-900 border-white/5">
+                                        <TabsTrigger value="members" className="gap-2"><Users className="size-4" /> Membres</TabsTrigger>
+                                        <TabsTrigger value="invite" className="gap-2"><Mail className="size-4" /> Inviter</TabsTrigger>
+                                        <TabsTrigger value="settings" className="gap-2"><Settings className="size-4" /> Paramètres</TabsTrigger>
+                                    </TabsList>
+                                    <TabsContent value="members" className="mt-6">
+                                        <MemberList members={members} currentUserId={user.id} />
+                                    </TabsContent>
+                                    <TabsContent value="invite" className="mt-6">
+                                        <InviteMemberForm />
+                                    </TabsContent>
+                                    <TabsContent value="settings" className="mt-6">
+                                        <OrgSettingsForm organization={squad} />
+                                    </TabsContent>
+                                </Tabs>
+                            </DialogContent>
+                        </Dialog>
+                    )}
                 </div>
                 
                 <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-white italic leading-[0.9]">
@@ -86,12 +136,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 </p>
             </div>
 
-            {/* Squad Slots - Gamified UI */}
+            {/* Squad Slots */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 relative z-10">
                 {slots.map((index) => {
                     const member = members[index]
                     const isActive = !!member
-                    const isUser = member?.user?.id === user.id
+                    const isUser = member?.userId === user.id
 
                     return (
                         <div key={index} className={cn(
@@ -112,13 +162,16 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </div>
-                                            <div className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-primary text-black text-[8px] font-bold uppercase tracking-tight -rotate-2 shadow-lg">
-                                                Actif
+                                            <div className={cn(
+                                                "absolute -bottom-2 -right-2 px-2 py-0.5 text-black text-[8px] font-bold uppercase tracking-tight -rotate-2 shadow-lg",
+                                                member.role === "owner" ? "bg-primary" : "bg-zinc-400"
+                                            )}>
+                                                {member.role === "owner" ? "Chef" : "Actif"}
                                             </div>
                                         </div>
                                         <div className="text-center">
                                             <div className="text-base font-bold text-white uppercase tracking-tight italic truncate max-w-30">
-                                                {member.user.pseudo || member.user.name.split(' ')[0]}
+                                                {member.user.pseudo || member.user.name.split(" ")[0]}
                                             </div>
                                             <div className="text-[9px] font-mono text-primary/70 uppercase tracking-wider mt-1 font-bold">
                                                 {member.user.class || "Agent_Core"}
@@ -153,14 +206,14 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 })}
             </div>
 
-            {/* Action Section - Viral & Urgent */}
+            {/* Action Section */}
             <div className="relative z-10">
                 {!squad ? (
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
-                                                            <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
-                                                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Lance ton escouade</p>
-                                                        </div>
+                            <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
+                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Lance ton escouade</p>
+                        </div>
                         <Button 
                             size="lg" 
                             onClick={createSquad}

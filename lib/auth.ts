@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin, createAccessControl } from "better-auth/plugins";
+import { magicLink, emailOTP, admin, createAccessControl, organization } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -8,16 +8,32 @@ import { randomInt } from "crypto";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
+
+  // Always trust localhost variants in non-production
   if (process.env.NODE_ENV !== "production") {
     origins.add("http://localhost:3000");
+    origins.add("http://127.0.0.1:3000");
   }
-  if (process.env.BETTER_AUTH_URL) origins.add(process.env.BETTER_AUTH_URL);
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    const url = process.env.NEXT_PUBLIC_APP_URL;
-    origins.add(url);
-    if (url.includes("://www.")) origins.add(url.replace("://www.", "://"));
-    else origins.add(url.replace("://", "://www."));
+
+  // Trust the explicit auth URL (whatever env it comes from)
+  const authUrl = process.env.BETTER_AUTH_URL;
+  if (authUrl) {
+    try {
+      origins.add(new URL(authUrl).origin);
+    } catch {}
   }
+
+  // Trust the public app URL + its www/non-www variant
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (appUrl) {
+    try {
+      const origin = new URL(appUrl).origin;
+      origins.add(origin);
+      if (origin.includes("://www.")) origins.add(origin.replace("://www.", "://"));
+      else origins.add(origin.replace("://", "://www."));
+    } catch {}
+  }
+
   return Array.from(origins);
 };
 
@@ -190,6 +206,38 @@ export const auth = betterAuth({
         MEMBER: memberRole,
       },
     }),
+    organization({
+      allowUserToCreateOrganization: true,
+      organizationLimit: 5,
+      membershipLimit: 100,
+      creatorRole: "owner",
+      sendInvitationEmail: async (data) => {
+        const { email, organization, inviter, invitation } = data;
+        await emailService.sendEmail({
+          to: email,
+          subject: `Rejoins l'escouade ${organization.name} sur HASHCODE`,
+          html: `
+            <p>${inviter.user.name} t'a invité à rejoindre l'escouade <strong>${organization.name}</strong>.</p>
+            <p>HASHCODE est une communauté de bâtisseurs où nous évoluons ensemble.</p>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/invite/accept?id=${invitation.id}" style="padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 5px;">
+              Accepter l'invitation
+            </a>
+          `,
+        });
+      },
+      schema: {
+        organization: {
+          additionalFields: {
+            cohesionScore: { type: "number", defaultValue: 0.1 },
+            streakCount: { type: "number", defaultValue: 0 },
+            lastStreakAt: { type: "date", required: false },
+            requiredLevel: { type: "number", defaultValue: 1 },
+            isPrivate: { type: "boolean", defaultValue: false },
+          },
+        },
+      },
+    }),
     nextCookies(),
   ],
 });
+

@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -8,52 +8,44 @@ export default async function SquadPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/signin");
 
-  const [dbUser, guildMember] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        pseudo: true,
-        class: true,
-        level: true,
-        experience: true,
-        badges: true,
-        role: true,
-      },
-    }),
-    prisma.guildMember.findFirst({
-      where: { userId: session.user.id },
-      include: {
-        guild: {
-          include: {
-            members: {
-              include: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    pseudo: true,
-                    image: true,
-                    class: true,
-                    experience: true,
-                    level: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }),
-  ]);
+  // Fetch full organization using Better Auth API
+  const org = await auth.api.getFullOrganization({
+    headers: await headers(),
+  });
+
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      pseudo: true,
+      class: true,
+      level: true,
+      experience: true,
+      badges: true,
+      role: true,
+    },
+  });
+
+  // Map Organization to the expected "squad" format for SquadJourney
+  // This ensures backward compatibility with the UI while using the new system
+  const squad = org ? {
+    ...org,
+    members: org.members.map((m: any) => ({
+      ...m,
+      user: {
+        ...m.user,
+        pseudo: m.user.name, // Fallback if pseudo is missing in BA user
+      }
+    }))
+  } : null;
 
   return (
     <SquadJourney
       user={dbUser || (session.user as any)}
-      squad={guildMember?.guild || null}
+      squad={squad}
     />
   );
 }
