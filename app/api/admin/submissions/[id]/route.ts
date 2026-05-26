@@ -49,7 +49,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     if (action === "APPROVE") {
-      const level: QualityLevel = qualityLevel ?? "STANDARD";
+      // For PENDING_ADMIN (peer-reviewed CORE missions), preserve the peer's quality assessment
+      // unless the admin explicitly overrides it
+      const level: QualityLevel = qualityLevel ?? (submission.qualityLevel as QualityLevel) ?? "STANDARD";
       let xpAwarded = computeXp(submission.mission.xp, level);
 
       // Apply streak multiplier

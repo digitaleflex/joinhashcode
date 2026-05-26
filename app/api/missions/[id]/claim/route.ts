@@ -34,6 +34,14 @@ export async function POST(
       return new NextResponse("Submission is not available for review", { status: 400 });
     }
 
+    // PRO missions are admin-only — block peer review at claim stage
+    if (submission.mission.missionLevel === "PRO") {
+      return new NextResponse(
+        "Cette mission est réservée à la validation admin. Elle ne peut pas être réclamée par un pair.",
+        { status: 403 }
+      );
+    }
+
     const missionRequiredLevel = LEVEL_REQUIREMENT[submission.mission.missionLevel ?? "INIT"] ?? 1;
 
     const eligible = isEligibleReviewer({

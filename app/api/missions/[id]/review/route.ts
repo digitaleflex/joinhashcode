@@ -56,10 +56,73 @@ export async function POST(
     const allRequiredPassed = missingRequired.length === 0;
 
     const reviewerXpReward = Math.round(submission.mission.xp * 0.15);
+    const missionTier = submission.mission.missionLevel ?? "INIT";
 
     if (allRequiredPassed || forceApprove) {
       const qualityLevel = computeQualityLevel(missionCriteria, criteria);
       const xpAwarded = computeXp(submission.mission.xp, qualityLevel);
+
+      // CORE missions: peer validation → pending admin confirmation (XP deferred)
+      if (missionTier === "CORE") {
+        await prisma.$transaction(async (tx) => {
+          await tx.missionReview.create({
+            data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
+          });
+          // Store computed quality/xp but defer awarding — admin confirms
+          await tx.missionSubmission.update({
+            where: { id: submissionId },
+            data: { status: "PENDING_ADMIN", xpAwarded, qualityLevel },
+          });
+          await tx.user.update({
+            where: { id: session.user.id },
+            data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
+          });
+        });
+
+        // Notify all admins
+        const admins = await prisma.user.findMany({
+          where: { role: { in: ["ADMIN", "MODERATOR"] } },
+          select: { id: true },
+        });
+        for (const admin of admins) {
+          try {
+            await triggerNotification({
+              userId: admin.id,
+              type: "SYSTEM",
+              title: `Confirmation requise : ${submission.mission.title}`,
+              message: `Mission CORE validée par pair (${submission.user.name}). Confirmation admin nécessaire.`,
+              link: `/admin/submissions`,
+            });
+          } catch (err) {
+            console.error("[NOTIFICATION_ERROR]", err);
+          }
+        }
+
+        try {
+          await triggerNotification({
+            userId: submission.userId,
+            type: "SYSTEM",
+            title: `Revue pair complétée : ${submission.mission.title}`,
+            message: `Ton pair a validé ta soumission. Confirmation admin en cours, tu seras notifié(e).`,
+            link: `/missions/${submission.missionId}`,
+          });
+        } catch (err) {
+          console.error("[NOTIFICATION_ERROR]", err);
+        }
+
+        logActivity({
+          userId: session.user.id,
+          action: "MISSION_APPROVED",
+          entity: "mission_submission",
+          entityId: submissionId,
+          metadata: { qualityLevel, xpAwarded, tier: "CORE", status: "PENDING_ADMIN" },
+          request: req,
+        });
+
+        return NextResponse.json({ success: true, qualityLevel, status: "PENDING_ADMIN" });
+      }
+
+      // INIT missions: direct approval
       const newXp = (submission.user.experience || 0) + xpAwarded;
 
       let newLevel = submission.user.level || 1;
@@ -77,13 +140,7 @@ export async function POST(
 
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
-          data: {
-            submissionId,
-            reviewerId: session.user.id,
-            criteria,
-            qualityLevel,
-            feedback,
-          },
+          data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
         });
         await tx.missionSubmission.update({
           where: { id: submissionId },
@@ -99,12 +156,10 @@ export async function POST(
           data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
         });
 
-        // Boost Squad Cohesion
         const userWithGuild = await tx.user.findUnique({
           where: { id: submission.userId },
           select: { guildMembers: { select: { guildId: true } } }
         });
-
         if (userWithGuild?.guildMembers?.[0]?.guildId) {
           await updateSquadCohesion(userWithGuild.guildMembers[0].guildId, 0.1);
         }
@@ -127,7 +182,7 @@ export async function POST(
         action: "MISSION_APPROVED",
         entity: "mission_submission",
         entityId: submissionId,
-        metadata: { qualityLevel, xpAwarded },
+        metadata: { qualityLevel, xpAwarded, tier: missionTier },
         request: req,
       });
 
@@ -136,7 +191,7 @@ export async function POST(
 
     const revisionNotes = missingRequired.join("\n");
 
-    await prisma.$transaction(async (tx) => {
+    const updatedSubmission = await prisma.$transaction(async (tx) => {
       await tx.missionReview.create({
         data: {
           submissionId,
@@ -147,7 +202,7 @@ export async function POST(
           revisionNotes,
         },
       });
-      await tx.missionSubmission.update({
+      const updated = await tx.missionSubmission.update({
         where: { id: submissionId },
         data: { status: "NEEDS_REVISION", revisionNotes, revisionCount: { increment: 1 }, adminFeedback: feedback },
       });
@@ -155,6 +210,7 @@ export async function POST(
         where: { id: session.user.id },
         data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
       });
+      return updated;
     });
 
     try {
@@ -167,6 +223,27 @@ export async function POST(
       });
     } catch (err) {
       console.error("[NOTIFICATION_ERROR]", err);
+    }
+
+    // Escalate to admin after 3 failed revisions
+    if (updatedSubmission.revisionCount >= 3) {
+      const admins = await prisma.user.findMany({
+        where: { role: { in: ["ADMIN", "MODERATOR"] } },
+        select: { id: true },
+      });
+      for (const admin of admins) {
+        try {
+          await triggerNotification({
+            userId: admin.id,
+            type: "SYSTEM",
+            title: `Escalade requise : ${submission.mission.title}`,
+            message: `La soumission de ${submission.user.name} a atteint ${updatedSubmission.revisionCount} révisions sans validation. Intervention admin nécessaire.`,
+            link: `/admin/submissions`,
+          });
+        } catch (err) {
+          console.error("[NOTIFICATION_ERROR]", err);
+        }
+      }
     }
 
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });

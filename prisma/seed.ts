@@ -2,6 +2,7 @@ import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma";
 import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
+import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -57,6 +58,11 @@ async function main() {
 
   console.log("📋 Upserting missions from lib/missions.ts...");
   for (const mission of MISSIONS) {
+    const typeKey = mission.type.toUpperCase();
+    const acceptanceCriteria = MISSION_CRITERIA[typeKey] ?? MISSION_CRITERIA.GENERAL;
+    const evaluatorNotes = EVALUATOR_NOTES[typeKey] ?? EVALUATOR_NOTES.GENERAL;
+    const qualityIndicators = QUALITY_INDICATORS[typeKey] ?? QUALITY_INDICATORS.GENERAL;
+
     await prisma.mission.upsert({
       where: { slug: mission.id },
       update: {
@@ -77,6 +83,9 @@ async function main() {
         deliverables: mission.deliverables || [],
         fullBriefing: mission.fullBriefing || "",
         submissionMethod: mission.submissionMethod || "ANY_LINK",
+        acceptanceCriteria: JSON.parse(JSON.stringify(acceptanceCriteria)),
+        evaluatorNotes,
+        qualityIndicators: JSON.parse(JSON.stringify(qualityIndicators)),
       },
       create: {
         slug: mission.id,
@@ -97,6 +106,9 @@ async function main() {
         deliverables: mission.deliverables || [],
         fullBriefing: mission.fullBriefing || "",
         submissionMethod: mission.submissionMethod || "ANY_LINK",
+        acceptanceCriteria: JSON.parse(JSON.stringify(acceptanceCriteria)),
+        evaluatorNotes,
+        qualityIndicators: JSON.parse(JSON.stringify(qualityIndicators)),
       },
     });
     console.log(`  ✓ [${mission.missionLevel}] ${mission.title} (slug: ${mission.id})`);

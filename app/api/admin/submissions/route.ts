@@ -13,7 +13,7 @@ export async function GET() {
     if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return new NextResponse("Forbidden", { status: 403 });
 
     const submissions = await prisma.missionSubmission.findMany({
-      where: { status: "PENDING" },
+      where: { status: { in: ["PENDING", "PENDING_ADMIN"] } },
       include: {
         user: {
           select: {
@@ -29,6 +29,7 @@ export async function GET() {
             title: true,
             category: true,
             xp: true,
+            missionLevel: true,
           }
         }
       },

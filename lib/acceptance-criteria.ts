@@ -70,6 +70,42 @@ export const MISSION_CRITERIA: Record<string, Criterion[]> = {
   ],
 }
 
+export const EVALUATOR_NOTES: Record<string, string> = {
+  CODE: "Vérifier l'historique git (pas un seul commit \"initial\"). Un README vide ou copié-collé = NEEDS_REVISION. Pour EXEMPLARY : le code doit pouvoir être relu par un tiers sans explication.",
+  DESIGN: "La cohérence primaire > la beauté subjective. Un design avec une logique claire mais simple vaut mieux qu'un design élaboré incohérent. Pour EXEMPLARY : le livrable doit être utilisable directement par un développeur.",
+  BUSINESS: "\"Marché en croissance\" sans chiffre = NEEDS_REVISION. L'objectif n'est pas un bon texte, c'est une bonne décision business documentée. Pour EXEMPLARY : quelqu'un d'extérieur pourrait investir ou agir sur ce document.",
+  NETWORK: "Une preuve sans contexte ne suffit pas. Pour EXEMPLARY : l'impact doit être mesurable ou avoir une suite documentée.",
+  GENERAL: "La preuve doit être claire et directement liée à l'objectif de la mission. Pour EXEMPLARY : l'impact concret est démontré et mesurable.",
+  INTRO: "Chercher la spécificité : un objectif vague (\"progresser\") = NEEDS_REVISION. Pour EXEMPLARY : la présentation est mémorable et l'objectif est SMART.",
+}
+
+export const QUALITY_INDICATORS: Record<string, { good: string; exemplary: string }> = {
+  CODE: {
+    good: "Code propre avec commits significatifs, README détaillé, et au moins 1 critère BONUS.",
+    exemplary: "Projet déployé en production, tests présents, architecture documentée et code lisible par n'importe quel développeur.",
+  },
+  DESIGN: {
+    good: "Cohérence visuelle démontrée avec au moins 2 variantes ou explorations.",
+    exemplary: "Guide de style complet, moodboard documenté, livrable directement exploitable par un développeur.",
+  },
+  BUSINESS: {
+    good: "Conclusions actionnables avec données chiffrées citées et sources.",
+    exemplary: "Analyse concurrentielle + validation terrain incluses, document utilisable pour une prise de décision réelle.",
+  },
+  NETWORK: {
+    good: "Preuve avec contexte et impact concret décrit.",
+    exemplary: "Témoignages multiples, photos/captures et suivi post-connexion documenté avec impact mesurable.",
+  },
+  GENERAL: {
+    good: "Preuve solide avec description claire et impact décrit.",
+    exemplary: "Impact mesuré, démarche reproductible, contribution visible pour la communauté.",
+  },
+  INTRO: {
+    good: "Objectif clair avec ton personnel et authentique.",
+    exemplary: "Bio mémorable, objectif SMART précis, introduction qui inspire confiance immédiatement.",
+  },
+}
+
 export function getCriteriaForMission(category: string): Criterion[] {
   return MISSION_CRITERIA[category.toUpperCase()] ?? MISSION_CRITERIA.GENERAL
 }
