@@ -1,5 +1,6 @@
 ﻿import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { getCache, setCache } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -9,11 +10,15 @@ export async function GET(req: Request) {
     const limit = parseInt(searchParams.get("limit") || "12");
     const cursor = searchParams.get("cursor");
 
+    const cacheKey = `public_squads_${limit}_${cursor || "none"}`;
+    const cached = getCache(cacheKey);
+    if (cached) return NextResponse.json(cached);
+
     const squads = await prisma.organization.findMany({
       where: {
         isPrivate: false,
       },
-      take: limit + 1, // Fetch one extra to see if there is a next page
+      take: limit + 1,
       cursor: cursor ? { id: cursor } : undefined,
       include: {
         members: {
@@ -39,10 +44,14 @@ export async function GET(req: Request) {
       nextCursor = nextItem!.id;
     }
 
-    return NextResponse.json({
+    const result = {
       data: squads,
       nextCursor,
-    });
+    };
+
+    setCache(cacheKey, result, 300); // 5 mins cache
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[SQUAD_PUBLIC_GET]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
