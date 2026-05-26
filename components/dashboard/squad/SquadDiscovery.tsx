@@ -13,8 +13,8 @@ export function SquadDiscovery() {
       try {
         const response = await fetch("/api/squad/public");
         if (!response.ok) throw new Error("Échec du chargement");
-        const data = await response.json();
-        setSquads(data);
+        const json = await response.json();
+        setSquads(json.data || []); // json.data instead of json
       } catch (err) {
         console.error(err);
       } finally {

@@ -1,0 +1,40 @@
+﻿name: Database Backup (Daily)
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # Tous les jours à 04:00 UTC
+  workflow_dispatch: # Permet le lancement manuel
+
+jobs:
+  backup:
+    name: PG Dump to Artifacts
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Install Postgres Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Run PG Dump
+        env:
+          DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "ERREUR : BACKUP_DATABASE_URL n'est pas configuré dans les secrets GitHub."
+            exit 1
+          fi
+          # Extraction du host pour le nom du fichier
+          FILENAME="hashcode-backup-$(date +%Y-%m-%d_%H-%M).sql"
+          echo "Démarrage du dump vers $FILENAME..."
+          pg_dump "$DATABASE_URL" > "$FILENAME"
+          echo "Dump terminé. Taille : $(du -h $FILENAME | cut -f1)"
+
+      - name: Upload Backup to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backups
+          path: hashcode-backup-*.sql
+          retention-days: 7 # Garder 7 jours sur GitHub
+

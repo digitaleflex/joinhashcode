@@ -12,10 +12,10 @@ export function SquadDiscoverySection() {
   useEffect(() => {
     const fetchSquads = async () => {
       try {
-        const response = await fetch("/api/squad/public");
+        const response = await fetch("/api/squad/public?limit=3");
         if (!response.ok) throw new Error("Échec");
-        const data = await response.json();
-        setSquads(data.slice(0, 3)); // Only show top 3 on home page
+        const json = await response.json();
+        setSquads(json.data || []); // json.data instead of json
       } catch (err) {
         console.error(err);
       } finally {
