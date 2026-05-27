@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2, Send, Star, ChevronRight, ChevronLeft, Check, MessageSquare } from "lucide-react";
+import { Loader2, Send, ChevronRight, ChevronLeft, Check, MessageSquare } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,7 +30,6 @@ export function MissionSubmissionForm({
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
-  const [step, setStep] = useState(1);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showRetroForm, setShowRetroForm] = useState(false);
 
@@ -39,7 +39,6 @@ export function MissionSubmissionForm({
   const [userDifficulty, setUserDifficulty] = useState(3);
   const [userRating, setUserRating] = useState(5);
   const [userFeedback, setUserFeedback] = useState("");
-  const [improvementSuggestions, setImprovementSuggestions] = useState("");
 
   const handleSubmitStep1 = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,31 +70,30 @@ export function MissionSubmissionForm({
       setIsSubmitting(false);
     }
   };
+const handleSubmitRetro = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  try {
+    const res = await fetch(`/api/missions/${missionId}/retrospective`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        projectDescription,
+        userDifficulty,
+        userRating,
+        userFeedback,
+      })
+    });
 
-  const handleSubmitRetro = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const res = await fetch(`/api/missions/${missionId}/retrospective`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          projectDescription,
-          userDifficulty,
-          userRating,
-          userFeedback,
-          improvementSuggestions
-        })
-      });
+    if (!res.ok) throw new Error(await res.text());
 
-      if (!res.ok) throw new Error(await res.text());
+    setShowScanner(true);
+  } catch (error: any) {
+    toast.error(error.message || "Erreur lors de la rétrospective");
+    setIsSubmitting(false);
+  }
+};
 
-      setShowScanner(true);
-    } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la rétrospective");
-      setIsSubmitting(false);
-    }
-  };
 
   if (showScanner) {
     return (

@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { track } from "@vercel/analytics";
 import { Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Target, Zap, ShieldCheck, Globe, MessageSquare, Clock, Send } from "lucide-react";
+import { CheckCircle2, Lock, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -65,18 +64,16 @@ const STAGE_CONFIG: Record<ProgressionStage, {
 
 export function MissionsList({ 
   userLevel, 
-  userXp, 
   submissions,
   userClass,
   missions
 }: { 
   userLevel: number; 
-  userXp: number;
   submissions: Record<string, string>; // missionId -> status
   userClass?: string | null;
   missions: MissionWithStats[];
 }) {
-  const router = useRouter();
+
   const [selectedMission, setSelectedMission] = useState<MissionWithStats | null>(null);
   
   const lowerClass = useMemo(() => userClass?.toLowerCase(), [userClass]);

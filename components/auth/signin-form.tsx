@@ -160,8 +160,8 @@ export function SignInForm() {
             {/* Cyberpunk Animated Background Elements */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-[0.06] animate-grid-drift z-0" />
             
-            <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[130px] z-0" />
-            <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[100px] z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[130px] z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-75 h-75 bg-purple-500/5 rounded-full blur-[100px] z-0" />
 
             <Link href="/" className="mb-8 relative z-10 transition-all hover:scale-105 active:scale-95 duration-300">
                 <Image
@@ -173,15 +173,15 @@ export function SignInForm() {
                 />
             </Link>
 
-            <Card className="w-full max-w-md border border-white/[0.08] glass-card relative z-10 shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm transition-all duration-300">
+            <Card className="w-full max-w-md border border-white/8 glass-card relative z-10 shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm transition-all duration-300">
                 {/* Decorative neon top border */}
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-primary/50 to-transparent" />
                 
                 <CardHeader className="text-center space-y-2 pt-8 pb-6">
                     <CardTitle className="text-2xl font-black uppercase tracking-tight text-white italic leading-none">
                         {step === "initial" ? "Connexion" : "Vérification"}
                     </CardTitle>
-                    <CardDescription className="text-xs text-zinc-400 font-medium max-w-[280px] mx-auto leading-relaxed">
+                    <CardDescription className="text-xs text-zinc-400 font-medium max-w-70 mx-auto leading-relaxed">
                         {step === "initial" 
                             ? "Connecte-toi pour révéler tes forces et propulser ton parcours tech."
                             : `Saisis le code à 8 caractères envoyé à ${email}`}
