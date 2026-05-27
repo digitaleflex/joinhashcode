@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     # Ne déployer que si le CI a réussi
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+      packages: read   # Nécessaire pour pull l'image depuis ghcr.io
 
     steps:
       - name: Deploy to VPS via SSH
@@ -78,7 +81,7 @@ jobs:
 
             # 6. Authentification ghcr.io + déploiement de l'image versionnée
             echo "[5/5] Déploiement image : $IMAGE"
-            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
             HASHCODE_IMAGE="$IMAGE" docker compose pull web
             HASHCODE_IMAGE="$IMAGE" docker compose up -d --no-deps web
 
