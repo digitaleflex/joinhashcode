@@ -15,10 +15,19 @@ export default async function AdminLayout({
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
+    select: {
+      id: true, name: true, email: true, image: true, role: true, pseudo: true,
+      level: true, class: true, twoFactorEnabled: true,
+    },
   })
 
   if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
     redirect("/dashboard")
+  }
+
+  // Enforce 2FA for all admin/moderator accounts — redirect to settings to set it up
+  if (!dbUser.twoFactorEnabled) {
+    redirect("/settings?require2fa=1")
   }
 
   return (

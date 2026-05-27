@@ -193,6 +193,14 @@ export default function SettingsPage() {
     }
   }, [userData])
 
+  // Notify admin accounts that 2FA is required to access the admin panel
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("require2fa") === "1") {
+      toast.error("La double authentification (2FA) est obligatoire pour accéder au panel admin. Active-la dans l'onglet Sécurité.", { duration: 10000 })
+      setActiveTab("account")
+    }
+  }, [])
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
