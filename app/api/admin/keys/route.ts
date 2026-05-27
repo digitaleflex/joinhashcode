@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
+import { logActivity } from "@/lib/activity-log";
 
 async function checkAdmin() {
   const session = await auth.api.getSession({

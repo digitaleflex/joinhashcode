@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { logActivity } from "@/lib/activity-log";
 
 async function checkAdmin() {
   const session = await auth.api.getSession({
@@ -22,19 +23,20 @@ async function checkAdmin() {
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   try {
+    const { id } = await params;
     const betaKey = await prisma.betaKey.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: { key: true }
     });
 
     await prisma.betaKey.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (betaKey) {

@@ -108,6 +108,11 @@ export type BetaFeedback = $Result.DefaultSelection<Prisma.$BetaFeedbackPayload>
  * 
  */
 export type JoinRequest = $Result.DefaultSelection<Prisma.$JoinRequestPayload>
+/**
+ * Model BetaKey
+ * 
+ */
+export type BetaKey = $Result.DefaultSelection<Prisma.$BetaKeyPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -419,6 +424,16 @@ export class PrismaClient<
     * ```
     */
   get joinRequest(): Prisma.JoinRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.betaKey`: Exposes CRUD operations for the **BetaKey** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BetaKeys
+    * const betaKeys = await prisma.betaKey.findMany()
+    * ```
+    */
+  get betaKey(): Prisma.BetaKeyDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -871,7 +886,8 @@ export namespace Prisma {
     ContactMessage: 'ContactMessage',
     Notification: 'Notification',
     BetaFeedback: 'BetaFeedback',
-    JoinRequest: 'JoinRequest'
+    JoinRequest: 'JoinRequest',
+    BetaKey: 'BetaKey'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -887,7 +903,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "organization" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest"
+      modelProps: "user" | "organization" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest" | "betaKey"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2297,6 +2313,80 @@ export namespace Prisma {
           }
         }
       }
+      BetaKey: {
+        payload: Prisma.$BetaKeyPayload<ExtArgs>
+        fields: Prisma.BetaKeyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BetaKeyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BetaKeyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          findFirst: {
+            args: Prisma.BetaKeyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BetaKeyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          findMany: {
+            args: Prisma.BetaKeyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>[]
+          }
+          create: {
+            args: Prisma.BetaKeyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          createMany: {
+            args: Prisma.BetaKeyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BetaKeyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>[]
+          }
+          delete: {
+            args: Prisma.BetaKeyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          update: {
+            args: Prisma.BetaKeyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          deleteMany: {
+            args: Prisma.BetaKeyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BetaKeyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BetaKeyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>[]
+          }
+          upsert: {
+            args: Prisma.BetaKeyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BetaKeyPayload>
+          }
+          aggregate: {
+            args: Prisma.BetaKeyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBetaKey>
+          }
+          groupBy: {
+            args: Prisma.BetaKeyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BetaKeyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BetaKeyCountArgs<ExtArgs>
+            result: $Utils.Optional<BetaKeyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2424,6 +2514,7 @@ export namespace Prisma {
     notification?: NotificationOmit
     betaFeedback?: BetaFeedbackOmit
     joinRequest?: JoinRequestOmit
+    betaKey?: BetaKeyOmit
   }
 
   /* Types for Logging */
@@ -2867,6 +2958,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     emailVerified: boolean | null
+    emailStatus: string | null
+    emailLastBounced: Date | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2925,6 +3018,7 @@ export namespace Prisma {
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
+    betaKeyId: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2932,6 +3026,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     emailVerified: boolean | null
+    emailStatus: string | null
+    emailLastBounced: Date | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2990,6 +3086,7 @@ export namespace Prisma {
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
+    betaKeyId: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2997,6 +3094,8 @@ export namespace Prisma {
     name: number
     email: number
     emailVerified: number
+    emailStatus: number
+    emailLastBounced: number
     image: number
     createdAt: number
     updatedAt: number
@@ -3068,6 +3167,7 @@ export namespace Prisma {
     twoFactorEnabled: number
     twoFactorSecret: number
     twoFactorBackupCodes: number
+    betaKeyId: number
     _all: number
   }
 
@@ -3125,6 +3225,8 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    emailStatus?: true
+    emailLastBounced?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -3183,6 +3285,7 @@ export namespace Prisma {
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
+    betaKeyId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3190,6 +3293,8 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    emailStatus?: true
+    emailLastBounced?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -3248,6 +3353,7 @@ export namespace Prisma {
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
+    betaKeyId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3255,6 +3361,8 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    emailStatus?: true
+    emailLastBounced?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -3326,6 +3434,7 @@ export namespace Prisma {
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
+    betaKeyId?: true
     _all?: true
   }
 
@@ -3420,6 +3529,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus: string
+    emailLastBounced: Date | null
     image: string | null
     createdAt: Date
     updatedAt: Date
@@ -3491,6 +3602,7 @@ export namespace Prisma {
     twoFactorEnabled: boolean
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
+    betaKeyId: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -3517,6 +3629,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    emailStatus?: boolean
+    emailLastBounced?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3588,6 +3702,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
+    betaKeyId?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
@@ -3604,6 +3719,7 @@ export namespace Prisma {
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3612,6 +3728,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    emailStatus?: boolean
+    emailLastBounced?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3683,7 +3801,9 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
+    betaKeyId?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3691,6 +3811,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    emailStatus?: boolean
+    emailLastBounced?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3762,7 +3884,9 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
+    betaKeyId?: boolean
     mentor?: boolean | User$mentorArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -3770,6 +3894,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    emailStatus?: boolean
+    emailLastBounced?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3841,9 +3967,10 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
+    betaKeyId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSecretHash" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSecretHash" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
@@ -3861,13 +3988,16 @@ export namespace Prisma {
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
     mentor?: boolean | User$mentorArgs<ExtArgs>
     mentees?: boolean | User$menteesArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentor?: boolean | User$mentorArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mentor?: boolean | User$mentorArgs<ExtArgs>
+    betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3889,12 +4019,15 @@ export namespace Prisma {
       joinRequests: Prisma.$JoinRequestPayload<ExtArgs>[]
       mentor: Prisma.$UserPayload<ExtArgs> | null
       mentees: Prisma.$UserPayload<ExtArgs>[]
+      betaKey: Prisma.$BetaKeyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       email: string
       emailVerified: boolean
+      emailStatus: string
+      emailLastBounced: Date | null
       image: string | null
       createdAt: Date
       updatedAt: Date
@@ -3966,6 +4099,7 @@ export namespace Prisma {
       twoFactorEnabled: boolean
       twoFactorSecret: string | null
       twoFactorBackupCodes: string | null
+      betaKeyId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4376,6 +4510,7 @@ export namespace Prisma {
     joinRequests<T extends User$joinRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$joinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    betaKey<T extends User$betaKeyArgs<ExtArgs> = {}>(args?: Subset<T, User$betaKeyArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4409,6 +4544,8 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'Boolean'>
+    readonly emailStatus: FieldRef<"User", 'String'>
+    readonly emailLastBounced: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -4480,6 +4617,7 @@ export namespace Prisma {
     readonly twoFactorEnabled: FieldRef<"User", 'Boolean'>
     readonly twoFactorSecret: FieldRef<"User", 'String'>
     readonly twoFactorBackupCodes: FieldRef<"User", 'String'>
+    readonly betaKeyId: FieldRef<"User", 'String'>
   }
     
 
@@ -5257,6 +5395,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User.betaKey
+   */
+  export type User$betaKeyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    where?: BetaKeyWhereInput
   }
 
   /**
@@ -24840,6 +24997,8 @@ export namespace Prisma {
     userId: string | null
     status: string | null
     createdAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
   }
 
   export type JoinRequestMaxAggregateOutputType = {
@@ -24848,6 +25007,8 @@ export namespace Prisma {
     userId: string | null
     status: string | null
     createdAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
   }
 
   export type JoinRequestCountAggregateOutputType = {
@@ -24856,6 +25017,8 @@ export namespace Prisma {
     userId: number
     status: number
     createdAt: number
+    ipAddress: number
+    userAgent: number
     _all: number
   }
 
@@ -24866,6 +25029,8 @@ export namespace Prisma {
     userId?: true
     status?: true
     createdAt?: true
+    ipAddress?: true
+    userAgent?: true
   }
 
   export type JoinRequestMaxAggregateInputType = {
@@ -24874,6 +25039,8 @@ export namespace Prisma {
     userId?: true
     status?: true
     createdAt?: true
+    ipAddress?: true
+    userAgent?: true
   }
 
   export type JoinRequestCountAggregateInputType = {
@@ -24882,6 +25049,8 @@ export namespace Prisma {
     userId?: true
     status?: true
     createdAt?: true
+    ipAddress?: true
+    userAgent?: true
     _all?: true
   }
 
@@ -24963,6 +25132,8 @@ export namespace Prisma {
     userId: string
     status: string
     createdAt: Date
+    ipAddress: string | null
+    userAgent: string | null
     _count: JoinRequestCountAggregateOutputType | null
     _min: JoinRequestMinAggregateOutputType | null
     _max: JoinRequestMaxAggregateOutputType | null
@@ -24988,6 +25159,8 @@ export namespace Prisma {
     userId?: boolean
     status?: boolean
     createdAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["joinRequest"]>
@@ -24998,6 +25171,8 @@ export namespace Prisma {
     userId?: boolean
     status?: boolean
     createdAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["joinRequest"]>
@@ -25008,6 +25183,8 @@ export namespace Prisma {
     userId?: boolean
     status?: boolean
     createdAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["joinRequest"]>
@@ -25018,9 +25195,11 @@ export namespace Prisma {
     userId?: boolean
     status?: boolean
     createdAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
   }
 
-  export type JoinRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "userId" | "status" | "createdAt", ExtArgs["result"]["joinRequest"]>
+  export type JoinRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "userId" | "status" | "createdAt" | "ipAddress" | "userAgent", ExtArgs["result"]["joinRequest"]>
   export type JoinRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -25046,6 +25225,8 @@ export namespace Prisma {
       userId: string
       status: string
       createdAt: Date
+      ipAddress: string | null
+      userAgent: string | null
     }, ExtArgs["result"]["joinRequest"]>
     composites: {}
   }
@@ -25476,6 +25657,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"JoinRequest", 'String'>
     readonly status: FieldRef<"JoinRequest", 'String'>
     readonly createdAt: FieldRef<"JoinRequest", 'DateTime'>
+    readonly ipAddress: FieldRef<"JoinRequest", 'String'>
+    readonly userAgent: FieldRef<"JoinRequest", 'String'>
   }
     
 
@@ -25896,6 +26079,1100 @@ export namespace Prisma {
 
 
   /**
+   * Model BetaKey
+   */
+
+  export type AggregateBetaKey = {
+    _count: BetaKeyCountAggregateOutputType | null
+    _min: BetaKeyMinAggregateOutputType | null
+    _max: BetaKeyMaxAggregateOutputType | null
+  }
+
+  export type BetaKeyMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    isUsed: boolean | null
+    usedBy: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BetaKeyMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    isUsed: boolean | null
+    usedBy: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BetaKeyCountAggregateOutputType = {
+    id: number
+    key: number
+    isUsed: number
+    usedBy: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BetaKeyMinAggregateInputType = {
+    id?: true
+    key?: true
+    isUsed?: true
+    usedBy?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BetaKeyMaxAggregateInputType = {
+    id?: true
+    key?: true
+    isUsed?: true
+    usedBy?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BetaKeyCountAggregateInputType = {
+    id?: true
+    key?: true
+    isUsed?: true
+    usedBy?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BetaKeyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BetaKey to aggregate.
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaKeys to fetch.
+     */
+    orderBy?: BetaKeyOrderByWithRelationInput | BetaKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BetaKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BetaKeys
+    **/
+    _count?: true | BetaKeyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BetaKeyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BetaKeyMaxAggregateInputType
+  }
+
+  export type GetBetaKeyAggregateType<T extends BetaKeyAggregateArgs> = {
+        [P in keyof T & keyof AggregateBetaKey]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBetaKey[P]>
+      : GetScalarType<T[P], AggregateBetaKey[P]>
+  }
+
+
+
+
+  export type BetaKeyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BetaKeyWhereInput
+    orderBy?: BetaKeyOrderByWithAggregationInput | BetaKeyOrderByWithAggregationInput[]
+    by: BetaKeyScalarFieldEnum[] | BetaKeyScalarFieldEnum
+    having?: BetaKeyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BetaKeyCountAggregateInputType | true
+    _min?: BetaKeyMinAggregateInputType
+    _max?: BetaKeyMaxAggregateInputType
+  }
+
+  export type BetaKeyGroupByOutputType = {
+    id: string
+    key: string
+    isUsed: boolean
+    usedBy: string | null
+    expiresAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BetaKeyCountAggregateOutputType | null
+    _min: BetaKeyMinAggregateOutputType | null
+    _max: BetaKeyMaxAggregateOutputType | null
+  }
+
+  type GetBetaKeyGroupByPayload<T extends BetaKeyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BetaKeyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BetaKeyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BetaKeyGroupByOutputType[P]>
+            : GetScalarType<T[P], BetaKeyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BetaKeySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    isUsed?: boolean
+    usedBy?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | BetaKey$userArgs<ExtArgs>
+  }, ExtArgs["result"]["betaKey"]>
+
+  export type BetaKeySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    isUsed?: boolean
+    usedBy?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["betaKey"]>
+
+  export type BetaKeySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    isUsed?: boolean
+    usedBy?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["betaKey"]>
+
+  export type BetaKeySelectScalar = {
+    id?: boolean
+    key?: boolean
+    isUsed?: boolean
+    usedBy?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BetaKeyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "isUsed" | "usedBy" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["betaKey"]>
+  export type BetaKeyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | BetaKey$userArgs<ExtArgs>
+  }
+  export type BetaKeyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type BetaKeyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $BetaKeyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BetaKey"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      isUsed: boolean
+      usedBy: string | null
+      expiresAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["betaKey"]>
+    composites: {}
+  }
+
+  type BetaKeyGetPayload<S extends boolean | null | undefined | BetaKeyDefaultArgs> = $Result.GetResult<Prisma.$BetaKeyPayload, S>
+
+  type BetaKeyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BetaKeyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BetaKeyCountAggregateInputType | true
+    }
+
+  export interface BetaKeyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BetaKey'], meta: { name: 'BetaKey' } }
+    /**
+     * Find zero or one BetaKey that matches the filter.
+     * @param {BetaKeyFindUniqueArgs} args - Arguments to find a BetaKey
+     * @example
+     * // Get one BetaKey
+     * const betaKey = await prisma.betaKey.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BetaKeyFindUniqueArgs>(args: SelectSubset<T, BetaKeyFindUniqueArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BetaKey that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BetaKeyFindUniqueOrThrowArgs} args - Arguments to find a BetaKey
+     * @example
+     * // Get one BetaKey
+     * const betaKey = await prisma.betaKey.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BetaKeyFindUniqueOrThrowArgs>(args: SelectSubset<T, BetaKeyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BetaKey that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyFindFirstArgs} args - Arguments to find a BetaKey
+     * @example
+     * // Get one BetaKey
+     * const betaKey = await prisma.betaKey.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BetaKeyFindFirstArgs>(args?: SelectSubset<T, BetaKeyFindFirstArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BetaKey that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyFindFirstOrThrowArgs} args - Arguments to find a BetaKey
+     * @example
+     * // Get one BetaKey
+     * const betaKey = await prisma.betaKey.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BetaKeyFindFirstOrThrowArgs>(args?: SelectSubset<T, BetaKeyFindFirstOrThrowArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BetaKeys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BetaKeys
+     * const betaKeys = await prisma.betaKey.findMany()
+     * 
+     * // Get first 10 BetaKeys
+     * const betaKeys = await prisma.betaKey.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const betaKeyWithIdOnly = await prisma.betaKey.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BetaKeyFindManyArgs>(args?: SelectSubset<T, BetaKeyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BetaKey.
+     * @param {BetaKeyCreateArgs} args - Arguments to create a BetaKey.
+     * @example
+     * // Create one BetaKey
+     * const BetaKey = await prisma.betaKey.create({
+     *   data: {
+     *     // ... data to create a BetaKey
+     *   }
+     * })
+     * 
+     */
+    create<T extends BetaKeyCreateArgs>(args: SelectSubset<T, BetaKeyCreateArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BetaKeys.
+     * @param {BetaKeyCreateManyArgs} args - Arguments to create many BetaKeys.
+     * @example
+     * // Create many BetaKeys
+     * const betaKey = await prisma.betaKey.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BetaKeyCreateManyArgs>(args?: SelectSubset<T, BetaKeyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BetaKeys and returns the data saved in the database.
+     * @param {BetaKeyCreateManyAndReturnArgs} args - Arguments to create many BetaKeys.
+     * @example
+     * // Create many BetaKeys
+     * const betaKey = await prisma.betaKey.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BetaKeys and only return the `id`
+     * const betaKeyWithIdOnly = await prisma.betaKey.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BetaKeyCreateManyAndReturnArgs>(args?: SelectSubset<T, BetaKeyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BetaKey.
+     * @param {BetaKeyDeleteArgs} args - Arguments to delete one BetaKey.
+     * @example
+     * // Delete one BetaKey
+     * const BetaKey = await prisma.betaKey.delete({
+     *   where: {
+     *     // ... filter to delete one BetaKey
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BetaKeyDeleteArgs>(args: SelectSubset<T, BetaKeyDeleteArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BetaKey.
+     * @param {BetaKeyUpdateArgs} args - Arguments to update one BetaKey.
+     * @example
+     * // Update one BetaKey
+     * const betaKey = await prisma.betaKey.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BetaKeyUpdateArgs>(args: SelectSubset<T, BetaKeyUpdateArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BetaKeys.
+     * @param {BetaKeyDeleteManyArgs} args - Arguments to filter BetaKeys to delete.
+     * @example
+     * // Delete a few BetaKeys
+     * const { count } = await prisma.betaKey.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BetaKeyDeleteManyArgs>(args?: SelectSubset<T, BetaKeyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BetaKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BetaKeys
+     * const betaKey = await prisma.betaKey.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BetaKeyUpdateManyArgs>(args: SelectSubset<T, BetaKeyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BetaKeys and returns the data updated in the database.
+     * @param {BetaKeyUpdateManyAndReturnArgs} args - Arguments to update many BetaKeys.
+     * @example
+     * // Update many BetaKeys
+     * const betaKey = await prisma.betaKey.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BetaKeys and only return the `id`
+     * const betaKeyWithIdOnly = await prisma.betaKey.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BetaKeyUpdateManyAndReturnArgs>(args: SelectSubset<T, BetaKeyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BetaKey.
+     * @param {BetaKeyUpsertArgs} args - Arguments to update or create a BetaKey.
+     * @example
+     * // Update or create a BetaKey
+     * const betaKey = await prisma.betaKey.upsert({
+     *   create: {
+     *     // ... data to create a BetaKey
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BetaKey we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BetaKeyUpsertArgs>(args: SelectSubset<T, BetaKeyUpsertArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BetaKeys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyCountArgs} args - Arguments to filter BetaKeys to count.
+     * @example
+     * // Count the number of BetaKeys
+     * const count = await prisma.betaKey.count({
+     *   where: {
+     *     // ... the filter for the BetaKeys we want to count
+     *   }
+     * })
+    **/
+    count<T extends BetaKeyCountArgs>(
+      args?: Subset<T, BetaKeyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BetaKeyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BetaKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BetaKeyAggregateArgs>(args: Subset<T, BetaKeyAggregateArgs>): Prisma.PrismaPromise<GetBetaKeyAggregateType<T>>
+
+    /**
+     * Group by BetaKey.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BetaKeyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BetaKeyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BetaKeyGroupByArgs['orderBy'] }
+        : { orderBy?: BetaKeyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BetaKeyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBetaKeyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BetaKey model
+   */
+  readonly fields: BetaKeyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BetaKey.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BetaKeyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends BetaKey$userArgs<ExtArgs> = {}>(args?: Subset<T, BetaKey$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BetaKey model
+   */
+  interface BetaKeyFieldRefs {
+    readonly id: FieldRef<"BetaKey", 'String'>
+    readonly key: FieldRef<"BetaKey", 'String'>
+    readonly isUsed: FieldRef<"BetaKey", 'Boolean'>
+    readonly usedBy: FieldRef<"BetaKey", 'String'>
+    readonly expiresAt: FieldRef<"BetaKey", 'DateTime'>
+    readonly createdAt: FieldRef<"BetaKey", 'DateTime'>
+    readonly updatedAt: FieldRef<"BetaKey", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BetaKey findUnique
+   */
+  export type BetaKeyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaKey to fetch.
+     */
+    where: BetaKeyWhereUniqueInput
+  }
+
+  /**
+   * BetaKey findUniqueOrThrow
+   */
+  export type BetaKeyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaKey to fetch.
+     */
+    where: BetaKeyWhereUniqueInput
+  }
+
+  /**
+   * BetaKey findFirst
+   */
+  export type BetaKeyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaKey to fetch.
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaKeys to fetch.
+     */
+    orderBy?: BetaKeyOrderByWithRelationInput | BetaKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BetaKeys.
+     */
+    cursor?: BetaKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaKeys.
+     */
+    distinct?: BetaKeyScalarFieldEnum | BetaKeyScalarFieldEnum[]
+  }
+
+  /**
+   * BetaKey findFirstOrThrow
+   */
+  export type BetaKeyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaKey to fetch.
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaKeys to fetch.
+     */
+    orderBy?: BetaKeyOrderByWithRelationInput | BetaKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BetaKeys.
+     */
+    cursor?: BetaKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaKeys.
+     */
+    distinct?: BetaKeyScalarFieldEnum | BetaKeyScalarFieldEnum[]
+  }
+
+  /**
+   * BetaKey findMany
+   */
+  export type BetaKeyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter, which BetaKeys to fetch.
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BetaKeys to fetch.
+     */
+    orderBy?: BetaKeyOrderByWithRelationInput | BetaKeyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BetaKeys.
+     */
+    cursor?: BetaKeyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BetaKeys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BetaKeys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BetaKeys.
+     */
+    distinct?: BetaKeyScalarFieldEnum | BetaKeyScalarFieldEnum[]
+  }
+
+  /**
+   * BetaKey create
+   */
+  export type BetaKeyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BetaKey.
+     */
+    data: XOR<BetaKeyCreateInput, BetaKeyUncheckedCreateInput>
+  }
+
+  /**
+   * BetaKey createMany
+   */
+  export type BetaKeyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BetaKeys.
+     */
+    data: BetaKeyCreateManyInput | BetaKeyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BetaKey createManyAndReturn
+   */
+  export type BetaKeyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * The data used to create many BetaKeys.
+     */
+    data: BetaKeyCreateManyInput | BetaKeyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BetaKey update
+   */
+  export type BetaKeyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BetaKey.
+     */
+    data: XOR<BetaKeyUpdateInput, BetaKeyUncheckedUpdateInput>
+    /**
+     * Choose, which BetaKey to update.
+     */
+    where: BetaKeyWhereUniqueInput
+  }
+
+  /**
+   * BetaKey updateMany
+   */
+  export type BetaKeyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BetaKeys.
+     */
+    data: XOR<BetaKeyUpdateManyMutationInput, BetaKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which BetaKeys to update
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * Limit how many BetaKeys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BetaKey updateManyAndReturn
+   */
+  export type BetaKeyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * The data used to update BetaKeys.
+     */
+    data: XOR<BetaKeyUpdateManyMutationInput, BetaKeyUncheckedUpdateManyInput>
+    /**
+     * Filter which BetaKeys to update
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * Limit how many BetaKeys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BetaKey upsert
+   */
+  export type BetaKeyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BetaKey to update in case it exists.
+     */
+    where: BetaKeyWhereUniqueInput
+    /**
+     * In case the BetaKey found by the `where` argument doesn't exist, create a new BetaKey with this data.
+     */
+    create: XOR<BetaKeyCreateInput, BetaKeyUncheckedCreateInput>
+    /**
+     * In case the BetaKey was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BetaKeyUpdateInput, BetaKeyUncheckedUpdateInput>
+  }
+
+  /**
+   * BetaKey delete
+   */
+  export type BetaKeyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+    /**
+     * Filter which BetaKey to delete.
+     */
+    where: BetaKeyWhereUniqueInput
+  }
+
+  /**
+   * BetaKey deleteMany
+   */
+  export type BetaKeyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BetaKeys to delete
+     */
+    where?: BetaKeyWhereInput
+    /**
+     * Limit how many BetaKeys to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BetaKey.user
+   */
+  export type BetaKey$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * BetaKey without action
+   */
+  export type BetaKeyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BetaKey
+     */
+    select?: BetaKeySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BetaKey
+     */
+    omit?: BetaKeyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BetaKeyInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25914,6 +27191,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
+    emailStatus: 'emailStatus',
+    emailLastBounced: 'emailLastBounced',
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -25984,7 +27263,8 @@ export namespace Prisma {
     reviewsCompleted: 'reviewsCompleted',
     twoFactorEnabled: 'twoFactorEnabled',
     twoFactorSecret: 'twoFactorSecret',
-    twoFactorBackupCodes: 'twoFactorBackupCodes'
+    twoFactorBackupCodes: 'twoFactorBackupCodes',
+    betaKeyId: 'betaKeyId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -26269,10 +27549,25 @@ export namespace Prisma {
     organizationId: 'organizationId',
     userId: 'userId',
     status: 'status',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent'
   };
 
   export type JoinRequestScalarFieldEnum = (typeof JoinRequestScalarFieldEnum)[keyof typeof JoinRequestScalarFieldEnum]
+
+
+  export const BetaKeyScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    isUsed: 'isUsed',
+    usedBy: 'usedBy',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BetaKeyScalarFieldEnum = (typeof BetaKeyScalarFieldEnum)[keyof typeof BetaKeyScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26416,6 +27711,8 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
+    emailStatus?: StringFilter<"User"> | string
+    emailLastBounced?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -26487,6 +27784,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFilter<"User"> | boolean
     twoFactorSecret?: StringNullableFilter<"User"> | string | null
     twoFactorBackupCodes?: StringNullableFilter<"User"> | string | null
+    betaKeyId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     dailyCheckins?: DailyCheckinListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
@@ -26503,6 +27801,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
+    betaKey?: XOR<BetaKeyNullableScalarRelationFilter, BetaKeyWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26510,6 +27809,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    emailStatus?: SortOrder
+    emailLastBounced?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26581,6 +27882,7 @@ export namespace Prisma {
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
     twoFactorBackupCodes?: SortOrderInput | SortOrder
+    betaKeyId?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     dailyCheckins?: DailyCheckinOrderByRelationAggregateInput
     guildMembers?: GuildMemberOrderByRelationAggregateInput
@@ -26597,6 +27899,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestOrderByRelationAggregateInput
     mentor?: UserOrderByWithRelationInput
     mentees?: UserOrderByRelationAggregateInput
+    betaKey?: BetaKeyOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26605,11 +27908,14 @@ export namespace Prisma {
     cardSignature?: string
     pseudo?: string
     memberNumber?: number
+    betaKeyId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
+    emailStatus?: StringFilter<"User"> | string
+    emailLastBounced?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -26694,13 +28000,16 @@ export namespace Prisma {
     joinRequests?: JoinRequestListRelationFilter
     mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     mentees?: UserListRelationFilter
-  }, "id" | "email" | "cardSignature" | "pseudo" | "memberNumber">
+    betaKey?: XOR<BetaKeyNullableScalarRelationFilter, BetaKeyWhereInput> | null
+  }, "id" | "email" | "cardSignature" | "pseudo" | "memberNumber" | "betaKeyId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    emailStatus?: SortOrder
+    emailLastBounced?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26772,6 +28081,7 @@ export namespace Prisma {
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
     twoFactorBackupCodes?: SortOrderInput | SortOrder
+    betaKeyId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -26787,6 +28097,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    emailStatus?: StringWithAggregatesFilter<"User"> | string
+    emailLastBounced?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -26858,6 +28170,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
     twoFactorSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
     twoFactorBackupCodes?: StringNullableWithAggregatesFilter<"User"> | string | null
+    betaKeyId?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type OrganizationWhereInput = {
@@ -28277,6 +29590,8 @@ export namespace Prisma {
     userId?: StringFilter<"JoinRequest"> | string
     status?: StringFilter<"JoinRequest"> | string
     createdAt?: DateTimeFilter<"JoinRequest"> | Date | string
+    ipAddress?: StringNullableFilter<"JoinRequest"> | string | null
+    userAgent?: StringNullableFilter<"JoinRequest"> | string | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -28287,6 +29602,8 @@ export namespace Prisma {
     userId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
     organization?: OrganizationOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -28301,6 +29618,8 @@ export namespace Prisma {
     userId?: StringFilter<"JoinRequest"> | string
     status?: StringFilter<"JoinRequest"> | string
     createdAt?: DateTimeFilter<"JoinRequest"> | Date | string
+    ipAddress?: StringNullableFilter<"JoinRequest"> | string | null
+    userAgent?: StringNullableFilter<"JoinRequest"> | string | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_organizationId">
@@ -28311,6 +29630,8 @@ export namespace Prisma {
     userId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
     _count?: JoinRequestCountOrderByAggregateInput
     _max?: JoinRequestMaxOrderByAggregateInput
     _min?: JoinRequestMinOrderByAggregateInput
@@ -28325,6 +29646,73 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"JoinRequest"> | string
     status?: StringWithAggregatesFilter<"JoinRequest"> | string
     createdAt?: DateTimeWithAggregatesFilter<"JoinRequest"> | Date | string
+    ipAddress?: StringNullableWithAggregatesFilter<"JoinRequest"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"JoinRequest"> | string | null
+  }
+
+  export type BetaKeyWhereInput = {
+    AND?: BetaKeyWhereInput | BetaKeyWhereInput[]
+    OR?: BetaKeyWhereInput[]
+    NOT?: BetaKeyWhereInput | BetaKeyWhereInput[]
+    id?: StringFilter<"BetaKey"> | string
+    key?: StringFilter<"BetaKey"> | string
+    isUsed?: BoolFilter<"BetaKey"> | boolean
+    usedBy?: StringNullableFilter<"BetaKey"> | string | null
+    expiresAt?: DateTimeNullableFilter<"BetaKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"BetaKey"> | Date | string
+    updatedAt?: DateTimeFilter<"BetaKey"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type BetaKeyOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    isUsed?: SortOrder
+    usedBy?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BetaKeyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    usedBy?: string
+    AND?: BetaKeyWhereInput | BetaKeyWhereInput[]
+    OR?: BetaKeyWhereInput[]
+    NOT?: BetaKeyWhereInput | BetaKeyWhereInput[]
+    isUsed?: BoolFilter<"BetaKey"> | boolean
+    expiresAt?: DateTimeNullableFilter<"BetaKey"> | Date | string | null
+    createdAt?: DateTimeFilter<"BetaKey"> | Date | string
+    updatedAt?: DateTimeFilter<"BetaKey"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "key" | "usedBy">
+
+  export type BetaKeyOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    isUsed?: SortOrder
+    usedBy?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BetaKeyCountOrderByAggregateInput
+    _max?: BetaKeyMaxOrderByAggregateInput
+    _min?: BetaKeyMinOrderByAggregateInput
+  }
+
+  export type BetaKeyScalarWhereWithAggregatesInput = {
+    AND?: BetaKeyScalarWhereWithAggregatesInput | BetaKeyScalarWhereWithAggregatesInput[]
+    OR?: BetaKeyScalarWhereWithAggregatesInput[]
+    NOT?: BetaKeyScalarWhereWithAggregatesInput | BetaKeyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BetaKey"> | string
+    key?: StringWithAggregatesFilter<"BetaKey"> | string
+    isUsed?: BoolWithAggregatesFilter<"BetaKey"> | boolean
+    usedBy?: StringNullableWithAggregatesFilter<"BetaKey"> | string | null
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"BetaKey"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BetaKey"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BetaKey"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -28332,6 +29720,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -28418,6 +29808,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28425,6 +29816,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -28496,6 +29889,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -28518,6 +29912,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28603,6 +29999,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28610,6 +30007,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28681,6 +30080,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -28703,6 +30103,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -28774,6 +30176,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -28781,6 +30184,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28857,6 +30262,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28928,6 +30335,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrganizationCreateInput = {
@@ -30501,6 +31909,8 @@ export namespace Prisma {
     id?: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     organization: OrganizationCreateNestedOneWithoutJoinRequestsInput
     user: UserCreateNestedOneWithoutJoinRequestsInput
   }
@@ -30511,12 +31921,16 @@ export namespace Prisma {
     userId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type JoinRequestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     organization?: OrganizationUpdateOneRequiredWithoutJoinRequestsNestedInput
     user?: UserUpdateOneRequiredWithoutJoinRequestsNestedInput
   }
@@ -30527,6 +31941,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JoinRequestCreateManyInput = {
@@ -30535,12 +31951,16 @@ export namespace Prisma {
     userId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type JoinRequestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JoinRequestUncheckedUpdateManyInput = {
@@ -30549,6 +31969,82 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BetaKeyCreateInput = {
+    id?: string
+    key: string
+    isUsed?: boolean
+    usedBy?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutBetaKeyInput
+  }
+
+  export type BetaKeyUncheckedCreateInput = {
+    id?: string
+    key: string
+    isUsed?: boolean
+    usedBy?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserUncheckedCreateNestedOneWithoutBetaKeyInput
+  }
+
+  export type BetaKeyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutBetaKeyNestedInput
+  }
+
+  export type BetaKeyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUncheckedUpdateOneWithoutBetaKeyNestedInput
+  }
+
+  export type BetaKeyCreateManyInput = {
+    id?: string
+    key: string
+    isUsed?: boolean
+    usedBy?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaKeyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaKeyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -30569,6 +32065,17 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -30648,17 +32155,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -30777,6 +32273,11 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type BetaKeyNullableScalarRelationFilter = {
+    is?: BetaKeyWhereInput | null
+    isNot?: BetaKeyWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -30843,6 +32344,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    emailStatus?: SortOrder
+    emailLastBounced?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30914,6 +32417,7 @@ export namespace Prisma {
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
+    betaKeyId?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -30945,6 +32449,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    emailStatus?: SortOrder
+    emailLastBounced?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31003,6 +32509,7 @@ export namespace Prisma {
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
+    betaKeyId?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -31010,6 +32517,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    emailStatus?: SortOrder
+    emailLastBounced?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31068,6 +32577,7 @@ export namespace Prisma {
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
+    betaKeyId?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -31118,6 +32628,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -31208,20 +32732,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -32102,6 +33612,8 @@ export namespace Prisma {
     userId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
   }
 
   export type JoinRequestMaxOrderByAggregateInput = {
@@ -32110,6 +33622,8 @@ export namespace Prisma {
     userId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
   }
 
   export type JoinRequestMinOrderByAggregateInput = {
@@ -32118,6 +33632,38 @@ export namespace Prisma {
     userId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+  }
+
+  export type BetaKeyCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    isUsed?: SortOrder
+    usedBy?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BetaKeyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    isUsed?: SortOrder
+    usedBy?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BetaKeyMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    isUsed?: SortOrder
+    usedBy?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserCreateactivePathsInput = {
@@ -32279,6 +33825,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type BetaKeyCreateNestedOneWithoutUserInput = {
+    create?: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BetaKeyCreateOrConnectWithoutUserInput
+    connect?: BetaKeyWhereUniqueInput
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -32392,6 +33944,10 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -32424,10 +33980,6 @@ export namespace Prisma {
   export type UserUpdatebadgesInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdatecohortsJoinedInput = {
@@ -32718,6 +34270,16 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
     updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type BetaKeyUpdateOneWithoutUserNestedInput = {
+    create?: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BetaKeyCreateOrConnectWithoutUserInput
+    upsert?: BetaKeyUpsertWithoutUserInput
+    disconnect?: BetaKeyWhereInput | boolean
+    delete?: BetaKeyWhereInput | boolean
+    connect?: BetaKeyWhereUniqueInput
+    update?: XOR<XOR<BetaKeyUpdateToOneWithWhereWithoutUserInput, BetaKeyUpdateWithoutUserInput>, BetaKeyUncheckedUpdateWithoutUserInput>
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -33497,6 +35059,38 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutJoinRequestsInput, UserUpdateWithoutJoinRequestsInput>, UserUncheckedUpdateWithoutJoinRequestsInput>
   }
 
+  export type UserCreateNestedOneWithoutBetaKeyInput = {
+    create?: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaKeyInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUncheckedCreateNestedOneWithoutBetaKeyInput = {
+    create?: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaKeyInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutBetaKeyNestedInput = {
+    create?: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaKeyInput
+    upsert?: UserUpsertWithoutBetaKeyInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBetaKeyInput, UserUpdateWithoutBetaKeyInput>, UserUncheckedUpdateWithoutBetaKeyInput>
+  }
+
+  export type UserUncheckedUpdateOneWithoutBetaKeyNestedInput = {
+    create?: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBetaKeyInput
+    upsert?: UserUpsertWithoutBetaKeyInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBetaKeyInput, UserUpdateWithoutBetaKeyInput>, UserUncheckedUpdateWithoutBetaKeyInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -33514,6 +35108,17 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -33561,17 +35166,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -33624,6 +35218,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -33710,20 +35318,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -34237,6 +35831,8 @@ export namespace Prisma {
     id?: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     organization: OrganizationCreateNestedOneWithoutJoinRequestsInput
   }
 
@@ -34245,6 +35841,8 @@ export namespace Prisma {
     organizationId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type JoinRequestCreateOrConnectWithoutUserInput = {
@@ -34262,6 +35860,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -34347,6 +35947,7 @@ export namespace Prisma {
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMenteesInput = {
@@ -34354,6 +35955,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -34425,6 +36028,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -34451,6 +36055,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -34536,6 +36142,7 @@ export namespace Prisma {
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMentorInput = {
@@ -34543,6 +36150,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -34613,6 +36222,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -34638,6 +36248,31 @@ export namespace Prisma {
   export type UserCreateManyMentorInputEnvelope = {
     data: UserCreateManyMentorInput | UserCreateManyMentorInput[]
     skipDuplicates?: boolean
+  }
+
+  export type BetaKeyCreateWithoutUserInput = {
+    id?: string
+    key: string
+    isUsed?: boolean
+    usedBy?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaKeyUncheckedCreateWithoutUserInput = {
+    id?: string
+    key: string
+    isUsed?: boolean
+    usedBy?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BetaKeyCreateOrConnectWithoutUserInput = {
+    where: BetaKeyWhereUniqueInput
+    create: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -35053,6 +36688,8 @@ export namespace Prisma {
     userId?: StringFilter<"JoinRequest"> | string
     status?: StringFilter<"JoinRequest"> | string
     createdAt?: DateTimeFilter<"JoinRequest"> | Date | string
+    ipAddress?: StringNullableFilter<"JoinRequest"> | string | null
+    userAgent?: StringNullableFilter<"JoinRequest"> | string | null
   }
 
   export type UserUpsertWithoutMenteesInput = {
@@ -35071,6 +36708,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35155,6 +36794,7 @@ export namespace Prisma {
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMenteesInput = {
@@ -35162,6 +36802,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35233,6 +36875,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -35273,6 +36916,8 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
+    emailStatus?: StringFilter<"User"> | string
+    emailLastBounced?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -35344,6 +36989,38 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFilter<"User"> | boolean
     twoFactorSecret?: StringNullableFilter<"User"> | string | null
     twoFactorBackupCodes?: StringNullableFilter<"User"> | string | null
+    betaKeyId?: StringNullableFilter<"User"> | string | null
+  }
+
+  export type BetaKeyUpsertWithoutUserInput = {
+    update: XOR<BetaKeyUpdateWithoutUserInput, BetaKeyUncheckedUpdateWithoutUserInput>
+    create: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
+    where?: BetaKeyWhereInput
+  }
+
+  export type BetaKeyUpdateToOneWithWhereWithoutUserInput = {
+    where?: BetaKeyWhereInput
+    data: XOR<BetaKeyUpdateWithoutUserInput, BetaKeyUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BetaKeyUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BetaKeyUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    isUsed?: BoolFieldUpdateOperationsInput | boolean
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MemberCreateWithoutOrganizationInput = {
@@ -35402,6 +37079,8 @@ export namespace Prisma {
     id?: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     user: UserCreateNestedOneWithoutJoinRequestsInput
   }
 
@@ -35410,6 +37089,8 @@ export namespace Prisma {
     userId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type JoinRequestCreateOrConnectWithoutOrganizationInput = {
@@ -35518,6 +37199,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -35603,6 +37286,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMembersInput = {
@@ -35610,6 +37294,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -35681,6 +37367,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -35767,6 +37454,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35851,6 +37540,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembersInput = {
@@ -35858,6 +37548,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35929,6 +37621,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -35993,6 +37686,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36078,6 +37773,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInvitationsInput = {
@@ -36085,6 +37781,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36156,6 +37854,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -36242,6 +37941,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36326,6 +38027,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvitationsInput = {
@@ -36333,6 +38035,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36404,6 +38108,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -36425,6 +38130,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36510,6 +38217,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -36517,6 +38225,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36588,6 +38298,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -36625,6 +38336,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36709,6 +38422,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -36716,6 +38430,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36787,6 +38503,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -36808,6 +38525,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36893,6 +38612,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDailyCheckinsInput = {
@@ -36900,6 +38620,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -36971,6 +38693,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -37008,6 +38731,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37092,6 +38817,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDailyCheckinsInput = {
@@ -37099,6 +38825,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37170,6 +38898,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -37338,6 +39067,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -37423,6 +39154,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGuildMembersInput = {
@@ -37430,6 +39162,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -37501,6 +39235,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -37577,6 +39312,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37661,6 +39398,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuildMembersInput = {
@@ -37668,6 +39406,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37739,6 +39479,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -37760,6 +39501,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -37845,6 +39588,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -37852,6 +39596,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -37923,6 +39669,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -37960,6 +39707,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38044,6 +39793,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -38051,6 +39801,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38122,6 +39874,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -38143,6 +39896,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -38228,6 +39983,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -38235,6 +39991,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -38306,6 +40064,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -38343,6 +40102,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38427,6 +40188,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -38434,6 +40196,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38505,6 +40269,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -38526,6 +40291,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -38611,6 +40378,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuizResultsInput = {
@@ -38618,6 +40386,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -38689,6 +40459,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -38726,6 +40497,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38810,6 +40583,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizResultsInput = {
@@ -38817,6 +40591,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38888,6 +40664,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -38972,6 +40749,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -39057,6 +40836,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
@@ -39064,6 +40844,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -39135,6 +40917,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -39161,6 +40944,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -39246,6 +41031,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInReviewInput = {
@@ -39253,6 +41039,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -39324,6 +41112,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -39460,6 +41249,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39544,6 +41335,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
@@ -39551,6 +41343,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39622,6 +41416,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -39654,6 +41449,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39738,6 +41535,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInReviewInput = {
@@ -39745,6 +41543,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39816,6 +41616,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -39906,6 +41707,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -39991,6 +41794,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -39998,6 +41802,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -40069,6 +41875,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -40165,6 +41972,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40249,6 +42058,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -40256,6 +42066,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40327,6 +42139,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -40348,6 +42161,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -40433,6 +42248,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -40440,6 +42256,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -40511,6 +42329,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -40548,6 +42367,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40632,6 +42453,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -40639,6 +42461,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40710,6 +42534,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -40731,6 +42556,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -40816,6 +42643,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBetaFeedbacksInput = {
@@ -40823,6 +42651,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -40894,6 +42724,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -40931,6 +42762,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41015,6 +42848,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBetaFeedbacksInput = {
@@ -41022,6 +42856,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41093,6 +42929,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -41157,6 +42994,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -41242,6 +43081,7 @@ export namespace Prisma {
     invitations?: InvitationCreateNestedManyWithoutUserInput
     mentor?: UserCreateNestedOneWithoutMenteesInput
     mentees?: UserCreateNestedManyWithoutMentorInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinRequestsInput = {
@@ -41249,6 +43089,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -41320,6 +43162,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -41406,6 +43249,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41490,6 +43335,7 @@ export namespace Prisma {
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     mentor?: UserUpdateOneWithoutMenteesNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinRequestsInput = {
@@ -41497,6 +43343,403 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserCreateWithoutBetaKeyInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
+    mentor?: UserCreateNestedOneWithoutMenteesInput
+    mentees?: UserCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserUncheckedCreateWithoutBetaKeyInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    activePaths?: UserCreateactivePathsInput | string[]
+    ageRange?: string | null
+    answerConsistency?: number | null
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: number
+    catalystScore?: number
+    cardSecretHash?: string | null
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
+    communityEngagement?: number | null
+    confidenceScore?: number
+    connectionFrequency?: number | null
+    country?: string | null
+    creatorScore?: number
+    currentSituation?: string | null
+    dashboardActivity?: number | null
+    domains?: UserCreatedomainsInput | string[]
+    dominantMotivation?: string | null
+    githubUrl?: string | null
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    longTermObjective?: string | null
+    mainObjective?: string | null
+    mentorId?: string | null
+    missionsCompletedCount?: number
+    onboardingSpeed?: number | null
+    polarization?: number
+    portfolioUrl?: string | null
+    predictedEngagementScore?: number | null
+    preferredRhythm?: string | null
+    profileDrift?: number
+    profileStability?: number
+    projectsRealized?: UserCreateprojectsRealizedInput | string[]
+    pseudo?: string | null
+    recommendedPath?: UserCreaterecommendedPathInput | string[]
+    recommendedTools?: UserCreaterecommendedToolsInput | string[]
+    strategistScore?: number
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    linkedinUrl?: string | null
+    memberNumber?: number
+    twitterUrl?: string | null
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    lastCheckinAt?: Date | string | null
+    currentStreak?: number
+    longestStreak?: number
+    lastStreakDate?: Date | string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
+    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
+  }
+
+  export type UserCreateOrConnectWithoutBetaKeyInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+  }
+
+  export type UserUpsertWithoutBetaKeyInput = {
+    update: XOR<UserUpdateWithoutBetaKeyInput, UserUncheckedUpdateWithoutBetaKeyInput>
+    create: XOR<UserCreateWithoutBetaKeyInput, UserUncheckedCreateWithoutBetaKeyInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBetaKeyInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBetaKeyInput, UserUncheckedUpdateWithoutBetaKeyInput>
+  }
+
+  export type UserUpdateWithoutBetaKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    activePaths?: UserUpdateactivePathsInput | string[]
+    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
+    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    builderScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
+    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
+    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
+    domains?: UserUpdatedomainsInput | string[]
+    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
+    polarization?: FloatFieldUpdateOperationsInput | number
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
+    profileDrift?: FloatFieldUpdateOperationsInput | number
+    profileStability?: FloatFieldUpdateOperationsInput | number
+    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendedPath?: UserUpdaterecommendedPathInput | string[]
+    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
+    mentor?: UserUpdateOneWithoutMenteesNestedInput
+    mentees?: UserUpdateManyWithoutMentorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBetaKeyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41581,6 +43824,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
     mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
@@ -41744,6 +43988,8 @@ export namespace Prisma {
     organizationId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type UserCreateManyMentorInput = {
@@ -41751,6 +43997,8 @@ export namespace Prisma {
     name: string
     email: string
     emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
     image?: string | null
     createdAt: Date | string
     updatedAt: Date | string
@@ -41821,6 +44069,7 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -42296,6 +44545,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     organization?: OrganizationUpdateOneRequiredWithoutJoinRequestsNestedInput
   }
 
@@ -42304,6 +44555,8 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JoinRequestUncheckedUpdateManyWithoutUserInput = {
@@ -42311,6 +44564,8 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpdateWithoutMentorInput = {
@@ -42318,6 +44573,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42402,6 +44659,7 @@ export namespace Prisma {
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
     mentees?: UserUpdateManyWithoutMentorNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMentorInput = {
@@ -42409,6 +44667,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42479,6 +44739,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -42501,6 +44762,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42571,6 +44834,7 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MemberCreateManyOrganizationInput = {
@@ -42594,6 +44858,8 @@ export namespace Prisma {
     userId: string
     status?: string
     createdAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type MemberUpdateWithoutOrganizationInput = {
@@ -42648,6 +44914,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutJoinRequestsNestedInput
   }
 
@@ -42656,6 +44924,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type JoinRequestUncheckedUpdateManyWithoutOrganizationInput = {
@@ -42663,6 +44933,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MissionSubmissionCreateManyMissionInput = {

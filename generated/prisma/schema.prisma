@@ -12,6 +12,8 @@ model User {
   name                     String
   email                    String              @unique
   emailVerified            Boolean
+  emailStatus              String              @default("VALID") // VALID, BOUNCED, COMPLAINED
+  emailLastBounced         DateTime?
   image                    String?
   createdAt                DateTime
   updatedAt                DateTime
@@ -99,6 +101,8 @@ model User {
   joinRequests             JoinRequest[]
   mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
   mentees                  User[]              @relation("Mentorship")
+  betaKeyId                String?             @unique
+  betaKey                  BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
 
   @@index([level])
   @@index([class])
@@ -429,6 +433,22 @@ model JoinRequest {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  ipAddress String?
+  userAgent String?
+
   @@unique([userId, organizationId])
   @@map("join_request")
+}
+
+model BetaKey {
+  id        String    @id @default(cuid())
+  key       String    @unique
+  isUsed    Boolean   @default(false)
+  usedBy    String?   @unique
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User?     @relation("UserBetaKey")
+
+  @@map("beta_key")
 }

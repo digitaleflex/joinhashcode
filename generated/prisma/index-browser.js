@@ -125,6 +125,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  emailStatus: 'emailStatus',
+  emailLastBounced: 'emailLastBounced',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -195,7 +197,8 @@ exports.Prisma.UserScalarFieldEnum = {
   reviewsCompleted: 'reviewsCompleted',
   twoFactorEnabled: 'twoFactorEnabled',
   twoFactorSecret: 'twoFactorSecret',
-  twoFactorBackupCodes: 'twoFactorBackupCodes'
+  twoFactorBackupCodes: 'twoFactorBackupCodes',
+  betaKeyId: 'betaKeyId'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
@@ -426,7 +429,19 @@ exports.Prisma.JoinRequestScalarFieldEnum = {
   organizationId: 'organizationId',
   userId: 'userId',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent'
+};
+
+exports.Prisma.BetaKeyScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  isUsed: 'isUsed',
+  usedBy: 'usedBy',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -479,7 +494,8 @@ exports.Prisma.ModelName = {
   ContactMessage: 'ContactMessage',
   Notification: 'Notification',
   BetaFeedback: 'BetaFeedback',
-  JoinRequest: 'JoinRequest'
+  JoinRequest: 'JoinRequest',
+  BetaKey: 'BetaKey'
 };
 
 /**

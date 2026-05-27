@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { logActivity } from "@/lib/activity-log";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -20,7 +21,7 @@ async function checkAdmin() {
   return session.user;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   const admin = await checkAdmin();
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 

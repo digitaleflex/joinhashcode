@@ -47,17 +47,18 @@ async function checkAdmin() {
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   try {
+    const { id } = await params;
     const body = await req.json();
     const validatedData = missionSchema.parse(body);
 
     const mission = await prisma.mission.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...validatedData,
         acceptanceCriteria: validatedData.acceptanceCriteria as any,
@@ -85,19 +86,20 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   try {
+    const { id } = await params;
     const mission = await prisma.mission.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: { title: true, slug: true }
     });
 
     await prisma.mission.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (mission) {
@@ -105,7 +107,7 @@ export async function DELETE(
         userId: admin.id,
         action: "ADMIN_MISSION_DELETED",
         entity: "Mission",
-        entityId: params.id,
+        entityId: id,
         metadata: { title: mission.title, slug: mission.slug },
         request: req
       });
