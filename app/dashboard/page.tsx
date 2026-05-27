@@ -46,7 +46,8 @@ export default async function DashboardPage() {
     }),
     prisma.missionSubmission.findMany({
       where: { userId: session.user.id },
-      select: { missionId: true, status: true }
+      select: { missionId: true, status: true },
+      take: 200,
     }),
     prisma.guildMember.findFirst({
       where: { userId: session.user.id },
@@ -54,6 +55,7 @@ export default async function DashboardPage() {
         guild: {
           include: {
             members: {
+              take: 5,
               include: {
                 user: {
                   select: {
