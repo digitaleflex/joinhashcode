@@ -74,23 +74,26 @@ jobs:
             fi
             echo "[4/5] .env.production detecte OK"
 
-            # 6. Reconstruire et redémarrer UNIQUEMENT le conteneur web
-            # Cela évite de stopper ou de recréer la base de données (zéro risque de perte de données)
-            echo "[5/5] Reconstruction et mise à jour du conteneur web..."
-            docker compose up -d --build --no-deps web
+            # 6. Mise à jour des conteneurs
+            echo "[5/5] Mise à jour des images et redémarrage..."
+            docker compose pull
+            docker compose up -d --no-deps web
 
-            # 7. Appliquer les modifications de schéma en toute sécurité
+            # 7. Déduplication des données avant d'appliquer les contraintes uniques
+            # (évite l'erreur "duplicate key value" lors du db push si des doublons existent)
+            echo "[DATABASE] Nettoyage des doublons en base..."
+            docker compose exec -T web npx tsx scripts/dedup-constraints.ts
+
+            # 7b. Appliquer les modifications de schéma (db push — pas de fichiers migration)
+            echo "[DATABASE] Application du schéma Prisma..."
             docker compose exec -T web npx prisma db push
 
-            # 8. Migration automatique des Escouades vers Better Auth Organization
-            # Utilise upsert pour éviter les doublons — Aucun risque de perte de données
+            # 8. Scripts de maintenance et synchro
             echo "[MIGRATION] Migration des Guilds vers Organizations..."
             docker compose exec -T web npx tsx scripts/migrate-guilds-to-orgs.ts
 
-            # 9. Synchroniser le catalogue (missions, weekly challenges, guilds, admins)
-            # Safe : upsert uniquement — aucune donnée user touchée
+            echo "[SEED] Synchronisation du catalogue et du seed..."
             docker compose exec -T web npx tsx prisma/seed.ts
-            docker compose exec -T web npx prisma db seed
 
             # 10. Nettoyage des anciennes images
             docker image prune -f
