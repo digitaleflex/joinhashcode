@@ -24,10 +24,8 @@ export const POST = async (req: NextRequest) => {
     const result = feedbackSchema.safeParse(body);
 
     if (!result.success) {
-      return NextResponse.json(
-        { error: "Données invalides", details: result.error.format() },
-        { status: 400 }
-      );
+      const firstError = result.error.errors[0]?.message ?? "Données invalides."
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
     const feedback = await prisma.betaFeedback.create({
