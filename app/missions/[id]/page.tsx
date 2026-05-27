@@ -15,6 +15,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { MissionSubmissionForm } from "./mission-submission-form"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline } from "@/components/missions/submission-timeline"
+import { SuggestedPartners } from "@/components/missions/suggested-partners"
 
 export default async function MissionBriefingPage({
   params,
@@ -50,6 +51,35 @@ export default async function MissionBriefingPage({
 
   if (!dbUser) redirect("/signin")
   if (!mission) notFound()
+
+  // Complementary class mapping for Matchmaking Alpha
+  const complementaryClasses: Record<string, string[]> = {
+    BUILDER: ["CREATOR", "STRATEGIST"],
+    CREATOR: ["BUILDER", "STRATEGIST"],
+    STRATEGIST: ["BUILDER", "CREATOR"],
+    CATALYST: ["BUILDER", "CREATOR"],
+  }
+
+  const userClass = dbUser.class?.toUpperCase() || ""
+  const targets = complementaryClasses[userClass] || ["BUILDER", "CREATOR"]
+
+  // Query 3 suggested partners with complementary classes
+  const suggestedPartners = await prisma.user.findMany({
+    where: {
+      id: { not: dbUser.id },
+      class: { in: targets },
+      banned: { not: true },
+    },
+    select: {
+      id: true,
+      pseudo: true,
+      class: true,
+      githubUrl: true,
+      linkedinUrl: true,
+      twitterUrl: true,
+    },
+    take: 3,
+  })
 
   const submission = dbUser.missionSubmissions[0]
   const isCompleted = submission?.status === "APPROVED"
@@ -316,6 +346,9 @@ export default async function MissionBriefingPage({
                     </ul>
                   </div>
                 )}
+
+                {/* Suggested Partners card */}
+                <SuggestedPartners partners={suggestedPartners} />
 
               </div>
             </div>

@@ -38,7 +38,7 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       ok: true,
       json: async () => ({
         session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: null }
+        user: { id: 'user_1', currentSituation: null, betaKeyId: 'key_1' }
       }),
     });
 
@@ -54,7 +54,7 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       ok: true,
       json: async () => ({
         session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: 'STUDENT', class: null }
+        user: { id: 'user_1', currentSituation: 'STUDENT', class: null, betaKeyId: 'key_1' }
       }),
     });
 
@@ -70,7 +70,7 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       ok: true,
       json: async () => ({
         session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: 'STUDENT', class: 'BUILDER', dreamStatement: null }
+        user: { id: 'user_1', currentSituation: 'STUDENT', class: 'BUILDER', dreamStatement: null, betaKeyId: 'key_1' }
       }),
     });
 
@@ -90,7 +90,8 @@ describe('Middleware Auth & Onboarding Funnel', () => {
             id: 'user_1', 
             currentSituation: 'STUDENT', 
             class: 'BUILDER', 
-            dreamStatement: 'I want to build a SaaS' 
+            dreamStatement: 'I want to build a SaaS',
+            betaKeyId: 'key_1'
         }
       }),
     });

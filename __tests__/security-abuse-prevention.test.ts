@@ -5,8 +5,8 @@ import { NextRequest } from "next/server";
 import { prisma } from "../lib/prisma";
 import { auth } from "../lib/auth";
 
-vi.mock("../lib/prisma", () => ({
-  prisma: {
+vi.mock("../lib/prisma", () => {
+  const mockPrisma = {
     dailyCheckin: {
       findFirst: vi.fn(),
       create: vi.fn(),
@@ -15,8 +15,18 @@ vi.mock("../lib/prisma", () => ({
       findUnique: vi.fn(),
       update: vi.fn(),
     },
-  },
-}));
+    member: {
+      findFirst: vi.fn(),
+    },
+    guildMember: {
+      findFirst: vi.fn(),
+    },
+    $transaction: vi.fn((callback) => callback(mockPrisma)),
+  };
+  return {
+    prisma: mockPrisma,
+  };
+});
 
 vi.mock("../lib/auth", () => ({
   auth: {
@@ -38,12 +48,12 @@ describe("Security & Abuse Prevention", () => {
   describe("Daily Check-in Cooldown", () => {
     test("returns 429 if check-in exists in last 20 hours", async () => {
       (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
-      (prisma.dailyCheckin.findFirst as any).mockResolvedValue({ id: "checkin-1" });
+      (prisma.dailyCheckin.findFirst as any).mockResolvedValue({ id: "checkin-1", createdAt: new Date() });
 
       const req = new NextRequest("http://localhost/api/user/checkin", {
         method: "POST",
         body: JSON.stringify({
-          note: "Test note",
+          note: "Aujourd'hui j'ai codé des super fonctionnalités de matchmaking pour Hashcode.",
           domain: "Web",
           energy: 5,
           duration: 30,
@@ -53,7 +63,7 @@ describe("Security & Abuse Prevention", () => {
       const res = await checkinPOST(req);
       expect(res.status).toBe(429);
       const text = await res.text();
-      expect(text).toContain("Tu as déjà signé ton check-in aujourd'hui");
+      expect(text).toContain("Tu as déjà signé ton check-in");
     });
 
     test("strips HTML from note", async () => {

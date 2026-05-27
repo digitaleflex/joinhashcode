@@ -138,5 +138,6 @@ export function UserTopBar({ user }: { user: any }) {
         </DropdownMenu>
       </div>
     </header>
+    </>
   )
 }
