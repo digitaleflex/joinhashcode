@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, Zap, FileText } from "lucide-react"
-import { motion } from "framer-motion"
 
 export function BottomNav() {
   const pathname = usePathname()
@@ -21,7 +20,7 @@ export function BottomNav() {
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
           const Icon = item.icon
-          
+
           return (
             <Link
               key={item.href}
@@ -31,23 +30,16 @@ export function BottomNav() {
               }`}
             >
               {isActive && (
-                <motion.div
-                  layoutId="active-pill"
-                  className="absolute inset-0 bg-primary/10 rounded-2xl border border-primary/20"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
+                <span className="absolute inset-0 bg-primary/10 rounded-2xl border border-primary/20 transition-all duration-500" />
               )}
-              
+
               <Icon className={`w-5 h-5 relative z-10 transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
               <span className="text-[9px] font-bold uppercase tracking-wider relative z-10">
                 {item.name}
               </span>
 
               {isActive && (
-                <motion.div 
-                  layoutId="active-dot"
-                  className="absolute -bottom-1 w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(var(--primary),0.8)]"
-                />
+                <span className="absolute -bottom-1 w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(var(--primary),0.8)]" />
               )}
             </Link>
           )
