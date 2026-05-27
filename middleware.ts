@@ -41,6 +41,16 @@ export async function middleware(request: NextRequest) {
   const session = sessionData?.session;
   const user = sessionData?.user;
 
+  // Block banned users everywhere before any route-specific check
+  if (user?.banned) {
+    const banExpires = user.banExpires ? new Date(user.banExpires as string) : null;
+    if (!banExpires || banExpires > new Date()) {
+      const bannedUrl = new URL("/signin", request.url);
+      bannedUrl.searchParams.set("error", "banned");
+      return NextResponse.redirect(bannedUrl);
+    }
+  }
+
   const isProtectedPath =
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/missions') ||

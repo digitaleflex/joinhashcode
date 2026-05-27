@@ -56,6 +56,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Block banned users — same generic message to avoid leaking ban status to SSO consumers
+    if (user.banned) {
+      const banExpires = user.banExpires;
+      if (!banExpires || banExpires > new Date()) {
+        return NextResponse.json({ error: "Identifiants invalides" }, { status: 401 });
+      }
+    }
+
     // 2. Préparation du payload de l'écosystème SSO
     const ssoUser = {
       id: user.id,

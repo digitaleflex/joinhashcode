@@ -16,6 +16,15 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
 
+    // Refuse access for banned users
+    const sessionUser = session.user as any;
+    if (sessionUser.banned) {
+      const banExpires = sessionUser.banExpires ? new Date(sessionUser.banExpires) : null;
+      if (!banExpires || banExpires > new Date()) {
+        return new NextResponse("Ton compte est suspendu.", { status: 403 });
+      }
+    }
+
     // Find the squad with leader info
     const squad = await prisma.guild.findUnique({
       where: { slug },
