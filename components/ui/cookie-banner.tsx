@@ -54,8 +54,9 @@ export function CookieBanner() {
                 </div>
               </div>
 
-              <p className="text-[10px] text-zinc-500 leading-tight italic">
-                Tu as le plein contrôle : accepter nous aide à bâtir un meilleur outil, refuser ne limitera pas ton accès aux fonctionnalités de base.
+              <p className="text-[10px] text-zinc-500 leading-tight">
+                Tu as le plein contrôle : accepter nous aide à bâtir un meilleur outil, refuser ne limitera pas ton accès.{" "}
+                <Link href="/privacy" className="underline hover:text-zinc-300 transition-colors">Politique de confidentialité</Link>
               </p>
 
               <div className="flex flex-col sm:flex-row gap-2 pt-2">
