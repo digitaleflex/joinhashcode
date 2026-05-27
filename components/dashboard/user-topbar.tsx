@@ -34,7 +34,7 @@ export function UserTopBar({ user }: { user: any }) {
 
   const handleStopImpersonation = async () => {
     try {
-      // @ts-ignore
+      // @ts-expect-error
       await authClient.admin.stopImpersonating();
       toast.success("Retour au compte administrateur");
       window.location.href = "/admin/users";

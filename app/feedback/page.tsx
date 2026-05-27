@@ -16,19 +16,22 @@ export default async function FeedbackPage() {
     redirect("/signin");
   }
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      image: true,
-      level: true,
-      experience: true,
-      class: true,
-      role: true,
-    }
-  });
+  const [dbUser, userSquad] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        level: true,
+        experience: true,
+        class: true,
+        role: true,
+      }
+    }),
+    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
+  ]);
 
   if (!dbUser) {
     redirect("/signin");
@@ -36,7 +39,7 @@ export default async function FeedbackPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} />
+      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />
         <main className="flex-1 p-4 md:p-8 overflow-y-auto scrollbar-none">

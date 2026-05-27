@@ -58,7 +58,9 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/squad') ||
     request.nextUrl.pathname.startsWith('/dossier') ||
     request.nextUrl.pathname.startsWith('/reviewer') ||
-    request.nextUrl.pathname.startsWith('/feedback');
+    request.nextUrl.pathname.startsWith('/feedback') ||
+    request.nextUrl.pathname.startsWith('/onboarding') ||
+    request.nextUrl.pathname.startsWith('/quiz');
 
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');

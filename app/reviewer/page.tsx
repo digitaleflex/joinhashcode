@@ -12,15 +12,16 @@ export default async function ReviewerPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session) redirect("/signin")
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-  })
+  const [dbUser, userSquad] = await Promise.all([
+    prisma.user.findUnique({ where: { id: session.user.id } }),
+    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
+  ])
 
   if (!dbUser) redirect("/signin")
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} />
+      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
       <BottomNav />
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />

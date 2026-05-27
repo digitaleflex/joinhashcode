@@ -90,7 +90,7 @@ export default async function DossierPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} />
+      <AppSidebar user={user} hasSquad={!!activeOrg} />
       <BottomNav />
       
       <SidebarInset className="bg-background relative overflow-hidden">
@@ -180,11 +180,11 @@ export default async function DossierPage() {
 
                     {/* Quick Stats - Visible only on mobile for fast overview */}
                     <div className="grid grid-cols-2 gap-4 lg:hidden">
-                         <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                         <div className="p-4 rounded-2xl bg-white/2 border border-white/5 space-y-1">
                             <div className="text-[8px] font-mono text-zinc-600 uppercase">Objectif Suivant</div>
                             <div className="text-xs font-bold text-primary uppercase truncate">Upgrade_Niveau_{user.level + 1}</div>
                          </div>
-                         <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                         <div className="p-4 rounded-2xl bg-white/2 border border-white/5 space-y-1">
                             <div className="text-[8px] font-mono text-zinc-600 uppercase">Statut de l'Équipe</div>
                             <div className="text-xs font-bold text-white uppercase truncate">{activeOrg ? "Synchronisé" : "Solo_Build"}</div>
                          </div>
@@ -196,7 +196,7 @@ export default async function DossierPage() {
                             Recommandations Personnalisées
                             <div className="h-px bg-white/5 flex-1" />
                         </p>
-                        <Card className="glass-card rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-8 space-y-6 sm:space-y-8">
+                        <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6 sm:space-y-8">
                             <div className="grid grid-cols-2 gap-4 sm:gap-6">
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-2">
@@ -244,7 +244,7 @@ export default async function DossierPage() {
                             Infos Équipe
                             <div className="h-px bg-white/5 flex-1" />
                         </p>
-                        <Card className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-6 space-y-6">
+                        <Card className="glass-card rounded-3xl sm:rounded-4xl p-5 sm:p-6 space-y-6">
                             {activeOrg ? (
                                 <>
                                     <div className="flex items-center gap-4">
@@ -267,7 +267,7 @@ export default async function DossierPage() {
                                         </div>
                                     </div>
 
-                                    <Button asChild variant="outline" className="w-full border-white/5 bg-white/[0.02] text-[9px] sm:text-[10px] font-black uppercase h-10 rounded-xl">
+                                    <Button asChild variant="outline" className="w-full border-white/5 bg-white/2 text-[9px] sm:text-[10px] font-black uppercase h-10 rounded-xl">
                                         <Link href="/squad">Voir le Dashboard Squad</Link>
                                     </Button>
                                 </>
@@ -289,7 +289,7 @@ export default async function DossierPage() {
                     </div>
 
                     {/* Secondary Actions */}
-                    <Card className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 space-y-6">
+                    <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                         <div className="grid grid-cols-2 gap-3">
                             <Button asChild variant="outline" className="border-white/10 text-white font-black uppercase h-12 sm:h-14 rounded-xl sm:rounded-2xl group hover:bg-white/5 text-[10px]">
                                 <Link href="/tech-tree">
@@ -312,7 +312,7 @@ export default async function DossierPage() {
                     </Card>
  
                     {/* Metadata Section - Geographic & Network */}
-                    <Card className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 space-y-6">
+                    <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                         <div className="space-y-6">
                             <div className="space-y-2">
                                 <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif Principal</div>
@@ -349,7 +349,7 @@ export default async function DossierPage() {
                     </Card>
  
                     {/* Verification Protocol Badge */}
-                    <div className="p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] bg-emerald-500/5 border border-emerald-500/10 flex flex-col items-center text-center space-y-4">
+                    <div className="p-6 sm:p-8 rounded-3xl sm:rounded-5xl bg-emerald-500/5 border border-emerald-500/10 flex flex-col items-center text-center space-y-4">
                         <div className="size-12 sm:size-16 rounded-full bg-emerald-500/10 flex items-center justify-center border-2 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
                             <ShieldCheck className="size-6 sm:size-8 text-emerald-500" />
                         </div>
@@ -370,11 +370,11 @@ export default async function DossierPage() {
                             <h2 className="text-xl font-black uppercase tracking-tight text-white">Neuro-Mapping</h2>
                         </div>
                         
-                        <Card className="glass-card overflow-hidden relative group rounded-[1.5rem] sm:rounded-[2.5rem]">
+                        <Card className="glass-card overflow-hidden relative group rounded-3xl sm:rounded-5xl">
                             <CardContent className="p-5 sm:p-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
                                     <div className="order-2 md:order-1 space-y-6 sm:space-y-8">
-                                        <div className="p-6 rounded-[1.5rem] sm:rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
+                                        <div className="p-6 rounded-3xl sm:rounded-4xl bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
                                             <div className="flex items-center justify-between gap-4 mb-4">
                                                 <div className="space-y-1">
                                                     <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black uppercase">Vecteur_Dominant</span>
@@ -401,7 +401,7 @@ export default async function DossierPage() {
                                                     { label: 'STRATEGIST', value: user.strategistScore, color: 'text-amber-400' },
                                                     { label: 'CATALYST', value: user.catalystScore, color: 'text-emerald-400' }
                                                 ].map((stat) => (
-                                                    <div key={stat.label} className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                                                    <div key={stat.label} className="p-3 rounded-xl bg-white/2 border border-white/5">
                                                         <div className="text-[7px] sm:text-[8px] font-mono text-zinc-600 uppercase mb-0.5">{stat.label}</div>
                                                         <div className={cn("text-base sm:text-lg font-black font-mono italic", stat.color)}>{stat.value}%</div>
                                                     </div>
@@ -420,7 +420,7 @@ export default async function DossierPage() {
                             <Fingerprint className="size-5 text-primary" />
                             <h2 className="text-xl font-black uppercase tracking-tight text-white">Projection Neuro-Vectorielle</h2>
                         </div>
-                        <Card className="glass-card overflow-hidden relative group rounded-[1.5rem] sm:rounded-[2.5rem] border-white/5 shadow-2xl">
+                        <Card className="glass-card overflow-hidden relative group rounded-3xl sm:rounded-5xl border-white/5 shadow-2xl">
                             <CardContent className="p-6 sm:p-10 lg:p-12">
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                                     {/* Left: Profile Title */}
@@ -450,7 +450,7 @@ export default async function DossierPage() {
                             <h2 className="text-xl font-black uppercase tracking-tight text-white">Graphique d'Évolution</h2>
                         </div>
                         
-                        <Card className="glass-card overflow-hidden relative group rounded-[1.5rem] sm:rounded-[2.5rem] border-white/5 shadow-2xl">
+                        <Card className="glass-card overflow-hidden relative group rounded-3xl sm:rounded-5xl border-white/5 shadow-2xl">
                             <CardContent className="p-6 sm:p-10 lg:p-12">
                                 <div className="pt-2">
                                     <EvolutionRadar 
@@ -472,7 +472,7 @@ export default async function DossierPage() {
                             <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
                         </div>
                         
-                        <Card className="glass-card rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-8 overflow-hidden relative">
+                        <Card className="glass-card rounded-3xl sm:rounded-5xl p-5 sm:p-8 overflow-hidden relative">
                             <div className="absolute top-0 right-0 p-4 sm:p-6 text-right">
                                 <div className="text-[9px] sm:text-[10px] font-mono text-zinc-600 uppercase">Total accumulé</div>
                                 <div className="text-xl sm:text-2xl font-black text-white font-mono">{user.experience}<span className="text-primary text-xs ml-1">XP</span></div>
@@ -502,7 +502,7 @@ export default async function DossierPage() {
                             <div className="space-y-3 sm:space-y-4">
                                 {user.missionSubmissions.length > 0 ? (
                                     user.missionSubmissions.map((sub: any) => (
-                                        <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
+                                        <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/2 border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
                                             <div className="space-y-1 min-w-0">
                                                 <div className="text-[9px] font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>
                                                 <div className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-primary transition-colors truncate pr-2">{sub.mission.title}</div>
@@ -516,7 +516,7 @@ export default async function DossierPage() {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="p-8 rounded-2xl bg-white/[0.01] border border-dashed border-white/5 text-center">
+                                    <div className="p-8 rounded-2xl bg-white/1 border border-dashed border-white/5 text-center">
                                         <p className="text-[10px] font-mono text-zinc-600 uppercase">Aucune mission enregistrée</p>
                                         <Button asChild variant="link" className="text-primary text-[10px] uppercase font-black mt-2">
                                             <Link href="/missions">Initialiser la première mission</Link>
@@ -532,10 +532,10 @@ export default async function DossierPage() {
                                 <h2 className="text-xl font-black uppercase tracking-tight text-white">Activité récente</h2>
                             </div>
                             
-                            <div className="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-white/5">
+                            <div className="space-y-4 relative before:absolute before:left-2.75 before:top-2 before:bottom-2 before:w-px before:bg-white/5">
                                 {user.activityLogs.slice(0, 6).map((log: any) => (
                                     <div key={log.id} className="flex gap-4 relative">
-                                        <div className="size-[23px] rounded-full bg-background border border-white/10 flex items-center justify-center shrink-0 z-10">
+                                        <div className="size-5.75 rounded-full bg-background border border-white/10 flex items-center justify-center shrink-0 z-10">
                                             <div className="size-1 rounded-full bg-primary" />
                                         </div>
                                         <div className="space-y-0.5">
@@ -558,7 +558,7 @@ export default async function DossierPage() {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <Card className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 space-y-6">
+                            <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                                 <div className="space-y-2">
                                     <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-primary font-black">Domaines d'expertise</h4>
                                     <div className="flex flex-wrap gap-2 pt-2">
@@ -575,7 +575,7 @@ export default async function DossierPage() {
                                 </div>
                             </Card>
                             
-                            <Card className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 space-y-6">
+                            <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                                 <div className="space-y-2">
                                     <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 font-black">Outils favoris</h4>
                                     <div className="flex flex-wrap gap-2 pt-2">

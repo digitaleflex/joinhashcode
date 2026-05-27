@@ -45,7 +45,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleSetRole = async (role: string) => {
     try {
-      // @ts-ignore
+      // @ts-expect-error
       await authClient.admin.setRole({
         userId: user.id,
         role: role as any,
@@ -69,7 +69,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
   const handleBanUser = async () => {
     setIsPending(true)
     try {
-      // @ts-ignore
+      // @ts-expect-error
       await authClient.admin.banUser({
         userId: user.id,
         banReason: banReason,
@@ -95,7 +95,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleUnbanUser = async () => {
     try {
-      // @ts-ignore
+      // @ts-expect-error
       await authClient.admin.unbanUser({
         userId: user.id,
       })
@@ -117,7 +117,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleImpersonate = async () => {
     try {
-      // @ts-ignore
+      // @ts-expect-error
       await authClient.admin.impersonate({
         userId: user.id,
       })

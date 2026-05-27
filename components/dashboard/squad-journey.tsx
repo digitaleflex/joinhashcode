@@ -314,7 +314,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} />
+      <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline" />
         <UserTopBar user={user} />

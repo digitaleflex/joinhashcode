@@ -52,7 +52,11 @@ export default async function DashboardPage() {
       }),
       prisma.missionSubmission.findMany({
         where: { userId: session.user.id },
-        select: { missionId: true, status: true },
+        select: {
+          missionId: true,
+          status: true,
+          mission: { select: { slug: true } },
+        },
         take: 200,
       }),
       prisma.member.findFirst({
@@ -85,14 +89,15 @@ export default async function DashboardPage() {
   }
 
   const submissionsMap = (submissions ?? []).reduce((acc: any, s: any) => {
-    acc[s.missionId] = s.status;
+    const slug = s.mission?.slug ?? s.missionId;
+    acc[slug] = s.status;
     return acc;
   }, {} as Record<string, string>);
 
-  // Calculate recommendations (FYP Algorithm)
+  // Calculate recommendations (FYP Algorithm) — use slugs to match MISSIONS[n].id
   const completedIds = (submissions ?? [])
     .filter((s: any) => s.status === "APPROVED" || s.status === "PENDING")
-    .map((s: any) => s.missionId);
+    .map((s: any) => s.mission?.slug ?? s.missionId);
 
   const recommendedMissions = getRecommendedMissions(
     dbUser?.behavioralVibrancy as any,

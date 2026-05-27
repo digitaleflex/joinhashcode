@@ -191,7 +191,7 @@ export function MissionSubmissionForm({
                   : "Rédige ta réponse ici..."}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="bg-card/30 border-border/40 min-h-[120px] rounded-xl focus:ring-primary/20 transition-all text-sm"
+                className="bg-card/30 border-border/40 min-h-30 rounded-xl focus:ring-primary/20 transition-all text-sm"
                 required
                 autoFocus
               />
@@ -241,7 +241,7 @@ export function MissionSubmissionForm({
           placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisés ?"
           value={projectDescription}
           onChange={(e) => setProjectDescription(e.target.value)}
-          className="bg-card/30 border-border/40 rounded-xl min-h-[80px] text-sm"
+          className="bg-card/30 border-border/40 rounded-xl min-h-20 text-sm"
           required
         />
       </div>
@@ -285,7 +285,7 @@ export function MissionSubmissionForm({
           placeholder="Qu'as-tu pensé de cet exercice ?"
           value={userFeedback}
           onChange={(e) => setUserFeedback(e.target.value)}
-          className="bg-card/30 border-border/40 rounded-xl min-h-[60px] text-sm"
+          className="bg-card/30 border-border/40 rounded-xl min-h-15 text-sm"
         />
       </div>
 

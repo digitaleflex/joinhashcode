@@ -51,7 +51,9 @@ export async function POST(req: Request) {
       improvementSuggestions
     } = validatedData.data;
 
-    const mission = await prisma.mission.findUnique({ where: { id: missionId } });
+    const mission = await prisma.mission.findFirst({
+      where: { OR: [{ id: missionId }, { slug: missionId }] },
+    });
     if (!mission) {
       return new NextResponse("Mission introuvable dans le système.", { status: 404 });
     }

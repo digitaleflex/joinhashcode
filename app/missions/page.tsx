@@ -15,7 +15,7 @@ import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-ba
 
 const getMissionsEnrichment = unstable_cache(
   async () => {
-    const [completionsRaw, ratingsRaw] = await Promise.all([
+    const [completionsRaw, ratingsRaw, missionSlugs] = await Promise.all([
       prisma.missionSubmission.groupBy({
         by: ["missionId"],
         where: { status: "APPROVED" },
@@ -27,10 +27,12 @@ const getMissionsEnrichment = unstable_cache(
         _avg: { userRating: true },
         _count: { userRating: true },
       }),
+      prisma.mission.findMany({ select: { id: true, slug: true } }),
     ])
+    const idToSlug = Object.fromEntries(missionSlugs.map(m => [m.id, m.slug]))
     return {
-      completionsMap: Object.fromEntries(completionsRaw.map(c => [c.missionId, c._count._all])),
-      ratingsMap: Object.fromEntries(ratingsRaw.map(r => [r.missionId, { avg: r._avg.userRating, count: r._count.userRating }])),
+      completionsMap: Object.fromEntries(completionsRaw.map(c => [idToSlug[c.missionId] ?? c.missionId, c._count._all])),
+      ratingsMap: Object.fromEntries(ratingsRaw.map(r => [idToSlug[r.missionId] ?? r.missionId, { avg: r._avg.userRating, count: r._count.userRating }])),
     }
   },
   ["missions-enrichment"],
@@ -68,8 +70,10 @@ export default async function MissionsPage() {
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
 
+  let userSquad: { id: string } | null = null
+
   try {
-    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap }] = await Promise.all([
+    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap }, userSquad] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
@@ -82,12 +86,20 @@ export default async function MissionsPage() {
           class: true,
           role: true,
           missionSubmissions: {
-            select: { missionId: true, status: true },
+            select: {
+              missionId: true,
+              status: true,
+              mission: { select: { slug: true } },
+            },
           }
         }
       }),
       prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
       getMissionsEnrichment(),
+      prisma.member.findFirst({
+        where: { userId: session.user.id },
+        select: { id: true },
+      }),
     ])
   } catch (err) {
     console.error("[MISSIONS_PAGE] DB fetch failed:", err)
@@ -98,11 +110,17 @@ export default async function MissionsPage() {
     redirect("/signin");
   }
 
-  // Convert array to Record<missionId, status>
+  // Key by slug so MissionsList can look up by MISSIONS[n].id (which equals the slug)
   const submissionsMap: Record<string, string> = {};
   finalDbUser.missionSubmissions.forEach((sub: any) => {
-    submissionsMap[sub.missionId] = sub.status;
+    const slug = sub.mission?.slug ?? sub.missionId;
+    submissionsMap[slug] = sub.status;
   });
+
+  // Users already in a squad get squad-genesis marked as completed (display only)
+  if (userSquad && !submissionsMap["squad-genesis"]) {
+    submissionsMap["squad-genesis"] = "APPROVED";
+  }
 
   const weeklySubmission = weeklyMission ? await prisma.missionSubmission.findFirst({
     where: {
@@ -123,7 +141,7 @@ export default async function MissionsPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={finalDbUser} />
+      <AppSidebar user={finalDbUser} hasSquad={!!userSquad} />
       <BottomNav />
       
       <SidebarInset className="bg-background relative overflow-hidden">

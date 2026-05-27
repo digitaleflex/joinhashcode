@@ -6,38 +6,26 @@ import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
-  LayoutDashboard,
-  Settings,
   Zap,
-  Lock,
-  Unlock,
   Terminal,
-  Palette,
   TrendingUp,
   Users,
-  ChevronRight,
   Award,
   Globe,
   Check,
-  Camera,
   Target,
   User as UserIcon,
-  Linkedin,
-  LogOut,
-  FileText,
-  ShieldCheck
+  Linkedin
 } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { authClient } from "@/lib/auth-client"
 import { ScrambleText } from "@/components/ui/scramble-text"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
-import { MISSIONS, type Mission } from "@/lib/missions"
+import { type Mission } from "@/lib/missions"
 import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
@@ -79,7 +67,6 @@ const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: 
 export function DashboardShell({
   user,
   quizResult,
-  submissions = {},
   squad = null,
   recommendedMissions = []
 }: {
@@ -89,9 +76,6 @@ export function DashboardShell({
   squad?: any,
   recommendedMissions?: Mission[]
 }) {
-  const pathname = usePathname();
-  const hasFinishedQuiz = !!quizResult;
-
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const level = user?.level || 1;
   const levelName = LEVEL_MAP[level] || "INIT";
@@ -101,7 +85,7 @@ export function DashboardShell({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} />
+      <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
         <UserTopBar user={user} />
@@ -123,7 +107,7 @@ export function DashboardShell({
             )}
 
             {/* TIER 1: COMMAND DECK (Full-Width Welcome Header) */}
-            <div className="p-6 sm:p-10 rounded-[2rem] glass-card relative overflow-hidden group border-white/5">
+            <div className="p-6 sm:p-10 rounded-4xl glass-card relative overflow-hidden group border-white/5">
               <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                 <div className="flex-1 space-y-4">
@@ -149,7 +133,7 @@ export function DashboardShell({
                 </div>
 
                 {/* Cyber HUD Right Panel */}
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 min-w-[220px]">
+                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 min-w-55">
                   <div className="text-left md:text-right">
                     <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
                     <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
@@ -208,18 +192,18 @@ export function DashboardShell({
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] transition-colors">
+                      <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">missions</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                       </div>
-                      <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] transition-colors">
+                      <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">niveau</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:bg-white/[0.02] transition-colors h-full min-h-[160px]">
+                  <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
                     <NeuralSyncGauge 
                       confidenceScore={user.confidenceScore ?? 0.25} 
                       currentStreak={user.currentStreak ?? 0} 
@@ -242,7 +226,7 @@ export function DashboardShell({
                 </CardHeader>
                 <CardContent className="pt-2">
                   <div className="grid gap-4">
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 group/item hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
                       <div className="flex items-center gap-4">
                         <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-zinc-400 group-hover/item:text-white transition-colors">
                           <Globe className="h-4 w-4" />
@@ -258,7 +242,7 @@ export function DashboardShell({
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 group/item hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
                       <div className="flex items-center gap-4">
                         <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-[#0077B5] group-hover/item:brightness-125 transition-all">
                           <Linkedin className="h-4 w-4" />
@@ -274,7 +258,7 @@ export function DashboardShell({
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 group/item hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
                       <div className="flex items-center gap-4">
                         <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-white">
                           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
@@ -347,7 +331,7 @@ export function DashboardShell({
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid gap-4">
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
                       <div className="space-y-1">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
                         <div className="text-sm font-bold text-white tracking-tight">@{user.pseudo || "Talent"}</div>
@@ -357,7 +341,7 @@ export function DashboardShell({
                       </Button>
                     </div>
 
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
                       <div className="space-y-1">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
                         <div className="text-sm font-medium text-white tracking-tight">{user.city || "N/A"}, {user.country || "N/A"}</div>
@@ -365,7 +349,7 @@ export function DashboardShell({
                     </div>
                   </div>
 
-                  <div className="p-5 rounded-[1.5rem] bg-primary/[0.03] border border-primary/10 space-y-3 relative overflow-hidden group/objective">
+                  <div className="p-5 rounded-3xl bg-primary/3 border border-primary/10 space-y-3 relative overflow-hidden group/objective">
                     <div className="absolute top-0 right-0 p-3 opacity-20 group-hover/objective:opacity-40 transition-opacity">
                       <Target className="h-8 w-8 text-primary" />
                     </div>
@@ -400,7 +384,7 @@ export function DashboardShell({
                           <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-[10px] font-mono border border-primary/10 font-bold tracking-tight uppercase">{d}</span>
                         ))
                       ) : (
-                        <Button asChild variant="outline" size="sm" className="w-full border-dashed border-white/10 bg-white/[0.02] text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary h-12 rounded-2xl">
+                        <Button asChild variant="outline" size="sm" className="w-full border-dashed border-white/10 bg-white/2 text-xs font-mono text-muted-foreground hover:border-primary/30 hover:text-primary h-12 rounded-2xl">
                           <Link href="/settings">+ Ajouter mes spécialités</Link>
                         </Button>
                       )}
@@ -432,7 +416,7 @@ export function DashboardShell({
                 <span className="h-px w-10 bg-zinc-800"></span>
               </h3>
               <div className="hover:scale-[1.01] transition-transform duration-500 ease-out w-full max-w-4xl relative group">
-                <div className={`absolute -inset-1.5 bg-linear-to-r ${config.gradient} to-transparent rounded-[2rem] blur-xl opacity-20 group-hover:opacity-30 transition duration-1000`} />
+                <div className={`absolute -inset-1.5 bg-linear-to-r ${config.gradient} to-transparent rounded-4xl blur-xl opacity-20 group-hover:opacity-30 transition duration-1000`} />
                 <div className="relative">
                   <MemberCard
                     userId={user.id}

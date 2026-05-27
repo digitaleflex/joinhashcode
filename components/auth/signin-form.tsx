@@ -110,7 +110,7 @@ export function SignInForm() {
 
         setLoadingProvider("email")
         try {
-            // @ts-ignore
+            // @ts-expect-error
             const { error } = await authClient.emailOtp.sendVerificationOtp({
                 email,
                 type: "sign-in"
@@ -137,7 +137,7 @@ export function SignInForm() {
 
         setLoadingProvider("otp")
         try {
-            // @ts-ignore
+            // @ts-expect-error
             const { error } = await authClient.signIn.emailOtp({
                 email,
                 otp

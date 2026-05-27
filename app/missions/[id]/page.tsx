@@ -39,24 +39,27 @@ export default async function MissionBriefingPage({
 
   if (!mission) notFound()
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    include: {
-      missionSubmissions: {
-        where: { missionId: mission.id },
-        include: {
-          reviewer: {
-            select: {
-              id: true,
-              pseudo: true,
-              image: true,
+  const [dbUser, userSquad] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: {
+        missionSubmissions: {
+          where: { missionId: mission.id },
+          include: {
+            reviewer: {
+              select: {
+                id: true,
+                pseudo: true,
+                image: true,
+              }
             }
-          }
+          },
+          orderBy: { createdAt: "desc" },
         },
-        orderBy: { createdAt: "desc" },
       },
-    },
-  })
+    }),
+    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
+  ])
 
   if (!dbUser) redirect("/signin")
 
@@ -105,7 +108,7 @@ export default async function MissionBriefingPage({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} />
+      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
       <BottomNav />
 
       <SidebarInset className="bg-background">
@@ -126,7 +129,7 @@ export default async function MissionBriefingPage({
             {/* ── Hero Header ── */}
             <div className="relative mb-10 pb-10 border-b border-border/40">
               {/* Mission ID watermark */}
-              <span className="absolute top-0 right-0 text-[80px] md:text-[120px] font-black font-mono text-primary/[0.04] leading-none select-none pointer-events-none uppercase tracking-tighter">
+              <span className="absolute top-0 right-0 text-[80px] md:text-[120px] font-black font-mono text-primary/4 leading-none select-none pointer-events-none uppercase tracking-tighter">
                 {mission.category.slice(0, 3)}
               </span>
 
@@ -241,7 +244,7 @@ export default async function MissionBriefingPage({
                     {mission.deliverables.map((deliverable, index) => (
                       <div
                         key={index}
-                        className="group flex items-start gap-4 p-4 rounded-xl border border-border/30 bg-card/20 hover:border-primary/25 hover:bg-primary/[0.03] transition-all duration-200"
+                        className="group flex items-start gap-4 p-4 rounded-xl border border-border/30 bg-card/20 hover:border-primary/25 hover:bg-primary/3 transition-all duration-200"
                       >
                         <div className="shrink-0 w-6 h-6 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center mt-0.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
@@ -328,7 +331,7 @@ export default async function MissionBriefingPage({
                 </div>
 
                 {submission && submission.status !== "APPROVED" && (
-                  <div className="mt-6 p-5 bg-zinc-950/40 border border-white/5 rounded-[1.5rem]">
+                  <div className="mt-6 p-5 bg-zinc-950/40 border border-white/5 rounded-3xl">
                     <SubmissionTimeline submission={submission as any} />
                   </div>
                 )}

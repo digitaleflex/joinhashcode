@@ -311,8 +311,8 @@ function MissionCard({
 
   return (
     <Card className={cn(
-      "relative overflow-hidden transition-all duration-500 rounded-[2rem] border-white/5 group shadow-2xl flex flex-col",
-      isLocked ? 'opacity-40 grayscale bg-white/[0.01]' : 'bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-primary/40'
+      "relative overflow-hidden transition-all duration-500 rounded-4xl border-white/5 group shadow-2xl flex flex-col",
+      isLocked ? 'opacity-40 grayscale bg-white/1' : 'bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-primary/40'
     )}>
       <CardHeader className="pb-4 shrink-0">
         <div className="flex items-start justify-between mb-4">
@@ -354,7 +354,7 @@ function MissionCard({
       <CardContent className="space-y-6 pt-0 flex-1 flex flex-col justify-between">
         <div className="space-y-4">
           <div className="text-xs text-zinc-400 bg-black/40 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-white/[0.02] -rotate-45 translate-x-8 -translate-y-8" />
+            <div className="absolute top-0 right-0 w-16 h-16 bg-white/2 -rotate-45 translate-x-8 -translate-y-8" />
             
             <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 font-bold">Protocole_Validation</p>
             
@@ -387,7 +387,7 @@ function MissionCard({
 
                 {/* Step 2 — identify yourself for admin review */}
                 {allLinksClicked && !isPending && !isCompleted && (
-                  <div className="mt-3 space-y-2 p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                  <div className="mt-3 space-y-2 p-3 rounded-xl bg-white/3 border border-white/10">
                     <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Étape 2 — Confirme tes identifiants</p>
                     <Input
                       value={socialForm.telegram}
@@ -447,7 +447,7 @@ function MissionCard({
               </div>
 
               {mission.avgRating !== null && mission.ratingsCount >= 3 && (
-                <div className="flex items-center gap-1 hidden sm:flex">
+                <div className="hidden sm:flex items-center gap-1">
                   <span className="text-[9px] font-mono text-amber-400">
                     {"★".repeat(Math.round(mission.avgRating))}{"☆".repeat(5 - Math.round(mission.avgRating))}
                   </span>

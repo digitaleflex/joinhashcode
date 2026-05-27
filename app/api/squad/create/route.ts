@@ -110,6 +110,33 @@ export async function POST(req: Request) {
       request: req,
     });
 
+    // Auto-approve squad-genesis mission for the squad creator
+    const squadGenesisMission = await prisma.mission.findUnique({ where: { slug: "squad-genesis" } });
+    if (squadGenesisMission) {
+      await prisma.missionSubmission.upsert({
+        where: {
+          userId_missionId_cycleKey: {
+            userId,
+            missionId: squadGenesisMission.id,
+            cycleKey: "PERMANENT",
+          },
+        },
+        update: { status: "APPROVED" },
+        create: {
+          userId,
+          missionId: squadGenesisMission.id,
+          cycleKey: "PERMANENT",
+          status: "APPROVED",
+          content: "Escouade créée automatiquement.",
+          xpAwarded: squadGenesisMission.xp,
+        },
+      }).catch(() => {});
+      await prisma.user.update({
+        where: { id: userId },
+        data: { experience: { increment: squadGenesisMission.xp } },
+      }).catch(() => {});
+    }
+
     return NextResponse.json(squad);
   } catch (error) {
     console.error("[SQUAD_CREATE]", error);

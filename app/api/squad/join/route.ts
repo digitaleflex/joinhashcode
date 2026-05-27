@@ -72,6 +72,33 @@ export async function POST(req: Request) {
       request: req,
     });
 
+    // Auto-approve squad-genesis mission for the new member
+    const squadGenesisMission = await prisma.mission.findUnique({ where: { slug: "squad-genesis" } });
+    if (squadGenesisMission) {
+      await prisma.missionSubmission.upsert({
+        where: {
+          userId_missionId_cycleKey: {
+            userId,
+            missionId: squadGenesisMission.id,
+            cycleKey: "PERMANENT",
+          },
+        },
+        update: { status: "APPROVED" },
+        create: {
+          userId,
+          missionId: squadGenesisMission.id,
+          cycleKey: "PERMANENT",
+          status: "APPROVED",
+          content: "Escouade rejointe automatiquement.",
+          xpAwarded: squadGenesisMission.xp,
+        },
+      }).catch(() => {});
+      await prisma.user.update({
+        where: { id: userId },
+        data: { experience: { increment: squadGenesisMission.xp } },
+      }).catch(() => {});
+    }
+
     const leader = squad.members.find((m) => m.role === "owner");
     if (leader && leader.user.id !== userId) {
       const joiner = await prisma.user.findUnique({
