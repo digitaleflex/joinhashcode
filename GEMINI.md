@@ -42,6 +42,7 @@ To reduce authorization prompts and speed up implementation:
 - **UI/UX Standards:** See `components/GEMINI.md`
 - **Evolution Logic:** Managed by `hashcode-evolution-engine` skill.
 - **Mission Creation:** Managed by `hashcode-mission-architect` skill.
+- **Security & Infrastructure:** Managed by `devsecops-expert` skill.
 
 ## Key Files
 - `lib/evolution.ts`: Core evolution logic.
