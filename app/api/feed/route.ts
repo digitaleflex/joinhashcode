@@ -89,7 +89,9 @@ export async function GET() {
       .slice(0, 5)
       .map(({ event }) => event)
 
-    return NextResponse.json({ events: allWithDate })
+    return NextResponse.json({ events: allWithDate }, {
+      headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=120" },
+    })
   } catch (error) {
     console.error("[FEED_GET]", error)
     return NextResponse.json({ events: [] }, { status: 500 })
