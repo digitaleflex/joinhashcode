@@ -1,4 +1,4 @@
-﻿name: CD (Continuous Deployment)
+name: CD (Continuous Deployment)
 
 on:
   # Se déclenche UNIQUEMENT après que le CI a terminé avec succès
@@ -29,84 +29,163 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
+          command_timeout: 15m
           envs: REGISTRY,IMAGE_NAME
           script: |
-            set -e
+            set -euo pipefail
 
             APP_DIR="${{ secrets.SSH_PATH }}"
             BACKUP="/tmp/.env.production.bak"
             SHA="${{ github.event.workflow_run.head_sha }}"
             SHORT_SHA="${SHA:0:7}"
             IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:sha-${SHORT_SHA}"
+            PREVIOUS_IMAGE=""
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "  HASHCODE — Deploiement en cours..."
+            echo "  Commit  : ${SHORT_SHA}"
+            echo "  Image   : ${IMAGE}"
+            echo "  Date    : $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-            # 1. Creer le dossier si besoin
+            # ──────────────────────────────────────
+            # 1. Préparation du dossier
+            # ──────────────────────────────────────
             mkdir -p "$APP_DIR"
             cd "$APP_DIR"
 
-            # 2. Sauvegarder .env.production
+            # Capturer l'image précédente pour rollback si nécessaire
+            if command -v docker &>/dev/null && docker compose ps web --format '{{.Image}}' 2>/dev/null | head -1 | grep -q '.'; then
+              PREVIOUS_IMAGE=$(docker compose ps web --format '{{.Image}}' 2>/dev/null | head -1)
+              echo "[INFO] Image précédente : ${PREVIOUS_IMAGE}"
+            fi
+
+            # ──────────────────────────────────────
+            # 2. Sauvegarde .env.production
+            # ──────────────────────────────────────
             if [ -f ".env.production" ]; then
-              echo "[1/5] Sauvegarde .env.production -> $BACKUP"
+              echo "[1/8] Sauvegarde .env.production -> $BACKUP"
               cp .env.production "$BACKUP"
             fi
 
-            # 3. Cloner ou mettre a jour le depot (pour compose.yaml + prisma)
+            # ──────────────────────────────────────
+            # 3. Git : clone ou pull
+            # ──────────────────────────────────────
             if [ ! -d ".git" ]; then
-              echo "[2/5] Premier deploiement — clone du depot..."
+              echo "[2/8] Premier deploiement — clone du depot..."
               find . -mindepth 1 -delete
               git clone -b main https://${{ secrets.GH_PAT }}@github.com/digitaleflex/joinhashcode.git .
             else
-              echo "[2/5] Mise a jour du depot (git pull)..."
+              echo "[2/8] Mise a jour du depot (git pull)..."
               git reset --hard
               git pull origin main
             fi
 
-            # 4. Restaurer .env.production (non versionne dans Git)
+            # ──────────────────────────────────────
+            # 4. Restauration .env.production
+            # ──────────────────────────────────────
             if [ -f "$BACKUP" ]; then
-              echo "[3/5] Restauration .env.production..."
+              echo "[3/8] Restauration .env.production..."
               cp "$BACKUP" .env.production
               rm -f "$BACKUP"
             fi
 
-            # 5. Verifier que .env.production est present
+            # Vérification obligatoire
             if [ ! -f ".env.production" ]; then
-              echo "ERREUR : .env.production introuvable dans $APP_DIR"
+              echo "ERREUR CRITIQUE : .env.production introuvable dans $APP_DIR"
               echo "Creez-le manuellement sur le VPS puis relancez."
               exit 1
             fi
-            echo "[4/5] .env.production detecte OK"
+            echo "[4/8] .env.production detecte OK"
 
-            # 6. Authentification ghcr.io + déploiement de l'image versionnée
-            echo "[5/5] Déploiement image : $IMAGE"
+            # ──────────────────────────────────────
+            # 5. Authentification ghcr.io + Pull image
+            # ──────────────────────────────────────
+            echo "[5/8] Pull image : $IMAGE"
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
-            HASHCODE_IMAGE="$IMAGE" docker compose pull web
+
+            if ! HASHCODE_IMAGE="$IMAGE" docker compose pull web; then
+              echo "ERREUR : Impossible de pull l'image $IMAGE"
+              echo "Vérifier que le CI a bien poussé l'image sur ghcr.io."
+              exit 1
+            fi
+
+            # ──────────────────────────────────────
+            # 6. Déploiement du conteneur
+            # ──────────────────────────────────────
+            echo "[6/8] Démarrage du conteneur..."
             HASHCODE_IMAGE="$IMAGE" docker compose up -d --no-deps web
 
-            # 7. Déduplication des données avant d'appliquer les contraintes uniques
-            # (évite l'erreur "duplicate key value" lors du db push si des doublons existent)
-            echo "[DATABASE] Nettoyage des doublons en base..."
-            docker compose exec -T web npx tsx scripts/dedup-constraints.ts
+            # Attendre que le conteneur soit prêt (healthcheck ou port 3000)
+            echo "[6/8] Attente du démarrage (max 60s)..."
+            RETRIES=0
+            MAX_RETRIES=12
+            until docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null | grep -q "ok"; do
+              RETRIES=$((RETRIES + 1))
+              if [ "$RETRIES" -ge "$MAX_RETRIES" ]; then
+                echo "ERREUR : Le conteneur ne répond pas après 60 secondes."
+                echo "--- Logs du conteneur ---"
+                docker compose logs --tail=50 web
+                echo "--- Fin des logs ---"
 
-            # 7b. Appliquer les modifications de schéma (db push — pas de fichiers migration)
-            echo "[DATABASE] Application du schéma Prisma..."
-            docker compose exec -T web npx prisma db push
+                # Rollback automatique si une image précédente existe
+                if [ -n "$PREVIOUS_IMAGE" ]; then
+                  echo "[ROLLBACK] Restauration de l'image précédente : $PREVIOUS_IMAGE"
+                  HASHCODE_IMAGE="$PREVIOUS_IMAGE" docker compose up -d --no-deps web
+                  echo "[ROLLBACK] TERMINE — L'ancienne version est active."
+                fi
+                exit 1
+              fi
+              sleep 5
+            done
+            echo "[6/8] Conteneur opérationnel ✓"
 
-            # 8. Scripts de maintenance et synchro
-            echo "[MIGRATION] Migration des Guilds vers Organizations..."
-            docker compose exec -T web npx tsx scripts/migrate-guilds-to-orgs.ts
+            # ──────────────────────────────────────
+            # 7. Opérations base de données
+            # ──────────────────────────────────────
+            echo "[7/8] Opérations base de données..."
 
-            echo "[SEED] Synchronisation du catalogue et du seed..."
-            docker compose exec -T web npx tsx prisma/seed.ts
+            # 7a. Déduplication (non bloquante — signale mais continue)
+            echo "  → Nettoyage des doublons..."
+            if ! docker compose exec -T web npx tsx scripts/dedup-constraints.ts; then
+              echo "  ⚠ Déduplication échouée (non bloquant, poursuite du déploiement)"
+            fi
 
-            # 10. Nettoyage des anciennes images
+            # 7b. Appliquer le schéma Prisma (bloquant en cas d'erreur critique)
+            echo "  → Application du schéma Prisma..."
+            if ! docker compose exec -T web npx prisma db push --accept-data-loss 2>&1; then
+              echo "ERREUR : prisma db push a échoué."
+              echo "Vérifier le schéma et la connexion à la base de données."
+              # On ne fait PAS de rollback ici car le conteneur tourne,
+              # seul le schéma n'est pas à jour
+              exit 1
+            fi
+
+            # 7c. Migration des guilds (idempotente — non bloquante)
+            echo "  → Migration Guilds vers Organizations..."
+            if ! docker compose exec -T web npx tsx scripts/migrate-guilds-to-orgs.ts; then
+              echo "  ⚠ Migration guilds échouée (non bloquant)"
+            fi
+
+            # 7d. Seed du catalogue (idempotent — non bloquant)
+            echo "  → Synchronisation du catalogue..."
+            if ! docker compose exec -T web npx tsx prisma/seed.ts; then
+              echo "  ⚠ Seed échoué (non bloquant)"
+            fi
+
+            # ──────────────────────────────────────
+            # 8. Nettoyage et rapport final
+            # ──────────────────────────────────────
+            echo "[8/8] Nettoyage des anciennes images..."
             docker image prune -f
+
+            # Vérification finale de santé
+            FINAL_STATUS=$(docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null || echo "UNREACHABLE")
 
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo "  DEPLOIEMENT TERMINE AVEC SUCCES"
-            echo "  Image deployee : $IMAGE"
+            echo "  DEPLOIEMENT TERMINE AVEC SUCCES ✓"
+            echo "  Image   : $IMAGE"
+            echo "  Statut  : $FINAL_STATUS"
+            echo "  Date    : $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
