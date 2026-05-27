@@ -158,7 +158,7 @@ export function SignInForm() {
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
             {/* Cyberpunk Animated Background Elements */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-[0.06] animate-grid-drift z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-6 animate-grid-drift z-0" />
             
             <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[130px] z-0" />
             <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-75 h-75 bg-purple-500/5 rounded-full blur-[100px] z-0" />
@@ -224,7 +224,7 @@ export function SignInForm() {
 
                             <div className="relative my-2">
                                 <div className="absolute inset-0 flex items-center">
-                                    <span className="w-full border-t border-white/[0.06]" />
+                                    <span className="w-full border-t border-white/6" />
                                 </div>
                                 <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-widest">
                                     <span className="bg-[#0a0a0a] px-3 text-zinc-600">Ou</span>
@@ -236,7 +236,7 @@ export function SignInForm() {
                                     variant="outline"
                                     onClick={() => handleSocialSignIn("google")}
                                     disabled={!!loadingProvider}
-                                    className="w-full bg-white/[0.01] hover:bg-white/[0.06] text-zinc-300 hover:text-white border-white/[0.06] hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
+                                    className="w-full bg-white/1 hover:bg-white/6 text-zinc-300 hover:text-white border-white/6 hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
                                 >
                                     {loadingProvider === "google" ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -251,7 +251,7 @@ export function SignInForm() {
                                     variant="outline"
                                     onClick={() => handleSocialSignIn("github")}
                                     disabled={!!loadingProvider}
-                                    className="w-full bg-white/[0.01] hover:bg-white/[0.06] text-zinc-300 hover:text-white border-white/[0.06] hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
+                                    className="w-full bg-white/1 hover:bg-white/6 text-zinc-300 hover:text-white border-white/6 hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
                                 >
                                     {loadingProvider === "github" ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -268,7 +268,7 @@ export function SignInForm() {
                             <div className={`flex items-start gap-3 rounded-xl border p-3.5 mt-2 transition-all duration-300 ${
                                 consentError 
                                     ? "border-red-500/40 bg-red-950/15 animate-shake shadow-[0_0_15px_rgba(239,68,68,0.12)]" 
-                                    : "border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03]"
+                                    : "border-white/4 bg-white/1 hover:bg-white/3"
                             }`}>
                                 <Checkbox
                                     id="consent"
@@ -329,7 +329,7 @@ export function SignInForm() {
                     )}
                 </CardContent>
                 
-                <CardFooter className="bg-white/[0.01] border-t border-white/[0.04] py-4 px-6">
+                <CardFooter className="bg-white/1 border-t border-white/4 py-4 px-6">
                     <p className="text-[9px] text-center w-full text-zinc-500 font-mono uppercase tracking-wider leading-relaxed">
                         Tes données sont traitées conformément à notre{" "}
                         <Link href="/privacy" className="text-zinc-400 hover:text-primary underline transition-colors">politique de confidentialité</Link>.
