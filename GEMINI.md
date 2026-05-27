@@ -12,11 +12,13 @@ HASHCODE is a community platform focused on project building, collaboration, and
 - **Validation:** Zod
 - **Toast:** Sonner
 
-## Engineering Standards
-- **Naming:** CamelCase for functions/variables, PascalCase for components.
-- **Styling:** Prefer Vanilla CSS for complex animations, Tailwind for layout/spacing.
-- **Security:** Follow EHAF Security Engineering Standard (Strict validation, no hardcoded secrets).
-- **Architecture:** Keep logic inside `lib/` and UI inside `components/`.
+## Database & Migrations Standards
+- **Source of Truth:** `prisma/schema.prisma` is the source of truth.
+- **Local Workflow:** Always use `pnpm prisma migrate dev --name <desc>` to apply changes locally and generate migration files.
+- **Production Workflow:** Use `npx prisma migrate deploy` in CI/CD. NEVER run `migrate reset` automatically in production.
+- **Migration Files:** Always commit the `prisma/migrations` folder. It is the mandatory history for the production database.
+- **Seed Data:** Use `prisma/seed.ts` with "upsert" logic to ensure it can be run multiple times without creating duplicates.
+- **Direct Push:** Avoid `prisma db push` for production as it bypasses migration history and risks data loss.
 - **Database:** 
   - **NEVER** use `npx prisma db push` for schema changes.
   - **ALWAYS** use `npx prisma migrate dev` to generate versioned migrations.
