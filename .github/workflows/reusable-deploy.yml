@@ -65,9 +65,8 @@ jobs:
             done
 
             docker compose --env-file .env.production exec -T web sh -c "
-              npx prisma migrate deploy && \
-              npx tsx scripts/migrate-guilds-to-orgs.ts || true && \
-              npx tsx prisma/seed.ts || true
+              npx prisma migrate reset --force && \
+              npx tsx prisma/seed.ts
             "
             
             docker image prune -f
