@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,6 +13,23 @@ import Image from "next/image"
 import Link from "next/link"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
+
+/** Maps Better Auth / OAuth error messages to user-friendly French strings */
+function getOAuthErrorMessage(error: unknown): string {
+    const msg = (error as any)?.message?.toLowerCase() ?? ""
+    if (msg.includes("access_denied") || msg.includes("cancelled") || msg.includes("cancel"))
+        return "Connexion annulée. Tu as refusé l'accès à ton compte."
+    if (msg.includes("banned") || msg.includes("suspended") || msg.includes("suspendu"))
+        return "Ton compte a été suspendu. Contacte le support."
+    if (msg.includes("email") && (msg.includes("exist") || msg.includes("taken")))
+        return "Cet email est déjà associé à un autre compte. Essaie une autre méthode."
+    if (msg.includes("rate") || msg.includes("limit") || msg.includes("too many"))
+        return "Trop de tentatives. Attends quelques minutes avant de réessayer."
+    if (msg.includes("network") || msg.includes("fetch") || msg.includes("timeout"))
+        return "Problème réseau. Vérifie ta connexion et réessaie."
+    const detail = (error as any)?.message
+    return detail ? `Erreur de connexion : ${detail}` : "Erreur de connexion. Réessaie ou utilise un autre moyen."
+}
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
 function getSafeCallbackUrl(fallback = "/quiz"): string {
@@ -34,6 +51,14 @@ export function SignInForm() {
     const [otp, setOtp] = useState("")
     const [consent, setConsent] = useState(false)
     const [consentError, setConsentError] = useState(false)
+
+    // Show contextual error from URL param (e.g. ?error=banned set by middleware)
+    useEffect(() => {
+        const error = new URLSearchParams(window.location.search).get("error")
+        if (error === "banned") {
+            toast.error("Ton compte a été suspendu. Contacte le support pour plus d'informations.", { duration: 8000 })
+        }
+    }, [])
 
     const triggerConsentError = () => {
         setConsentError(true)
@@ -58,7 +83,7 @@ export function SignInForm() {
             })
 
             if (error) {
-                throw new Error(error.message || "Social sign-in failed")
+                throw error
             }
 
             if (!data?.url) {
@@ -66,8 +91,8 @@ export function SignInForm() {
             }
 
             window.location.href = data.url
-        } catch {
-            toast.error("Erreur lors de la connexion")
+        } catch (err) {
+            toast.error(getOAuthErrorMessage(err))
             setLoadingProvider(null)
         }
     }
