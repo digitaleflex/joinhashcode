@@ -76,8 +76,9 @@ jobs:
             fi
             echo "[4/5] .env.production detecte OK"
 
-            # 6. Mise à jour des conteneurs avec l'image versionnée par SHA
+            # 6. Authentification ghcr.io + déploiement de l'image versionnée
             echo "[5/5] Déploiement image : $IMAGE"
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
             HASHCODE_IMAGE="$IMAGE" docker compose pull web
             HASHCODE_IMAGE="$IMAGE" docker compose up -d --no-deps web
 
