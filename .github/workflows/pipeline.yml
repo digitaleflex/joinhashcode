@@ -72,7 +72,10 @@ jobs:
           echo "✓ No hardcoded secrets found"
 
       - name: "📦 Prisma Schema — Validation"
-        run: pnpm prisma validate
+        run: |
+          export DATABASE_URL="postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public"
+          export DIRECT_URL="postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public"
+          pnpm prisma validate
 
   # ═══════════════════════════════════════════════════════════
   # BLOC 2 : TESTS
