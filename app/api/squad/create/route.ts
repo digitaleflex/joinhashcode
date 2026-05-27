@@ -37,7 +37,7 @@ function generateSquadName(): { name: string; slug: string } {
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
     const userId = session.user.id;
 
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     }
 
     if (!squad) {
-      return new NextResponse("Could not generate unique squad name", { status: 500 });
+      return new NextResponse("Impossible de générer un nom d'escouade unique. Réessaie dans un instant.", { status: 500 });
     }
 
     logActivity({
@@ -106,6 +106,6 @@ export async function POST(req: Request) {
     return NextResponse.json(squad);
   } catch (error) {
     console.error("[SQUAD_CREATE]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }

@@ -33,7 +33,7 @@ const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
     const body = await req.json();
     body.note = stripHtml(body.note || "");
@@ -104,6 +104,6 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("[CHECKIN_POST]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }

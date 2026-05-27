@@ -22,7 +22,7 @@ export async function PATCH(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
     }
 
     const body = await req.json();
@@ -57,6 +57,6 @@ export async function PATCH(req: Request) {
     return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("[ONBOARDING_PATCH]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }

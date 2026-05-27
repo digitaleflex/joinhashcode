@@ -12,7 +12,7 @@ export async function POST(
 ) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
     const { id: submissionId } = await params;
 
@@ -27,11 +27,11 @@ export async function POST(
       }),
     ]);
 
-    if (!submission) return new NextResponse("Submission not found", { status: 404 });
-    if (!reviewer) return new NextResponse("User not found", { status: 404 });
+    if (!submission) return new NextResponse("Soumission introuvable.", { status: 404 });
+    if (!reviewer) return new NextResponse("Utilisateur introuvable.", { status: 404 });
 
     if (submission.status !== "PENDING") {
-      return new NextResponse("Submission is not available for review", { status: 400 });
+      return new NextResponse("Cette soumission n'est plus disponible pour révision.", { status: 400 });
     }
 
     // PRO missions are admin-only — block peer review at claim stage
@@ -75,6 +75,6 @@ export async function POST(
     return NextResponse.json({ success: true, submission: updated });
   } catch (error) {
     console.error("[CLAIM_REVIEW]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }

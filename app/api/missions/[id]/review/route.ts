@@ -30,12 +30,12 @@ export async function POST(
 ) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
     const { id: submissionId } = await params;
     const body = await req.json();
     const parsed = reviewSchema.safeParse(body);
-    if (!parsed.success) return new NextResponse("Invalid data", { status: 400 });
+    if (!parsed.success) return new NextResponse("Données invalides. Vérifie les champs et réessaie.", { status: 400 });
 
     const { criteria, feedback, forceApprove } = parsed.data;
 
@@ -44,7 +44,7 @@ export async function POST(
       include: { mission: true, user: true },
     });
 
-    if (!submission) return new NextResponse("Submission not found", { status: 404 });
+    if (!submission) return new NextResponse("Soumission introuvable.", { status: 404 });
     if (submission.reviewerId !== session.user.id) {
       return new NextResponse("Tu n'es pas le reviewer assigné à cette soumission.", { status: 403 });
     }
@@ -278,6 +278,6 @@ export async function POST(
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
   } catch (error) {
     console.error("[SUBMIT_REVIEW]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }

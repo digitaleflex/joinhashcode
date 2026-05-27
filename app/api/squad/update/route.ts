@@ -11,7 +11,7 @@ const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/;
 export async function PATCH(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
     const { name, slug } = await req.json();
 
@@ -71,6 +71,6 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ name: updated.name, slug: updated.slug });
   } catch (error) {
     console.error("[SQUAD_UPDATE]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
   }
 }
