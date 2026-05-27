@@ -333,7 +333,7 @@ jobs:
               echo "::warning::Déduplication échouée (non bloquant)"
             fi
 
-      - name: "Prisma Migrate Deploy (schéma)"
+      - name: "Prisma DB Push (schéma)"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -343,9 +343,9 @@ jobs:
           command_timeout: 5m
           script: |
             cd ${{ secrets.SSH_PATH }}
-            echo "[DB] Application des migrations Prisma..."
-            docker compose exec -T web npx prisma migrate deploy
-            echo "[DB] Migrations appliquées ✓"
+            echo "[DB] Application du schéma Prisma (via db push)..."
+            docker compose exec -T web npx prisma db push
+            echo "[DB] Schéma synchronisé ✓"
 
       - name: "Migration Guilds → Organizations"
         uses: appleboy/ssh-action@v1.0.3
