@@ -59,25 +59,30 @@ export default async function MissionsPage() {
     redirect("/signin");
   }
 
-  const finalDbUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      image: true,
-      level: true,
-      experience: true,
-      class: true,
-      role: true,
-      missionSubmissions: {
-        select: {
-          missionId: true,
-          status: true,
+  const currentWeeklyChallenge = getCurrentWeeklyChallenge();
+  const weekStart = getWeekStart();
+
+  // Fetch user data, weekly mission, and cached enrichment in parallel
+  const [finalDbUser, weeklyMission, { completionsMap, ratingsMap }] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        level: true,
+        experience: true,
+        class: true,
+        role: true,
+        missionSubmissions: {
+          select: { missionId: true, status: true },
         }
       }
-    }
-  });
+    }),
+    prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
+    getMissionsEnrichment(),
+  ]);
 
   if (!finalDbUser) {
     redirect("/signin");
@@ -89,13 +94,6 @@ export default async function MissionsPage() {
     submissionsMap[sub.missionId] = sub.status;
   });
 
-  // --- WEEKLY CHALLENGE LOGIC (Roadmap P9) ---
-  const currentWeeklyChallenge = getCurrentWeeklyChallenge();
-  const weeklyMission = await prisma.mission.findUnique({
-    where: { slug: currentWeeklyChallenge.id }
-  });
-
-  const weekStart = getWeekStart();
   const weeklySubmission = weeklyMission ? await prisma.missionSubmission.findFirst({
     where: {
       userId: session.user.id,
@@ -103,11 +101,6 @@ export default async function MissionsPage() {
       createdAt: { gte: weekStart },
     }
   }) : null;
-  // --- END WEEKLY ---
-
-  // --- START ENRICHMENT (Roadmap P5) ---
-  // Cached for 5 min — this data is shared across all users
-  const { completionsMap, ratingsMap } = await getMissionsEnrichment()
 
   // Enrich MISSIONS
   const enrichedMissions = MISSIONS.map(m => ({
