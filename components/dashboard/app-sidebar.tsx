@@ -20,6 +20,7 @@ import {
   MessageSquarePlus,
   Activity,
   Users,
+  ClipboardCheck,
 } from "lucide-react"
 
 import {
@@ -51,14 +52,14 @@ const navMain = [
   { title: "Accueil",   url: "/dashboard", icon: Layout },
   { title: "Profil",    url: "/dossier",   icon: FileText },
   { title: "Missions",  url: "/missions",  icon: Target },
-  { title: "Escouade",  url: "/squad",     icon: Users },
+  { title: "Reviewer",  url: "/reviewer",  icon: ClipboardCheck },
 ]
 
 const navGeneral = [
   { title: "Paramètres", url: "/settings", icon: Settings },
 ]
 
-export function AppSidebar({ user }: { user: any }) {
+export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = user || session?.user
@@ -105,6 +106,24 @@ export function AppSidebar({ user }: { user: any }) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/squad"}
+                  tooltip={hasSquad ? "Mon Escouade" : "Escouade"}
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  <Link href="/squad" className="flex items-center gap-2">
+                    <Users className="size-4 shrink-0" />
+                    <span className="font-medium flex-1">
+                      {hasSquad ? "Mon Escouade" : "Escouade"}
+                    </span>
+                    {hasSquad && (
+                      <span className="size-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_6px_rgba(197,244,65,0.8)] group-data-[collapsible=icon]:hidden" />
+                    )}
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
