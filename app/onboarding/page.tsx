@@ -33,30 +33,21 @@ const STEPS = [
   }
 ]
 
-const ONBOARDING_KEY = "hc_onboarding_progress";
 
 export default function OnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const [formData, setFormData] = useState(() => {
-    // Restore saved progress if available
-    try {
-      const saved = typeof window !== "undefined" ? localStorage.getItem(ONBOARDING_KEY) : null;
-      if (saved) return JSON.parse(saved);
-    } catch { /* ignore */ }
-    return {
-      country: "",
-      currentSituation: "" as UserSituation,
-      mainObjective: "" as MainObjective,
-      secondaryObjectives: [] as MainObjective[],
-    };
+  const [formData, setFormData] = useState({
+    country: "",
+    currentSituation: "" as UserSituation,
+    mainObjective: "" as MainObjective,
+    secondaryObjectives: [] as MainObjective[],
   })
 
   const updateForm = (next: typeof formData) => {
     setFormData(next);
-    try { localStorage.setItem(ONBOARDING_KEY, JSON.stringify(next)); } catch { /* ignore */ }
   }
 
   const handleComplete = async () => {
@@ -70,7 +61,6 @@ export default function OnboardingPage() {
 
       if (!res.ok) throw new Error("Failed to save")
 
-      try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ }
       track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective });
       toast.success("Profil initial configuré !")
       router.push("/quiz")
