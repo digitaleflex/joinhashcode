@@ -24,8 +24,7 @@ jobs:
     name: "🧪 Tests"
     needs: [security]
     uses: ./.github/workflows/reusable-test.yml
-    secrets:
-      BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+    secrets: inherit
 
   build:
     name: "🐳 Build"

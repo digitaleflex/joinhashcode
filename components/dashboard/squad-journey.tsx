@@ -380,7 +380,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
               <div className="space-y-5 lg:sticky lg:top-24">
 
                 {/* Cohesion gauge */}
-                <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Activity className="size-4 text-primary" />
@@ -409,12 +409,12 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                 </div>
 
                 {/* Streak counter */}
-                <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 flex items-center gap-5">
+                <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 flex items-center gap-5">
                   <div className={cn(
                     "size-14 rounded-2xl flex items-center justify-center border-2 shrink-0",
                     streak >= 3
                       ? "bg-amber-500/10 border-amber-500/40 text-amber-400"
-                      : "bg-white/[0.02] border-white/5 text-zinc-700"
+                      : "bg-white/2 border-white/5 text-zinc-700"
                   )}>
                     <Zap className={cn("size-6", streak >= 1 && "fill-current")} />
                   </div>
@@ -431,7 +431,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
 
                 {/* Member roster */}
                 {squad && (
-                  <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                  <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                       <Users className="size-4 text-primary" />
                       <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">
@@ -478,7 +478,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
 
                 {/* Squad Compatibility Analyzer */}
                 {squad && (
-                  <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4 relative overflow-hidden group">
+                  <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4 relative overflow-hidden group">
                     <div className="absolute -top-12 -right-12 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-700" />
                     
                     <div className="flex items-center justify-between">
@@ -618,7 +618,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
 
                 {/* Personnalisation — leader only */}
                 {squad && isLeader && (
-                  <div className="rounded-[1.5rem] border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                  <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <LinkIcon className="size-4 text-primary" />
@@ -717,7 +717,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                 )}
 
                 {/* V2 teaser */}
-                <div className="rounded-[1.5rem] border border-white/[0.04] bg-white/[0.01] p-5 space-y-3">
+                <div className="rounded-3xl border border-white/4 bg-white/1 p-5 space-y-3">
                   <div className="flex items-center gap-2">
                     <Sparkles className="size-3.5 text-zinc-700" />
                     <span className="text-[9px] font-mono font-bold text-zinc-700 uppercase">
@@ -787,21 +787,21 @@ function PhaseNode({
         </div>
         {!isLast && (
           <div className={cn(
-            "w-0.5 flex-1 min-h-[2.5rem] mt-1 rounded-full",
-            status === "completed" ? "bg-primary/30" : "bg-white/[0.04]",
+            "w-0.5 flex-1 min-h-10 mt-1 rounded-full",
+            status === "completed" ? "bg-primary/30" : "bg-white/4",
           )} />
         )}
       </div>
 
       {/* Phase content card */}
       <div className={cn(
-        "flex-1 rounded-[1.5rem] border p-5 md:p-6 mb-3 transition-all duration-700",
+        "flex-1 rounded-3xl border p-5 md:p-6 mb-3 transition-all duration-700",
         status === "completed" && "bg-zinc-900/30 border-primary/10",
         status === "current" && "bg-zinc-900/60 border-primary/30 shadow-[0_0_30px_rgba(197,244,65,0.08)]",
-        status === "locked" && "bg-zinc-950/30 border-white/[0.03] opacity-50",
+        status === "locked" && "bg-zinc-950/30 border-white/3 opacity-50",
       )}>
         <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="space-y-1 flex-1 min-w-[200px]">
+          <div className="space-y-1 flex-1 min-w-50">
             <div className="flex items-center gap-2 flex-wrap">
               <span className={cn(
                 "text-[9px] font-mono font-bold uppercase",
@@ -847,7 +847,7 @@ function PhaseNode({
             </p>
 
             {showWhy && phase.whyDescription && (
-              <div className="mt-3 p-4 rounded-2xl border border-primary/20 bg-primary/[0.02] text-xs space-y-1.5 transition-all duration-300">
+              <div className="mt-3 p-4 rounded-2xl border border-primary/20 bg-primary/2 text-xs space-y-1.5 transition-all duration-300">
                 <div className="flex items-center gap-1.5 text-primary font-bold uppercase tracking-wider font-mono text-[9px]">
                   <Sparkles className="size-3 text-primary animate-pulse" />
                   {phase.whyTitle || "Pourquoi cette étape ?"}
@@ -864,7 +864,7 @@ function PhaseNode({
             "text-[10px] font-mono font-bold px-3 py-1.5 rounded-xl border shrink-0",
             status === "completed" && "bg-primary/5 text-primary/60 border-primary/10",
             status === "current" && "bg-primary/10 text-primary border-primary/20",
-            status === "locked" && "bg-white/[0.02] text-zinc-800 border-white/[0.03]",
+            status === "locked" && "bg-white/2 text-zinc-800 border-white/3",
           )}>
             {phase.reward}
           </div>
