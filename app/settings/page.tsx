@@ -289,9 +289,12 @@ export default function SettingsPage() {
 
   useEffect(() => {
     fetch("/api/user/me")
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
       .then(data => setUserData(data))
-      .catch(() => toast.error("Impossible de charger les données"))
+      .catch(() => toast.error("Impossible de charger tes données. Recharge la page."))
   }, [])
 
   const save = useCallback(async (data: any, silent = false) => {

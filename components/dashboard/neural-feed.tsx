@@ -23,12 +23,14 @@ interface NeuralEvent {
 }
 
 export function NeuralFeed() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["feed"],
-    queryFn: () =>
-      fetch("/api/feed")
-        .then((r) => r.json())
-        .then((d) => d.events as NeuralEvent[]),
+    queryFn: async () => {
+      const r = await fetch("/api/feed")
+      if (!r.ok) throw new Error(`Feed HTTP ${r.status}`)
+      const d = await r.json()
+      return d.events as NeuralEvent[]
+    },
     refetchInterval: 60_000,
     staleTime: 30_000,
   })
@@ -83,6 +85,10 @@ export function NeuralFeed() {
               </div>
             ))}
           </>
+        ) : isError ? (
+          <p className="text-center text-[11px] font-mono text-rose-700/80 py-6">
+            Erreur de chargement — réessaie dans un instant.
+          </p>
         ) : events.length === 0 ? (
           <p className="text-center text-[11px] font-mono text-zinc-600 py-6">
             Aucune activité récente
