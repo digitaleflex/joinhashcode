@@ -14,6 +14,19 @@ import Link from "next/link"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
 
+/** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
+function getSafeCallbackUrl(fallback = "/quiz"): string {
+    if (typeof window === "undefined") return fallback
+    const cb = new URLSearchParams(window.location.search).get("callbackURL")
+    if (!cb || !cb.startsWith("/") || cb.startsWith("//")) return fallback
+    try {
+        const resolved = new URL(cb, window.location.origin)
+        return resolved.origin === window.location.origin ? cb : fallback
+    } catch {
+        return fallback
+    }
+}
+
 export function SignInForm() {
     const [loadingProvider, setLoadingProvider] = useState<"google" | "github" | "email" | "otp" | null>(null)
     const [step, setStep] = useState<"initial" | "otp">("initial")
@@ -35,9 +48,7 @@ export function SignInForm() {
         }
         setLoadingProvider(provider)
         try {
-            const params = new URLSearchParams(window.location.search)
-            const cb = params.get("callbackURL")
-            const callbackURL = cb?.startsWith("/") ? cb : "/quiz"
+            const callbackURL = getSafeCallbackUrl()
 
             const { data, error } = await authClient.signIn.social({
                 provider,
@@ -110,9 +121,7 @@ export function SignInForm() {
             if (error) throw new Error(error.message)
 
             toast.success("Authentification réussie")
-            const params = new URLSearchParams(window.location.search)
-            const cb = params.get("callbackURL")
-            window.location.href = cb?.startsWith("/") ? cb : "/quiz"
+            window.location.href = getSafeCallbackUrl()
         } catch (error) {
             console.error(error)
             toast.error("Code invalide ou expiré")

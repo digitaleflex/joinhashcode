@@ -70,8 +70,10 @@ export default function PostQuizOnboarding() {
       toast.success("Configuration terminée !")
       // Check for a pending squad invite set before the user went through sign-up
       const pendingCookie = document.cookie.split(";").find(c => c.trim().startsWith("pending-squad="))
-      const pendingSlug = pendingCookie?.split("=")[1]?.trim()
-      window.location.href = pendingSlug ? `/invite/${pendingSlug}` : "/dashboard"
+      const rawSlug = pendingCookie?.split("=")[1]?.trim()
+      // Validate slug: only lowercase alphanum + hyphens, 3–30 chars — rejects tampered cookies
+      const safeSlug = rawSlug && /^[a-z0-9-]{3,30}$/.test(rawSlug) ? rawSlug : null
+      window.location.href = safeSlug ? `/invite/${safeSlug}` : "/dashboard"
     } catch (error) {
       toast.error("Une erreur est survenue")
     } finally {
