@@ -10,6 +10,10 @@ concurrency:
   group: pipeline-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   security:
     name: "🛡️ Sécurité"
@@ -26,12 +30,18 @@ jobs:
     name: "🐳 Build"
     needs: [test]
     if: github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
     uses: ./.github/workflows/reusable-build.yml
 
   deploy:
     name: "🚀 Déploiement"
     needs: [build]
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: read
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       image_tag: ${{ needs.build.outputs.image-tag }}
