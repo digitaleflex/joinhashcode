@@ -4,25 +4,111 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-// Remove a member from the organization (owner action)
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Unauthorized", { status: 401 });
 
-    const { memberId, action } = await req.json();
-    if (!memberId || !action) return new NextResponse("Missing data", { status: 400 });
+    const body = await req.json();
+    const { requestId, memberId, action } = body;
 
-    const target = await prisma.member.findUnique({ where: { id: memberId } });
-    if (!target) return new NextResponse("Member not found", { status: 404 });
+    // Legacy: remove an existing member directly
+    if (memberId && action === "remove") {
+      const target = await prisma.member.findUnique({ where: { id: memberId } });
+      if (!target) return new NextResponse("Membre introuvable", { status: 404 });
+      const leadership = await prisma.member.findFirst({
+        where: { organizationId: target.organizationId, userId: session.user.id, role: "owner" },
+      });
+      if (!leadership) return new NextResponse("Forbidden", { status: 403 });
+      await prisma.member.delete({ where: { id: memberId } });
+      return NextResponse.json({ success: true });
+    }
 
+    if (!requestId || !["accept", "reject"].includes(action)) {
+      return new NextResponse("Données invalides", { status: 400 });
+    }
+
+    // Load the join request
+    const joinRequest = await prisma.joinRequest.findUnique({
+      where: { id: requestId },
+      include: { user: { select: { id: true, name: true } } },
+    });
+    if (!joinRequest) return new NextResponse("Demande introuvable", { status: 404 });
+    if (joinRequest.status !== "PENDING") {
+      return new NextResponse("Cette demande a déjà été traitée", { status: 400 });
+    }
+
+    // Verify caller is owner of this squad
     const leadership = await prisma.member.findFirst({
-      where: { organizationId: target.organizationId, userId: session.user.id, role: "owner" },
+      where: {
+        organizationId: joinRequest.organizationId,
+        userId: session.user.id,
+        role: "owner",
+      },
     });
     if (!leadership) return new NextResponse("Forbidden", { status: 403 });
 
-    if (action === "remove") {
-      await prisma.member.delete({ where: { id: memberId } });
+    if (action === "accept") {
+      // Check capacity (max 5)
+      const memberCount = await prisma.member.count({
+        where: { organizationId: joinRequest.organizationId },
+      });
+      if (memberCount >= 5) {
+        return NextResponse.json({ message: "L'escouade est complète (5/5)" }, { status: 400 });
+      }
+
+      await prisma.$transaction(async (tx) => {
+        // Create membership
+        await tx.member.create({
+          data: {
+            id: crypto.randomUUID(),
+            organizationId: joinRequest.organizationId,
+            userId: joinRequest.userId,
+            role: "member",
+            createdAt: new Date(),
+          },
+        });
+
+        // Mark request accepted
+        await tx.joinRequest.update({
+          where: { id: requestId },
+          data: { status: "ACCEPTED" },
+        });
+
+        // Cancel all other pending requests from this user
+        await tx.joinRequest.updateMany({
+          where: { userId: joinRequest.userId, status: "PENDING", id: { not: requestId } },
+          data: { status: "REJECTED" },
+        });
+      });
+
+      // Notify the new member
+      await prisma.notification.create({
+        data: {
+          userId: joinRequest.userId,
+          type: "SQUAD_REQUEST_ACCEPTED",
+          title: "Candidature acceptée !",
+          message: "Tu as été recruté dans une escouade. Direction /squad pour rejoindre tes coéquipiers.",
+          link: "/squad",
+        },
+      });
+    } else {
+      // Reject
+      await prisma.joinRequest.update({
+        where: { id: requestId },
+        data: { status: "REJECTED" },
+      });
+
+      // Notify the requester
+      await prisma.notification.create({
+        data: {
+          userId: joinRequest.userId,
+          type: "SQUAD_REQUEST_REJECTED",
+          title: "Candidature refusée",
+          message: "Ta demande d'intégration n'a pas été retenue. Tu peux postuler dans une autre escouade.",
+          link: "/squad",
+        },
+      });
     }
 
     return NextResponse.json({ success: true });
