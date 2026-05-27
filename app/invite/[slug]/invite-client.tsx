@@ -65,7 +65,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                         <span className="text-[10px] font-mono font-black uppercase">Accès_Sécurisé_Approuvé</span>
                     </div>
                     <div className="text-[9px] font-mono text-zinc-500 uppercase animate-pulse">
-                        Protocole d&apos;Assemblage en cours...
+                        Formation de l&apos;équipe en cours...
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                         {leader.pseudo || leader.name.split(' ')[0]} <span className="text-zinc-600 not-italic">t&apos;a sélectionné</span>
                     </CardTitle>
                     <CardDescription className="text-zinc-400 mt-3 text-sm leading-relaxed">
-                        Le Bâtisseur <span className="text-white font-bold">@{leader.pseudo}</span> a besoin de ton expertise pour compléter son unité. Ensemble, débloquez l&apos;arsenal <span className="text-primary font-mono font-bold tracking-wide">HASHCODE</span>.
+                        Le Bâtisseur <span className="text-white font-bold">@{leader.pseudo}</span> a besoin de ton expertise pour compléter son équipe. Ensemble, débloquez tout le potentiel <span className="text-primary font-mono font-bold tracking-wide">HASHCODE</span>.
                     </CardDescription>
                 </CardHeader>
 
@@ -102,7 +102,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                     {/* Social Proof Section */}
                     <div className="space-y-4">
                         <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-zinc-500 px-2">
-                            <span>Membres de l&apos;unité</span>
+                            <span>Membres de l&apos;équipe</span>
                             <span className="text-primary font-bold">{squad.members.length}/5</span>
                         </div>
                         <div className="flex justify-center -space-x-3">
@@ -135,7 +135,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                     <div className="bg-primary/3 border border-primary/10 rounded-3xl p-5 text-center relative group/box overflow-hidden">
                         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover/box:opacity-100 transition-opacity duration-500" />
                         <p className="text-xs text-zinc-300 leading-relaxed relative z-10 italic">
-                            &quot;Une escouade complète débloque <span className="text-white font-bold">100% des missions</span> et active les bonus d&apos;évolution collective.&quot;
+                            &quot;Une équipe complète débloque <span className="text-white font-bold">100% des missions</span> et active les bonus d&apos;évolution collective.&quot;
                         </p>
                     </div>
                 </CardContent>
@@ -157,7 +157,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                             >
                                 {isLoading ? <Loader2 className="animate-spin" /> : (
                                     <>
-                                        {isLoggedIn ? "Rejoindre l'Unité" : "Activer mon Accès & Rejoindre"}
+                                        {isLoggedIn ? "Rejoindre l'Équipe" : "Activer mon Accès & Rejoindre"}
                                         <ArrowRight className="ml-2 size-5" />
                                     </>
                                 )}

@@ -34,10 +34,10 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // User must be LEADER of their squad
-    const membership = await prisma.guildMember.findFirst({
-      where: { userId: session.user.id, role: "LEADER" },
-      select: { guildId: true },
+    // User must be owner of their squad
+    const membership = await prisma.member.findFirst({
+      where: { userId: session.user.id, role: "owner" },
+      select: { organizationId: true },
     });
 
     if (!membership) {
@@ -45,8 +45,8 @@ export async function PATCH(req: Request) {
     }
 
     // Check slug uniqueness (excluding current squad)
-    const conflict = await prisma.guild.findFirst({
-      where: { slug, id: { not: membership.guildId } },
+    const conflict = await prisma.organization.findFirst({
+      where: { slug, id: { not: membership.organizationId } },
       select: { id: true },
     });
 
@@ -54,8 +54,8 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Ce lien est déjà pris. Essaie un autre." }, { status: 409 });
     }
 
-    const updated = await prisma.guild.update({
-      where: { id: membership.guildId },
+    const updated = await prisma.organization.update({
+      where: { id: membership.organizationId },
       data: { name: name.trim(), slug },
     });
 
@@ -63,7 +63,7 @@ export async function PATCH(req: Request) {
       userId: session.user.id,
       action: "SQUAD_UPDATED",
       entity: "squad",
-      entityId: membership.guildId,
+      entityId: membership.organizationId,
       metadata: { name: updated.name, slug: updated.slug },
       request: req,
     });

@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
+import crypto from "crypto";
 
 export async function POST(req: Request) {
   try {
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
     }
 
     // Find the squad with leader info
-    const squad = await prisma.guild.findUnique({
+    const squad = await prisma.organization.findUnique({
       where: { slug },
       include: {
         members: {
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
     }
 
     // Check if already in a squad
-    const existingMember = await prisma.guildMember.findFirst({
+    const existingMember = await prisma.member.findFirst({
       where: { userId }
     });
 
@@ -52,11 +53,13 @@ export async function POST(req: Request) {
     }
 
     // Join
-    await prisma.guildMember.create({
+    await prisma.member.create({
       data: {
+        id: crypto.randomUUID(),
         userId,
-        guildId: squad.id,
-        role: "MEMBER"
+        organizationId: squad.id,
+        role: "member",
+        createdAt: new Date()
       }
     });
 
@@ -69,7 +72,7 @@ export async function POST(req: Request) {
       request: req,
     });
 
-    const leader = squad.members.find((m) => m.role === "LEADER");
+    const leader = squad.members.find((m) => m.role === "owner");
     if (leader && leader.user.id !== userId) {
       const joiner = await prisma.user.findUnique({
         where: { id: userId },

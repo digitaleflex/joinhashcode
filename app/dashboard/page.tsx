@@ -16,83 +16,83 @@ export default async function DashboardPage() {
   }
 
   // Fetch all required data in parallel — wrap so DB errors go to error.tsx with a log
-  let dbUser: Awaited<ReturnType<typeof prisma.user.findUnique>> | undefined
-  let quizResult: Awaited<ReturnType<typeof prisma.quizResult.findFirst>> | undefined
-  let submissions: Awaited<ReturnType<typeof prisma.missionSubmission.findMany>>
-  let guildMember: Awaited<ReturnType<typeof prisma.guildMember.findFirst>> | undefined
+  let dbUser: any = null;
+  let quizResult: any = null;
+  let submissions: any[] = [];
+  let member: any = null;
 
   try {
-    ;[dbUser, quizResult, submissions, guildMember] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        level: true,
-        experience: true,
-        class: true,
-        builderScore: true,
-        creatorScore: true,
-        strategistScore: true,
-        catalystScore: true,
-        missionsCompletedCount: true,
-        lastCheckinAt: true,
-        behavioralVibrancy: true,
-        currentStreak: true,
-        confidenceScore: true,
-        profileDrift: true,
-        pseudo: true,
-      }
-    }),
-    prisma.quizResult.findFirst({
-      where: { userId: session.user.id },
-      orderBy: { createdAt: 'desc' }
-    }),
-    prisma.missionSubmission.findMany({
-      where: { userId: session.user.id },
-      select: { missionId: true, status: true },
-      take: 200,
-    }),
-    prisma.guildMember.findFirst({
-      where: { userId: session.user.id },
-      include: {
-        guild: {
-          include: {
-            members: {
-              take: 5,
-              include: {
-                user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    pseudo: true,
-                    image: true,
-                    class: true,
+    ;[dbUser, quizResult, submissions, member] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          level: true,
+          experience: true,
+          class: true,
+          builderScore: true,
+          creatorScore: true,
+          strategistScore: true,
+          catalystScore: true,
+          missionsCompletedCount: true,
+          lastCheckinAt: true,
+          behavioralVibrancy: true,
+          currentStreak: true,
+          confidenceScore: true,
+          profileDrift: true,
+          pseudo: true,
+        }
+      }),
+      prisma.quizResult.findFirst({
+        where: { userId: session.user.id },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.missionSubmission.findMany({
+        where: { userId: session.user.id },
+        select: { missionId: true, status: true },
+        take: 200,
+      }),
+      prisma.member.findFirst({
+        where: { userId: session.user.id },
+        include: {
+          organization: {
+            include: {
+              members: {
+                take: 5,
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      name: true,
+                      pseudo: true,
+                      image: true,
+                      class: true,
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
-    })
-  ])
+      })
+    ]);
   } catch (err) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
     throw err // propagates to app/dashboard/error.tsx
   }
 
-  const submissionsMap = (submissions ?? []).reduce((acc, s) => {
+  const submissionsMap = (submissions ?? []).reduce((acc: any, s: any) => {
     acc[s.missionId] = s.status;
     return acc;
   }, {} as Record<string, string>);
 
   // Calculate recommendations (FYP Algorithm)
-  const completedIds = submissions
-    .filter(s => s.status === "APPROVED" || s.status === "PENDING")
-    .map(s => s.missionId);
+  const completedIds = (submissions ?? [])
+    .filter((s: any) => s.status === "APPROVED" || s.status === "PENDING")
+    .map((s: any) => s.missionId);
 
   const recommendedMissions = getRecommendedMissions(
     dbUser?.behavioralVibrancy as any,
@@ -102,12 +102,25 @@ export default async function DashboardPage() {
     3
   );
 
+  // Map Organization to the legacy "squad" format for compatibility with UI components
+  const squad = member?.organization ? {
+    ...member.organization,
+    members: member.organization.members.map((m: any) => ({
+      ...m,
+      role: m.role === "owner" ? "LEADER" : "MEMBER",
+      user: {
+        ...m.user,
+        pseudo: m.user.pseudo || m.user.name,
+      }
+    }))
+  } : null;
+
   return (
     <DashboardShell 
       user={dbUser || (session.user as any)} 
       quizResult={quizResult} 
       submissions={submissionsMap}
-      squad={guildMember?.guild || null}
+      squad={squad}
       recommendedMissions={recommendedMissions}
     />
   );

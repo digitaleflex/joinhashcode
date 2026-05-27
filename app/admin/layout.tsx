@@ -25,10 +25,7 @@ export default async function AdminLayout({
     redirect("/dashboard")
   }
 
-  // Enforce 2FA for all admin/moderator accounts — redirect to settings to set it up
-  if (!dbUser.twoFactorEnabled) {
-    redirect("/settings?require2fa=1")
-  }
+
 
   return (
     <SidebarProvider>

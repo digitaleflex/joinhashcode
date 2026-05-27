@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
+import crypto from "crypto";
 
 // ── Curated name generator ────────────────────────────────────────────────────
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
     const userId = session.user.id;
 
     // Check if user already has a squad
-    const existingMember = await prisma.guildMember.findFirst({
+    const existingMember = await prisma.member.findFirst({
       where: { userId },
     });
 
@@ -68,14 +69,20 @@ export async function POST(req: Request) {
         : `${slug}-${Math.random().toString(36).substring(2, 4)}`;
 
       try {
-        squad = await prisma.guild.create({
+        const orgId = crypto.randomUUID();
+        const memberId = crypto.randomUUID();
+        squad = await prisma.organization.create({
           data: {
+            id: orgId,
             name,
             slug: candidateSlug,
+            createdAt: new Date(),
             members: {
               create: {
+                id: memberId,
                 userId,
-                role: "LEADER",
+                role: "owner",
+                createdAt: new Date(),
               },
             },
           },

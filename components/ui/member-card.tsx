@@ -123,7 +123,7 @@ export function MemberCard({
                   <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[8px] font-bold text-zinc-400 uppercase tracking-wider">
                     {classLabel}
                   </span>
-                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider">Grade__{levelName}</span>
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider">Niveau__{levelName}</span>
                 </div>
               </div>
 
@@ -133,7 +133,7 @@ export function MemberCard({
                   <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Impact_</span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-base font-black text-white">{missionsCompleted}</span>
-                    <span className="text-[7px] font-bold text-zinc-500 uppercase">Ops</span>
+                    <span className="text-[7px] font-bold text-zinc-500 uppercase">Missions</span>
                   </div>
                 </div>
                 <div className="space-y-0.5">
@@ -143,7 +143,7 @@ export function MemberCard({
                   </div>
                 </div>
                 <div className="hidden sm:block space-y-0.5 flex-1">
-                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Top_Arsenal_</span>
+                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Top_Outils_</span>
                   <div className="flex gap-1.5 mt-1 truncate">
                     {tools.slice(0, 2).map(t => (
                       <span key={t} className="text-[7px] font-bold text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded uppercase">

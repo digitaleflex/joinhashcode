@@ -108,9 +108,9 @@ La force de HASHCODE réside dans son intelligence collective. Pour ne rien manq
   // --- MISSIONS ACTIVATION (communautaires, disponibles au lancement) ---
   {
     id: "profil-complet",
-    title: "Dossier Opérationnel",
+    title: "Profil Complet",
     shortDesc: "Complète ton profil pour activer ta présence sur le réseau.",
-    description: "Ton dossier est ton identité sur HASHCODE. Remplis ta bio, ajoute tes liens et précise tes objectifs pour être visible des autres membres.",
+    description: "Ton profil est ton identité sur HASHCODE. Remplis ta bio, ajoute tes liens et précise tes objectifs pour être visible des autres membres.",
     xpReward: 50,
     requiredLevel: 1,
     targetLevel: 1,
@@ -129,9 +129,9 @@ La force de HASHCODE réside dans son intelligence collective. Pour ne rien manq
     submissionMethod: "TEXT_RESPONSE",
     deliverables: ["Capture d'écran de ton profil complété"],
     fullBriefing: `
-# Mission : Dossier Opérationnel
+# Mission : Profil Complet
 
-Ton profil HASHCODE est ta carte d'identité dans la communauté. Sans lui, tu es invisible. C'est la première mission que chaque agent doit accomplir.
+Ton profil HASHCODE est ta carte d'identité dans la communauté. Sans lui, tu es invisible. C'est la première mission que chaque membre doit accomplir.
 
 ### Instructions
 1. Va dans **Paramètres → Identité** et remplis ta bio (minimum 2 lignes).
@@ -167,7 +167,7 @@ Ton profil HASHCODE est ta carte d'identité dans la communauté. Sans lui, tu e
     fullBriefing: `
 # Mission : Genèse du Squad
 
-Sur HASHCODE, personne ne build seul. Un squad, c'est ton unité de combat : 5 agents synchronisés qui progressent ensemble, partagent leurs ressources et décuplent leur impact.
+Sur HASHCODE, personne ne build seul. Un squad, c'est ton équipe de co-création : 5 membres synchronisés qui progressent ensemble, partagent leurs ressources et décuplent leur impact.
 
 ### Instructions
 **Option A — Créer ton squad :**
@@ -317,8 +317,8 @@ Cependant, l'évaluation dépendra de la Guilde que tu as rejointe.
   },
   {
     id: "uni-02-audit-teardown",
-    title: "Le Scalpel : Audit de l'Existant",
-    shortDesc: "Détruis pour mieux reconstruire.",
+    title: "Le Diagnostic : Audit de l'Existant",
+    shortDesc: "Analyser pour mieux reconstruire.",
     description: "Prends un projet open-source, le site d'une entreprise locale, ou un de tes anciens projets, et audite-le sous le prisme de ta Guilde.",
     xpReward: 300,
     requiredLevel: 3,
@@ -335,14 +335,14 @@ Cependant, l'évaluation dépendra de la Guilde que tu as rejointe.
     submissionMethod: "DOCUMENT_LINK",
     deliverables: ["Lien du rapport d'audit (Notion, PDF ou GitHub Gist)"],
     fullBriefing: `
-# Mission Universelle 02 : Le Scalpel
+# Mission Universelle 02 : Le Diagnostic
 
 Les meilleurs professionnels savent lire l'existant avant de créer du nouveau. Choisis un projet numérique existant (site web, app, repo open-source) et réalise un audit complet.
 
 ### L'angle d'attaque de ta Guilde :
 * 🛠️ **Builders :** Fais un audit de la dette technique ou de la sécurité. Pointe les vulnérabilités (XSS, Auth faible) ou les requêtes lentes, et propose une refonte architecturale.
 * 🎨 **Creators :** Fais un audit UX/UI. Quels sont les points de friction ? L'accessibilité est-elle respectée ? Propose un wireframe ou un nouveau design system pour réparer ça.
-* 🧠 **Strategists :** Fais un audit du Business Model et du Funnel de conversion. Où perdent-ils des clients ? Propose une stratégie Go-To-Market ou de rétention plus agressive.
+* 🧠 **Strategists :** Fais un audit du Business Model et du Funnel de conversion. Où perdent-ils des clients ? Propose une stratégie Go-To-Market ou de rétention ambitieuse et orientée impact.
 * 🗣️ **Catalysts :** Fais un audit du positionnement communautaire et de la marque. Leur communication est-elle plate ? Propose une stratégie de création de contenu et de distribution virale.
 
 ### Critères de validation

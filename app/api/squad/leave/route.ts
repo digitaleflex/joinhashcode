@@ -9,7 +9,7 @@ export async function DELETE() {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Unauthorized", { status: 401 });
 
-    const membership = await prisma.guildMember.findFirst({
+    const membership = await prisma.member.findFirst({
       where: { userId: session.user.id },
     });
 
@@ -17,18 +17,18 @@ export async function DELETE() {
       return new NextResponse("Tu n'es membre d'aucune escouade.", { status: 404 });
     }
 
-    if (membership.role === "LEADER") {
-      const count = await prisma.guildMember.count({ where: { guildId: membership.guildId } });
+    if (membership.role === "owner") {
+      const count = await prisma.member.count({ where: { organizationId: membership.organizationId } });
       if (count > 1) {
         return new NextResponse(
           "Transfère le rôle de Leader avant de quitter l'escouade.",
           { status: 400 }
         );
       }
-      // Last member + leader: delete the whole guild
-      await prisma.guild.delete({ where: { id: membership.guildId } });
+      // Last member + leader: delete the whole organization
+      await prisma.organization.delete({ where: { id: membership.organizationId } });
     } else {
-      await prisma.guildMember.delete({ where: { id: membership.id } });
+      await prisma.member.delete({ where: { id: membership.id } });
     }
 
     return NextResponse.json({ success: true });

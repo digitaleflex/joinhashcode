@@ -26,12 +26,25 @@ export async function PATCH(
       return new NextResponse("Accès non autorisé.", { status: 401 });
     }
 
-    const { id: missionId } = await params;
+    const { id: missionIdOrSlug } = await params;
     const body = await req.json();
     const validatedData = retrospectiveSchema.safeParse(body);
 
     if (!validatedData.success) {
       return new NextResponse("Données de rétrospective invalides.", { status: 400 });
+    }
+
+    const mission = await prisma.mission.findFirst({
+      where: {
+        OR: [
+          { slug: missionIdOrSlug },
+          { id: missionIdOrSlug }
+        ]
+      }
+    });
+
+    if (!mission) {
+      return new NextResponse("Mission introuvable.", { status: 404 });
     }
 
     const { 
@@ -47,7 +60,7 @@ export async function PATCH(
       where: {
         userId_missionId_cycleKey: {
           userId: session.user.id,
-          missionId: missionId,
+          missionId: mission.id,
           cycleKey: "PERMANENT",
         }
       },

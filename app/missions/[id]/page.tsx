@@ -27,30 +27,38 @@ export default async function MissionBriefingPage({
 
   if (!session) redirect("/signin")
 
-  const [dbUser, mission] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      include: {
-        missionSubmissions: {
-          where: { missionId: id },
-          include: {
-            reviewer: {
-              select: {
-                id: true,
-                pseudo: true,
-                image: true,
-              }
+  // Find mission by slug or ID
+  const mission = await prisma.mission.findFirst({
+    where: {
+      OR: [
+        { slug: id },
+        { id: id }
+      ]
+    }
+  })
+
+  if (!mission) notFound()
+
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      missionSubmissions: {
+        where: { missionId: mission.id },
+        include: {
+          reviewer: {
+            select: {
+              id: true,
+              pseudo: true,
+              image: true,
             }
-          },
-          orderBy: { createdAt: "desc" },
+          }
         },
+        orderBy: { createdAt: "desc" },
       },
-    }),
-    prisma.mission.findUnique({ where: { id } }),
-  ])
+    },
+  })
 
   if (!dbUser) redirect("/signin")
-  if (!mission) notFound()
 
   // Complementary class mapping for Matchmaking Alpha
   const complementaryClasses: Record<string, string[]> = {
@@ -127,7 +135,7 @@ export default async function MissionBriefingPage({
                 <div className="space-y-4 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-[10px] font-mono text-primary/50 uppercase">
-                      MISSION // {id.toUpperCase().replace(/-/g, "_")}
+                      MISSION // {mission.slug.toUpperCase().replace(/-/g, "_")}
                     </span>
                   </div>
 

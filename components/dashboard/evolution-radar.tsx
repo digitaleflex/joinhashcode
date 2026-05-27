@@ -76,28 +76,37 @@ export function EvolutionRadar({
   const [hoveredAxis, setHoveredAxis] = useState<string | null>(null)
   
   // Clean inputs
-  const scores: Record<string, number> = {
-    builder: Math.max(0, builderScore),
-    creator: Math.max(0, creatorScore),
-    strategist: Math.max(0, strategistScore),
-    catalyst: Math.max(0, catalystScore),
-  }
+  const cleanScore = (val: any) => {
+    const num = Number(val);
+    return isNaN(num) ? 0 : Math.max(0, num);
+  };
 
-  const maxVal = Math.max(10, ...Object.values(scores))
+  const scores: Record<string, number> = {
+    builder: cleanScore(builderScore),
+    creator: cleanScore(creatorScore),
+    strategist: cleanScore(strategistScore),
+    catalyst: cleanScore(catalystScore),
+  };
+
+  const maxVal = 100;
 
   // SVG parameters
-  const size = 260
-  const center = size / 2
-  const r = 90 // Max radius for 100% value
+  const size = 260;
+  const center = size / 2;
+  const r = 90; // Max radius for 100% value
 
   // Coordinates calculators
   const getCoordinates = (angle: number, value: number) => {
-    const scale = value / maxVal
-    const distance = r * scale
-    const x = center + distance * Math.cos(angle)
-    const y = center + distance * Math.sin(angle)
-    return { x, y }
-  }
+    const validVal = isNaN(value) ? 0 : value;
+    const scale = validVal / maxVal;
+    const distance = r * scale;
+    const x = center + distance * Math.cos(angle);
+    const y = center + distance * Math.sin(angle);
+    return {
+      x: isNaN(x) ? center : x,
+      y: isNaN(y) ? center : y,
+    };
+  };
 
   // Calculate polygon points
   const points = AXIS_CONFIG.map((axis) => {
@@ -296,7 +305,7 @@ export function EvolutionRadar({
           <div className="flex items-center gap-2">
             <Zap className="size-3 text-primary animate-pulse" />
             <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight uppercase">
-              détails_de_l_empreinte_
+              Détail des compétences
             </span>
           </div>
           <TooltipProvider>
@@ -373,7 +382,7 @@ export function EvolutionRadar({
                 </span>
                 {userClass?.toLowerCase() === activeAxis.key && (
                   <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-sm bg-primary/10 text-primary border border-primary/20 uppercase tracking-wider">
-                    CLASSE DOMINANTE
+                    Force principale
                   </span>
                 )}
               </div>

@@ -63,8 +63,8 @@ export default async function MissionsPage() {
   const weekStart = getWeekStart();
 
   // Fetch user data, weekly mission, and cached enrichment in parallel
-  let finalDbUser: Awaited<ReturnType<typeof prisma.user.findUnique>> | undefined
-  let weeklyMission: Awaited<ReturnType<typeof prisma.mission.findUnique>> | undefined
+  let finalDbUser: any = null
+  let weeklyMission: any = null
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
 
@@ -100,7 +100,7 @@ export default async function MissionsPage() {
 
   // Convert array to Record<missionId, status>
   const submissionsMap: Record<string, string> = {};
-  finalDbUser.missionSubmissions.forEach(sub => {
+  finalDbUser.missionSubmissions.forEach((sub: any) => {
     submissionsMap[sub.missionId] = sub.status;
   });
 

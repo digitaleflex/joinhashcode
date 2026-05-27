@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
@@ -21,18 +21,17 @@ export function TwoFactorSetup({ user }: { user: any }) {
   const [totpData, setTotpData] = useState<{ totpURI: string; backupCodes: string[] } | null>(null);
   const [verificationCode, setVerificationCode] = useState("");
   const [password, setPassword] = useState("");
-  const [step, setStep] = useState<"password" | "setup" | "verify">("password");
+  const [step, setStep] = useState<"start" | "setup" | "verify">("start");
 
-  const handleStartSetup = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleStartSetup = async () => {
     setIsPending(true);
     try {
       const { data, error } = await authClient.twoFactor.enable({
-        password,
+        password: "", // Not needed for passwordless, but passed to satisfy types if required
       });
 
       if (error) {
-        toast.error(error.message || "Erreur d\"authentification");
+        toast.error(error.message || "Erreur d'authentification");
       } else if (data) {
         setTotpData(data);
         setStep("setup");
@@ -68,13 +67,11 @@ export function TwoFactorSetup({ user }: { user: any }) {
 
   const handleDisable = async () => {
     if (!confirm("Désactiver la double authentification ? Ton compte sera moins sécurisé.")) return;
-    
-    const pass = prompt("Confirme ton mot de passe pour désactiver :");
-    if (!pass) return;
 
+    setIsPending(true);
     try {
       const { error } = await authClient.twoFactor.disable({
-        password: pass,
+        password: "", // Not needed for passwordless
       });
 
       if (error) {
@@ -85,6 +82,8 @@ export function TwoFactorSetup({ user }: { user: any }) {
       }
     } catch (err) {
       toast.error("Erreur technique");
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -143,23 +142,15 @@ export function TwoFactorSetup({ user }: { user: any }) {
               </DialogDescription>
             </DialogHeader>
 
-            {step === "password" && (
-              <form onSubmit={handleStartSetup} className="space-y-4 py-4">
-                <div className="space-y-2">
-                    <label className="text-xs font-mono uppercase text-zinc-500">Confirme ton mot de passe</label>
-                    <Input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="********"
-                        className="bg-zinc-900 border-white/5"
-                        required
-                    />
-                </div>
-                <Button type="submit" className="w-full h-12 uppercase font-bold" disabled={isPending}>
-                    {isPending ? "Vérification..." : "Continuer"}
+            {step === "start" && (
+              <div className="space-y-4 py-4">
+                <p className="text-sm text-zinc-400">
+                  Clique sur le bouton ci-dessous pour générer ton QR code de configuration.
+                </p>
+                <Button onClick={handleStartSetup} className="w-full h-12 uppercase font-bold" disabled={isPending}>
+                    {isPending ? "Génération..." : "Commencer la configuration"}
                 </Button>
-              </form>
+              </div>
             )}
 
             {step === "setup" && totpData && (
