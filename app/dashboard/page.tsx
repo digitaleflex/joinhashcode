@@ -15,8 +15,14 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
-  // Fetch all required data in parallel
-  const [dbUser, quizResult, submissions, guildMember] = await Promise.all([
+  // Fetch all required data in parallel — wrap so DB errors go to error.tsx with a log
+  let dbUser: Awaited<ReturnType<typeof prisma.user.findUnique>> | undefined
+  let quizResult: Awaited<ReturnType<typeof prisma.quizResult.findFirst>> | undefined
+  let submissions: Awaited<ReturnType<typeof prisma.missionSubmission.findMany>>
+  let guildMember: Awaited<ReturnType<typeof prisma.guildMember.findFirst>> | undefined
+
+  try {
+    ;[dbUser, quizResult, submissions, guildMember] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
       select: {
@@ -72,9 +78,13 @@ export default async function DashboardPage() {
         }
       }
     })
-  ]);
+  ])
+  } catch (err) {
+    console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
+    throw err // propagates to app/dashboard/error.tsx
+  }
 
-  const submissionsMap = submissions.reduce((acc, s) => {
+  const submissionsMap = (submissions ?? []).reduce((acc, s) => {
     acc[s.missionId] = s.status;
     return acc;
   }, {} as Record<string, string>);

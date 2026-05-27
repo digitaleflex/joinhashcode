@@ -63,26 +63,36 @@ export default async function MissionsPage() {
   const weekStart = getWeekStart();
 
   // Fetch user data, weekly mission, and cached enrichment in parallel
-  const [finalDbUser, weeklyMission, { completionsMap, ratingsMap }] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        level: true,
-        experience: true,
-        class: true,
-        role: true,
-        missionSubmissions: {
-          select: { missionId: true, status: true },
+  let finalDbUser: Awaited<ReturnType<typeof prisma.user.findUnique>> | undefined
+  let weeklyMission: Awaited<ReturnType<typeof prisma.mission.findUnique>> | undefined
+  let completionsMap: Record<string, number> = {}
+  let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
+
+  try {
+    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap }] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          level: true,
+          experience: true,
+          class: true,
+          role: true,
+          missionSubmissions: {
+            select: { missionId: true, status: true },
+          }
         }
-      }
-    }),
-    prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
-    getMissionsEnrichment(),
-  ]);
+      }),
+      prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
+      getMissionsEnrichment(),
+    ])
+  } catch (err) {
+    console.error("[MISSIONS_PAGE] DB fetch failed:", err)
+    throw err // propagates to app/missions/error.tsx
+  }
 
   if (!finalDbUser) {
     redirect("/signin");
