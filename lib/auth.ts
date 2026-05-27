@@ -165,6 +165,7 @@ export const auth = betterAuth({
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {
       sameSite: "lax",
+      httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
     trustedProxyHeaders: true,
   },
