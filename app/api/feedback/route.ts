@@ -36,12 +36,12 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    // Notify user
-    await emailService.sendFeedbackReceipt({
+    // Notify user — fire-and-forget, a failed email must not block the feedback save
+    emailService.sendFeedbackReceipt({
       email: session.user.email,
       name: session.user.name,
       type: result.data.type,
-    });
+    }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendFeedbackReceipt", err));
 
     return NextResponse.json({ 
       success: true, 

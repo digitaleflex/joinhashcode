@@ -102,7 +102,7 @@ export async function POST(
             adminName: admin.name,
             submitterName: submission.user.name,
             missionTitle: submission.mission.title,
-          });
+          }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendAdminCoreMissionPending", err));
         }
 
         try {
@@ -252,7 +252,7 @@ export async function POST(
       missionTitle: submission.mission.title,
       feedback,
       revisionCount: updatedSubmission.revisionCount,
-    });
+    }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendMissionNeedsRevision", err));
 
     // Escalate to admin after 3 failed revisions
     if (updatedSubmission.revisionCount >= 3) {
