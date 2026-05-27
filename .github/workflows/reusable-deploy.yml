@@ -48,7 +48,7 @@ jobs:
 
             echo "--- [2/3] Base de Données ---"
             for i in {1..12}; do
-              if docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null | grep -q "online"; then
+              if docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null | grep -q "ok"; then
                 echo "App ready!" && break
               fi
               echo "Waiting... ($i)" && sleep 5
