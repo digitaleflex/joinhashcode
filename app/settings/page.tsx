@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useEffect, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -510,7 +511,7 @@ export default function SettingsPage() {
                                     {uploadingAvatar ? (
                                       <Loader2 className="size-10 animate-spin text-emerald-400" />
                                     ) : userData?.image ? (
-                                      <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
+                                      <Image src={userData.image} alt="Avatar" fill className="object-cover" sizes="(max-width: 768px) 128px, 160px" />
                                     ) : (
                                       <div className="w-full h-full flex items-center justify-center text-5xl font-black text-emerald-500/10 uppercase">
                                         {userData?.name?.charAt(0)}
@@ -743,7 +744,7 @@ export default function SettingsPage() {
                                         <div className="relative shrink-0">
                                           <div className="size-14 rounded-[1.25rem] bg-zinc-950/90 overflow-hidden border flex items-center justify-center shadow-xl" style={{ borderColor: `${tierColor}44` }}>
                                             {userData?.image ? (
-                                              <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
+                                              <Image src={userData.image} alt="Avatar" width={56} height={56} className="w-full h-full object-cover" />
                                             ) : (
                                               <div className="w-full h-full flex items-center justify-center text-3xl font-black text-white/10 uppercase">
                                                 {userData?.name?.charAt(0)}

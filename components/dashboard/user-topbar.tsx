@@ -103,7 +103,7 @@ export function UserTopBar({ user }: { user: any }) {
             <Button variant="ghost" className="p-1 pr-3 gap-3 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all">
               <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
                 {user?.image ? (
-                  <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                  <Image src={user.image} alt={user.name} width={32} height={32} className="w-full h-full object-cover" />
                 ) : (
                   <UserIcon className="w-4 h-4 text-primary" />
                 )}
