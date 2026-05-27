@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react"
 import {
   Shield, UserPlus, Users, Activity, Zap, Trophy,
   Lock, Check, Copy, Loader2, Sparkles, ChevronRight,
-  Pencil, X, Link as LinkIcon,
+  Pencil, X, Link as LinkIcon, HelpCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -29,6 +29,8 @@ interface Phase {
   icon: LucideIcon
   status: PhaseStatus
   unlockHint?: string
+  whyTitle?: string
+  whyDescription?: string
 }
 
 function buildPhases(squad: any, memberCount: number): Phase[] {
@@ -48,6 +50,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       rewardXp: 50,
       icon: Shield,
       status: s(!!squad, !squad),
+      whyTitle: "Pourquoi créer une escouade ?",
+      whyDescription: "Passer d'un parcours individuel à une synergie collective. C'est le premier pas pour débloquer des multiplicateurs d'XP de groupe, collaborer sur des projets réels et s'entraider au quotidien.",
     },
     {
       id: 2,
@@ -59,6 +63,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       icon: UserPlus,
       status: s(memberCount >= 3, !!squad && memberCount < 3),
       unlockHint: "Complète d'abord la Phase 01",
+      whyTitle: "Pourquoi viser 3 agents ?",
+      whyDescription: "Atteindre la diversité cognitive minimale. Un groupe de 3 permet d'associer des profils complémentaires (Builder, Créateur, Stratège, Catalyseur) pour enrichir les idées et concevoir des solutions viables.",
     },
     {
       id: 3,
@@ -70,6 +76,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       icon: Users,
       status: s(memberCount >= 5, memberCount >= 3 && memberCount < 5),
       unlockHint: "Recrute 3 agents d'abord",
+      whyTitle: "Pourquoi 5 agents ?",
+      whyDescription: "Le format optimal validé pour maximiser la vitesse d'exécution sans lourdeur administrative. À 5 membres, votre réseau débloque l'accès aux missions coopératives complexes et aux quêtes de guilde.",
     },
     {
       id: 4,
@@ -81,6 +89,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       icon: Activity,
       status: s(cohesion >= 0.5, memberCount >= 5 && cohesion < 0.5),
       unlockHint: "Complete ton escouade à 5/5 d'abord",
+      whyTitle: "Pourquoi 50% de cohésion ?",
+      whyDescription: "Prouver que l'escouade est active et soudée. La cohésion mesure l'assiduité collective aux check-ins journaliers. Dépasser 50% démontre que le groupe s'entraide et maintient une vraie dynamique.",
     },
     {
       id: 5,
@@ -92,6 +102,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       icon: Zap,
       status: s(streak >= 3, cohesion >= 0.5 && streak < 3),
       unlockHint: "Atteins 50% de cohésion d'abord",
+      whyTitle: "Pourquoi un streak de 3 jours ?",
+      whyDescription: "Ancrer l'habitude de la régularité. Un streak de 3 jours d'échanges quotidiens consolide la réactivité de l'équipe et évite que les projets ne se refroidissent par manque de suivi.",
     },
     {
       id: 6,
@@ -103,6 +115,8 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
       icon: Trophy,
       status: s(streak >= 7, streak >= 3 && streak < 7),
       unlockHint: "Maintiens 3 jours de streak d'abord",
+      whyTitle: "Pourquoi viser 7 jours consécutifs ?",
+      whyDescription: "L'état d'alignement parfait. Maintenir l'activité pendant une semaine entière forge des réflexes de collaboration indestructibles et débloque le multiplicateur de performance ultime.",
     },
   ]
 }
@@ -285,11 +299,14 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
-      if (!res.ok) throw new Error()
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || "Erreur lors de la création.")
+      }
       toast.success("Escouade créée — protocole initialisé !")
       window.location.reload()
-    } catch {
-      toast.error("Erreur lors de la création.")
+    } catch (err: any) {
+      toast.error(err.message || "Erreur lors de la création.")
     } finally {
       setIsCreating(false)
     }
@@ -748,6 +765,7 @@ function PhaseNode({
 }) {
   const { status } = phase
   const Icon = phase.icon
+  const [showWhy, setShowWhy] = useState(false)
 
   return (
     <div className="flex gap-5 md:gap-7">
@@ -783,7 +801,7 @@ function PhaseNode({
         status === "locked" && "bg-zinc-950/30 border-white/[0.03] opacity-50",
       )}>
         <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="space-y-1">
+          <div className="space-y-1 flex-1 min-w-[200px]">
             <div className="flex items-center gap-2 flex-wrap">
               <span className={cn(
                 "text-[9px] font-mono font-bold uppercase",
@@ -803,17 +821,42 @@ function PhaseNode({
               )}
             </div>
             <h3 className={cn(
-              "text-md md:text-lg font-extrabold tracking-tight uppercase",
+              "text-md md:text-lg font-extrabold tracking-tight uppercase flex items-center gap-1.5",
               status === "locked" ? "text-zinc-700" : "text-white",
             )}>
               {phase.title}
+              {phase.whyDescription && (
+                <button
+                  type="button"
+                  onClick={() => setShowWhy(!showWhy)}
+                  className={cn(
+                    "inline-flex items-center justify-center rounded-full text-zinc-500 hover:text-primary transition-colors p-0.5 hover:bg-white/5 shrink-0",
+                    showWhy && "text-primary bg-primary/10"
+                  )}
+                  title="Pourquoi cette étape ?"
+                >
+                  <HelpCircle className="size-3.5" />
+                </button>
+              )}
             </h3>
             <p className={cn(
-              "text-sm",
+              "text-sm mb-2",
               status === "locked" ? "text-zinc-800" : "text-zinc-500",
             )}>
               {phase.subtitle}
             </p>
+
+            {showWhy && phase.whyDescription && (
+              <div className="mt-3 p-4 rounded-2xl border border-primary/20 bg-primary/[0.02] text-xs space-y-1.5 transition-all duration-300">
+                <div className="flex items-center gap-1.5 text-primary font-bold uppercase tracking-wider font-mono text-[9px]">
+                  <Sparkles className="size-3 text-primary animate-pulse" />
+                  {phase.whyTitle || "Pourquoi cette étape ?"}
+                </div>
+                <p className="text-zinc-400 leading-relaxed font-sans text-xs">
+                  {phase.whyDescription}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Reward badge */}
