@@ -80,6 +80,9 @@ jobs:
       contents: read
       packages: write    # Nécessaire pour pousser sur ghcr.io
 
+    outputs:
+      image-tag: ${{ steps.meta.outputs.version }}   # ex: sha-a1b2c3 — transmis au CD
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5

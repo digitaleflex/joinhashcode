@@ -32,7 +32,9 @@ jobs:
 
             APP_DIR="${{ secrets.SSH_PATH }}"
             BACKUP="/tmp/.env.production.bak"
-            IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:latest"
+            SHA="${{ github.event.workflow_run.head_sha }}"
+            SHORT_SHA="${SHA:0:7}"
+            IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:sha-${SHORT_SHA}"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "  HASHCODE — Deploiement en cours..."
@@ -74,10 +76,10 @@ jobs:
             fi
             echo "[4/5] .env.production detecte OK"
 
-            # 6. Mise à jour des conteneurs
-            echo "[5/5] Mise à jour des images et redémarrage..."
-            docker compose pull
-            docker compose up -d --no-deps web
+            # 6. Mise à jour des conteneurs avec l'image versionnée par SHA
+            echo "[5/5] Déploiement image : $IMAGE"
+            HASHCODE_IMAGE="$IMAGE" docker compose pull web
+            HASHCODE_IMAGE="$IMAGE" docker compose up -d --no-deps web
 
             # 7. Déduplication des données avant d'appliquer les contraintes uniques
             # (évite l'erreur "duplicate key value" lors du db push si des doublons existent)
