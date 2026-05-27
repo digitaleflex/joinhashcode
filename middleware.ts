@@ -69,23 +69,13 @@ export async function middleware(request: NextRequest) {
   }
 
   if (session && user) {
-    // 0. Beta Access Enforcement (Skip for ADMIN/MODERATOR)
-    const isSpecialRole = ["ADMIN", "MODERATOR"].includes(user.role);
-
-    // Redirect admins/mods away from beta-access page — they don't need it
-    if (isSpecialRole && isBetaAccessPath) {
+    // Redirect anyone landing on /beta-access to the appropriate next step
+    if (isBetaAccessPath) {
       const dest = !user.currentSituation ? "/onboarding"
         : !user.class ? "/quiz"
         : !user.dreamStatement ? "/onboarding/post-quiz"
         : "/dashboard";
       return NextResponse.redirect(new URL(dest, request.url));
-    }
-
-    if (!isSpecialRole && !user.betaKeyId && !isBetaAccessPath && !request.nextUrl.pathname.startsWith('/api')) {
-       // Only block if on a protected path
-       if (isProtectedPath || isOnboardingPath || isQuizPath) {
-          return NextResponse.redirect(new URL("/beta-access", request.url));
-       }
     }
 
     // Determine if we are on an onboarding/quiz path
