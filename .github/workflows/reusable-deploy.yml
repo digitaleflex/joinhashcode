@@ -47,12 +47,21 @@ jobs:
             HASHCODE_IMAGE="$IMAGE" docker compose up -d --no-deps web
 
             echo "--- [2/3] Base de Données ---"
-            for i in {1..12}; do
-              if docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null | grep -q "ok"; then
-                echo "App ready!" && break
+            echo "Waiting for app to be ready at http://localhost:3000/api/status..."
+            for i in {1..24}; do
+              RESPONSE=$(docker compose exec -T web sh -c "wget -qO- http://localhost:3000/api/status" 2>/dev/null || echo "offline")
+              if echo "$RESPONSE" | grep -q "online"; then
+                echo "App ready! Response: $RESPONSE"
+                break
               fi
-              echo "Waiting... ($i)" && sleep 5
-              [ $i -eq 12 ] && (echo "Timeout!" && exit 1)
+              echo "Waiting... ($i/24) - Current status: $RESPONSE"
+              sleep 5
+              if [ $i -eq 24 ]; then
+                echo "::error::Timeout reached! Application failed to start or DB is unreachable."
+                echo "--- Container Logs ---"
+                docker compose logs --tail=50 web
+                exit 1
+              fi
             done
 
             docker compose exec -T web sh -c "
