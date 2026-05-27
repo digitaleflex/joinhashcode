@@ -72,6 +72,20 @@ npx prisma studio
 npx prisma db push
 ```
 
+### 🐳 Docker & Local Environment
+
+We provide a specialized local environment setup using Docker to run both the database and the web application in a consistent containerized environment.
+
+```bash
+# Start the full local environment (Web + DB + Adminer)
+# Requires Git Bash, WSL, or Linux/Mac
+./dev.sh
+```
+
+- **Web App**: [http://localhost:3000](http://localhost:3000)
+- **Adminer (DB Management)**: [http://localhost:8081](http://localhost:8081)
+- **Local DB Port**: `5433` (external) / `5432` (internal)
+
 ---
 
 ## 🔒 Security & Guidelines

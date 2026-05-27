@@ -27,6 +27,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # URLs fictives pour satisfaire Prisma au build (aucune connexion réelle)
 ENV DIRECT_URL=postgresql://localhost:5432/build_placeholder
 ENV DATABASE_URL=postgresql://localhost:5432/build_placeholder
+# Secret fictif pour passer le build Next.js sans BetterAuthError
+ENV BETTER_AUTH_SECRET=build_placeholder_secret
 # Token fictif pour passer la collecte de pages Next.js sans crash
 ENV QSTASH_TOKEN=build_placeholder_token
 ENV NODE_ENV=production

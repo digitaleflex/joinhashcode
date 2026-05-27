@@ -28,6 +28,8 @@ describe("POST /api/internal/notify", () => {
     vi.clearAllMocks();
     vi.stubEnv("NODE_ENV", "development");
     vi.stubEnv("INTERNAL_API_SECRET", "test_secret");
+    vi.stubEnv("QSTASH_CURRENT_SIGNING_KEY", "test_key");
+    vi.stubEnv("QSTASH_NEXT_SIGNING_KEY", "test_key");
   });
 
   it("should create a notification and return success", async () => {

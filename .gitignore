@@ -23,6 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Docker local
+compose.local.yaml
+dev.sh
+
 # Local env files
 .env
 .env.local

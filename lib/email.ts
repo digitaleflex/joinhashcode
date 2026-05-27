@@ -110,7 +110,7 @@ export const emailService = {
   async sendWelcomeEmail({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1>Bienvenue, <span class="accent">${escHtml(firstName)}</span>. Tu es au bon endroit.</h1>
       <p>HASHCODE n'est pas une plateforme de plus. C'est un réseau de bâtisseurs africains qui choisissent d'agir — pas seulement d'apprendre.</p>
@@ -164,7 +164,7 @@ export const emailService = {
   async sendQuizResults({ email, name, profileType }: { email: string; name: string; profileType: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const profile = PROFILE_DATA[profileType.toUpperCase()] ?? PROFILE_DATA.BUILDER;
 
     const content = `
@@ -189,7 +189,7 @@ export const emailService = {
   async sendMissionApproval({ email, name, missionTitle, xp }: { email: string; name: string; missionTitle: string; xp: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1>Mission validée, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>Ta soumission pour <strong>${escHtml(missionTitle)}</strong> a été examinée et approuvée. Le travail que tu as fourni fait la différence.</p>
@@ -210,7 +210,7 @@ export const emailService = {
   async sendDailyReminder({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1>Ça fait un moment, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>On ne veut pas te brusquer — mais ton tableau de bord te réclame. Ton score de cohésion et ta progression t'attendent.</p>
@@ -248,7 +248,7 @@ export const emailService = {
   async sendFeedbackReceipt({ email, name, type }: { email: string; name: string; type: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const typeLabels: Record<string, string> = {
       BUG: "un signalement de bug",
       FEATURE_REQUEST: "une suggestion de fonctionnalité",
@@ -270,7 +270,7 @@ export const emailService = {
   async sendFeedbackUpdate({ email, name, status }: { email: string; name: string; status: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const statusInfo: Record<string, { headline: string; body: string; cta: boolean }> = {
       REVIEWED: {
         headline: "Ton feedback est en cours d'analyse.",
@@ -307,7 +307,7 @@ export const emailService = {
   async sendMissionSubmitted({ email, name, missionTitle, bonusXp }: { email: string; name: string; missionTitle: string; bonusXp: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1>Soumission reçue, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>Ta soumission pour <strong>${escHtml(missionTitle)}</strong> a bien été enregistrée. Tu seras notifié(e) par email dès qu'un pair l'aura examinée.</p>
@@ -330,7 +330,7 @@ export const emailService = {
   async sendMissionNeedsRevision({ email, name, missionTitle, feedback, revisionCount }: { email: string; name: string; missionTitle: string; feedback: string; revisionCount?: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1><span class="accent">${escHtml(firstName)},</span> ta soumission demande quelques ajustements.</h1>
       <p>Ton travail sur <strong>${escHtml(missionTitle)}</strong> a été examiné. Le reviewer a identifié des points à améliorer avant de pouvoir valider.</p>
@@ -352,7 +352,7 @@ export const emailService = {
   async sendMissionRejected({ email, name, missionTitle, feedback }: { email: string; name: string; missionTitle: string; feedback?: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1><span class="accent">${escHtml(firstName)},</span> ta soumission n'a pas été retenue.</h1>
       <p>Après examen, la soumission pour <strong>${escHtml(missionTitle)}</strong> n'a pas pu être validée.</p>
@@ -374,7 +374,7 @@ export const emailService = {
   async sendLevelUp({ email, name, newLevel }: { email: string; name: string; newLevel: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1><span class="accent">${escHtml(firstName)},</span> tu viens de passer un cap.</h1>
       <p>Ton travail constant porte ses fruits. Tu as officiellement atteint un nouveau niveau dans l'écosystème HASHCODE.</p>
@@ -395,7 +395,7 @@ export const emailService = {
   async sendSquadMemberJoined({ leaderEmail, leaderName, newMemberName, squadName, memberCount }: { leaderEmail: string; leaderName: string; newMemberName: string; squadName: string; memberCount: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = leaderName.split(" ")[0];
+    const firstName = (leaderName || "Leader").split(" ")[0];
     const content = `
       <h1><span class="accent">${escHtml(newMemberName)}</span> a rejoint ta squad.</h1>
       <p>Bonne nouvelle, <strong>${escHtml(firstName)}</strong> — un nouveau membre vient de rejoindre <strong>${escHtml(squadName)}</strong>.</p>
@@ -416,7 +416,7 @@ export const emailService = {
   async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, level, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; level: number; missionsCount: number }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = adminName.split(" ")[0];
+    const firstName = (adminName || "Admin").split(" ")[0];
     const content = `
       <h1>Suppression de compte, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>Un utilisateur vient de supprimer son compte HASHCODE.</p>
@@ -437,7 +437,7 @@ export const emailService = {
   async sendAccountDeleted({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = name.split(" ")[0];
+    const firstName = (name || "Builder").split(" ")[0];
     const content = `
       <h1>Ton compte a été supprimé, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>Comme demandé, ton compte HASHCODE et toutes les données associées ont été définitivement supprimés.</p>
@@ -452,7 +452,7 @@ export const emailService = {
   async sendAdminCoreMissionPending({ adminEmail, adminName, submitterName, missionTitle }: { adminEmail: string; adminName: string; submitterName: string; missionTitle: string }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = adminName.split(" ")[0];
+    const firstName = (adminName || "Admin").split(" ")[0];
     const content = `
       <h1>Confirmation requise, <span class="accent">${escHtml(firstName)}</span>.</h1>
       <p>La mission CORE <strong>${escHtml(missionTitle)}</strong> soumise par <strong>${escHtml(submitterName)}</strong> vient d'être validée par un pair et attend ta confirmation finale.</p>
@@ -469,7 +469,7 @@ export const emailService = {
   async sendSquadCohesionAlert({ leaderEmail, leaderName, squadName, cohesionScore, level }: { leaderEmail: string; leaderName: string; squadName: string; cohesionScore: number; level: "low" | "critical" }) {
     if (!resend) return { success: true, mocked: true };
 
-    const firstName = leaderName.split(" ")[0];
+    const firstName = (leaderName || "Leader").split(" ")[0];
     const isCritical = level === "critical";
     const scorePercent = Math.round(cohesionScore * 100);
 

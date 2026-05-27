@@ -20,7 +20,7 @@ interface ShareCardDialogProps {
 
 export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
   const [copied, setCopied] = useState(false)
-  const shareUrl = `${process.env.NEXT_PUBLIC_APP_URL || ''}/dossier/${userId}` // Hypothetical public profile URL
+  const shareUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://joinhashcode.com'
   const imageUrl = `/api/card/${userId}`
 
   const copyToClipboard = () => {

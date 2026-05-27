@@ -19,6 +19,8 @@ describe("Daily Activity Cron", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.stubEnv("INTERNAL_API_SECRET", "test_secret");
+    vi.stubEnv("QSTASH_CURRENT_SIGNING_KEY", "test_key");
+    vi.stubEnv("QSTASH_NEXT_SIGNING_KEY", "test_key");
   });
 
   it("should trigger notifications for inactive users", async () => {

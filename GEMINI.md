@@ -17,6 +17,11 @@ HASHCODE is a community platform focused on project building, collaboration, and
 - **Styling:** Prefer Vanilla CSS for complex animations, Tailwind for layout/spacing.
 - **Security:** Follow EHAF Security Engineering Standard (Strict validation, no hardcoded secrets).
 - **Architecture:** Keep logic inside `lib/` and UI inside `components/`.
+- **Database:** 
+  - **NEVER** use `npx prisma db push` for schema changes.
+  - **ALWAYS** use `npx prisma migrate dev` to generate versioned migrations.
+  - **PRODUCTION:** Use `npx prisma migrate deploy` during deployment.
+  - **Validation:** Always verify generated SQL migrations before committing.
 
 ## Developer Velocity & Autonomy
 To reduce authorization prompts and speed up implementation:

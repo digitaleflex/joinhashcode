@@ -6,6 +6,7 @@ import {
   getHybridContent,
   type ProfileType,
 } from '../lib/profile-content'
+import { APP_URL } from '../lib/config'
 
 describe('PROFILE_CONTENT', () => {
   const profiles: ProfileType[] = ['builder', 'creator', 'strategist', 'catalyst']
@@ -47,9 +48,9 @@ describe('PROFILE_CONTENT', () => {
     })
   })
 
-  it('whatsappText contient joinhashcode.com pour tous les profils', () => {
+  it('whatsappText contient APP_URL pour tous les profils', () => {
     profiles.forEach(p => {
-      expect(PROFILE_CONTENT[p].whatsappText).toContain('joinhashcode.com')
+      expect(PROFILE_CONTENT[p].whatsappText).toContain(APP_URL)
     })
   })
 })
