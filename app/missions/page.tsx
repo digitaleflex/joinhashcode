@@ -3,6 +3,7 @@ import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
 import { MissionsList } from "@/components/missions/missions-list"
@@ -11,6 +12,30 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-banner"
+
+const getMissionsEnrichment = unstable_cache(
+  async () => {
+    const [completionsRaw, ratingsRaw] = await Promise.all([
+      prisma.missionSubmission.groupBy({
+        by: ["missionId"],
+        where: { status: "APPROVED" },
+        _count: { _all: true },
+      }),
+      prisma.missionSubmission.groupBy({
+        by: ["missionId"],
+        where: { status: "APPROVED", userRating: { not: null } },
+        _avg: { userRating: true },
+        _count: { userRating: true },
+      }),
+    ])
+    return {
+      completionsMap: Object.fromEntries(completionsRaw.map(c => [c.missionId, c._count._all])),
+      ratingsMap: Object.fromEntries(ratingsRaw.map(r => [r.missionId, { avg: r._avg.userRating, count: r._count.userRating }])),
+    }
+  },
+  ["missions-enrichment"],
+  { revalidate: 300 }
+)
 
 function daysUntilMonday(): number {
   const today = new Date()
@@ -81,37 +106,10 @@ export default async function MissionsPage() {
   // --- END WEEKLY ---
 
   // --- START ENRICHMENT (Roadmap P5) ---
-  // 1. Fetch completions count
-  const completionsRaw = await prisma.missionSubmission.groupBy({
-    by: ["missionId"],
-    where: { status: "APPROVED" },
-    _count: { _all: true },
-  });
+  // Cached for 5 min — this data is shared across all users
+  const { completionsMap, ratingsMap } = await getMissionsEnrichment()
 
-  // 2. Fetch average ratings
-  const ratingsRaw = await prisma.missionSubmission.groupBy({
-    by: ["missionId"],
-    where: {
-      status: "APPROVED",
-      userRating: { not: null },
-    },
-    _avg: { userRating: true },
-    _count: { userRating: true },
-  });
-
-  // 3. Build maps
-  const completionsMap = Object.fromEntries(
-    completionsRaw.map(c => [c.missionId, c._count._all])
-  );
-
-  const ratingsMap = Object.fromEntries(
-    ratingsRaw.map(r => [r.missionId, {
-      avg: r._avg.userRating,
-      count: r._count.userRating,
-    }])
-  );
-
-  // 4. Enrich MISSIONS
+  // Enrich MISSIONS
   const enrichedMissions = MISSIONS.map(m => ({
     ...m,
     completionsCount: completionsMap[m.id] || 0,
