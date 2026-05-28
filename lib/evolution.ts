@@ -6,32 +6,6 @@ export interface BehavioralVibrancy {
 }
 
 /**
- * Calcule l'évolution du Confidence Score basé sur une nouvelle action (mission).
- * Le système reste déterministe et humble (Phase 1).
- */
-export const calculateNewConfidence = (
-  currentScore: number,
-  missionWeights: BehavioralVibrancy,
-  userPrimaryClass: ProfileType,
-  missionDifficulty: number = 1
-): number => {
-  // Gain de base par action (0.02 à 0.05 selon difficulté)
-  const baseGain = 0.02 + (missionDifficulty * 0.01);
-  
-  // Bonus de cohérence : si la mission est dominée par la classe de l'utilisateur
-  const missionPrimary = (Object.keys(missionWeights) as ProfileType[]).reduce((a, b) => 
-    missionWeights[a] > missionWeights[b] ? a : b
-  );
-  
-  const coherenceBonus = missionPrimary === userPrimaryClass ? 0.02 : 0.005;
-  
-  const newScore = currentScore + baseGain + coherenceBonus;
-  
-  // Cap à 0.95 pour toujours laisser une place à l'évolution
-  return Math.min(newScore, 0.95);
-};
-
-/**
  * Calcule la nouvelle "Vibrancy" (somme pondérée des actions).
  */
 export const updateVibrancy = (

@@ -55,7 +55,7 @@ export default async function QuizPage() {
 
           <div className="text-center mb-6">
             <h1 className="text-sm font-mono uppercase text-primary mb-2">
-              Analyse de potentiel
+              Diagnostic de ton profil
             </h1>
             <p className="text-muted-foreground text-sm">
               Réponds sincèrement pour obtenir le diagnostic le plus précis possible.

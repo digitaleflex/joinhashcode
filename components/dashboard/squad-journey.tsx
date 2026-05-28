@@ -438,36 +438,55 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                         Roster · {memberCount}/5
                       </span>
                     </div>
-                    <div className="space-y-3">
-                      {squad.members?.map((m: any) => (
-                        <div key={m.user.id} className="flex items-center gap-3">
-                          <Avatar className="size-9 rounded-xl border border-white/10 shrink-0">
-                            <AvatarImage src={m.user.image || ""} />
-                            <AvatarFallback className="bg-primary/10 text-primary font-bold text-sm rounded-xl">
-                              {(m.user.pseudo || m.user.name || "?").charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-bold text-white truncate">
-                              @{m.user.pseudo || m.user.name?.split(" ")[0]}
+                    <div className="space-y-2.5">
+                      {squad.members?.map((m: any) => {
+                        const getClassStyle = (cls?: string) => {
+                          const c = cls?.toLowerCase();
+                          if (c === "builder") return "text-primary bg-primary/10 border-primary/20";
+                          if (c === "creator") return "text-purple-400 bg-purple-500/10 border-purple-500/20";
+                          if (c === "strategist") return "text-blue-400 bg-blue-500/10 border-blue-500/20";
+                          if (c === "catalyst") return "text-amber-400 bg-amber-500/10 border-amber-500/20";
+                          return "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
+                        };
+
+                        return (
+                          <div key={m.user.id} className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/3 bg-white/1">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <Avatar className="size-9 rounded-xl border border-white/10 shrink-0">
+                                <AvatarImage src={m.user.image || ""} />
+                                <AvatarFallback className="bg-primary/10 text-primary font-bold text-sm rounded-xl">
+                                  {(m.user.pseudo || m.user.name || "?").charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="min-w-0">
+                                <div className="text-sm font-bold text-white truncate flex items-center gap-1.5">
+                                  @{m.user.pseudo || m.user.name?.split(" ")[0]}
+                                  {m.user.id === user.id && (
+                                    <span className="text-[7px] font-bold font-mono bg-primary/20 text-primary px-1.5 py-0.2 rounded-md uppercase shrink-0">
+                                      Moi
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight">
+                                  LVL {m.user.level ?? 1} · {m.role === "owner" ? "Chef" : m.role === "admin" ? "Admin" : "Membre"}
+                                </div>
+                              </div>
                             </div>
-                            <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-tight">
-                              {m.user.class || "Agent"} · LVL {m.user.level ?? 1}
-                            </div>
-                          </div>
-                          {m.user.id === user.id && (
-                            <span className="text-[8px] font-bold font-mono bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
-                              Vous
+                            <span className={cn(
+                              "text-[8px] font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0",
+                              getClassStyle(m.user.class)
+                            )}>
+                              {m.user.class || "Agent"}
                             </span>
-                          )}
-                        </div>
-                      ))}
-                      {Array.from({ length: 5 - memberCount }).map((_, i) => (
-                        <div key={`empty-${i}`} className="flex items-center gap-3 opacity-30">
-                          <div className="size-9 rounded-xl border-2 border-dashed border-white/10 flex items-center justify-center shrink-0">
-                            <UserPlus className="size-4 text-zinc-700" />
                           </div>
-                          <div className="text-[11px] font-mono text-zinc-700 uppercase tracking-wide">
+                        );
+                      })}
+                      {Array.from({ length: 5 - memberCount }).map((_, i) => (
+                        <div key={`empty-${i}`} className="flex items-center gap-3 p-3 rounded-2xl border border-dashed border-white/5 bg-white/0.5 opacity-30">
+                          <div className="size-9 rounded-xl border border-dashed border-white/15 flex items-center justify-center shrink-0">
+                            <UserPlus className="size-4 text-zinc-500" />
+                          </div>
+                          <div className="text-[11px] font-mono text-zinc-500 uppercase tracking-wide">
                             Emplacement libre
                           </div>
                         </div>

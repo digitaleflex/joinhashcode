@@ -3,8 +3,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { XP_THRESHOLDS } from "@/lib/missions";
 import { updateUserEvolution } from "@/lib/evolution-engine";
+import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
@@ -65,13 +65,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
       const newXp = (submission.user.experience || 0) + xpAwarded;
 
-      let newLevel = submission.user.level || 1;
-      for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
-        const levelNum = parseInt(levelStr);
-        if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
-      }
-      const leveledUp = newLevel > (submission.user.level || 1);
-
       const missionWeights: BehavioralVibrancy = {
         builder: submission.mission.weightBuilder || 0,
         creator: submission.mission.weightCreator || 0,
@@ -87,9 +80,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
         await tx.user.update({
           where: { id: submission.userId },
-          data: { experience: newXp, level: newLevel, missionsCompletedCount: { increment: 1 } }
+          data: { experience: newXp, missionsCompletedCount: { increment: 1 } }
         });
       });
+
+      const updatedUser = await calculateAndSetLevel(submission.userId, newXp, prisma);
+      const newLevel = updatedUser?.level ?? submission.user.level;
+      const leveledUp = newLevel > (submission.user.level || 1);
 
       try {
         const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";

@@ -3,9 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { XP_THRESHOLDS, getCurrentCycleKey } from "@/lib/missions";
-import { BehavioralVibrancy } from "@/lib/evolution";
-import { updateUserEvolution } from "@/lib/evolution-engine";
+import { getCurrentCycleKey } from "@/lib/missions";
 import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
@@ -107,10 +105,7 @@ export async function POST(req: Request) {
       }
     }
 
-    let SYNC_BONUS_XP = 5;
-    const userStreak = dbUser.currentStreak || 0;
-    if (userStreak >= 7) SYNC_BONUS_XP = 6;
-    else if (userStreak >= 3) SYNC_BONUS_XP = 6;
+    const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
 
     const isAutoApproved = mission.isWeeklyChallenge;
     const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";

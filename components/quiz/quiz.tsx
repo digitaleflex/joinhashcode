@@ -320,11 +320,11 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="text-[10px] font-mono font-black uppercase text-zinc-500 block">
-                    Séquence d'évaluation
+                    Découverte de profil
                 </span>
             </div>
             <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wide">
-              Interrogation [{currentStep + 1} / {questions.length}]
+              Question [{currentStep + 1} / {questions.length}]
             </span>
           </div>
           <div className="text-right">
@@ -348,7 +348,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 {currentQuestion.text}
             </h2>
             <p className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-3">
-              -- Analyse des réflexes cognitifs --
+              -- Scénario pratique --
             </p>
         </div>
 
