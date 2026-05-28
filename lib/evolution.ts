@@ -1,5 +1,3 @@
-import { ProfileType } from "./analysis";
-
 export interface BehavioralVibrancy {
   builder: number;
   creator: number;
@@ -85,28 +83,3 @@ export const updateVibrancyWithDecay = (
   };
 };
 
-/**
- * Mesure le "Drift" (écart) entre le profil initial et les actions réelles.
- * Un drift élevé suggère une possible hybridation ou un changement de trajectoire.
- */
-export const calculateDrift = (
-  quizPercentages: Record<ProfileType, number>,
-  vibrancy: BehavioralVibrancy
-): number => {
-  const totalVibrancy = vibrancy.builder + vibrancy.creator + vibrancy.strategist + vibrancy.catalyst || 1;
-  
-  const actionPercentages = {
-    builder: (vibrancy.builder / totalVibrancy) * 100,
-    creator: (vibrancy.creator / totalVibrancy) * 100,
-    strategist: (vibrancy.strategist / totalVibrancy) * 100,
-    catalyst: (vibrancy.catalyst / totalVibrancy) * 100,
-  };
-
-  // Somme des différences absolues (Manhattan distance)
-  const drift = (Object.keys(quizPercentages) as ProfileType[]).reduce((acc, key) => {
-    return acc + Math.abs(quizPercentages[key] - actionPercentages[key]);
-  }, 0);
-
-  // Normalisé entre 0 et 1 (somme max possible est 200, donc / 200)
-  return drift / 200;
-};

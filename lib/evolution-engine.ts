@@ -1,6 +1,5 @@
 import { prisma } from './prisma';
-import { BehavioralVibrancy, updateVibrancyWithDecay, calculateDrift } from './evolution';
-import { ProfileType } from './analysis';
+import { BehavioralVibrancy, updateVibrancyWithDecay } from './evolution';
 
 export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVibrancy>> = {
   'Code': { builder: 1 },
@@ -19,20 +18,6 @@ export function calculateNewVibrancy(
   return updateVibrancyWithDecay(currentVibrancy, actionWeights, lastUpdate).vibrancy;
 }
 
-export function calculateDriftScore(
-  quizScores: { builderScore: number; creatorScore: number; strategistScore: number; catalystScore: number },
-  vibrancy: BehavioralVibrancy
-) {
-  const total = quizScores.builderScore + quizScores.creatorScore + quizScores.strategistScore + quizScores.catalystScore || 1;
-  const quizPercentages: Record<ProfileType, number> = {
-    builder: (quizScores.builderScore / total) * 100,
-    creator: (quizScores.creatorScore / total) * 100,
-    strategist: (quizScores.strategistScore / total) * 100,
-    catalyst: (quizScores.catalystScore / total) * 100,
-  };
-  return calculateDrift(quizPercentages, vibrancy);
-}
-
 export async function updateUserEvolution(
   userId: string,
   actionWeights: BehavioralVibrancy,
@@ -40,18 +25,13 @@ export async function updateUserEvolution(
   tx?: any
 ) {
   const client = tx || prisma;
-  
+
   const user = await client.user.findUnique({
     where: { id: userId },
     select: {
       behavioralVibrancy: true,
       confidenceScore: true,
       lastHypothesisUpdate: true,
-      builderScore: true,
-      creatorScore: true,
-      strategistScore: true,
-      catalystScore: true,
-      class: true,
     }
   });
 
@@ -65,16 +45,6 @@ export async function updateUserEvolution(
   };
 
   const newVibrancy = calculateNewVibrancy(currentVibrancy, actionWeights, user.lastHypothesisUpdate);
-  const newDrift = calculateDriftScore(
-    {
-      builderScore: user.builderScore,
-      creatorScore: user.creatorScore,
-      strategistScore: user.strategistScore,
-      catalystScore: user.catalystScore,
-    },
-    newVibrancy
-  );
-
   const newConfidence = Math.min(user.confidenceScore + confidenceGain, 1.0);
 
   return await client.user.update({
@@ -82,7 +52,6 @@ export async function updateUserEvolution(
     data: {
       behavioralVibrancy: newVibrancy as any,
       confidenceScore: newConfidence,
-      profileDrift: newDrift,
       lastHypothesisUpdate: new Date(),
     }
   });

@@ -2,9 +2,8 @@
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { updateUserEvolution } from "@/lib/evolution-engine";
+import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
-import { triggerNotification } from "@/lib/qstash";
 import { z } from "zod";
 
 const checkinSchema = z.object({
@@ -13,20 +12,6 @@ const checkinSchema = z.object({
   energy: z.number().min(1).max(5),
   duration: z.number().min(15).max(480),
 });
-
-// Basic similarity check (Levenshtein distance simplified)
-function getSimilarity(s1: string, s2: string): number {
-  if (!s1 || !s2) return 0;
-  const longer = s1.length > s2.length ? s1 : s2;
-  const shorter = s1.length > s2.length ? s2 : s1;
-  if (longer.length === 0) return 1.0;
-  
-  // Simplified overlap check for performance
-  const words1 = new Set(s1.toLowerCase().split(/\s+/));
-  const words2 = new Set(s2.toLowerCase().split(/\s+/));
-  const intersection = [...words1].filter(w => words2.has(w));
-  return intersection.length / Math.max(words1.size, words2.size);
-}
 
 const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
@@ -59,12 +44,6 @@ export async function POST(req: Request) {
         }, { status: 429 });
       }
 
-      // 2. Similarity check (> 80%)
-      if (getSimilarity(note, lastCheckin.note) > 0.8) {
-        return NextResponse.json({ 
-            message: "Ta note est trop similaire à celle d\"hier. Dis-nous ce qui a VRAIMENT changé aujourd\"hui !" 
-        }, { status: 400 });
-      }
     }
 
     // Process check-in
@@ -88,9 +67,8 @@ export async function POST(req: Request) {
         },
       });
 
-      // Recalculate evolution
-      const weights = domain === "Code" ? { builder: 1, creator: 0, strategist: 0, catalyst: 0 } : { builder: 0, creator: 0, strategist: 0, catalyst: 1 };
-      await updateUserEvolution(session.user.id, weights as any, 0.05, tx);
+      const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
+      await updateUserEvolution(session.user.id, weights, 0.05, tx);
 
       return checkin;
     });
