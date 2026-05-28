@@ -21,47 +21,26 @@ model User {
   experience               Int                 @default(0)
   class                    String?             @map("profile_class")
   role                     String              @default("MEMBER")
-  activePaths              String[]
-  ageRange                 String?
-  answerConsistency        Float?
   badges                   String[]
   behavioralVibrancy       Json?
   builderScore             Int                 @default(0)
   catalystScore            Int                 @default(0)
-  cardSecretHash           String?
   cardSignature            String?             @unique
   cardIssuedAt             DateTime?
   cardTier                 String?             @default("STANDARD")
   city                     String?
-  cohortsJoined            String[]
-  collaborativeProjects    String[]
-  communityEngagement      Float?
   confidenceScore          Float               @default(0.25)
-  connectionFrequency      Float?
   country                  String?
   creatorScore             Int                 @default(0)
   currentSituation         String?
-  dashboardActivity        Float?
   domains                  String[]
-  dominantMotivation       String?
   githubUrl                String?
   language                 String              @default("fr")
   lastHypothesisUpdate     DateTime?
-  longTermObjective        String?
   mainObjective            String?
-  mentorId                 String?
   missionsCompletedCount   Int                 @default(0)
-  onboardingSpeed          Int?
-  polarization             Float               @default(0)
   portfolioUrl             String?
-  predictedEngagementScore Float?
-  preferredRhythm          String?
-  profileDrift             Float               @default(0)
-  profileStability         Float               @default(0)
-  projectsRealized         String[]
   pseudo                   String?             @unique
-  recommendedPath          String[]
-  recommendedTools         String[]
   strategistScore          Int                 @default(0)
   technicalLevel           String?
   tools                    String[]
@@ -99,8 +78,6 @@ model User {
   twoFactorBackupCodes     String?
   invitations              Invitation[]
   joinRequests             JoinRequest[]
-  mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
-  mentees                  User[]              @relation("Mentorship")
   betaKeyId                String?             @unique
   betaKey                  BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
 

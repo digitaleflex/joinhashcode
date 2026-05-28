@@ -18,12 +18,7 @@ const PROFILE_SELECT = {
   strategistScore: true,
   catalystScore: true,
   confidenceScore: true,
-  polarization: true,
-  profileStability: true,
-  profileDrift: true,
-  answerConsistency: true,
   // Profile details
-  ageRange: true,
   city: true,
   country: true,
   language: true,
@@ -36,16 +31,13 @@ const PROFILE_SELECT = {
   // Career
   currentSituation: true,
   mainObjective: true,
-  longTermObjective: true,
   secondaryObjectives: true,
   dreamStatement: true,
   currentFocus: true,
   mainBlocker: true,
-  preferredRhythm: true,
   technicalLevel: true,
   domains: true,
   tools: true,
-  activePaths: true,
   badges: true,
   // Progression
   missionsCompletedCount: true,
@@ -54,14 +46,6 @@ const PROFILE_SELECT = {
   longestStreak: true,
   lastCheckinAt: true,
   lastStreakDate: true,
-  // Community
-  dominantMotivation: true,
-  communityEngagement: true,
-  cohortsJoined: true,
-  collaborativeProjects: true,
-  projectsRealized: true,
-  recommendedPath: true,
-  recommendedTools: true,
 } as const;
 
 export async function collectUserData(userId: string) {

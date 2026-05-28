@@ -37,22 +37,6 @@ export enum MainObjective {
   CREATE_PRODUCTS = "Créer produits digitaux",
 }
 
-export enum DominantMotivation {
-  MONEY = "Argent",
-  PASSION = "Passion",
-  IMPACT = "Impact",
-  CURIOSITY = "Curiosité",
-  CAREER = "Carrière",
-  LIBERTY = "Liberté",
-  INNOVATION = "Innovation",
-}
-
-export enum PreferredRhythm {
-  INTENSIVE = "Intensif",
-  PROGRESSIVE = "Progressif",
-  FLEXIBLE = "Flexible",
-  WEEKEND_ONLY = "Week-end uniquement",
-}
 
 export const TECHNICAL_DOMAINS = [
   "Web",
@@ -92,7 +76,6 @@ export interface UserProfile {
   country?: string;
   city?: string;
   language: string;
-  ageRange?: string;
   currentSituation?: UserSituation;
 
   // Context Technique
@@ -104,16 +87,6 @@ export interface UserProfile {
 
   // User Objectives
   mainObjective?: MainObjective;
-  dominantMotivation?: DominantMotivation;
-  longTermObjective?: string;
-  preferredRhythm?: PreferredRhythm;
-
-  // Behavioral Data (Scores)
-  onboardingSpeed?: number;
-  answerConsistency?: number;
-  connectionFrequency?: number;
-  dashboardActivity?: number;
-  communityEngagement?: number;
 
   // Psychometric Data
   class?: string;
@@ -121,18 +94,10 @@ export interface UserProfile {
   creatorScore: number;
   strategistScore: number;
   catalystScore: number;
-  polarization: number;
-  profileStability: number;
 
   // Progression
   level: number;
   experience: number;
   missionsCompletedCount: number;
-  projectsRealized: string[];
-  activePaths: string[];
   badges: string[];
-
-  // IA / Recommendation
-  recommendedPath: string[];
-  recommendedTools: string[];
 }

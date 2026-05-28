@@ -42,7 +42,6 @@ export default async function DashboardPage() {
           behavioralVibrancy: true,
           currentStreak: true,
           confidenceScore: true,
-          profileDrift: true,
           pseudo: true,
         }
       }),

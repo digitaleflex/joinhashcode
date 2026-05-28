@@ -41,7 +41,6 @@ export async function GET(req: Request) {
         strategistScore: true,
         catalystScore: true,
         confidenceScore: true,
-        profileDrift: true,
         missionsCompletedCount: true,
         currentStreak: true,
         createdAt: true,
