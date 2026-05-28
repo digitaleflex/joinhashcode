@@ -14,7 +14,6 @@ import {
 import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ResultPage } from "./result-page"
-import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
 import { track } from "@vercel/analytics"
 import { cn } from "@/lib/utils"
 
@@ -100,7 +99,7 @@ function AnalyzingScreen() {
 
 interface QuizProps {
   user?: QuizUser
-  diagnosticAnswers?: DiagnosticAnswers
+  diagnosticAnswers?: Record<string, any>
 }
 
 export function Quiz({ user, diagnosticAnswers }: QuizProps) {
