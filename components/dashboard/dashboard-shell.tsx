@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
   Zap,
-  Terminal,
   TrendingUp,
   Users,
   Award,
@@ -30,10 +29,7 @@ import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
-import { ProfileDriftAlert } from "./profile-drift-alert"
 import { BottomNav } from "./bottom-nav"
-import { EvolutionRadar } from "./evolution-radar"
-import { TechTreeVisualizer } from "./tech-tree-visualizer"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -96,14 +92,6 @@ export function DashboardShell({
             {/* Global Alerts */}
             {isLocked && (
               <SquadBanner user={user} squad={squad} />
-            )}
-
-            {user.profileDrift > 0.3 && (
-              <ProfileDriftAlert
-                profileDrift={user.profileDrift}
-                userClass={user.class}
-                userId={user.id}
-              />
             )}
 
             {/* TIER 1: COMMAND DECK (Full-Width Welcome Header) */}
@@ -278,43 +266,6 @@ export function DashboardShell({
                   </div>
                 </CardContent>
               </Card>
-
-              {/* Bento Box: empreinte_comportementale_ (spans 3 cols) */}
-              <Card variant="premium" className="md:col-span-3 overflow-hidden group">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
-                      <Zap className="h-5 w-5 animate-pulse" />
-                    </div>
-                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">empreinte_comportementale</span>
-                  </div>
-                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">empreinte_</CardTitle>
-                  <CardDescription className="text-zinc-500 font-medium tracking-tight">
-                    Ta signature comportementale décodée par l'évaluation HASHCODE.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-2">
-                  <EvolutionRadar
-                    builderScore={user.builderScore}
-                    creatorScore={user.creatorScore}
-                    strategistScore={user.strategistScore}
-                    catalystScore={user.catalystScore}
-                    userClass={user.class}
-                  />
-                </CardContent>
-              </Card>
-
-              {/* Bento Box: neural_graph_ (spans 3 cols) */}
-              <div className="md:col-span-3 space-y-4">
-                <div className="flex items-center gap-3 px-2">
-                  <Terminal className="size-4 text-primary" />
-                  <h3 className="text-sm font-mono font-bold text-white uppercase tracking-widest">neural_graph_</h3>
-                </div>
-                <TechTreeVisualizer 
-                  unlockedSkills={user.tools || []} 
-                  userClass={user.class} 
-                />
-              </div>
 
               {/* Bento Box 3: status_ (spans 1 col) */}
               <Card variant="premium" className="md:col-span-1 overflow-hidden group">

@@ -1,5 +1,4 @@
 import { prisma } from "./prisma";
-import { emailService } from "./email";
 
 async function notifySquadMembers(
   organizationId: string,
@@ -157,69 +156,3 @@ async function rewardSquadMembers(
   }
 }
 
-export async function applySquadCohesionDecay() {
-  try {
-    const squads = await prisma.organization.findMany({
-      where: { cohesionScore: { gt: 0.05 } },
-      select: { id: true, name: true, cohesionScore: true },
-    });
-
-    for (const squad of squads) {
-      const newScore = Math.max(0.05, squad.cohesionScore - 0.02);
-      await prisma.organization.update({
-        where: { id: squad.id },
-        data: { cohesionScore: newScore },
-      });
-
-      if (newScore < 0.4 && squad.cohesionScore >= 0.4) {
-        await notifySquadMembers(
-          squad.id,
-          "SQUAD_COHESION_LOW",
-          "Synchronisation en baisse",
-          `L'escouade ${squad.name} perd de la cohésion. Faites un check-in pour maintenir la dynamique.`,
-          "/community"
-        );
-        const leader = await prisma.member.findFirst({
-          where: { organizationId: squad.id, role: "owner" },
-          include: { user: { select: { email: true, name: true } } },
-        });
-        if (leader) {
-          emailService.sendSquadCohesionAlert({
-            leaderEmail: leader.user.email,
-            leaderName: leader.user.name,
-            squadName: squad.name,
-            cohesionScore: newScore,
-            level: "low",
-          });
-        }
-      }
-
-      if (newScore < 0.15 && squad.cohesionScore >= 0.15) {
-        await notifySquadMembers(
-          squad.id,
-          "SQUAD_COHESION_CRITICAL",
-          "Alerte : cohésion critique",
-          `${squad.name} est en danger de désynchronisation. Agissez maintenant.`,
-          "/community"
-        );
-        const leader = await prisma.member.findFirst({
-          where: { organizationId: squad.id, role: "owner" },
-          include: { user: { select: { email: true, name: true } } },
-        });
-        if (leader) {
-          emailService.sendSquadCohesionAlert({
-            leaderEmail: leader.user.email,
-            leaderName: leader.user.name,
-            squadName: squad.name,
-            cohesionScore: newScore,
-            level: "critical",
-          });
-        }
-      }
-    }
-
-    return { processed: squads.length };
-  } catch (error) {
-    console.error("[SQUAD_DECAY_ERROR]", error);
-  }
-}

@@ -65,22 +65,6 @@ describe('Middleware Auth & Onboarding Funnel', () => {
     expect(res?.headers.get('location')).toBe('http://localhost:3000/quiz');
   });
 
-  it('should redirect to /onboarding/post-quiz if user has class but no dreamStatement', async () => {
-    (global.fetch as any).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: 'STUDENT', class: 'BUILDER', dreamStatement: null, betaKeyId: 'key_1' }
-      }),
-    });
-
-    const req = createRequest('/dashboard');
-    const res = await middleware(req);
-
-    expect(res?.status).toBe(307);
-    expect(res?.headers.get('location')).toBe('http://localhost:3000/onboarding/post-quiz');
-  });
-
   it('should allow access to dashboard if user is fully onboarded', async () => {
     (global.fetch as any).mockResolvedValue({
       ok: true,
@@ -90,7 +74,6 @@ describe('Middleware Auth & Onboarding Funnel', () => {
             id: 'user_1', 
             currentSituation: 'STUDENT', 
             class: 'BUILDER', 
-            dreamStatement: 'I want to build a SaaS',
             betaKeyId: 'key_1'
         }
       }),

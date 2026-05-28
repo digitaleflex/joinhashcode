@@ -31,8 +31,8 @@ export default async function AdminPage() {
     // Funnel steps
     prisma.user.count({ where: { currentSituation: { not: null } } }),
     prisma.user.count({ where: { class: { not: null } } }),
-    prisma.guildMember.count().then(async () => {
-      const distinct = await prisma.guildMember.findMany({ select: { userId: true }, distinct: ["userId"] })
+    prisma.member.count().then(async () => {
+      const distinct = await prisma.member.findMany({ select: { userId: true }, distinct: ["userId"] })
       return distinct.length
     }),
     prisma.missionSubmission.findMany({ select: { userId: true }, distinct: ["userId"] }).then(r => r.length),

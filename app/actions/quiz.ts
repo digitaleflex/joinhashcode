@@ -11,7 +11,6 @@ import { z } from "zod";
 const QuizSubmissionSchema = z.object({
   answers: z.array(z.string()).min(1),
   responseTimes: z.array(z.number()).optional(),
-  diagnosticAnswers: z.record(z.string(), z.string()).optional(),
 });
 
 const GUILD_SLUG_MAP: Record<string, string> = {
@@ -41,7 +40,7 @@ export async function submitQuiz(rawData: unknown) {
       };
     }
 
-    const { answers, responseTimes = [], diagnosticAnswers = {} } = result.data;
+    const { answers, responseTimes = [] } = result.data;
 
     // Block re-taking the quiz if profile is already assigned
     const existingUser = await prisma.user.findUnique({
@@ -88,9 +87,7 @@ export async function submitQuiz(rawData: unknown) {
           answers: Object.fromEntries(
             answers.map((a: string, i: number) => [i, a])
           ),
-          detailedResponseTimes: responseTimes,
           averageResponseTime: avgResponseTime,
-          diagnosticAnswers: diagnosticAnswers,
         },
       });
 
@@ -104,9 +101,6 @@ export async function submitQuiz(rawData: unknown) {
           creatorScore: analysis.scores.creator,
           strategistScore: analysis.scores.strategist,
           catalystScore: analysis.scores.catalyst,
-          polarization: analysis.consistencyScore,
-          answerConsistency: analysis.consistencyScore,
-          onboardingSpeed: avgResponseTime,
           confidenceScore: 0.25,
           behavioralVibrancy: analysis.scores as any,
           lastHypothesisUpdate: new Date(),

@@ -9,7 +9,7 @@ export default async function InvitePage({ params }: { params: Promise<{ slug: s
   const session = await auth.api.getSession({ headers: await headers() });
 
   // Fetch squad details
-  const squad = await prisma.guild.findUnique({
+  const squad = await prisma.organization.findUnique({
     where: { slug },
     include: {
       members: {
@@ -35,7 +35,7 @@ export default async function InvitePage({ params }: { params: Promise<{ slug: s
     );
   }
 
-  const leader = squad.members.find(m => m.role === "LEADER")?.user || squad.members[0].user;
+  const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")?.user || squad.members[0].user;
 
   return (
     <InviteClient 

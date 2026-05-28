@@ -29,6 +29,3 @@ export function setCache(key: string, data: any, ttlSeconds: number = 60) {
   });
 }
 
-export function invalidateCache(key: string) {
-  cache.delete(key);
-}

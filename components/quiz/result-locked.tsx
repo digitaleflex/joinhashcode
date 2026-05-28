@@ -14,6 +14,17 @@ export function ResultLocked({ analysis }: Props) {
   const color = PROFILE_COLORS[primary]
   const content = getProfileContent(primary)
 
+  // Check for a pending squad invite set before the user went through sign-up
+  let destination = "/dashboard"
+  if (typeof document !== "undefined") {
+    const pendingCookie = document.cookie.split(";").find(c => c.trim().startsWith("pending-squad="))
+    const rawSlug = pendingCookie?.split("=")[1]?.trim()
+    const safeSlug = rawSlug && /^[a-z0-9-]{3,30}$/.test(rawSlug) ? rawSlug : null
+    if (safeSlug) {
+      destination = `/invite/${safeSlug}`
+    }
+  }
+
   return (
     <section className="px-6 py-16 max-w-2xl mx-auto">
       {/* En-tête */}
@@ -91,14 +102,14 @@ export function ResultLocked({ analysis }: Props) {
       {/* CTA */}
       <div className="flex flex-col items-center gap-4">
         <Link
-          href={`/onboarding/post-quiz`}
+          href={destination}
           className="w-full max-w-sm text-center py-4 px-8 rounded-xl font-bold text-black transition-all hover:-translate-y-0.5"
           style={{
             background: color,
             boxShadow: `0 8px 30px -8px ${color}55`,
           }}
         >
-          Finaliser mon profil
+          Accéder à ma Guilde & Voir mes missions
         </Link>
         <Link href="/" className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors">
           Retourner à l&apos;accueil

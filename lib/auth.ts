@@ -92,10 +92,6 @@ export const auth = betterAuth({
   }),
   account: {
     storeStateStrategy: "database",
-    accountLinking: {
-      enabled: true,
-      trustedProviders: ["google", "github"],
-    },
   },
   user: {
     changeEmail: {
@@ -110,15 +106,11 @@ export const auth = betterAuth({
       country: { type: "string", required: false },
       city: { type: "string", required: false },
       language: { type: "string", required: true, defaultValue: "fr" },
-      ageRange: { type: "string", required: false },
       currentSituation: { type: "string", required: false },
       technicalLevel: { type: "string", required: false },
       githubUrl: { type: "string", required: false },
       portfolioUrl: { type: "string", required: false },
       mainObjective: { type: "string", required: false },
-      dominantMotivation: { type: "string", required: false },
-      longTermObjective: { type: "string", required: false },
-      preferredRhythm: { type: "string", required: false },
       builderScore: { type: "number", required: true, defaultValue: 0 },
       creatorScore: { type: "number", required: true, defaultValue: 0 },
       strategistScore: { type: "number", required: true, defaultValue: 0 },
@@ -140,24 +132,6 @@ export const auth = betterAuth({
             name: user.name,
           });
         },
-      },
-    },
-  },
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    },
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      scope: ["user:email"],
-      mapProfileToUser: (profile: any) => {
-        return {
-          email: profile.email || `${profile.login}@users.noreply.github.com`,
-          name: profile.name || profile.login,
-          image: profile.avatar_url,
-        };
       },
     },
   },

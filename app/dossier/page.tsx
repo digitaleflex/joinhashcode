@@ -67,9 +67,9 @@ export default async function DossierPage() {
         orderBy: { createdAt: 'desc' },
         take: 50
       },
-      guildMembers: {
+      members: {
         include: {
-          guild: true
+          organization: true
         }
       }
     },
@@ -77,7 +77,7 @@ export default async function DossierPage() {
 
   if (!user) return null;
 
-  const activeOrg = user.guildMembers[0]?.guild ?? null;
+  const activeOrg = user.members[0]?.organization ?? null;
   const quizResult = user.quizResults?.[0];
   const answers = quizResult?.answers as any || {};
 

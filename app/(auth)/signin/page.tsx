@@ -16,9 +16,6 @@ export default async function SignInPage() {
         if (!user.class) {
             redirect("/quiz");
         }
-        if (!user.dreamStatement) {
-            redirect("/onboarding/post-quiz");
-        }
         redirect("/dashboard");
     }
 

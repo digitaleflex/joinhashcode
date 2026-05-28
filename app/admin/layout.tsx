@@ -25,8 +25,10 @@ export default async function AdminLayout({
     redirect("/dashboard")
   }
 
-
-
+  // Enforce 2FA for admin access — ADMIN accounts must have 2FA enabled
+  if (dbUser.role === "ADMIN" && !dbUser.twoFactorEnabled) {
+    redirect("/settings?require2fa=1")
+  }
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-zinc-950 text-white selection:bg-primary/30">

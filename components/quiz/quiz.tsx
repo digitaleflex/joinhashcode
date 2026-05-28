@@ -14,7 +14,6 @@ import {
 import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ResultPage } from "./result-page"
-import type { DiagnosticAnswers } from "./pre-quiz-diagnostic"
 import { track } from "@vercel/analytics"
 import { cn } from "@/lib/utils"
 
@@ -100,10 +99,9 @@ function AnalyzingScreen() {
 
 interface QuizProps {
   user?: QuizUser
-  diagnosticAnswers?: DiagnosticAnswers
 }
 
-export function Quiz({ user, diagnosticAnswers }: QuizProps) {
+export function Quiz({ user }: QuizProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -159,7 +157,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       const minDelay = new Promise(res => setTimeout(res, 800));
       try {
         const [res] = await Promise.all([
-          submitQuiz({ answers: sortedAnswers, responseTimes: newTimes, diagnosticAnswers }),
+          submitQuiz({ answers: sortedAnswers, responseTimes: newTimes }),
           minDelay,
         ]);
         if (res.success) {
@@ -320,11 +318,11 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
             <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="text-[10px] font-mono font-black uppercase text-zinc-500 block">
-                    Séquence d'évaluation
+                    Découverte de profil
                 </span>
             </div>
             <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wide">
-              Interrogation [{currentStep + 1} / {questions.length}]
+              Question [{currentStep + 1} / {questions.length}]
             </span>
           </div>
           <div className="text-right">
@@ -348,7 +346,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
                 {currentQuestion.text}
             </h2>
             <p className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-3">
-              -- Analyse des réflexes cognitifs --
+              -- Scénario pratique --
             </p>
         </div>
 

@@ -1,12 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 
 interface OrgSettingsFormProps {
   organization: any;
@@ -15,7 +13,6 @@ interface OrgSettingsFormProps {
 export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
   const [name, setName] = useState(organization.name);
   const [slug, setSlug] = useState(organization.slug || "");
-  const [isPrivate, setIsPrivate] = useState(organization.isPrivate ?? false);
   const [isPending, setIsPending] = useState(false);
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -23,16 +20,20 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
     setIsPending(true);
 
     try {
-      const { error } = await authClient.organization.update({
-        data: { name, slug, metadata: { isPrivate } },
+      const res = await fetch("/api/squad/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, slug }),
       });
 
-      if (error) {
-        toast.error(error.message || "Erreur lors de la mise à jour");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        toast.error(data.error || "Erreur lors de la mise à jour");
       } else {
         toast.success("Paramètres mis à jour");
+        window.location.reload();
       }
-    } catch (err) {
+    } catch {
       toast.error("Une erreur inattendue est survenue");
     } finally {
       setIsPending(false);
@@ -63,18 +64,6 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-3 border rounded-md bg-background/50">
-        <div className="space-y-0.5">
-          <Label>Escouade Privée</Label>
-          <p className="text-[10px] text-muted-foreground">
-            Si activé, l'escouade ne sera pas visible sur la page d"accueil.
-          </p>
-        </div>
-        <Switch
-          checked={isPrivate}
-          onCheckedChange={setIsPrivate}
-        />
-      </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Mise à jour..." : "Sauvegarder les modifications"}

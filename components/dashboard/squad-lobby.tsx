@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail, UserSearch } from "lucide-react"
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { authClient } from "@/lib/auth-client"
 import { 
   Dialog, 
   DialogContent, 
@@ -55,17 +54,15 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const createSquad = async () => {
         setIsCreating(true)
         try {
-            const { data, error } = await authClient.organization.create({
-                name: `${pseudo} Squad`,
-                slug: pseudo.toLowerCase().replace(/\s+/g, "-"),
-            })
-            
-            if (error) throw error
-            
+            const res = await fetch("/api/squad/create", { method: "POST" })
+            if (!res.ok) {
+                const text = await res.text()
+                throw new Error(text || "Erreur lors de la création de l'escouade.")
+            }
             toast.success("Escouade créée avec succès !")
             window.location.reload()
         } catch (error: any) {
-            toast.error(error.message || "Erreur lors de la création de l\"escouade.")
+            toast.error(error.message || "Erreur lors de la création de l'escouade.")
             console.error(error)
         } finally {
             setIsCreating(false)

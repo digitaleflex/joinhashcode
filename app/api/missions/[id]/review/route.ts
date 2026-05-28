@@ -10,8 +10,8 @@ import {
   computeXp,
   getMissingRequiredCriteria,
 } from "@/lib/acceptance-criteria";
-import { XP_THRESHOLDS } from "@/lib/missions";
 import { triggerNotification } from "@/lib/qstash";
+import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
@@ -132,12 +132,6 @@ export async function POST(
       // INIT missions: direct approval
       const newXp = (submission.user.experience || 0) + xpAwarded;
 
-      let newLevel = submission.user.level || 1;
-      for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
-        const levelNum = parseInt(levelStr);
-        if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
-      }
-
       const missionWeights: BehavioralVibrancy = {
         builder: submission.mission.weightBuilder || 0,
         creator: submission.mission.weightCreator || 0,
@@ -156,22 +150,24 @@ export async function POST(
         await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
         await tx.user.update({
           where: { id: submission.userId },
-          data: { experience: newXp, level: newLevel, missionsCompletedCount: { increment: 1 } },
+          data: { experience: newXp, missionsCompletedCount: { increment: 1 } },
         });
         await tx.user.update({
           where: { id: session.user.id },
           data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
         });
 
-        const userWithGuild = await tx.user.findUnique({
-          where: { id: submission.userId },
-          select: { guildMembers: { select: { guildId: true } } }
+        const userMember = await tx.member.findFirst({
+          where: { userId: submission.userId },
+          select: { organizationId: true }
         });
-        if (userWithGuild?.guildMembers?.[0]?.guildId) {
-          await updateSquadCohesion(userWithGuild.guildMembers[0].guildId, 0.1);
+        if (userMember?.organizationId) {
+          await updateSquadCohesion(userMember.organizationId, 0.1);
         }
       });
 
+      const updatedUser = await calculateAndSetLevel(submission.userId, newXp, prisma);
+      const newLevel = updatedUser?.level ?? submission.user.level;
       const didLevelUp = newLevel > (submission.user.level || 1);
 
       try {

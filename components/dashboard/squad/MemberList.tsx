@@ -27,7 +27,7 @@ interface MemberListProps {
 
 export function MemberList({ members, currentUserId }: MemberListProps) {
   const currentUserMember = members.find((m) => m.userId === currentUserId);
-  const isLeader = currentUserMember?.role === "LEADER";
+  const isLeader = currentUserMember?.role === "owner";
 
   const handleRemove = async (guildMemberId: string, name: string) => {
     if (!confirm(`Es-tu sûr de vouloir retirer ${name} de l'escouade ?`)) return;
@@ -90,15 +90,15 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
               </TableCell>
               <TableCell>
                 <Badge
-                  variant={member.role === "LEADER" ? "default" : "secondary"}
+                  variant={member.role === "owner" ? "default" : "secondary"}
                   className="text-[9px] uppercase font-mono"
                 >
-                  {member.role === "LEADER" ? "Chef" : "Membre"}
+                  {member.role === "owner" ? "Chef" : "Membre"}
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
                 {member.userId === currentUserId ? (
-                  member.role !== "LEADER" && (
+                  member.role !== "owner" && (
                     <Button
                       variant="ghost"
                       size="sm"
@@ -110,7 +110,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                     </Button>
                   )
                 ) : (
-                  isLeader && member.role !== "LEADER" && (
+                  isLeader && member.role !== "owner" && (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8">

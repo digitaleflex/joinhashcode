@@ -6,13 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
-import { FcGoogle } from "react-icons/fc"
-import { FaGithub } from "react-icons/fa"
 
 /** Maps Better Auth / OAuth error messages to user-friendly French strings */
 function getOAuthErrorMessage(error: unknown): string {
@@ -45,12 +42,10 @@ function getSafeCallbackUrl(fallback = "/quiz"): string {
 }
 
 export function SignInForm() {
-    const [loadingProvider, setLoadingProvider] = useState<"google" | "github" | "email" | "otp" | null>(null)
+    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | null>(null)
     const [step, setStep] = useState<"initial" | "otp">("initial")
     const [email, setEmail] = useState("")
     const [otp, setOtp] = useState("")
-    const [consent, setConsent] = useState(false)
-    const [consentError, setConsentError] = useState(false)
 
     // Show contextual error from URL param (e.g. ?error=banned set by middleware)
     useEffect(() => {
@@ -60,42 +55,9 @@ export function SignInForm() {
         }
     }, [])
 
-    const triggerConsentError = () => {
-        setConsentError(true)
-        toast.error("Merci d'accepter les conditions avant de continuer.")
-        setTimeout(() => setConsentError(false), 500)
-    }
 
-    const handleSocialSignIn = async (provider: "google" | "github") => {
-        if (!consent) {
-            triggerConsentError()
-            return
-        }
-        setLoadingProvider(provider)
-        try {
-            const callbackURL = getSafeCallbackUrl()
 
-            const { data, error } = await authClient.signIn.social({
-                provider,
-                callbackURL,
-                errorCallbackURL: "/signin",
-                disableRedirect: true,
-            })
 
-            if (error) {
-                throw error
-            }
-
-            if (!data?.url) {
-                throw new Error("Missing social sign-in redirect URL")
-            }
-
-            window.location.href = data.url
-        } catch (err) {
-            toast.error(getOAuthErrorMessage(err))
-            setLoadingProvider(null)
-        }
-    }
 
     const handleSendOtp = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -103,10 +65,7 @@ export function SignInForm() {
             toast.error("Veuillez entrer une adresse e-mail")
             return
         }
-        if (!consent) {
-            triggerConsentError()
-            return
-        }
+
 
         setLoadingProvider("email")
         try {
@@ -222,72 +181,11 @@ export function SignInForm() {
                                 </Button>
                             </form>
 
-                            <div className="relative my-2">
-                                <div className="absolute inset-0 flex items-center">
-                                    <span className="w-full border-t border-white/6" />
-                                </div>
-                                <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-widest">
-                                    <span className="bg-[#0a0a0a] px-3 text-zinc-600">Ou</span>
-                                </div>
-                            </div>
-
-                            <div className="space-y-2.5">
-                                <Button
-                                    variant="outline"
-                                    onClick={() => handleSocialSignIn("google")}
-                                    disabled={!!loadingProvider}
-                                    className="w-full bg-white/1 hover:bg-white/6 text-zinc-300 hover:text-white border-white/6 hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
-                                >
-                                    {loadingProvider === "google" ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <>
-                                            <FcGoogle className="mr-2 h-5 w-5" />
-                                            Continuer avec Google
-                                        </>
-                                    )}
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    onClick={() => handleSocialSignIn("github")}
-                                    disabled={!!loadingProvider}
-                                    className="w-full bg-white/1 hover:bg-white/6 text-zinc-300 hover:text-white border-white/6 hover:border-white/20 transition-all duration-300 h-11 rounded-xl cursor-pointer font-bold text-xs"
-                                >
-                                    {loadingProvider === "github" ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <>
-                                            <FaGithub className="mr-2 h-4 w-4 text-white" />
-                                            Continuer avec GitHub
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
-
-                            {/* Corrected & premium consent checkbox container - Positioned at the bottom */}
-                            <div className={`flex items-start gap-3 rounded-xl border p-3.5 mt-2 transition-all duration-300 ${
-                                consentError 
-                                    ? "border-red-500/40 bg-red-950/15 animate-shake shadow-[0_0_15px_rgba(239,68,68,0.12)]" 
-                                    : "border-white/4 bg-white/1 hover:bg-white/3"
-                            }`}>
-                                <Checkbox
-                                    id="consent"
-                                    checked={consent}
-                                    onCheckedChange={(v) => {
-                                        setConsent(v === true)
-                                        if (v === true) setConsentError(false)
-                                    }}
-                                    className="mt-0.5 border-white/20 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-                                />
-                                <label 
-                                    htmlFor="consent" 
-                                    className="text-[11px] leading-relaxed text-zinc-400 font-medium cursor-pointer select-none"
-                                >
-                                    J&apos;accepte que HASHCODE analyse mes réponses pour établir mon diagnostic, et j&apos;ai lu les{" "}
-                                    <Link href="/terms" className="text-primary hover:underline font-bold transition-colors">conditions</Link> et la{" "}
-                                    <Link href="/privacy" className="text-primary hover:underline font-bold transition-colors">politique de confidentialité</Link>.
-                                </label>
-                            </div>
+                                <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
+                                    En continuant, tu acceptes nos{" "}
+                                    <Link href="/terms" className="text-primary hover:underline font-bold transition-colors">Conditions</Link> et notre{" "}
+                                    <Link href="/privacy" className="text-primary hover:underline font-bold transition-colors">Politique de confidentialité</Link>, et tu autorises HASHCODE à analyser tes réponses pour établir ton diagnostic.
+                                </p>
                         </>
                     ) : (
                         <form onSubmit={handleVerifyOtp} className="space-y-4">
@@ -337,17 +235,7 @@ export function SignInForm() {
                 </CardFooter>
             </Card>
 
-            {/* Redirection overlay */}
-            {(loadingProvider === "google" || loadingProvider === "github") && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="flex flex-col items-center gap-4">
-                        <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                        <p className="text-xs font-mono uppercase tracking-widest text-foreground animate-pulse">
-                            Redirection vers {loadingProvider === "google" ? "Google" : "GitHub"}...
-                        </p>
-                    </div>
-                </div>
-            )}
+
         </div>
     )
 }

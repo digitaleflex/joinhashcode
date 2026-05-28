@@ -14,7 +14,7 @@ function healthLabel(cohesion: number, memberCount: number): { label: string; co
 }
 
 export default async function AdminSquadsPage() {
-  const squads = await prisma.guild.findMany({
+  const squads = await prisma.organization.findMany({
     include: {
       members: {
         include: {
@@ -74,7 +74,7 @@ export default async function AdminSquadsPage() {
           {squads.map(squad => {
             const memberCount = squad.members.length
             const health = healthLabel(squad.cohesionScore, memberCount)
-            const leader = squad.members.find(m => m.role === "LEADER")
+            const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")
             const lastCheckin = squad.members
               .map(m => m.user.lastCheckinAt)
               .filter(Boolean)

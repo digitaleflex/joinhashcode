@@ -46,9 +46,5 @@ export async function trackEvent(
  */
 export const EVENTS = {
   ONBOARDING_STARTED: "onboarding_started",
-  QUIZ_COMPLETED: "quiz_completed",
-  SQUAD_CREATED: "squad_created",
-  SQUAD_JOINED: "squad_joined",
   FIRST_MISSION_STARTED: "first_mission_started",
-  MFA_ACTIVATED: "mfa_activated",
 };

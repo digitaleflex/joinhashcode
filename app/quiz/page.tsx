@@ -1,4 +1,4 @@
-import { QuizWithDiagnostic } from "@/components/quiz/quiz-with-diagnostic"
+import { Quiz } from "@/components/quiz/quiz"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
@@ -55,13 +55,13 @@ export default async function QuizPage() {
 
           <div className="text-center mb-6">
             <h1 className="text-sm font-mono uppercase text-primary mb-2">
-              Analyse de potentiel
+              Diagnostic de ton profil
             </h1>
             <p className="text-muted-foreground text-sm">
               Réponds sincèrement pour obtenir le diagnostic le plus précis possible.
             </p>
           </div>
-          <QuizWithDiagnostic user={user ?? undefined} />
+          <Quiz user={user ?? undefined} />
         </div>
       </div>
       <Footer />

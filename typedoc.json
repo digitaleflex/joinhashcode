@@ -1,0 +1,23 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "lib/squad-logic.ts",
+    "lib/auth.ts",
+    "lib/prisma.ts",
+    "lib/missions.ts",
+    "lib/activity-log.ts",
+    "lib/security.ts",
+    "lib/evolution.ts",
+    "lib/badge-engine.ts",
+    "lib/questions.ts",
+    "lib/types.ts"
+  ],
+  "out": "DOCS/typedoc",
+  "tsconfig": "./tsconfig.json",
+  "cleanOutputDir": true,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "skipErrorChecking": true,
+  "name": "HASHCODE Community API & Engine Documentation",
+  "includeVersion": true
+}

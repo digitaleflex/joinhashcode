@@ -20,7 +20,7 @@ export async function GET() {
       builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true,
       tools: true, domains: true, badges: true,
       missionsCompletedCount: true, currentStreak: true, longestStreak: true,
-      lastCheckinAt: true, behavioralVibrancy: true, confidenceScore: true, profileDrift: true,
+      lastCheckinAt: true, behavioralVibrancy: true, confidenceScore: true,
       betaKeyId: true, memberNumber: true,
       cardSignature: true, cardIssuedAt: true, cardTier: true,
       twoFactorEnabled: true,
