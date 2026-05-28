@@ -292,8 +292,6 @@ model QuizResult {
   answers               Json
   createdAt             DateTime @default(now())
   averageResponseTime   Int?     @map("average_response_time")
-  detailedResponseTimes Json?    @map("detailed_response_times")
-  diagnosticAnswers     Json?    @map("diagnostic_answers")
   user                  User?    @relation(fields: [userId], references: [id])
 
   @@index([profileType])

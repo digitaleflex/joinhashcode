@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { updateSquadCohesion } from "@/lib/squad-logic";
 
 export async function POST(req: Request) {
   try {
@@ -81,6 +82,9 @@ export async function POST(req: Request) {
           data: { status: "REJECTED" },
         });
       });
+
+      // Boost squad cohesion by 10% on successful recruitment (+10% dynamic balance)
+      await updateSquadCohesion(joinRequest.organizationId, 0.1, joinRequest.userId);
 
       // Notify the new member
       await prisma.notification.create({

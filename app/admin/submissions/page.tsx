@@ -49,7 +49,8 @@ export default function AdminSubmissionsPage() {
       const res = await fetch("/api/admin/submissions")
       if (res.ok) {
         const data = await res.json()
-        setSubmissions(data)
+        // API returns { submissions, total, page, limit }
+        setSubmissions(Array.isArray(data) ? data : (data.submissions ?? []))
       }
     } catch (e) {
       console.error(e)
@@ -66,7 +67,7 @@ export default function AdminSubmissionsPage() {
     setProcessingId(id)
     try {
       const res = await fetch(`/api/admin/submissions/${id}`, {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, ...details }),
       })

@@ -99,10 +99,9 @@ function AnalyzingScreen() {
 
 interface QuizProps {
   user?: QuizUser
-  diagnosticAnswers?: Record<string, any>
 }
 
-export function Quiz({ user, diagnosticAnswers }: QuizProps) {
+export function Quiz({ user }: QuizProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -158,7 +157,7 @@ export function Quiz({ user, diagnosticAnswers }: QuizProps) {
       const minDelay = new Promise(res => setTimeout(res, 800));
       try {
         const [res] = await Promise.all([
-          submitQuiz({ answers: sortedAnswers, responseTimes: newTimes, diagnosticAnswers }),
+          submitQuiz({ answers: sortedAnswers, responseTimes: newTimes }),
           minDelay,
         ]);
         if (res.success) {

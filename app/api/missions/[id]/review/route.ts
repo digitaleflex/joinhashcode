@@ -157,12 +157,12 @@ export async function POST(
           data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
         });
 
-        const userWithGuild = await tx.user.findUnique({
-          where: { id: submission.userId },
-          select: { guildMembers: { select: { guildId: true } } }
+        const userMember = await tx.member.findFirst({
+          where: { userId: submission.userId },
+          select: { organizationId: true }
         });
-        if (userWithGuild?.guildMembers?.[0]?.guildId) {
-          await updateSquadCohesion(userWithGuild.guildMembers[0].guildId, 0.1);
+        if (userMember?.organizationId) {
+          await updateSquadCohesion(userMember.organizationId, 0.1);
         }
       });
 

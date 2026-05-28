@@ -228,7 +228,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
     }
   }, [squad])
   const isLeader = useMemo(
-    () => squad?.members?.some((m: any) => m.user?.id === user.id && m.role === "LEADER") ?? false,
+    () => squad?.members?.some((m: any) => m.user?.id === user.id && m.role === "owner") ?? false,
     [squad, user.id]
   )
 

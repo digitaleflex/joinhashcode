@@ -139,7 +139,6 @@ describe("Quiz Server Action", () => {
     const res = await submitQuiz({
       answers: ["answer_1", "answer_2"],
       responseTimes: [1000, 2000],
-      diagnosticAnswers: { q1: "a1" },
     });
 
     expect(res.success).toBe(true);
@@ -152,9 +151,7 @@ describe("Quiz Server Action", () => {
         user: { connect: { id: "user-1" } },
         profileType: "builder",
         answers: { "0": "answer_1", "1": "answer_2" },
-        detailedResponseTimes: [1000, 2000],
         averageResponseTime: 1500,
-        diagnosticAnswers: { q1: "a1" },
       },
     });
 

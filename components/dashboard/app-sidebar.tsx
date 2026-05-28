@@ -8,14 +8,8 @@ import {
   FileText,
   Target,
   Settings,
-  ArrowLeft,
-  Search,
-  Bell,
-  ChevronRight,
   MoreHorizontal,
-  User as UserIcon,
   LogOut,
-  Command,
   ShieldAlert,
   MessageSquarePlus,
   Activity,
@@ -48,17 +42,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 
-const navMain = [
-  { title: "Accueil",   url: "/dashboard", icon: Layout },
-  { title: "Profil",    url: "/dossier",   icon: FileText },
-  { title: "Missions",  url: "/missions",  icon: Target },
-  { title: "Reviewer",  url: "/reviewer",  icon: ClipboardCheck },
-]
-
-const navGeneral = [
-  { title: "Paramètres", url: "/settings", icon: Settings },
-]
-
 export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
@@ -69,10 +52,19 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
     window.location.href = "/"
   }
 
+  // User is eligible for reviewer role if Level >= 2 AND completed missions >= 3, or has admin role.
+  const isReviewerEligible = currentUser && (
+    ((currentUser.level ?? 1) >= 2 && (currentUser.missionsCompletedCount ?? 0) >= 3) ||
+    ["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser.role ?? "")
+  )
+
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-zinc-950">
       <SidebarHeader className="h-16 border-b border-white/5 flex flex-row items-center justify-between px-4">
-        <div className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden">
+        <Link 
+          href="/dashboard" 
+          className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden hover:opacity-80 transition-opacity"
+        >
           <div className="size-10 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
             <Activity className="size-5 text-primary" />
           </div>
@@ -80,7 +72,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
             <span className="font-sans font-extrabold text-base tracking-tighter text-white uppercase truncate">HASHCODE</span>
             <span className="text-[11px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
-        </div>
+        </Link>
         <div className="group-data-[collapsible=icon]:mx-auto">
           <SidebarTrigger />
         </div>
@@ -91,21 +83,22 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navMain.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.url}
-                    tooltip={item.title}
-                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                  >
-                    <Link href={item.url}>
-                      <item.icon className="size-4" />
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {/* ACCUEIL */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/dashboard"}
+                  tooltip="Accueil"
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  <Link href="/dashboard">
+                    <Layout className="size-4" />
+                    <span className="font-medium">Accueil</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* SQUAD / MON ESCOUADE */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
@@ -124,6 +117,38 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* MISSIONS */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/missions"}
+                  tooltip="Missions"
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  <Link href="/missions">
+                    <Target className="size-4" />
+                    <span className="font-medium">Missions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* REVIEWER (CONDITIONAL) */}
+              {isReviewerEligible && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/reviewer"}
+                    tooltip="Reviewer"
+                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  >
+                    <Link href="/reviewer">
+                      <ClipboardCheck className="size-4" />
+                      <span className="font-medium">Reviewer</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -132,21 +157,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navGeneral.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.url}
-                    tooltip={item.title}
-                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                  >
-                    <Link href={item.url}>
-                      <item.icon className="size-4" />
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {/* FEEDBACK */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
@@ -160,6 +171,8 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* ADMINISTRATION (CONDITIONAL) */}
               {["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "") && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
@@ -174,18 +187,6 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  tooltip="Site public"
-                  className="h-10 text-muted-foreground hover:text-white hover:bg-white/5"
-                >
-                  <Link href="/">
-                    <ArrowLeft className="size-4" />
-                    <span>Site public</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

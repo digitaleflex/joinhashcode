@@ -106,12 +106,11 @@ export default async function DashboardPage() {
     3
   );
 
-  // Map Organization to the legacy "squad" format for compatibility with UI components
+  // Pass Organization data directly to UI — roles are already correct ("owner" / "member")
   const squad = member?.organization ? {
     ...member.organization,
     members: member.organization.members.map((m: any) => ({
       ...m,
-      role: m.role === "owner" ? "LEADER" : "MEMBER",
       user: {
         ...m.user,
         pseudo: m.user.pseudo || m.user.name,
