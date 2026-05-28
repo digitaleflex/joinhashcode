@@ -84,7 +84,7 @@ We provide a specialized local environment setup using Docker to run both the da
 
 - **Web App**: [http://localhost:3000](http://localhost:3000)
 - **Adminer (DB Management)**: [http://localhost:8081](http://localhost:8081)
-- **Local DB Port**: `5433` (external) / `5432` (internal)
+- **Local DB Port**: `5434` (external) / `5432` (internal)
 
 ---
 

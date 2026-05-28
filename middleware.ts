@@ -75,13 +75,9 @@ export async function middleware(request: NextRequest) {
     if (isBetaAccessPath) {
       const dest = !user.currentSituation ? "/onboarding"
         : !user.class ? "/quiz"
-        : !user.dreamStatement ? "/onboarding/post-quiz"
         : "/dashboard";
       return NextResponse.redirect(new URL(dest, request.url));
     }
-
-    // Determine if we are on an onboarding/quiz path
-    const isPostQuizPath = request.nextUrl.pathname.startsWith('/onboarding/post-quiz');
 
     // ONLY redirect if we are on a protected path AND it's NOT an API call or internal Next.js request
     if (isProtectedPath && !request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.includes('.')) {
@@ -94,11 +90,6 @@ export async function middleware(request: NextRequest) {
       // 2. Check for Step 2: Quiz (Psychometrics)
       if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
         return NextResponse.redirect(new URL("/quiz", request.url));
-      }
-
-      // 3. Check for Step 3: Post-Quiz (Dream, Focus, Blocker)
-      if (user.class && !user.dreamStatement && !isPostQuizPath) {
-        return NextResponse.redirect(new URL("/onboarding/post-quiz", request.url));
       }
     }
   }

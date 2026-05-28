@@ -1,16 +1,5 @@
-import { Client } from "@upstash/qstash";
-import { APP_URL } from "./config";
-
-// Initialisation lazy : le client est créé uniquement à la demande
-// pour éviter un crash au moment du build Docker (où QSTASH_TOKEN n'existe pas)
-function getQstashClient(): Client {
-  if (!process.env.QSTASH_TOKEN && process.env.NODE_ENV === "production") {
-    throw new Error("QSTASH_TOKEN is required in production");
-  }
-  return new Client({
-    token: process.env.QSTASH_TOKEN || "development_token",
-  });
-}
+import { prisma } from "./prisma";
+import { emailService } from "./email";
 
 export interface NotificationPayload {
   userId: string;
@@ -22,26 +11,52 @@ export interface NotificationPayload {
   newLevel?: number;
 }
 
+/**
+ * Direct and synchronous in-app notification trigger.
+ * Writes notifications directly to the database and dispatches emails asynchronously,
+ * completely bypassing external cloud services (QStash) and HTTP loopbacks.
+ */
 export async function triggerNotification(payload: NotificationPayload) {
-  const hasQStashKeys =
-    process.env.QSTASH_CURRENT_SIGNING_KEY &&
-    process.env.QSTASH_CURRENT_SIGNING_KEY !== "test_key";
+  const { userId, type, title, message, link, xp, newLevel } = payload;
 
-  if (hasQStashKeys) {
-    const qstash = getQstashClient(); // vérification à l'exécution, pas au build
-    return await qstash.publishJSON({
-      url: `${APP_URL}/api/internal/notify`,
-      body: payload,
+  try {
+    // Write notification directly to PostgreSQL
+    const notification = await prisma.notification.create({
+      data: {
+        userId,
+        type,
+        title,
+        message,
+        link: link ?? null,
+      },
+      include: { user: true },
     });
-  }
 
-  // Dev/preview: call directly with internal secret
-  return await fetch(`${APP_URL}/api/internal/notify`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-internal-secret": process.env.INTERNAL_API_SECRET || "",
-    },
-    body: JSON.stringify(payload),
-  });
+    // Fire-and-forget email dispatch
+    if (type === "MISSION_APPROVED") {
+      emailService.sendMissionApproval({
+        email: notification.user.email,
+        name: notification.user.name,
+        missionTitle: title.replace("Mission validée : ", ""),
+        xp: xp ?? 0,
+      }).catch(err => console.error("🔴 [Email Service Error] sendMissionApproval:", err));
+    } else if (type === "DAILY_REMINDER") {
+      emailService.sendDailyReminder({
+        email: notification.user.email,
+        name: notification.user.name,
+      }).catch(err => console.error("🔴 [Email Service Error] sendDailyReminder:", err));
+    } else if (type === "LEVEL_UP" && newLevel) {
+      emailService.sendLevelUp({
+        email: notification.user.email,
+        name: notification.user.name,
+        newLevel,
+      }).catch(err => console.error("🔴 [Email Service Error] sendLevelUp:", err));
+    }
+
+    return { success: true, notificationId: notification.id };
+  } catch (dbErr) {
+    console.error("🔴 [Notification Pipeline Error] Failed to write notification to DB:", dbErr);
+    // Silent failure on notifications so it never breaks the parent transaction
+    return { success: false, error: String(dbErr) };
+  }
 }

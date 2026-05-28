@@ -92,10 +92,6 @@ export const auth = betterAuth({
   }),
   account: {
     storeStateStrategy: "database",
-    accountLinking: {
-      enabled: true,
-      trustedProviders: ["google", "github"],
-    },
   },
   user: {
     changeEmail: {
@@ -140,24 +136,6 @@ export const auth = betterAuth({
             name: user.name,
           });
         },
-      },
-    },
-  },
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    },
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      scope: ["user:email"],
-      mapProfileToUser: (profile: any) => {
-        return {
-          email: profile.email || `${profile.login}@users.noreply.github.com`,
-          name: profile.name || profile.login,
-          image: profile.avatar_url,
-        };
       },
     },
   },

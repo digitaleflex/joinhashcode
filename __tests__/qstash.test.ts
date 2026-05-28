@@ -1,37 +1,99 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { Client } from "@upstash/qstash";
 import { triggerNotification } from "../lib/qstash";
+import { prisma } from "../lib/prisma";
+import { emailService } from "../lib/email";
 
-const mockPublishJSON = vi.fn().mockResolvedValue({ messageId: "msg_123" });
-
-vi.mock("@upstash/qstash", () => ({
-  Client: vi.fn().mockImplementation(() => ({
-    publishJSON: mockPublishJSON,
-  })),
+vi.mock("../lib/prisma", () => ({
+  prisma: {
+    notification: {
+      create: vi.fn(),
+    },
+  },
 }));
 
-describe("triggerNotification", () => {
+vi.mock("../lib/email", () => ({
+  emailService: {
+    sendMissionApproval: vi.fn().mockResolvedValue(true),
+    sendDailyReminder: vi.fn().mockResolvedValue(true),
+    sendLevelUp: vi.fn().mockResolvedValue(true),
+  },
+}));
+
+describe("triggerNotification (Direct DB)", () => {
   beforeEach(() => {
-    vi.stubEnv("QSTASH_CURRENT_SIGNING_KEY", "real_key");
-    vi.stubEnv("QSTASH_TOKEN", "test_token");
-    mockPublishJSON.mockClear();
-    vi.mocked(Client).mockClear();
+    vi.clearAllMocks();
   });
 
-  it("should call qstash.publishJSON with correct parameters", async () => {
+  it("should create a notification directly in PostgreSQL and return success", async () => {
     const payload = {
       userId: "user_123",
       type: "SYSTEM" as const,
-      title: "Test Title",
-      message: "Test Message",
+      title: "System Update",
+      message: "Your profile has been synchronized.",
+      link: "/dashboard",
     };
+
+    (prisma.notification.create as any).mockResolvedValue({
+      id: "notif_123",
+      ...payload,
+      user: { email: "test@example.com", name: "Test User" },
+    });
 
     const result = await triggerNotification(payload);
 
-    expect(mockPublishJSON).toHaveBeenCalledWith({
-      url: expect.stringContaining("/api/internal/notify"),
-      body: payload,
+    expect(prisma.notification.create).toHaveBeenCalledWith({
+      data: {
+        userId: "user_123",
+        type: "SYSTEM",
+        title: "System Update",
+        message: "Your profile has been synchronized.",
+        link: "/dashboard",
+      },
+      include: { user: true },
     });
-    expect(result).toEqual({ messageId: "msg_123" });
+    expect(result.success).toBe(true);
+    expect(result.notificationId).toBe("notif_123");
+  });
+
+  it("should trigger email sending when type is MISSION_APPROVED", async () => {
+    const payload = {
+      userId: "user_123",
+      type: "MISSION_APPROVED" as const,
+      title: "Mission validée : Build a CLI",
+      message: "Your submission has been reviewed.",
+      xp: 200,
+    };
+
+    (prisma.notification.create as any).mockResolvedValue({
+      id: "notif_123",
+      ...payload,
+      user: { email: "test@example.com", name: "Test User" },
+    });
+
+    const result = await triggerNotification(payload);
+
+    expect(result.success).toBe(true);
+    expect(emailService.sendMissionApproval).toHaveBeenCalledWith({
+      email: "test@example.com",
+      name: "Test User",
+      missionTitle: "Build a CLI",
+      xp: 200,
+    });
+  });
+
+  it("should catch errors and fail silently to not break main transaction", async () => {
+    const payload = {
+      userId: "user_123",
+      type: "SYSTEM" as const,
+      title: "Test",
+      message: "Test",
+    };
+
+    (prisma.notification.create as any).mockRejectedValue(new Error("Database crash"));
+
+    const result = await triggerNotification(payload);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Database crash");
   });
 });
