@@ -126,23 +126,35 @@ export default function OnboardingPage() {
         }),
       })
 
+      if (res.status === 401) {
+        toast.error("Session expirée. Veuillez vous reconnecter.");
+        router.push("/signin");
+        throw new Error("Unauthorized");
+      }
+
       if (!res.ok) throw new Error("Partial save failed")
-    } catch (error) {
-      console.error("Failed to save step progress:", error)
-      // Non-blocking for the UI, but log it
+    } catch (error: any) {
+      if (error.message !== "Unauthorized") {
+        toast.error("Erreur de sauvegarde. Vérifiez votre connexion.");
+      }
+      throw error;
     } finally {
       setIsSubmitting(false)
     }
   }
 
   const next = async () => {
-    if (step === 0) {
-      await saveStepProgress()
-      setStep(1)
-    } else if (step < STEPS.length - 1) {
-      setStep(step + 1)
-    } else {
-      await handleComplete()
+    try {
+      if (step === 0) {
+        await saveStepProgress()
+        setStep(1)
+      } else if (step < STEPS.length - 1) {
+        setStep(step + 1)
+      } else {
+        await handleComplete()
+      }
+    } catch (err) {
+      console.error("Step navigation failed:", err);
     }
   }
 

@@ -18,11 +18,12 @@ const onboardingSchema = z.object({
 export async function PATCH(req: Request) {
   try {
     const session = await auth.api.getSession({
-      headers: await headers(),
+      headers: req.headers,
     });
 
     if (!session) {
-      return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+      console.error("[ONBOARDING_PATCH] No session found for request");
+      return new NextResponse("Session expirée. Déconnecte-toi et reconnecte-toi.", { status: 401 });
     }
 
     const body = await req.json();
@@ -42,10 +43,10 @@ export async function PATCH(req: Request) {
 
     logActivity({
       userId: session.user.id,
-      action: "ONBOARDING_COMPLETED",
+      action: "ONBOARDING_PARTIAL_SAVE",
       entity: "user",
       entityId: session.user.id,
-      metadata: { currentSituation: parsed.data.currentSituation, country: parsed.data.country },
+      metadata: { currentSituation: parsed.data.currentSituation, country: parsed.data.country, step: parsed.data.mainObjective ? "complete" : "step0" },
       request: req,
     });
 
