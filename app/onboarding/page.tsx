@@ -39,7 +39,6 @@ const STEPS = [
 
 export default function OnboardingPage() {
   const router = useRouter()
-  const { data: session, isPending } = useSession()
   const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncing, setIsSyncing] = useState(true)
@@ -57,29 +56,35 @@ export default function OnboardingPage() {
     };
   })
 
-  // Sync with DB on mount
+  // Sync with DB on mount - use direct API fetch to bypass stale useSession cache
   useEffect(() => {
-    if (!isPending && session?.user) {
-      const user = session.user as any;
-      if (user.currentSituation || user.country) {
-        setFormData(prev => ({
-          ...prev,
-          country: user.country || prev.country,
-          currentSituation: (user.currentSituation as UserSituation) || prev.currentSituation,
-          mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
-          secondaryObjectives: (user.secondaryObjectives as MainObjective[]) || prev.secondaryObjectives,
-        }));
-        
-        // If they already have a situation in DB, move to objectives step
-        if (user.currentSituation && step === 0) {
-          setStep(1);
+    async function syncSession() {
+      try {
+        const { data: session } = await useSession.getState();
+        if (session?.user) {
+          const user = session.user as any;
+          if (user.currentSituation || user.country) {
+            setFormData(prev => ({
+              ...prev,
+              country: user.country || prev.country,
+              currentSituation: (user.currentSituation as UserSituation) || prev.currentSituation,
+              mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
+              secondaryObjectives: (user.secondaryObjectives as MainObjective[]) || prev.secondaryObjectives,
+            }));
+            
+            if (user.currentSituation) {
+              setStep(1);
+            }
+          }
         }
+      } catch (err) {
+        console.error("Session sync failed:", err);
+      } finally {
+        setIsSyncing(false);
       }
-      setIsSyncing(false);
-    } else if (!isPending) {
-      setIsSyncing(false);
     }
-  }, [isPending, session]);
+    syncSession();
+  }, []);
 
   const updateForm = (next: typeof formData) => {
     setFormData(next);
