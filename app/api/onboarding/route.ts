@@ -9,7 +9,7 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
 
 const onboardingSchema = z.object({
   country: z.string().min(1).max(100).optional(),
-  currentSituation: z.string().min(1).max(200),
+  currentSituation: z.string().min(1).max(200).optional(),
   mainObjective: z.string().min(1).max(300).optional(),
   secondaryObjectives: z.array(z.string().max(200)).max(5).optional(),
   language: z.enum(["fr", "en"]).default("fr"),

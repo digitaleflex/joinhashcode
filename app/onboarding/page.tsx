@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { track } from "@vercel/analytics"
+import { useSession } from "@/lib/auth-client"
 
 const ONBOARDING_KEY = "hc_onboarding_progress";
 
@@ -38,8 +39,10 @@ const STEPS = [
 
 export default function OnboardingPage() {
   const router = useRouter()
+  const { data: session, isPending } = useSession()
   const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSyncing, setIsSyncing] = useState(true)
 
   const [formData, setFormData] = useState(() => {
     try {
@@ -53,6 +56,30 @@ export default function OnboardingPage() {
       secondaryObjectives: [] as MainObjective[],
     };
   })
+
+  // Sync with DB on mount
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      const user = session.user as any;
+      if (user.currentSituation || user.country) {
+        setFormData(prev => ({
+          ...prev,
+          country: user.country || prev.country,
+          currentSituation: (user.currentSituation as UserSituation) || prev.currentSituation,
+          mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
+          secondaryObjectives: (user.secondaryObjectives as MainObjective[]) || prev.secondaryObjectives,
+        }));
+        
+        // If they already have a situation in DB, move to objectives step
+        if (user.currentSituation && step === 0) {
+          setStep(1);
+        }
+      }
+      setIsSyncing(false);
+    } else if (!isPending) {
+      setIsSyncing(false);
+    }
+  }, [isPending, session]);
 
   const updateForm = (next: typeof formData) => {
     setFormData(next);
@@ -81,13 +108,48 @@ export default function OnboardingPage() {
     }
   }
 
-  const next = () => {
-    if (step < STEPS.length - 1) setStep(step + 1)
-    else handleComplete()
+  const saveStepProgress = async () => {
+    setIsSubmitting(true)
+    try {
+      const res = await fetch("/api/onboarding", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          country: formData.country,
+          currentSituation: formData.currentSituation,
+        }),
+      })
+
+      if (!res.ok) throw new Error("Partial save failed")
+    } catch (error) {
+      console.error("Failed to save step progress:", error)
+      // Non-blocking for the UI, but log it
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const next = async () => {
+    if (step === 0) {
+      await saveStepProgress()
+      setStep(1)
+    } else if (step < STEPS.length - 1) {
+      setStep(step + 1)
+    } else {
+      await handleComplete()
+    }
   }
 
   const prev = () => {
     if (step > 0) setStep(step - 1)
+  }
+
+  if (isPending || isSyncing) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    )
   }
 
   return (
@@ -142,7 +204,7 @@ export default function OnboardingPage() {
                   <div className="space-y-4">
                     <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Situation Actuelle</label>
                     <div className="grid grid-cols-2 gap-3">
-                      {Object.values(UserSituation).map((sit) => {
+                      {(Object.values(UserSituation) as UserSituation[]).map((sit) => {
                         const Icon = {
                           [UserSituation.STUDENT]: GraduationCap,
                           [UserSituation.FREELANCE]: Laptop,
@@ -200,7 +262,7 @@ export default function OnboardingPage() {
                     </p>
                   </div>
                   <div className="grid gap-2">
-                    {Object.values(MainObjective).map((obj) => {
+                    {(Object.values(MainObjective) as MainObjective[]).map((obj) => {
                       const isMain = formData.mainObjective === obj
                       const isSecondary = formData.secondaryObjectives.includes(obj)
                       
