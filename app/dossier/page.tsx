@@ -22,7 +22,6 @@ import {
   Flame,
   TrendingUp,
   History,
-  Compass,
   Users,
   Share2,
   Download,
@@ -290,13 +289,7 @@ export default async function DossierPage() {
 
                     {/* Secondary Actions */}
                     <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
-                        <div className="grid grid-cols-2 gap-3">
-                            <Button asChild variant="outline" className="border-white/10 text-white font-black uppercase h-12 sm:h-14 rounded-xl sm:rounded-2xl group hover:bg-white/5 text-[10px]">
-                                <Link href="/tech-tree">
-                                    Tech Tree
-                                    <Compass className="ml-2 size-3.5 sm:size-4 group-hover:rotate-45 transition-transform" />
-                                </Link>
-                            </Button>
+                        <div className="grid grid-cols-1 gap-3">
                             <Button asChild className="btn-primary-glow font-black uppercase h-12 sm:h-14 rounded-xl sm:rounded-2xl group text-[10px]">
                                 <Link href="/missions">
                                     Mission

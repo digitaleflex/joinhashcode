@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
   // CVE-2025-29927: strip header that would bypass middleware execution
@@ -7,6 +8,10 @@ export async function middleware(request: NextRequest) {
   }
 
   let sessionData = null;
+  // True when we could NOT determine the session (network/port/container error),
+  // as opposed to a confirmed "no session". On failure we do NOT fail open blindly:
+  // we fall back to the presence of the signed session cookie (see below).
+  let sessionFetchFailed = false;
 
   try {
     const requestHeaders = new Headers(request.headers);
@@ -15,10 +20,11 @@ export async function middleware(request: NextRequest) {
       requestHeaders.set("host", host);
     }
 
+    const loopbackPort = process.env.PORT || "3000";
     let response;
     try {
       // 1. Try local loopback first to bypass DNS and NAT loopback limitations in Docker/production
-      response = await fetch("http://127.0.0.1:3000/api/auth/get-session", {
+      response = await fetch(`http://127.0.0.1:${loopbackPort}/api/auth/get-session`, {
         headers: requestHeaders,
         cache: 'no-store',
       });
@@ -33,9 +39,12 @@ export async function middleware(request: NextRequest) {
 
     if (response.ok) {
       sessionData = await response.json();
+    } else {
+      sessionFetchFailed = true;
     }
   } catch (error) {
     console.error("🟢 [Middleware] Session fetch failed:", error);
+    sessionFetchFailed = true;
   }
 
   const session = sessionData?.session;
@@ -67,7 +76,20 @@ export async function middleware(request: NextRequest) {
   const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
 
   if (isProtectedPath && !session) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    if (!sessionFetchFailed) {
+      // Confirmed: no valid session → redirect to signin.
+      return NextResponse.redirect(new URL("/signin", request.url));
+    }
+    // The session probe itself failed (network/port/container). Do NOT fail open
+    // blindly. Fall back to the signed session-cookie presence: anonymous visitors
+    // have no such cookie and are still redirected (fail closed for them). A request
+    // carrying a session cookie is let through, and the destination page's own
+    // server-side getSession() guard re-validates it — which prevents the
+    // signin↔onboarding redirect loop when the loopback probe is briefly unreachable.
+    const hasSessionCookie = !!getSessionCookie(request);
+    if (!hasSessionCookie) {
+      return NextResponse.redirect(new URL("/signin", request.url));
+    }
   }
 
   if (session && user) {

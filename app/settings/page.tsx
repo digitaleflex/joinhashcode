@@ -6,13 +6,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import {
   User, Globe, Github, Link as LinkIcon,
   Save, Loader2, Camera,
-  Shield, Sparkles, Activity, Wifi,
-  Linkedin, Twitter, Settings, Check,
+  Shield, Sparkles, Activity,
+  Linkedin, Twitter, Settings,
   Fingerprint, AtSign,
-  Languages, Cpu,
-  Copy, Lock,
-  Eye, EyeOff, Sliders, Zap,
-  RefreshCw, AlertTriangle
+  Languages,
+  Lock,
+  AlertTriangle
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -27,27 +26,9 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { authClient } from "@/lib/auth-client"
 import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
-import { CLASS_COLORS, XP_MAX } from "@/lib/member-card-constants"
+import { CLASS_COLORS } from "@/lib/member-card-constants"
 import { TwoFactorSetup } from "@/components/settings/TwoFactorSetup"
 
-function HudCorners({ className }: { className?: string }) {
-  return (
-    <>
-      <div className={cn("absolute top-4 left-4 w-4 h-4 border-t border-l pointer-events-none", className)} aria-hidden="true" />
-      <div className={cn("absolute top-4 right-4 w-4 h-4 border-t border-r pointer-events-none", className)} aria-hidden="true" />
-      <div className={cn("absolute bottom-4 left-4 w-4 h-4 border-b border-l pointer-events-none", className)} aria-hidden="true" />
-      <div className={cn("absolute bottom-4 right-4 w-4 h-4 border-b border-r pointer-events-none", className)} aria-hidden="true" />
-    </>
-  )
-}
-
-function getPasswordStrength(password: string) {
-  if (!password) return { score: 0, label: "VIDE", color: "bg-zinc-800", text: "text-zinc-500" }
-  if (password.length < 8) return { score: 1, label: "TROP COURT", color: "bg-rose-500", text: "text-rose-500" }
-  if (password.length < 12) return { score: 2, label: "FAIBLE", color: "bg-amber-500", text: "text-amber-500" }
-  if (password.length < 16) return { score: 3, label: "MOYEN", color: "bg-cyan-500", text: "text-cyan-400" }
-  return { score: 4, label: "FORT", color: "bg-emerald-500", text: "text-emerald-400" }
-}
 
 const TABS = [
   { id: "profile", label: "Diagnostic", icon: User, desc: "Identité et informations de base" },
@@ -76,102 +57,12 @@ export default function SettingsPage() {
   const [isDirty, setIsDirty] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const [secretKey, setSecretKey] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
-  const [isGeneratingKey, setIsGeneratingKey] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [rotate, setRotate] = useState({ x: 0, y: 0 })
-
-  const [customSecretCode, setCustomSecretCode] = useState("")
-  const [customSignature, setCustomSignature] = useState("")
-  const [cardTier, setCardTier] = useState("STANDARD")
-  const [showSecretCode, setShowSecretCode] = useState(false)
-  const [isSavingCustomCard, setIsSavingCustomCard] = useState(false)
-  const [activeVaultMode, setActiveVaultMode] = useState("auto")
-
-  useEffect(() => {
-    if (userData) {
-      setCustomSignature(userData.cardSignature || "")
-      setCardTier(userData.cardTier || "STANDARD")
-    }
-  }, [userData])
-
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("require2fa") === "1") {
       toast.error("La double authentification (2FA) est obligatoire pour accéder au panel admin. Active-la dans l'onglet Sécurité.", { duration: 10000 })
       setActiveTab("account")
     }
   }, [])
-
-  const saveCustomCard = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSavingCustomCard(true)
-    try {
-      const res = await fetch("/api/user/card/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customSecretCode: customSecretCode || undefined,
-          customSignature: customSignature || undefined,
-          cardTier: cardTier || undefined,
-        }),
-      })
-      if (res.ok) {
-        const data = await res.json()
-        setUserData({ ...userData, cardSignature: data.cardSignature, cardIssuedAt: data.cardIssuedAt, cardTier: data.cardTier, memberNumber: data.memberNumber })
-        setCustomSecretCode("")
-        toast.success("Coffre-fort et carte membre mis à jour avec succès !")
-      } else {
-        toast.error(await res.text() || "Échec de la mise à jour du coffre-fort.")
-      }
-    } catch {
-      toast.error("Erreur réseau lors de la mise à jour.")
-    } finally {
-      setIsSavingCustomCard(false)
-    }
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current
-    if (!card) return
-    const rect = card.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    setRotate({
-      x: -((y - rect.height / 2) / (rect.height / 2)) * 10,
-      y: ((x - rect.width / 2) / (rect.width / 2)) * 10,
-    })
-    card.style.setProperty('--mx', `${(x / rect.width) * 100}%`)
-    card.style.setProperty('--my', `${(y / rect.height) * 100}%`)
-  }
-
-  const handleMouseLeave = () => setRotate({ x: 0, y: 0 })
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    toast.success("Code secret copié dans le presse-papiers !")
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const generateSecretKey = async () => {
-    setIsGeneratingKey(true)
-    try {
-      const res = await fetch("/api/user/card/generate", { method: "POST" })
-      if (res.ok) {
-        const data = await res.json()
-        setSecretKey(data.secretKey)
-        setUserData((prev: any) => ({ ...prev, cardSignature: data.cardSignature, cardIssuedAt: data.cardIssuedAt, cardTier: data.cardTier, memberNumber: data.memberNumber }))
-        toast.success("Nouveau Code Secret généré avec succès !")
-      } else {
-        toast.error("Échec de la génération du code secret.")
-      }
-    } catch {
-      toast.error("Erreur réseau lors de la génération.")
-    } finally {
-      setIsGeneratingKey(false)
-    }
-  }
 
   useEffect(() => {
     fetch("/api/user/me")
@@ -526,389 +417,27 @@ export default function SettingsPage() {
                     {activeTab === "vault" && (() => {
                       const cl = (userData?.class || "builder").toLowerCase()
                       const baseColor = CLASS_COLORS[cl] || "#B8FF3B"
-                      const activeTier = activeVaultMode === "manual" ? cardTier : (userData?.cardTier || "STANDARD")
-                      const tierColor = activeTier === "FOUNDER" ? "#F59E0B" : activeTier === "PREMIUM" ? "#22D3EE" : baseColor
-                      const strength = getPasswordStrength(customSecretCode)
-                      const signatureRegex = /^[A-Z0-9-]*$/
-                      const isSignatureValid = signatureRegex.test(customSignature)
-                      const memberNumber = userData?.memberNumber ? `HC-M-${String(userData.memberNumber).padStart(6, '0')}` : "HC-M-000001"
+                      void baseColor
 
                       return (
-                        <div className="space-y-10">
-                          <div className="space-y-2 border-b border-white/5 pb-6">
-                            <div className="flex items-center gap-2">
-                              <div className="size-2 rounded-full animate-pulse" style={{ backgroundColor: tierColor }} />
-                              <h2 className="text-lg font-bold text-white">Sécurité du coffre-fort</h2>
-                            </div>
-                            <p className="text-xs text-zinc-500 font-light leading-relaxed">
-                              Configure ton identité HASHCODE unifiée. Enregistre une signature unique et tes clés d&apos;habilitation pour te connecter de manière sécurisée à l&apos;ensemble de nos réseaux.
-                            </p>
+                        <div className="space-y-6">
+                          <div className="border-b border-white/5 pb-6">
+                            <h2 className="text-lg font-bold text-white">Carte de membre</h2>
+                            <p className="text-xs text-zinc-500 mt-1 font-mono">Ta carte partageable — visible sur ton dossier.</p>
                           </div>
 
-                          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-
-                            {/* Member card dock */}
-                            <div className="lg:col-span-6 relative rounded-[2.5rem] bg-zinc-950/40 border border-white/5 p-6 flex flex-col items-center justify-center overflow-hidden min-h-95 group/dock">
-                              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-size-[16px_16px] opacity-45 pointer-events-none" aria-hidden="true" />
-                              <div className="absolute inset-x-0 w-full animate-laser-sweep pointer-events-none" style={{ '--laser-color': tierColor } as React.CSSProperties} aria-hidden="true" />
-                              <HudCorners className="border-white/20" />
-
-                              <div className="w-full max-w-97.5 relative group/card-wrapper z-10 hover:scale-[1.01] transition-transform duration-500">
-                                <div className="absolute -inset-1.5 rounded-[2.2rem] blur-2xl opacity-25 group-hover/card-wrapper:opacity-50 transition-all duration-1000" style={{ backgroundColor: tierColor }} aria-hidden="true" />
-                                <div
-                                  ref={cardRef}
-                                  onMouseMove={handleMouseMove}
-                                  onMouseLeave={handleMouseLeave}
-                                  className="relative w-full aspect-[1.586/1] rounded-4xl p-5 text-white overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] border transition-all duration-200 select-none cursor-pointer holographic-sheen"
-                                  style={{
-                                    transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                                    borderColor: `${tierColor}33`,
-                                    background: `radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(26,26,26,0.96) 0%, rgba(4,4,4,0.99) 100%)`,
-                                    boxShadow: `0 0 45px ${tierColor}10, inset 0 0 20px ${tierColor}05`,
-                                  }}
-                                >
-                                  {/* Class background gradient */}
-                                  <div
-                                    className="absolute inset-0 overflow-hidden pointer-events-none opacity-15"
-                                    style={{ background: `radial-gradient(circle at 80% 20%, ${tierColor}33, transparent 60%)` }}
-                                    aria-hidden="true"
-                                  />
-                                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-size-[12px_12px] opacity-40 pointer-events-none" aria-hidden="true" />
-                                  <div className="absolute inset-0 pointer-events-none opacity-45 mix-blend-overlay transition-opacity duration-300" style={{ background: `radial-gradient(circle at ${50 + rotate.y * 3.5}% ${50 - rotate.x * 3.5}%, rgba(255,255,255,0.3) 0%, transparent 60%)` }} aria-hidden="true" />
-                                  <div className="absolute inset-0 pointer-events-none mix-blend-color-dodge opacity-30 transition-all duration-300" style={{ background: `radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.18) 0%, transparent 40%), radial-gradient(circle at calc(var(--mx, 50%) - 10%) calc(var(--my, 50%) - 10%), ${tierColor}1a 0%, transparent 60%)` }} aria-hidden="true" />
-
-                                  {/* HUD corner sights */}
-                                  {[
-                                    { className: "absolute top-4 left-4 size-6", d: "M 2 12 V 2 H 12", cx: 2, cy: 2, label: "x:0.45", tx: 5, ty: 10 },
-                                    { className: "absolute top-4 right-4 size-6", d: "M 22 12 V 2 H 12", cx: 22, cy: 2, label: "y:0.29", tx: 12, ty: 10 },
-                                    { className: "absolute bottom-4 left-4 size-6", d: "M 2 12 V 22 H 12", cx: 2, cy: 22, label: "z:8.91", tx: 5, ty: 18 },
-                                    { className: "absolute bottom-4 right-4 size-6", d: "M 22 12 V 22 H 12", cx: 22, cy: 22, label: "w:1.02", tx: 12, ty: 18 },
-                                  ].map((s, i) => (
-                                    <svg key={i} className={`${s.className} pointer-events-none opacity-60`} viewBox="0 0 24 24" fill="none" style={{ color: tierColor }} aria-hidden="true">
-                                      <path d={s.d} stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-                                      <circle cx={s.cx} cy={s.cy} r="1" fill="currentColor" />
-                                      <text x={s.tx} y={s.ty} className="text-[5px] font-mono fill-current font-black opacity-75">{s.label}</text>
-                                    </svg>
-                                  ))}
-
-                                  {/* Top line */}
-                                  <div className="flex justify-between items-start mb-4 relative z-10">
-                                    <div className="space-y-0.5">
-                                      <div className="flex items-center gap-1.5">
-                                        <Wifi className="size-2.5 text-zinc-600 animate-pulse" aria-hidden="true" />
-                                        <span className="text-[7px] font-mono text-zinc-500 font-bold uppercase">SSO_INTEGRITY_SECURED</span>
-                                      </div>
-                                      <h3 className="text-xs font-black tracking-wider text-white uppercase italic">{"HASHCODE // CODESPACE"}</h3>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border bg-black/60 backdrop-blur-md" style={{ borderColor: `${tierColor}33` }}>
-                                      <div className="size-1.5 rounded-full animate-pulse" style={{ backgroundColor: tierColor, boxShadow: `0 0 10px ${tierColor}` }} />
-                                      <span className="text-[7px] font-mono tracking-wider font-bold uppercase" style={{ color: tierColor }}>{activeTier}</span>
-                                    </div>
-                                  </div>
-
-                                  {/* User info */}
-                                  <div className="grid grid-cols-[56px_1fr] gap-3 items-center relative z-10 mb-2">
-                                    <div className="relative shrink-0">
-                                      <div className="size-14 rounded-[1.25rem] bg-zinc-950/90 overflow-hidden border flex items-center justify-center shadow-xl" style={{ borderColor: `${tierColor}44` }}>
-                                        {userData?.image ? (
-                                          <Image src={userData.image} alt="Avatar" width={56} height={56} className="w-full h-full object-cover" />
-                                        ) : (
-                                          <div className="w-full h-full flex items-center justify-center text-3xl font-black text-white/10 uppercase">
-                                            {userData?.name?.charAt(0)}
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="absolute inset-0 rounded-[1.25rem] blur-md opacity-20 pointer-events-none" style={{ backgroundColor: tierColor }} aria-hidden="true" />
-                                    </div>
-                                    <div className="space-y-1 min-w-0">
-                                      <div>
-                                        <h4 className="text-xs font-black tracking-tight text-white uppercase truncate leading-none">
-                                          {userData?.name || "ANONYMOUS"}
-                                        </h4>
-                                        <p className="text-[8px] font-mono text-zinc-500 tracking-wider mt-0.5">@{userData?.pseudo || "non_defini"}</p>
-                                      </div>
-                                      <div className="flex items-center justify-between">
-                                        <div className="space-y-0.5">
-                                          <span className="text-[5px] font-mono text-zinc-600 uppercase tracking-wide leading-none block">Profile</span>
-                                          <div className="text-[9px] font-black uppercase tracking-wider" style={{ color: CLASS_COLORS[cl] || "#B8FF3B" }}>
-                                            {userData?.class || "BUILDER"}{" // SQUAD"}
-                                          </div>
-                                        </div>
-                                        <div className="flex items-center gap-2.5 shrink-0">
-                                          <svg className="size-7" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-                                            <rect x="20" y="20" width="60" height="60" rx="10" fill="url(#chip-grad)" stroke={tierColor} strokeWidth="1.5" />
-                                            <path d="M 35 20 V 80 M 50 20 V 80 M 65 20 V 80 M 20 35 H 80 M 20 50 H 80 M 20 65 H 80" stroke={`${tierColor}40`} strokeWidth="1" />
-                                            <circle cx="50" cy="50" r="10" fill="#0c0a09" stroke={tierColor} strokeWidth="1" />
-                                            <defs>
-                                              <linearGradient id="chip-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                {activeTier === "FOUNDER" ? (
-                                                  <><stop offset="0%" stopColor="#fbbf24" /><stop offset="100%" stopColor="#d97706" /></>
-                                                ) : activeTier === "PREMIUM" ? (
-                                                  <><stop offset="0%" stopColor="#67e8f9" /><stop offset="100%" stopColor="#0891b2" /></>
-                                                ) : (
-                                                  <><stop offset="0%" stopColor="#e5e7eb" /><stop offset="100%" stopColor="#4b5563" /></>
-                                                )}
-                                              </linearGradient>
-                                            </defs>
-                                          </svg>
-                                          <span className="text-[9px] font-mono text-zinc-500 font-black select-none">{memberNumber}</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* XP progress */}
-                                  {(() => {
-                                    const currentXp = userData?.experience || 0
-                                    const maxXp = XP_MAX[userData?.level || 1] || 100
-                                    const pct = Math.min(100, Math.max(0, (currentXp / maxXp) * 100))
-                                    return (
-                                      <div className="w-full relative z-10 px-0.5 my-1.5">
-                                        <div className="flex justify-between items-center text-[5.5px] font-mono text-zinc-500 uppercase tracking-wide mb-1 leading-none">
-                                          <span className="flex items-center gap-1"><Cpu className="size-2" aria-hidden="true" /> EVOLUTION ENGINE</span>
-                                          <span>{currentXp} / {maxXp} XP</span>
-                                        </div>
-                                        <div className="flex gap-0.5 h-1 w-full bg-zinc-950/80 p-px rounded-xs border border-white/5 overflow-hidden">
-                                          {Array.from({ length: 12 }).map((_, i) => (
-                                            <div key={i} className="flex-1 h-full rounded-2xs transition-all duration-500" style={{ backgroundColor: (i / 12) * 100 < pct ? tierColor : "rgba(255,255,255,0.05)", boxShadow: (i / 12) * 100 < pct ? `0 0 6px ${tierColor}` : "none" }} />
-                                          ))}
-                                        </div>
-                                      </div>
-                                    )
-                                  })()}
-
-                                  {/* Card footer */}
-                                  <div className="absolute bottom-3 left-5 right-5 flex justify-between items-end border-t border-white/5 pt-1.5 z-10">
-                                    <div className="flex items-center gap-2.5">
-                                      <div>
-                                        <span className="text-[5px] font-mono text-zinc-600 uppercase block leading-none">Access_Lvl</span>
-                                        <div className="text-[7.5px] font-mono font-bold text-zinc-300 leading-none mt-0.5">LVL {userData?.level || 1}</div>
-                                      </div>
-                                      <div>
-                                        <span className="text-[5px] font-mono text-zinc-600 uppercase block leading-none">SSO_Integrity</span>
-                                        <div className="text-[7.5px] font-mono font-bold text-emerald-400 flex items-center gap-0.5 leading-none mt-0.5">
-                                          <span className="size-1 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" /> 98%
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="flex flex-col items-end">
-                                      <span className="text-[4.5px] font-mono text-zinc-700 tracking-tighter uppercase leading-none">Security_Signature</span>
-                                      <span className="text-[7px] font-mono font-black text-white tracking-wide leading-none mt-0.5" style={{ textShadow: `0 0 8px ${tierColor}40` }}>
-                                        {activeVaultMode === "manual" && customSignature ? customSignature.trim().toUpperCase() : (userData?.cardSignature || "AUCUNE_SIGNATURE")}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                          <div className="space-y-4">
+                            <div className="rounded-2xl overflow-hidden border border-white/5 bg-black/30">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={`/api/card/${userData?.id}`}
+                                alt="Ta carte de membre HASHCODE"
+                                className="w-full"
+                              />
                             </div>
-
-                            {/* SSO Console */}
-                            <div className="lg:col-span-6 relative rounded-[2.5rem] bg-zinc-950/40 border border-white/5 p-6 md:p-8 flex flex-col justify-between overflow-hidden">
-                              <div className="space-y-6 w-full">
-                                {/* Mode switcher */}
-                                <div className="flex p-1 bg-black/60 border border-white/5 rounded-2xl relative overflow-hidden">
-                                  {[
-                                    { id: "auto", icon: RefreshCw, label: "Génération Auto" },
-                                    { id: "manual", icon: Sliders, label: "Liaison Manuelle" },
-                                  ].map(mode => (
-                                    <button
-                                      key={mode.id}
-                                      type="button"
-                                      onClick={() => setActiveVaultMode(mode.id)}
-                                      className={cn("flex-1 py-3 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 flex items-center justify-center gap-2 relative z-10 cursor-pointer", activeVaultMode === mode.id ? "text-black font-extrabold" : "text-zinc-500 hover:text-zinc-300")}
-                                    >
-                                      {activeVaultMode === mode.id && (
-                                        <motion.div layoutId="activeVaultPill" className="absolute inset-0 bg-primary rounded-xl z-[-1] shadow-[0_0_20px_rgba(197,244,65,0.4)]" transition={{ type: "spring", stiffness: 380, damping: 30 }} />
-                                      )}
-                                      <mode.icon className="size-3.5" aria-hidden="true" />
-                                      {mode.label}
-                                    </button>
-                                  ))}
-                                </div>
-
-                                <AnimatePresence mode="wait">
-                                  {activeVaultMode === "auto" ? (
-                                    <motion.div key="auto" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.3 }} className="space-y-6">
-                                      <div className="flex items-center gap-4 bg-zinc-900/30 border border-white/3 p-5 rounded-2xl">
-                                        <div className="p-3 rounded-xl" style={{ backgroundColor: `${tierColor}15`, border: `1px solid ${tierColor}30` }}>
-                                          <Shield className="size-6" style={{ color: tierColor }} />
-                                        </div>
-                                        <div className="space-y-1">
-                                          <div className="flex items-center gap-1.5">
-                                            <span className="size-1.5 rounded-full animate-pulse" style={{ backgroundColor: tierColor }} aria-hidden="true" />
-                                            <span className="text-[8px] font-mono font-bold text-zinc-400 uppercase tracking-wider">Connexion SSO Chiffrée</span>
-                                          </div>
-                                          <p className="text-[9.5px] text-zinc-500 font-light leading-relaxed">
-                                            Signature numérique unifiée active et sécurisée contre les intrusions réseau.
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="pt-2">
-                                        <Button
-                                          type="button"
-                                          onClick={generateSecretKey}
-                                          disabled={isGeneratingKey}
-                                          className="w-full h-12 rounded-xl font-mono font-black uppercase text-[10px] tracking-wider gap-2 border"
-                                          style={{ backgroundColor: `${tierColor}15`, borderColor: `${tierColor}44`, color: 'white' }}
-                                        >
-                                          {isGeneratingKey ? <Loader2 className="size-3.5 animate-spin" /> : <Zap className="size-3.5" aria-hidden="true" />}
-                                          {userData?.cardSecretHash ? "Générer_Nouveau_Code" : "Générer_Code_Secret"}
-                                        </Button>
-                                      </div>
-                                    </motion.div>
-                                  ) : (
-                                    <motion.div key="manual" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.3 }} className="space-y-5">
-                                      <form onSubmit={saveCustomCard} className="space-y-5">
-                                        {/* Secret code */}
-                                        <div className="space-y-2">
-                                          <label className="text-[9px] font-mono font-black uppercase text-zinc-500 flex items-center justify-between">
-                                            <span>Code Secret SSO</span>
-                                            <span className={cn("text-[8px] font-mono px-2 py-0.5 rounded bg-zinc-950/80 border border-white/5", strength.text)}>{strength.label}</span>
-                                          </label>
-                                          <div className="relative group/secret">
-                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-700 group-focus-within/secret:text-primary transition-colors" aria-hidden="true" />
-                                            <input
-                                              type={showSecretCode ? "text" : "password"}
-                                              value={customSecretCode}
-                                              onChange={e => setCustomSecretCode(e.target.value)}
-                                              placeholder={userData?.cardSecretHash ? "••••••••••••••••••••" : "Définir ton code secret SSO..."}
-                                              className="w-full input-premium h-12 rounded-xl pl-11 pr-11 text-xs focus:outline-none font-mono font-bold"
-                                            />
-                                            <button type="button" onClick={() => setShowSecretCode(!showSecretCode)} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors" aria-label={showSecretCode ? "Masquer le code" : "Afficher le code"}>
-                                              {showSecretCode ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-                                            </button>
-                                          </div>
-                                          {customSecretCode && (
-                                            <div className="flex gap-1.5 items-center px-0.5">
-                                              {Array.from({ length: 4 }).map((_, i) => (
-                                                <div key={i} className={cn("h-1.5 flex-1 rounded-full transition-all duration-300", i < strength.score ? strength.color : "bg-zinc-800")} />
-                                              ))}
-                                              <span className={cn("text-[8px] font-mono tracking-wider ml-1 shrink-0", strength.text)}>{strength.label}</span>
-                                            </div>
-                                          )}
-                                        </div>
-
-                                        {/* Signature */}
-                                        <div className="space-y-2">
-                                          <label className="text-[9px] font-mono font-black uppercase text-zinc-500 flex justify-between items-center">
-                                            <span>Signature Unique Gravée</span>
-                                            {customSignature && (
-                                              <span className={cn("text-[8px] font-mono px-2 py-0.5 rounded bg-zinc-950/80 border border-white/5", isSignatureValid ? "text-emerald-400" : "text-rose-500")}>
-                                                {isSignatureValid ? "FORMAT_VALIDE" : "ALPHANUM_ONLY"}
-                                              </span>
-                                            )}
-                                          </label>
-                                          <div className="relative group/sig">
-                                            <AtSign className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-700 group-focus-within/sig:text-primary transition-colors" aria-hidden="true" />
-                                            <input
-                                              type="text"
-                                              value={customSignature}
-                                              onChange={e => { const val = e.target.value.toUpperCase(); if (signatureRegex.test(val) || val === "") setCustomSignature(val) }}
-                                              placeholder="Ex: ALPHA-DRUID-09"
-                                              className="w-full input-premium h-12 rounded-xl pl-11 pr-5 text-xs focus:outline-none font-bold uppercase font-mono tracking-wider"
-                                            />
-                                          </div>
-                                        </div>
-
-                                        {/* Tier selector */}
-                                        <div className="space-y-2">
-                                          <label className="text-[9px] font-mono font-black uppercase text-zinc-500 block">Niveau d&apos;Habilitation (Tier)</label>
-                                          <div className="grid grid-cols-3 gap-3">
-                                            {[
-                                              { id: "STANDARD", title: "STANDARD", desc: "Base", color: "#B8FF3B" },
-                                              { id: "PREMIUM", title: "PREMIUM", desc: "Pro Hub", color: "#22D3EE" },
-                                              { id: "FOUNDER", title: "FOUNDER", desc: "Elite", color: "#F59E0B" },
-                                            ].map((t) => {
-                                              const isSelected = cardTier === t.id
-                                              return (
-                                                <button
-                                                  key={t.id}
-                                                  type="button"
-                                                  onClick={() => setCardTier(t.id)}
-                                                  className={cn("p-3 text-left font-mono transition-all duration-500 relative overflow-hidden flex flex-col justify-between aspect-[1.3/1] cursor-pointer cyber-notch border", isSelected ? "text-white" : "bg-black/50 border-white/5 text-zinc-500 hover:border-white/10")}
-                                                  style={isSelected ? { borderColor: t.color, backgroundColor: `${t.color}05`, boxShadow: `0 0 20px ${t.color}26` } : {}}
-                                                >
-                                                  <div className="flex justify-between items-start w-full">
-                                                    <span className="text-[8.5px] font-black tracking-wider uppercase">{t.title}</span>
-                                                    {isSelected && <div className="size-1.5 rounded-full animate-pulse" style={{ backgroundColor: t.color }} aria-hidden="true" />}
-                                                  </div>
-                                                  <div className="space-y-0.5">
-                                                    <span className="text-[7.5px] font-bold opacity-60 block leading-none">{t.desc}</span>
-                                                    <span className="text-[5.5px] opacity-40 font-mono tracking-tighter uppercase block">AUTH_LEVEL</span>
-                                                  </div>
-                                                </button>
-                                              )
-                                            })}
-                                          </div>
-                                        </div>
-
-                                        <div className="pt-2">
-                                          <Button type="submit" disabled={isSavingCustomCard || !isSignatureValid} className="w-full h-12 rounded-xl font-mono font-black uppercase text-[10px] tracking-wider gap-2 btn-primary-glow">
-                                            {isSavingCustomCard ? <Loader2 className="size-3.5 animate-spin" /> : <Save className="size-3.5" />}
-                                            Sauvegarder_Coffre_Fort
-                                          </Button>
-                                        </div>
-                                      </form>
-                                    </motion.div>
-                                  )}
-                                </AnimatePresence>
-                              </div>
-                            </div>
-
-                            {/* Secret key reveal */}
-                            <AnimatePresence>
-                              {secretKey && (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.95 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.95 }}
-                                  transition={{ duration: 0.4, ease: "easeOut" }}
-                                  className="lg:col-span-12 p-6 md:p-8 rounded-[2.5rem] bg-emerald-950/10 border border-emerald-500/20 space-y-6 relative overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.15)]"
-                                >
-                                  <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-emerald-500/30 pointer-events-none" aria-hidden="true" />
-                                  <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-emerald-500/30 pointer-events-none" aria-hidden="true" />
-                                  <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-emerald-500/30 pointer-events-none" aria-hidden="true" />
-                                  <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-emerald-500/30 pointer-events-none" aria-hidden="true" />
-                                  <div className="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#10b981,#10b981_10px,#022c22_10px,#022c22_20px)] rounded-full pointer-events-none opacity-80 animate-pulse" aria-hidden="true" />
-
-                                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-500/10 pb-4">
-                                    <div className="flex items-center gap-3">
-                                      <div className="p-3 bg-emerald-950/80 border border-emerald-500/30 rounded-2xl shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                                        <Shield className="size-5 text-emerald-400" />
-                                      </div>
-                                      <div className="space-y-0.5">
-                                        <div className="flex items-center gap-1.5">
-                                          <span className="size-1.5 rounded-full bg-emerald-500 animate-ping" aria-hidden="true" />
-                                          <span className="text-[7px] font-mono text-emerald-500 font-bold uppercase tracking-wider">CONFINEMENT_CRITICAL_AREA</span>
-                                        </div>
-                                        <h3 className="text-sm font-black uppercase text-white italic">Coffre Cryptographique Sécurisé</h3>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-4 text-[7.5px] font-mono text-emerald-500/60 uppercase">
-                                      <span>ALGO: AES-GCM-256</span>
-                                      <span className="hidden sm:inline">•</span>
-                                      <span>BITS: 256</span>
-                                    </div>
-                                  </div>
-
-                                  <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                                    Recopie immédiatement ce code dans un endroit sûr. Pour des raisons de sécurité, <strong className="text-emerald-400 font-bold">cette clé ne sera plus jamais visible</strong> après fermeture de cet écran.
-                                  </p>
-
-                                  <div className="flex items-center gap-4 bg-black/85 border border-emerald-500/20 p-5 rounded-2xl font-mono text-sm font-bold text-white shadow-inner relative overflow-hidden">
-                                    <span className="text-emerald-400 select-all truncate pr-28 font-mono tracking-wide w-full">
-                                      {secretKey}
-                                    </span>
-                                    <Button
-                                      onClick={() => copyToClipboard(secretKey)}
-                                      className="absolute right-2 top-1/2 -translate-y-1/2 h-11 px-5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] font-mono font-black text-[9px] uppercase tracking-wider flex items-center gap-2 shrink-0 cursor-pointer"
-                                    >
-                                      {copied ? <><Check className="size-3.5" />Copié</> : <><Copy className="size-3.5 animate-pulse" />Copier_Clé</>}
-                                    </Button>
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
+                            <Button asChild className="w-full h-12 rounded-xl btn-primary-glow font-black uppercase text-[10px]">
+                              <a href="/dossier">Voir mon dossier et partager →</a>
+                            </Button>
                           </div>
                         </div>
                       )
