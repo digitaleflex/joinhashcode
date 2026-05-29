@@ -17,7 +17,7 @@ import {
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { track } from "@vercel/analytics"
-import { useSession } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 
 const ONBOARDING_KEY = "hc_onboarding_progress";
 
@@ -56,11 +56,12 @@ export default function OnboardingPage() {
     };
   })
 
-  // Sync with DB on mount - use direct API fetch to bypass stale useSession cache
+  // Sync with DB on mount - use direct API fetch to bypass stale cache
   useEffect(() => {
     async function syncSession() {
       try {
-        const { data: session } = await useSession.getState();
+        const res = await authClient.getSession();
+        const session = res.data;
         if (session?.user) {
           const user = session.user as any;
           if (user.currentSituation || user.country) {
