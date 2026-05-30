@@ -68,6 +68,40 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Mise à jour..." : "Sauvegarder les modifications"}
       </Button>
+
+      <div className="mt-12 pt-6 border-t border-destructive/20 space-y-4">
+        <div className="space-y-1">
+          <h4 className="text-sm font-bold text-destructive uppercase">Zone de Danger</h4>
+          <p className="text-xs text-muted-foreground">
+            La dissolution de l'escouade est irréversible. Tous les membres seront expulsés et les données supprimées.
+          </p>
+        </div>
+        <Button 
+          type="button" 
+          variant="destructive" 
+          className="w-full font-bold uppercase text-[10px]"
+          disabled={isPending}
+          onClick={async () => {
+            if (!confirm("ATTENTION : Es-tu certain de vouloir DISSOUDRE l'escouade ? Cette action est définitive.")) return;
+            setIsPending(true);
+            try {
+              const res = await fetch("/api/squad/disband", { method: "DELETE" });
+              if (!res.ok) {
+                toast.error("Erreur lors de la dissolution");
+              } else {
+                toast.success("Escouade dissoute");
+                window.location.href = "/squad";
+              }
+            } catch {
+              toast.error("Erreur système");
+            } finally {
+              setIsPending(false);
+            }
+          }}
+        >
+          Dissoudre l'escouade
+        </Button>
+      </div>
     </form>
   );
 }

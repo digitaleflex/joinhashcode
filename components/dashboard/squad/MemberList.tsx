@@ -49,6 +49,26 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
     }
   };
 
+  const handleTransfer = async (memberId: string, name: string) => {
+    if (!confirm(`Es-tu sûr de vouloir transférer le leadership à ${name} ? Tu deviendras un simple membre.`)) return;
+    try {
+      const res = await fetch("/api/squad/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetMemberId: memberId }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        toast.error(data.error || "Erreur lors du transfert");
+      } else {
+        toast.success(`Leadership transféré à ${name}`);
+        window.location.reload();
+      }
+    } catch {
+      toast.error("Une erreur inattendue est survenue");
+    }
+  };
+
   const handleLeave = async () => {
     if (!confirm("Es-tu sûr de vouloir quitter cette escouade ?")) return;
     try {
@@ -118,6 +138,13 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10">
+                        <DropdownMenuItem
+                          className="text-white focus:text-white focus:bg-white/10"
+                          onClick={() => handleTransfer(member.id, member.user?.name)}
+                        >
+                          <Crown className="mr-2 h-4 w-4 text-primary" />
+                          Transférer Leadership
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive focus:bg-destructive/10"
                           onClick={() => handleRemove(member.id, member.user?.name)}
