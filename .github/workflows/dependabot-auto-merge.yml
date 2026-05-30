@@ -1,0 +1,68 @@
+name: "🤖 Dependabot Auto-merge"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    name: "Auto-merge patch & minor"
+    runs-on: ubuntu-latest
+    # Uniquement sur les PRs Dependabot
+    if: github.actor == 'dependabot[bot]'
+
+    steps:
+      - name: "📋 Récupérer les métadonnées Dependabot"
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      # ── PATCH : auto-approve + auto-merge immédiat ──────────────────────────
+      - name: "✅ Approuver — patch"
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr review --approve "$PR_URL" --body "✅ Auto-approuvé (patch — sans risque de breaking change)"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🔀 Merger — patch (après CI)"
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── MINOR : auto-approve + auto-merge (après CI obligatoire) ───────────
+      - name: "✅ Approuver — minor"
+        if: steps.meta.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr review --approve "$PR_URL" --body "✅ Auto-approuvé (minor — mergé automatiquement si le CI passe)"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🔀 Merger — minor (après CI)"
+        if: steps.meta.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── MAJOR : label + commentaire pour review manuelle ───────────────────
+      - name: "🚨 Labelliser — major (review manuelle requise)"
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        run: |
+          gh pr edit "$PR_URL" --add-label "dependencies" || true
+          gh pr comment "$PR_URL" --body "⚠️ **Mise à jour majeure détectée** — review manuelle requise avant merge.
+
+          **Package :** \`${{ steps.meta.outputs.dependency-names }}\`
+          **Changement :** \`${{ steps.meta.outputs.previous-version }}\` → \`${{ steps.meta.outputs.new-version }}\`
+
+          Vérifie le changelog pour les breaking changes avant de merger."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
