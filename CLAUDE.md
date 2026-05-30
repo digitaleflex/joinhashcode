@@ -163,6 +163,7 @@ Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashb
 
 ### Verification
 
+- **Always run `npm run build` before any `git push`.** A successful build is the minimum bar — if it fails, fix it before pushing. This catches type errors, missing imports, and broken pages that lint and tests don't cover.
 - Run `npm run lint` after any TypeScript changes.
 - Run `npm run test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
 - For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
