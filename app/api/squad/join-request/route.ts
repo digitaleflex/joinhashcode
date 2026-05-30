@@ -51,7 +51,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Tu es déjà membre d\"une escouade." }, { status: 400 });
     }
 
-    // 4. Anti-Sybil Check (IP Overlap)
+    // 4. Check Level Authorization
+    const targetSquad = await prisma.organization.findUnique({
+      where: { id: organizationId },
+      select: { requiredLevel: true }
+    });
+
+    if (!targetSquad) return new NextResponse("Escouade introuvable", { status: 404 });
+
+    const dbUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { level: true }
+    });
+
+    if (!dbUser || dbUser.level < targetSquad.requiredLevel) {
+      return NextResponse.json({ 
+        message: `Habilitation insuffisante. Cette unité exige le niveau ${targetSquad.requiredLevel}.` 
+      }, { status: 403 });
+    }
+
+    // 5. Anti-Sybil Check (IP Overlap)
     const ipOverlap = await prisma.member.findFirst({
       where: {
         organizationId,

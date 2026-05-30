@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
-    const { name, slug } = await req.json();
+    const { name, slug, isPrivate, requiredLevel } = await req.json();
 
     if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 40) {
       return NextResponse.json({ error: "Nom invalide (2–40 caractères)." }, { status: 400 });
@@ -24,6 +24,12 @@ export async function PATCH(req: Request) {
         { error: "Lien invalide : 3–30 caractères, lettres minuscules, chiffres et tirets uniquement." },
         { status: 400 }
       );
+    }
+
+    // Validate level
+    const levelNum = parseInt(requiredLevel);
+    if (isNaN(levelNum) || levelNum < 1 || levelNum > 10) {
+      return NextResponse.json({ error: "Niveau d'habilitation invalide (1–10)." }, { status: 400 });
     }
 
     // Profanity Filter
@@ -56,7 +62,12 @@ export async function PATCH(req: Request) {
 
     const updated = await prisma.organization.update({
       where: { id: membership.organizationId },
-      data: { name: name.trim(), slug },
+      data: { 
+        name: name.trim(), 
+        slug,
+        isPrivate: !!isPrivate,
+        requiredLevel: levelNum
+      },
     });
 
     logActivity({
@@ -64,11 +75,11 @@ export async function PATCH(req: Request) {
       action: "SQUAD_UPDATED",
       entity: "squad",
       entityId: membership.organizationId,
-      metadata: { name: updated.name, slug: updated.slug },
+      metadata: { name: updated.name, slug: updated.slug, isPrivate: updated.isPrivate, requiredLevel: updated.requiredLevel },
       request: req,
     });
 
-    return NextResponse.json({ name: updated.name, slug: updated.slug });
+    return NextResponse.json(updated);
   } catch (error) {
     console.error("[SQUAD_UPDATE]", error);
     return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });

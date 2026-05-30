@@ -38,6 +38,18 @@ export async function POST(req: Request) {
 
     if (!squad) return new NextResponse("Escouade introuvable", { status: 404 });
 
+    // Check level authorization
+    const dbUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { level: true }
+    });
+
+    if (!dbUser || dbUser.level < squad.requiredLevel) {
+      return NextResponse.json({ 
+        error: `Niveau d'habilitation insuffisant. Niveau ${squad.requiredLevel} requis.` 
+      }, { status: 403 });
+    }
+
     // Check if full
     if (squad.members.length >= 5) {
       return NextResponse.json({ error: "Cette escouade est déjà complète (max 5)." }, { status: 400 });
