@@ -11,6 +11,7 @@ const contactSchema = z.object({
   email: z.string().email().max(254),
   subject: z.string().min(1).max(200),
   content: z.string().min(1).max(5000),
+  honeypot: z.string().optional(),
 });
 
 // In-memory rate limiter: max 3 requests per IP per hour
@@ -50,7 +51,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: firstError }, { status: 400 })
     }
 
-    const { type, email, subject, content } = parsed.data
+    const { type, email, subject, content, honeypot } = parsed.data
+
+    // 1. Honeypot Check
+    if (honeypot) {
+      console.warn("[CONTACT_API] Honeypot triggered by IP:", ip);
+      return NextResponse.json({ success: true }); // Silent fail for bots
+    }
 
     const message = await prisma.contactMessage.create({
       data: { type, email, subject, content },

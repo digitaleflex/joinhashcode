@@ -51,11 +51,17 @@ export default async function DashboardPage() {
       }),
       prisma.missionSubmission.findMany({
         where: { userId: session.user.id },
-        select: {
-          missionId: true,
-          status: true,
-          mission: { select: { slug: true } },
+        include: {
+          mission: {
+            select: {
+              title: true,
+              slug: true,
+              xp: true,
+              missionLevel: true,
+            }
+          }
         },
+        orderBy: { createdAt: 'desc' },
         take: 200,
       }),
       prisma.member.findFirst({
@@ -123,6 +129,7 @@ export default async function DashboardPage() {
       user={dbUser || (session.user as any)} 
       quizResult={quizResult} 
       submissions={submissionsMap}
+      fullSubmissions={submissions}
       squad={squad}
       recommendedMissions={recommendedMissions}
     />

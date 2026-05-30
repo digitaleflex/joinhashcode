@@ -30,6 +30,7 @@ import { MissionDeck } from "./mission-deck"
 import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
+import { MissionHistory } from "./mission-history"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -64,11 +65,13 @@ export function DashboardShell({
   user,
   quizResult,
   squad = null,
-  recommendedMissions = []
+  recommendedMissions = [],
+  fullSubmissions = []
 }: {
   user: any,
   quizResult: any,
   submissions?: Record<string, string>,
+  fullSubmissions?: any[],
   squad?: any,
   recommendedMissions?: Mission[]
 }) {
@@ -144,6 +147,7 @@ export function DashboardShell({
               <div className="lg:col-span-2 space-y-8">
                 <DailyCheckinWidget />
                 <MissionDeck recommendedMissions={recommendedMissions} />
+                <MissionHistory submissions={fullSubmissions.filter((s: any) => s.status === "APPROVED")} />
               </div>
 
               <div className="space-y-8">
