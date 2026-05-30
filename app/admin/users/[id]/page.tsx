@@ -23,10 +23,14 @@ import {
   AlertCircle,
   Sparkles,
   Layers,
-  BookOpen
+  BookOpen,
+  Users,
+  Flame
 } from "lucide-react"
 import Link from "next/link"
 import { CLASS_COLORS } from "@/lib/member-card-constants"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -45,11 +49,60 @@ export default async function UserDossierPage({ params }: PageProps) {
       missionSubmissions: {
         include: { mission: true },
         orderBy: { createdAt: 'desc' }
+      },
+      members: {
+        include: {
+          organization: {
+            include: {
+              members: {
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      name: true,
+                      pseudo: true,
+                      image: true,
+                      class: true,
+                      level: true,
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   })
 
   if (!user) notFound()
+
+  const activeOrg = user.members?.[0]?.organization ?? null;
+  
+  // Fetch squad activity logs if in a squad
+  let squadMembersLogs: any[] = [];
+  if (activeOrg) {
+    const squadMemberIds = (activeOrg as any).members.map((m: any) => m.userId);
+    squadMembersLogs = await prisma.activityLog.findMany({
+      where: {
+        userId: { in: squadMemberIds },
+        action: {
+          in: ["MISSION_SUBMITTED", "MISSION_APPROVED", "SQUAD_CREATED", "SQUAD_JOINED", "LEVEL_UP", "CHECKIN_COMPLETED"],
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            pseudo: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    });
+  }
 
   const quizResult = user.quizResults[0]
   const answers = quizResult?.answers as Record<number, string> || {}
@@ -394,6 +447,119 @@ export default async function UserDossierPage({ params }: PageProps) {
                       </div>
                     )
                   })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Rapport de Cohésion de l'Escouade (Squad Co-Evolution) */}
+          <Card className="bg-zinc-900/50 border-white/5 overflow-hidden">
+            <CardHeader className="border-b border-white/5 mb-6 pb-6">
+              <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
+                <Users className="h-6 w-6 text-primary" /> Rapport de Cohésion de l'Escouade
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {activeOrg ? (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Roster list */}
+                  <div className="lg:col-span-7 space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-base font-bold text-white uppercase tracking-tighter italic text-left">
+                        L'équipage : {activeOrg.name}
+                      </h3>
+                      <p className="text-[10px] font-mono text-zinc-500 uppercase text-left">
+                        Roster de co-évolution pluridisciplinaire
+                      </p>
+                    </div>
+                    
+                    <div className="grid gap-3">
+                      {(activeOrg as any).members.map((member: any) => {
+                        const cl = (member.user.class || "builder").toLowerCase();
+                        return (
+                          <div key={member.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="relative size-9 bg-zinc-950 border border-white/10 rounded-lg overflow-hidden flex items-center justify-center font-mono font-bold text-xs uppercase text-zinc-500">
+                                {member.user.image ? (
+                                  <Image src={member.user.image} alt={member.user.name} fill className="object-cover" sizes="36px" />
+                                ) : (
+                                  member.user.name.charAt(0)
+                                )}
+                              </div>
+                              <div className="text-left">
+                                <div className="text-xs font-bold text-white uppercase">{member.user.pseudo || member.user.name}</div>
+                                <div className="flex items-center gap-1.5 mt-0.5">
+                                  <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Classe :</span>
+                                  <span className="text-[8px] font-mono font-black uppercase text-primary">{cl}</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-3">
+                              <span className="text-[9px] font-mono text-zinc-500 uppercase">Niveau {member.user.level || 1}</span>
+                              <span className={cn(
+                                "inline-flex items-center px-2 py-0.5 rounded-md border text-[8px] font-mono font-bold uppercase tracking-wider",
+                                member.role === "owner" || member.role === "LEADER" ? "text-primary bg-primary/10 border-primary/20" : "text-zinc-400 bg-white/5 border-white/5"
+                              )}>
+                                {member.role === "owner" || member.role === "LEADER" ? "Chef" : "Membre"}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  
+                  {/* Cohesion gauge & recent logs */}
+                  <div className="lg:col-span-5 space-y-6">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5 text-left">
+                          <div className="text-[8px] font-mono text-zinc-500 uppercase">Cohésion Active</div>
+                          <div className="text-xl font-black text-white font-mono italic">{(activeOrg.cohesionScore * 100).toFixed(0)}%</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-[8px] font-mono text-zinc-500 uppercase">Streak</div>
+                          <div className="text-xl font-black text-amber-400 font-mono flex items-center justify-end gap-1.5">
+                            <Flame className="size-4 text-amber-400 fill-amber-400" />
+                            {activeOrg.streakCount || 0}j
+                          </div>
+                        </div>
+                      </div>
+                      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-full bg-primary transition-all animate-pulse" style={{ width: `${activeOrg.cohesionScore * 100}%` }} />
+                      </div>
+                    </div>
+                    
+                    {/* Squad logs */}
+                    <div className="space-y-3 text-left">
+                      <h4 className="text-[9px] font-mono text-zinc-500 uppercase font-black">Activité du Squad</h4>
+                      <div className="space-y-2 max-h-48 overflow-y-auto scrollbar-none pr-1">
+                        {squadMembersLogs.length > 0 ? (
+                          squadMembersLogs.map((log: any) => (
+                            <div key={log.id} className="text-[9px] font-mono text-zinc-400 leading-normal flex gap-2">
+                              <span className="text-primary">➜</span>
+                              <div>
+                                <span className="text-white font-bold">{log.user?.pseudo || log.user?.name}</span> : {log.action.replace(/_/g, ' ')}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-[9px] text-zinc-600 font-mono italic">-- Aucun log d'activité d'escouade récent --</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="py-8 text-center space-y-4">
+                  <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10 opacity-30">
+                    <Users className="h-8 w-8 text-zinc-400" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-zinc-500 font-mono text-xs uppercase">Aucune escouade active détectée</p>
+                    <p className="text-sm text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Cet agent effectue actuellement un build en solo.</p>
+                  </div>
                 </div>
               )}
             </CardContent>

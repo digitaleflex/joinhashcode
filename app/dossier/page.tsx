@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -39,7 +40,12 @@ import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
 import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 
-export default async function DossierPage() {
+interface PageProps {
+  searchParams: Promise<{ userId?: string }>
+}
+
+export default async function DossierPage({ searchParams }: PageProps) {
+  const params = await searchParams;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -48,8 +54,25 @@ export default async function DossierPage() {
     redirect("/signin");
   }
 
-  const user = await prisma.user.findUnique({
+  // Fetch session user first to verify role
+  const sessionUser = await prisma.user.findUnique({
     where: { id: session.user.id },
+    select: { id: true, role: true }
+  });
+
+  // Admin / Moderator bypass for public/private portfolio inspection
+  let targetUserId = session.user.id;
+  let isInspecting = false;
+
+  if (params.userId && params.userId !== session.user.id) {
+    if (sessionUser && ["ADMIN", "MODERATOR"].includes(sessionUser.role)) {
+      targetUserId = params.userId;
+      isInspecting = true;
+    }
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: targetUserId },
     include: {
       quizResults: {
         orderBy: { createdAt: 'desc' },
@@ -68,7 +91,24 @@ export default async function DossierPage() {
       },
       members: {
         include: {
-          organization: true
+          organization: {
+            include: {
+              members: {
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      name: true,
+                      pseudo: true,
+                      image: true,
+                      class: true,
+                      level: true,
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -79,6 +119,31 @@ export default async function DossierPage() {
   const activeOrg = user.members[0]?.organization ?? null;
   const quizResult = user.quizResults?.[0];
   const answers = quizResult?.answers as any || {};
+
+  // Fetch squad activity logs if in a squad
+  let squadMembersLogs: any[] = [];
+  if (activeOrg) {
+    const squadMemberIds = (activeOrg as any).members.map((m: any) => m.userId);
+    squadMembersLogs = await prisma.activityLog.findMany({
+      where: {
+        userId: { in: squadMemberIds },
+        action: {
+          in: ["MISSION_SUBMITTED", "MISSION_APPROVED", "SQUAD_CREATED", "SQUAD_JOINED", "LEVEL_UP", "CHECKIN_COMPLETED"],
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            pseudo: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    });
+  }
 
   // Neural Loop Logic: Engagement tips based on stats
   const engagementTips = [];
@@ -102,6 +167,21 @@ export default async function DossierPage() {
         <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-8 sm:space-y-12">
             
+            {isInspecting && (
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-between gap-4 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                <div className="flex items-center gap-3">
+                  <ShieldCheck className="size-5 text-amber-500 animate-pulse" />
+                  <div className="text-left">
+                    <p className="text-xs font-black uppercase tracking-wider font-mono">Mode Inspection Administrateur</p>
+                    <p className="text-[10px] font-mono text-amber-500/60 uppercase">Vous visualisez le dossier tactique de {user.name} (Pseudo: {user.pseudo || "aucun"}).</p>
+                  </div>
+                </div>
+                <Badge variant="outline" className="border-amber-500/30 text-amber-500 font-mono text-[9px] uppercase tracking-widest bg-amber-500/5">
+                  ADMIN_PREVIEW
+                </Badge>
+              </div>
+            )}
+
             {/* Header Dossier - Ultra Tactical */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8 sm:pb-10">
                 <div className="space-y-4">
@@ -482,6 +562,122 @@ export default async function DossierPage() {
                                 </div>
                             </div>
                         </Card>
+                    </div>
+
+                    {/* Rapport de Cohésion de l'Escouade (Squad Co-Evolution) */}
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-3">
+                        <Users className="size-5 text-primary" />
+                        <h2 className="text-xl font-black uppercase tracking-tight text-white">Rapport de Cohésion de l'Escouade</h2>
+                      </div>
+                      
+                      {activeOrg ? (
+                        <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-10 overflow-hidden relative border-white/5 shadow-2xl">
+                          <div className="absolute inset-0 bg-dot-grid mask-radial-fade opacity-5 pointer-events-none" />
+                          <div className="absolute top-4 right-4 font-mono text-[7px] text-zinc-500 uppercase tracking-widest pointer-events-none select-none">
+                            [SQUAD_CO_EVOLUTION_NODE]
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                            {/* Roster list */}
+                            <div className="lg:col-span-7 space-y-6">
+                              <div className="space-y-1">
+                                <h3 className="text-lg font-bold text-white uppercase tracking-tighter italic text-left">L'équipage : {activeOrg.name}</h3>
+                                <p className="text-[10px] font-mono text-zinc-500 uppercase text-left">Roster de co-évolution pluridisciplinaire</p>
+                              </div>
+                              
+                              <div className="grid gap-3">
+                                {(activeOrg as any).members.map((member: any) => {
+                                  const cl = (member.user.class || "builder").toLowerCase();
+                                  return (
+                                    <div key={member.id} className="flex items-center justify-between p-3 rounded-xl bg-white/2 border border-white/5 hover:border-white/10 transition-colors">
+                                      <div className="flex items-center gap-3">
+                                        <div className="relative size-9 bg-zinc-900 border border-white/10 rounded-lg overflow-hidden flex items-center justify-center font-mono font-bold text-xs uppercase text-zinc-500">
+                                          {member.user.image ? (
+                                            <Image src={member.user.image} alt={member.user.name} fill className="object-cover" sizes="36px" />
+                                          ) : (
+                                            member.user.name.charAt(0)
+                                          )}
+                                        </div>
+                                        <div className="text-left">
+                                          <div className="text-xs font-bold text-white uppercase">{member.user.pseudo || member.user.name}</div>
+                                          <div className="flex items-center gap-1.5 mt-0.5">
+                                            <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Classe :</span>
+                                            <span className="text-[8px] font-mono font-black uppercase text-primary">{cl}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="flex items-center gap-3">
+                                        <span className="text-[9px] font-mono text-zinc-500 uppercase">Niveau {member.user.level || 1}</span>
+                                        <span className={cn(
+                                          "inline-flex items-center px-2 py-0.5 rounded-md border text-[8px] font-mono font-bold uppercase tracking-wider",
+                                          member.role === "owner" ? "text-primary bg-primary/10 border-primary/20" : "text-zinc-400 bg-white/5 border-white/5"
+                                        )}>
+                                          {member.role === "owner" ? "Chef" : "Membre"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            
+                            {/* Cohesion gauge & recent logs */}
+                            <div className="lg:col-span-5 space-y-6">
+                              <div className="p-4 rounded-2xl bg-white/2 border border-white/5 space-y-4">
+                                <div className="flex items-center justify-between">
+                                  <div className="space-y-0.5 text-left">
+                                    <div className="text-[8px] font-mono text-zinc-500 uppercase">Cohésion Active</div>
+                                    <div className="text-xl font-black text-white font-mono italic">{(activeOrg.cohesionScore * 100).toFixed(0)}%</div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="text-[8px] font-mono text-zinc-500 uppercase">Streak</div>
+                                    <div className="text-xl font-black text-amber-400 font-mono flex items-center justify-end gap-1.5">
+                                      <Flame className="size-4 text-amber-400 fill-amber-400" />
+                                      {activeOrg.streakCount || 0}j
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                  <div className="h-full bg-primary transition-all animate-pulse" style={{ width: `${activeOrg.cohesionScore * 100}%` }} />
+                                </div>
+                              </div>
+                              
+                              {/* Squad logs */}
+                              <div className="space-y-3 text-left">
+                                <h4 className="text-[9px] font-mono text-zinc-500 uppercase font-black">Activité du Squad</h4>
+                                <div className="space-y-2 max-h-48 overflow-y-auto scrollbar-none pr-1">
+                                  {squadMembersLogs.length > 0 ? (
+                                    squadMembersLogs.map((log) => (
+                                      <div key={log.id} className="text-[9px] font-mono text-zinc-400 leading-normal flex gap-2">
+                                        <span className="text-primary">➜</span>
+                                        <div>
+                                          <span className="text-white font-bold">{log.user?.pseudo || log.user?.name}</span> : {log.action.replace(/_/g, ' ')}
+                                        </div>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <p className="text-[9px] text-zinc-600 font-mono italic">-- Aucun log d'activité d'escouade récent --</p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      ) : (
+                        <Card className="glass-card rounded-3xl sm:rounded-5xl p-8 overflow-hidden relative border-white/5 border-dashed text-center">
+                          <div className="py-8 space-y-4">
+                            <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10 opacity-30">
+                              <Users className="h-8 w-8 text-zinc-400" />
+                            </div>
+                            <div className="space-y-1">
+                              <p className="text-zinc-500 font-mono text-xs uppercase">Aucune escouade active détectée</p>
+                              <p className="text-sm text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Cet agent effectue actuellement un build en solo.</p>
+                            </div>
+                          </div>
+                        </Card>
+                      )}
                     </div>
 
                     {/* Missions & Logs Grid */}
