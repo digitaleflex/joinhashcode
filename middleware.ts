@@ -48,7 +48,44 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = sessionData?.session;
-  const user = sessionData?.user;
+  let user = sessionData?.user;
+
+  // Stale cache remediation (CVE-2026-STALE): Better Auth JWT cookies hold stale user fields (e.g. currentSituation or class)
+  // until a session update is requested. Query /api/user/me to bypass this cache and get the up-to-date fields
+  // directly from PostgreSQL. This prevents the infinite onboarding/quiz redirect loops.
+  if (session) {
+    try {
+      const requestHeaders = new Headers(request.headers);
+      const host = request.headers.get("host");
+      if (host) {
+        requestHeaders.set("host", host);
+      }
+
+      const loopbackPort = process.env.PORT || "3000";
+      let meResponse;
+      try {
+        meResponse = await fetch(`http://127.0.0.1:${loopbackPort}/api/user/me`, {
+          headers: requestHeaders,
+          cache: "no-store",
+        });
+      } catch {
+        const baseUrl = request.nextUrl.origin;
+        meResponse = await fetch(`${baseUrl}/api/user/me`, {
+          headers: requestHeaders,
+          cache: "no-store",
+        });
+      }
+
+      if (meResponse.ok) {
+        const freshUser = await meResponse.json();
+        if (freshUser) {
+          user = freshUser;
+        }
+      }
+    } catch (meError) {
+      console.error("🟢 [Middleware] Stale session fallback - direct user fetch failed:", meError);
+    }
+  }
 
   // Block banned users everywhere before any route-specific check
   if (user?.banned) {
