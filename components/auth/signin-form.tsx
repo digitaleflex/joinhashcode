@@ -46,6 +46,7 @@ export function SignInForm() {
     const [step, setStep] = useState<"initial" | "otp">("initial")
     const [email, setEmail] = useState("")
     const [otp, setOtp] = useState("")
+    const [resendCooldown, setResendCooldown] = useState(0)
 
     // Show contextual error from URL param (e.g. ?error=banned set by middleware)
     useEffect(() => {
@@ -55,17 +56,21 @@ export function SignInForm() {
         }
     }, [])
 
+    // Countdown for OTP resend cooldown
+    useEffect(() => {
+        if (resendCooldown <= 0) return
+        const timer = setTimeout(() => {
+            setResendCooldown(prev => prev - 1)
+        }, 1000)
+        return () => clearTimeout(timer)
+    }, [resendCooldown])
 
-
-
-
-    const handleSendOtp = async (e: React.FormEvent) => {
-        e.preventDefault()
+    const handleSendOtp = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault()
         if (!email) {
             toast.error("Veuillez entrer une adresse e-mail")
             return
         }
-
 
         setLoadingProvider("email")
         try {
@@ -79,6 +84,7 @@ export function SignInForm() {
             
             toast.success("Code de sécurité envoyé !")
             setStep("otp")
+            setResendCooldown(60) // Start 60s cooldown
         } catch (error) {
             console.error(error)
             toast.error("Erreur lors de l'envoi du code")
@@ -215,14 +221,31 @@ export function SignInForm() {
                                     "Valider l'accès"
                                 )}
                             </Button>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                onClick={() => setStep("initial")}
-                                className="w-full text-[10px] font-mono uppercase tracking-widest text-zinc-500 hover:text-white transition-colors duration-200"
-                            >
-                                Annuler et revenir
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    disabled={resendCooldown > 0 || loadingProvider === "email"}
+                                    onClick={() => handleSendOtp()}
+                                    className="flex-1 text-[10px] font-mono uppercase tracking-widest h-10 border-white/10 bg-white/1 hover:bg-white/5 cursor-pointer"
+                                >
+                                    {loadingProvider === "email" ? (
+                                        <Loader2 className="h-3 w-3 animate-spin" />
+                                    ) : resendCooldown > 0 ? (
+                                        `Renvoyer (${resendCooldown}s)`
+                                    ) : (
+                                        "Renvoyer le code"
+                                    )}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => setStep("initial")}
+                                    className="flex-1 text-[10px] font-mono uppercase tracking-widest h-10 text-zinc-500 hover:text-white transition-colors duration-200 cursor-pointer"
+                                >
+                                    Annuler et revenir
+                                </Button>
+                            </div>
                         </form>
                     )}
                 </CardContent>
