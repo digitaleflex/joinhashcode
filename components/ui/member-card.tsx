@@ -66,9 +66,8 @@ export function MemberCard({
           borderColor: `${accent}40`,
         }}
       >
-        <div className="absolute inset-0 aspect-[1.7/1] sm:aspect-auto opacity-20">
-        {/* GUILD SPECIFIC PATTERNS */}
-        <div className="absolute inset-0 opacity-20">
+        {/* GUILD SPECIFIC PATTERNS — decorative background, absolute */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
           {userClass === "builder" && (
             <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(${accent}20 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
           )}
@@ -81,9 +80,9 @@ export function MemberCard({
           {userClass === "catalyst" && (
             <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 30%, ${accent}15 0%, transparent 70%)` }} />
           )}
-        </div>
+      </div>
 
-        <div className="relative h-full flex flex-col p-4 sm:p-6">
+        <div className="relative flex flex-col p-4 sm:p-6">
           {/* Top Header */}
           <div className="flex justify-between items-start mb-2">
             <div className="space-y-0.5">
@@ -180,7 +179,6 @@ export function MemberCard({
           </div>
         </div>
       </div>
-    </div>
 
       {/* Actions */}
       <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">

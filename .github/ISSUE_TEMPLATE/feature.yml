@@ -1,0 +1,88 @@
+name: "✨ Feature"
+description: "Nouvelle fonctionnalité ou amélioration"
+labels: ["type: feature"]
+body:
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: "Milestone cible"
+      options:
+        - "v2.0 — Lancement Public"
+        - "v2.1 — Profil & Découverte"
+        - "v2.2 — Communauté Active"
+        - "v2.3 — Rétention & Sécurité"
+        - "v3.0 — Backlog Produit"
+        - "v4 — Academy"
+        - "v5 — Labs"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priorité"
+      options:
+        - "priority: critical — bloque le sprint"
+        - "priority: high — important, à faire en priorité"
+        - "priority: medium — priorité standard"
+        - "priority: low — nice-to-have"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: "Effort estimé"
+      options:
+        - "S — moins d'un jour"
+        - "M — 1 à 3 jours"
+        - "L — environ 1 semaine"
+        - "XL — plusieurs semaines"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problème utilisateur"
+      description: "Quelle friction ou manque ressent l'utilisateur aujourd'hui ?"
+      placeholder: "En tant que [profil utilisateur], je ne peux pas [action], ce qui me force à [contournement]."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Comportement attendu"
+      description: "Ce que l'utilisateur doit pouvoir faire après l'implémentation."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Critères d'acceptation"
+      description: "Comment sait-on que c'est done ?"
+      value: |
+        - [ ]
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "Dépendances"
+      description: "Issues ou PRs bloquantes"
+      placeholder: "Dépend de #XX — [titre]"
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: "Impact technique"
+      options:
+        - label: "Nécessite une migration Prisma (npx prisma db push)"
+        - label: "Modifie le middleware ou les routes protégées"
+        - label: "Ajoute une route API (vérifier auth guard)"
+        - label: "Modifie le schéma ActivityLog"

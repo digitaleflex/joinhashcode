@@ -365,8 +365,8 @@ export default async function DossierPage() {
                         
                         <Card className="glass-card overflow-hidden relative group rounded-3xl sm:rounded-5xl">
                             <CardContent className="p-5 sm:p-10">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
-                                    <div className="order-2 md:order-1 space-y-6 sm:space-y-8">
+                                <div className="grid grid-cols-1 gap-8 sm:gap-12">
+                                    <div className="space-y-6 sm:space-y-8">
                                         <div className="p-6 rounded-3xl sm:rounded-4xl bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
                                             <div className="flex items-center justify-between gap-4 mb-4">
                                                 <div className="space-y-1">

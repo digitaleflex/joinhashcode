@@ -1,0 +1,36 @@
+name: "🔒 Sécurité"
+description: "Vulnérabilité ou durcissement de sécurité"
+labels: ["type: security", "priority: high"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Important :** Si la vulnérabilité est critique (exposition de données utilisateurs, bypass d'auth),
+        > ne pas créer une issue publique — contacter directement via email.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: "Type de vulnérabilité"
+      options:
+        - "Auth bypass / session"
+        - "Injection (SQL, XSS, CSRF)"
+        - "Exposition de données"
+        - "Rate limiting / brute force"
+        - "Durcissement préventif"
+        - "Dépendance vulnérable"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Décrire le vecteur d'attaque et l'impact potentiel"
+    validations:
+      required: true
+
+  - type: textarea
+    id: fix
+    attributes:
+      label: "Correction proposée"
