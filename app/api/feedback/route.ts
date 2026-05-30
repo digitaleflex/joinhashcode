@@ -51,47 +51,32 @@ export const POST = async (req: NextRequest) => {
       }
 
       const buffer = await file.arrayBuffer();
-      const fileExt = file.name.split('.').pop() || 'png';
-      const fileName = `feedback-${session.user.id}-${Date.now()}.${fileExt}`;
 
-      // Upload file with absolute safety: try "feedback" bucket, fallback to "avatars" if not found
-      let uploadError = null;
-      try {
-        const { error } = await getSupabaseAdmin().storage
-          .from("feedback")
-          .upload(fileName, buffer, {
-            contentType: file.type,
-            upsert: true,
-          });
-        uploadError = error;
-      } catch (err) {
-        uploadError = err;
-      }
+      // Extension dérivée du MIME validé — jamais du nom de fichier (MIME spoofing)
+      const extByMime: Record<string, string> = {
+        "image/jpeg": "jpg", "image/png": "png",
+        "image/webp": "webp", "application/pdf": "pdf",
+      };
+      const fileExt = extByMime[file.type];
+      const fileName = `feedback-${session.user.id}-${Date.now()}-${crypto.randomUUID()}.${fileExt}`;
+
+      const { error: uploadError } = await getSupabaseAdmin().storage
+        .from("feedback")
+        .upload(fileName, buffer, { contentType: file.type, upsert: false });
 
       if (uploadError) {
-        // Fallback to "avatars" bucket which is guaranteed to exist
-        const { error: fallbackError } = await getSupabaseAdmin().storage
-          .from("avatars")
-          .upload(fileName, buffer, {
-            contentType: file.type,
-            upsert: true,
-          });
-
-        if (fallbackError) {
-          console.error("[FEEDBACK_UPLOAD_ERROR]", fallbackError);
-          return NextResponse.json({ error: "Erreur lors du téléversement de la pièce jointe." }, { status: 500 });
-        } else {
-          const { data: { publicUrl } } = getSupabaseAdmin().storage
-            .from("avatars")
-            .getPublicUrl(fileName);
-          attachmentUrl = publicUrl;
-        }
-      } else {
-        const { data: { publicUrl } } = getSupabaseAdmin().storage
-          .from("feedback")
-          .getPublicUrl(fileName);
-        attachmentUrl = publicUrl;
+        // Fail closed — ne pas déverser dans un bucket public de fallback
+        console.error("[FEEDBACK_UPLOAD_ERROR]", uploadError);
+        return NextResponse.json(
+          { error: "Le service de pièces jointes est indisponible. Réessaie sans pièce jointe." },
+          { status: 503 }
+        );
       }
+
+      const { data: { publicUrl } } = getSupabaseAdmin().storage
+        .from("feedback")
+        .getPublicUrl(fileName);
+      attachmentUrl = publicUrl;
     }
 
     const feedback = await prisma.betaFeedback.create({

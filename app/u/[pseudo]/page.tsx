@@ -13,45 +13,45 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   const user = await prisma.user.findUnique({
     where: { pseudo },
-    include: {
+    select: {
+      id: true, name: true, pseudo: true, image: true, bio: true,
+      city: true, country: true, githubUrl: true, linkedinUrl: true, twitterUrl: true,
+      class: true, level: true, experience: true, currentStreak: true,
+      builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true,
+      confidenceScore: true, behavioralVibrancy: true, technicalLevel: true,
+      mainObjective: true, domains: true, tools: true, badges: true,
+      memberNumber: true, missionsCompletedCount: true, createdAt: true, banned: true,
       quizResults: {
+        select: { id: true, profileType: true, createdAt: true },
         orderBy: { createdAt: 'desc' },
-        take: 1
+        take: 1,
       },
       missionSubmissions: {
         where: { status: "APPROVED" },
+        select: { id: true, status: true, createdAt: true, mission: { select: { title: true, category: true } } },
         orderBy: { createdAt: 'desc' },
         take: 10,
-        include: {
-          mission: true
-        }
       },
       activityLogs: {
+        select: { id: true, action: true, createdAt: true },
         orderBy: { createdAt: 'desc' },
-        take: 20
+        take: 20,
       },
       members: {
-        include: {
+        select: {
           organization: {
-            include: {
+            select: {
+              name: true, cohesionScore: true, streakCount: true,
               members: {
-                include: {
-                  user: {
-                    select: {
-                      id: true,
-                      name: true,
-                      pseudo: true,
-                      image: true,
-                      class: true,
-                      level: true,
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                select: {
+                  role: true,
+                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true, level: true } },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 
