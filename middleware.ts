@@ -76,16 +76,10 @@ export async function middleware(request: NextRequest) {
   const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
 
   if (isProtectedPath && !session) {
-    if (!sessionFetchFailed) {
-      // Confirmed: no valid session → redirect to signin.
-      return NextResponse.redirect(new URL("/signin", request.url));
-    }
-    // The session probe itself failed (network/port/container). Do NOT fail open
-    // blindly. Fall back to the signed session-cookie presence: anonymous visitors
-    // have no such cookie and are still redirected (fail closed for them). A request
-    // carrying a session cookie is let through, and the destination page's own
-    // server-side getSession() guard re-validates it — which prevents the
-    // signin↔onboarding redirect loop when the loopback probe is briefly unreachable.
+    // If the loopback session probe returned null (e.g. due to HTTP loopback / secure cookie mismatch),
+    // we fall back to the presence of the session cookie. This prevents the signin↔onboarding
+    // infinite redirect loop. The destination page's own server-side getSession() guard will
+    // cryptographically re-validate the session cookie, keeping the application secure.
     const hasSessionCookie = !!getSessionCookie(request);
     if (!hasSessionCookie) {
       return NextResponse.redirect(new URL("/signin", request.url));

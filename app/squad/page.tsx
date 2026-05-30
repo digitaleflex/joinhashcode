@@ -1,4 +1,4 @@
-﻿import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -12,6 +12,47 @@ export default async function SquadPage() {
   const org = await auth.api.getFullOrganization({
     headers: await headers(),
   });
+
+  // Fallback to database lookup if BA active organization cookie is missing
+  let dbSquad = null;
+  if (!org) {
+    const member = await prisma.member.findFirst({
+      where: { userId: session.user.id },
+      include: {
+        organization: {
+          include: {
+            members: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    pseudo: true,
+                    image: true,
+                    class: true,
+                    level: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (member?.organization) {
+      dbSquad = {
+        ...member.organization,
+        members: member.organization.members.map((m: any) => ({
+          ...m,
+          user: {
+            ...m.user,
+            pseudo: m.user.pseudo || m.user.name,
+          },
+        })),
+      };
+    }
+  }
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -38,9 +79,9 @@ export default async function SquadPage() {
       user: {
         ...m.user,
         pseudo: m.user.name, // Fallback if pseudo is missing in BA user
-      }
-    }))
-  } : null;
+      },
+    })),
+  } : dbSquad;
 
   return (
     <SquadJourney
