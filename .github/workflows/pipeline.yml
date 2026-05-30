@@ -1,4 +1,4 @@
-name: "⚡ HASHCODE DevSecOps Pipeline"
+name: "HASHCODE DevSecOps Pipeline"
 
 on:
   push:
@@ -17,23 +17,23 @@ permissions:
 
 jobs:
   security:
-    name: "🛡️ Sécurité"
+    name: "Security"
     uses: ./.github/workflows/reusable-security.yml
 
   test:
-    name: "🧪 Tests"
+    name: "Tests"
     needs: [security]
     uses: ./.github/workflows/reusable-test.yml
     secrets: inherit
 
   build:
-    name: "🐳 Build"
+    name: "Build"
     needs: [test]
     if: github.event_name == 'push'
     uses: ./.github/workflows/reusable-build.yml
 
   deploy:
-    name: "🚀 Déploiement"
+    name: "Deployment"
     needs: [build]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/reusable-deploy.yml

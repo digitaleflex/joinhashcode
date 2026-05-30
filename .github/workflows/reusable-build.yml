@@ -1,4 +1,4 @@
-name: "🐳 Reusable Build"
+name: "Reusable Build"
 
 on:
   workflow_call:
@@ -30,7 +30,7 @@ jobs:
           tags: |
             type=sha,prefix=sha-,format=short
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-      - name: "🏗️ Build and Push"
+      - name: "Build and Push"
         uses: docker/build-push-action@v6
         with:
           context: .

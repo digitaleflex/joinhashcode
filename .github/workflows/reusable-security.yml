@@ -1,4 +1,4 @@
-name: "🔒 Reusable Security"
+name: "Reusable Security"
 
 on:
   workflow_call:
@@ -14,11 +14,11 @@ jobs:
           node-version: "22"
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - name: "🔍 ESLint"
+      - name: "ESLint"
         run: pnpm run lint || echo "::warning::Lint warnings"
-      - name: "🛡️ Audit npm"
+      - name: "Audit npm"
         run: pnpm audit --audit-level=high || echo "::warning::Vulnerabilities found"
-      - name: "🔐 Secrets Scan"
+      - name: "Secrets Scan"
         run: |
           FOUND=0
           for PATTERN in "AKIA[0-9A-Z]{16}" "sk_live_" "ghp_[a-zA-Z0-9]{36}" "-----BEGIN.*PRIVATE KEY-----"; do
@@ -28,4 +28,4 @@ jobs:
               FOUND=1
             fi
           done
-          [ "$FOUND" -eq 1 ] && exit 1 || echo "✓ No secrets found"
+          [ "$FOUND" -eq 1 ] && exit 1 || echo "No secrets found"

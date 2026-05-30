@@ -1,4 +1,4 @@
-name: "🧪 Reusable Tests"
+name: "Reusable Tests"
 
 on:
   workflow_call:
@@ -33,9 +33,9 @@ jobs:
           echo "DIRECT_URL=postgresql://postgres:localpassword@localhost:5432/hashcode?schema=public" >> $GITHUB_ENV
           echo "BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET || 'ci_test_secret_32chars_placeholder' }}" >> $GITHUB_ENV
           echo "BETTER_AUTH_URL=http://localhost:3000" >> $GITHUB_ENV
-      - name: "⚙️ Prisma Setup"
+      - name: "Prisma Setup"
         run: |
           pnpm prisma generate
           pnpm prisma db push
-      - name: "🧪 Vitest"
+      - name: "Tests"
         run: pnpm run test run
