@@ -34,13 +34,19 @@ describe('Middleware Auth & Onboarding Funnel', () => {
   });
 
   it('should redirect to /onboarding if user has no currentSituation', async () => {
-    (global.fetch as any).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: null, betaKeyId: 'key_1' }
-      }),
-    });
+    const userData = { id: 'user_1', currentSituation: null, betaKeyId: 'key_1' };
+    (global.fetch as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          session: { id: 'sess_1' },
+          user: userData
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => userData,
+      });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);
@@ -50,13 +56,19 @@ describe('Middleware Auth & Onboarding Funnel', () => {
   });
 
   it('should redirect to /quiz if user has situation but no class', async () => {
-    (global.fetch as any).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        session: { id: 'sess_1' },
-        user: { id: 'user_1', currentSituation: 'STUDENT', class: null, betaKeyId: 'key_1' }
-      }),
-    });
+    const userData = { id: 'user_1', currentSituation: 'STUDENT', class: null, betaKeyId: 'key_1' };
+    (global.fetch as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          session: { id: 'sess_1' },
+          user: userData
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => userData,
+      });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);
@@ -66,24 +78,28 @@ describe('Middleware Auth & Onboarding Funnel', () => {
   });
 
   it('should allow access to dashboard if user is fully onboarded', async () => {
-    (global.fetch as any).mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        session: { id: 'sess_1' },
-        user: { 
-            id: 'user_1', 
-            currentSituation: 'STUDENT', 
-            class: 'BUILDER', 
-            betaKeyId: 'key_1'
-        }
-      }),
-    });
+    const userData = { 
+      id: 'user_1', 
+      currentSituation: 'STUDENT', 
+      class: 'BUILDER', 
+      betaKeyId: 'key_1'
+    };
+    (global.fetch as any)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          session: { id: 'sess_1' },
+          user: userData
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => userData,
+      });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);
 
-    // NextResponse.next() returns a response with null status or implicit 200 depending on implementation
-    // But it shouldn't be a redirect
     expect(res?.status).not.toBe(307);
   });
 });
