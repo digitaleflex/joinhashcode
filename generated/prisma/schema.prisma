@@ -8,101 +8,78 @@ datasource db {
 }
 
 model User {
-  id                       String              @id
-  name                     String
-  email                    String              @unique
-  emailVerified            Boolean
-  emailStatus              String              @default("VALID") // VALID, BOUNCED, COMPLAINED
-  emailLastBounced         DateTime?
-  image                    String?
-  createdAt                DateTime
-  updatedAt                DateTime
-  level                    Int                 @default(1)
-  experience               Int                 @default(0)
-  class                    String?             @map("profile_class")
-  role                     String              @default("MEMBER")
-  activePaths              String[]
-  ageRange                 String?
-  answerConsistency        Float?
-  badges                   String[]
-  behavioralVibrancy       Json?
-  builderScore             Int                 @default(0)
-  catalystScore            Int                 @default(0)
-  cardSecretHash           String?
-  cardSignature            String?             @unique
-  cardIssuedAt             DateTime?
-  cardTier                 String?             @default("STANDARD")
-  city                     String?
-  cohortsJoined            String[]
-  collaborativeProjects    String[]
-  communityEngagement      Float?
-  confidenceScore          Float               @default(0.25)
-  connectionFrequency      Float?
-  country                  String?
-  creatorScore             Int                 @default(0)
-  currentSituation         String?
-  dashboardActivity        Float?
-  domains                  String[]
-  dominantMotivation       String?
-  githubUrl                String?
-  language                 String              @default("fr")
-  lastHypothesisUpdate     DateTime?
-  longTermObjective        String?
-  mainObjective            String?
-  mentorId                 String?
-  missionsCompletedCount   Int                 @default(0)
-  onboardingSpeed          Int?
-  polarization             Float               @default(0)
-  portfolioUrl             String?
-  predictedEngagementScore Float?
-  preferredRhythm          String?
-  profileDrift             Float               @default(0)
-  profileStability         Float               @default(0)
-  projectsRealized         String[]
-  pseudo                   String?             @unique
-  recommendedPath          String[]
-  recommendedTools         String[]
-  strategistScore          Int                 @default(0)
-  technicalLevel           String?
-  tools                    String[]
-  secondaryObjectives      String[]
-  bio                      String?
-  linkedinUrl              String?
-  memberNumber             Int                 @unique @default(autoincrement())
-  twitterUrl               String?
-  currentFocus             String[]
-  dreamStatement           String?
-  lastCheckinAt            DateTime?
-  currentStreak            Int                 @default(0)
-  longestStreak            Int                 @default(0)
-  lastStreakDate           DateTime?
-  mainBlocker              String?
-  banned                   Boolean?            @default(false)
-  banReason                String?
-  banExpires               DateTime?
-  accounts                 Account[]
-  dailyCheckins            DailyCheckin[]
-  guildMembers             GuildMember[]
-  missionSubmissions       MissionSubmission[] @relation("SubmissionOwner")
-  submissionsInReview      MissionSubmission[] @relation("SubmissionReviewer")
-  canReviewProfiles        String[]            @default([])
-  reviewsCompleted         Int                 @default(0)
-  reviewsGiven             MissionReview[]     @relation("ReviewsGiven")
-  notifications            Notification[]
-  betaFeedbacks            BetaFeedback[]
-  activityLogs             ActivityLog[]
-  quizResults              QuizResult[]
-  sessions                 Session[]
-  members                  Member[]
-  twoFactorEnabled         Boolean             @default(false)
-  twoFactorSecret          String?
-  twoFactorBackupCodes     String?
-  invitations              Invitation[]
-  joinRequests             JoinRequest[]
-  mentor                   User?               @relation("Mentorship", fields: [mentorId], references: [id])
-  mentees                  User[]              @relation("Mentorship")
-  betaKeyId                String?             @unique
-  betaKey                  BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
+  id                     String              @id
+  name                   String
+  email                  String              @unique
+  emailVerified          Boolean
+  emailStatus            String              @default("VALID") // VALID, BOUNCED, COMPLAINED
+  emailLastBounced       DateTime?
+  image                  String?
+  createdAt              DateTime
+  updatedAt              DateTime
+  level                  Int                 @default(1)
+  experience             Int                 @default(0)
+  class                  String?             @map("profile_class")
+  role                   String              @default("MEMBER")
+  badges                 String[]
+  behavioralVibrancy     Json?
+  builderScore           Int                 @default(0)
+  catalystScore          Int                 @default(0)
+  cardSignature          String?             @unique
+  cardIssuedAt           DateTime?
+  cardTier               String?             @default("STANDARD")
+  city                   String?
+  confidenceScore        Float               @default(0.25)
+  country                String?
+  creatorScore           Int                 @default(0)
+  currentSituation       String?
+  domains                String[]
+  githubUrl              String?
+  language               String              @default("fr")
+  lastHypothesisUpdate   DateTime?
+  mainObjective          String?
+  missionsCompletedCount Int                 @default(0)
+  portfolioUrl           String?
+  pseudo                 String?             @unique
+  strategistScore        Int                 @default(0)
+  technicalLevel         String?
+  tools                  String[]
+  secondaryObjectives    String[]
+  bio                    String?
+  linkedinUrl            String?
+  memberNumber           Int                 @unique @default(autoincrement())
+  twitterUrl             String?
+  currentFocus           String[]
+  dreamStatement         String?
+  lastCheckinAt          DateTime?
+  currentStreak          Int                 @default(0)
+  longestStreak          Int                 @default(0)
+  lastStreakDate         DateTime?
+  mainBlocker            String?
+  banned                 Boolean?            @default(false)
+  banReason              String?
+  banExpires             DateTime?
+  accounts               Account[]
+  dailyCheckins          DailyCheckin[]
+  guildMembers           GuildMember[]
+  missionSubmissions     MissionSubmission[] @relation("SubmissionOwner")
+  submissionsInReview    MissionSubmission[] @relation("SubmissionReviewer")
+  canReviewProfiles      String[]            @default([])
+  reviewsCompleted       Int                 @default(0)
+  reviewsGiven           MissionReview[]     @relation("ReviewsGiven")
+  notifications          Notification[]
+  betaFeedbacks          BetaFeedback[]
+  activityLogs           ActivityLog[]
+  quizResults            QuizResult[]
+  sessions               Session[]
+  members                Member[]
+  twoFactorEnabled       Boolean             @default(false)
+  twoFactorSecret        String?
+  twoFactorBackupCodes   String?
+  invitations            Invitation[]
+  joinRequests           JoinRequest[]
+  betaKeyId              String?             @unique
+  betaKey                BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
 
   @@index([level])
   @@index([class])
@@ -308,16 +285,14 @@ model Verification {
 }
 
 model QuizResult {
-  id                    String   @id @default(cuid())
-  userId                String?
-  profileType           String
-  score                 Int?
-  answers               Json
-  createdAt             DateTime @default(now())
-  averageResponseTime   Int?     @map("average_response_time")
-  detailedResponseTimes Json?    @map("detailed_response_times")
-  diagnosticAnswers     Json?    @map("diagnostic_answers")
-  user                  User?    @relation(fields: [userId], references: [id])
+  id                  String   @id @default(cuid())
+  userId              String?
+  profileType         String
+  score               Int?
+  answers             Json
+  createdAt           DateTime @default(now())
+  averageResponseTime Int?     @map("average_response_time")
+  user                User?    @relation(fields: [userId], references: [id])
 
   @@index([profileType])
   @@index([userId])

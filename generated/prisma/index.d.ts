@@ -2609,7 +2609,6 @@ export namespace Prisma {
     members: number
     invitations: number
     joinRequests: number
-    mentees: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2627,7 +2626,6 @@ export namespace Prisma {
     members?: boolean | UserCountOutputTypeCountMembersArgs
     invitations?: boolean | UserCountOutputTypeCountInvitationsArgs
     joinRequests?: boolean | UserCountOutputTypeCountJoinRequestsArgs
-    mentees?: boolean | UserCountOutputTypeCountMenteesArgs
   }
 
   // Custom InputTypes
@@ -2737,13 +2735,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountJoinRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: JoinRequestWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMenteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
   }
 
 
@@ -2908,20 +2899,11 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     level: number | null
     experience: number | null
-    answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
-    communityEngagement: number | null
     confidenceScore: number | null
-    connectionFrequency: number | null
     creatorScore: number | null
-    dashboardActivity: number | null
     missionsCompletedCount: number | null
-    onboardingSpeed: number | null
-    polarization: number | null
-    predictedEngagementScore: number | null
-    profileDrift: number | null
-    profileStability: number | null
     strategistScore: number | null
     memberNumber: number | null
     currentStreak: number | null
@@ -2932,20 +2914,11 @@ export namespace Prisma {
   export type UserSumAggregateOutputType = {
     level: number | null
     experience: number | null
-    answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
-    communityEngagement: number | null
     confidenceScore: number | null
-    connectionFrequency: number | null
     creatorScore: number | null
-    dashboardActivity: number | null
     missionsCompletedCount: number | null
-    onboardingSpeed: number | null
-    polarization: number | null
-    predictedEngagementScore: number | null
-    profileDrift: number | null
-    profileStability: number | null
     strategistScore: number | null
     memberNumber: number | null
     currentStreak: number | null
@@ -2967,37 +2940,22 @@ export namespace Prisma {
     experience: number | null
     class: string | null
     role: string | null
-    ageRange: string | null
-    answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
-    cardSecretHash: string | null
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    communityEngagement: number | null
     confidenceScore: number | null
-    connectionFrequency: number | null
     country: string | null
     creatorScore: number | null
     currentSituation: string | null
-    dashboardActivity: number | null
-    dominantMotivation: string | null
     githubUrl: string | null
     language: string | null
     lastHypothesisUpdate: Date | null
-    longTermObjective: string | null
     mainObjective: string | null
-    mentorId: string | null
     missionsCompletedCount: number | null
-    onboardingSpeed: number | null
-    polarization: number | null
     portfolioUrl: string | null
-    predictedEngagementScore: number | null
-    preferredRhythm: string | null
-    profileDrift: number | null
-    profileStability: number | null
     pseudo: string | null
     strategistScore: number | null
     technicalLevel: string | null
@@ -3035,37 +2993,22 @@ export namespace Prisma {
     experience: number | null
     class: string | null
     role: string | null
-    ageRange: string | null
-    answerConsistency: number | null
     builderScore: number | null
     catalystScore: number | null
-    cardSecretHash: string | null
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    communityEngagement: number | null
     confidenceScore: number | null
-    connectionFrequency: number | null
     country: string | null
     creatorScore: number | null
     currentSituation: string | null
-    dashboardActivity: number | null
-    dominantMotivation: string | null
     githubUrl: string | null
     language: string | null
     lastHypothesisUpdate: Date | null
-    longTermObjective: string | null
     mainObjective: string | null
-    mentorId: string | null
     missionsCompletedCount: number | null
-    onboardingSpeed: number | null
-    polarization: number | null
     portfolioUrl: string | null
-    predictedEngagementScore: number | null
-    preferredRhythm: string | null
-    profileDrift: number | null
-    profileStability: number | null
     pseudo: string | null
     strategistScore: number | null
     technicalLevel: string | null
@@ -3103,47 +3046,26 @@ export namespace Prisma {
     experience: number
     class: number
     role: number
-    activePaths: number
-    ageRange: number
-    answerConsistency: number
     badges: number
     behavioralVibrancy: number
     builderScore: number
     catalystScore: number
-    cardSecretHash: number
     cardSignature: number
     cardIssuedAt: number
     cardTier: number
     city: number
-    cohortsJoined: number
-    collaborativeProjects: number
-    communityEngagement: number
     confidenceScore: number
-    connectionFrequency: number
     country: number
     creatorScore: number
     currentSituation: number
-    dashboardActivity: number
     domains: number
-    dominantMotivation: number
     githubUrl: number
     language: number
     lastHypothesisUpdate: number
-    longTermObjective: number
     mainObjective: number
-    mentorId: number
     missionsCompletedCount: number
-    onboardingSpeed: number
-    polarization: number
     portfolioUrl: number
-    predictedEngagementScore: number
-    preferredRhythm: number
-    profileDrift: number
-    profileStability: number
-    projectsRealized: number
     pseudo: number
-    recommendedPath: number
-    recommendedTools: number
     strategistScore: number
     technicalLevel: number
     tools: number
@@ -3175,20 +3097,11 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     level?: true
     experience?: true
-    answerConsistency?: true
     builderScore?: true
     catalystScore?: true
-    communityEngagement?: true
     confidenceScore?: true
-    connectionFrequency?: true
     creatorScore?: true
-    dashboardActivity?: true
     missionsCompletedCount?: true
-    onboardingSpeed?: true
-    polarization?: true
-    predictedEngagementScore?: true
-    profileDrift?: true
-    profileStability?: true
     strategistScore?: true
     memberNumber?: true
     currentStreak?: true
@@ -3199,20 +3112,11 @@ export namespace Prisma {
   export type UserSumAggregateInputType = {
     level?: true
     experience?: true
-    answerConsistency?: true
     builderScore?: true
     catalystScore?: true
-    communityEngagement?: true
     confidenceScore?: true
-    connectionFrequency?: true
     creatorScore?: true
-    dashboardActivity?: true
     missionsCompletedCount?: true
-    onboardingSpeed?: true
-    polarization?: true
-    predictedEngagementScore?: true
-    profileDrift?: true
-    profileStability?: true
     strategistScore?: true
     memberNumber?: true
     currentStreak?: true
@@ -3234,37 +3138,22 @@ export namespace Prisma {
     experience?: true
     class?: true
     role?: true
-    ageRange?: true
-    answerConsistency?: true
     builderScore?: true
     catalystScore?: true
-    cardSecretHash?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    communityEngagement?: true
     confidenceScore?: true
-    connectionFrequency?: true
     country?: true
     creatorScore?: true
     currentSituation?: true
-    dashboardActivity?: true
-    dominantMotivation?: true
     githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
-    longTermObjective?: true
     mainObjective?: true
-    mentorId?: true
     missionsCompletedCount?: true
-    onboardingSpeed?: true
-    polarization?: true
     portfolioUrl?: true
-    predictedEngagementScore?: true
-    preferredRhythm?: true
-    profileDrift?: true
-    profileStability?: true
     pseudo?: true
     strategistScore?: true
     technicalLevel?: true
@@ -3302,37 +3191,22 @@ export namespace Prisma {
     experience?: true
     class?: true
     role?: true
-    ageRange?: true
-    answerConsistency?: true
     builderScore?: true
     catalystScore?: true
-    cardSecretHash?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    communityEngagement?: true
     confidenceScore?: true
-    connectionFrequency?: true
     country?: true
     creatorScore?: true
     currentSituation?: true
-    dashboardActivity?: true
-    dominantMotivation?: true
     githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
-    longTermObjective?: true
     mainObjective?: true
-    mentorId?: true
     missionsCompletedCount?: true
-    onboardingSpeed?: true
-    polarization?: true
     portfolioUrl?: true
-    predictedEngagementScore?: true
-    preferredRhythm?: true
-    profileDrift?: true
-    profileStability?: true
     pseudo?: true
     strategistScore?: true
     technicalLevel?: true
@@ -3370,47 +3244,26 @@ export namespace Prisma {
     experience?: true
     class?: true
     role?: true
-    activePaths?: true
-    ageRange?: true
-    answerConsistency?: true
     badges?: true
     behavioralVibrancy?: true
     builderScore?: true
     catalystScore?: true
-    cardSecretHash?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    cohortsJoined?: true
-    collaborativeProjects?: true
-    communityEngagement?: true
     confidenceScore?: true
-    connectionFrequency?: true
     country?: true
     creatorScore?: true
     currentSituation?: true
-    dashboardActivity?: true
     domains?: true
-    dominantMotivation?: true
     githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
-    longTermObjective?: true
     mainObjective?: true
-    mentorId?: true
     missionsCompletedCount?: true
-    onboardingSpeed?: true
-    polarization?: true
     portfolioUrl?: true
-    predictedEngagementScore?: true
-    preferredRhythm?: true
-    profileDrift?: true
-    profileStability?: true
-    projectsRealized?: true
     pseudo?: true
-    recommendedPath?: true
-    recommendedTools?: true
     strategistScore?: true
     technicalLevel?: true
     tools?: true
@@ -3538,47 +3391,26 @@ export namespace Prisma {
     experience: number
     class: string | null
     role: string
-    activePaths: string[]
-    ageRange: string | null
-    answerConsistency: number | null
     badges: string[]
     behavioralVibrancy: JsonValue | null
     builderScore: number
     catalystScore: number
-    cardSecretHash: string | null
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    cohortsJoined: string[]
-    collaborativeProjects: string[]
-    communityEngagement: number | null
     confidenceScore: number
-    connectionFrequency: number | null
     country: string | null
     creatorScore: number
     currentSituation: string | null
-    dashboardActivity: number | null
     domains: string[]
-    dominantMotivation: string | null
     githubUrl: string | null
     language: string
     lastHypothesisUpdate: Date | null
-    longTermObjective: string | null
     mainObjective: string | null
-    mentorId: string | null
     missionsCompletedCount: number
-    onboardingSpeed: number | null
-    polarization: number
     portfolioUrl: string | null
-    predictedEngagementScore: number | null
-    preferredRhythm: string | null
-    profileDrift: number
-    profileStability: number
-    projectsRealized: string[]
     pseudo: string | null
-    recommendedPath: string[]
-    recommendedTools: string[]
     strategistScore: number
     technicalLevel: string | null
     tools: string[]
@@ -3638,47 +3470,26 @@ export namespace Prisma {
     experience?: boolean
     class?: boolean
     role?: boolean
-    activePaths?: boolean
-    ageRange?: boolean
-    answerConsistency?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
-    cardSecretHash?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    cohortsJoined?: boolean
-    collaborativeProjects?: boolean
-    communityEngagement?: boolean
     confidenceScore?: boolean
-    connectionFrequency?: boolean
     country?: boolean
     creatorScore?: boolean
     currentSituation?: boolean
-    dashboardActivity?: boolean
     domains?: boolean
-    dominantMotivation?: boolean
     githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
-    longTermObjective?: boolean
     mainObjective?: boolean
-    mentorId?: boolean
     missionsCompletedCount?: boolean
-    onboardingSpeed?: boolean
-    polarization?: boolean
     portfolioUrl?: boolean
-    predictedEngagementScore?: boolean
-    preferredRhythm?: boolean
-    profileDrift?: boolean
-    profileStability?: boolean
-    projectsRealized?: boolean
     pseudo?: boolean
-    recommendedPath?: boolean
-    recommendedTools?: boolean
     strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
@@ -3717,8 +3528,6 @@ export namespace Prisma {
     members?: boolean | User$membersArgs<ExtArgs>
     invitations?: boolean | User$invitationsArgs<ExtArgs>
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
-    mentor?: boolean | User$mentorArgs<ExtArgs>
-    mentees?: boolean | User$menteesArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -3737,47 +3546,26 @@ export namespace Prisma {
     experience?: boolean
     class?: boolean
     role?: boolean
-    activePaths?: boolean
-    ageRange?: boolean
-    answerConsistency?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
-    cardSecretHash?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    cohortsJoined?: boolean
-    collaborativeProjects?: boolean
-    communityEngagement?: boolean
     confidenceScore?: boolean
-    connectionFrequency?: boolean
     country?: boolean
     creatorScore?: boolean
     currentSituation?: boolean
-    dashboardActivity?: boolean
     domains?: boolean
-    dominantMotivation?: boolean
     githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
-    longTermObjective?: boolean
     mainObjective?: boolean
-    mentorId?: boolean
     missionsCompletedCount?: boolean
-    onboardingSpeed?: boolean
-    polarization?: boolean
     portfolioUrl?: boolean
-    predictedEngagementScore?: boolean
-    preferredRhythm?: boolean
-    profileDrift?: boolean
-    profileStability?: boolean
-    projectsRealized?: boolean
     pseudo?: boolean
-    recommendedPath?: boolean
-    recommendedTools?: boolean
     strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
@@ -3802,7 +3590,6 @@ export namespace Prisma {
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
     betaKeyId?: boolean
-    mentor?: boolean | User$mentorArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3820,47 +3607,26 @@ export namespace Prisma {
     experience?: boolean
     class?: boolean
     role?: boolean
-    activePaths?: boolean
-    ageRange?: boolean
-    answerConsistency?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
-    cardSecretHash?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    cohortsJoined?: boolean
-    collaborativeProjects?: boolean
-    communityEngagement?: boolean
     confidenceScore?: boolean
-    connectionFrequency?: boolean
     country?: boolean
     creatorScore?: boolean
     currentSituation?: boolean
-    dashboardActivity?: boolean
     domains?: boolean
-    dominantMotivation?: boolean
     githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
-    longTermObjective?: boolean
     mainObjective?: boolean
-    mentorId?: boolean
     missionsCompletedCount?: boolean
-    onboardingSpeed?: boolean
-    polarization?: boolean
     portfolioUrl?: boolean
-    predictedEngagementScore?: boolean
-    preferredRhythm?: boolean
-    profileDrift?: boolean
-    profileStability?: boolean
-    projectsRealized?: boolean
     pseudo?: boolean
-    recommendedPath?: boolean
-    recommendedTools?: boolean
     strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
@@ -3885,7 +3651,6 @@ export namespace Prisma {
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
     betaKeyId?: boolean
-    mentor?: boolean | User$mentorArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3903,47 +3668,26 @@ export namespace Prisma {
     experience?: boolean
     class?: boolean
     role?: boolean
-    activePaths?: boolean
-    ageRange?: boolean
-    answerConsistency?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
     builderScore?: boolean
     catalystScore?: boolean
-    cardSecretHash?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    cohortsJoined?: boolean
-    collaborativeProjects?: boolean
-    communityEngagement?: boolean
     confidenceScore?: boolean
-    connectionFrequency?: boolean
     country?: boolean
     creatorScore?: boolean
     currentSituation?: boolean
-    dashboardActivity?: boolean
     domains?: boolean
-    dominantMotivation?: boolean
     githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
-    longTermObjective?: boolean
     mainObjective?: boolean
-    mentorId?: boolean
     missionsCompletedCount?: boolean
-    onboardingSpeed?: boolean
-    polarization?: boolean
     portfolioUrl?: boolean
-    predictedEngagementScore?: boolean
-    preferredRhythm?: boolean
-    profileDrift?: boolean
-    profileStability?: boolean
-    projectsRealized?: boolean
     pseudo?: boolean
-    recommendedPath?: boolean
-    recommendedTools?: boolean
     strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
@@ -3970,7 +3714,7 @@ export namespace Prisma {
     betaKeyId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "activePaths" | "ageRange" | "answerConsistency" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSecretHash" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "cohortsJoined" | "collaborativeProjects" | "communityEngagement" | "confidenceScore" | "connectionFrequency" | "country" | "creatorScore" | "currentSituation" | "dashboardActivity" | "domains" | "dominantMotivation" | "githubUrl" | "language" | "lastHypothesisUpdate" | "longTermObjective" | "mainObjective" | "mentorId" | "missionsCompletedCount" | "onboardingSpeed" | "polarization" | "portfolioUrl" | "predictedEngagementScore" | "preferredRhythm" | "profileDrift" | "profileStability" | "projectsRealized" | "pseudo" | "recommendedPath" | "recommendedTools" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "confidenceScore" | "country" | "creatorScore" | "currentSituation" | "domains" | "githubUrl" | "language" | "lastHypothesisUpdate" | "mainObjective" | "missionsCompletedCount" | "portfolioUrl" | "pseudo" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
@@ -3986,17 +3730,13 @@ export namespace Prisma {
     members?: boolean | User$membersArgs<ExtArgs>
     invitations?: boolean | User$invitationsArgs<ExtArgs>
     joinRequests?: boolean | User$joinRequestsArgs<ExtArgs>
-    mentor?: boolean | User$mentorArgs<ExtArgs>
-    mentees?: boolean | User$menteesArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentor?: boolean | User$mentorArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mentor?: boolean | User$mentorArgs<ExtArgs>
     betaKey?: boolean | User$betaKeyArgs<ExtArgs>
   }
 
@@ -4017,8 +3757,6 @@ export namespace Prisma {
       members: Prisma.$MemberPayload<ExtArgs>[]
       invitations: Prisma.$InvitationPayload<ExtArgs>[]
       joinRequests: Prisma.$JoinRequestPayload<ExtArgs>[]
-      mentor: Prisma.$UserPayload<ExtArgs> | null
-      mentees: Prisma.$UserPayload<ExtArgs>[]
       betaKey: Prisma.$BetaKeyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4035,47 +3773,26 @@ export namespace Prisma {
       experience: number
       class: string | null
       role: string
-      activePaths: string[]
-      ageRange: string | null
-      answerConsistency: number | null
       badges: string[]
       behavioralVibrancy: Prisma.JsonValue | null
       builderScore: number
       catalystScore: number
-      cardSecretHash: string | null
       cardSignature: string | null
       cardIssuedAt: Date | null
       cardTier: string | null
       city: string | null
-      cohortsJoined: string[]
-      collaborativeProjects: string[]
-      communityEngagement: number | null
       confidenceScore: number
-      connectionFrequency: number | null
       country: string | null
       creatorScore: number
       currentSituation: string | null
-      dashboardActivity: number | null
       domains: string[]
-      dominantMotivation: string | null
       githubUrl: string | null
       language: string
       lastHypothesisUpdate: Date | null
-      longTermObjective: string | null
       mainObjective: string | null
-      mentorId: string | null
       missionsCompletedCount: number
-      onboardingSpeed: number | null
-      polarization: number
       portfolioUrl: string | null
-      predictedEngagementScore: number | null
-      preferredRhythm: string | null
-      profileDrift: number
-      profileStability: number
-      projectsRealized: string[]
       pseudo: string | null
-      recommendedPath: string[]
-      recommendedTools: string[]
       strategistScore: number
       technicalLevel: string | null
       tools: string[]
@@ -4508,8 +4225,6 @@ export namespace Prisma {
     members<T extends User$membersArgs<ExtArgs> = {}>(args?: Subset<T, User$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invitations<T extends User$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     joinRequests<T extends User$joinRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$joinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    mentor<T extends User$mentorArgs<ExtArgs> = {}>(args?: Subset<T, User$mentorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    mentees<T extends User$menteesArgs<ExtArgs> = {}>(args?: Subset<T, User$menteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     betaKey<T extends User$betaKeyArgs<ExtArgs> = {}>(args?: Subset<T, User$betaKeyArgs<ExtArgs>>): Prisma__BetaKeyClient<$Result.GetResult<Prisma.$BetaKeyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4553,47 +4268,26 @@ export namespace Prisma {
     readonly experience: FieldRef<"User", 'Int'>
     readonly class: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
-    readonly activePaths: FieldRef<"User", 'String[]'>
-    readonly ageRange: FieldRef<"User", 'String'>
-    readonly answerConsistency: FieldRef<"User", 'Float'>
     readonly badges: FieldRef<"User", 'String[]'>
     readonly behavioralVibrancy: FieldRef<"User", 'Json'>
     readonly builderScore: FieldRef<"User", 'Int'>
     readonly catalystScore: FieldRef<"User", 'Int'>
-    readonly cardSecretHash: FieldRef<"User", 'String'>
     readonly cardSignature: FieldRef<"User", 'String'>
     readonly cardIssuedAt: FieldRef<"User", 'DateTime'>
     readonly cardTier: FieldRef<"User", 'String'>
     readonly city: FieldRef<"User", 'String'>
-    readonly cohortsJoined: FieldRef<"User", 'String[]'>
-    readonly collaborativeProjects: FieldRef<"User", 'String[]'>
-    readonly communityEngagement: FieldRef<"User", 'Float'>
     readonly confidenceScore: FieldRef<"User", 'Float'>
-    readonly connectionFrequency: FieldRef<"User", 'Float'>
     readonly country: FieldRef<"User", 'String'>
     readonly creatorScore: FieldRef<"User", 'Int'>
     readonly currentSituation: FieldRef<"User", 'String'>
-    readonly dashboardActivity: FieldRef<"User", 'Float'>
     readonly domains: FieldRef<"User", 'String[]'>
-    readonly dominantMotivation: FieldRef<"User", 'String'>
     readonly githubUrl: FieldRef<"User", 'String'>
     readonly language: FieldRef<"User", 'String'>
     readonly lastHypothesisUpdate: FieldRef<"User", 'DateTime'>
-    readonly longTermObjective: FieldRef<"User", 'String'>
     readonly mainObjective: FieldRef<"User", 'String'>
-    readonly mentorId: FieldRef<"User", 'String'>
     readonly missionsCompletedCount: FieldRef<"User", 'Int'>
-    readonly onboardingSpeed: FieldRef<"User", 'Int'>
-    readonly polarization: FieldRef<"User", 'Float'>
     readonly portfolioUrl: FieldRef<"User", 'String'>
-    readonly predictedEngagementScore: FieldRef<"User", 'Float'>
-    readonly preferredRhythm: FieldRef<"User", 'String'>
-    readonly profileDrift: FieldRef<"User", 'Float'>
-    readonly profileStability: FieldRef<"User", 'Float'>
-    readonly projectsRealized: FieldRef<"User", 'String[]'>
     readonly pseudo: FieldRef<"User", 'String'>
-    readonly recommendedPath: FieldRef<"User", 'String[]'>
-    readonly recommendedTools: FieldRef<"User", 'String[]'>
     readonly strategistScore: FieldRef<"User", 'Int'>
     readonly technicalLevel: FieldRef<"User", 'String'>
     readonly tools: FieldRef<"User", 'String[]'>
@@ -5352,49 +5046,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: JoinRequestScalarFieldEnum | JoinRequestScalarFieldEnum[]
-  }
-
-  /**
-   * User.mentor
-   */
-  export type User$mentorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * User.mentees
-   */
-  export type User$menteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -18145,8 +17796,6 @@ export namespace Prisma {
     answers: number
     createdAt: number
     averageResponseTime: number
-    detailedResponseTimes: number
-    diagnosticAnswers: number
     _all: number
   }
 
@@ -18187,8 +17836,6 @@ export namespace Prisma {
     answers?: true
     createdAt?: true
     averageResponseTime?: true
-    detailedResponseTimes?: true
-    diagnosticAnswers?: true
     _all?: true
   }
 
@@ -18286,8 +17933,6 @@ export namespace Prisma {
     answers: JsonValue
     createdAt: Date
     averageResponseTime: number | null
-    detailedResponseTimes: JsonValue | null
-    diagnosticAnswers: JsonValue | null
     _count: QuizResultCountAggregateOutputType | null
     _avg: QuizResultAvgAggregateOutputType | null
     _sum: QuizResultSumAggregateOutputType | null
@@ -18317,8 +17962,6 @@ export namespace Prisma {
     answers?: boolean
     createdAt?: boolean
     averageResponseTime?: boolean
-    detailedResponseTimes?: boolean
-    diagnosticAnswers?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -18330,8 +17973,6 @@ export namespace Prisma {
     answers?: boolean
     createdAt?: boolean
     averageResponseTime?: boolean
-    detailedResponseTimes?: boolean
-    diagnosticAnswers?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -18343,8 +17984,6 @@ export namespace Prisma {
     answers?: boolean
     createdAt?: boolean
     averageResponseTime?: boolean
-    detailedResponseTimes?: boolean
-    diagnosticAnswers?: boolean
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }, ExtArgs["result"]["quizResult"]>
 
@@ -18356,11 +17995,9 @@ export namespace Prisma {
     answers?: boolean
     createdAt?: boolean
     averageResponseTime?: boolean
-    detailedResponseTimes?: boolean
-    diagnosticAnswers?: boolean
   }
 
-  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "createdAt" | "averageResponseTime" | "detailedResponseTimes" | "diagnosticAnswers", ExtArgs["result"]["quizResult"]>
+  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "profileType" | "score" | "answers" | "createdAt" | "averageResponseTime", ExtArgs["result"]["quizResult"]>
   export type QuizResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | QuizResult$userArgs<ExtArgs>
   }
@@ -18384,8 +18021,6 @@ export namespace Prisma {
       answers: Prisma.JsonValue
       createdAt: Date
       averageResponseTime: number | null
-      detailedResponseTimes: Prisma.JsonValue | null
-      diagnosticAnswers: Prisma.JsonValue | null
     }, ExtArgs["result"]["quizResult"]>
     composites: {}
   }
@@ -18817,8 +18452,6 @@ export namespace Prisma {
     readonly answers: FieldRef<"QuizResult", 'Json'>
     readonly createdAt: FieldRef<"QuizResult", 'DateTime'>
     readonly averageResponseTime: FieldRef<"QuizResult", 'Int'>
-    readonly detailedResponseTimes: FieldRef<"QuizResult", 'Json'>
-    readonly diagnosticAnswers: FieldRef<"QuizResult", 'Json'>
   }
     
 
@@ -27200,47 +26833,26 @@ export namespace Prisma {
     experience: 'experience',
     class: 'class',
     role: 'role',
-    activePaths: 'activePaths',
-    ageRange: 'ageRange',
-    answerConsistency: 'answerConsistency',
     badges: 'badges',
     behavioralVibrancy: 'behavioralVibrancy',
     builderScore: 'builderScore',
     catalystScore: 'catalystScore',
-    cardSecretHash: 'cardSecretHash',
     cardSignature: 'cardSignature',
     cardIssuedAt: 'cardIssuedAt',
     cardTier: 'cardTier',
     city: 'city',
-    cohortsJoined: 'cohortsJoined',
-    collaborativeProjects: 'collaborativeProjects',
-    communityEngagement: 'communityEngagement',
     confidenceScore: 'confidenceScore',
-    connectionFrequency: 'connectionFrequency',
     country: 'country',
     creatorScore: 'creatorScore',
     currentSituation: 'currentSituation',
-    dashboardActivity: 'dashboardActivity',
     domains: 'domains',
-    dominantMotivation: 'dominantMotivation',
     githubUrl: 'githubUrl',
     language: 'language',
     lastHypothesisUpdate: 'lastHypothesisUpdate',
-    longTermObjective: 'longTermObjective',
     mainObjective: 'mainObjective',
-    mentorId: 'mentorId',
     missionsCompletedCount: 'missionsCompletedCount',
-    onboardingSpeed: 'onboardingSpeed',
-    polarization: 'polarization',
     portfolioUrl: 'portfolioUrl',
-    predictedEngagementScore: 'predictedEngagementScore',
-    preferredRhythm: 'preferredRhythm',
-    profileDrift: 'profileDrift',
-    profileStability: 'profileStability',
-    projectsRealized: 'projectsRealized',
     pseudo: 'pseudo',
-    recommendedPath: 'recommendedPath',
-    recommendedTools: 'recommendedTools',
     strategistScore: 'strategistScore',
     technicalLevel: 'technicalLevel',
     tools: 'tools',
@@ -27455,9 +27067,7 @@ export namespace Prisma {
     score: 'score',
     answers: 'answers',
     createdAt: 'createdAt',
-    averageResponseTime: 'averageResponseTime',
-    detailedResponseTimes: 'detailedResponseTimes',
-    diagnosticAnswers: 'diagnosticAnswers'
+    averageResponseTime: 'averageResponseTime'
   };
 
   export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
@@ -27673,20 +27283,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -27697,6 +27293,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -27720,47 +27330,26 @@ export namespace Prisma {
     experience?: IntFilter<"User"> | number
     class?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
-    activePaths?: StringNullableListFilter<"User">
-    ageRange?: StringNullableFilter<"User"> | string | null
-    answerConsistency?: FloatNullableFilter<"User"> | number | null
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
-    cardSecretHash?: StringNullableFilter<"User"> | string | null
     cardSignature?: StringNullableFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
     confidenceScore?: FloatFilter<"User"> | number
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
     country?: StringNullableFilter<"User"> | string | null
     creatorScore?: IntFilter<"User"> | number
     currentSituation?: StringNullableFilter<"User"> | string | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
     domains?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
     githubUrl?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
-    mentorId?: StringNullableFilter<"User"> | string | null
     missionsCompletedCount?: IntFilter<"User"> | number
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
-    polarization?: FloatFilter<"User"> | number
     portfolioUrl?: StringNullableFilter<"User"> | string | null
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    profileDrift?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
-    projectsRealized?: StringNullableListFilter<"User">
     pseudo?: StringNullableFilter<"User"> | string | null
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
     strategistScore?: IntFilter<"User"> | number
     technicalLevel?: StringNullableFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
@@ -27799,8 +27388,6 @@ export namespace Prisma {
     members?: MemberListRelationFilter
     invitations?: InvitationListRelationFilter
     joinRequests?: JoinRequestListRelationFilter
-    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    mentees?: UserListRelationFilter
     betaKey?: XOR<BetaKeyNullableScalarRelationFilter, BetaKeyWhereInput> | null
   }
 
@@ -27818,47 +27405,26 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrderInput | SortOrder
     role?: SortOrder
-    activePaths?: SortOrder
-    ageRange?: SortOrderInput | SortOrder
-    answerConsistency?: SortOrderInput | SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    cardSecretHash?: SortOrderInput | SortOrder
     cardSignature?: SortOrderInput | SortOrder
     cardIssuedAt?: SortOrderInput | SortOrder
     cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
-    cohortsJoined?: SortOrder
-    collaborativeProjects?: SortOrder
-    communityEngagement?: SortOrderInput | SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     creatorScore?: SortOrder
     currentSituation?: SortOrderInput | SortOrder
-    dashboardActivity?: SortOrderInput | SortOrder
     domains?: SortOrder
-    dominantMotivation?: SortOrderInput | SortOrder
     githubUrl?: SortOrderInput | SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
-    longTermObjective?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
-    mentorId?: SortOrderInput | SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrderInput | SortOrder
-    polarization?: SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
-    predictedEngagementScore?: SortOrderInput | SortOrder
-    preferredRhythm?: SortOrderInput | SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
-    projectsRealized?: SortOrder
     pseudo?: SortOrderInput | SortOrder
-    recommendedPath?: SortOrder
-    recommendedTools?: SortOrder
     strategistScore?: SortOrder
     technicalLevel?: SortOrderInput | SortOrder
     tools?: SortOrder
@@ -27897,8 +27463,6 @@ export namespace Prisma {
     members?: MemberOrderByRelationAggregateInput
     invitations?: InvitationOrderByRelationAggregateInput
     joinRequests?: JoinRequestOrderByRelationAggregateInput
-    mentor?: UserOrderByWithRelationInput
-    mentees?: UserOrderByRelationAggregateInput
     betaKey?: BetaKeyOrderByWithRelationInput
   }
 
@@ -27923,45 +27487,24 @@ export namespace Prisma {
     experience?: IntFilter<"User"> | number
     class?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
-    activePaths?: StringNullableListFilter<"User">
-    ageRange?: StringNullableFilter<"User"> | string | null
-    answerConsistency?: FloatNullableFilter<"User"> | number | null
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableFilter<"User">
     builderScore?: IntFilter<"User"> | number
     catalystScore?: IntFilter<"User"> | number
-    cardSecretHash?: StringNullableFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
     confidenceScore?: FloatFilter<"User"> | number
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
     country?: StringNullableFilter<"User"> | string | null
     creatorScore?: IntFilter<"User"> | number
     currentSituation?: StringNullableFilter<"User"> | string | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
     domains?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
     githubUrl?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
-    mentorId?: StringNullableFilter<"User"> | string | null
     missionsCompletedCount?: IntFilter<"User"> | number
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
-    polarization?: FloatFilter<"User"> | number
     portfolioUrl?: StringNullableFilter<"User"> | string | null
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    profileDrift?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
-    projectsRealized?: StringNullableListFilter<"User">
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
     strategistScore?: IntFilter<"User"> | number
     technicalLevel?: StringNullableFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
@@ -27998,8 +27541,6 @@ export namespace Prisma {
     members?: MemberListRelationFilter
     invitations?: InvitationListRelationFilter
     joinRequests?: JoinRequestListRelationFilter
-    mentor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    mentees?: UserListRelationFilter
     betaKey?: XOR<BetaKeyNullableScalarRelationFilter, BetaKeyWhereInput> | null
   }, "id" | "email" | "cardSignature" | "pseudo" | "memberNumber" | "betaKeyId">
 
@@ -28017,47 +27558,26 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrderInput | SortOrder
     role?: SortOrder
-    activePaths?: SortOrder
-    ageRange?: SortOrderInput | SortOrder
-    answerConsistency?: SortOrderInput | SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    cardSecretHash?: SortOrderInput | SortOrder
     cardSignature?: SortOrderInput | SortOrder
     cardIssuedAt?: SortOrderInput | SortOrder
     cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
-    cohortsJoined?: SortOrder
-    collaborativeProjects?: SortOrder
-    communityEngagement?: SortOrderInput | SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
     creatorScore?: SortOrder
     currentSituation?: SortOrderInput | SortOrder
-    dashboardActivity?: SortOrderInput | SortOrder
     domains?: SortOrder
-    dominantMotivation?: SortOrderInput | SortOrder
     githubUrl?: SortOrderInput | SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
-    longTermObjective?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
-    mentorId?: SortOrderInput | SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrderInput | SortOrder
-    polarization?: SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
-    predictedEngagementScore?: SortOrderInput | SortOrder
-    preferredRhythm?: SortOrderInput | SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
-    projectsRealized?: SortOrder
     pseudo?: SortOrderInput | SortOrder
-    recommendedPath?: SortOrder
-    recommendedTools?: SortOrder
     strategistScore?: SortOrder
     technicalLevel?: SortOrderInput | SortOrder
     tools?: SortOrder
@@ -28106,47 +27626,26 @@ export namespace Prisma {
     experience?: IntWithAggregatesFilter<"User"> | number
     class?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
-    activePaths?: StringNullableListFilter<"User">
-    ageRange?: StringNullableWithAggregatesFilter<"User"> | string | null
-    answerConsistency?: FloatNullableWithAggregatesFilter<"User"> | number | null
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
     builderScore?: IntWithAggregatesFilter<"User"> | number
     catalystScore?: IntWithAggregatesFilter<"User"> | number
-    cardSecretHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     cardSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     cardTier?: StringNullableWithAggregatesFilter<"User"> | string | null
     city?: StringNullableWithAggregatesFilter<"User"> | string | null
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    communityEngagement?: FloatNullableWithAggregatesFilter<"User"> | number | null
     confidenceScore?: FloatWithAggregatesFilter<"User"> | number
-    connectionFrequency?: FloatNullableWithAggregatesFilter<"User"> | number | null
     country?: StringNullableWithAggregatesFilter<"User"> | string | null
     creatorScore?: IntWithAggregatesFilter<"User"> | number
     currentSituation?: StringNullableWithAggregatesFilter<"User"> | string | null
-    dashboardActivity?: FloatNullableWithAggregatesFilter<"User"> | number | null
     domains?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableWithAggregatesFilter<"User"> | string | null
     githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     language?: StringWithAggregatesFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    longTermObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
     mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
-    mentorId?: StringNullableWithAggregatesFilter<"User"> | string | null
     missionsCompletedCount?: IntWithAggregatesFilter<"User"> | number
-    onboardingSpeed?: IntNullableWithAggregatesFilter<"User"> | number | null
-    polarization?: FloatWithAggregatesFilter<"User"> | number
     portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    predictedEngagementScore?: FloatNullableWithAggregatesFilter<"User"> | number | null
-    preferredRhythm?: StringNullableWithAggregatesFilter<"User"> | string | null
-    profileDrift?: FloatWithAggregatesFilter<"User"> | number
-    profileStability?: FloatWithAggregatesFilter<"User"> | number
-    projectsRealized?: StringNullableListFilter<"User">
     pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
     strategistScore?: IntWithAggregatesFilter<"User"> | number
     technicalLevel?: StringNullableWithAggregatesFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
@@ -29097,8 +28596,6 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
-    detailedResponseTimes?: JsonNullableFilter<"QuizResult">
-    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
@@ -29110,8 +28607,6 @@ export namespace Prisma {
     answers?: SortOrder
     createdAt?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
-    detailedResponseTimes?: SortOrderInput | SortOrder
-    diagnosticAnswers?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -29126,8 +28621,6 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
-    detailedResponseTimes?: JsonNullableFilter<"QuizResult">
-    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
@@ -29139,8 +28632,6 @@ export namespace Prisma {
     answers?: SortOrder
     createdAt?: SortOrder
     averageResponseTime?: SortOrderInput | SortOrder
-    detailedResponseTimes?: SortOrderInput | SortOrder
-    diagnosticAnswers?: SortOrderInput | SortOrder
     _count?: QuizResultCountOrderByAggregateInput
     _avg?: QuizResultAvgOrderByAggregateInput
     _max?: QuizResultMaxOrderByAggregateInput
@@ -29159,8 +28650,6 @@ export namespace Prisma {
     answers?: JsonWithAggregatesFilter<"QuizResult">
     createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableWithAggregatesFilter<"QuizResult"> | number | null
-    detailedResponseTimes?: JsonNullableWithAggregatesFilter<"QuizResult">
-    diagnosticAnswers?: JsonNullableWithAggregatesFilter<"QuizResult">
   }
 
   export type MissionSubmissionWhereInput = {
@@ -29729,46 +29218,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -29806,8 +29275,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -29825,47 +29292,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -29904,7 +29350,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserUpdateInput = {
@@ -29921,46 +29366,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -29997,8 +29422,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -30016,47 +29439,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -30095,7 +29497,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -30112,47 +29513,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -30193,46 +29573,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -30271,47 +29631,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -31370,8 +30709,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     user?: UserCreateNestedOneWithoutQuizResultsInput
   }
 
@@ -31383,8 +30720,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUpdateInput = {
@@ -31394,8 +30729,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneWithoutQuizResultsNestedInput
   }
 
@@ -31407,8 +30740,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultCreateManyInput = {
@@ -31419,8 +30750,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUpdateManyMutationInput = {
@@ -31430,8 +30759,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUncheckedUpdateManyInput = {
@@ -31442,8 +30769,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MissionSubmissionCreateInput = {
@@ -32122,17 +31447,6 @@ export namespace Prisma {
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
   }
-
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -32166,17 +31480,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
@@ -32262,17 +31565,6 @@ export namespace Prisma {
     none?: JoinRequestWhereInput
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
   export type BetaKeyNullableScalarRelationFilter = {
     is?: BetaKeyWhereInput | null
     isNot?: BetaKeyWhereInput | null
@@ -32335,10 +31627,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -32353,47 +31641,26 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    activePaths?: SortOrder
-    ageRange?: SortOrder
-    answerConsistency?: SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    cardSecretHash?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    cohortsJoined?: SortOrder
-    collaborativeProjects?: SortOrder
-    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrder
     country?: SortOrder
     creatorScore?: SortOrder
     currentSituation?: SortOrder
-    dashboardActivity?: SortOrder
     domains?: SortOrder
-    dominantMotivation?: SortOrder
     githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
-    longTermObjective?: SortOrder
     mainObjective?: SortOrder
-    mentorId?: SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrder
-    polarization?: SortOrder
     portfolioUrl?: SortOrder
-    predictedEngagementScore?: SortOrder
-    preferredRhythm?: SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
-    projectsRealized?: SortOrder
     pseudo?: SortOrder
-    recommendedPath?: SortOrder
-    recommendedTools?: SortOrder
     strategistScore?: SortOrder
     technicalLevel?: SortOrder
     tools?: SortOrder
@@ -32423,20 +31690,11 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
-    answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrder
     creatorScore?: SortOrder
-    dashboardActivity?: SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrder
-    polarization?: SortOrder
-    predictedEngagementScore?: SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
     strategistScore?: SortOrder
     memberNumber?: SortOrder
     currentStreak?: SortOrder
@@ -32458,37 +31716,22 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    ageRange?: SortOrder
-    answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    cardSecretHash?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrder
     country?: SortOrder
     creatorScore?: SortOrder
     currentSituation?: SortOrder
-    dashboardActivity?: SortOrder
-    dominantMotivation?: SortOrder
     githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
-    longTermObjective?: SortOrder
     mainObjective?: SortOrder
-    mentorId?: SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrder
-    polarization?: SortOrder
     portfolioUrl?: SortOrder
-    predictedEngagementScore?: SortOrder
-    preferredRhythm?: SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
     pseudo?: SortOrder
     strategistScore?: SortOrder
     technicalLevel?: SortOrder
@@ -32526,37 +31769,22 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    ageRange?: SortOrder
-    answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    cardSecretHash?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrder
     country?: SortOrder
     creatorScore?: SortOrder
     currentSituation?: SortOrder
-    dashboardActivity?: SortOrder
-    dominantMotivation?: SortOrder
     githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
-    longTermObjective?: SortOrder
     mainObjective?: SortOrder
-    mentorId?: SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrder
-    polarization?: SortOrder
     portfolioUrl?: SortOrder
-    predictedEngagementScore?: SortOrder
-    preferredRhythm?: SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
     pseudo?: SortOrder
     strategistScore?: SortOrder
     technicalLevel?: SortOrder
@@ -32583,20 +31811,11 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
-    answerConsistency?: SortOrder
     builderScore?: SortOrder
     catalystScore?: SortOrder
-    communityEngagement?: SortOrder
     confidenceScore?: SortOrder
-    connectionFrequency?: SortOrder
     creatorScore?: SortOrder
-    dashboardActivity?: SortOrder
     missionsCompletedCount?: SortOrder
-    onboardingSpeed?: SortOrder
-    polarization?: SortOrder
-    predictedEngagementScore?: SortOrder
-    profileDrift?: SortOrder
-    profileStability?: SortOrder
     strategistScore?: SortOrder
     memberNumber?: SortOrder
     currentStreak?: SortOrder
@@ -32691,22 +31910,6 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
@@ -32748,22 +31951,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -32901,6 +32088,11 @@ export namespace Prisma {
     inviterId?: SortOrder
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type ActivityLogCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -32996,6 +32188,17 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type MissionCountOrderByAggregateInput = {
@@ -33119,6 +32322,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type GuildCountOrderByAggregateInput = {
@@ -33338,8 +32557,6 @@ export namespace Prisma {
     answers?: SortOrder
     createdAt?: SortOrder
     averageResponseTime?: SortOrder
-    detailedResponseTimes?: SortOrder
-    diagnosticAnswers?: SortOrder
   }
 
   export type QuizResultAvgOrderByAggregateInput = {
@@ -33666,35 +32883,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type UserCreateactivePathsInput = {
-    set: string[]
-  }
-
   export type UserCreatebadgesInput = {
     set: string[]
   }
 
-  export type UserCreatecohortsJoinedInput = {
-    set: string[]
-  }
-
-  export type UserCreatecollaborativeProjectsInput = {
-    set: string[]
-  }
-
   export type UserCreatedomainsInput = {
-    set: string[]
-  }
-
-  export type UserCreateprojectsRealizedInput = {
-    set: string[]
-  }
-
-  export type UserCreaterecommendedPathInput = {
-    set: string[]
-  }
-
-  export type UserCreaterecommendedToolsInput = {
     set: string[]
   }
 
@@ -33812,19 +33005,6 @@ export namespace Prisma {
     connect?: JoinRequestWhereUniqueInput | JoinRequestWhereUniqueInput[]
   }
 
-  export type UserCreateNestedOneWithoutMenteesInput = {
-    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserCreateNestedManyWithoutMentorInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
   export type BetaKeyCreateNestedOneWithoutUserInput = {
     create?: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
     connectOrCreate?: BetaKeyCreateOrConnectWithoutUserInput
@@ -33929,13 +33109,6 @@ export namespace Prisma {
     connect?: JoinRequestWhereUniqueInput | JoinRequestWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutMentorInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -33964,30 +33137,7 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserUpdateactivePathsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdatebadgesInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdatecohortsJoinedInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdatecollaborativeProjectsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -34001,29 +33151,6 @@ export namespace Prisma {
   }
 
   export type UserUpdatedomainsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type UserUpdateprojectsRealizedInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdaterecommendedPathInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdaterecommendedToolsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -34248,30 +33375,6 @@ export namespace Prisma {
     deleteMany?: JoinRequestScalarWhereInput | JoinRequestScalarWhereInput[]
   }
 
-  export type UserUpdateOneWithoutMenteesNestedInput = {
-    create?: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMenteesInput
-    upsert?: UserUpsertWithoutMenteesInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMenteesInput, UserUpdateWithoutMenteesInput>, UserUncheckedUpdateWithoutMenteesInput>
-  }
-
-  export type UserUpdateManyWithoutMentorNestedInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
   export type BetaKeyUpdateOneWithoutUserNestedInput = {
     create?: XOR<BetaKeyCreateWithoutUserInput, BetaKeyUncheckedCreateWithoutUserInput>
     connectOrCreate?: BetaKeyCreateOrConnectWithoutUserInput
@@ -34476,20 +33579,6 @@ export namespace Prisma {
     update?: JoinRequestUpdateWithWhereUniqueWithoutUserInput | JoinRequestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: JoinRequestUpdateManyWithWhereWithoutUserInput | JoinRequestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: JoinRequestScalarWhereInput | JoinRequestScalarWhereInput[]
-  }
-
-  export type UserUncheckedUpdateManyWithoutMentorNestedInput = {
-    create?: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput> | UserCreateWithoutMentorInput[] | UserUncheckedCreateWithoutMentorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutMentorInput | UserCreateOrConnectWithoutMentorInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutMentorInput | UserUpsertWithWhereUniqueWithoutMentorInput[]
-    createMany?: UserCreateManyMentorInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutMentorInput | UserUpdateWithWhereUniqueWithoutMentorInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutMentorInput | UserUpdateManyWithWhereWithoutMentorInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type MemberCreateNestedManyWithoutOrganizationInput = {
@@ -34743,6 +33832,14 @@ export namespace Prisma {
   export type MissionUpdatedeliverablesInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type MissionSubmissionUpdateManyWithoutMissionNestedInput = {
@@ -35157,17 +34254,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -35177,17 +34263,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
@@ -35232,6 +34307,17 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -35280,22 +34366,6 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -35336,22 +34406,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
@@ -35381,6 +34435,33 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -35718,8 +34799,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUncheckedCreateWithoutUserInput = {
@@ -35729,8 +34808,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultCreateOrConnectWithoutUserInput = {
@@ -35852,401 +34929,6 @@ export namespace Prisma {
 
   export type JoinRequestCreateManyUserInputEnvelope = {
     data: JoinRequestCreateManyUserInput | JoinRequestCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserCreateWithoutMenteesInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    emailStatus?: string
-    emailLastBounced?: Date | string | null
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
-    badges?: UserCreatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
-    cardSecretHash?: string | null
-    cardSignature?: string | null
-    cardIssuedAt?: Date | string | null
-    cardTier?: string | null
-    city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
-    confidenceScore?: number
-    connectionFrequency?: number | null
-    country?: string | null
-    creatorScore?: number
-    currentSituation?: string | null
-    dashboardActivity?: number | null
-    domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
-    githubUrl?: string | null
-    language?: string
-    lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
-    mainObjective?: string | null
-    missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
-    portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    strategistScore?: number
-    technicalLevel?: string | null
-    tools?: UserCreatetoolsInput | string[]
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    bio?: string | null
-    linkedinUrl?: string | null
-    memberNumber?: number
-    twitterUrl?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
-    mainBlocker?: string | null
-    banned?: boolean | null
-    banReason?: string | null
-    banExpires?: Date | string | null
-    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
-    reviewsCompleted?: number
-    twoFactorEnabled?: boolean
-    twoFactorSecret?: string | null
-    twoFactorBackupCodes?: string | null
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
-    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
-    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    members?: MemberCreateNestedManyWithoutUserInput
-    invitations?: InvitationCreateNestedManyWithoutUserInput
-    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutMenteesInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    emailStatus?: string
-    emailLastBounced?: Date | string | null
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
-    badges?: UserCreatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
-    cardSecretHash?: string | null
-    cardSignature?: string | null
-    cardIssuedAt?: Date | string | null
-    cardTier?: string | null
-    city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
-    confidenceScore?: number
-    connectionFrequency?: number | null
-    country?: string | null
-    creatorScore?: number
-    currentSituation?: string | null
-    dashboardActivity?: number | null
-    domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
-    githubUrl?: string | null
-    language?: string
-    lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
-    mainObjective?: string | null
-    mentorId?: string | null
-    missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
-    portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    strategistScore?: number
-    technicalLevel?: string | null
-    tools?: UserCreatetoolsInput | string[]
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    bio?: string | null
-    linkedinUrl?: string | null
-    memberNumber?: number
-    twitterUrl?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
-    mainBlocker?: string | null
-    banned?: boolean | null
-    banReason?: string | null
-    banExpires?: Date | string | null
-    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
-    reviewsCompleted?: number
-    twoFactorEnabled?: boolean
-    twoFactorSecret?: string | null
-    twoFactorBackupCodes?: string | null
-    betaKeyId?: string | null
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
-    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
-    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    members?: MemberUncheckedCreateNestedManyWithoutUserInput
-    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
-    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutMenteesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-  }
-
-  export type UserCreateWithoutMentorInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    emailStatus?: string
-    emailLastBounced?: Date | string | null
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
-    badges?: UserCreatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
-    cardSecretHash?: string | null
-    cardSignature?: string | null
-    cardIssuedAt?: Date | string | null
-    cardTier?: string | null
-    city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
-    confidenceScore?: number
-    connectionFrequency?: number | null
-    country?: string | null
-    creatorScore?: number
-    currentSituation?: string | null
-    dashboardActivity?: number | null
-    domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
-    githubUrl?: string | null
-    language?: string
-    lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
-    mainObjective?: string | null
-    missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
-    portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    strategistScore?: number
-    technicalLevel?: string | null
-    tools?: UserCreatetoolsInput | string[]
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    bio?: string | null
-    linkedinUrl?: string | null
-    memberNumber?: number
-    twitterUrl?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
-    mainBlocker?: string | null
-    banned?: boolean | null
-    banReason?: string | null
-    banExpires?: Date | string | null
-    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
-    reviewsCompleted?: number
-    twoFactorEnabled?: boolean
-    twoFactorSecret?: string | null
-    twoFactorBackupCodes?: string | null
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
-    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
-    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
-    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    members?: MemberCreateNestedManyWithoutUserInput
-    invitations?: InvitationCreateNestedManyWithoutUserInput
-    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
-    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutMentorInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    emailStatus?: string
-    emailLastBounced?: Date | string | null
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
-    badges?: UserCreatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
-    cardSecretHash?: string | null
-    cardSignature?: string | null
-    cardIssuedAt?: Date | string | null
-    cardTier?: string | null
-    city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
-    confidenceScore?: number
-    connectionFrequency?: number | null
-    country?: string | null
-    creatorScore?: number
-    currentSituation?: string | null
-    dashboardActivity?: number | null
-    domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
-    githubUrl?: string | null
-    language?: string
-    lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
-    mainObjective?: string | null
-    missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
-    portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    strategistScore?: number
-    technicalLevel?: string | null
-    tools?: UserCreatetoolsInput | string[]
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    bio?: string | null
-    linkedinUrl?: string | null
-    memberNumber?: number
-    twitterUrl?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
-    mainBlocker?: string | null
-    banned?: boolean | null
-    banReason?: string | null
-    banExpires?: Date | string | null
-    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
-    reviewsCompleted?: number
-    twoFactorEnabled?: boolean
-    twoFactorSecret?: string | null
-    twoFactorBackupCodes?: string | null
-    betaKeyId?: string | null
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
-    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
-    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
-    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
-    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
-    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    members?: MemberUncheckedCreateNestedManyWithoutUserInput
-    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
-    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
-  }
-
-  export type UserCreateOrConnectWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
-  }
-
-  export type UserCreateManyMentorInputEnvelope = {
-    data: UserCreateManyMentorInput | UserCreateManyMentorInput[]
     skipDuplicates?: boolean
   }
 
@@ -36572,8 +35254,6 @@ export namespace Prisma {
     answers?: JsonFilter<"QuizResult">
     createdAt?: DateTimeFilter<"QuizResult"> | Date | string
     averageResponseTime?: IntNullableFilter<"QuizResult"> | number | null
-    detailedResponseTimes?: JsonNullableFilter<"QuizResult">
-    diagnosticAnswers?: JsonNullableFilter<"QuizResult">
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -36690,306 +35370,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"JoinRequest"> | Date | string
     ipAddress?: StringNullableFilter<"JoinRequest"> | string | null
     userAgent?: StringNullableFilter<"JoinRequest"> | string | null
-  }
-
-  export type UserUpsertWithoutMenteesInput = {
-    update: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
-    create: XOR<UserCreateWithoutMenteesInput, UserUncheckedCreateWithoutMenteesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutMenteesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutMenteesInput, UserUncheckedUpdateWithoutMenteesInput>
-  }
-
-  export type UserUpdateWithoutMenteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    emailStatus?: StringFieldUpdateOperationsInput | string
-    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    badges?: UserUpdatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
-    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
-    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    tools?: UserUpdatetoolsInput | string[]
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
-    reviewsCompleted?: IntFieldUpdateOperationsInput | number
-    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
-    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
-    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
-    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    members?: MemberUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUpdateManyWithoutUserNestedInput
-    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutMenteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    emailStatus?: StringFieldUpdateOperationsInput | string
-    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    badges?: UserUpdatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
-    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
-    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    tools?: UserUpdatetoolsInput | string[]
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
-    reviewsCompleted?: IntFieldUpdateOperationsInput | number
-    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
-    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
-    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
-    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
-    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
-    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
-    create: XOR<UserCreateWithoutMentorInput, UserUncheckedCreateWithoutMentorInput>
-  }
-
-  export type UserUpdateWithWhereUniqueWithoutMentorInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutMentorInput, UserUncheckedUpdateWithoutMentorInput>
-  }
-
-  export type UserUpdateManyWithWhereWithoutMentorInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutMentorInput>
-  }
-
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    emailVerified?: BoolFilter<"User"> | boolean
-    emailStatus?: StringFilter<"User"> | string
-    emailLastBounced?: DateTimeNullableFilter<"User"> | Date | string | null
-    image?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-    level?: IntFilter<"User"> | number
-    experience?: IntFilter<"User"> | number
-    class?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
-    activePaths?: StringNullableListFilter<"User">
-    ageRange?: StringNullableFilter<"User"> | string | null
-    answerConsistency?: FloatNullableFilter<"User"> | number | null
-    badges?: StringNullableListFilter<"User">
-    behavioralVibrancy?: JsonNullableFilter<"User">
-    builderScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
-    cardSecretHash?: StringNullableFilter<"User"> | string | null
-    cardSignature?: StringNullableFilter<"User"> | string | null
-    cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    cardTier?: StringNullableFilter<"User"> | string | null
-    city?: StringNullableFilter<"User"> | string | null
-    cohortsJoined?: StringNullableListFilter<"User">
-    collaborativeProjects?: StringNullableListFilter<"User">
-    communityEngagement?: FloatNullableFilter<"User"> | number | null
-    confidenceScore?: FloatFilter<"User"> | number
-    connectionFrequency?: FloatNullableFilter<"User"> | number | null
-    country?: StringNullableFilter<"User"> | string | null
-    creatorScore?: IntFilter<"User"> | number
-    currentSituation?: StringNullableFilter<"User"> | string | null
-    dashboardActivity?: FloatNullableFilter<"User"> | number | null
-    domains?: StringNullableListFilter<"User">
-    dominantMotivation?: StringNullableFilter<"User"> | string | null
-    githubUrl?: StringNullableFilter<"User"> | string | null
-    language?: StringFilter<"User"> | string
-    lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
-    longTermObjective?: StringNullableFilter<"User"> | string | null
-    mainObjective?: StringNullableFilter<"User"> | string | null
-    mentorId?: StringNullableFilter<"User"> | string | null
-    missionsCompletedCount?: IntFilter<"User"> | number
-    onboardingSpeed?: IntNullableFilter<"User"> | number | null
-    polarization?: FloatFilter<"User"> | number
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    predictedEngagementScore?: FloatNullableFilter<"User"> | number | null
-    preferredRhythm?: StringNullableFilter<"User"> | string | null
-    profileDrift?: FloatFilter<"User"> | number
-    profileStability?: FloatFilter<"User"> | number
-    projectsRealized?: StringNullableListFilter<"User">
-    pseudo?: StringNullableFilter<"User"> | string | null
-    recommendedPath?: StringNullableListFilter<"User">
-    recommendedTools?: StringNullableListFilter<"User">
-    strategistScore?: IntFilter<"User"> | number
-    technicalLevel?: StringNullableFilter<"User"> | string | null
-    tools?: StringNullableListFilter<"User">
-    secondaryObjectives?: StringNullableListFilter<"User">
-    bio?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    memberNumber?: IntFilter<"User"> | number
-    twitterUrl?: StringNullableFilter<"User"> | string | null
-    currentFocus?: StringNullableListFilter<"User">
-    dreamStatement?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
-    mainBlocker?: StringNullableFilter<"User"> | string | null
-    banned?: BoolNullableFilter<"User"> | boolean | null
-    banReason?: StringNullableFilter<"User"> | string | null
-    banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
-    canReviewProfiles?: StringNullableListFilter<"User">
-    reviewsCompleted?: IntFilter<"User"> | number
-    twoFactorEnabled?: BoolFilter<"User"> | boolean
-    twoFactorSecret?: StringNullableFilter<"User"> | string | null
-    twoFactorBackupCodes?: StringNullableFilter<"User"> | string | null
-    betaKeyId?: StringNullableFilter<"User"> | string | null
   }
 
   export type BetaKeyUpsertWithoutUserInput = {
@@ -37208,46 +35588,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -37284,8 +35644,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -37303,47 +35661,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -37381,7 +35718,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutMembersInput = {
@@ -37463,46 +35799,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -37538,8 +35854,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -37557,47 +35871,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -37635,7 +35928,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type OrganizationCreateWithoutInvitationsInput = {
@@ -37695,46 +35987,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -37771,8 +36043,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -37790,47 +36060,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -37868,7 +36117,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutInvitationsInput = {
@@ -37950,46 +36198,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38025,8 +36253,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -38044,47 +36270,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38122,7 +36327,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutActivityLogsInput = {
@@ -38139,46 +36343,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -38215,8 +36399,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -38234,47 +36416,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -38312,7 +36473,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -38345,46 +36505,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38420,8 +36560,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -38439,47 +36577,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38517,7 +36634,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutDailyCheckinsInput = {
@@ -38534,46 +36650,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -38610,8 +36706,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -38629,47 +36723,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -38707,7 +36780,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutDailyCheckinsInput = {
@@ -38740,46 +36812,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38815,8 +36867,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -38834,47 +36884,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -38912,7 +36941,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type MissionSubmissionCreateWithoutMissionInput = {
@@ -39076,46 +37104,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -39152,8 +37160,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -39171,47 +37177,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -39249,7 +37234,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutGuildMembersInput = {
@@ -39321,46 +37305,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -39396,8 +37360,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -39415,47 +37377,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -39493,7 +37434,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -39510,46 +37450,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -39586,8 +37506,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -39605,47 +37523,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -39683,7 +37580,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -39716,46 +37612,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -39791,8 +37667,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -39810,47 +37684,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -39888,7 +37741,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -39905,46 +37757,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -39981,8 +37813,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -40000,47 +37830,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -40078,7 +37887,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -40111,46 +37919,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -40186,8 +37974,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -40205,47 +37991,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -40283,7 +38048,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutQuizResultsInput = {
@@ -40300,46 +38064,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -40376,8 +38120,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -40395,47 +38137,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -40473,7 +38194,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutQuizResultsInput = {
@@ -40506,46 +38226,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -40581,8 +38281,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -40600,47 +38298,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -40678,7 +38355,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type MissionCreateWithoutSubmissionsInput = {
@@ -40758,46 +38434,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -40834,8 +38490,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -40853,47 +38507,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -40931,7 +38564,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutMissionSubmissionsInput = {
@@ -40953,46 +38585,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -41029,8 +38641,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -41048,47 +38658,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -41126,7 +38715,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInReviewInput = {
@@ -41258,46 +38846,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -41333,8 +38901,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -41352,47 +38918,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -41430,7 +38975,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUpsertWithoutSubmissionsInReviewInput = {
@@ -41458,46 +39002,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -41533,8 +39057,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -41552,47 +39074,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -41630,7 +39131,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type MissionReviewUpsertWithWhereUniqueWithoutSubmissionInput = {
@@ -41716,46 +39216,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -41792,8 +39272,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -41811,47 +39289,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -41889,7 +39346,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -41981,46 +39437,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42056,8 +39492,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -42075,47 +39509,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42153,7 +39566,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -42170,46 +39582,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -42246,8 +39638,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -42265,47 +39655,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -42343,7 +39712,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -42376,46 +39744,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42451,8 +39799,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -42470,47 +39816,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42548,7 +39873,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutBetaFeedbacksInput = {
@@ -42565,46 +39889,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -42641,8 +39945,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -42660,47 +39962,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -42738,7 +40019,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutBetaFeedbacksInput = {
@@ -42771,46 +40051,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42846,8 +40106,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -42865,47 +40123,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -42943,7 +40180,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type OrganizationCreateWithoutJoinRequestsInput = {
@@ -43003,46 +40239,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -43079,8 +40295,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
     betaKey?: BetaKeyCreateNestedOneWithoutUserInput
   }
 
@@ -43098,47 +40312,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -43176,7 +40369,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutJoinRequestsInput = {
@@ -43258,46 +40450,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -43333,8 +40505,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
     betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
   }
 
@@ -43352,47 +40522,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -43430,7 +40579,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type UserCreateWithoutBetaKeyInput = {
@@ -43447,46 +40595,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -43524,8 +40652,6 @@ export namespace Prisma {
     members?: MemberCreateNestedManyWithoutUserInput
     invitations?: InvitationCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
-    mentor?: UserCreateNestedOneWithoutMenteesInput
-    mentees?: UserCreateNestedManyWithoutMentorInput
   }
 
   export type UserUncheckedCreateWithoutBetaKeyInput = {
@@ -43542,47 +40668,26 @@ export namespace Prisma {
     experience?: number
     class?: string | null
     role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: number
     catalystScore?: number
-    cardSecretHash?: string | null
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
     confidenceScore?: number
-    connectionFrequency?: number | null
     country?: string | null
     creatorScore?: number
     currentSituation?: string | null
-    dashboardActivity?: number | null
     domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
     githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
     mainObjective?: string | null
-    mentorId?: string | null
     missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
     portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
     pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
     strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
@@ -43620,7 +40725,6 @@ export namespace Prisma {
     members?: MemberUncheckedCreateNestedManyWithoutUserInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
-    mentees?: UserUncheckedCreateNestedManyWithoutMentorInput
   }
 
   export type UserCreateOrConnectWithoutBetaKeyInput = {
@@ -43653,46 +40757,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -43729,8 +40813,6 @@ export namespace Prisma {
     members?: MemberUpdateManyWithoutUserNestedInput
     invitations?: InvitationUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentor?: UserUpdateOneWithoutMenteesNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBetaKeyInput = {
@@ -43747,47 +40829,26 @@ export namespace Prisma {
     experience?: IntFieldUpdateOperationsInput | number
     class?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
     builderScore?: IntFieldUpdateOperationsInput | number
     catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
     confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
     creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
     domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mentorId?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
     strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
@@ -43825,7 +40886,6 @@ export namespace Prisma {
     members?: MemberUncheckedUpdateManyWithoutUserNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -43952,8 +41012,6 @@ export namespace Prisma {
     answers: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     averageResponseTime?: number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SessionCreateManyUserInput = {
@@ -43990,86 +41048,6 @@ export namespace Prisma {
     createdAt?: Date | string
     ipAddress?: string | null
     userAgent?: string | null
-  }
-
-  export type UserCreateManyMentorInput = {
-    id: string
-    name: string
-    email: string
-    emailVerified: boolean
-    emailStatus?: string
-    emailLastBounced?: Date | string | null
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    level?: number
-    experience?: number
-    class?: string | null
-    role?: string
-    activePaths?: UserCreateactivePathsInput | string[]
-    ageRange?: string | null
-    answerConsistency?: number | null
-    badges?: UserCreatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
-    cardSecretHash?: string | null
-    cardSignature?: string | null
-    cardIssuedAt?: Date | string | null
-    cardTier?: string | null
-    city?: string | null
-    cohortsJoined?: UserCreatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserCreatecollaborativeProjectsInput | string[]
-    communityEngagement?: number | null
-    confidenceScore?: number
-    connectionFrequency?: number | null
-    country?: string | null
-    creatorScore?: number
-    currentSituation?: string | null
-    dashboardActivity?: number | null
-    domains?: UserCreatedomainsInput | string[]
-    dominantMotivation?: string | null
-    githubUrl?: string | null
-    language?: string
-    lastHypothesisUpdate?: Date | string | null
-    longTermObjective?: string | null
-    mainObjective?: string | null
-    missionsCompletedCount?: number
-    onboardingSpeed?: number | null
-    polarization?: number
-    portfolioUrl?: string | null
-    predictedEngagementScore?: number | null
-    preferredRhythm?: string | null
-    profileDrift?: number
-    profileStability?: number
-    projectsRealized?: UserCreateprojectsRealizedInput | string[]
-    pseudo?: string | null
-    recommendedPath?: UserCreaterecommendedPathInput | string[]
-    recommendedTools?: UserCreaterecommendedToolsInput | string[]
-    strategistScore?: number
-    technicalLevel?: string | null
-    tools?: UserCreatetoolsInput | string[]
-    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
-    bio?: string | null
-    linkedinUrl?: string | null
-    memberNumber?: number
-    twitterUrl?: string | null
-    currentFocus?: UserCreatecurrentFocusInput | string[]
-    dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
-    mainBlocker?: string | null
-    banned?: boolean | null
-    banReason?: string | null
-    banExpires?: Date | string | null
-    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
-    reviewsCompleted?: number
-    twoFactorEnabled?: boolean
-    twoFactorSecret?: string | null
-    twoFactorBackupCodes?: string | null
-    betaKeyId?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -44434,8 +41412,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUncheckedUpdateWithoutUserInput = {
@@ -44445,8 +41421,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type QuizResultUncheckedUpdateManyWithoutUserInput = {
@@ -44456,8 +41430,6 @@ export namespace Prisma {
     answers?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     averageResponseTime?: NullableIntFieldUpdateOperationsInput | number | null
-    detailedResponseTimes?: NullableJsonNullValueInput | InputJsonValue
-    diagnosticAnswers?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -44566,275 +41538,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type UserUpdateWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    emailStatus?: StringFieldUpdateOperationsInput | string
-    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    badges?: UserUpdatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
-    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
-    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    tools?: UserUpdatetoolsInput | string[]
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
-    reviewsCompleted?: IntFieldUpdateOperationsInput | number
-    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
-    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
-    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
-    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
-    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    members?: MemberUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUpdateManyWithoutUserNestedInput
-    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
-    mentees?: UserUpdateManyWithoutMentorNestedInput
-    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    emailStatus?: StringFieldUpdateOperationsInput | string
-    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    badges?: UserUpdatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
-    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
-    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    tools?: UserUpdatetoolsInput | string[]
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
-    reviewsCompleted?: IntFieldUpdateOperationsInput | number
-    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
-    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
-    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
-    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
-    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
-    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
-    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
-    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
-    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
-    mentees?: UserUncheckedUpdateManyWithoutMentorNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutMentorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    emailStatus?: StringFieldUpdateOperationsInput | string
-    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    level?: IntFieldUpdateOperationsInput | number
-    experience?: IntFieldUpdateOperationsInput | number
-    class?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    activePaths?: UserUpdateactivePathsInput | string[]
-    ageRange?: NullableStringFieldUpdateOperationsInput | string | null
-    answerConsistency?: NullableFloatFieldUpdateOperationsInput | number | null
-    badges?: UserUpdatebadgesInput | string[]
-    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
-    cardSecretHash?: NullableStringFieldUpdateOperationsInput | string | null
-    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
-    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    cohortsJoined?: UserUpdatecohortsJoinedInput | string[]
-    collaborativeProjects?: UserUpdatecollaborativeProjectsInput | string[]
-    communityEngagement?: NullableFloatFieldUpdateOperationsInput | number | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
-    connectionFrequency?: NullableFloatFieldUpdateOperationsInput | number | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
-    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
-    dashboardActivity?: NullableFloatFieldUpdateOperationsInput | number | null
-    domains?: UserUpdatedomainsInput | string[]
-    dominantMotivation?: NullableStringFieldUpdateOperationsInput | string | null
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: StringFieldUpdateOperationsInput | string
-    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    longTermObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
-    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    onboardingSpeed?: NullableIntFieldUpdateOperationsInput | number | null
-    polarization?: FloatFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    predictedEngagementScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    preferredRhythm?: NullableStringFieldUpdateOperationsInput | string | null
-    profileDrift?: FloatFieldUpdateOperationsInput | number
-    profileStability?: FloatFieldUpdateOperationsInput | number
-    projectsRealized?: UserUpdateprojectsRealizedInput | string[]
-    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    recommendedPath?: UserUpdaterecommendedPathInput | string[]
-    recommendedTools?: UserUpdaterecommendedToolsInput | string[]
-    strategistScore?: IntFieldUpdateOperationsInput | number
-    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
-    tools?: UserUpdatetoolsInput | string[]
-    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    currentFocus?: UserUpdatecurrentFocusInput | string[]
-    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
-    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
-    reviewsCompleted?: IntFieldUpdateOperationsInput | number
-    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
-    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
-    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MemberCreateManyOrganizationInput = {
