@@ -23541,6 +23541,7 @@ export namespace Prisma {
     type: string | null
     content: string | null
     status: string | null
+    attachmentUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -23551,6 +23552,7 @@ export namespace Prisma {
     type: string | null
     content: string | null
     status: string | null
+    attachmentUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -23561,6 +23563,7 @@ export namespace Prisma {
     type: number
     content: number
     status: number
+    attachmentUrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -23573,6 +23576,7 @@ export namespace Prisma {
     type?: true
     content?: true
     status?: true
+    attachmentUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -23583,6 +23587,7 @@ export namespace Prisma {
     type?: true
     content?: true
     status?: true
+    attachmentUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -23593,6 +23598,7 @@ export namespace Prisma {
     type?: true
     content?: true
     status?: true
+    attachmentUrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -23676,6 +23682,7 @@ export namespace Prisma {
     type: string
     content: string
     status: string
+    attachmentUrl: string | null
     createdAt: Date
     updatedAt: Date
     _count: BetaFeedbackCountAggregateOutputType | null
@@ -23703,6 +23710,7 @@ export namespace Prisma {
     type?: boolean
     content?: boolean
     status?: boolean
+    attachmentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -23714,6 +23722,7 @@ export namespace Prisma {
     type?: boolean
     content?: boolean
     status?: boolean
+    attachmentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -23725,6 +23734,7 @@ export namespace Prisma {
     type?: boolean
     content?: boolean
     status?: boolean
+    attachmentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -23736,11 +23746,12 @@ export namespace Prisma {
     type?: boolean
     content?: boolean
     status?: boolean
+    attachmentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BetaFeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["betaFeedback"]>
+  export type BetaFeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "content" | "status" | "attachmentUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["betaFeedback"]>
   export type BetaFeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -23762,6 +23773,7 @@ export namespace Prisma {
       type: string
       content: string
       status: string
+      attachmentUrl: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["betaFeedback"]>
@@ -24193,6 +24205,7 @@ export namespace Prisma {
     readonly type: FieldRef<"BetaFeedback", 'String'>
     readonly content: FieldRef<"BetaFeedback", 'String'>
     readonly status: FieldRef<"BetaFeedback", 'String'>
+    readonly attachmentUrl: FieldRef<"BetaFeedback", 'String'>
     readonly createdAt: FieldRef<"BetaFeedback", 'DateTime'>
     readonly updatedAt: FieldRef<"BetaFeedback", 'DateTime'>
   }
@@ -27147,6 +27160,7 @@ export namespace Prisma {
     type: 'type',
     content: 'content',
     status: 'status',
+    attachmentUrl: 'attachmentUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29014,6 +29028,7 @@ export namespace Prisma {
     type?: StringFilter<"BetaFeedback"> | string
     content?: StringFilter<"BetaFeedback"> | string
     status?: StringFilter<"BetaFeedback"> | string
+    attachmentUrl?: StringNullableFilter<"BetaFeedback"> | string | null
     createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
     updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -29025,6 +29040,7 @@ export namespace Prisma {
     type?: SortOrder
     content?: SortOrder
     status?: SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -29039,6 +29055,7 @@ export namespace Prisma {
     type?: StringFilter<"BetaFeedback"> | string
     content?: StringFilter<"BetaFeedback"> | string
     status?: StringFilter<"BetaFeedback"> | string
+    attachmentUrl?: StringNullableFilter<"BetaFeedback"> | string | null
     createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
     updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -29050,6 +29067,7 @@ export namespace Prisma {
     type?: SortOrder
     content?: SortOrder
     status?: SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BetaFeedbackCountOrderByAggregateInput
@@ -29066,6 +29084,7 @@ export namespace Prisma {
     type?: StringWithAggregatesFilter<"BetaFeedback"> | string
     content?: StringWithAggregatesFilter<"BetaFeedback"> | string
     status?: StringWithAggregatesFilter<"BetaFeedback"> | string
+    attachmentUrl?: StringNullableWithAggregatesFilter<"BetaFeedback"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BetaFeedback"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BetaFeedback"> | Date | string
   }
@@ -31166,6 +31185,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBetaFeedbacksInput
@@ -31177,6 +31197,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31186,6 +31207,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBetaFeedbacksNestedInput
@@ -31197,6 +31219,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31207,6 +31230,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31216,6 +31240,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31226,6 +31251,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32794,6 +32820,7 @@ export namespace Prisma {
     type?: SortOrder
     content?: SortOrder
     status?: SortOrder
+    attachmentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -32804,6 +32831,7 @@ export namespace Prisma {
     type?: SortOrder
     content?: SortOrder
     status?: SortOrder
+    attachmentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -32814,6 +32842,7 @@ export namespace Prisma {
     type?: SortOrder
     content?: SortOrder
     status?: SortOrder
+    attachmentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34737,6 +34766,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -34746,6 +34776,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -35192,6 +35223,7 @@ export namespace Prisma {
     type?: StringFilter<"BetaFeedback"> | string
     content?: StringFilter<"BetaFeedback"> | string
     status?: StringFilter<"BetaFeedback"> | string
+    attachmentUrl?: StringNullableFilter<"BetaFeedback"> | string | null
     createdAt?: DateTimeFilter<"BetaFeedback"> | Date | string
     updatedAt?: DateTimeFilter<"BetaFeedback"> | Date | string
   }
@@ -40990,6 +41022,7 @@ export namespace Prisma {
     type: string
     content: string
     status?: string
+    attachmentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -41350,6 +41383,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41359,6 +41393,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41368,6 +41403,7 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -397,6 +397,7 @@ exports.Prisma.BetaFeedbackScalarFieldEnum = {
   type: 'type',
   content: 'content',
   status: 'status',
+  attachmentUrl: 'attachmentUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

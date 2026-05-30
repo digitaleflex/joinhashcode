@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { MessageSquare, AlertTriangle, Lightbulb, User, Clock, CheckCircle2 } from "lucide-react"
+import { MessageSquare, AlertTriangle, Lightbulb, User, Clock, CheckCircle2, Paperclip } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Badge } from "@/components/ui/badge"
@@ -77,6 +77,20 @@ export default async function AdminFeedbackPage() {
                   <p className="text-zinc-200 leading-relaxed whitespace-pre-wrap italic">
                     &quot;{f.content}&quot;
                   </p>
+                  
+                  {f.attachmentUrl && (
+                    <div className="pt-1">
+                      <a
+                        href={f.attachmentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-all font-mono text-[9px] uppercase tracking-wider"
+                      >
+                        <Paperclip className="size-3.5" />
+                        Voir la pièce jointe
+                      </a>
+                    </div>
+                  )}
                   
                   <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-zinc-500 border-t border-white/5 pt-4">
                     <div className="flex items-center gap-1.5">
