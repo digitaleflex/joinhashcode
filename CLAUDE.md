@@ -24,14 +24,13 @@ HASHCODE is a Next.js 15 App Router app for AI-driven tech talent profiling and 
 
 ### Routing & Middleware
 
-Route groups live under `/app`. The middleware at `middleware.ts` enforces a four-stage funnel:
+Route groups live under `/app`. The middleware at `middleware.ts` enforces a three-stage funnel:
 
 1. No session → redirect to `/signin`
 2. Session but no `currentSituation` → redirect to `/onboarding`
 3. Session but no `class` assigned → redirect to `/quiz`
-4. Session but no `dreamStatement` → redirect to `/onboarding/post-quiz`
 
-Protected routes (middleware matcher + `isProtectedPath`): `dashboard`, `community`, `missions`, `tools`, `settings`, `squad`, `dossier`, `reviewer`, `feedback`.
+Protected routes (middleware matcher + `isProtectedPath`): `dashboard`, `missions`, `settings`, `squad`, `dossier`, `reviewer`, `feedback`, `onboarding`, `quiz`.
 
 `/admin/*` is protected by `app/admin/layout.tsx` (requires role `ADMIN` or `MODERATOR`) — not in the middleware matcher by design since role-checking belongs in the layout.
 
@@ -43,13 +42,13 @@ Better Auth (`lib/auth.ts`) with Prisma adapter, NextCookies session storage. Pr
 
 The signin page is a server component (`app/(auth)/signin/page.tsx`) that redirects already-authenticated users through the funnel. The actual form is the client component `components/auth/signin-form.tsx`. Both social and OTP handlers read `?callbackURL=` from the URL so that invite links (`/invite/[slug]`) can redirect back after authentication.
 
-**Invite flow for new users:** When an unauthenticated user clicks an invite link, a `pending-squad` cookie (1 h TTL) is set before the signin redirect. After the user completes the full onboarding funnel, `app/onboarding/post-quiz/page.tsx` reads this cookie and redirects to `/invite/[slug]` instead of `/dashboard`, completing the squad join.
+**Invite flow for new users:** When an unauthenticated user clicks an invite link, a `pending-squad` cookie (1 h TTL) is set before the signin redirect. After the user completes the full onboarding funnel, they are redirected to `/invite/[slug]` to complete the squad join.
 
 ### Database
 
 PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client dans `lib/db.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
 
-The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Guild`, `GuildMember`, `ContactMessage`, `ActivityLog`.
+The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Organization`, `Member`, `ActivityLog`.
 
 **ActivityLog** (`prisma/schema.prisma` → `activity_log` table): append-only event trail for every significant user action. Never throws — failures are swallowed so a log error never breaks a request. Use `logActivity()` from `lib/activity-log.ts`.
 
@@ -126,11 +125,11 @@ Le repo utilise `.env.development` et `.env.production` pour les environnements.
 
 ### Squad System
 
-Squads are `Guild` records (max 5 members). The creator is `LEADER`; others are `MEMBER`. Key mechanics:
+Squads are `Organization` records (Better Auth's org model, mapped to `organization` table). The creator is `LEADER`; others are `MEMBER`. Key mechanics:
 
 - **Cohesion score** (0–1): boosted by daily check-ins (`+0.05`) and approved missions (`+0.1`). Decays `−0.02/day` via cron if inactive.
 - **Streak**: incremented when cohesion stays ≥ 0.9 for a new day. Milestones at 3d and 7d trigger badge rewards.
-- **Invite link**: `<origin>/invite/<guild.slug>`. Only the LEADER can customize name + slug via `PATCH /api/squad/update`. Slug rules: 3–30 chars, lowercase alphanumeric + hyphens, no leading/trailing hyphens.
+- **Invite link**: `<origin>/invite/<org.slug>`. Only the LEADER can customize name + slug via `PATCH /api/squad/update`. Slug rules: 3–30 chars, lowercase alphanumeric + hyphens, no leading/trailing hyphens.
 
 Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashboard/squad-journey.tsx`). It shows a 6-phase gamified path; the leader sees a personalization panel.
 

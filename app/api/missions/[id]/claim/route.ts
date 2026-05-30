@@ -23,12 +23,17 @@ export async function POST(
       }),
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { id: true, class: true, level: true, missionsCompletedCount: true },
+        select: { id: true, class: true, level: true, missionsCompletedCount: true, role: true },
       }),
     ]);
 
     if (!submission) return new NextResponse("Soumission introuvable.", { status: 404 });
     if (!reviewer) return new NextResponse("Utilisateur introuvable.", { status: 404 });
+
+    // Concierge Mode: Restrict to ADMIN or MODERATOR
+    if (reviewer.role !== "ADMIN" && reviewer.role !== "MODERATOR") {
+      return new NextResponse("Le claim de mission est réservé à la modération.", { status: 403 });
+    }
 
     if (submission.status !== "PENDING") {
       return new NextResponse("Cette soumission n'est plus disponible pour révision.", { status: 400 });

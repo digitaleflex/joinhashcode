@@ -68,7 +68,7 @@ jobs:
             done
 
             docker compose --env-file .env.production exec -T web sh -c "
-              npx prisma migrate reset --force && \
+              npx prisma migrate deploy && \
               npx tsx prisma/seed.ts
             "
             
