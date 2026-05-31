@@ -36,6 +36,6 @@ jobs:
       - name: "Prisma Setup"
         run: |
           pnpm prisma generate
-          pnpm prisma db push
+          pnpm prisma migrate deploy
       - name: "Tests"
         run: pnpm run test run

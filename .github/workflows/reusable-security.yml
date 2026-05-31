@@ -15,7 +15,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: "ESLint"
-        run: pnpm run lint || echo "::warning::Lint warnings"
+        run: pnpm run lint
       - name: "Audit npm"
         run: pnpm audit --audit-level=high || echo "::warning::Vulnerabilities found"
       - name: "Secrets Scan"

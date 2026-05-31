@@ -10,7 +10,8 @@ npm run build      # Generate Prisma client + push schema + build Next.js
 npm run lint       # Run ESLint
 npm run test       # Run Vitest test suite
 npx prisma studio  # Open Prisma database browser
-npx prisma db push # Push schema changes without migration (dev)
+npx prisma migrate dev --name <description> # Créer une migration (OBLIGATOIRE pour prod)
+npx prisma db push                           # Appliquer localement sans migration (dev uniquement)
 ```
 
 To run a single test:
@@ -154,7 +155,9 @@ Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashb
 
 ### Rules (always follow)
 
-1. **Prisma schema change** → run `npx prisma db push` immediately after modifying `prisma/schema.prisma` to apply changes and regenerate the client.
+1. **Prisma schema change** → deux étapes obligatoires :
+   - `npx prisma migrate dev --name <description>` pour créer le fichier de migration (requis par le pipeline CI/CD qui utilise `prisma migrate deploy` en prod)
+   - `npx prisma db push` pour appliquer localement si la DB VPS n'est pas accessible en dev
 2. **ActivityLog** → always fire-and-forget. Never `await logActivity(...)` on the critical path; swallow errors silently.
 3. **Server vs. client components** → pages and layouts are server components by default. Add `"use client"` only when the component needs browser APIs, event handlers, or React hooks.
 4. **DB safety** → never reset, truncate, or delete data without explicit user confirmation. Dev and prod share the same Supabase project — schema changes affect both.
