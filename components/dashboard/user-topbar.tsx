@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, Globe, LogOut, Bell, ShieldAlert } from "lucide-react"
+import { Search, User as UserIcon, Settings, Globe, LogOut, Bell, ShieldAlert, Users, Activity, UserSearch, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -16,6 +16,19 @@ import Image from "next/image"
 import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MemberList } from "./squad/MemberList"
+import { SquadActivityFeed } from "./squad/SquadActivityFeed"
+import { JoinRequestsManager } from "./squad/JoinRequestsManager"
+import { InviteMemberForm } from "./squad/InviteMemberForm"
+import { OrgSettingsForm } from "./squad/OrgSettingsForm"
 
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
@@ -30,7 +43,14 @@ const NotificationBell = dynamic(
 )
 
 export function UserTopBar({ user }: { user: any }) {
-  const isImpersonated = authClient.useSession().data?.session?.impersonatedBy;
+  const session = authClient.useSession();
+  const isImpersonated = session.data?.session?.impersonatedBy;
+
+  // Squad Management Logic
+  const activeOrg = authClient.organization.useActiveOrganization();
+  const activeMember = authClient.organization.useActiveMember();
+  const isOwner = activeMember.data?.role === "owner";
+  const squad = activeOrg.data;
 
   const handleStopImpersonation = async () => {
     try {
@@ -95,6 +115,55 @@ export function UserTopBar({ user }: { user: any }) {
 
       {/* Right: Actions & Profile */}
       <div className="flex items-center gap-2 md:gap-4">
+        {/* Squad Management (Only for Owners) */}
+        {isOwner && squad && (
+          <Dialog>
+              <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-primary/10 text-zinc-400 hover:text-primary transition-all group">
+                      <Users className="size-5 group-hover:scale-110 transition-transform" />
+                  </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl bg-zinc-950 border-white/10 text-white p-0 overflow-hidden rounded-3xl">
+                  <div className="p-6 border-b border-white/5 bg-zinc-900/50">
+                    <DialogHeader>
+                        <DialogTitle className="text-xl font-bold uppercase italic tracking-tight flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-primary/10 text-primary border border-primary/20">
+                            <Users className="size-5" />
+                          </div>
+                          Gestion de l'Escouade
+                        </DialogTitle>
+                    </DialogHeader>
+                  </div>
+                  <div className="p-6">
+                    <Tabs defaultValue="members" className="">
+                        <TabsList className="bg-zinc-900 border-white/5 grid grid-cols-5 h-auto p-1 rounded-xl">
+                            <TabsTrigger value="members" className="gap-2 py-2 text-[10px] font-bold uppercase"><Users className="size-3.5" /> Membres</TabsTrigger>
+                            <TabsTrigger value="journal" className="gap-2 py-2 text-[10px] font-bold uppercase"><Activity className="size-3.5" /> Journal</TabsTrigger>
+                            <TabsTrigger value="requests" className="gap-2 py-2 text-[10px] font-bold uppercase"><UserSearch className="size-3.5" /> Candidats</TabsTrigger>
+                            <TabsTrigger value="invite" className="gap-2 py-2 text-[10px] font-bold uppercase"><Mail className="size-3.5" /> Inviter</TabsTrigger>
+                            <TabsTrigger value="settings" className="gap-2 py-2 text-[10px] font-bold uppercase"><Settings className="size-3.5" /> Réglages</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="members" className="mt-6">
+                            <MemberList members={squad.members || []} currentUserId={user.id} />
+                        </TabsContent>
+                        <TabsContent value="journal" className="mt-6">
+                            <SquadActivityFeed organizationId={squad.id} />
+                        </TabsContent>
+                        <TabsContent value="requests" className="mt-6">
+                            <JoinRequestsManager organizationId={squad.id} />
+                        </TabsContent>
+                        <TabsContent value="invite" className="mt-6">
+                            <InviteMemberForm />
+                        </TabsContent>
+                        <TabsContent value="settings" className="mt-6">
+                            <OrgSettingsForm organization={squad} />
+                        </TabsContent>
+                    </Tabs>
+                  </div>
+              </DialogContent>
+          </Dialog>
+        )}
+
         {/* Notifications */}
         <NotificationBell />
 
