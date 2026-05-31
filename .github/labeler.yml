@@ -1,0 +1,98 @@
+# Labellisation automatique des PRs selon les fichiers modifiés
+# Utilisé par .github/workflows/pr-labeler.yml
+
+"area: auth":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "lib/auth.ts"
+      - "lib/auth-client.ts"
+      - "app/(auth)/**"
+      - "app/api/auth/**"
+      - "components/auth/**"
+      - "app/2fa/**"
+
+"area: missions":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/missions/**"
+      - "app/api/missions/**"
+      - "app/reviewer/**"
+      - "app/api/reviewer/**"
+      - "lib/missions.ts"
+      - "components/missions/**"
+
+"area: squad":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/squad/**"
+      - "app/api/squad/**"
+      - "app/invite/**"
+      - "lib/squad-logic.ts"
+      - "components/dashboard/squad*"
+      - "components/dashboard/squad/**"
+
+"area: profile":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/dossier/**"
+      - "app/u/**"
+      - "app/settings/**"
+      - "app/api/user/**"
+      - "components/ui/member-card*"
+      - "lib/member-card-constants.ts"
+
+"area: admin":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/admin/**"
+      - "app/api/admin/**"
+      - "components/admin/**"
+
+"area: platform":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "middleware.ts"
+      - "next.config.*"
+      - "app/layout.tsx"
+      - "app/page.tsx"
+      - "components/landing/**"
+      - "components/dashboard/app-sidebar*"
+      - "components/dashboard/bottom-nav*"
+      - "components/dashboard/user-topbar*"
+
+"area: community":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/feedback/**"
+      - "app/contact/**"
+      - "app/api/feedback/**"
+      - "app/api/contact/**"
+      - "app/api/feed/**"
+
+"type: db-schema":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "prisma/**"
+      - "generated/prisma/**"
+
+"type: infra":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "Dockerfile"
+      - "compose*.yaml"
+      - ".github/workflows/**"
+      - ".github/dependabot.yml"
+
+"type: security":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "lib/auth.ts"
+      - "middleware.ts"
+      - "app/api/auth/**"
+      - ".github/workflows/reusable-security.yml"
+
+"dependencies":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "package.json"
+      - "pnpm-lock.yaml"
