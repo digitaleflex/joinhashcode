@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, X, UserPlus, Loader2 } from "lucide-react";
+import { Check, X, Loader2 } from "lucide-react";
 
 export function JoinRequestsManager({ organizationId }: { organizationId: string }) {
   const [requests, setRequests] = useState<any[]>([]);
@@ -42,7 +41,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
       toast.success(action === "accept" ? "Agent recruté !" : "Candidature refusée");
       fetchRequests();
       if (action === "accept") window.location.reload();
-    } catch (err) {
+    } catch {
       toast.error("Erreur technique");
     }
   };

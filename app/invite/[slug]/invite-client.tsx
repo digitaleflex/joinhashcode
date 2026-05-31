@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Users, Zap, Loader2, ArrowRight, ShieldCheck, Lock, Globe, Sparkles } from "lucide-react"
+import { Zap, Loader2, ArrowRight, ShieldCheck, Lock, Globe, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
@@ -116,7 +116,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                                             </AvatarFallback>
                                         </Avatar>
                                     </div>
-                                    {m.role === "LEADER" && (
+                                    {m.role === "owner" && (
                                         <div className="absolute -top-1 -right-1 size-4 bg-primary rounded-full flex items-center justify-center border-2 border-zinc-950">
                                             <Sparkles className="size-2 text-black fill-black" />
                                         </div>

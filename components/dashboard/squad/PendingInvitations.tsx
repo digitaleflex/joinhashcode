@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Mail, Loader2 } from "lucide-react";
 
 export function PendingInvitations() {
@@ -48,8 +48,8 @@ export function PendingInvitations() {
         fetchInvitations();
         if (action === "accept") window.location.reload();
       }
-    } catch (err) {
-      toast.error("Erreur technique lors de l\"action");
+    } catch {
+      toast.error("Erreur technique lors de l'action");
     }
   };
 
