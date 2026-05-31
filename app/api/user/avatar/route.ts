@@ -35,7 +35,14 @@ export async function POST(req: Request) {
     const buffer = await file.arrayBuffer();
     const fileName = `${session.user.id}-${Date.now()}.webp`; // Add timestamp to bypass CDN cache
 
-    const { error } = await getSupabaseAdmin().storage
+    // Verify Supabase Admin Client
+    const supabase = getSupabaseAdmin();
+    if (!supabase) {
+      console.error("[AVATAR_POST] Supabase Admin Client not initialized. Check SB_ADMIN_KEY.");
+      return new NextResponse("Configuration de stockage manquante.", { status: 500 });
+    }
+
+    const { error } = await supabase.storage
       .from("avatars")
       .upload(fileName, buffer, {
         contentType: file.type,
