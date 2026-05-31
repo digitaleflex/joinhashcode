@@ -99,6 +99,8 @@ model Organization {
   lastStreakAt  DateTime?
   requiredLevel Int          @default(1)
   isPrivate     Boolean      @default(false)
+  description   String?
+  announcement  String?
   members       Member[]
   twoFactorEnabled         Boolean             @default(false)
   twoFactorSecret          String?

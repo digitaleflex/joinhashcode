@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
 
-    const { name, slug, isPrivate, requiredLevel } = await req.json();
+    const { name, slug, isPrivate, requiredLevel, description, announcement } = await req.json();
 
     if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 40) {
       return NextResponse.json({ error: "Nom invalide (2–40 caractères)." }, { status: 400 });
@@ -62,11 +62,13 @@ export async function PATCH(req: Request) {
 
     const updated = await prisma.organization.update({
       where: { id: membership.organizationId },
-      data: { 
-        name: name.trim(), 
+      data: {
+        name: name.trim(),
         slug,
         isPrivate: !!isPrivate,
-        requiredLevel: levelNum
+        requiredLevel: levelNum,
+        description: typeof description === "string" ? description.slice(0, 300) : undefined,
+        announcement: typeof announcement === "string" ? announcement.slice(0, 200) : undefined,
       },
     });
 

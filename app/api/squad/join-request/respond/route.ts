@@ -22,7 +22,17 @@ export async function POST(req: Request) {
         where: { organizationId: target.organizationId, userId: session.user.id, role: "owner" },
       });
       if (!leadership) return new NextResponse("Forbidden", { status: 403 });
+      const org = await prisma.organization.findUnique({ where: { id: target.organizationId }, select: { name: true } });
       await prisma.member.delete({ where: { id: memberId } });
+      await prisma.notification.create({
+        data: {
+          userId: target.userId,
+          type: "SQUAD_MEMBER_KICKED",
+          title: "Tu as été retiré de l'escouade",
+          message: `Le chef de ${org?.name || "l'escouade"} t'a retiré de l'équipe. Tu peux rejoindre ou créer une nouvelle escouade.`,
+          link: "/squad",
+        },
+      }).catch(() => {});
       return NextResponse.json({ success: true });
     }
 

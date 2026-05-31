@@ -7,8 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, UserPlus, Loader2 } from "lucide-react";
+import { Users, UserPlus, Loader2, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface PublicSquadListProps {
   squads: any[];
@@ -65,9 +66,15 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-lg font-bold text-white uppercase italic truncate">
-                {squad.name}
-              </h3>
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="text-lg font-bold text-white uppercase italic truncate flex-1">{squad.name}</h3>
+                <Link href={`/squad/${squad.slug}`} className="text-zinc-600 hover:text-primary transition-colors shrink-0 mt-0.5">
+                  <ArrowUpRight className="size-4" />
+                </Link>
+              </div>
+              {squad.description && (
+                <p className="text-[10px] text-zinc-500 leading-relaxed line-clamp-2">{squad.description}</p>
+              )}
               <div className="flex items-center gap-2">
                 <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
                   <div

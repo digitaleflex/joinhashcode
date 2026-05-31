@@ -1,33 +1,45 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { MoreHorizontal, Trash2, LogOut, Crown } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { MoreHorizontal, Trash2, LogOut, Crown, Zap } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { formatDistanceToNow } from "date-fns";
+import { fr } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 interface MemberListProps {
   members: any[];
   currentUserId: string;
 }
 
+function ActivityDot({ lastCheckinAt }: { lastCheckinAt?: string | null }) {
+  if (!lastCheckinAt) return <span className="size-2 rounded-full bg-zinc-700 inline-block" title="Jamais connecté" />;
+  const days = (Date.now() - new Date(lastCheckinAt).getTime()) / 86_400_000;
+  if (days < 1) return <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981] inline-block animate-pulse" title="Actif aujourd'hui" />;
+  if (days < 3) return <span className="size-2 rounded-full bg-amber-500 inline-block" title="Actif récemment" />;
+  return <span className="size-2 rounded-full bg-zinc-600 inline-block" title="Inactif" />;
+}
+
 export function MemberList({ members, currentUserId }: MemberListProps) {
   const currentUserMember = members.find((m) => m.userId === currentUserId);
   const isLeader = currentUserMember?.role === "owner";
+  const [memberActivity, setMemberActivity] = useState<Record<string, string | null>>({});
+
+  useEffect(() => {
+    fetch("/api/squad/members")
+      .then(r => r.ok ? r.json() : [])
+      .then((data: any[]) => {
+        const map: Record<string, string | null> = {};
+        data.forEach(m => { map[m.userId] = m.user?.lastCheckinAt ?? null; });
+        setMemberActivity(map);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleRemove = async (guildMemberId: string, name: string) => {
     if (!confirm(`Es-tu sûr de vouloir retirer ${name} de l'escouade ?`)) return;
@@ -37,128 +49,107 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ memberId: guildMemberId, action: "remove" }),
       });
-      if (!res.ok) {
-        const text = await res.text();
-        toast.error(text || "Erreur lors de la suppression");
-      } else {
-        toast.success(`${name} a été retiré de l'escouade`);
-        window.location.reload();
-      }
-    } catch {
-      toast.error("Une erreur inattendue est survenue");
-    }
+      if (!res.ok) { toast.error(await res.text() || "Erreur lors de la suppression"); }
+      else { toast.success(`${name} a été retiré de l'escouade`); window.location.reload(); }
+    } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
   const handleTransfer = async (memberId: string, name: string) => {
-    if (!confirm(`Es-tu sûr de vouloir transférer le leadership à ${name} ? Tu deviendras un simple membre.`)) return;
+    if (!confirm(`Es-tu sûr de vouloir transférer le leadership à ${name} ?`)) return;
     try {
       const res = await fetch("/api/squad/transfer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ targetMemberId: memberId }),
       });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        toast.error(data.error || "Erreur lors du transfert");
-      } else {
-        toast.success(`Leadership transféré à ${name}`);
-        window.location.reload();
-      }
-    } catch {
-      toast.error("Une erreur inattendue est survenue");
-    }
+      if (!res.ok) { const d = await res.json().catch(() => ({})); toast.error(d.error || "Erreur lors du transfert"); }
+      else { toast.success(`Leadership transféré à ${name}`); window.location.reload(); }
+    } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
   const handleLeave = async () => {
     if (!confirm("Es-tu sûr de vouloir quitter cette escouade ?")) return;
     try {
       const res = await fetch("/api/squad/leave", { method: "DELETE" });
-      if (!res.ok) {
-        const text = await res.text();
-        toast.error(text || "Erreur lors du départ");
-      } else {
-        toast.success("Tu as quitté l'escouade");
-        window.location.href = "/squad";
-      }
-    } catch {
-      toast.error("Une erreur inattendue est survenue");
-    }
+      if (!res.ok) { toast.error(await res.text() || "Erreur lors du départ"); }
+      else { toast.success("Tu as quitté l'escouade"); window.location.href = "/squad"; }
+    } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
   return (
-    <div className="rounded-md border bg-card">
+    <div className="rounded-xl border border-white/5 bg-card overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Membre</TableHead>
-            <TableHead>Rôle</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          <TableRow className="border-white/5 hover:bg-transparent">
+            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">Membre</TableHead>
+            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">Rôle</TableHead>
+            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">
+              <span className="flex items-center gap-1"><Zap className="size-3" /> Activité</span>
+            </TableHead>
+            <TableHead className="text-right text-[9px] font-mono uppercase text-zinc-600">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {members.map((member) => (
-            <TableRow key={member.id}>
-              <TableCell className="flex items-center gap-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={member.user?.image} />
-                  <AvatarFallback>{member.user?.name?.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <div className="font-medium text-xs">{member.user?.name}</div>
-                  <div className="text-[10px] text-muted-foreground">{member.user?.email}</div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <Badge
-                  variant={member.role === "owner" ? "default" : "secondary"}
-                  className="text-[9px] uppercase font-mono"
-                >
-                  {member.role === "owner" ? "Chef" : "Membre"}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                {member.userId === currentUserId ? (
-                  member.role !== "owner" && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 text-[10px] text-destructive hover:text-destructive hover:bg-destructive/10 gap-2 font-bold uppercase"
-                      onClick={handleLeave}
-                    >
-                      <LogOut className="h-3 w-3" />
-                      Quitter
-                    </Button>
-                  )
-                ) : (
-                  isLeader && member.role !== "owner" && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10">
-                        <DropdownMenuItem
-                          className="text-white focus:text-white focus:bg-white/10"
-                          onClick={() => handleTransfer(member.id, member.user?.name)}
-                        >
-                          <Crown className="mr-2 h-4 w-4 text-primary" />
-                          Transférer Leadership
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="text-destructive focus:text-destructive focus:bg-destructive/10"
-                          onClick={() => handleRemove(member.id, member.user?.name)}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Retirer
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+          {members.map((member) => {
+            const lastCheckin = memberActivity[member.userId];
+            const lastCheckinDate = lastCheckin ? new Date(lastCheckin) : null;
+            return (
+              <TableRow key={member.id} className="border-white/5">
+                <TableCell className="flex items-center gap-3">
+                  <div className="relative shrink-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={member.user?.image} />
+                      <AvatarFallback>{member.user?.name?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <span className="absolute -bottom-0.5 -right-0.5">
+                      <ActivityDot lastCheckinAt={lastCheckin} />
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-medium text-xs">{member.user?.name}</div>
+                    <div className="text-[10px] text-muted-foreground font-mono">@{member.user?.pseudo || "—"}</div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={member.role === "owner" ? "default" : "secondary"} className="text-[9px] uppercase font-mono">
+                    {member.role === "owner" ? "Chef" : "Membre"}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <span className={cn("text-[9px] font-mono", lastCheckinDate ? "text-zinc-400" : "text-zinc-600")}>
+                    {lastCheckinDate ? formatDistanceToNow(lastCheckinDate, { addSuffix: true, locale: fr }) : "Jamais"}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  {member.userId === currentUserId ? (
+                    member.role !== "owner" && (
+                      <Button variant="ghost" size="sm" className="h-8 text-[10px] text-destructive hover:text-destructive hover:bg-destructive/10 gap-2 font-bold uppercase" onClick={handleLeave}>
+                        <LogOut className="h-3 w-3" /> Quitter
+                      </Button>
+                    )
+                  ) : (
+                    isLeader && member.role !== "owner" && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10">
+                          <DropdownMenuItem className="text-white focus:text-white focus:bg-white/10" onClick={() => handleTransfer(member.id, member.user?.name)}>
+                            <Crown className="mr-2 h-4 w-4 text-primary" /> Transférer Leadership
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10" onClick={() => handleRemove(member.id, member.user?.name)}>
+                            <Trash2 className="mr-2 h-4 w-4" /> Retirer
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
