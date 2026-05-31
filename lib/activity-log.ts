@@ -14,6 +14,8 @@ export type ActivityAction =
   | "SQUAD_JOINED"
   | "SQUAD_UPDATED"
   | "SQUAD_INVITE_SENT"
+  | "SQUAD_DISBANDED"
+  | "SQUAD_OWNERSHIP_TRANSFERRED"
   // Missions
   | "MISSION_VIEWED"
   | "MISSION_CLAIMED"

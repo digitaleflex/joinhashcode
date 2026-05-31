@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
@@ -6,17 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Mail } from "lucide-react";
 
 export function InviteMemberForm() {
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("member");
   const [isPending, setIsPending] = useState(false);
 
   const handleInvite = async (e: React.FormEvent) => {
@@ -26,16 +19,16 @@ export function InviteMemberForm() {
     try {
       const { error } = await authClient.organization.inviteMember({
         email,
-        role: role as any,
+        role: "member",
       });
 
       if (error) {
-        toast.error(error.message || "Erreur lors de l\"invitation");
+        toast.error(error.message || "Erreur lors de l'invitation");
       } else {
         toast.success(`Invitation envoyée à ${email}`);
         setEmail("");
       }
-    } catch (err) {
+    } catch {
       toast.error("Une erreur inattendue est survenue");
     } finally {
       setIsPending(false);
@@ -43,35 +36,25 @@ export function InviteMemberForm() {
   };
 
   return (
-    <form onSubmit={handleInvite} className="space-y-4 border p-4 rounded-lg bg-card">
+    <form onSubmit={handleInvite} className="space-y-6 p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
       <div className="space-y-2">
-        <Label htmlFor="email">Email du futur membre</Label>
+        <Label htmlFor="invite-email" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">
+          Email du futur membre
+        </Label>
         <Input
-          id="email"
+          id="invite-email"
           type="email"
           placeholder="builder@hashcode.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="bg-background"
+          className="bg-black/20 border-white/5 h-10"
         />
       </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="role">Rôle</Label>
-        <Select value={role} onValueChange={setRole}>
-          <SelectTrigger className="bg-background">
-            <SelectValue placeholder="Choisir un rôle" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="member">Membre (Standard)</SelectItem>
-            <SelectItem value="admin">Administrateur (Gestion)</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
 
-      <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Envoi en cours..." : "Envoyer l\"invitation"}
+      <Button type="submit" className="w-full btn-primary-glow font-black uppercase h-11 rounded-xl gap-2" disabled={isPending}>
+        <Mail className="size-4" />
+        {isPending ? "Envoi en cours..." : "Envoyer l'invitation"}
       </Button>
     </form>
   );

@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Zap, Target, UserPlus, TrendingUp, Award, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export function SquadActivityFeed({ organizationId }: { organizationId: string }) {
   const [logs, setLogs] = useState<any[]>([]);
@@ -32,7 +31,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
       case "MISSION_APPROVED": return <Award className="size-3 text-emerald-500" />;
       case "MISSION_SUBMITTED": return <Target className="size-3 text-amber-500" />;
       case "SQUAD_JOINED": return <UserPlus className="size-3 text-primary" />;
-      case "LEVEL_UP": return <TrendingUp className="size-3 text-purple-500" />;
+      case "SQUAD_UPDATED": return <TrendingUp className="size-3 text-purple-500" />;
       case "CHECKIN_COMPLETED": return <Zap className="size-3 text-blue-500" />;
       default: return <Zap className="size-3 text-zinc-500" />;
     }
@@ -44,7 +43,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
       case "MISSION_APPROVED": return <span><strong className="text-white">@{name}</strong> a validé une mission.</span>;
       case "MISSION_SUBMITTED": return <span><strong className="text-white">@{name}</strong> a transmis un livrable.</span>;
       case "SQUAD_JOINED": return <span><strong className="text-white">@{name}</strong> a rejoint l"unité.</span>;
-      case "LEVEL_UP": return <span><strong className="text-white">@{name}</strong> a passé un niveau !</span>;
+      case "SQUAD_UPDATED": return <span><strong className="text-white">@{name}</strong> a mis à jour l'escouade.</span>;
       case "CHECKIN_COMPLETED": return <span><strong className="text-white">@{name}</strong> a fait son check-in.</span>;
       default: return <span>Activité de <strong className="text-white">@{name}</strong>.</span>;
     }

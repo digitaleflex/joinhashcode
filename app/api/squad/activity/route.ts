@@ -1,4 +1,5 @@
-﻿import { auth } from "@/lib/auth";
+﻿export const dynamic = 'force-dynamic'
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -35,7 +36,7 @@ export async function GET(req: Request) {
       where: {
         userId: { in: memberIds },
         action: {
-          in: ["MISSION_SUBMITTED", "MISSION_APPROVED", "SQUAD_CREATED", "SQUAD_JOINED", "LEVEL_UP", "CHECKIN_COMPLETED"],
+          in: ["MISSION_SUBMITTED", "MISSION_APPROVED", "SQUAD_CREATED", "SQUAD_JOINED", "SQUAD_UPDATED", "CHECKIN_COMPLETED"],
         },
       },
       include: {

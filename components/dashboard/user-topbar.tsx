@@ -14,14 +14,15 @@ import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
+import { useEffect } from "react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MemberList } from "./squad/MemberList"
@@ -51,6 +52,16 @@ export function UserTopBar({ user }: { user: any }) {
   const activeMember = authClient.organization.useActiveMember();
   const isOwner = activeMember.data?.role === "owner";
   const squad = activeOrg.data;
+
+  // Auto-set the active organization on mount (Better Auth doesn't persist it across page loads)
+  useEffect(() => {
+    if (activeOrg.data) return
+    authClient.organization.listOrganizations().then(({ data }) => {
+      if (data && data.length > 0) {
+        authClient.organization.setActive({ organizationId: data[0].id })
+      }
+    })
+  }, [])
 
   const handleStopImpersonation = async () => {
     try {
