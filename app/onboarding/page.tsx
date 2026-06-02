@@ -106,7 +106,15 @@ export default function OnboardingPage() {
       try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ }
       track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective });
       toast.success("Profil initial configuré !")
-      router.push("/quiz")
+      
+      // Force refresh Better Auth session so cookies updated in browser immediately
+      try {
+        await authClient.getSession({ forceRefetch: true });
+      } catch (err) {
+        console.error("Session refresh failed:", err);
+      }
+
+      window.location.href = "/quiz"
     } catch (error) {
       toast.error("Une erreur est survenue")
     } finally {

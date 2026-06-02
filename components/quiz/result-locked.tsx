@@ -1,15 +1,19 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { type AnalysisResult } from '@/lib/analysis'
 import { PROFILE_COLORS, getProfileContent, type ProfileType } from '@/lib/profile-content'
+import { authClient } from '@/lib/auth-client'
+import { Loader2 } from 'lucide-react'
 
 interface Props {
   analysis: AnalysisResult
 }
 
 export function ResultLocked({ analysis }: Props) {
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const primary = analysis.primary as ProfileType
   const color = PROFILE_COLORS[primary]
   const content = getProfileContent(primary)
@@ -100,17 +104,31 @@ export function ResultLocked({ analysis }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="flex flex-col items-center gap-4">
-        <Link
-          href={destination}
-          className="w-full max-w-sm text-center py-4 px-8 rounded-xl font-bold text-black transition-all hover:-translate-y-0.5"
+      <div className="flex flex-col items-center gap-4 w-full">
+        <button
+          onClick={async () => {
+            setIsRedirecting(true)
+            try {
+              // Force cookie refresh to ensure Next.js middleware gets up-to-date fields
+              await authClient.getSession({ forceRefetch: true })
+            } catch (err) {
+              console.error("Session update failed:", err)
+            }
+            window.location.href = destination
+          }}
+          disabled={isRedirecting}
+          className="w-full max-w-sm text-center py-4 px-8 rounded-xl font-bold text-black transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
           style={{
             background: color,
             boxShadow: `0 8px 30px -8px ${color}55`,
           }}
         >
-          Accéder à ma Guilde & Voir mes missions
-        </Link>
+          {isRedirecting ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            "Accéder à ma Guilde & Voir mes missions"
+          )}
+        </button>
         <Link href="/" className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors">
           Retourner à l&apos;accueil
         </Link>
