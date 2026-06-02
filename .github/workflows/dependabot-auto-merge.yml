@@ -10,9 +10,8 @@ permissions:
 
 jobs:
   auto-merge:
-    name: "Auto-merge patch & minor"
+    name: "Intelligent Dependabot Auto-merge"
     runs-on: ubuntu-latest
-    # Uniquement sur les PRs Dependabot
     if: github.actor == 'dependabot[bot]'
 
     steps:
@@ -22,47 +21,60 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      # ── PATCH : auto-approve + auto-merge immédiat ──────────────────────────
-      - name: "Approve - patch"
-        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
-        run: gh pr review --approve "$PR_URL" --body "Auto-approved (patch - no risk of breaking changes)"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "Merge - patch (after CI)"
-        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
-        run: gh pr merge --auto --squash "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # ── MINOR : auto-approve + auto-merge (après CI obligatoire) ───────────
-      - name: "Approve - minor"
-        if: steps.meta.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr review --approve "$PR_URL" --body "Auto-approved (minor - merged automatically if CI passes)"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "Merge - minor (after CI)"
-        if: steps.meta.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --squash "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # ── MAJOR : label + commentaire pour review manuelle ───────────────────
-      - name: "Label - major (manual review required)"
-        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+      # ── [1/4] CRITICAL SECURITY FIXES : Auto-approve & auto-merge immediately ──
+      - name: "Approve & Auto-merge - Security Fix"
+        if: steps.meta.outputs.alert-state == 'fixed'
         run: |
-          gh pr edit "$PR_URL" --add-label "dependencies" || true
-          gh pr comment "$PR_URL" --body "Major update detected - manual review required before merge.
+          gh pr review --approve "$PR_URL" --body "🔒 Auto-approved: Security vulnerability fix detected. Merging automatically as soon as status checks pass."
+          gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          **Package :** \`${{ steps.meta.outputs.dependency-names }}\`
-          **Change :** \`${{ steps.meta.outputs.previous-version }}\` → \`${{ steps.meta.outputs.new-version }}\`
+      # ── [2/4] PATCH & MINOR UPDATES : Auto-approve & auto-merge after CI ───────
+      - name: "Approve & Auto-merge - Patch & Minor"
+        if: |
+          steps.meta.outputs.alert-state != 'fixed' &&
+          (steps.meta.outputs.update-type == 'version-update:semver-patch' || 
+           steps.meta.outputs.update-type == 'version-update:semver-minor')
+        run: |
+          gh pr review --approve "$PR_URL" --body "⚡ Auto-approved: Safe semver update (${{ steps.meta.outputs.update-type }}). Merging automatically as soon as status checks pass."
+          gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          Check the changelog for breaking changes before merging."
+      # ── [3/4] DEV DEPENDENCIES (MAJOR) : Auto-approve & auto-merge after CI ────
+      # Since it is a devDependency (e.g. eslint, typescript, vitest), if it compiles 
+      # and the test suite passes, we can safely merge it automatically.
+      - name: "Approve & Auto-merge - Major DevDependency"
+        if: |
+          steps.meta.outputs.alert-state != 'fixed' &&
+          steps.meta.outputs.update-type == 'version-update:semver-major' &&
+          steps.meta.outputs.dependency-type == 'development'
+        run: |
+          gh pr review --approve "$PR_URL" --body "🧪 Auto-approved: Major devDependency update. Merging automatically as soon as test suite passes."
+          gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── [4/4] PRODUCTION (MAJOR) : Block & require manual review ───────────────
+      - name: "Flag - Major Production Update"
+        if: |
+          steps.meta.outputs.alert-state != 'fixed' &&
+          steps.meta.outputs.update-type == 'version-update:semver-major' &&
+          steps.meta.outputs.dependency-type == 'production'
+        run: |
+          gh pr edit "$PR_URL" --add-label "dependencies" --add-label "security-review" || true
+          gh pr comment "$PR_URL" --body "⚠️ **Review Manuelle Requise** 
+
+          Une mise à jour **Majeure** sur une dépendance de **Production** a été détectée. Ce type de mise à jour peut introduire des ruptures de compatibilité (breaking changes).
+          
+          * **Package** : \`${{ steps.meta.outputs.dependency-names }}\`
+          * **Changement** : \`${{ steps.meta.outputs.previous-version }}\` ➡️ \`${{ steps.meta.outputs.new-version }}\`
+          
+          Veuillez vérifier les changelogs et valider le fonctionnement de l'application en local avant de fusionner cette PR."
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
