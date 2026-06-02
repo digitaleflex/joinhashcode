@@ -17,7 +17,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: "SSH: Deploy and Maintain"
+      - name: "SSH: Deploy, Verify and Maintain"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -32,8 +32,8 @@ jobs:
 
             cd "$APP_DIR"
 
-            # ── [1/4] Pull new image ──────────────────────────────────────────
-            echo "--- [1/4] Pulling ${IMAGE} ---"
+            # ── [1/5] Pull new image ──────────────────────────────────────────
+            echo "--- [1/5] Pulling ${IMAGE} ---"
             [ -f ".env.production" ] && cp .env.production /tmp/.env.prod.bak
 
             if [ ! -d ".git" ]; then
@@ -46,70 +46,48 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production pull
 
-            # ── [2/4] Migrate BEFORE starting the app ────────────────────────
-            # Running migrations as a one-off container ensures the schema is
-            # up-to-date before any request can hit the new columns.
-            # If this step fails, the app never starts with incompatible code.
-            echo "--- [2/4] Running database migrations ---"
+            # ── [2/5] Migrate BEFORE starting the app ────────────────────────
+            echo "--- [2/5] Running database migrations ---"
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
               -e DATABASE_URL \
               -e DIRECT_URL \
               web sh -c "npx prisma migrate deploy"
 
-            # ── [3/4] Seed (idempotent upserts only) ─────────────────────────
-            echo "--- [3/4] Running seed ---"
+            # ── [3/5] Seed (idempotent upserts only) ─────────────────────────
+            echo "--- [3/5] Running seed ---"
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
               -e DATABASE_URL \
               -e DIRECT_URL \
               web sh -c "npx tsx prisma/seed.ts"
 
-            # ── [4/4] Start / restart the application ────────────────────────
-            echo "--- [4/4] Starting application ---"
+            # ── [4/5] Start / restart the application ────────────────────────
+            echo "--- [4/5] Starting application ---"
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production up -d
 
-            docker image prune -f
-            echo "Deployment complete."
-
-  verify:
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    steps:
-      - name: "Final Health Check"
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ${{ secrets.SSH_PATH }}
+            # ── [5/5] Verify Health & Rollback if failure ───────────────────
+            echo "--- [5/5] Running health check ---"
             MAX=30
+            HEALTHY=false
             for i in $(seq 1 $MAX); do
               RESPONSE=$(docker compose --env-file .env.production exec -T web sh -c "wget -qO- http://127.0.0.1:3000/api/status" 2>/dev/null || echo "offline")
               if echo "$RESPONSE" | grep -q "online"; then
                 echo "App healthy: $RESPONSE"
-                exit 0
+                HEALTHY=true
+                break
               fi
-              echo "Waiting... ($i/$MAX)"
+              echo "Waiting for container to become healthy... ($i/$MAX)"
               sleep 5
             done
-            echo "::error::Health check timed out"
-            docker compose --env-file .env.production logs --tail=100 web
-            exit 1
 
-  rollback:
-    runs-on: ubuntu-latest
-    needs: [deploy, verify]
-    if: failure()
-    steps:
-      - name: "Rollback to :latest"
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ${{ secrets.SSH_PATH }}
-            echo "Rolling back to :latest image..."
-            HASHCODE_IMAGE="ghcr.io/${{ github.repository }}:latest" \
-              docker compose --env-file .env.production up -d web
-            echo "Rollback complete."
+            if [ "$HEALTHY" = "false" ]; then
+              echo "::error::Health check timed out. Initiating rollback..."
+              docker compose --env-file .env.production logs --tail=100 web || true
+              
+              echo "Rolling back to :latest image..."
+              HASHCODE_IMAGE="ghcr.io/${{ github.repository }}:latest" docker compose --env-file .env.production up -d web
+              echo "Rollback complete."
+              exit 1
+            fi
+
+            docker image prune -f
+            echo "Deployment and verification completed successfully."
