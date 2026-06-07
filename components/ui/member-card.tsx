@@ -2,6 +2,7 @@
 
 import { Download, Share2, Check } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn, generatePassportId } from "@/lib/utils";
 import { CLASS_COLORS, LEVEL_NAMES, XP_MAX } from "@/lib/member-card-constants";
@@ -15,7 +16,7 @@ interface MemberCardProps {
   experience: number;
   createdAt: Date | string;
   className?: string;
-  // New V2 Stats
+  image?: string | null;
   confidenceScore?: number;
   missionsCompleted?: number;
   tools?: string[];
@@ -30,6 +31,7 @@ export function MemberCard({
   experience,
   createdAt,
   className,
+  image,
   confidenceScore = 0.25,
   missionsCompleted = 0,
   tools = [],
@@ -103,9 +105,13 @@ export function MemberCard({
             {/* Avatar Cluster */}
             <div className="relative shrink-0">
               <div className="size-20 sm:size-24 rounded-2xl bg-zinc-900 border-2 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700" style={{ borderColor: `${accent}60` }}>
-                 <div className="w-full h-full flex items-center justify-center text-3xl sm:text-4xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent uppercase">
-                   {pseudo.charAt(0)}
-                 </div>
+                {image ? (
+                  <Image src={image} alt={pseudo} width={96} height={96} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-3xl sm:text-4xl font-black text-white/10 bg-linear-to-br from-white/5 to-transparent uppercase">
+                    {pseudo.charAt(0)}
+                  </div>
+                )}
               </div>
               <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 bg-white text-black text-[7px] font-black uppercase tracking-tighter -rotate-2">
                 Verified

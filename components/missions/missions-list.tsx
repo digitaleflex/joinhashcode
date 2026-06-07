@@ -62,13 +62,17 @@ const STAGE_CONFIG: Record<ProgressionStage, {
   },
 };
 
-export function MissionsList({ 
-  userLevel, 
+const XP_PER_LEVEL: Record<number, number> = { 1: 1000, 2: 2000, 3: 3000 }
+
+export function MissionsList({
+  userLevel,
+  userXp = 0,
   submissions,
   userClass,
   missions
-}: { 
-  userLevel: number; 
+}: {
+  userLevel: number;
+  userXp?: number;
   submissions: Record<string, string>; // missionId -> status
   userClass?: string | null;
   missions: MissionWithStats[];
@@ -161,14 +165,33 @@ export function MissionsList({
               <div className="h-px flex-1 bg-white/5" />
             </div>
 
-            {isLocked && (
-              <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/40 rounded-xl border border-white/5 justify-center md:justify-start">
-                <Lock className="size-3 text-zinc-600" />
-                <span className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">
-                  Niveau {config.requiredLevel} requis pour débloquer
-                </span>
-              </div>
-            )}
+            {isLocked && (() => {
+              const levelsToGo = config.requiredLevel - userLevel;
+              const xpInCurrentLevel = userXp % 1000;
+              const xpPerLevel = 1000;
+              const totalXpNeeded = (levelsToGo - 1) * xpPerLevel + (xpPerLevel - xpInCurrentLevel);
+              const progressPct = Math.round((xpInCurrentLevel / xpPerLevel) * 100);
+              return (
+                <div className="px-4 py-4 bg-zinc-900/40 rounded-xl border border-white/5 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Lock className="size-3 text-zinc-600" />
+                    <span className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">
+                      Niveau {config.requiredLevel} requis — tu es au niveau {userLevel} ({levelsToGo} niveau{levelsToGo > 1 ? "x" : ""} restant{levelsToGo > 1 ? "s" : ""})
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[8px] font-mono text-zinc-600 uppercase">Progression vers le prochain niveau</span>
+                      <span className="text-[8px] font-mono text-primary">{xpInCurrentLevel} / {xpPerLevel} XP</span>
+                    </div>
+                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-primary/50 rounded-full transition-all" style={{ width: `${progressPct}%` }} />
+                    </div>
+                    <span className="text-[8px] text-zinc-700 font-mono">~{totalXpNeeded} XP restants pour débloquer ces missions</span>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div className={cn("grid md:grid-cols-2 gap-6 lg:gap-8", isLocked && "opacity-40 pointer-events-none grayscale")}>
               {stageMissions.map(mission => (

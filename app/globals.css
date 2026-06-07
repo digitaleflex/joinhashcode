@@ -124,6 +124,11 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* Contrast fix: default zinc-600 (#52525b) fails WCAG AA on dark bg (~1.8:1).
+     Bumped to pass 4.5:1 on the app background (oklch 0.08). */
+  --color-zinc-600: oklch(0.56 0.01 266);
+  --color-zinc-700: oklch(0.52 0.01 266);
+
   /* Color sidebar mapping */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);

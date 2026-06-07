@@ -34,19 +34,28 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    // Reset input so same file can be re-selected after an error
+    e.target.value = ""
     setUploadingAvatar(true)
     const formData = new FormData()
     formData.append("file", file)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
     try {
-      const res = await fetch("/api/user/avatar", { method: "POST", body: formData })
+      const res = await fetch("/api/user/avatar", { method: "POST", body: formData, signal: controller.signal })
       if (!res.ok) throw new Error(await res.text())
       const { url } = await res.json()
       updateData({ ...userData, image: url })
       toast.success("Avatar mis à jour !")
       router.refresh()
     } catch (error: any) {
-      toast.error(error.message || "Erreur lors de l'upload")
+      if (error.name === "AbortError") {
+        toast.error("Upload trop long. Vérifie ta connexion et réessaie.")
+      } else {
+        toast.error(error.message || "Erreur lors de l'upload")
+      }
     } finally {
+      clearTimeout(timeout)
       setUploadingAvatar(false)
     }
   }

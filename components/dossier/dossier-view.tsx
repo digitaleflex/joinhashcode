@@ -140,6 +140,7 @@ export function DossierView({
                           level={user.level}
                           experience={user.experience}
                           createdAt={user.createdAt}
+                          image={user.image ?? null}
                           confidenceScore={user.confidenceScore}
                           missionsCompleted={user.missionsCompletedCount}
                           tools={user.tools}

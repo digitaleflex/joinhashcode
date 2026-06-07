@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 interface MissionSubmissionFormProps {
   missionId: string;
@@ -95,20 +96,57 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
 };
 
 
+  const STEPS = [
+    { label: "Soumission" },
+    { label: "Rétrospection" },
+    { label: "Validation" },
+  ]
+  const currentStep = showScanner ? 2 : submitSuccess && showRetroForm ? 1 : submitSuccess ? 1 : 0
+
+  const StepIndicator = () => (
+    <div className="flex items-center gap-0 mb-5">
+      {STEPS.map((step, i) => (
+        <div key={i} className="flex items-center flex-1">
+          <div className={cn(
+            "flex items-center gap-1.5 shrink-0",
+            i <= currentStep ? "text-primary" : "text-zinc-600"
+          )}>
+            <div className={cn(
+              "size-5 rounded-full flex items-center justify-center text-[9px] font-black border",
+              i < currentStep ? "bg-primary text-black border-primary" :
+              i === currentStep ? "bg-primary/10 text-primary border-primary/40" :
+              "bg-zinc-900 border-white/10"
+            )}>
+              {i < currentStep ? <Check className="size-2.5" /> : i + 1}
+            </div>
+            <span className="text-[8px] font-mono uppercase tracking-wider hidden sm:block">{step.label}</span>
+          </div>
+          {i < STEPS.length - 1 && (
+            <div className={cn("flex-1 h-px mx-1.5", i < currentStep ? "bg-primary/40" : "bg-white/5")} />
+          )}
+        </div>
+      ))}
+    </div>
+  )
+
   if (showScanner) {
     return (
-      <NeuralScanner 
-        onComplete={() => {
-          toast.success("Analyse terminée. Synchronisation effectuée !");
-          router.refresh();
-        }} 
-      />
+      <>
+        <StepIndicator />
+        <NeuralScanner
+          onComplete={() => {
+            toast.success("Analyse terminée. Synchronisation effectuée !");
+            router.refresh();
+          }}
+        />
+      </>
     );
   }
 
   if (submitSuccess && !showRetroForm) {
     return (
       <div className="space-y-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <StepIndicator />
         <div className="flex flex-col items-center gap-4">
           <div className="size-16 rounded-full bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center">
             <Check className="size-8 text-emerald-400" />
@@ -159,6 +197,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
 
     return (
       <div className="space-y-4">
+        <StepIndicator />
         {hasRevision && (
           <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 space-y-3">
             <p className="text-[10px] font-mono uppercase tracking-wider text-amber-400">
@@ -220,6 +259,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
 
   return (
     <form onSubmit={handleSubmitRetro} className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <StepIndicator />
       <div className="flex items-center gap-2 mb-2">
         <Button
           variant="ghost"

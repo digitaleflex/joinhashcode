@@ -14,7 +14,6 @@ import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
-import { useEffect } from "react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
 import {
@@ -43,25 +42,10 @@ const NotificationBell = dynamic(
   }
 )
 
-export function UserTopBar({ user }: { user: any }) {
+export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any, memberRole?: string }) {
   const session = authClient.useSession();
   const isImpersonated = session.data?.session?.impersonatedBy;
-
-  // Squad Management Logic
-  const activeOrg = authClient.organization.useActiveOrganization();
-  const activeMember = authClient.organization.useActiveMember();
-  const isOwner = activeMember.data?.role === "owner";
-  const squad = activeOrg.data;
-
-  // Auto-set the active organization on mount (Better Auth doesn't persist it across page loads)
-  useEffect(() => {
-    if (activeOrg.data) return
-    authClient.organization.listOrganizations().then(({ data }) => {
-      if (data && data.length > 0) {
-        authClient.organization.setActive({ organizationId: data[0].id })
-      }
-    })
-  }, [])
+  const isOwner = memberRole === "owner";
 
   const handleStopImpersonation = async () => {
     try {

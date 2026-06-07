@@ -119,7 +119,10 @@ export async function middleware(request: NextRequest) {
     // cryptographically re-validate the session cookie, keeping the application secure.
     const hasSessionCookie = !!getSessionCookie(request);
     if (!hasSessionCookie) {
-      return NextResponse.redirect(new URL("/signin", request.url));
+      const signinUrl = new URL("/signin", request.url);
+      signinUrl.searchParams.set("reason", "auth_required");
+      signinUrl.searchParams.set("callbackURL", request.nextUrl.pathname);
+      return NextResponse.redirect(signinUrl);
     }
   }
 

@@ -48,11 +48,16 @@ export function SignInForm() {
     const [otp, setOtp] = useState("")
     const [resendCooldown, setResendCooldown] = useState(0)
 
-    // Show contextual error from URL param (e.g. ?error=banned set by middleware)
+    // Show contextual messages from URL params set by middleware
     useEffect(() => {
-        const error = new URLSearchParams(window.location.search).get("error")
+        const params = new URLSearchParams(window.location.search)
+        const error = params.get("error")
+        const reason = params.get("reason")
         if (error === "banned") {
             toast.error("Ton compte a été suspendu. Contacte le support pour plus d'informations.", { duration: 8000 })
+        }
+        if (reason === "auth_required") {
+            toast.info("Connexion requise pour accéder à cette fonctionnalité.", { duration: 5000 })
         }
     }, [])
 

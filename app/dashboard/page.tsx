@@ -125,12 +125,13 @@ export default async function DashboardPage() {
   } : null;
 
   return (
-    <DashboardShell 
-      user={dbUser || (session.user as any)} 
-      quizResult={quizResult} 
+    <DashboardShell
+      user={dbUser || (session.user as any)}
+      quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}
       squad={squad}
+      memberRole={member?.role ?? undefined}
       recommendedMissions={recommendedMissions}
     />
   );

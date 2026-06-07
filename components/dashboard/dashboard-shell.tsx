@@ -65,6 +65,7 @@ export function DashboardShell({
   user,
   quizResult,
   squad = null,
+  memberRole,
   recommendedMissions = [],
   fullSubmissions = []
 }: {
@@ -73,6 +74,7 @@ export function DashboardShell({
   submissions?: Record<string, string>,
   fullSubmissions?: any[],
   squad?: any,
+  memberRole?: string,
   recommendedMissions?: Mission[]
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
@@ -87,7 +89,7 @@ export function DashboardShell({
       <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} />
+        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-10">
@@ -124,7 +126,7 @@ export function DashboardShell({
                 </div>
 
                 {/* Cyber HUD Right Panel */}
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 min-w-55">
+                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 w-full md:min-w-55 md:w-auto">
                   <div className="text-left md:text-right">
                     <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
                     <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
@@ -299,7 +301,9 @@ export function DashboardShell({
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
                       <div className="space-y-1">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
-                        <div className="text-sm font-medium text-white tracking-tight">{user.city || "N/A"}, {user.country || "N/A"}</div>
+                        <div className="text-sm font-medium text-white tracking-tight">
+                          {user.city && user.country ? `${user.city}, ${user.country}` : <span className="text-zinc-500 italic text-xs">Localisation non renseignée</span>}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -381,6 +385,7 @@ export function DashboardShell({
                     level={user.level ?? 1}
                     experience={user.experience ?? 0}
                     createdAt={user.createdAt ?? new Date()}
+                    image={user.image ?? null}
                     confidenceScore={user.confidenceScore ?? 0.25}
                     missionsCompleted={user.missionsCompletedCount ?? 0}
                     tools={user.tools ?? []}

@@ -16,6 +16,7 @@ import { MissionSubmissionForm } from "./mission-submission-form"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline } from "@/components/missions/submission-timeline"
 import { SuggestedPartners } from "@/components/missions/suggested-partners"
+import { SubmissionGuide } from "@/components/missions/submission-guide"
 
 export default async function MissionBriefingPage({
   params,
@@ -176,7 +177,7 @@ export default async function MissionBriefingPage({
                   <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">
                     Récompense
                   </div>
-                  <div className="text-6xl md:text-7xl font-black font-mono text-primary leading-none">
+                  <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none">
                     +{mission.xp}
                   </div>
                   <div className="text-xs font-mono text-primary/60 uppercase mt-1">
@@ -274,11 +275,14 @@ export default async function MissionBriefingPage({
                 {/* Submission / Status card */}
                 <div className="rounded-2xl border border-border/40 bg-card/30 overflow-hidden">
                   <div className="px-5 py-4 border-b border-border/30">
-                    <div className="flex items-center gap-2">
-                      <Award className="w-4 h-4 text-primary" />
-                      <span className="text-[10px] font-mono uppercase text-muted-foreground">
-                        Statut de la mission
-                      </span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Award className="w-4 h-4 text-primary" />
+                        <span className="text-[10px] font-mono uppercase text-muted-foreground">
+                          Statut de la mission
+                        </span>
+                      </div>
+                      {!isCompleted && <SubmissionGuide />}
                     </div>
                   </div>
 

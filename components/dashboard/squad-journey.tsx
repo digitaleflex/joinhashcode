@@ -142,6 +142,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
   const [isSaving, setIsSaving] = useState(false)
 
   const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
+  const memberRole = squad?.members?.find((m: any) => m.userId === user.id)?.role
   const memberCount = squad?.members?.length ?? 0
   const cohesion = squad?.cohesionScore ?? 0
   const streak = squad?.streakCount ?? 0
@@ -317,7 +318,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline" />
-        <UserTopBar user={user} />
+        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-10">
