@@ -36,6 +36,8 @@ export async function GET(req: Request) {
               category: true,
               xp: true,
               missionLevel: true,
+              submissionMethod: true,
+              deliverables: true,
             }
           }
         },

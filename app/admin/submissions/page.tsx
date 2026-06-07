@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Check, X, ExternalLink, User, Activity, Loader2, ArrowLeft } from "lucide-react"
+import { Check, X, ExternalLink, User, Activity, Loader2, ArrowLeft, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
@@ -32,7 +32,77 @@ interface Submission {
     title: string
     category: string
     xp: number
+    submissionMethod: string
+    deliverables: string[]
   }
+}
+
+const URL_METHODS = ["ANY_LINK", "LIVE_URL", "DOCUMENT_LINK", "GITHUB_REPO", "GITHUB_LINK"]
+
+function isValidUrl(str: string): boolean {
+  try {
+    const url = new URL(str)
+    return url.protocol === "http:" || url.protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
+function SubmissionContent({
+  content,
+  submissionMethod,
+  deliverables,
+  expanded = false,
+}: {
+  content: string | null
+  submissionMethod: string
+  deliverables?: string[]
+  expanded?: boolean
+}) {
+  if (!content) return <span className="text-xs text-muted-foreground italic">Aucun contenu</span>
+
+  if (URL_METHODS.includes(submissionMethod) && isValidUrl(content)) {
+    return (
+      <div className="flex items-center gap-2">
+        <ExternalLink className="h-3 w-3 text-muted-foreground shrink-0" />
+        <a
+          href={content}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`text-xs text-primary hover:underline ${expanded ? "break-all" : "truncate block max-w-xs"}`}
+        >
+          {content}
+        </a>
+      </div>
+    )
+  }
+
+  if (expanded) {
+    return (
+      <div className="space-y-3">
+        {deliverables && deliverables.length > 0 && (
+          <div className="space-y-1">
+            <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Livrables attendus</p>
+            <ul className="space-y-0.5">
+              {deliverables.map((d, i) => (
+                <li key={i} className="text-[11px] text-zinc-500 font-mono">— {d}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <pre className="text-sm text-zinc-200 whitespace-pre-wrap break-words font-sans leading-relaxed bg-white/3 border border-white/5 rounded-xl p-4">
+          {content}
+        </pre>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex items-start gap-2">
+      <FileText className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
+      <p className="text-xs text-zinc-300 line-clamp-2 leading-relaxed">{content}</p>
+    </div>
+  )
 }
 
 export default function AdminSubmissionsPage() {
@@ -156,17 +226,10 @@ export default function AdminSubmissionsPage() {
                     </TableCell>
                     <TableCell className="max-w-md">
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                          <a
-                            href={s.content || "#"}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-primary hover:underline truncate block"
-                          >
-                            {s.content}
-                          </a>
-                        </div>
+                        <SubmissionContent
+                          content={s.content}
+                          submissionMethod={s.mission.submissionMethod}
+                        />
                         {s.projectDescription && (
                           <p className="text-[11px] text-muted-foreground line-clamp-2 italic">
                             &ldquo;{s.projectDescription}&rdquo;
@@ -217,15 +280,13 @@ export default function AdminSubmissionsPage() {
 
               {activeSubmission.content && (
                 <div>
-                  <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1">Soumission</p>
-                  <a
-                    href={activeSubmission.content}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    {activeSubmission.content} <ExternalLink className="w-3 h-3" />
-                  </a>
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-2">Soumission</p>
+                  <SubmissionContent
+                    content={activeSubmission.content}
+                    submissionMethod={activeSubmission.mission.submissionMethod}
+                    deliverables={activeSubmission.mission.deliverables}
+                    expanded
+                  />
                 </div>
               )}
 
