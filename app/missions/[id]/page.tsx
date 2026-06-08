@@ -302,25 +302,9 @@ export default async function MissionBriefingPage({
                           )}
                         </div>
                       </div>
-                    ) : isInReview ? (
-                      <div className="flex flex-col items-center text-center py-8 gap-4">
-                        <div className="w-14 h-14 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                          <Rocket className="w-7 h-7 text-blue-400 animate-pulse" />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-blue-400 font-mono text-sm uppercase tracking-wide">En cours de revue</h3>
-                          <p className="text-xs text-zinc-500 mt-2">Un reviewer analyse ta soumission.</p>
-                        </div>
-                      </div>
-                    ) : isPending ? (
-                      <div className="flex flex-col items-center text-center py-8 gap-4">
-                        <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                          <Rocket className="w-7 h-7 text-amber-400 animate-pulse" />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-amber-400 font-mono text-sm uppercase tracking-wide">En attente de revue</h3>
-                          <p className="text-xs text-zinc-500 mt-2 leading-relaxed">Nos opérateurs analysent ta transmission.</p>
-                        </div>
+                    ) : (isInReview || isPending) ? (
+                      <div className="py-2">
+                        <SubmissionTimeline submission={submission as any} />
                       </div>
                     ) : (
                       <MissionSubmissionForm
@@ -333,12 +317,6 @@ export default async function MissionBriefingPage({
                     )}
                   </div>
                 </div>
-
-                {submission && submission.status !== "APPROVED" && (
-                  <div className="mt-6 p-5 bg-zinc-950/40 border border-white/5 rounded-3xl">
-                    <SubmissionTimeline submission={submission as any} />
-                  </div>
-                )}
 
                 {/* Requirements card */}
                 {mission.requirements.length > 0 && (
