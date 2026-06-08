@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Check, X, ExternalLink, User, Activity, Loader2, ArrowLeft, FileText } from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
+import { Check, X, ExternalLink, User, Loader2, FileText, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { getCriteriaForMission, computeQualityLevel } from "@/lib/acceptance-criteria"
+import Link from "next/link"
 
 interface Submission {
   id: string
@@ -22,6 +23,12 @@ interface Submission {
   content: string | null
   projectDescription: string | null
   createdAt: string
+  updatedAt: string
+  qualityLevel: string | null
+  xpAwarded: number | null
+  adminFeedback: string | null
+  revisionNotes: string | null
+  revisionCount: number
   user: {
     id: string
     name: string
@@ -105,35 +112,64 @@ function SubmissionContent({
   )
 }
 
+const STATUS_META: Record<string, { label: string; className: string }> = {
+  PENDING: { label: "En attente", className: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
+  PENDING_ADMIN: { label: "Admin requis", className: "bg-orange-500/10 text-orange-400 border-orange-500/20" },
+  IN_REVIEW: { label: "En revue", className: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
+  APPROVED: { label: "Approuvé", className: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
+  REJECTED: { label: "Rejeté", className: "bg-red-500/10 text-red-400 border-red-500/20" },
+  NEEDS_REVISION: { label: "Révision", className: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const meta = STATUS_META[status] ?? { label: status, className: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20" }
+  return (
+    <Badge variant="outline" className={`text-[9px] uppercase tracking-tighter font-mono ${meta.className}`}>
+      {meta.label}
+    </Badge>
+  )
+}
+
 export default function AdminSubmissionsPage() {
+  const [activeTab, setActiveTab] = useState<"pending" | "history">("pending")
   const [submissions, setSubmissions] = useState<Submission[]>([])
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
+  const limit = 50
   const [loading, setLoading] = useState(true)
   const [processingId, setProcessingId] = useState<string | null>(null)
   const [activeSubmission, setActiveSubmission] = useState<Submission | null>(null)
   const [adminFeedback, setAdminFeedback] = useState("")
   const [checkedCriteria, setCheckedCriteria] = useState<Record<string, boolean>>({})
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch("/api/admin/submissions")
+      const params = new URLSearchParams({ tab: activeTab, page: String(page), limit: String(limit) })
+      const res = await fetch(`/api/admin/submissions?${params}`)
       if (res.ok) {
         const data = await res.json()
-        // API returns { submissions, total, page, limit }
-        setSubmissions(Array.isArray(data) ? data : (data.submissions ?? []))
+        setSubmissions(data.submissions ?? [])
+        setTotal(data.total ?? 0)
       }
     } catch (e) {
       console.error(e)
     } finally {
       setLoading(false)
     }
-  }
+  }, [activeTab, page])
 
   useEffect(() => {
     fetchSubmissions()
-  }, [])
+  }, [fetchSubmissions])
 
-  const handleAction = async (id: string, action: string, details: any) => {
+  // reset page on tab switch
+  useEffect(() => {
+    setPage(1)
+    setActiveSubmission(null)
+  }, [activeTab])
+
+  const handleAction = async (id: string, action: string, details: Record<string, unknown>) => {
     setProcessingId(id)
     try {
       const res = await fetch(`/api/admin/submissions/${id}`, {
@@ -160,13 +196,39 @@ export default function AdminSubmissionsPage() {
     }
   }
 
+  const totalPages = Math.ceil(total / limit)
+
   return (
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-lg font-bold tracking-tight text-white">Soumissions</h1>
         <p className="text-sm text-muted-foreground font-mono">
-          Révise les soumissions en attente et valide la progression des membres.
+          Révise les soumissions en attente et consulte l&apos;historique des décisions.
         </p>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center gap-1 p-1 bg-zinc-900/60 border border-white/5 rounded-xl w-fit">
+        <button
+          onClick={() => setActiveTab("pending")}
+          className={`px-4 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${
+            activeTab === "pending"
+              ? "bg-primary text-primary-foreground font-bold"
+              : "text-muted-foreground hover:text-white"
+          }`}
+        >
+          En attente
+        </button>
+        <button
+          onClick={() => setActiveTab("history")}
+          className={`px-4 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${
+            activeTab === "history"
+              ? "bg-primary text-primary-foreground font-bold"
+              : "text-muted-foreground hover:text-white"
+          }`}
+        >
+          Historique
+        </button>
       </div>
 
       {loading ? (
@@ -180,8 +242,12 @@ export default function AdminSubmissionsPage() {
             <Check className="h-6 w-6 text-muted-foreground" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-medium">Aucune soumission en attente</h3>
-            <p className="text-sm text-muted-foreground">Tout est à jour. Bon travail !</p>
+            <h3 className="font-medium">
+              {activeTab === "pending" ? "Aucune soumission en attente" : "Aucun historique"}
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {activeTab === "pending" ? "Tout est à jour. Bon travail !" : "Pas encore de décisions enregistrées."}
+            </p>
           </div>
           <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-wider">
             Actualiser
@@ -195,8 +261,13 @@ export default function AdminSubmissionsPage() {
                 <TableRow className="border-white/5 hover:bg-transparent">
                   <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Membre</TableHead>
                   <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Mission</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Détails</TableHead>
-                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground text-right">Actions</TableHead>
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Contenu</TableHead>
+                  {activeTab === "history" && (
+                    <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Décision</TableHead>
+                  )}
+                  <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground text-right">
+                    {activeTab === "pending" ? "Actions" : "Date"}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -208,7 +279,12 @@ export default function AdminSubmissionsPage() {
                           <User className="h-4 w-4 text-muted-foreground" />
                         </div>
                         <div>
-                          <p className="text-sm font-medium">{s.user.name}</p>
+                          <Link
+                            href={`/admin/users/${s.user.id}`}
+                            className="text-sm font-medium hover:text-primary transition-colors"
+                          >
+                            {s.user.name}
+                          </Link>
                           <p className="text-[10px] text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
                         </div>
                       </div>
@@ -240,20 +316,47 @@ export default function AdminSubmissionsPage() {
                         </p>
                       </div>
                     </TableCell>
+                    {activeTab === "history" && (
+                      <TableCell>
+                        <div className="space-y-1.5">
+                          <StatusBadge status={s.status} />
+                          {s.status === "APPROVED" && s.qualityLevel && s.qualityLevel !== "STANDARD" && (
+                            <p className="text-[9px] font-mono text-primary/70">
+                              {s.qualityLevel === "EXEMPLARY" ? "⭐ Exemplaire" : "✦ Très bon"}
+                              {s.xpAwarded != null && ` · +${s.xpAwarded} XP`}
+                            </p>
+                          )}
+                          {s.status === "APPROVED" && s.xpAwarded != null && s.qualityLevel === "STANDARD" && (
+                            <p className="text-[9px] font-mono text-zinc-500">+{s.xpAwarded} XP</p>
+                          )}
+                          {s.adminFeedback && (
+                            <p className="text-[10px] text-zinc-400 line-clamp-2 italic max-w-[200px]">
+                              &ldquo;{s.adminFeedback}&rdquo;
+                            </p>
+                          )}
+                        </div>
+                      </TableCell>
+                    )}
                     <TableCell className="text-right">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-wider"
-                        onClick={() => {
-                          setActiveSubmission(s)
-                          setCheckedCriteria({})
-                          setAdminFeedback("")
-                        }}
-                        disabled={processingId === s.id}
-                      >
-                        Réviser
-                      </Button>
+                      {activeTab === "pending" ? (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-wider"
+                          onClick={() => {
+                            setActiveSubmission(s)
+                            setCheckedCriteria({})
+                            setAdminFeedback("")
+                          }}
+                          disabled={processingId === s.id}
+                        >
+                          Réviser
+                        </Button>
+                      ) : (
+                        <p className="text-[10px] text-muted-foreground font-mono whitespace-nowrap">
+                          {new Date(s.updatedAt).toLocaleDateString()}
+                        </p>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -261,7 +364,40 @@ export default function AdminSubmissionsPage() {
             </Table>
           </div>
 
-          {activeSubmission && (
+          {/* Pagination (history only) */}
+          {activeTab === "history" && totalPages > 1 && (
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] text-muted-foreground font-mono">
+                {(page - 1) * limit + 1}–{Math.min(page * limit, total)} sur {total}
+              </p>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 w-7 p-0 border-white/10"
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Button>
+                <span className="text-[10px] font-mono text-muted-foreground">
+                  {page} / {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 w-7 p-0 border-white/10"
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Review panel (pending tab only) */}
+          {activeTab === "pending" && activeSubmission && (
             <div className="rounded-2xl border border-primary/20 bg-zinc-900/60 p-6 space-y-6">
               <div className="flex items-start justify-between">
                 <div>
@@ -279,14 +415,54 @@ export default function AdminSubmissionsPage() {
               </div>
 
               {activeSubmission.content && (
-                <div>
-                  <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-2">Soumission</p>
-                  <SubmissionContent
-                    content={activeSubmission.content}
-                    submissionMethod={activeSubmission.mission.submissionMethod}
-                    deliverables={activeSubmission.mission.deliverables}
-                    expanded
-                  />
+                <div className="space-y-6">
+                  {/* Context Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {activeSubmission.projectDescription && (
+                      <div className="p-4 rounded-xl bg-white/3 border border-white/5 space-y-2">
+                        <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Description du projet</p>
+                        <p className="text-sm text-zinc-300 leading-relaxed italic">
+                          &ldquo;{activeSubmission.projectDescription}&rdquo;
+                        </p>
+                      </div>
+                    )}
+                    {(activeSubmission as any).userFeedback && (
+                      <div className="p-4 rounded-xl bg-white/3 border border-white/5 space-y-2">
+                        <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Feedback membre</p>
+                        <p className="text-sm text-zinc-300 leading-relaxed italic">
+                          &ldquo;{(activeSubmission as any).userFeedback}&rdquo;
+                        </p>
+                        <div className="flex items-center gap-3 pt-1">
+                          {(activeSubmission as any).userDifficulty && (
+                            <span className="text-[10px] font-mono text-amber-400">DIFF: {(activeSubmission as any).userDifficulty}/5</span>
+                          )}
+                          {(activeSubmission as any).userRating && (
+                            <span className="text-[10px] font-mono text-primary">RATING: {(activeSubmission as any).userRating}/5</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Main Deliverable */}
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-3">Livrable principal</p>
+                    <SubmissionContent
+                      content={activeSubmission.content}
+                      submissionMethod={activeSubmission.mission.submissionMethod}
+                      deliverables={activeSubmission.mission.deliverables}
+                      expanded
+                    />
+                  </div>
+
+                  {(activeSubmission as any).improvementSuggestions && (
+                    <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 space-y-2">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-blue-400/60">Suggestions d&apos;amélioration système</p>
+                      <p className="text-xs text-zinc-400 leading-relaxed italic">
+                        &ldquo;{(activeSubmission as any).improvementSuggestions}&rdquo;
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
