@@ -347,7 +347,7 @@ export function DossierView({
               </div>
 
               {/* Interactive Radar Chart */}
-              <div className="space-y-6">
+              <div className="space-y-6" id="tour-dossier-radar">
                   <div className="flex items-center gap-3">
                       <Activity className="size-5 text-primary" />
                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Graphique d'Évolution</h2>
@@ -369,7 +369,7 @@ export function DossierView({
               </div>
 
               {/* Growth Timeline Chart */}
-              <div className="space-y-6">
+              <div className="space-y-6" id="tour-dossier-xp">
                   <div className="flex items-center gap-3">
                       <TrendingUp className="size-5 text-primary" />
                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
@@ -385,7 +385,7 @@ export function DossierView({
               </div>
 
               {/* Missions Récentes */}
-              <div className="space-y-6">
+              <div className="space-y-6" id="tour-dossier-missions">
                   <div className="flex items-center gap-3">
                       <Target className="size-5 text-primary" />
                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Missions Récentes</h2>

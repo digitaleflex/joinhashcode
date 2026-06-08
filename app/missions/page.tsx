@@ -175,7 +175,7 @@ export default async function MissionsPage() {
             </div>
 
             {weeklyMission && (
-              <div className="max-w-3xl">
+              <div className="max-w-3xl" id="tour-weekly-challenge">
                 <WeeklyChallengeBanner 
                   mission={weeklyMission} 
                   isCompleted={!!weeklySubmission && weeklySubmission.status === "APPROVED"} 
@@ -217,13 +217,15 @@ export default async function MissionsPage() {
               </div>
             </div>
 
-            <MissionsList 
-              userLevel={finalDbUser.level} 
-              userXp={finalDbUser.experience} 
-              submissions={submissionsMap} 
-              userClass={finalDbUser.class}
-              missions={enrichedMissions}
-            />
+            <div id="tour-missions-list">
+              <MissionsList 
+                userLevel={finalDbUser.level} 
+                userXp={finalDbUser.experience} 
+                submissions={submissionsMap} 
+                userClass={finalDbUser.class}
+                missions={enrichedMissions}
+              />
+            </div>
           </div>
         </main>
       </SidebarInset>

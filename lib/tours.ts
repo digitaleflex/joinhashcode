@@ -68,6 +68,108 @@ export function getStepsForPath(pathname: string): DriveStep[] {
     ];
   }
 
+  if (pathname.startsWith("/missions")) {
+    return [
+      {
+        popover: {
+          title: "Arsenal des Missions",
+          description: "C'est ici que tu prouves ta valeur. Les missions sont classées par difficulté (INIT, CORE, PRO).",
+          side: "over",
+          align: "center"
+        }
+      },
+      {
+        element: "#tour-weekly-challenge",
+        popover: {
+          title: "Challenge Hebdomadaire",
+          description: "Un défi unique disponible uniquement cette semaine. Le réussir te donne un bonus massif d'XP.",
+          side: "bottom",
+          align: "center"
+        }
+      },
+      {
+        element: "#tour-missions-list",
+        popover: {
+          title: "Liste des Missions",
+          description: "Sélectionne une mission adaptée à ton niveau. Les missions grisées nécessitent de monter de niveau d'abord.",
+          side: "top",
+          align: "center"
+        }
+      }
+    ];
+  }
+
+  if (pathname.startsWith("/dossier")) {
+    return [
+      {
+        popover: {
+          title: "Fiche Profil & Dossier",
+          description: "Ton identité numérique HASHCODE complète. C'est ce que voient les autres membres et les recruteurs.",
+          side: "over",
+          align: "center"
+        }
+      },
+      {
+        element: "#tour-dossier-radar",
+        popover: {
+          title: "Cartographie de Compétences",
+          description: "Ce radar évolue à chaque fois que tu valides une mission. Il détermine si tu es plutôt Builder, Strategist, Creator ou Catalyst.",
+          side: "top",
+          align: "start"
+        }
+      },
+      {
+        element: "#tour-dossier-xp",
+        popover: {
+          title: "Dynamique de Croissance",
+          description: "L'historique de ton activité et de ton XP sur les 7 derniers jours.",
+          side: "top",
+          align: "start"
+        }
+      },
+      {
+        element: "#tour-dossier-missions",
+        popover: {
+          title: "Historique des Opérations",
+          description: "Toutes tes missions complétées et validées par les Reviewers s'affichent ici, servant de portfolio prouvé.",
+          side: "top",
+          align: "start"
+        }
+      },
+      {
+        element: "#tour-dossier-tips",
+        popover: {
+          title: "Recommandations Système",
+          description: "Le système analyse ton profil et te donne des conseils personnalisés pour accélérer ta progression.",
+          side: "bottom",
+          align: "start"
+        }
+      }
+    ];
+  }
+
+  if (pathname.startsWith("/squad")) {
+    return [
+      {
+        popover: {
+          title: "Hub de l'Escouade",
+          description: "HASHCODE se joue en multijoueur. Ton escouade est ton équipe rapprochée de 5 talents complémentaires.",
+          side: "over",
+          align: "center"
+        }
+      },
+      {
+        element: "#tour-squad-journey",
+        popover: {
+          title: "Gestion d'Équipe",
+          description: "Ici, tu peux voir le statut de tes coéquipiers, inviter de nouveaux membres ou rejoindre une escouade si tu es seul.",
+          side: "top",
+          align: "center"
+        }
+      }
+    ];
+  }
+
   // Default tour for unknown pages
   return [
     {

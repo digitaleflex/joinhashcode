@@ -84,9 +84,11 @@ export default async function SquadPage() {
   } : dbSquad;
 
   return (
-    <SquadJourney
-      user={dbUser || (session.user as any)}
-      squad={squad}
-    />
+    <div id="tour-squad-journey" className="h-full w-full">
+      <SquadJourney
+        user={dbUser || (session.user as any)}
+        squad={squad}
+      />
+    </div>
   );
 }
