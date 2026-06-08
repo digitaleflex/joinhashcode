@@ -147,12 +147,16 @@ export function DashboardShell({
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                <DailyCheckinWidget />
-                <MissionDeck recommendedMissions={recommendedMissions} />
+                <div id="tour-checkin">
+                  <DailyCheckinWidget />
+                </div>
+                <div id="tour-missions">
+                  <MissionDeck recommendedMissions={recommendedMissions} />
+                </div>
                 <MissionHistory submissions={fullSubmissions.filter((s: any) => s.status === "APPROVED")} />
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-8" id="tour-feed">
                 <NeuralFeed />
               </div>
             </div>
@@ -161,7 +165,7 @@ export function DashboardShell({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               
               {/* Bento Box 1: core_evolution_ (spans 2 cols on md) */}
-              <Card variant="premium" className="md:col-span-2 overflow-hidden group">
+              <Card variant="premium" className="md:col-span-2 overflow-hidden group" id="tour-progression">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-4">
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
@@ -368,7 +372,7 @@ export function DashboardShell({
             </div>
 
             {/* TIER 4: OFFICIAL MEMBER CARD (Holographic Showcase) */}
-            <div className="space-y-6 pt-6 flex flex-col items-center w-full">
+            <div className="space-y-6 pt-6 flex flex-col items-center w-full" id="tour-member-card">
               <h3 className="text-[10px] font-mono font-bold text-zinc-600 flex items-center gap-4 justify-center w-full">
                 <span className="h-px w-10 bg-zinc-800"></span>
                 carte_de_membre_officielle

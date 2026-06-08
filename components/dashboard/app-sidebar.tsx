@@ -80,7 +80,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent id="tour-sidebar">
         <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
           <DailyCheckinDialog />
         </div>
