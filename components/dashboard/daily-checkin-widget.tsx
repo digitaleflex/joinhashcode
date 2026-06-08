@@ -38,9 +38,15 @@ const ENERGIES = [
   { val: 5, emoji: "🔥" },
 ]
 
-export function DailyCheckinWidget() {
+export function DailyCheckinWidget({ 
+  isModal = false, 
+  onClose 
+}: { 
+  isModal?: boolean; 
+  onClose?: () => void 
+}) {
   const queryClient = useQueryClient()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(isModal)
   const [surgeActive, setSurgeActive] = useState(false)
   const [formData, setFormData] = useState({
     note: "",
@@ -71,10 +77,14 @@ export function DailyCheckinWidget() {
       }
 
       setTimeout(() => {
-        setIsOpen(false)
-        setSurgeActive(false)
-        setFormData({ note: "", domain: "", energy: 3, duration: 30 })
-        checkin.reset()
+        if (!isModal) {
+          setIsOpen(false)
+          setSurgeActive(false)
+          setFormData({ note: "", domain: "", energy: 3, duration: 30 })
+          checkin.reset()
+        } else {
+          onClose?.()
+        }
       }, 2200)
     },
     onError: (err: Error) => {
@@ -87,6 +97,144 @@ export function DailyCheckinWidget() {
     if (!formData.note || !formData.domain) return
     checkin.mutate(formData)
   }
+
+  const FormContent = (
+    <div className={cn("space-y-5", isModal && "p-6")}>
+      {isModal && (
+        <div className="space-y-1 mb-6">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="size-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-[10px] font-mono text-zinc-500 uppercase">Synchronisation Globale</span>
+          </div>
+          <h2 className="text-xl font-bold tracking-tight text-white">Neural Check-in</h2>
+          <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta synchronisation.</p>
+        </div>
+      )}
+      
+      <AnimatePresence mode="wait">
+        {checkin.isSuccess ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+          >
+            <div className={`h-16 w-16 rounded-full flex items-center justify-center ${surgeActive ? "bg-yellow-500/20 border border-yellow-500/40 text-yellow-400" : "bg-primary/20 border border-primary/40 text-primary"}`}>
+              {surgeActive ? <Zap className="h-8 w-8" /> : <Check className="h-8 w-8" />}
+            </div>
+            <div className="space-y-1">
+              <p className="text-lg font-bold">{surgeActive ? "BOOST DE XP ACTIF !" : "Trace enregistrée"}</p>
+              <p className="text-xs text-muted-foreground">
+                {surgeActive ? "Récompense ×3 déclenchée. Continue." : "À demain pour la suite du build."}
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-5"
+          >
+            <div className="space-y-2">
+              <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
+              <Textarea
+                placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
+                value={formData.note}
+                onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                className="bg-white/5 border-white/10 rounded-xl min-h-[80px] text-sm focus:border-primary/50 transition-colors"
+                maxLength={150}
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {DOMAINS.map((d) => (
+                    <button
+                      key={d.id}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, domain: d.id })}
+                      className={`p-2 rounded-lg border transition-all ${
+                        formData.domain === d.id
+                          ? "bg-primary/10 border-primary text-primary"
+                          : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
+                      }`}
+                      title={d.id}
+                    >
+                      <d.icon className="h-4 w-4" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
+                <div className="flex gap-1.5 h-full items-center">
+                  {ENERGIES.map((e) => (
+                    <button
+                      key={e.val}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, energy: e.val })}
+                      className={`flex-1 h-9 rounded-lg border text-lg transition-all ${
+                        formData.energy === e.val
+                          ? "bg-primary/10 border-primary shadow-[0_0_10px_rgba(197,244,65,0.1)]"
+                          : "bg-background/40 border-border/40 opacity-50 grayscale hover:opacity-100 hover:grayscale-0"
+                      }`}
+                    >
+                      {e.emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center gap-2">
+                <Clock className="h-3 w-3 text-muted-foreground" />
+                <div className="flex gap-1">
+                  {DURATIONS.map((d) => (
+                    <button
+                      key={d.val}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, duration: d.val })}
+                      className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
+                        formData.duration === d.val
+                          ? "bg-muted border-primary/40 text-primary"
+                          : "border-transparent text-muted-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      {d.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => isModal ? onClose?.() : setIsOpen(false)}
+                  className="h-9 text-xs font-mono uppercase"
+                >
+                  Annuler
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={checkin.isPending || !formData.note || !formData.domain}
+                  className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
+                >
+                  {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enregistrer"}
+                </Button>
+              </div>
+            </div>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+
+  if (isModal) return FormContent
 
   return (
     <Card variant="premium" className="relative overflow-hidden group">
@@ -113,126 +261,7 @@ export function DailyCheckinWidget() {
         </CardHeader>
       ) : (
         <CardContent className="pt-6">
-          <AnimatePresence mode="wait">
-            {checkin.isSuccess ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-12 flex flex-col items-center justify-center text-center space-y-4"
-              >
-                <div className={`h-16 w-16 rounded-full flex items-center justify-center ${surgeActive ? "bg-yellow-500/20 border border-yellow-500/40 text-yellow-400" : "bg-primary/20 border border-primary/40 text-primary"}`}>
-                  {surgeActive ? <Zap className="h-8 w-8" /> : <Check className="h-8 w-8" />}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-lg font-bold">{surgeActive ? "BOOST DE XP ACTIF !" : "Trace enregistrée"}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {surgeActive ? "Récompense ×3 déclenchée. Continue." : "À demain pour la suite du build."}
-                  </p>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.form
-                onSubmit={handleSubmit}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-5"
-              >
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
-                  <Textarea
-                    placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
-                    value={formData.note}
-                    onChange={(e) => setFormData({ ...formData, note: e.target.value })}
-                    className="bg-background/50 border-border/40 rounded-xl min-h-[80px] text-sm"
-                    maxLength={150}
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
-                    <div className="flex flex-wrap gap-1.5">
-                      {DOMAINS.map((d) => (
-                        <button
-                          key={d.id}
-                          type="button"
-                          onClick={() => setFormData({ ...formData, domain: d.id })}
-                          className={`p-2 rounded-lg border transition-all ${
-                            formData.domain === d.id
-                              ? "bg-primary/10 border-primary text-primary"
-                              : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
-                          }`}
-                          title={d.id}
-                        >
-                          <d.icon className="h-4 w-4" />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
-                    <div className="flex gap-1.5 h-full items-center">
-                      {ENERGIES.map((e) => (
-                        <button
-                          key={e.val}
-                          type="button"
-                          onClick={() => setFormData({ ...formData, energy: e.val })}
-                          className={`flex-1 h-9 rounded-lg border text-lg transition-all ${
-                            formData.energy === e.val
-                              ? "bg-primary/10 border-primary shadow-[0_0_10px_rgba(197,244,65,0.1)]"
-                              : "bg-background/40 border-border/40 opacity-50 grayscale hover:opacity-100 hover:grayscale-0"
-                          }`}
-                        >
-                          {e.emoji}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-3 w-3 text-muted-foreground" />
-                    <div className="flex gap-1">
-                      {DURATIONS.map((d) => (
-                        <button
-                          key={d.val}
-                          type="button"
-                          onClick={() => setFormData({ ...formData, duration: d.val })}
-                          className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
-                            formData.duration === d.val
-                              ? "bg-muted border-primary/40 text-primary"
-                              : "border-transparent text-muted-foreground hover:bg-muted/50"
-                          }`}
-                        >
-                          {d.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setIsOpen(false)}
-                      className="h-9 text-xs font-mono uppercase"
-                    >
-                      Annuler
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={checkin.isPending || !formData.note || !formData.domain}
-                      className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
-                    >
-                      {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enregistrer"}
-                    </Button>
-                  </div>
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
+          {FormContent}
         </CardContent>
       )}
     </Card>

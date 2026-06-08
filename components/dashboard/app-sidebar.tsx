@@ -41,6 +41,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
+import { cn } from "@/lib/utils"
+import { DailyCheckinDialog } from "./daily-checkin-dialog"
 
 export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
@@ -79,21 +81,25 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
       </SidebarHeader>
 
       <SidebarContent>
+        <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
+          <DailyCheckinDialog />
+        </div>
+
         <SidebarGroup>
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* ACCUEIL */}
+              {/* CONSOLE (Ex-Accueil) */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/dashboard"}
-                  tooltip="Accueil"
+                  tooltip="Console"
                   className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/dashboard">
                     <Layout className="size-4" />
-                    <span className="font-medium">Accueil</span>
+                    <span className="font-medium">Console</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -133,25 +139,67 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {/* REVIEWER (CONDITIONAL) */}
-              {isReviewerEligible && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === "/reviewer"}
-                    tooltip="Reviewer"
-                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                  >
-                    <Link href="/reviewer">
-                      <ClipboardCheck className="size-4" />
-                      <span className="font-medium">Reviewer</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
+              {/* MON DOSSIER */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/dossier"}
+                  tooltip="Mon Dossier"
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  <Link href="/dossier">
+                    <FileText className="size-4" />
+                    <span className="font-medium">Mon Dossier</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* LEADERSHIP SECTION (CONDITIONAL) */}
+        {(isReviewerEligible || ["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "")) && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Leadership</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {/* REVIEWER */}
+                {isReviewerEligible && (
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/reviewer"}
+                      tooltip="Reviewer"
+                      className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    >
+                      <Link href="/reviewer">
+                        <ClipboardCheck className="size-4" />
+                        <span className="font-medium">Reviewer</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )}
+
+                {/* ADMINISTRATION */}
+                {["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "") && (
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith("/admin")}
+                      tooltip="Administration"
+                      className="h-10 text-muted-foreground hover:text-white hover:bg-white/5 data-[active=true]:bg-white/10 data-[active=true]:text-white"
+                    >
+                      <Link href="/admin">
+                        <ShieldAlert className="size-4" />
+                        <span className="font-medium">Administration</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         <SidebarGroup className="mt-auto">
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
@@ -171,22 +219,6 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
-              {/* ADMINISTRATION (CONDITIONAL) */}
-              {["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "") && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip="Administration"
-                    className="h-10 text-muted-foreground hover:text-white hover:bg-white/5"
-                  >
-                    <Link href="/admin">
-                      <ShieldAlert className="size-4" />
-                      <span>Administration</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
