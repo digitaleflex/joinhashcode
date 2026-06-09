@@ -53,6 +53,14 @@ jobs:
               -e DIRECT_URL \
               web sh -c "npx prisma migrate deploy"
 
+            # ── [2.5/5] Audit Better Auth limits (warn only, never blocks) ───
+            echo "--- [2.5/5] Checking org/member limits ---"
+            HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
+              -e DATABASE_URL \
+              -e DIRECT_URL \
+              -e CI=true \
+              web sh -c "npx tsx scripts/check-auth-limits.ts" || true
+
             # ── [3/5] Seed (idempotent upserts only) ─────────────────────────
             echo "--- [3/5] Running seed ---"
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \

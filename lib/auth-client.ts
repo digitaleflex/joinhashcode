@@ -1,5 +1,6 @@
 import { createAuthClient } from "better-auth/react"
 import { magicLinkClient, emailOTPClient, adminClient, organizationClient, twoFactorClient } from "better-auth/client/plugins"
+import { passkeyClient } from "@better-auth/passkey/client"
 import type { auth } from "./auth"
 
 export const authClient = createAuthClient({
@@ -12,7 +13,8 @@ export const authClient = createAuthClient({
             onTwoFactorRedirect() {
                 window.location.href = "/2fa";
             },
-        })
+        }),
+        passkeyClient()
     ]
 })
 

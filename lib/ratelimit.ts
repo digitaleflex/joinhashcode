@@ -1,14 +1,15 @@
 import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
 
-const configured =
-  !!process.env.UPSTASH_REDIS_REST_URL &&
-  !!process.env.UPSTASH_REDIS_REST_TOKEN
+// Supports both Upstash standard names and Vercel KV aliased names
+const restUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
+const restToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
+const configured = !!restUrl && !!restToken
 
 function makeRatelimit(tokens: number, window: `${number} s` | `${number} m` | `${number} h`) {
   if (!configured) return null
   return new Ratelimit({
-    redis: Redis.fromEnv(),
+    redis: new Redis({ url: restUrl!, token: restToken! }),
     limiter: Ratelimit.slidingWindow(tokens, window),
     analytics: false,
   })
