@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
+import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
 
 const checkinSchema = z.object({
@@ -19,6 +20,9 @@ export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+
+    const { limited } = await checkRateLimit(checkinLimiter, session.user.id);
+    if (limited) return new NextResponse("Trop de check-ins. Réessaie demain.", { status: 429 });
 
     const body = await req.json();
     body.note = stripHtml(body.note || "");

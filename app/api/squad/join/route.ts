@@ -5,12 +5,16 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
+import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
+    const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);
+    if (limited) return new NextResponse("Trop de tentatives. Réessaie dans une heure.", { status: 429 });
 
     const { slug } = await req.json();
     if (!slug) return new NextResponse("Slug missing", { status: 400 });

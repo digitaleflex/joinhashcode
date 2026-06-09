@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
+import { claimLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function POST(
   _req: Request,
@@ -13,6 +14,9 @@ export async function POST(
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+
+    const { limited } = await checkRateLimit(claimLimiter, session.user.id);
+    if (limited) return new NextResponse("Trop de claims. Réessaie dans une heure.", { status: 429 });
 
     const { id: submissionId } = await params;
 
