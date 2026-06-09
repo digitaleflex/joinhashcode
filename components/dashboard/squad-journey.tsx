@@ -1,11 +1,13 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import type { LucideIcon } from "lucide-react"
 import {
   Shield, UserPlus, Users, Activity, Zap, Trophy,
   Lock, Check, Copy, Loader2, Sparkles, ChevronRight,
   Pencil, X, Link as LinkIcon, HelpCircle,
+  UserMinus, Crown, AlertTriangle, UserCheck, Bell,
+  Megaphone, EyeOff, ShieldCheck, Settings,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -135,10 +137,31 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
   const [localName, setLocalName] = useState<string>(squad?.name ?? "")
   const [localSlug, setLocalSlug] = useState<string>(squad?.slug ?? "")
 
+  // Member management
+  const [kickingId, setKickingId] = useState<string | null>(null)
+  const [transferTargetId, setTransferTargetId] = useState<string | null>(null)
+  const [isTransferring, setIsTransferring] = useState(false)
+
+  // Join requests
+  const [joinRequests, setJoinRequests] = useState<any[]>([])
+  const [loadingRequests, setLoadingRequests] = useState(false)
+  const [respondingId, setRespondingId] = useState<string | null>(null)
+
+  // Disband
+  const [showDisbandModal, setShowDisbandModal] = useState(false)
+  const [disbandConfirmText, setDisbandConfirmText] = useState("")
+  const [isDisbanding, setIsDisbanding] = useState(false)
+
+  // Rebalancing suggestions
+  const [suggestingSendId, setSuggestingSendId] = useState<string | null>(null)
+  const [suggestedIds, setSuggestedIds] = useState<Set<string>>(new Set())
+
   // Edit panel state
   const [isEditing, setIsEditing] = useState(false)
   const [editName, setEditName] = useState("")
   const [editSlug, setEditSlug] = useState("")
+  const [editDescription, setEditDescription] = useState("")
+  const [editAnnouncement, setEditAnnouncement] = useState("")
   const [isSaving, setIsSaving] = useState(false)
 
   const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
@@ -204,14 +227,32 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       advices.push("Intégrez un Catalyseur (ambassadeur ou animateur) pour faciliter l'entraide et décupler la diffusion du projet.")
     }
 
-    // Monoculture warnings
+    // Monoculture warnings + excess members for rebalancing
     const classCounts: Record<string, number> = {}
     classes.forEach((c: string) => { classCounts[c] = (classCounts[c] || 0) + 1 })
 
+    const nameMap: Record<string, string> = { builder: "Builders", creator: "Créateurs", strategist: "Stratèges", catalyst: "Catalyseurs" }
+
+    // Excess = members whose class appears > 2 times AND they are not the owner
+    const excessMembers: { memberId: string; userId: string; name: string; pseudo: string; class: string }[] = []
+
     Object.entries(classCounts).forEach(([cls, count]) => {
       if (count > 2) {
-        const nameMap: Record<string, string> = { builder: "Builders", creator: "Créateurs", strategist: "Stratèges", catalyst: "Catalyseurs" }
         warnings.push(`Hyper-concentration : Trop de ${nameMap[cls] || cls} (${count}). Cela peut créer des goulots d'étranglement ou des discussions stériles.`)
+        // Identify excess members of this class (all non-owner members with this class, skip first one)
+        const matching = members.filter((m: any) =>
+          m.user?.class?.toLowerCase() === cls && m.role !== "owner"
+        )
+        // Keep first as "ok", rest as excess candidates
+        matching.slice(1).forEach((m: any) => {
+          excessMembers.push({
+            memberId: m.id,
+            userId: m.user.id,
+            name: m.user.name || m.user.pseudo || "Agent",
+            pseudo: m.user.pseudo || m.user.name?.split(" ")[0] || "Agent",
+            class: m.user.class,
+          })
+        })
       }
     })
 
@@ -225,6 +266,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       strengths,
       warnings,
       advices,
+      excessMembers,
       memberCount: members.length,
     }
   }, [squad])
@@ -243,8 +285,10 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
   const openEdit = useCallback(() => {
     setEditName(localName)
     setEditSlug(localSlug)
+    setEditDescription(squad?.description ?? "")
+    setEditAnnouncement(squad?.announcement ?? "")
     setIsEditing(true)
-  }, [localName, localSlug])
+  }, [localName, localSlug, squad?.description, squad?.announcement])
 
   const sanitizeSlug = useCallback((value: string) =>
     value.toLowerCase().replace(/[^a-z0-9-]/g, "").replace(/--+/g, "-"), [])
@@ -270,7 +314,14 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       const res = await fetch("/api/squad/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: editName.trim(), slug: editSlug }),
+        body: JSON.stringify({
+          name: editName.trim(),
+          slug: editSlug,
+          description: editDescription.trim(),
+          announcement: editAnnouncement.trim(),
+          isPrivate: squad?.isPrivate ?? false,
+          requiredLevel: squad?.requiredLevel ?? 1,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Erreur lors de la sauvegarde.")
@@ -313,6 +364,110 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
     }
   }
 
+  const kickMember = async (memberId: string) => {
+    setKickingId(memberId)
+    try {
+      const res = await fetch("/api/squad/join-request/respond", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memberId, action: "remove" }),
+      })
+      if (!res.ok) throw new Error(await res.text())
+      toast.success("Membre retiré de l'escouade.")
+      window.location.reload()
+    } catch (err: any) {
+      toast.error(err.message || "Erreur lors de l'expulsion.")
+    } finally {
+      setKickingId(null)
+    }
+  }
+
+  const transferOwnership = async (targetMemberId: string) => {
+    setIsTransferring(true)
+    try {
+      const res = await fetch("/api/squad/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetMemberId }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || "Erreur lors du transfert.")
+      toast.success("Leadership transféré avec succès.")
+      setTransferTargetId(null)
+      window.location.reload()
+    } catch (err: any) {
+      toast.error(err.message)
+    } finally {
+      setIsTransferring(false)
+    }
+  }
+
+  const disbandSquad = async () => {
+    setIsDisbanding(true)
+    try {
+      const res = await fetch("/api/squad/disband", { method: "DELETE" })
+      if (!res.ok) throw new Error(await res.text())
+      toast.success("Escouade dissoute.")
+      window.location.reload()
+    } catch (err: any) {
+      toast.error(err.message || "Erreur lors de la dissolution.")
+    } finally {
+      setIsDisbanding(false)
+      setShowDisbandModal(false)
+    }
+  }
+
+  const fetchJoinRequests = useCallback(async () => {
+    if (!squad?.id || !isLeader) return
+    setLoadingRequests(true)
+    try {
+      const res = await fetch(`/api/squad/join-request?organizationId=${squad.id}`)
+      if (res.ok) setJoinRequests(await res.json())
+    } catch {}
+    finally { setLoadingRequests(false) }
+  }, [squad?.id, isLeader])
+
+  const respondToRequest = async (requestId: string, action: "accept" | "reject") => {
+    setRespondingId(requestId)
+    try {
+      const res = await fetch("/api/squad/join-request/respond", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ requestId, action }),
+      })
+      if (!res.ok) throw new Error(await res.text())
+      toast.success(action === "accept" ? "Membre accepté !" : "Demande refusée.")
+      setJoinRequests(prev => prev.filter(r => r.id !== requestId))
+      if (action === "accept") window.location.reload()
+    } catch (err: any) {
+      toast.error(err.message || "Erreur.")
+    } finally {
+      setRespondingId(null)
+    }
+  }
+
+  const suggestMove = async (targetUserId: string) => {
+    setSuggestingSendId(targetUserId)
+    try {
+      const res = await fetch("/api/squad/suggest-move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetUserId }),
+      })
+      if (!res.ok) throw new Error(await res.text())
+      setSuggestedIds(prev => new Set([...prev, targetUserId]))
+      toast.success("Suggestion envoyée.")
+    } catch (err: any) {
+      toast.error(err.message || "Erreur lors de l'envoi.")
+    } finally {
+      setSuggestingSendId(null)
+    }
+  }
+
+  useEffect(() => {
+    fetchJoinRequests()
+  }, [fetchJoinRequests])
+
   return (
     <SidebarProvider>
       <AppSidebar user={user} hasSquad={!!squad} />
@@ -324,34 +479,81 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
           <div className="max-w-6xl mx-auto space-y-10">
 
             {/* ── Page header ────────────────────────────────────── */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">
-                  protocol_escouade_
-                </span>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase leading-[0.9]">
-                {squad ? (
-                  <>
-                    {localName || "Mon"}{" "}
-                    <span className="text-primary italic">Escouade</span>
-                  </>
-                ) : (
-                  <>
-                    Lance ton{" "}
-                    <span className="text-primary italic">Réseau</span>
-                  </>
-                )}
-              </h1>
-              <p className="text-zinc-500 text-sm font-medium max-w-xl">
-                {squad
-                  ? `Unité active · ${memberCount}/5 agents · Cohésion ${Math.round(cohesion * 100)}%`
-                  : "Constitue ton escouade et débloques des avantages collectifs exclusifs."}
-              </p>
-            </div>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                    <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">
+                      protocol_escouade_
+                    </span>
+                  </div>
+                  <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase leading-[0.9]">
+                    {squad ? (
+                      <>
+                        {localName || "Mon"}{" "}
+                        <span className="text-primary italic">Escouade</span>
+                      </>
+                    ) : (
+                      <>
+                        Lance ton{" "}
+                        <span className="text-primary italic">Réseau</span>
+                      </>
+                    )}
+                  </h1>
+                  <p className="text-zinc-500 text-sm font-medium max-w-xl">
+                    {squad
+                      ? `Unité active · ${memberCount}/5 agents · Cohésion ${Math.round(cohesion * 100)}%`
+                      : "Constitue ton escouade et débloques des avantages collectifs exclusifs."}
+                  </p>
+                </div>
 
-            {/* ── Main 2-col layout ─────────────────────────────── */}
+                {squad && isLeader && (
+                  <Button asChild className="btn-primary-glow h-12 px-8 text-[11px] font-bold uppercase tracking-wider rounded-2xl group">
+                    <a href="/squad/manage">
+                      <Settings className="size-4 mr-2 group-hover:rotate-90 transition-transform duration-500" />
+                      Gérer l&apos;unité
+                    </a>
+                  </Button>
+                )}
+              </div>
+
+              {/* Description + meta badges */}
+              {squad && (
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  {squad.description && (
+                    <p className="text-sm text-zinc-400 max-w-lg leading-relaxed">{squad.description}</p>
+                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {squad.isPrivate && (
+                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold bg-zinc-800 border border-white/10 text-zinc-400 px-2 py-0.5 rounded-full uppercase">
+                        <EyeOff className="size-2.5" /> Privée
+                      </span>
+                    )}
+                    {squad.requiredLevel > 1 && (
+                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded-full uppercase">
+                        <ShieldCheck className="size-2.5" /> Niv. {squad.requiredLevel}+ requis
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {/* ── Replacement for old announcement banner ──────────────── */}
+            {squad?.announcement && (
+              <div className="relative p-6 rounded-2xl border-2 border-primary bg-primary/5 animate-pulse-slow my-6">
+                <div className="flex items-center gap-3 mb-3">
+                    <Megaphone className="size-5 text-primary drop-shadow-[0_0_8px_rgba(197,244,65,0.8)]" />
+                    <span className="text-xs font-mono font-bold text-primary tracking-widest uppercase">
+                        ANNONCE ÉPINGLÉE
+                    </span>
+                </div>
+                <p className="text-base text-white leading-relaxed font-sans">
+                    {squad.announcement}
+                </p>
+              </div>
+            )}
+
+{/* ── Main 2-col layout ─────────────────────────────── */}
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
 
               {/* ── Journey path ──────────────────────────────────── */}
@@ -450,8 +652,12 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                           return "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
                         };
 
+                        const isSelf = m.user.id === user.id
+                        const isOwner = m.role === "owner"
+                        const canActOn = isLeader && !isSelf && !isOwner
+
                         return (
-                          <div key={m.user.id} className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/3 bg-white/1">
+                          <div key={m.user.id} className="group flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/3 bg-white/1 hover:border-white/8 transition-all">
                             <div className="flex items-center gap-3 min-w-0">
                               <Avatar className="size-9 rounded-xl border border-white/10 shrink-0">
                                 <AvatarImage src={m.user.image || ""} />
@@ -462,23 +668,65 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                               <div className="min-w-0">
                                 <div className="text-sm font-bold text-white truncate flex items-center gap-1.5">
                                   @{m.user.pseudo || m.user.name?.split(" ")[0]}
-                                  {m.user.id === user.id && (
+                                  {isSelf && (
                                     <span className="text-[7px] font-bold font-mono bg-primary/20 text-primary px-1.5 py-0.2 rounded-md uppercase shrink-0">
                                       Moi
                                     </span>
                                   )}
+                                  {isOwner && !isSelf && (
+                                    <Crown className="size-3 text-amber-400 shrink-0" />
+                                  )}
                                 </div>
                                 <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight">
-                                  LVL {m.user.level ?? 1} · {m.role === "owner" ? "Chef" : m.role === "admin" ? "Admin" : "Membre"}
+                                  LVL {m.user.level ?? 1} · {isOwner ? "Chef" : m.role === "admin" ? "Admin" : "Membre"}
                                 </div>
                               </div>
                             </div>
-                            <span className={cn(
-                              "text-[8px] font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0",
-                              getClassStyle(m.user.class)
-                            )}>
-                              {m.user.class || "Agent"}
-                            </span>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              {canActOn && (
+                                <>
+                                  {transferTargetId === m.id ? (
+                                    <div className="flex items-center gap-1">
+                                      <button
+                                        onClick={() => transferOwnership(m.id)}
+                                        disabled={isTransferring}
+                                        className="text-[9px] font-mono font-bold text-amber-400 border border-amber-500/30 rounded-lg px-2 py-1 hover:bg-amber-500/10 transition-colors"
+                                      >
+                                        {isTransferring ? <Loader2 className="size-3 animate-spin" /> : "Confirmer"}
+                                      </button>
+                                      <button
+                                        onClick={() => setTransferTargetId(null)}
+                                        className="text-zinc-600 hover:text-white transition-colors p-1"
+                                      >
+                                        <X className="size-3" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      onClick={() => setTransferTargetId(m.id)}
+                                      title="Transférer le leadership"
+                                      className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-zinc-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
+                                    >
+                                      <Crown className="size-3.5" />
+                                    </button>
+                                  )}
+                                  <button
+                                    onClick={() => kickMember(m.id)}
+                                    disabled={kickingId === m.id}
+                                    title="Expulser de l'escouade"
+                                    className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-zinc-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                                  >
+                                    {kickingId === m.id ? <Loader2 className="size-3.5 animate-spin" /> : <UserMinus className="size-3.5" />}
+                                  </button>
+                                </>
+                              )}
+                              <span className={cn(
+                                "text-[8px] font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider",
+                                getClassStyle(m.user.class)
+                              )}>
+                                {m.user.class || "Agent"}
+                              </span>
+                            </div>
                           </div>
                         );
                       })}
@@ -493,6 +741,79 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* Join Requests — leader/admin only */}
+                {squad && isLeader && (
+                  <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Bell className="size-4 text-primary" />
+                        <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">
+                          Candidatures
+                        </span>
+                        {joinRequests.length > 0 && (
+                          <span className="text-[9px] font-bold bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-mono">
+                            {joinRequests.length}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        onClick={fetchJoinRequests}
+                        disabled={loadingRequests}
+                        className="text-[10px] font-mono text-zinc-600 hover:text-primary transition-colors"
+                      >
+                        {loadingRequests ? <Loader2 className="size-3.5 animate-spin" /> : "↻"}
+                      </button>
+                    </div>
+
+                    {loadingRequests ? (
+                      <div className="flex justify-center py-4">
+                        <Loader2 className="size-5 animate-spin text-zinc-600" />
+                      </div>
+                    ) : joinRequests.length === 0 ? (
+                      <p className="text-[11px] text-zinc-600 font-mono">Aucune demande en attente.</p>
+                    ) : (
+                      <div className="space-y-2.5">
+                        {joinRequests.map((req: any) => (
+                          <div key={req.id} className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/5 bg-white/1">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <Avatar className="size-8 rounded-xl border border-white/10 shrink-0">
+                                <AvatarImage src={req.user.image || ""} />
+                                <AvatarFallback className="bg-zinc-800 text-zinc-400 font-bold text-xs rounded-xl">
+                                  {(req.user.name || "?").charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="min-w-0">
+                                <div className="text-sm font-bold text-white truncate">{req.user.name}</div>
+                                <div className="text-[9px] font-mono text-zinc-500 uppercase">
+                                  LVL {req.user.level ?? 1} · {req.user.class || "Agent"}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                onClick={() => respondToRequest(req.id, "accept")}
+                                disabled={respondingId === req.id || memberCount >= 5}
+                                title={memberCount >= 5 ? "Escouade complète" : "Accepter"}
+                                className="p-1.5 rounded-lg text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/10 transition-all disabled:opacity-40"
+                              >
+                                {respondingId === req.id ? <Loader2 className="size-3.5 animate-spin" /> : <UserCheck className="size-3.5" />}
+                              </button>
+                              <button
+                                onClick={() => respondToRequest(req.id, "reject")}
+                                disabled={respondingId === req.id}
+                                title="Refuser"
+                                className="p-1.5 rounded-lg text-red-400 border border-red-500/20 hover:bg-red-500/10 transition-all disabled:opacity-40"
+                              >
+                                <X className="size-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -622,6 +943,48 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                           </div>
                         )}
 
+                        {/* Rebalancing suggestions — leader only */}
+                        {isLeader && auditResult?.excessMembers && auditResult.excessMembers.length > 0 && (
+                          <div className="border-t border-white/5 pt-4 space-y-3">
+                            <div className="flex items-center gap-1.5">
+                              <AlertTriangle className="size-3 text-amber-400 shrink-0" />
+                              <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
+                                Rééquilibrage suggéré
+                              </h4>
+                            </div>
+                            <p className="text-[11px] text-zinc-500 leading-relaxed">
+                              Ces membres ont un profil déjà sur-représenté. Tu peux leur suggérer d&apos;explorer des escouades qui ont besoin de leur type.
+                            </p>
+                            <div className="space-y-2">
+                              {auditResult.excessMembers.map((em) => {
+                                const sent = suggestedIds.has(em.userId)
+                                return (
+                                  <div key={em.userId} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-amber-500/10 bg-amber-500/3">
+                                    <div className="min-w-0">
+                                      <span className="text-sm font-bold text-white">@{em.pseudo}</span>
+                                      <span className="text-[9px] font-mono text-amber-400/70 ml-2 uppercase">{em.class}</span>
+                                    </div>
+                                    <button
+                                      onClick={() => suggestMove(em.userId)}
+                                      disabled={sent || suggestingSendId === em.userId}
+                                      className={cn(
+                                        "shrink-0 text-[10px] font-mono font-bold px-3 py-1.5 rounded-lg border transition-all",
+                                        sent
+                                          ? "border-emerald-500/20 text-emerald-400 bg-emerald-500/5 cursor-default"
+                                          : "border-amber-500/20 text-amber-400 hover:bg-amber-500/10"
+                                      )}
+                                    >
+                                      {suggestingSendId === em.userId
+                                        ? <Loader2 className="size-3 animate-spin" />
+                                        : sent ? "✓ Envoyé" : "Suggérer"}
+                                    </button>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )}
+
                         {/* Reset button */}
                         <div className="pt-2">
                           <button
@@ -678,6 +1041,13 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                             <span className="text-primary text-[11px] font-mono font-bold truncate">{localSlug}</span>
                           </div>
                         </div>
+                        {squad?.description && (
+                          <div>
+                            <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-wider mb-1">Description</div>
+                            <p className="text-xs text-zinc-400 leading-relaxed">{squad.description}</p>
+                          </div>
+                        )}
+
                       </div>
                     ) : (
                       <div className="space-y-4">
@@ -724,6 +1094,35 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                           )}
                         </div>
 
+                        {/* Description */}
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+                            Description <span className="text-zinc-700 normal-case">({editDescription.length}/300)</span>
+                          </label>
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value.slice(0, 300))}
+                            rows={3}
+                            placeholder="Décris l'objectif et l'ambiance de ton escouade..."
+                            className="w-full bg-zinc-950 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                          />
+                        </div>
+
+                        {/* Announcement */}
+                        <div className="space-y-1.5">
+                          <label className="flex items-center gap-1.5 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+                            <Megaphone className="size-3" />
+                            Annonce épinglée <span className="text-zinc-700 normal-case">({editAnnouncement.length}/200)</span>
+                          </label>
+                          <textarea
+                            value={editAnnouncement}
+                            onChange={(e) => setEditAnnouncement(e.target.value.slice(0, 200))}
+                            rows={2}
+                            placeholder="Un message court visible par tous les membres..."
+                            className="w-full bg-zinc-950 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                          />
+                        </div>
+
                         <Button
                           onClick={saveEdit}
                           disabled={isSaving || !!slugError || editSlug.length < 3 || editName.trim().length < 2}
@@ -733,6 +1132,70 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                         </Button>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* Danger zone — leader only */}
+                {squad && isLeader && (
+                  <div className="rounded-3xl border border-red-500/15 bg-red-500/3 p-5 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <AlertTriangle className="size-3.5 text-red-400" />
+                      <span className="text-[9px] font-mono font-bold text-red-400/70 uppercase tracking-wider">Zone de danger</span>
+                    </div>
+                    <button
+                      onClick={() => { setShowDisbandModal(true); setDisbandConfirmText("") }}
+                      className="w-full text-[11px] font-mono font-bold text-red-400 border border-red-500/20 rounded-xl py-2 hover:bg-red-500/10 transition-colors"
+                    >
+                      Dissoudre l&apos;escouade
+                    </button>
+                  </div>
+                )}
+
+                {/* Disband confirmation modal */}
+                {showDisbandModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+                    <div className="w-full max-w-sm rounded-3xl border border-red-500/20 bg-zinc-950 p-6 space-y-5 shadow-2xl">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20">
+                          <AlertTriangle className="size-5 text-red-400" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-white">Dissoudre l&apos;escouade</h3>
+                          <p className="text-[11px] text-zinc-500 font-mono">Action irréversible</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-zinc-400 leading-relaxed">
+                        Tous les membres seront retirés. La cohésion, le streak et l&apos;historique seront perdus définitivement.
+                      </p>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                          Tape <span className="text-red-400 font-bold">{localName}</span> pour confirmer
+                        </label>
+                        <input
+                          type="text"
+                          value={disbandConfirmText}
+                          onChange={e => setDisbandConfirmText(e.target.value)}
+                          className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-red-500/40 transition-colors"
+                          placeholder={localName}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <Button
+                          variant="outline"
+                          className="flex-1 border-white/10 text-zinc-400"
+                          onClick={() => setShowDisbandModal(false)}
+                        >
+                          Annuler
+                        </Button>
+                        <Button
+                          className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                          onClick={disbandSquad}
+                          disabled={isDisbanding || disbandConfirmText !== localName}
+                        >
+                          {isDisbanding ? <Loader2 className="size-4 animate-spin" /> : "Dissoudre"}
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 )}
 

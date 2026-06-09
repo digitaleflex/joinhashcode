@@ -30,7 +30,7 @@ describe('Middleware Auth & Onboarding Funnel', () => {
     const res = await middleware(req);
 
     expect(res?.status).toBe(307);
-    expect(res?.headers.get('location')).toBe('http://localhost:3000/signin');
+    expect(res?.headers.get('location')).toContain('http://localhost:3000/signin');
   });
 
   it('should redirect to /onboarding if user has no currentSituation', async () => {

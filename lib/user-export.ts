@@ -54,7 +54,7 @@ export async function collectUserData(userId: string) {
     quizResults,
     submissions,
     checkins,
-    guildMember,
+    squadMember,
     activityLogs,
     notifications,
     feedbacks,
@@ -80,12 +80,12 @@ export async function collectUserData(userId: string) {
       select: { id: true, note: true, domain: true, energy: true, duration: true, createdAt: true },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.guildMember.findFirst({
+    prisma.member.findFirst({
       where: { userId },
       select: {
         role: true,
-        joinedAt: true,
-        guild: { select: { name: true, slug: true, cohesionScore: true, streakCount: true, createdAt: true } },
+        createdAt: true,
+        organization: { select: { name: true, slug: true, cohesionScore: true, streakCount: true, createdAt: true } },
       },
     }),
     prisma.activityLog.findMany({
@@ -115,8 +115,8 @@ export async function collectUserData(userId: string) {
     quiz: quizResults,
     missions: submissions,
     checkins,
-    squad: guildMember
-      ? { role: guildMember.role, joinedAt: guildMember.joinedAt, guild: guildMember.guild }
+    squad: squadMember
+      ? { role: squadMember.role, joinedAt: squadMember.createdAt, organization: squadMember.organization }
       : null,
     activity: activityLogs,
     notifications,

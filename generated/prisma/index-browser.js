@@ -192,6 +192,8 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   lastStreakAt: 'lastStreakAt',
   requiredLevel: 'requiredLevel',
   isPrivate: 'isPrivate',
+  description: 'description',
+  announcement: 'announcement',
   twoFactorEnabled: 'twoFactorEnabled',
   twoFactorSecret: 'twoFactorSecret',
   twoFactorBackupCodes: 'twoFactorBackupCodes'

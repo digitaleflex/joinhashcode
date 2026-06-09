@@ -4,6 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+const PENDING_STATUSES = ["PENDING", "PENDING_ADMIN", "IN_REVIEW"]
+const HISTORY_STATUSES = ["APPROVED", "REJECTED", "NEEDS_REVISION"]
+
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
@@ -13,40 +16,56 @@ export async function GET(req: Request) {
     if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return new NextResponse("Forbidden", { status: 403 });
 
     const { searchParams } = new URL(req.url);
+    const tab = searchParams.get("tab") === "history" ? "history" : "pending";
     const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "50", 10)));
     const skip = (page - 1) * limit;
 
+    const statuses = tab === "history" ? HISTORY_STATUSES : PENDING_STATUSES;
+
+    const submissionSelect = {
+      id: true,
+      status: true,
+      content: true,
+      projectDescription: true,
+      createdAt: true,
+      updatedAt: true,
+      qualityLevel: true,
+      xpAwarded: true,
+      adminFeedback: true,
+      revisionNotes: true,
+      revisionCount: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          level: true,
+        }
+      },
+      mission: {
+        select: {
+          id: true,
+          title: true,
+          category: true,
+          xp: true,
+          missionLevel: true,
+          submissionMethod: true,
+          deliverables: true,
+        }
+      }
+    }
+
     const [submissions, total] = await Promise.all([
       prisma.missionSubmission.findMany({
-        where: { status: { in: ["PENDING", "PENDING_ADMIN"] } },
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              level: true,
-            }
-          },
-          mission: {
-            select: {
-              id: true,
-              title: true,
-              category: true,
-              xp: true,
-              missionLevel: true,
-              submissionMethod: true,
-              deliverables: true,
-            }
-          }
-        },
-        orderBy: { createdAt: "asc" },
+        where: { status: { in: statuses } },
+        select: submissionSelect,
+        orderBy: tab === "history" ? { updatedAt: "desc" } : { createdAt: "asc" },
         take: limit,
         skip,
       }),
       prisma.missionSubmission.count({
-        where: { status: { in: ["PENDING", "PENDING_ADMIN"] } },
+        where: { status: { in: statuses } },
       }),
     ]);
 

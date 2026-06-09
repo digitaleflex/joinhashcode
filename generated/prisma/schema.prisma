@@ -99,6 +99,8 @@ model Organization {
   lastStreakAt         DateTime?
   requiredLevel        Int           @default(1)
   isPrivate            Boolean       @default(false)
+  description          String?
+  announcement         String?
   members              Member[]
   twoFactorEnabled     Boolean       @default(false)
   twoFactorSecret      String?
@@ -210,9 +212,9 @@ model Guild {
   slug          String        @unique
   requiredLevel Int           @default(1)
   isPrivate     Boolean       @default(false)
-  cohesionScore Float         @default(0.1) // Tracks squad engagement (0 to 1)
-  streakCount   Int           @default(0) // New: Consecutive days at high cohesion
-  lastStreakAt  DateTime? // New: Last time the streak was updated
+  cohesionScore Float         @default(0.1)
+  streakCount   Int           @default(0)
+  lastStreakAt  DateTime?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   members       GuildMember[]

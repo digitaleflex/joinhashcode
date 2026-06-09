@@ -5122,6 +5122,8 @@ export namespace Prisma {
     lastStreakAt: Date | null
     requiredLevel: number | null
     isPrivate: boolean | null
+    description: string | null
+    announcement: string | null
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
@@ -5139,6 +5141,8 @@ export namespace Prisma {
     lastStreakAt: Date | null
     requiredLevel: number | null
     isPrivate: boolean | null
+    description: string | null
+    announcement: string | null
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
@@ -5156,6 +5160,8 @@ export namespace Prisma {
     lastStreakAt: number
     requiredLevel: number
     isPrivate: number
+    description: number
+    announcement: number
     twoFactorEnabled: number
     twoFactorSecret: number
     twoFactorBackupCodes: number
@@ -5187,6 +5193,8 @@ export namespace Prisma {
     lastStreakAt?: true
     requiredLevel?: true
     isPrivate?: true
+    description?: true
+    announcement?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
@@ -5204,6 +5212,8 @@ export namespace Prisma {
     lastStreakAt?: true
     requiredLevel?: true
     isPrivate?: true
+    description?: true
+    announcement?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
@@ -5221,6 +5231,8 @@ export namespace Prisma {
     lastStreakAt?: true
     requiredLevel?: true
     isPrivate?: true
+    description?: true
+    announcement?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
     twoFactorBackupCodes?: true
@@ -5325,6 +5337,8 @@ export namespace Prisma {
     lastStreakAt: Date | null
     requiredLevel: number
     isPrivate: boolean
+    description: string | null
+    announcement: string | null
     twoFactorEnabled: boolean
     twoFactorSecret: string | null
     twoFactorBackupCodes: string | null
@@ -5361,6 +5375,8 @@ export namespace Prisma {
     lastStreakAt?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    description?: boolean
+    announcement?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
@@ -5382,6 +5398,8 @@ export namespace Prisma {
     lastStreakAt?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    description?: boolean
+    announcement?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
@@ -5399,6 +5417,8 @@ export namespace Prisma {
     lastStreakAt?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    description?: boolean
+    announcement?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
@@ -5416,12 +5436,14 @@ export namespace Prisma {
     lastStreakAt?: boolean
     requiredLevel?: boolean
     isPrivate?: boolean
+    description?: boolean
+    announcement?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
     twoFactorBackupCodes?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "logo" | "createdAt" | "metadata" | "cohesionScore" | "streakCount" | "lastStreakAt" | "requiredLevel" | "isPrivate" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "logo" | "createdAt" | "metadata" | "cohesionScore" | "streakCount" | "lastStreakAt" | "requiredLevel" | "isPrivate" | "description" | "announcement" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Organization$membersArgs<ExtArgs>
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
@@ -5450,6 +5472,8 @@ export namespace Prisma {
       lastStreakAt: Date | null
       requiredLevel: number
       isPrivate: boolean
+      description: string | null
+      announcement: string | null
       twoFactorEnabled: boolean
       twoFactorSecret: string | null
       twoFactorBackupCodes: string | null
@@ -5890,6 +5914,8 @@ export namespace Prisma {
     readonly lastStreakAt: FieldRef<"Organization", 'DateTime'>
     readonly requiredLevel: FieldRef<"Organization", 'Int'>
     readonly isPrivate: FieldRef<"Organization", 'Boolean'>
+    readonly description: FieldRef<"Organization", 'String'>
+    readonly announcement: FieldRef<"Organization", 'String'>
     readonly twoFactorEnabled: FieldRef<"Organization", 'Boolean'>
     readonly twoFactorSecret: FieldRef<"Organization", 'String'>
     readonly twoFactorBackupCodes: FieldRef<"Organization", 'String'>
@@ -26907,6 +26933,8 @@ export namespace Prisma {
     lastStreakAt: 'lastStreakAt',
     requiredLevel: 'requiredLevel',
     isPrivate: 'isPrivate',
+    description: 'description',
+    announcement: 'announcement',
     twoFactorEnabled: 'twoFactorEnabled',
     twoFactorSecret: 'twoFactorSecret',
     twoFactorBackupCodes: 'twoFactorBackupCodes'
@@ -27701,6 +27729,8 @@ export namespace Prisma {
     lastStreakAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     requiredLevel?: IntFilter<"Organization"> | number
     isPrivate?: BoolFilter<"Organization"> | boolean
+    description?: StringNullableFilter<"Organization"> | string | null
+    announcement?: StringNullableFilter<"Organization"> | string | null
     twoFactorEnabled?: BoolFilter<"Organization"> | boolean
     twoFactorSecret?: StringNullableFilter<"Organization"> | string | null
     twoFactorBackupCodes?: StringNullableFilter<"Organization"> | string | null
@@ -27721,6 +27751,8 @@ export namespace Prisma {
     lastStreakAt?: SortOrderInput | SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    description?: SortOrderInput | SortOrder
+    announcement?: SortOrderInput | SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
     twoFactorBackupCodes?: SortOrderInput | SortOrder
@@ -27744,6 +27776,8 @@ export namespace Prisma {
     lastStreakAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     requiredLevel?: IntFilter<"Organization"> | number
     isPrivate?: BoolFilter<"Organization"> | boolean
+    description?: StringNullableFilter<"Organization"> | string | null
+    announcement?: StringNullableFilter<"Organization"> | string | null
     twoFactorEnabled?: BoolFilter<"Organization"> | boolean
     twoFactorSecret?: StringNullableFilter<"Organization"> | string | null
     twoFactorBackupCodes?: StringNullableFilter<"Organization"> | string | null
@@ -27764,6 +27798,8 @@ export namespace Prisma {
     lastStreakAt?: SortOrderInput | SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    description?: SortOrderInput | SortOrder
+    announcement?: SortOrderInput | SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
     twoFactorBackupCodes?: SortOrderInput | SortOrder
@@ -27789,6 +27825,8 @@ export namespace Prisma {
     lastStreakAt?: DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
     requiredLevel?: IntWithAggregatesFilter<"Organization"> | number
     isPrivate?: BoolWithAggregatesFilter<"Organization"> | boolean
+    description?: StringNullableWithAggregatesFilter<"Organization"> | string | null
+    announcement?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     twoFactorEnabled?: BoolWithAggregatesFilter<"Organization"> | boolean
     twoFactorSecret?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     twoFactorBackupCodes?: StringNullableWithAggregatesFilter<"Organization"> | string | null
@@ -29708,6 +29746,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -29728,6 +29768,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -29748,6 +29790,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29768,6 +29812,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29788,6 +29834,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -29805,6 +29853,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29822,6 +29872,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31999,6 +32051,8 @@ export namespace Prisma {
     lastStreakAt?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    description?: SortOrder
+    announcement?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
@@ -32022,6 +32076,8 @@ export namespace Prisma {
     lastStreakAt?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    description?: SortOrder
+    announcement?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
@@ -32039,6 +32095,8 @@ export namespace Prisma {
     lastStreakAt?: SortOrder
     requiredLevel?: SortOrder
     isPrivate?: SortOrder
+    description?: SortOrder
+    announcement?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
     twoFactorBackupCodes?: SortOrder
@@ -35575,6 +35633,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -35594,6 +35654,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -35780,6 +35842,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35799,6 +35863,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35974,6 +36040,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -35993,6 +36061,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -36179,6 +36249,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36198,6 +36270,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40226,6 +40300,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -40245,6 +40321,8 @@ export namespace Prisma {
     lastStreakAt?: Date | string | null
     requiredLevel?: number
     isPrivate?: boolean
+    description?: string | null
+    announcement?: string | null
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
     twoFactorBackupCodes?: string | null
@@ -40431,6 +40509,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40450,6 +40530,8 @@ export namespace Prisma {
     lastStreakAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     requiredLevel?: IntFieldUpdateOperationsInput | number
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    announcement?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null

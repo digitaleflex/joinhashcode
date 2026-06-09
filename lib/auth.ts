@@ -184,8 +184,8 @@ export const auth = betterAuth({
     }),
     organization({
       allowUserToCreateOrganization: true,
-      organizationLimit: 5,
-      membershipLimit: 100,
+      organizationLimit: 1,
+      membershipLimit: 5,
       creatorRole: "owner",
       sendInvitationEmail: async (data) => {
         const { email, organization, inviter, invitation } = data;

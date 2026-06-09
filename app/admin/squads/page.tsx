@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { Users, Zap, Shield, AlertTriangle, TrendingDown } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
+import { SquadRowActions } from "@/components/admin/squads/SquadRowActions"
 
 function healthLabel(cohesion: number, memberCount: number): { label: string; color: string; bg: string } {
   if (memberCount < 3 || cohesion < 0.2)
@@ -135,6 +136,11 @@ export default async function AdminSquadsPage() {
                     ? formatDistanceToNow(new Date(lastCheckin), { locale: fr, addSuffix: true })
                     : "Jamais"}
                 </span>
+                
+                {/* Actions Admin */}
+                <div className="flex justify-end">
+                  <SquadRowActions squad={squad} />
+                </div>
               </div>
             )
           })}

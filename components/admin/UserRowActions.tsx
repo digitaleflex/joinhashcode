@@ -45,7 +45,6 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleSetRole = async (role: string) => {
     try {
-      // @ts-expect-error
       await authClient.admin.setRole({
         userId: user.id,
         role: role as any,
@@ -69,7 +68,6 @@ export function UserRowActions({ user }: UserRowActionsProps) {
   const handleBanUser = async () => {
     setIsPending(true)
     try {
-      // @ts-expect-error
       await authClient.admin.banUser({
         userId: user.id,
         banReason: banReason,
@@ -95,7 +93,6 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleUnbanUser = async () => {
     try {
-      // @ts-expect-error
       await authClient.admin.unbanUser({
         userId: user.id,
       })
