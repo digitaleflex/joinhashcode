@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Mail } from "lucide-react"
+import { Loader2, Mail, Fingerprint } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
@@ -42,7 +42,7 @@ function getSafeCallbackUrl(fallback = "/quiz"): string {
 }
 
 export function SignInForm() {
-    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | null>(null)
+    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | "passkey" | null>(null)
     const [step, setStep] = useState<"initial" | "otp">("initial")
     const [email, setEmail] = useState("")
     const [otp, setOtp] = useState("")
@@ -53,6 +53,13 @@ export function SignInForm() {
         const params = new URLSearchParams(window.location.search)
         const error = params.get("error")
         const reason = params.get("reason")
+        const ref = params.get("ref")
+
+        if (ref) {
+            // Store referral code in cookie for 24h
+            document.cookie = `hashcode_ref=${ref}; path=/; max-age=${24 * 60 * 60}; SameSite=Lax`
+        }
+
         if (error === "banned") {
             toast.error("Ton compte a été suspendu. Contacte le support pour plus d'informations.", { duration: 8000 })
         }
@@ -79,7 +86,6 @@ export function SignInForm() {
 
         setLoadingProvider("email")
         try {
-            // @ts-expect-error
             const { error } = await authClient.emailOtp.sendVerificationOtp({
                 email,
                 type: "sign-in"
@@ -107,7 +113,6 @@ export function SignInForm() {
 
         setLoadingProvider("otp")
         try {
-            // @ts-expect-error
             const { error } = await authClient.signIn.emailOtp({
                 email,
                 otp
@@ -120,6 +125,24 @@ export function SignInForm() {
         } catch (error) {
             console.error(error)
             toast.error("Code invalide ou expiré")
+        } finally {
+            setLoadingProvider(null)
+        }
+    }
+
+    const handleSignInPasskey = async () => {
+        setLoadingProvider("passkey")
+        try {
+            const { error } = await authClient.signIn.passkey()
+            if (error) throw new Error(error.message)
+            toast.success("Authentification Passkey réussie")
+            window.location.href = getSafeCallbackUrl()
+        } catch (error) {
+            console.error(error)
+            const msg = getOAuthErrorMessage(error)
+            if (!msg.includes("annulée")) {
+                toast.error("Échec de l'authentification Passkey")
+            }
         } finally {
             setLoadingProvider(null)
         }
@@ -191,6 +214,27 @@ export function SignInForm() {
                                     )}
                                 </Button>
                             </form>
+
+                            <div className="relative my-2">
+                                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5"></span></div>
+                                <div className="relative flex justify-center text-[8px] uppercase font-mono text-zinc-600 bg-background px-2">Ou utiliser</div>
+                            </div>
+
+                            <Button 
+                                variant="outline"
+                                onClick={handleSignInPasskey}
+                                className="w-full h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer"
+                                disabled={!!loadingProvider}
+                            >
+                                {loadingProvider === "passkey" ? (
+                                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                                ) : (
+                                    <>
+                                        <Fingerprint className="mr-2 h-4 w-4 text-primary" />
+                                        Passkey (Biométrie / Clé)
+                                    </>
+                                )}
+                            </Button>
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}

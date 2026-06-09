@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { processReferralReward } from "@/lib/referral";
 
 export async function POST(req: Request) {
   const session = await auth.api.getSession({
@@ -51,6 +52,9 @@ export async function POST(req: Request) {
         },
       }),
     ]);
+
+    // Reward the referrer if any
+    await processReferralReward(session.user.id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

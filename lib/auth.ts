@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
+import { passkey } from "@better-auth/passkey";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -187,6 +188,28 @@ export const auth = betterAuth({
       organizationLimit: 1,
       membershipLimit: 5,
       creatorRole: "owner",
+      ac: createAccessControl({
+        organization: ["update", "delete", "list"],
+        member: ["create", "list", "update", "delete"],
+        invitation: ["create", "list", "update", "delete"],
+      }),
+      roles: {
+        owner: {
+          organization: ["update", "delete", "list"],
+          member: ["create", "list", "update", "delete"],
+          invitation: ["create", "list", "update", "delete"],
+        },
+        admin: {
+          organization: ["update", "list"],
+          member: ["create", "list", "delete"],
+          invitation: ["create", "list", "delete"],
+        },
+        member: {
+          organization: ["list"],
+          member: ["list"],
+          invitation: ["list"],
+        },
+      },
       sendInvitationEmail: async (data) => {
         const { email, organization, inviter, invitation } = data;
         await emailService.sendEmail({
@@ -225,7 +248,22 @@ export const auth = betterAuth({
         },
       },
     }),
+    passkey(),
     nextCookies(),
   ],
+  hooks: {
+    after: {
+      register: async ({ user }) => {
+        // Generate unique referral code (default to pseudo if set, else random string)
+        const referralCode = user.pseudo?.toLowerCase() || 
+                           `${user.name.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
+        
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { referralCode }
+        });
+      }
+    }
+  }
 });
 

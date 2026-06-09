@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MessageSquarePlus, Loader2, Send, AlertTriangle, Lightbulb, MessageSquare, ArrowLeft, Paperclip, X } from "lucide-react"
+import { MessageSquarePlus, Loader2, Send, AlertTriangle, Lightbulb, MessageSquare, ArrowLeft, Paperclip, X, Star } from "lucide-react"
 import { toast } from "sonner"
 import {
     Select,
@@ -16,10 +16,13 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 export default function FeedbackForm() {
     const [type, setType] = useState<string>("GENERAL")
     const [content, setContent] = useState("")
+    const [rating, setRating] = useState<number>(0)
+    const [hoverRating, setHoverRating] = useState<number>(0)
     const [file, setFile] = useState<File | null>(null)
     const [filePreview, setFilePreview] = useState<string | null>(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -67,6 +70,9 @@ export default function FeedbackForm() {
             const formData = new FormData()
             formData.append("type", type)
             formData.append("content", content)
+            if (rating > 0) {
+                formData.append("rating", rating.toString())
+            }
             if (file) {
                 formData.append("file", file)
             }
@@ -85,6 +91,7 @@ export default function FeedbackForm() {
             setContent("")
             setFile(null)
             setFilePreview(null)
+            setRating(0)
             // Redirect after successful submission
             setTimeout(() => router.push("/dashboard"), 1500)
         } catch (error: any) {
@@ -124,33 +131,95 @@ export default function FeedbackForm() {
 
                 <CardContent className="relative pt-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-3">
-                            <Label htmlFor="type" className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Nature de ta transmission</Label>
-                            <Select value={type} onValueChange={setType}>
-                                <SelectTrigger id="type" className="h-12 bg-black/40 border-white/10 focus:ring-primary/20">
-                                    <SelectValue placeholder="Choisis un type" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-zinc-900 border-white/10">
-                                    <SelectItem value="BUG" className="focus:bg-red-500/10 focus:text-red-500">
-                                        <div className="flex items-center gap-2 py-1">
-                                            <AlertTriangle className="size-4" />
-                                            <span className="font-medium text-sm">Signaler un Bug</span>
-                                        </div>
-                                    </SelectItem>
-                                    <SelectItem value="FEATURE_REQUEST" className="focus:bg-blue-500/10 focus:text-blue-500">
-                                        <div className="flex items-center gap-2 py-1">
-                                            <Lightbulb className="size-4" />
-                                            <span className="font-medium text-sm">Suggérer une Idée</span>
-                                        </div>
-                                    </SelectItem>
-                                    <SelectItem value="GENERAL" className="focus:bg-zinc-800">
-                                        <div className="flex items-center gap-2 py-1">
-                                            <MessageSquare className="size-4" />
-                                            <span className="font-medium text-sm">Retour Général</span>
-                                        </div>
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                        {/* Satisfaction Rating */}
+                        <div className="space-y-4 p-6 rounded-2xl bg-white/1 border border-white/5">
+                            <Label className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Quelle est ta satisfaction globale ?</Label>
+                            <div className="flex items-center gap-2">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                        key={star}
+                                        type="button"
+                                        className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
+                                        onClick={() => setRating(star)}
+                                        onMouseEnter={() => setHoverRating(star)}
+                                        onMouseLeave={() => setHoverRating(0)}
+                                    >
+                                        <Star 
+                                            className={cn(
+                                                "size-8 transition-colors",
+                                                (hoverRating || rating) >= star 
+                                                    ? "fill-primary text-primary drop-shadow-[0_0_8px_rgba(197,244,65,0.4)]" 
+                                                    : "text-zinc-700 fill-transparent"
+                                            )} 
+                                        />
+                                    </button>
+                                ))}
+                                <span className="ml-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                                    {rating === 1 && "Décevant"}
+                                    {rating === 2 && "À améliorer"}
+                                    {rating === 3 && "Correct"}
+                                    {rating === 4 && "Très bon"}
+                                    {rating === 5 && "Excellent !"}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-3">
+                                <Label htmlFor="type" className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Nature de ta transmission</Label>
+                                <Select value={type} onValueChange={setType}>
+                                    <SelectTrigger id="type" className="h-12 bg-black/40 border-white/10 focus:ring-primary/20">
+                                        <SelectValue placeholder="Choisis un type" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-zinc-900 border-white/10">
+                                        <SelectItem value="BUG" className="focus:bg-red-500/10 focus:text-red-500">
+                                            <div className="flex items-center gap-2 py-1">
+                                                <AlertTriangle className="size-4" />
+                                                <span className="font-medium text-sm">Signaler un Bug</span>
+                                            </div>
+                                        </SelectItem>
+                                        <SelectItem value="FEATURE_REQUEST" className="focus:bg-blue-500/10 focus:text-blue-500">
+                                            <div className="flex items-center gap-2 py-1">
+                                                <Lightbulb className="size-4" />
+                                                <span className="font-medium text-sm">Suggérer une Idée</span>
+                                            </div>
+                                        </SelectItem>
+                                        <SelectItem value="GENERAL" className="focus:bg-zinc-800">
+                                            <div className="flex items-center gap-2 py-1">
+                                                <MessageSquare className="size-4" />
+                                                <span className="font-medium text-sm">Retour Général</span>
+                                            </div>
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* File Upload Section Inline */}
+                            <div className="space-y-3">
+                                <Label className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Pièce jointe (Optionnel)</Label>
+                                <label className={cn(
+                                    "flex items-center gap-2 px-4 h-12 rounded-xl bg-white/5 border transition-all cursor-pointer text-xs font-mono uppercase tracking-wider",
+                                    file ? "border-primary/40 text-primary" : "border-white/10 text-zinc-400 hover:border-white/20"
+                                )}>
+                                    <Paperclip className="size-4 shrink-0" />
+                                    <span className="truncate">{file ? file.name : "Ajouter une capture"}</span>
+                                    <input 
+                                        type="file" 
+                                        accept="image/png, image/jpeg, image/webp, application/pdf" 
+                                        onChange={handleFileChange} 
+                                        className="hidden" 
+                                    />
+                                    {file && (
+                                        <button 
+                                            type="button" 
+                                            onClick={(e) => { e.preventDefault(); removeFile(); }}
+                                            className="ml-auto hover:text-red-500 p-1"
+                                        >
+                                            <X className="size-3" />
+                                        </button>
+                                    )}
+                                </label>
+                            </div>
                         </div>
 
                         <div className="space-y-3">
@@ -161,60 +230,13 @@ export default function FeedbackForm() {
                                     placeholder="Explique-nous tout ici..."
                                     value={content}
                                     onChange={(e) => setContent(e.target.value)}
-                                    className="min-h-[200px] bg-black/40 border-white/10 focus:ring-primary/20 resize-none p-4 text-base leading-relaxed"
+                                    className="min-h-[160px] bg-black/40 border-white/10 focus:ring-primary/20 resize-none p-4 text-base leading-relaxed"
                                     maxLength={2000}
                                 />
                                 <div className="absolute bottom-3 right-3 text-[10px] text-zinc-600 font-mono bg-black/40 px-2 py-1 rounded">
                                     {content.length}/2000
                                 </div>
                             </div>
-                        </div>
-
-                        {/* File Upload Section */}
-                        <div className="space-y-3 pt-2">
-                            <Label className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Pièce jointe (Optionnel)</Label>
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                                <label className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 hover:bg-white/10 transition-all cursor-pointer text-xs font-mono uppercase tracking-wider text-zinc-300 w-fit">
-                                    <Paperclip className="size-4 text-primary" />
-                                    <span>Ajouter une capture</span>
-                                    <input 
-                                        type="file" 
-                                        accept="image/png, image/jpeg, image/webp, application/pdf" 
-                                        onChange={handleFileChange} 
-                                        className="hidden" 
-                                    />
-                                </label>
-                                <span className="text-[10px] text-zinc-600 font-mono uppercase">Images (PNG, JPG, WEBP) ou PDF, max 3 Mo</span>
-                            </div>
-
-                            {file && (
-                                <div className="mt-3 p-3 rounded-xl bg-white/2 border border-white/5 flex items-center justify-between gap-4 max-w-md animate-in fade-in slide-in-from-top-2 duration-300">
-                                    <div className="flex items-center gap-3 min-w-0">
-                                        {filePreview ? (
-                                            <div className="relative size-12 rounded-lg border border-white/10 overflow-hidden shrink-0">
-                                                <img src={filePreview} alt="Aperçu" className="object-cover size-full" />
-                                            </div>
-                                        ) : (
-                                            <div className="size-12 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-xs font-mono text-zinc-400 shrink-0">
-                                                PDF
-                                            </div>
-                                        )}
-                                        <div className="text-left min-w-0">
-                                            <p className="text-xs font-bold text-white truncate">{file.name}</p>
-                                            <p className="text-[9px] font-mono text-zinc-500">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
-                                        </div>
-                                    </div>
-                                    <Button 
-                                        type="button" 
-                                        variant="ghost" 
-                                        size="icon" 
-                                        onClick={removeFile}
-                                        className="rounded-full hover:bg-red-500/10 hover:text-red-500 h-8 w-8 shrink-0"
-                                    >
-                                        <X className="size-4" />
-                                    </Button>
-                                </div>
-                            )}
                         </div>
 
                         <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
@@ -233,7 +255,7 @@ export default function FeedbackForm() {
                                 )}
                             </Button>
                             <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
-                                [ Protocol: Secure_Transmission_V1 ]
+                                [ Protocol: Secure_Transmission_V2 ]
                             </p>
                         </div>
                     </form>

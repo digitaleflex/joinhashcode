@@ -43,6 +43,8 @@ export default async function DashboardPage() {
           currentStreak: true,
           confidenceScore: true,
           pseudo: true,
+          referralCode: true,
+          referralCount: true,
         }
       }),
       prisma.quizResult.findFirst({

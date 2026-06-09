@@ -91,8 +91,9 @@ export default async function SquadManagePage() {
     })),
   } : dbSquad;
 
-  // Only owners can manage
-  if (!squad || memberRole !== "owner") {
+  // Allow owners and admins to manage
+  const canManage = squad && (memberRole === "owner" || memberRole === "admin");
+  if (!canManage) {
     redirect("/squad");
   }
 

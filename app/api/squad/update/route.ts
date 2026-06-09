@@ -40,14 +40,14 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // User must be owner of their squad
+    // User must be owner or admin of their squad
     const membership = await prisma.member.findFirst({
-      where: { userId: session.user.id, role: "owner" },
+      where: { userId: session.user.id, role: { in: ["owner", "admin"] } },
       select: { organizationId: true },
     });
 
     if (!membership) {
-      return NextResponse.json({ error: "Tu n'es pas chef d'escouade." }, { status: 403 });
+      return NextResponse.json({ error: "Tu n'as pas les droits de gestion pour cette escouade." }, { status: 403 });
     }
 
     // Check slug uniqueness (excluding current squad)

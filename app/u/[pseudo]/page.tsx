@@ -1,11 +1,39 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { DossierView } from "@/components/dossier/dossier-view";
 import { Nav } from "@/components/landing/nav";
 import { Footer } from "@/components/landing/footer";
+import { Metadata } from "next";
+import { APP_URL } from "@/lib/config";
 
 interface PageProps {
   params: Promise<{ pseudo: string }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { pseudo } = await params;
+  const user = await prisma.user.findUnique({ 
+    where: { pseudo }, 
+    select: { name: true, class: true } 
+  });
+
+  if (!user) return { title: 'Agent Introuvable' };
+
+  const profile = (user.class || 'Bâtisseur').toUpperCase();
+  const ogUrl = new URL('/api/og', APP_URL);
+  ogUrl.searchParams.set('pseudo', pseudo);
+
+  return {
+    title: `Dossier Agent: ${user.name} | HASHCODE`,
+    description: `Découvre le profil de ${user.name}, un ${profile} sur HASHCODE. Rejoins la nouvelle ère tech.`,
+    openGraph: {
+      images: [{ url: ogUrl.toString(), width: 1200, height: 630, alt: user.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [ogUrl.toString()],
+    },
+  };
 }
 
 export default async function PublicProfilePage({ params }: PageProps) {
@@ -109,3 +137,4 @@ export default async function PublicProfilePage({ params }: PageProps) {
     </div>
   );
 }
+

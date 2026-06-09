@@ -86,6 +86,9 @@ import { Toaster } from "@/components/ui/sonner"
 import { CookieBanner } from "@/components/ui/cookie-banner"
 import { AuthErrorToast } from "@/components/ui/auth-error-toast"
 import { Providers } from "@/components/providers"
+import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner"
+import { FloatingFeedbackButton } from "@/components/ui/floating-feedback-button"
+import { UXPollBanner } from "@/components/ui/ux-poll-banner"
 
 export default function RootLayout({
   children,
@@ -99,6 +102,9 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className={`${outfit.variable} font-sans antialiased bg-background text-foreground relative`}>
+        <ImpersonationBanner />
+        <UXPollBanner />
+        <FloatingFeedbackButton />
         <NextTopLoader
           color="oklch(0.91 0.22 124)"
           initialPosition={0.08}

@@ -80,6 +80,16 @@ model User {
   joinRequests             JoinRequest[]
   betaKeyId                String?             @unique
   betaKey                  BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
+  
+  // Referral System
+  referralCode             String?             @unique
+  referrerId               String?
+  referrer                 User?               @relation("UserReferrals", fields: [referrerId], references: [id])
+  referrals                User[]              @relation("UserReferrals")
+  referralCount            Int                 @default(0)
+
+  twofactors               TwoFactor[]
+  passkeys                 Passkey[]
 
   @@index([level])
   @@index([class])
@@ -247,6 +257,7 @@ model Session {
   ipAddress String?
   userAgent String?
   userId    String
+  impersonatedBy String?
   activeOrganizationId String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -296,10 +307,36 @@ model QuizResult {
   createdAt             DateTime @default(now())
   averageResponseTime   Int?     @map("average_response_time")
   user                  User?    @relation(fields: [userId], references: [id])
+  feedback              QuizFeedback?
 
   @@index([profileType])
   @@index([userId])
   @@map("quiz_result")
+}
+
+model QuizFeedback {
+  id           String     @id @default(cuid())
+  quizResultId String     @unique
+  quizResult   QuizResult @relation(fields: [quizResultId], references: [id], onDelete: Cascade)
+  isAccurate   Boolean    // "Le résultat vous semble-t-il pertinent ?"
+  usefulness   Int        // "Le quiz vous a-t-il été utile ?" (1-5)
+  comment      String?    @db.Text
+  createdAt    DateTime   @default(now())
+
+  @@map("quiz_feedback")
+}
+
+model UXPollResponse {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prefersDarkMode Boolean  @default(true)
+  modernityRating Int      // 1-5
+  readabilityIssues String? @db.Text
+  createdAt       DateTime @default(now())
+
+  @@unique([userId]) // One response per user
+  @@map("ux_poll_response")
 }
 
 model MissionSubmission {
@@ -391,6 +428,7 @@ model BetaFeedback {
   userId        String
   type          String   // e.g., "BUG", "FEATURE_REQUEST", "GENERAL"
   content       String   @db.Text
+  rating        Int?     // User satisfaction rating (1-5)
   status        String   @default("NEW") // e.g., "NEW", "REVIEWED", "RESOLVED"
   attachmentUrl String?  // URL of any attached file (screenshot, etc.)
   createdAt     DateTime @default(now())
@@ -430,5 +468,37 @@ model BetaKey {
   user      User?     @relation("UserBetaKey")
 
   @@map("beta_key")
+}
+
+model TwoFactor {
+  id          String   @id
+  secret      String
+  backupCodes String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified    Boolean? @default(true)
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
+}
+
+model Passkey {
+  id           String    @id
+  name         String?
+  publicKey    String
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialID String
+  counter      Int
+  deviceType   String
+  backedUp     Boolean
+  transports   String?
+  createdAt    DateTime?
+  aaguid       String?
+
+  @@index([userId])
+  @@index([credentialID])
+  @@map("passkey")
 }
 

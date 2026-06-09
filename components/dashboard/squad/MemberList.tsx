@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { MoreHorizontal, Trash2, LogOut, Crown, Zap } from "lucide-react";
+import { MoreHorizontal, Trash2, LogOut, Crown, Zap, ShieldAlert, UserPlus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -28,6 +28,7 @@ function ActivityDot({ lastCheckinAt }: { lastCheckinAt?: string | null }) {
 export function MemberList({ members, currentUserId }: MemberListProps) {
   const currentUserMember = members.find((m) => m.userId === currentUserId);
   const isLeader = currentUserMember?.role === "owner";
+  const isAdmin = currentUserMember?.role === "admin";
   const [memberActivity, setMemberActivity] = useState<Record<string, string | null>>({});
 
   useEffect(() => {
@@ -40,6 +41,24 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
       })
       .catch(() => {});
   }, []);
+
+  const handleUpdateRole = async (memberId: string, newRole: string, name: string) => {
+    try {
+      const res = await fetch("/api/squad/member/update-role", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ memberId, role: newRole }),
+      });
+      if (!res.ok) { 
+        const d = await res.json().catch(() => ({}));
+        toast.error(d.error || "Erreur lors du changement de rôle"); 
+      }
+      else { 
+        toast.success(`Rôle de ${name} mis à jour : ${newRole === 'admin' ? 'Officier' : 'Membre'}`); 
+        window.location.reload(); 
+      }
+    } catch { toast.error("Une erreur inattendue est survenue"); }
+  };
 
   const handleRemove = async (guildMemberId: string, name: string) => {
     if (!confirm(`Es-tu sûr de vouloir retirer ${name} de l'escouade ?`)) return;
@@ -111,8 +130,14 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge variant={member.role === "owner" ? "default" : "secondary"} className="text-[9px] uppercase font-mono">
-                    {member.role === "owner" ? "Chef" : "Membre"}
+                  <Badge 
+                    variant={member.role === "owner" ? "default" : member.role === "admin" ? "outline" : "secondary"} 
+                    className={cn(
+                        "text-[9px] uppercase font-mono",
+                        member.role === "admin" && "border-primary/50 text-primary bg-primary/5"
+                    )}
+                  >
+                    {member.role === "owner" ? "Chef" : member.role === "admin" ? "Officier" : "Membre"}
                   </Badge>
                 </TableCell>
                 <TableCell>
@@ -128,7 +153,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                       </Button>
                     )
                   ) : (
-                    isLeader && member.role !== "owner" && (
+                    (isLeader || (isAdmin && member.role === "member")) && member.role !== "owner" && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -136,9 +161,24 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10">
-                          <DropdownMenuItem className="text-white focus:text-white focus:bg-white/10" onClick={() => handleTransfer(member.id, member.user?.name)}>
-                            <Crown className="mr-2 h-4 w-4 text-primary" /> Transférer Leadership
-                          </DropdownMenuItem>
+                          {isLeader && (
+                            <>
+                              <DropdownMenuItem className="text-white focus:text-white focus:bg-white/10" onClick={() => handleTransfer(member.id, member.user?.name)}>
+                                <Crown className="mr-2 h-4 w-4 text-primary" /> Transférer Leadership
+                              </DropdownMenuItem>
+                              
+                              {member.role === "member" ? (
+                                <DropdownMenuItem className="text-primary focus:text-primary focus:bg-primary/10" onClick={() => handleUpdateRole(member.id, "admin", member.user?.name)}>
+                                  <ShieldAlert className="mr-2 h-4 w-4" /> Promouvoir Officier
+                                </DropdownMenuItem>
+                              ) : (
+                                <DropdownMenuItem className="text-zinc-400 focus:text-white focus:bg-white/10" onClick={() => handleUpdateRole(member.id, "member", member.user?.name)}>
+                                  <UserPlus className="mr-2 h-4 w-4" /> Rétrograder Membre
+                                </DropdownMenuItem>
+                              )}
+                            </>
+                          )}
+                          
                           <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10" onClick={() => handleRemove(member.id, member.user?.name)}>
                             <Trash2 className="mr-2 h-4 w-4" /> Retirer
                           </DropdownMenuItem>

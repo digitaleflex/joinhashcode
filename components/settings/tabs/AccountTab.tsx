@@ -1,9 +1,11 @@
 "use client"
 
-import { Fingerprint, Shield, Lock, AlertTriangle } from "lucide-react"
+import { Fingerprint, Shield, Lock, AlertTriangle, Key, MonitorSmartphone } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { TwoFactorSetup } from "@/components/settings/TwoFactorSetup"
+import { PasskeySetup } from "@/components/settings/PasskeySetup"
+import { ActiveSessions } from "@/components/settings/ActiveSessions"
 import { authClient } from "@/lib/auth-client"
 
 interface AccountTabProps {
@@ -58,6 +60,32 @@ export function AccountTab({ userData }: AccountTabProps) {
           <Lock className="size-4 text-primary" /> Protection du compte (2FA)
         </label>
         <TwoFactorSetup user={userData} />
+      </div>
+
+      {/* Passkey Section */}
+      <div className="pt-4 border-t border-white/5 space-y-6">
+        <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+          <Key className="size-4 text-primary" /> Clés d&apos;accès biométriques
+        </label>
+        <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-primary/20 via-primary/5 to-transparent">
+          <div className="p-8 bg-black/85 cyber-notch relative overflow-hidden group/passkey">
+             <div className="absolute inset-0 cyber-grid-primary pointer-events-none opacity-20" aria-hidden="true" />
+             <PasskeySetup />
+          </div>
+        </div>
+      </div>
+
+      {/* Active Sessions Section */}
+      <div className="pt-4 border-t border-white/5 space-y-6">
+        <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+          <MonitorSmartphone className="size-4 text-emerald-500" /> Appareils et Sessions actives
+        </label>
+        <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-emerald-500/20 via-emerald-500/5 to-transparent">
+          <div className="p-8 bg-black/85 cyber-notch relative overflow-hidden group/sessions">
+             <div className="absolute inset-0 cyber-grid-emerald pointer-events-none opacity-10" aria-hidden="true" />
+             <ActiveSessions />
+          </div>
+        </div>
       </div>
 
       {/* Export data */}

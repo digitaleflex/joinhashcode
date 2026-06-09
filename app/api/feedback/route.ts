@@ -18,7 +18,13 @@ export const POST = async (req: NextRequest) => {
     const formData = await req.formData();
     const type = formData.get("type") as string;
     const content = formData.get("content") as string;
+    const ratingStr = formData.get("rating") as string;
     const file = formData.get("file") as File | null;
+
+    const rating = ratingStr ? parseInt(ratingStr) : null;
+    if (rating !== null && (isNaN(rating) || rating < 1 || rating > 5)) {
+      return NextResponse.json({ error: "Note de satisfaction invalide (1-5)" }, { status: 400 });
+    }
 
     if (!type || !content) {
       return NextResponse.json({ error: "Données de transmission manquantes" }, { status: 400 });
@@ -84,6 +90,7 @@ export const POST = async (req: NextRequest) => {
         userId: session.user.id,
         type,
         content,
+        rating,
         attachmentUrl,
       },
     });

@@ -111,6 +111,7 @@ export function Quiz({ user }: QuizProps) {
   const [isSaving, setIsSaving] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
+  const [quizResultId, setQuizResultId] = useState<string | undefined>(undefined)
   const [hasResumable, setHasResumable] = useState(false)
 
   // Restore saved progress on mount
@@ -162,6 +163,7 @@ export function Quiz({ user }: QuizProps) {
         ]);
         if (res.success) {
           setAnalysisResult(res.analysis ?? null);
+          setQuizResultId(res.quizResultId);
           track("quiz_completed", { profileType: res.analysis?.primary ?? "unknown" });
           setIsFinished(true); // Mark as finished immediately upon successful sync
         } else if (res.status === 409) {
@@ -297,6 +299,7 @@ export function Quiz({ user }: QuizProps) {
     return (
       <ResultPage
         analysis={analysisResult}
+        quizResultId={quizResultId}
         user={{
           pseudo: user?.pseudo,
           name: user?.name,

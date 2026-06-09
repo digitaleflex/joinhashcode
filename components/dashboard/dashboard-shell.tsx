@@ -31,6 +31,8 @@ import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
 import { MissionHistory } from "./mission-history"
+import { ReferralCard } from "./ReferralCard"
+import { AmbassadorGoal } from "./AmbassadorGoal"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -97,6 +99,14 @@ export function DashboardShell({
             {/* Global Alerts */}
             {isLocked && (
               <SquadBanner user={user} squad={squad} />
+            )}
+
+            {/* Referral / Invitation System (Growth Engine) */}
+            {user?.referralCode && (
+              <div className="space-y-6" id="referral-card">
+                <AmbassadorGoal referralCount={user.referralCount || 0} />
+                <ReferralCard referralCode={user.referralCode} referralCount={user.referralCount || 0} />
+              </div>
             )}
 
             {/* TIER 1: COMMAND DECK (Full-Width Welcome Header) */}

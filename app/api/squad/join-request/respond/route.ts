@@ -18,10 +18,17 @@ export async function POST(req: Request) {
     if (memberId && action === "remove") {
       const target = await prisma.member.findUnique({ where: { id: memberId } });
       if (!target) return new NextResponse("Membre introuvable", { status: 404 });
+      
       const leadership = await prisma.member.findFirst({
-        where: { organizationId: target.organizationId, userId: session.user.id, role: "owner" },
+        where: { organizationId: target.organizationId, userId: session.user.id, role: { in: ["owner", "admin"] } },
       });
-      if (!leadership) return new NextResponse("Forbidden", { status: 403 });
+      if (!leadership) return new NextResponse("Interdit : Droits de commandement requis", { status: 403 });
+
+      // Security check: Admins cannot remove owners or other admins
+      if (leadership.role === "admin" && (target.role === "owner" || target.role === "admin")) {
+        return new NextResponse("Interdit : Un officier ne peut pas révoquer un autre officier ou le chef.", { status: 403 });
+      }
+
       const org = await prisma.organization.findUnique({ where: { id: target.organizationId }, select: { name: true } });
       await prisma.member.delete({ where: { id: memberId } });
       await prisma.notification.create({
@@ -50,15 +57,15 @@ export async function POST(req: Request) {
       return new NextResponse("Cette demande a déjà été traitée", { status: 400 });
     }
 
-    // Verify caller is owner of this squad
+    // Verify caller has management rights
     const leadership = await prisma.member.findFirst({
       where: {
         organizationId: joinRequest.organizationId,
         userId: session.user.id,
-        role: "owner",
+        role: { in: ["owner", "admin"] },
       },
     });
-    if (!leadership) return new NextResponse("Forbidden", { status: 403 });
+    if (!leadership) return new NextResponse("Interdit : Droits de commandement requis", { status: 403 });
 
     if (action === "accept") {
       // Check capacity (max 5)
