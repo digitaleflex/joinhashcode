@@ -3,12 +3,10 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Brain, 
-  User as UserIcon, 
-  Github, 
-  Linkedin, 
-  Globe, 
+import {
+  Brain,
+  User as UserIcon,
+  Globe,
   ShieldCheck,
   Zap,
   Fingerprint,
@@ -22,6 +20,7 @@ import {
   Medal,
   ChevronRight
 } from "lucide-react";
+import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,7 @@
 "use client"
 
-import { Github, Linkedin, Twitter, Globe } from "lucide-react"
+import { Globe } from "lucide-react"
+import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 

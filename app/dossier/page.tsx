@@ -5,14 +5,12 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  FileText, 
-  Brain, 
-  User as UserIcon, 
-  Github, 
-  Linkedin, 
-  Globe, 
-  Target, 
+import {
+  FileText,
+  Brain,
+  User as UserIcon,
+  Globe,
+  Target,
   ShieldCheck,
   Zap,
   Medal,
@@ -28,6 +26,7 @@ import {
   Download,
   Lightbulb
 } from "lucide-react";
+import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";

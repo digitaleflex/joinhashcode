@@ -177,7 +177,10 @@ exports.Prisma.UserScalarFieldEnum = {
   twoFactorEnabled: 'twoFactorEnabled',
   twoFactorSecret: 'twoFactorSecret',
   twoFactorBackupCodes: 'twoFactorBackupCodes',
-  betaKeyId: 'betaKeyId'
+  betaKeyId: 'betaKeyId',
+  referralCode: 'referralCode',
+  referrerId: 'referrerId',
+  referralCount: 'referralCount'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
@@ -299,6 +302,7 @@ exports.Prisma.SessionScalarFieldEnum = {
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
   userId: 'userId',
+  impersonatedBy: 'impersonatedBy',
   activeOrganizationId: 'activeOrganizationId'
 };
 
@@ -335,6 +339,24 @@ exports.Prisma.QuizResultScalarFieldEnum = {
   answers: 'answers',
   createdAt: 'createdAt',
   averageResponseTime: 'averageResponseTime'
+};
+
+exports.Prisma.QuizFeedbackScalarFieldEnum = {
+  id: 'id',
+  quizResultId: 'quizResultId',
+  isAccurate: 'isAccurate',
+  usefulness: 'usefulness',
+  comment: 'comment',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UXPollResponseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  prefersDarkMode: 'prefersDarkMode',
+  modernityRating: 'modernityRating',
+  readabilityIssues: 'readabilityIssues',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.MissionSubmissionScalarFieldEnum = {
@@ -398,6 +420,7 @@ exports.Prisma.BetaFeedbackScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
   content: 'content',
+  rating: 'rating',
   status: 'status',
   attachmentUrl: 'attachmentUrl',
   createdAt: 'createdAt',
@@ -422,6 +445,28 @@ exports.Prisma.BetaKeyScalarFieldEnum = {
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TwoFactorScalarFieldEnum = {
+  id: 'id',
+  secret: 'secret',
+  backupCodes: 'backupCodes',
+  userId: 'userId',
+  verified: 'verified'
+};
+
+exports.Prisma.PasskeyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  publicKey: 'publicKey',
+  userId: 'userId',
+  credentialID: 'credentialID',
+  counter: 'counter',
+  deviceType: 'deviceType',
+  backedUp: 'backedUp',
+  transports: 'transports',
+  createdAt: 'createdAt',
+  aaguid: 'aaguid'
 };
 
 exports.Prisma.SortOrder = {
@@ -469,13 +514,17 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   QuizResult: 'QuizResult',
+  QuizFeedback: 'QuizFeedback',
+  UXPollResponse: 'UXPollResponse',
   MissionSubmission: 'MissionSubmission',
   MissionReview: 'MissionReview',
   ContactMessage: 'ContactMessage',
   Notification: 'Notification',
   BetaFeedback: 'BetaFeedback',
   JoinRequest: 'JoinRequest',
-  BetaKey: 'BetaKey'
+  BetaKey: 'BetaKey',
+  TwoFactor: 'TwoFactor',
+  Passkey: 'Passkey'
 };
 
 /**

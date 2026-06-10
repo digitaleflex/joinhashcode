@@ -102,8 +102,8 @@ REST endpoints under `app/api/`:
 | `admin/submissions/[id]/` | PATCH | ADMIN/MOD | Approve / request revision / reject |
 | `admin/feedback/` | GET/PATCH | ADMIN/MOD | Manage beta feedback |
 | `internal/cron/squad-decay/` | POST | internal | Decay inactive squad cohesion scores |
-| `internal/cron/check-activity/` | POST | internal | Check user activity metrics |
-| `internal/notify/` | POST | internal | Trigger notification |
+| `internal/cron/release-claims/` | POST | internal | Release stale peer-review claims |
+| `internal/cron/check-activity/` | POST | internal | Send daily reminder to inactive users |
 
 ### Environment Variables
 

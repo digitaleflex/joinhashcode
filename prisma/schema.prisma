@@ -71,6 +71,7 @@ model User {
   betaFeedbacks            BetaFeedback[]
   activityLogs             ActivityLog[]
   quizResults              QuizResult[]
+  uxPollResponses          UXPollResponse[]
   sessions                 Session[]
   members                  Member[]
   twoFactorEnabled         Boolean             @default(false)

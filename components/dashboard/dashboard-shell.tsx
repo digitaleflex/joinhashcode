@@ -14,8 +14,8 @@ import {
   Check,
   Target,
   User as UserIcon,
-  Linkedin
 } from "lucide-react"
+import { Linkedin } from "@/components/ui/brand-icons"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ScrambleText } from "@/components/ui/scramble-text"
