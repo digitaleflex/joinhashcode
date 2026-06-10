@@ -53,6 +53,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Répertoire uploads persistant — monté comme volume Docker en production
+RUN mkdir -p /app/public/uploads && chown nextjs:nodejs /app/public/uploads
+
 # Copier uniquement les fichiers nécessaires au runtime (standalone)
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/generated ./generated

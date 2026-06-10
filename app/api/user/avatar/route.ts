@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { saveFile } from "@/lib/upload";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -22,7 +22,6 @@ export async function POST(req: Request) {
       return new NextResponse("Aucun fichier détecté.", { status: 400 });
     }
 
-    // Validation
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!validTypes.includes(file.type)) {
       return new NextResponse("Format non supporté. Utilise JPEG, PNG ou WEBP.", { status: 400 });
@@ -32,39 +31,23 @@ export async function POST(req: Request) {
       return new NextResponse("Fichier trop lourd. La limite est de 2 Mo.", { status: 400 });
     }
 
+    const extByMime: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+    };
+    const ext = extByMime[file.type];
+    const fileName = `${session.user.id}-${Date.now()}.${ext}`;
     const buffer = await file.arrayBuffer();
-    const fileName = `${session.user.id}-${Date.now()}.webp`; // Add timestamp to bypass CDN cache
 
-    // Verify Supabase Admin Client
-    const supabase = getSupabaseAdmin();
-    if (!supabase) {
-      console.error("[AVATAR_POST] Supabase Admin Client not initialized. Check SB_ADMIN_KEY.");
-      return new NextResponse("Configuration de stockage manquante.", { status: 500 });
-    }
+    const url = await saveFile(buffer, fileName, "avatars");
 
-    const { error } = await supabase.storage
-      .from("avatars")
-      .upload(fileName, buffer, {
-        contentType: file.type,
-        upsert: true,
-      });
-
-    if (error) {
-      console.error("[AVATAR_UPLOAD_ERROR]", error);
-      return new NextResponse("Erreur lors de la sauvegarde sur le serveur de stockage.", { status: 500 });
-    }
-
-    const { data: { publicUrl } } = getSupabaseAdmin().storage
-      .from("avatars")
-      .getPublicUrl(fileName);
-
-    // Update user profile
     await prisma.user.update({
       where: { id: session.user.id },
-      data: { image: publicUrl },
+      data: { image: url },
     });
 
-    return NextResponse.json({ url: publicUrl });
+    return NextResponse.json({ url });
   } catch (error) {
     console.error("[AVATAR_POST]", error);
     return new NextResponse("Une erreur système est survenue. Réessaie dans un instant.", { status: 500 });

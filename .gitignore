@@ -69,3 +69,6 @@ __v0_jsx-dev-runtime.ts
 # Agents & AI Cockpit local states
 .claude/
 .superpowers/
+
+# Fichiers uploadés localement (servis par VPS, pas versionnés)
+public/uploads/

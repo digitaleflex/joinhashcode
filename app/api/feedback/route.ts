@@ -1,9 +1,9 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { saveFile } from "@/lib/upload";
 import { NextRequest, NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
-import { getSupabaseAdmin } from "@/lib/supabase";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -46,7 +46,6 @@ export const POST = async (req: NextRequest) => {
     let attachmentUrl: string | null = null;
 
     if (file && file.size > 0) {
-      // Validate file size (max 3 MB) and type (Images or PDF)
       const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
       if (!allowedMimeTypes.includes(file.type)) {
         return NextResponse.json({ error: "Format non supporté. JPEG, PNG, WEBP ou PDF uniquement." }, { status: 400 });
@@ -56,33 +55,23 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({ error: "Fichier trop lourd. Limite de 3 Mo." }, { status: 400 });
       }
 
-      const buffer = await file.arrayBuffer();
-
-      // Extension dérivée du MIME validé — jamais du nom de fichier (MIME spoofing)
       const extByMime: Record<string, string> = {
         "image/jpeg": "jpg", "image/png": "png",
         "image/webp": "webp", "application/pdf": "pdf",
       };
       const fileExt = extByMime[file.type];
       const fileName = `feedback-${session.user.id}-${Date.now()}-${crypto.randomUUID()}.${fileExt}`;
+      const buffer = await file.arrayBuffer();
 
-      const { error: uploadError } = await getSupabaseAdmin().storage
-        .from("feedback")
-        .upload(fileName, buffer, { contentType: file.type, upsert: false });
-
-      if (uploadError) {
-        // Fail closed — ne pas déverser dans un bucket public de fallback
-        console.error("[FEEDBACK_UPLOAD_ERROR]", uploadError);
+      try {
+        attachmentUrl = await saveFile(buffer, fileName, "feedback");
+      } catch (err) {
+        console.error("[FEEDBACK_UPLOAD_ERROR]", err);
         return NextResponse.json(
           { error: "Le service de pièces jointes est indisponible. Réessaie sans pièce jointe." },
           { status: 503 }
         );
       }
-
-      const { data: { publicUrl } } = getSupabaseAdmin().storage
-        .from("feedback")
-        .getPublicUrl(fileName);
-      attachmentUrl = publicUrl;
     }
 
     const feedback = await prisma.betaFeedback.create({
@@ -95,17 +84,16 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    // Notify user — fire-and-forget, a failed email must not block the feedback save
     emailService.sendFeedbackReceipt({
       email: session.user.email,
       name: session.user.name,
       type,
     }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendFeedbackReceipt", err));
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: "Feedback envoyé avec succès !",
-      id: feedback.id 
+      id: feedback.id
     });
   } catch (error) {
     console.error("Feedback API Error:", error);
