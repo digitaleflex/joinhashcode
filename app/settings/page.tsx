@@ -62,7 +62,7 @@ export default function SettingsPage() {
   const save = useCallback(async (data: any, silent = false) => {
     try {
       const ALLOWED_FIELDS = [
-        "name", "pseudo", "bio", "image", "country", "city", "currentSituation",
+        "name", "pseudo", "bio", "image", "country", "city", "language", "currentSituation",
         "githubUrl", "portfolioUrl", "twitterUrl", "linkedinUrl", "domains",
         "tools", "mainObjective", "secondaryObjectives"
       ]

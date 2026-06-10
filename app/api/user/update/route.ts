@@ -24,6 +24,7 @@ const updateSchema = z.object({
   image: z.string().url().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined),
   country: z.string().max(100).optional().nullable().transform(v => v || undefined),
   city: z.string().max(100).optional().nullable().transform(v => v || undefined),
+  language: z.enum(["fr", "en"]).optional().nullable().transform(v => v || undefined),
   currentSituation: z.string().max(200).optional().nullable().transform(v => v || undefined),
   githubUrl: safeUrl,
   portfolioUrl: safeUrl,
