@@ -51,8 +51,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
 
   const handleStopImpersonation = async () => {
     try {
-      // @ts-expect-error
-      await authClient.admin.stopImpersonating();
+      await (authClient.admin as any).stopImpersonating();
       toast.success("Retour au compte administrateur");
       window.location.href = "/admin/users";
     } catch (error) {

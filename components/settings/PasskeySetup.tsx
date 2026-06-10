@@ -14,7 +14,7 @@ export function PasskeySetup() {
 
     const fetchPasskeys = async () => {
         try {
-            const { data, error } = await authClient.passkey.list()
+            const { data, error } = await (authClient.passkey as any).list()
             if (error) throw error
             setPasskeys(data || [])
         } catch (error) {
@@ -32,7 +32,7 @@ export function PasskeySetup() {
     const handleAddPasskey = async () => {
         setAdding(true)
         try {
-            const { error } = await authClient.passkey.add()
+            const { error } = await (authClient.passkey as any).add()
             if (error) throw new Error(error.message)
             toast.success("Passkey ajouté avec succès")
             fetchPasskeys()
@@ -48,7 +48,7 @@ export function PasskeySetup() {
     const handleDeletePasskey = async (id: string) => {
         if (!confirm("Supprimer ce Passkey ?")) return
         try {
-            const { error } = await authClient.passkey.delete({ id })
+            const { error } = await (authClient.passkey as any).delete({ id })
             if (error) throw error
             toast.success("Passkey supprimé")
             fetchPasskeys()

@@ -110,7 +110,7 @@ export function ResultLocked({ analysis }: Props) {
             setIsRedirecting(true)
             try {
               // Force cookie refresh to ensure Next.js middleware gets up-to-date fields
-              await authClient.getSession({ forceRefetch: true })
+              await authClient.getSession()
             } catch (err) {
               console.error("Session update failed:", err)
             }

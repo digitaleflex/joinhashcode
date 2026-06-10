@@ -43,7 +43,12 @@ export default function OnboardingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncing, setIsSyncing] = useState(true)
 
-  const [formData, setFormData] = useState(() => {
+  const [formData, setFormData] = useState<{
+    country: string;
+    currentSituation: UserSituation;
+    mainObjective: MainObjective;
+    secondaryObjectives: MainObjective[];
+  }>(() => {
     try {
       const saved = typeof window !== "undefined" ? localStorage.getItem(ONBOARDING_KEY) : null;
       if (saved) return JSON.parse(saved);
@@ -109,7 +114,7 @@ export default function OnboardingPage() {
       
       // Force refresh Better Auth session so cookies updated in browser immediately
       try {
-        await authClient.getSession({ forceRefetch: true });
+        await authClient.getSession();
       } catch (err) {
         console.error("Session refresh failed:", err);
       }
