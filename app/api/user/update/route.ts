@@ -21,7 +21,10 @@ const updateSchema = z.object({
   bio: z.string().transform(stripHtml).pipe(z.string().max(500))
     .refine(v => !containsProfanity(v), "Ta biographie contient des termes non autorisés.")
     .optional().nullable().transform(v => v || undefined),
-  image: z.string().url().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined),
+  image: z.union([
+    z.string().url().max(500),
+    z.string().regex(/^\/uploads\/[a-zA-Z0-9_/-]+\.(jpg|jpeg|png|webp)$/),
+  ]).optional().nullable().or(z.literal("")).transform(v => v || undefined),
   country: z.string().max(100).optional().nullable().transform(v => v || undefined),
   city: z.string().max(100).optional().nullable().transform(v => v || undefined),
   language: z.enum(["fr", "en"]).optional().nullable().transform(v => v || undefined),
