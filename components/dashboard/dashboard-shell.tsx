@@ -316,7 +316,11 @@ export function DashboardShell({
                       <div className="space-y-1">
                         <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
                         <div className="text-sm font-medium text-white tracking-tight">
-                          {user.city && user.country ? `${user.city}, ${user.country}` : <span className="text-zinc-500 italic text-xs">Localisation non renseignée</span>}
+                          {user.city || user.country ? (
+                            [user.city, user.country].filter(Boolean).join(", ")
+                          ) : (
+                            <span className="text-zinc-500 italic text-xs">Localisation non renseignée</span>
+                          )}
                         </div>
                       </div>
                     </div>

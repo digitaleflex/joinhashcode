@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useState, useEffect } from "react"
 import {
   Area,
   AreaChart,
@@ -26,6 +26,12 @@ interface XPGrowthChartProps {
 }
 
 export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const chartData = useMemo(() => {
     const days = 14
     const data = []
@@ -65,6 +71,14 @@ export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
 
     return data
   }, [logs, currentXP])
+
+  if (!isMounted) {
+    return (
+      <div className="h-[200px] w-full mt-4 bg-white/1 rounded-2xl animate-pulse border border-white/5 flex items-center justify-center">
+        <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Initialisation du flux d'évolution...</span>
+      </div>
+    )
+  }
 
   return (
     <div className="h-[200px] w-full mt-4">

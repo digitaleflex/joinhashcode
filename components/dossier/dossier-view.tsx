@@ -261,7 +261,11 @@ export function DossierView({
                           <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Localisation</div>
                           <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
                               <Globe className="size-3.5 text-primary" />
-                              {user.city || "UNKNOWN_LOCATION"}, {user.country || "GLOBAL"}
+                              {user.city || user.country ? (
+                                [user.city, user.country].filter(Boolean).join(", ")
+                              ) : (
+                                "GLOBAL"
+                              )}
                           </div>
                       </div>
                       

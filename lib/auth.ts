@@ -132,6 +132,14 @@ export const auth = betterAuth({
             email: user.email,
             name: user.name,
           });
+
+          const referralCode = (user as any).pseudo?.toLowerCase() ||
+            `${user.name.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
+
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { referralCode },
+          });
         },
       },
     },
@@ -160,6 +168,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    nextCookies(),
     magicLink({
       sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
         await emailService.sendMagicLink({ email, url });
@@ -174,7 +183,6 @@ export const auth = betterAuth({
       generateOTP: generateSecureOTP,
     }),
     admin({
-      // Explicitly define admin roles and map them to their access control roles
       adminRoles: ["ADMIN", "MODERATOR"],
       defaultRole: "MEMBER",
       roles: {
@@ -182,51 +190,35 @@ export const auth = betterAuth({
         MODERATOR: adminRole,
         MEMBER: memberRole,
       },
+      accessControl: ac,
     }),
     organization({
       allowUserToCreateOrganization: true,
       organizationLimit: 1,
       membershipLimit: 5,
       creatorRole: "owner",
-      ac: createAccessControl({
-        organization: ["update", "delete", "list"],
-        member: ["create", "list", "update", "delete"],
-        invitation: ["create", "list", "update", "delete"],
-      }),
       roles: {
         owner: {
           organization: ["update", "delete", "list"],
-          member: ["create", "list", "update", "delete"],
-          invitation: ["create", "list", "update", "delete"],
+          member: ["create", "delete", "update"],
+          invitation: ["create", "delete", "update"],
         },
         admin: {
-          organization: ["update", "list"],
-          member: ["create", "list", "delete"],
-          invitation: ["create", "list", "delete"],
+          organization: ["update"],
+          member: ["create", "delete"],
+          invitation: ["create", "delete"],
         },
         member: {
           organization: ["list"],
           member: ["list"],
           invitation: ["list"],
         },
-      },
-      sendInvitationEmail: async (data) => {
-        const { email, organization, inviter, invitation } = data;
-        await emailService.sendEmail({
-          to: email,
-          subject: `Rejoins l'escouade ${organization.name} sur HASHCODE`,
-          html: `
-            <p>${inviter.user.name} t'a invité à rejoindre l'escouade <strong>${organization.name}</strong>.</p>
-            <p>HASHCODE est une communauté de bâtisseurs où nous évoluons ensemble.</p>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL}/invite/accept?id=${invitation.id}" style="padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 5px;">
-              Accepter l'invitation
-            </a>
-          `,
-        });
-      },
+      } as any,
       schema: {
         organization: {
           additionalFields: {
+            description: { type: "string", required: false },
+            announcement: { type: "string", required: false },
             cohesionScore: { type: "number", defaultValue: 0.1 },
             streakCount: { type: "number", defaultValue: 0 },
             lastStreakAt: { type: "date", required: false },
@@ -249,21 +241,6 @@ export const auth = betterAuth({
       },
     }),
     passkey(),
-    nextCookies(),
   ],
-  hooks: {
-    after: {
-      register: async ({ user }) => {
-        // Generate unique referral code (default to pseudo if set, else random string)
-        const referralCode = user.pseudo?.toLowerCase() || 
-                           `${user.name.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
-        
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { referralCode }
-        });
-      }
-    }
-  }
-});
 
+});

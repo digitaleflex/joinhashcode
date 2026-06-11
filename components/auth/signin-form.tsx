@@ -174,9 +174,9 @@ export function SignInForm() {
                     <CardTitle className="text-2xl font-black uppercase tracking-tight text-white italic leading-none">
                         {step === "initial" ? "Connexion" : "Vérification"}
                     </CardTitle>
-                    <CardDescription className="text-xs text-zinc-400 font-medium max-w-70 mx-auto leading-relaxed">
+                    <CardDescription className="text-xs text-zinc-400 font-medium max-w-80 mx-auto leading-relaxed">
                         {step === "initial" 
-                            ? "Connecte-toi pour révéler tes forces et propulser ton parcours tech."
+                            ? "Rejoins ta Squad de 5 développeurs, accomplis des missions réelles et propulse ton parcours tech grâce à notre système d'évolution."
                             : `Saisis le code à 8 caractères envoyé à ${email}`}
                     </CardDescription>
                 </CardHeader>

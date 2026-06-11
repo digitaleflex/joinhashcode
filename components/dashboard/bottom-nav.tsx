@@ -16,7 +16,10 @@ export function BottomNav() {
 
   return (
     <div className="md:hidden fixed bottom-6 left-4 right-4 z-100">
-      <nav className="relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40">
+      <nav 
+        aria-label="Navigation principale mobile"
+        className="relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40"
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
           const Icon = item.icon
@@ -25,8 +28,10 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.name}
+              aria-current={isActive ? "page" : undefined}
               className={`relative flex flex-col items-center gap-1 p-2 rounded-2xl min-w-[60px] transition-colors duration-300 ${
-                isActive ? "text-primary" : "text-muted-foreground"
+                isActive ? "text-primary" : "text-zinc-400 hover:text-white"
               }`}
             >
               {isActive && (

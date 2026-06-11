@@ -130,7 +130,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
             <Languages className="size-3.5 text-emerald-500" /> Langue d'affichage
@@ -155,6 +155,17 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
           <CountrySelector
             value={userData?.country || ""}
             onChange={val => updateData({ ...userData, country: val })}
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
+            <Globe className="size-3.5 text-emerald-500" /> Ville de résidence
+          </label>
+          <Input
+            value={userData?.city || ""}
+            onChange={e => updateData({ ...userData, city: e.target.value })}
+            className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60"
+            placeholder="Ex: Paris"
           />
         </div>
       </div>
