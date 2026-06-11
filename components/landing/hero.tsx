@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+// import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
@@ -16,8 +16,10 @@ const PROFILES = [
 
 export function Hero() {
   const [index, setIndex] = useState(0)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     const id = setInterval(() => {
       setIndex(i => (i + 1) % PROFILES.length)
     }, 2200)
@@ -25,6 +27,8 @@ export function Hero() {
   }, [])
 
   const current = PROFILES[index]
+
+  if (!isMounted) return <div className="min-h-screen bg-background" />
 
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-white/5 bg-background">
@@ -46,59 +50,40 @@ export function Hero() {
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
 
           {/* Eyebrow — human & welcoming */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+          <div
             className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-sm mb-12"
           >
             <span className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#B8FF3B]" />
             <span className="font-mono text-[10px] font-black text-primary tracking-tight">
               découvre ton potentiel tech
             </span>
-          </motion.div>
+          </div>
 
           {/* H1 — Refined Avant-Garde */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          <h1
             className="text-3xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
             Tu es
             <br />
             <span className="inline-flex items-center justify-center min-w-[180px] sm:min-w-[320px] italic">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={current.label}
-                  initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                <span
                   className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl"
                   style={{ color: current.color, textShadow: `0 0 20px ${current.color}20` }}
                 >
                   {current.label}
-                </motion.span>
-              </AnimatePresence>
+                </span>
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
+          <p
             className="mt-8 text-lg text-zinc-400 font-medium tracking-tight max-w-lg"
           >
             Le système décode tes forces en <span className="text-white italic">3 minutes</span> chrono.
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
+          <div
             className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
           >
             <Button
@@ -119,38 +104,29 @@ export function Hero() {
             >
               <Link href="/signin">Déjà membre ?</Link>
             </Button>
-          </motion.div>
+          </div>
 
           {/* Disclaimer pédagogique */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.42 }}
+          <p
             className="mt-8 max-w-md text-center text-xs text-zinc-600 leading-relaxed"
           >
             Ce quiz ne te classe pas — il identifie ta <span className="text-zinc-500">tendance dominante du moment</span>.
             Ton profil est une hypothèse de travail, pas une étiquette définitive.
             Il peut évoluer. Beaucoup de membres sont hybrides.
-          </motion.p>
+          </p>
 
           {/* Meta */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
+          <div
             className="mt-6 flex items-center gap-4 font-mono text-[9px] font-bold text-zinc-700 tracking-tight"
           >
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes chrono</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">sans engagement</span>
-          </motion.div>
+          </div>
         </div>
 
         {/* Profile result card — Premium UI */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+        <div
           className="mx-auto mt-24 max-w-2xl"
         >
           <div className="relative rounded-[2.5rem] border border-white/10 glass-card p-1 shadow-2xl shadow-black/80 overflow-hidden">
@@ -187,11 +163,8 @@ export function Hero() {
                   { label: "Catalyseur", pct:  7, color: "#F97316" },
                   { label: "Créateur",   pct:  3, color: "#A855F7" },
                 ].map((bar, i) => (
-                  <motion.div
+                  <div
                     key={bar.label}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.7 + i * 0.07 }}
                     className="space-y-1.5"
                   >
                     <div className="flex justify-between items-end">
@@ -201,15 +174,12 @@ export function Hero() {
                       <span className="font-mono text-[9px] font-bold" style={{ color: bar.color }}>{bar.pct}%</span>
                     </div>
                     <div className="h-1 w-full rounded-full bg-white/5 overflow-hidden">
-                      <motion.div
+                      <div
                         className="h-full rounded-full shadow-[0_0_10px_currentColor]"
-                        style={{ background: bar.color }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${bar.pct}%` }}
-                        transition={{ duration: 1, delay: 0.8 + i * 0.07, ease: [0.23, 1, 0.32, 1] }}
+                        style={{ background: bar.color, width: `${bar.pct}%` }}
                       />
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
               
@@ -219,7 +189,7 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

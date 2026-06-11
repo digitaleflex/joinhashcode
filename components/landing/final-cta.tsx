@@ -1,70 +1,67 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Zap, Shield, Target } from "lucide-react"
 
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden border-b border-border/60">
-      {/* Background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-50"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[130px]"
-      />
-
-      <div className="relative mx-auto max-w-3xl px-4 py-28 text-center sm:px-6 sm:py-36 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="flex flex-col items-center gap-6"
+    <section className="relative py-24 overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-20" />
+      
+      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <div
+          className="space-y-8"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[10.5px] uppercase tracking-wide text-muted-foreground">
-              Prêt ?
-            </span>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4">
+            <Zap className="size-4 text-primary" />
+            <span className="font-mono text-[10px] uppercase font-bold text-zinc-400 tracking-widest">Initialisation_v2.0</span>
           </div>
 
-          <h2 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-            Prêt à savoir
+          <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase italic leading-[0.9]">
+            Ne sois plus un <span className="text-primary text-glow">spectateur</span>.
             <br />
-            <span className="text-primary">qui tu es ?</span>
+            Deviens un <span className="underline decoration-primary/30 underline-offset-8">bâtisseur</span>.
           </h2>
 
-          <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            3 minutes. 13 questions. Un profil précis — et une communauté qui correspond.
+          <p className="text-zinc-400 text-lg sm:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+            Rejoins une communauté d'élite où tes compétences sont tes seules limites. Le futur de l'Afrique se code ici.
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.25, ease: "easeOut" }}
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8"
           >
             <Button
               asChild
               size="lg"
-              className="group h-12 rounded-xl bg-primary px-8 text-sm font-bold text-primary-foreground shadow-[0_0_0_1px_rgba(197,244,65,0.2),0_8px_40px_-8px_rgba(197,244,65,0.5)] hover:bg-primary/90 transition-all hover:scale-105 active:scale-95"
+              className="btn-primary-glow group h-16 px-12 rounded-2xl text-xs font-black uppercase tracking-widest"
             >
               <Link href="/quiz">
-                Découvrir mon profil
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Commencer mon évolution
+                <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-          </motion.div>
+          </div>
 
-          <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
-            Gratuit · Sans engagement · 3 minutes
-          </p>
-        </motion.div>
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-16 border-t border-white/5"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <Shield className="size-5 text-zinc-600" />
+              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Accès Sécurisé</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Target className="size-5 text-zinc-600" />
+              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Objectifs Réels</span>
+            </div>
+            <div className="hidden sm:flex flex-col items-center gap-2">
+              <Zap className="size-5 text-zinc-600" />
+              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Impact Immédiat</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

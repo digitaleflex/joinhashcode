@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { Button } from "@/components/ui/button"
@@ -99,9 +99,7 @@ export default function ContactPage() {
             <div className="lg:col-span-7">
               <div className="p-8 sm:p-10 rounded-[2.5rem] border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl relative">
                 {isSent ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                  <div 
                     className="py-20 text-center"
                   >
                     <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
@@ -110,7 +108,7 @@ export default function ContactPage() {
                     <h2 className="text-2xl font-bold mb-4 text-white">Transmission Réussie.</h2>
                     <p className="text-zinc-400 mb-8">Ton message a été injecté dans notre flux prioritaire. Notre équipe reviendra vers toi très vite.</p>
                     <Button variant="outline" onClick={() => setIsSent(false)}>Nouvelle transmission</Button>
-                  </motion.div>
+                  </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Selector */}

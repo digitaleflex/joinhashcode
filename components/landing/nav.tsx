@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, LayoutDashboard } from "lucide-react"
@@ -7,8 +8,77 @@ import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 
-export function Nav() {
+function NavActions() {
   const { data: session } = authClient.useSession()
+
+  return (
+    <div className="flex items-center gap-1.5 sm:gap-3">
+      {session ? (
+        <>
+          <Link
+            href="/dashboard"
+            className="hidden sm:flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-2"
+          >
+            <LayoutDashboard className="h-3.5 w-3.5" />
+            Tableau de bord
+          </Link>
+          <Link
+            href="/dashboard"
+            className="sm:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 hover:bg-primary/20 transition-colors"
+            aria-label="Dashboard"
+          >
+            <LayoutDashboard className="h-4 w-4 text-primary" />
+          </Link>
+          <div className="h-8 w-8 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
+            {session.user.image ? (
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width={32}
+                height={32}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <span className="text-[10px] font-mono text-primary font-bold">
+                {session.user.name.charAt(0).toUpperCase()}
+              </span>
+            )}
+          </div>
+        </>
+      ) : (
+        <>
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="h-8 px-3 text-[10px] font-bold text-muted-foreground hover:text-white"
+          >
+            <Link href="/signin">Connexion</Link>
+          </Button>
+          <Button
+            asChild
+            size="sm"
+            className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-[9px] sm:text-[10px] font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
+          >
+            <Link href="/quiz" className="flex items-center gap-1.5">
+              <span className="hidden sm:inline">Se profiler</span>
+              <span className="sm:hidden">Quiz</span>
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </Button>
+        </>
+      )}
+    </div>
+  )
+}
+
+export function Nav() {
+  const [isMounted, setIsMounted] = useState(false)
+  const { data: session } = authClient.useSession()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <>
@@ -28,68 +98,12 @@ export function Nav() {
           </Link>
 
           {/* Right actions */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
-            {session ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="hidden sm:flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-2"
-                >
-                  <LayoutDashboard className="h-3.5 w-3.5" />
-                  Tableau de bord
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="sm:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 hover:bg-primary/20 transition-colors"
-                  aria-label="Dashboard"
-                >
-                  <LayoutDashboard className="h-4 w-4 text-primary" />
-                </Link>
-                <div className="h-8 w-8 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
-                  {session.user.image ? (
-                    <Image
-                      src={session.user.image}
-                      alt={session.user.name}
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-[10px] font-mono text-primary font-bold">
-                      {session.user.name.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <Button
-                  asChild
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 px-3 text-[10px] font-bold text-muted-foreground hover:text-white"
-                >
-                  <Link href="/signin">Connexion</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-[9px] sm:text-[10px] font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
-                >
-                  <Link href="/quiz" className="flex items-center gap-1.5">
-                    <span className="hidden sm:inline">Se profiler</span>
-                    <span className="sm:hidden">Quiz</span>
-                    <ArrowRight className="h-3 w-3" />
-                  </Link>
-                </Button>
-              </>
-            )}
-          </div>
+          {isMounted ? <NavActions /> : <div className="h-8 w-20" />}
         </div>
       </header>
       {/* Spacer to offset fixed header height (~56px) */}
       <div className="h-14" aria-hidden="true" />
-      {session && <BottomNav />}
+      {isMounted && session && <BottomNav />}
     </>
   )
 }

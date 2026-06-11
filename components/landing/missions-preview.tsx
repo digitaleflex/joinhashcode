@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+// import { motion, AnimatePresence } from "framer-motion"
 
 const PROFILES = [
   {
@@ -48,12 +48,8 @@ export function MissionsPreview() {
     <section id="profils" className="border-b border-border/60 bg-zinc-950 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        {/* Header — entrance animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+        {/* Header */}
+        <div
           className="flex flex-col items-center text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 mb-5">
@@ -68,20 +64,14 @@ export function MissionsPreview() {
             L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
             Beaucoup de membres sont hybrides. C'est la norme, pas l'exception.
           </p>
-        </motion.div>
+        </div>
 
         {/* Desktop: two columns */}
         <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
           {/* Left — animated panel on profile switch */}
           <div className="sticky top-24">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={profile.id}
-                initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+              <div
                 className="rounded-2xl border p-8"
                 style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
               >
@@ -108,16 +98,11 @@ export function MissionsPreview() {
                   className="mt-8 h-px w-full rounded-full"
                   style={{ background: `linear-gradient(90deg, ${profile.color}60, transparent)` }}
                 />
-              </motion.div>
-            </AnimatePresence>
+              </div>
           </div>
 
           {/* Right — profile selector list */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
+          <div
             className="space-y-2"
           >
             {PROFILES.map((p, i) => (
@@ -156,18 +141,14 @@ export function MissionsPreview() {
                 </div>
               </button>
             ))}
-          </motion.div>
+          </div>
         </div>
 
-        {/* Mobile: 4 stacked cards with stagger */}
+        {/* Mobile: 4 stacked cards */}
         <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
           {PROFILES.map((p, i) => (
-            <motion.div
+            <div
               key={p.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 }}
               className="rounded-2xl border p-6 space-y-4"
               style={{ borderColor: `${p.color}20`, background: `${p.color}06` }}
             >
@@ -195,16 +176,12 @@ export function MissionsPreview() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+        <div
           className="flex justify-center mt-14"
         >
           <Link
@@ -214,7 +191,7 @@ export function MissionsPreview() {
             Découvrir mon profil en 3 minutes
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

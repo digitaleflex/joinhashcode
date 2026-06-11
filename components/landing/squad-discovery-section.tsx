@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { PublicSquadList } from "@/components/dashboard/squad/PublicSquadList";
 import { Globe, Users, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export function SquadDiscoverySection() {
   const [squads, setSquads] = useState<any[]>([]);
