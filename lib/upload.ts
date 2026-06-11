@@ -2,7 +2,6 @@ import { writeFile, mkdir, realpath } from "fs/promises"
 import { join, basename, sep } from "path"
 
 const UPLOAD_DIR = join(process.cwd(), "public", "uploads")
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
 
 const SAFE_SUBDIR = /^[a-zA-Z0-9_-]+$/
 
@@ -26,5 +25,5 @@ export async function saveFile(
   }
 
   await writeFile(join(resolvedDir, safeFileName), Buffer.from(buffer))
-  return `${BASE_URL}/uploads/${subDir}/${safeFileName}`
+  return `/uploads/${subDir}/${safeFileName}`
 }
