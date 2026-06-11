@@ -155,7 +155,7 @@ export function DossierView({
               </div>
 
               {/* Evolution Engine Metrics (Only if NOT public or optionally public) */}
-              <div className="space-y-4">
+              <div className="space-y-4" id="tour-dossier-tips">
                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
                       Indices de Performance
                       <div className="h-px bg-white/5 flex-1" />
