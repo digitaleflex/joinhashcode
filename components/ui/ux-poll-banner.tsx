@@ -20,7 +20,14 @@ export function UXPollBanner() {
     const [readabilityIssues, setReadabilityIssues] = useState("")
 
     useEffect(() => {
-        // Check if already answered
+        // Check if user has already dismissed it in this session/browser
+        const isDismissed = localStorage.getItem("hashcode_ux_poll_dismissed")
+        if (isDismissed) {
+            setLoading(false)
+            return
+        }
+
+        // Check if already answered in DB
         fetch("/api/ux-poll")
             .then(res => res.json())
             .then(data => {
@@ -31,6 +38,11 @@ export function UXPollBanner() {
             .catch(() => {})
             .finally(() => setLoading(false))
     }, [])
+
+    const dismiss = () => {
+        setIsVisible(false)
+        localStorage.setItem("hashcode_ux_poll_dismissed", "true")
+    }
 
     const handleSubmit = async () => {
         if (modernityRating === 0) {
@@ -51,6 +63,7 @@ export function UXPollBanner() {
             })
 
             if (!res.ok) throw new Error()
+            localStorage.setItem("hashcode_ux_poll_dismissed", "true")
             setStep("thanks")
             setTimeout(() => setIsVisible(false), 3000)
         } catch (error) {
@@ -68,7 +81,7 @@ export function UXPollBanner() {
                 <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary/50 via-primary to-primary/50" />
                 
                 <button 
-                    onClick={() => setIsVisible(false)}
+                    onClick={dismiss}
                     className="absolute top-3 right-3 text-zinc-600 hover:text-white transition-colors"
                 >
                     <X className="size-4" />

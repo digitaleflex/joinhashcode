@@ -52,7 +52,7 @@ export async function GET(req: Request) {
             headers: await headers(),
         });
 
-        if (!session) return NextResponse.json({ hasAnswered: false });
+        if (!session) return NextResponse.json({ hasAnswered: true });
 
         const response = await prisma.uXPollResponse.findUnique({
             where: { userId: session.user.id }
