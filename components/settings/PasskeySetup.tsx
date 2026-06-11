@@ -80,9 +80,13 @@ export function PasskeySetup() {
                         <Loader2 className="size-6 animate-spin text-zinc-700" />
                     </div>
                 ) : passkeys.length === 0 ? (
-                    <div className="border border-dashed border-white/5 rounded-2xl p-8 text-center bg-white/1">
-                        <Fingerprint className="size-8 text-zinc-800 mx-auto mb-3 opacity-20" />
-                        <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">Aucun Passkey enregistré</p>
+                    <div className="border border-dashed border-white/5 rounded-2xl p-8 text-center bg-white/1 space-y-2">
+                        <Fingerprint className="size-8 text-zinc-700 mx-auto opacity-35" />
+                        <p className="text-[10px] text-zinc-300 font-mono uppercase tracking-widest font-black">Aucune clé d'accès enregistrée</p>
+                        <p className="text-[9px] text-zinc-500 max-w-sm mx-auto leading-normal font-medium">
+                            Enregistre cet appareil en cliquant sur le bouton <span className="text-primary font-bold">Ajouter</span> ci-dessus. 
+                            Tu pourras ensuite te connecter de manière ultra-sécurisée sans mot de passe en scannant ton visage ou ton empreinte.
+                        </p>
                     </div>
                 ) : (
                     passkeys.map((pk) => (

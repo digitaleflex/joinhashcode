@@ -137,11 +137,18 @@ export function SignInForm() {
             if (error) throw new Error(error.message)
             toast.success("Authentification Passkey réussie")
             window.location.href = getSafeCallbackUrl()
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
-            const msg = getOAuthErrorMessage(error)
-            if (!msg.includes("annulée")) {
-                toast.error("Échec de l'authentification Passkey")
+            const errorMsg = error?.message || ""
+            const isUserCancel = errorMsg.toLowerCase().includes("cancel") || 
+                               errorMsg.toLowerCase().includes("abort") || 
+                               errorMsg.toLowerCase().includes("annul")
+            
+            if (!isUserCancel) {
+                toast.error(
+                    "Aucune clé enregistrée sur cet appareil. Connecte-toi par e-mail, Google ou GitHub pour enregistrer ta clé dans tes paramètres.",
+                    { duration: 6000 }
+                )
             }
         } finally {
             setLoadingProvider(null)
@@ -235,6 +242,9 @@ export function SignInForm() {
                                     </>
                                 )}
                             </Button>
+                            <p className="text-[9px] text-zinc-500 font-mono text-center mt-2.5 select-none">
+                                💡 Configure ta clé dans tes <span className="text-zinc-400 font-bold">Paramètres &gt; Sécurité</span> une fois connecté.
+                            </p>
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
