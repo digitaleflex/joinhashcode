@@ -8,10 +8,10 @@ import { subMinutes } from "date-fns";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const { organizationId } = await req.json();
-    if (!organizationId) return new NextResponse("Organization ID missing", { status: 400 });
+    if (!organizationId) return NextResponse.json({ message: "Organization ID missing" }, { status: 400 });
 
     const h = await headers();
     const ip = h.get("x-forwarded-for")?.split(",")[0] || "unknown";
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       select: { requiredLevel: true }
     });
 
-    if (!targetSquad) return new NextResponse("Escouade introuvable", { status: 404 });
+    if (!targetSquad) return NextResponse.json({ message: "Escouade introuvable" }, { status: 404 });
 
     const dbUser = await prisma.user.findUnique({
       where: { id: session.user.id },
@@ -102,19 +102,19 @@ export async function POST(req: Request) {
     return NextResponse.json(request);
   } catch (error) {
     console.error("[SQUAD_JOIN_REQUEST_POST]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get("organizationId");
 
-    if (!organizationId) return new NextResponse("Organization ID missing", { status: 400 });
+    if (!organizationId) return NextResponse.json({ message: "Organization ID missing" }, { status: 400 });
 
     const membership = await prisma.member.findFirst({
       where: {
@@ -124,7 +124,7 @@ export async function GET(req: Request) {
       },
     });
 
-    if (!membership) return new NextResponse("Forbidden", { status: 403 });
+    if (!membership) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 
     const requests = await prisma.joinRequest.findMany({
       where: {
@@ -150,6 +150,6 @@ export async function GET(req: Request) {
     return NextResponse.json(requests);
   } catch (error) {
     console.error("[SQUAD_JOIN_REQUEST_GET]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

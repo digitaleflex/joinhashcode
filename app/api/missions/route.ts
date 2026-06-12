@@ -8,13 +8,14 @@ import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
 
 const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
 
 const submissionSchema = z.object({
   missionId: z.string().min(1),
-  content: z.string().min(1),
+  content: z.string().url("Le lien de soumission doit être une URL valide (http/https).").startsWith("http", "Seuls les liens HTTP/HTTPS sont acceptés."),
   projectDescription: z.string().optional(),
   userDifficulty: z.number().min(1).max(5).optional(),
   userRating: z.number().min(1).max(5).optional(),
@@ -29,14 +30,19 @@ export async function POST(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Accès non autorisé. Connecte-toi pour valider ta mission.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour valider ta mission." }, { status: 401 });
+    }
+
+    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
+    if (limited) {
+      return NextResponse.json({ message: "Trop de soumissions. Réessaie dans une minute." }, { status: 429 });
     }
 
     const body = await req.json();
     const validatedData = submissionSchema.safeParse(body);
 
     if (!validatedData.success) {
-      return new NextResponse("Données d'envoi invalides. Vérifie tes champs.", { status: 400 });
+      return NextResponse.json({ message: "Données d'envoi invalides. Vérifie tes champs." }, { status: 400 });
     }
 
     const { 
@@ -53,7 +59,7 @@ export async function POST(req: Request) {
       where: { OR: [{ id: missionId }, { slug: missionId }] },
     });
     if (!mission) {
-      return new NextResponse("Mission introuvable dans le système.", { status: 404 });
+      return NextResponse.json({ message: "Mission introuvable dans le système." }, { status: 404 });
     }
 
     const dbUser = await prisma.user.findUnique({
@@ -73,12 +79,12 @@ export async function POST(req: Request) {
     });
 
     if (!dbUser) {
-      return new NextResponse("Utilisateur introuvable.", { status: 404 });
+      return NextResponse.json({ message: "Utilisateur introuvable." }, { status: 404 });
     }
 
     const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
     if (dbUser.level < requiredLevel) {
-      return new NextResponse("Ton rang est trop bas pour cette mission. Continue de build !", { status: 403 });
+      return NextResponse.json({ message: "Ton rang est trop bas pour cette mission. Continue de build !" }, { status: 403 });
     }
 
     const cycleKey = getCurrentCycleKey(mission);
@@ -95,21 +101,23 @@ export async function POST(req: Request) {
 
     if (existingSubmission) {
       if (existingSubmission.status === "APPROVED") {
-        return new NextResponse("Cette mission a déjà été validée pour cette période.", { status: 409 });
+        return NextResponse.json({ message: "Cette mission a déjà été validée pour cette période." }, { status: 409 });
       }
       if (existingSubmission.status === "PENDING" || existingSubmission.status === "IN_REVIEW") {
-        return new NextResponse("Ta soumission est déjà en attente de validation. Patience !", { status: 400 });
+        return NextResponse.json({ message: "Ta soumission est déjà en attente de validation. Patience !" }, { status: 400 });
       }
       if (existingSubmission.revisionCount >= 3) {
-        return new NextResponse("Nombre maximum de révisions atteint. Contacte un admin.", { status: 400 });
+        return NextResponse.json({ message: "Nombre maximum de révisions atteint. Contacte un admin." }, { status: 400 });
       }
     }
 
     const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
-
     const isAutoApproved = mission.isWeeklyChallenge;
     const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
     const xpToAward = isAutoApproved ? mission.xp : 0;
+
+    // Fix SEC-001: Award SYNC_BONUS_XP only on the FIRST submission for this mission/cycle
+    const experienceToIncrement = (existingSubmission ? 0 : SYNC_BONUS_XP) + xpToAward;
 
     const result = await prisma.$transaction(async (tx) => {
       const submission = await tx.missionSubmission.upsert({
@@ -148,7 +156,7 @@ export async function POST(req: Request) {
       await tx.user.update({
         where: { id: session.user.id },
         data: {
-          experience: { increment: SYNC_BONUS_XP + xpToAward },
+          experience: { increment: experienceToIncrement },
           missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined
         }
       });
@@ -204,6 +212,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("[MISSION_SUBMIT]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }

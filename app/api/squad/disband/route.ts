@@ -14,7 +14,7 @@ import { logActivity } from "@/lib/activity-log";
 export async function DELETE(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const userId = session.user.id;
 
@@ -25,7 +25,7 @@ export async function DELETE(req: Request) {
     });
 
     if (!membership) {
-      return new NextResponse("Seul le leader peut dissoudre l'escouade.", { status: 403 });
+      return NextResponse.json({ message: "Seul le leader peut dissoudre l'escouade." }, { status: 403 });
     }
 
     const squadId = membership.organizationId;
@@ -48,6 +48,6 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_DISBAND_ERROR]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

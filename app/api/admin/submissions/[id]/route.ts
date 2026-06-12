@@ -22,11 +22,11 @@ const UpdateSubmissionSchema = z.object({
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
     if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
-      return new NextResponse("Forbidden", { status: 403 });
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 
     const json = await req.json();
@@ -44,9 +44,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       include: { mission: true, user: true }
     });
 
-    if (!submission) return new NextResponse("Submission not found", { status: 404 });
+    if (!submission) return NextResponse.json({ message: "Submission not found" }, { status: 404 });
     if (submission.status === "APPROVED" || submission.status === "REJECTED") {
-      return new NextResponse("Submission already processed", { status: 400 });
+      return NextResponse.json({ message: "Submission already processed" }, { status: 400 });
     }
 
     if (action === "APPROVE") {
@@ -209,9 +209,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       return NextResponse.json({ success: true });
     }
 
-    return new NextResponse("Invalid action", { status: 400 });
+    return NextResponse.json({ message: "Invalid action" }, { status: 400 });
   } catch (error) {
     console.error("[ADMIN_SUBMISSION_PATCH]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -23,7 +23,7 @@ export async function PATCH(
     });
 
     if (!session) {
-      return new NextResponse("Accès non autorisé.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé." }, { status: 401 });
     }
 
     const { id: missionIdOrSlug } = await params;
@@ -31,7 +31,7 @@ export async function PATCH(
     const validatedData = retrospectiveSchema.safeParse(body);
 
     if (!validatedData.success) {
-      return new NextResponse("Données de rétrospective invalides.", { status: 400 });
+      return NextResponse.json({ message: "Données de rétrospective invalides." }, { status: 400 });
     }
 
     const mission = await prisma.mission.findFirst({
@@ -44,7 +44,7 @@ export async function PATCH(
     });
 
     if (!mission) {
-      return new NextResponse("Mission introuvable.", { status: 404 });
+      return NextResponse.json({ message: "Mission introuvable." }, { status: 404 });
     }
 
     const { 
@@ -76,6 +76,6 @@ export async function PATCH(
     return NextResponse.json({ submission });
   } catch (error) {
     console.error("[MISSION_RETROSPECTIVE]", error);
-    return new NextResponse("Erreur interne du système.", { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du système." }, { status: 500 });
   }
 }

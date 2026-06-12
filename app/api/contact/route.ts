@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { emailService } from "@/lib/email"
 import { z } from "zod"
+import { getClientIp } from "@/lib/utils"
 
 const CONTACT_TYPES = ["BUG", "FEATURE", "PARTNERSHIP", "OTHER"] as const;
 
@@ -34,7 +35,7 @@ function isRateLimited(ip: string): boolean {
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    const ip = getClientIp(req.headers);
 
     if (isRateLimited(ip)) {
       return NextResponse.json(

@@ -12,23 +12,23 @@ export async function POST(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Accès non autorisé. Connecte-toi pour uploader ton avatar.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour uploader ton avatar." }, { status: 401 });
     }
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
     if (!file) {
-      return new NextResponse("Aucun fichier détecté.", { status: 400 });
+      return NextResponse.json({ message: "Aucun fichier détecté." }, { status: 400 });
     }
 
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!validTypes.includes(file.type)) {
-      return new NextResponse("Format non supporté. Utilise JPEG, PNG ou WEBP.", { status: 400 });
+      return NextResponse.json({ message: "Format non supporté. Utilise JPEG, PNG ou WEBP." }, { status: 400 });
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      return new NextResponse("Fichier trop lourd. La limite est de 2 Mo.", { status: 400 });
+      return NextResponse.json({ message: "Fichier trop lourd. La limite est de 2 Mo." }, { status: 400 });
     }
 
     const extByMime: Record<string, string> = {
@@ -50,6 +50,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ url });
   } catch (error) {
     console.error("[AVATAR_POST]", error);
-    return new NextResponse("Une erreur système est survenue. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Une erreur système est survenue. Réessaie dans un instant." }, { status: 500 });
   }
 }

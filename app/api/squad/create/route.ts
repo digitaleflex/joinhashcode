@@ -38,9 +38,14 @@ function generateSquadName(): { name: string; slug: string } {
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
     const userId = session.user.id;
+
+    const { limited } = await checkRateLimit(strictMutationLimiter, userId);
+    if (limited) {
+      return NextResponse.json({ message: "Trop de tentatives de création d'escouade. Réessaie plus tard." }, { status: 429 });
+    }
 
     // Check if user already has a squad
     const existingMember = await prisma.member.findFirst({
@@ -98,7 +103,7 @@ export async function POST(req: Request) {
     }
 
     if (!squad) {
-      return new NextResponse("Impossible de générer un nom d'escouade unique. Réessaie dans un instant.", { status: 500 });
+      return NextResponse.json({ message: "Impossible de générer un nom d'escouade unique. Réessaie dans un instant." }, { status: 500 });
     }
 
     logActivity({
@@ -110,10 +115,10 @@ export async function POST(req: Request) {
       request: req,
     });
 
-    // Auto-approve squad-genesis mission for the squad creator
+    // Auto-approve squad-genesis mission for the squad creator (Fix SEC-002: Check if already approved)
     const squadGenesisMission = await prisma.mission.findUnique({ where: { slug: "squad-genesis" } });
     if (squadGenesisMission) {
-      await prisma.missionSubmission.upsert({
+      const existingSubmission = await prisma.missionSubmission.findUnique({
         where: {
           userId_missionId_cycleKey: {
             userId,
@@ -121,25 +126,38 @@ export async function POST(req: Request) {
             cycleKey: "PERMANENT",
           },
         },
-        update: { status: "APPROVED" },
-        create: {
-          userId,
-          missionId: squadGenesisMission.id,
-          cycleKey: "PERMANENT",
-          status: "APPROVED",
-          content: "Escouade créée automatiquement.",
-          xpAwarded: squadGenesisMission.xp,
-        },
-      }).catch(() => {});
-      await prisma.user.update({
-        where: { id: userId },
-        data: { experience: { increment: squadGenesisMission.xp } },
-      }).catch(() => {});
+      });
+
+      if (!existingSubmission || existingSubmission.status !== "APPROVED") {
+        await prisma.missionSubmission.upsert({
+          where: {
+            userId_missionId_cycleKey: {
+              userId,
+              missionId: squadGenesisMission.id,
+              cycleKey: "PERMANENT",
+            },
+          },
+          update: { status: "APPROVED" },
+          create: {
+            userId,
+            missionId: squadGenesisMission.id,
+            cycleKey: "PERMANENT",
+            status: "APPROVED",
+            content: "Escouade créée automatiquement.",
+            xpAwarded: squadGenesisMission.xp,
+          },
+        }).catch(() => {});
+
+        await prisma.user.update({
+          where: { id: userId },
+          data: { experience: { increment: squadGenesisMission.xp } },
+        }).catch(() => {});
+      }
     }
 
     return NextResponse.json(squad);
   } catch (error) {
     console.error("[SQUAD_CREATE]", error);
-    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }

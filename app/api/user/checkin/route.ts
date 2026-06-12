@@ -19,10 +19,10 @@ const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
     const { limited } = await checkRateLimit(checkinLimiter, session.user.id);
-    if (limited) return new NextResponse("Trop de check-ins. Réessaie demain.", { status: 429 });
+    if (limited) return NextResponse.json({ message: "Trop de check-ins. Réessaie demain." }, { status: 429 });
 
     const body = await req.json();
     body.note = stripHtml(body.note || "");
@@ -86,6 +86,6 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("[CHECKIN_POST]", error);
-    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }

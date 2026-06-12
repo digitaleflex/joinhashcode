@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { proxy as middleware } from '../proxy';
+import { middleware } from '../middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Helper to create a request

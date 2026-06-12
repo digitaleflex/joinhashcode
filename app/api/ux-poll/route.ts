@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       headers: await headers(),
     });
 
-    if (!session) return new NextResponse("Non autorisé", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { prefersDarkMode, modernityRating, readabilityIssues } = await req.json();
 
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[UX_POLL_ERROR]", error);
-    return new NextResponse("Erreur interne", { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }
 

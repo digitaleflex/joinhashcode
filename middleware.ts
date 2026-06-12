@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // CVE-2025-29927: strip header that would bypass middleware execution
   if (request.headers.get("x-middleware-subrequest")) {
     return new NextResponse("Forbidden", { status: 403 });

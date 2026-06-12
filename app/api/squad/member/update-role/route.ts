@@ -13,7 +13,7 @@ import { logActivity } from "@/lib/activity-log";
 export async function PATCH(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { memberId, role } = await req.json();
 
@@ -80,6 +80,6 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_ROLE_UPDATE_ERROR]", error);
-    return new NextResponse("Erreur lors de la mise à jour du rôle.", { status: 500 });
+    return NextResponse.json({ message: "Erreur lors de la mise à jour du rôle." }, { status: 500 });
   }
 }

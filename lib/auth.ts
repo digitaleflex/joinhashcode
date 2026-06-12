@@ -80,6 +80,16 @@ const adminRole = ac.newRole({
   session: ["list", "revoke", "delete"],
 });
 
+const moderatorRole = ac.newRole({
+  user: [
+    "list",
+    "ban",
+    "get",
+    "update",
+  ],
+  session: ["list", "revoke"],
+});
+
 const memberRole = ac.newRole({
   user: [],
   session: [],
@@ -150,7 +160,8 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
-    trustedProxyHeaders: true,
+    // Fix SEC-004: Only trust proxy headers if explicitely configured
+    trustedProxyHeaders: process.env.TRUSTED_PROXIES?.split(",") || false,
   },
   rateLimit: {
     enabled: true,
@@ -187,7 +198,7 @@ export const auth = betterAuth({
       defaultRole: "MEMBER",
       roles: {
         ADMIN: adminRole,
-        MODERATOR: adminRole,
+        MODERATOR: moderatorRole,
         MEMBER: memberRole,
       },
       accessControl: ac,

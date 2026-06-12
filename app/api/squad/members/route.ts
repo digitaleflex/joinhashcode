@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const membership = await prisma.member.findFirst({
       where: { userId: session.user.id },
@@ -39,6 +39,6 @@ export async function GET() {
     return NextResponse.json(members);
   } catch (error) {
     console.error("[SQUAD_MEMBERS_GET]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

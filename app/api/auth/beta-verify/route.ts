@@ -10,14 +10,14 @@ export async function POST(req: Request) {
   });
 
   if (!session) {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   try {
     const { key } = await req.json();
 
     if (!key) {
-      return new NextResponse("Key is required", { status: 400 });
+      return NextResponse.json({ message: "Key is required" }, { status: 400 });
     }
 
     const betaKey = await prisma.betaKey.findUnique({
@@ -25,15 +25,15 @@ export async function POST(req: Request) {
     });
 
     if (!betaKey) {
-      return new NextResponse("Clé d'habilitation invalide", { status: 404 });
+      return NextResponse.json({ message: "Clé d'habilitation invalide" }, { status: 404 });
     }
 
     if (betaKey.isUsed) {
-      return new NextResponse("Cette clé a déjà été activée par un autre agent", { status: 400 });
+      return NextResponse.json({ message: "Cette clé a déjà été activée par un autre agent" }, { status: 400 });
     }
 
     if (betaKey.expiresAt && new Date() > betaKey.expiresAt) {
-      return new NextResponse("Cette clé a expiré", { status: 400 });
+      return NextResponse.json({ message: "Cette clé a expiré" }, { status: 400 });
     }
 
     // Link key to user and mark as used
@@ -59,6 +59,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[BETA_VERIFY_POST]", error);
-    return new NextResponse("Erreur interne", { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

@@ -42,11 +42,26 @@ Semaine 4 → P13 + P14 + P17        (Admin, Squads & Parrainage)
 Semaine 5 → P9 + P12 + P15 + P20   (Rétention, Sécurité & Recherche UX)
 ```
 
+---
+
+## Performance & Scalabilité
+
+Voir [PERF_ISSUES.md](./PERF_ISSUES.md) — 22 issues regroupées en 4 milestones :
+
+| Milestone | Issues | Objectif |
+|---|---|---|
+| **M0** — Urgences | PERF-001 → PERF-006 | Sécurité + quick wins (~1 jour) |
+| **M1** — Frontend | PERF-007 → PERF-011 | Composants + UX (~3-4 jours) |
+| **M2** — Database | PERF-012 → PERF-016 | Cache + requêtes (~3-4 jours) |
+| **M3** — Infra | PERF-017 → PERF-022 | CDN + PgBouncer + ISR (~5-7 jours) |
+
+---
+
 ## Stack technique de référence
-- Next.js 15 App Router
-- Prisma 7 + PostgreSQL (Supabase)
+- Next.js 16 App Router
+- Prisma 7 + PostgreSQL (Docker auto-hébergé)
 - TailwindCSS v4 + shadcn/ui
 - Better Auth (sessions)
-- QStash (crons)
+- Upstash Redis (rate limiting + cache)
 - Framer Motion
 - `pnpm` comme package manager

@@ -46,7 +46,7 @@ export async function PATCH(req: Request) {
     });
 
     if (!session) {
-      return new NextResponse("Accès non autorisé. Connecte-toi pour modifier ton profil.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour modifier ton profil." }, { status: 401 });
     }
 
     // Basic rate limit (60 seconds)
@@ -56,7 +56,7 @@ export async function PATCH(req: Request) {
     });
 
     if (user?.updatedAt && (Date.now() - user.updatedAt.getTime() < 60000)) {
-      return new NextResponse("Doucement, bâtisseur ! Laisse ton terminal souffler une minute avant la prochaine mise à jour.", { status: 429 });
+      return NextResponse.json({ message: "Doucement, bâtisseur ! Laisse ton terminal souffler une minute avant la prochaine mise à jour." }, { status: 429 });
     }
 
     const body = await req.json();
@@ -64,12 +64,36 @@ export async function PATCH(req: Request) {
 
     if (!parsed.success) {
       const firstError = Object.values(parsed.error.flatten().fieldErrors)[0]?.[0];
-      return new NextResponse(firstError || "Certaines données transmises sont invalides.", { status: 400 });
+      return NextResponse.json({ message: firstError || "Certaines données transmises sont invalides." }, { status: 400 });
     }
 
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: parsed.data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        level: true,
+        experience: true,
+        class: true,
+        role: true,
+        pseudo: true,
+        bio: true,
+        country: true,
+        city: true,
+        language: true,
+        githubUrl: true,
+        linkedinUrl: true,
+        twitterUrl: true,
+        portfolioUrl: true,
+        domains: true,
+        tools: true,
+        mainObjective: true,
+        secondaryObjectives: true,
+        updatedAt: true,
+      }
     });
 
     return NextResponse.json(updatedUser);
@@ -79,10 +103,10 @@ export async function PATCH(req: Request) {
     if (error.code === "P2002") {
       const field = error.meta?.target?.[0];
       if (field === "pseudo") {
-        return new NextResponse("Ce pseudo est déjà utilisé par un autre talent du réseau.", { status: 409 });
+        return NextResponse.json({ message: "Ce pseudo est déjà utilisé par un autre talent du réseau." }, { status: 409 });
       }
     }
 
-    return new NextResponse("Le système a rencontré une erreur lors de la synchronisation. Réessaie bientôt.", { status: 500 });
+    return NextResponse.json({ message: "Le système a rencontré une erreur lors de la synchronisation. Réessaie bientôt." }, { status: 500 });
   }
 }

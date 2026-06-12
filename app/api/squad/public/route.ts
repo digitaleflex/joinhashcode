@@ -54,6 +54,6 @@ export async function GET(req: Request) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("[SQUAD_PUBLIC_GET]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

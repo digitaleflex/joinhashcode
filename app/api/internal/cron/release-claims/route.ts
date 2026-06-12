@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const expectedSecret = process.env.CRON_SECRET;
 
     if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
-      return new NextResponse("Accès non autorisé. Token de cron invalide.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Token de cron invalide." }, { status: 401 });
     }
 
     const cutoff = new Date();
@@ -94,6 +94,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("[CRON_RELEASE_CLAIMS_ERROR]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
