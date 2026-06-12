@@ -16,25 +16,24 @@ export enum TechnicalLevel {
 }
 
 export enum UserSituation {
-  STUDENT = "Étudiant",
-  FREELANCE = "Freelance",
-  EMPLOYEE = "Salarié",
-  ENTREPRENEUR = "Entrepreneur",
-  UNEMPLOYED = "Sans emploi",
-  RETRAINING = "Reconversion",
+  STUDENT = "Étudiant(e)",
+  EMPLOYEE = "Salarié(e) / Employé(e)",
   SELF_TAUGHT = "Autodidacte",
-  PROJECT_LEAD = "Porteur de projet",
+  RETRAINING = "En reconversion",
+  ENTREPRENEUR = "Entrepreneur / Projet perso",
+  FREELANCE = "Freelance / Consultant(e)",
+  BEGINNER = "Je commence tout juste",
 }
 
 export enum MainObjective {
-  FIND_JOB = "Trouver emploi",
-  CREATE_SAAS = "Créer SaaS",
-  FREELANCE = "Freelance",
-  CREATE_STARTUP = "Créer startup",
-  CYBERSECURITY = "Cybersécurité",
-  MASTER_AI = "Maîtriser IA",
-  CLOUD_COMPUTING = "Cloud Computing",
-  CREATE_PRODUCTS = "Créer produits digitaux",
+  FIND_JOB = "Trouver un emploi tech",
+  LEARN_CODE = "Apprendre à coder / progresser",
+  CREATE_STARTUP = "Lancer un projet / startup",
+  FREELANCE = "Faire du freelance",
+  MASTER_AI = "Maîtriser l'IA dans mon métier",
+  CYBERSECURITY = "Entrer dans la cybersécurité",
+  CLOUD_DEVOPS = "Le cloud & DevOps",
+  CREATE_PRODUCTS = "Créer des produits digitaux",
 }
 
 
