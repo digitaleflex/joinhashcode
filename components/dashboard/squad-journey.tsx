@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
+import { BottomNav } from "./bottom-nav"
 
 // ─── Phase definitions ───────────────────────────────────────────────────────
 
@@ -1220,6 +1221,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
             </div>
           </div>
         </main>
+        <BottomNav />
       </SidebarInset>
     </SidebarProvider>
   )

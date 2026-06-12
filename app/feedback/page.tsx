@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
+import { BottomNav } from "@/components/dashboard/bottom-nav";
 import FeedbackForm from "./feedback-form";
 
 export default async function FeedbackPage() {
@@ -42,9 +43,10 @@ export default async function FeedbackPage() {
       <AppSidebar user={dbUser} hasSquad={!!userSquad} />
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto scrollbar-none">
+        <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">
           <FeedbackForm />
         </main>
+        <BottomNav />
       </SidebarInset>
     </SidebarProvider>
   );

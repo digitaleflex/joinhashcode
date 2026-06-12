@@ -126,8 +126,8 @@ export function MissionDeck({ recommendedMissions }: MissionDeckProps) {
 
       <div className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 border-dashed text-center">
         <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider leading-relaxed">
-          Algorithme de recommandation calibré sur ton <br/>
-          <span className="text-primary/60 italic">behavioral_vibrancy_signal</span>
+          Algorithme calibré sur ton profil,<br/>
+          <span className="text-primary/60 italic">ton niveau et ton historique de missions</span>
         </p>
       </div>
     </div>

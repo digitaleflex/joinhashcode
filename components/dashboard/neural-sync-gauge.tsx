@@ -28,7 +28,7 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Zap className={cn("size-3", isMultiplierActive ? "text-primary animate-pulse" : "text-zinc-600")} />
-            <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight">état_de_synchronisation_</span>
+            <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight">Score d'engagement</span>
           </div>
           <h4 className="text-2xl font-bold tracking-tighter text-white">
             {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg tracking-tight">signal</span>
