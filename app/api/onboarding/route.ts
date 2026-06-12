@@ -9,6 +9,8 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
 import { emailService } from "@/lib/email";
 import { invalidateUserCache } from "@/lib/user-cache";
 import { handleApiError } from "@/lib/api-error-handler";
+import { awardXp } from "@/lib/experience";
+import { cookies } from "next/headers";
 
 const onboardingSchema = z.object({
   country: z.string().min(1).max(100).optional(),
@@ -75,6 +77,22 @@ export async function PATCH(req: Request) {
         email: updatedUser.email,
         name: updatedUser.name,
       }).catch(err => console.error("[EMAIL_ERROR] sendOnboardingCompletedEmail", err));
+
+      // Referral attribution — only on first completion (referrerId not yet set)
+      const cookieStore = await cookies();
+      const refCode = cookieStore.get("hashcode_ref")?.value;
+      if (refCode) {
+        const currentUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { referrerId: true } });
+        if (!currentUser?.referrerId) {
+          const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true } });
+          if (referrer && referrer.id !== session.user.id) {
+            await prisma.user.update({ where: { id: session.user.id }, data: { referrerId: referrer.id } });
+            await prisma.user.update({ where: { id: referrer.id }, data: { referralCount: { increment: 1 } } });
+            awardXp(referrer.id, 100, "REFERRAL_COMPLETED", session.user.id).catch(() => {});
+          }
+        }
+        cookieStore.delete("hashcode_ref");
+      }
     }
 
     await invalidateUserCache(session.user.id);

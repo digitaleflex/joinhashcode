@@ -10,7 +10,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Share2, Download, Copy, Check, ExternalLink } from "lucide-react"
+import { Share2, Download, Copy, Check, ExternalLink, Twitter } from "lucide-react"
 import { toast } from "sonner"
 
 interface ShareCardDialogProps {
@@ -20,14 +20,36 @@ interface ShareCardDialogProps {
 
 export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
   const [copied, setCopied] = useState(false)
-  const shareUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://joinhashcode.com'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://joinhashcode.com'
+  const profileUrl = `${appUrl}/u/${userId}`
   const imageUrl = `/api/card/${userId}`
+  const shareText = `Mon habilitation HASHCODE — profil ${userName} sur la plateforme des talents tech africains 🌍`
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(shareUrl)
+    navigator.clipboard.writeText(profileUrl)
     setCopied(true)
     toast.success("Lien copié dans le presse-papier")
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const shareNative = async () => {
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title: `Profil HASHCODE — ${userName}`, text: shareText, url: profileUrl })
+      } catch {}
+    } else {
+      copyToClipboard()
+    }
+  }
+
+  const shareTwitter = () => {
+    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(profileUrl)}`
+    window.open(url, "_blank", "noopener,noreferrer")
+  }
+
+  const shareLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`
+    window.open(url, "_blank", "noopener,noreferrer")
   }
 
   return (
@@ -65,23 +87,45 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Button 
+          <div className="grid grid-cols-2 gap-3">
+            <Button
                 onClick={() => window.open(imageUrl, '_blank')}
-                variant="outline" 
+                variant="outline"
                 className="h-12 rounded-xl border-white/10 text-white font-bold uppercase text-[10px] hover:bg-white/5"
             >
                 <Download className="mr-2 size-4" />
                 Télécharger HD
             </Button>
-            <Button 
+            <Button
                 onClick={copyToClipboard}
-                className="h-12 rounded-xl btn-primary-glow font-bold uppercase text-[10px]"
+                variant="outline"
+                className="h-12 rounded-xl border-white/10 text-white font-bold uppercase text-[10px] hover:bg-white/5"
             >
                 {copied ? <Check className="mr-2 size-4" /> : <Copy className="mr-2 size-4" />}
-                {copied ? "Copié !" : "Copier Lien Profil"}
+                {copied ? "Copié !" : "Copier Lien"}
+            </Button>
+            <Button
+                onClick={shareTwitter}
+                className="h-12 rounded-xl bg-black border border-white/10 hover:bg-zinc-900 text-white font-bold uppercase text-[10px] col-span-1"
+            >
+                <Twitter className="mr-2 size-4" />
+                Partager sur X
+            </Button>
+            <Button
+                onClick={shareLinkedIn}
+                className="h-12 rounded-xl bg-[#0077B5]/10 border border-[#0077B5]/30 hover:bg-[#0077B5]/20 text-[#0077B5] font-bold uppercase text-[10px]"
+            >
+                <svg className="mr-2 size-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
             </Button>
           </div>
+          <Button
+            onClick={shareNative}
+            className="w-full h-12 rounded-xl btn-primary-glow font-bold uppercase text-[10px]"
+          >
+            <Share2 className="mr-2 size-4" />
+            Partager (Web Share)
+          </Button>
 
           <div className="pt-6 border-t border-white/5">
              <div className="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/10">

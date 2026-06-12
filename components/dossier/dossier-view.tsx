@@ -28,6 +28,7 @@ import { MemberCard } from "@/components/ui/member-card";
 import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
 import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
+import { ReferralWidget } from "@/components/dashboard/referral-widget";
 
 interface DossierViewProps {
   user: any;
@@ -461,6 +462,9 @@ export function DossierView({
                       </Card>
                   </div>
               </div>
+
+              {/* Referral widget — own profile only */}
+              {!isPublic && <ReferralWidget />}
 
               {/* Badges */}
               <div className="space-y-4">
