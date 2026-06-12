@@ -91,10 +91,12 @@ model User {
 
   twofactors               TwoFactor[]
   passkeys                 Passkey[]
+  xpTransactions           XpTransaction[]
 
   @@index([level])
   @@index([class])
   @@index([role])
+  @@index([createdAt])
   @@map("user")
 }
 
@@ -131,6 +133,8 @@ model Member {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([organizationId])
   @@map("member")
 }
 
@@ -372,6 +376,7 @@ model MissionSubmission {
   @@index([userId])
   @@index([missionId])
   @@index([createdAt])
+  @@index([status, missionId])
   @@map("mission_submission")
 }
 
@@ -501,5 +506,19 @@ model Passkey {
   @@index([userId])
   @@index([credentialID])
   @@map("passkey")
+}
+
+model XpTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int
+  reason    String
+  sourceId  String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("xp_transaction")
 }
 

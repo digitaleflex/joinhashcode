@@ -35,18 +35,13 @@ describe('Middleware Auth & Onboarding Funnel', () => {
 
   it('should redirect to /onboarding if user has no currentSituation', async () => {
     const userData = { id: 'user_1', currentSituation: null, betaKeyId: 'key_1' };
-    (global.fetch as any)
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          session: { id: 'sess_1' },
-          user: userData
-        }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => userData,
-      });
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        session: { id: 'sess_1' },
+        user: userData
+      }),
+    });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);
@@ -57,18 +52,13 @@ describe('Middleware Auth & Onboarding Funnel', () => {
 
   it('should redirect to /quiz if user has situation but no class', async () => {
     const userData = { id: 'user_1', currentSituation: 'STUDENT', class: null, betaKeyId: 'key_1' };
-    (global.fetch as any)
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          session: { id: 'sess_1' },
-          user: userData
-        }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => userData,
-      });
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        session: { id: 'sess_1' },
+        user: userData
+      }),
+    });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);
@@ -84,18 +74,13 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       class: 'BUILDER', 
       betaKeyId: 'key_1'
     };
-    (global.fetch as any)
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          session: { id: 'sess_1' },
-          user: userData
-        }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => userData,
-      });
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        session: { id: 'sess_1' },
+        user: userData
+      }),
+    });
 
     const req = createRequest('/dashboard');
     const res = await middleware(req);

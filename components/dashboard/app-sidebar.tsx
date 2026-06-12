@@ -43,6 +43,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import { DailyCheckinDialog } from "./daily-checkin-dialog"
+import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 
 export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
@@ -207,17 +208,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
             <SidebarMenu>
               {/* FEEDBACK */}
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/feedback"}
-                  tooltip="Feedback"
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/feedback">
-                    <MessageSquarePlus className="size-4" />
-                    <span className="font-medium">Feedback</span>
-                  </Link>
-                </SidebarMenuButton>
+                <BetaFeedbackDialog />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

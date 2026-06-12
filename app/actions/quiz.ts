@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "../generated/prisma";
 import { headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
@@ -41,6 +42,28 @@ export async function submitQuiz(rawData: unknown) {
     }
 
     const { answers, responseTimes = [] } = result.data;
+
+    // Fix SEC-017: Validate answers against the question bank
+    if (answers.length !== questions.length) {
+      return {
+        success: false,
+        error: "Nombre de réponses incorrect.",
+        status: 400,
+      };
+    }
+
+    const isValidAnswers = answers.every((answer, index) => {
+      const question = questions[index];
+      return question && question.options.some((opt) => opt.value === answer);
+    });
+
+    if (!isValidAnswers) {
+      return {
+        success: false,
+        error: "Certaines réponses sont invalides.",
+        status: 400,
+      };
+    }
 
     // Block re-taking the quiz if profile is already assigned
     const existingUser = await prisma.user.findUnique({
@@ -102,7 +125,7 @@ export async function submitQuiz(rawData: unknown) {
           strategistScore: analysis.scores.strategist,
           catalystScore: analysis.scores.catalyst,
           confidenceScore: 0.25,
-          behavioralVibrancy: analysis.scores as any,
+          behavioralVibrancy: analysis.scores as Prisma.InputJsonValue,
           lastHypothesisUpdate: new Date(),
         },
       });

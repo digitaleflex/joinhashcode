@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
+import { checkRateLimit, strictMutationLimiter } from "@/lib/ratelimit";
 import { prisma } from "@/lib/prisma";
+import { awardXp } from "@/lib/experience";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
@@ -148,10 +150,7 @@ export async function POST(req: Request) {
           },
         }).catch(() => {});
 
-        await prisma.user.update({
-          where: { id: userId },
-          data: { experience: { increment: squadGenesisMission.xp } },
-        }).catch(() => {});
+        await awardXp(userId, squadGenesisMission.xp, "SQUAD_GENESIS", squadGenesisMission.id).catch(() => {});
       }
     }
 

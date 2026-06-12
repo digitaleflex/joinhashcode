@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+import { awardXp } from "./experience";
 
 /**
  * Handle Referral Success
@@ -19,38 +20,40 @@ export async function processReferralReward(newUserId: string) {
     // 2. Grant reward to referrer
     const rewardXp = 50;
     
-    await prisma.$transaction([
-      // Update Referrer XP and Referral Count
-      prisma.user.update({
-        where: { id: user.referrerId },
+    await prisma.$transaction(async (tx) => {
+      // Award XP via helper and register transaction
+      await awardXp(user.referrerId!, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
+
+      // Update Referral Count
+      await tx.user.update({
+        where: { id: user.referrerId! },
         data: {
-          experience: { increment: rewardXp },
           referralCount: { increment: 1 }
         }
-      }),
+      });
       
       // Create notification for Referrer
-      prisma.notification.create({
+      await tx.notification.create({
         data: {
-          userId: user.referrerId,
+          userId: user.referrerId!,
           type: "REFERRAL_SUCCESS",
           title: "Récompense de parrainage ! 💎",
           message: `Ton ami ${user.name} a rejoint HASHCODE. Tu as reçu +${rewardXp} XP.`,
           link: "/dashboard",
         }
-      }),
+      });
       
       // Log Activity for Referrer
-      prisma.activityLog.create({
+      await tx.activityLog.create({
         data: {
-          userId: user.referrerId,
+          userId: user.referrerId!,
           action: "REFERRAL_REWARD_GRANTED",
           entity: "user",
           entityId: newUserId,
           metadata: { xpGranted: rewardXp, referredUserName: user.name }
         }
-      })
-    ]);
+      });
+    });
 
     console.log(`[REFERRAL] Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
   } catch (error) {

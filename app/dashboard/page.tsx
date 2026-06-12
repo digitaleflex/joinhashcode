@@ -64,7 +64,7 @@ export default async function DashboardPage() {
           }
         },
         orderBy: { createdAt: 'desc' },
-        take: 200,
+        take: 20,
       }),
       prisma.member.findFirst({
         where: { userId: session.user.id },

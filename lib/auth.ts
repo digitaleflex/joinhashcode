@@ -156,21 +156,24 @@ export const auth = betterAuth({
     },
   },
   // Fix SEC-011: share rate-limit counters across replicas via Redis
-  ...(redis ? {
-    secondaryStorage: {
-      get: async (key: string) => {
-        const val = await redis.get<string>(key);
-        return val ?? null;
+  ...(redis ? (() => {
+    const r = redis;
+    return {
+      secondaryStorage: {
+        get: async (key: string) => {
+          const val = await r.get<string>(key);
+          return val ?? null;
+        },
+        set: async (key: string, value: string, ttl?: number) => {
+          if (ttl) await r.set(key, value, { ex: ttl });
+          else await r.set(key, value);
+        },
+        delete: async (key: string) => {
+          await r.del(key);
+        },
       },
-      set: async (key: string, value: string, ttl?: number) => {
-        if (ttl) await redis.set(key, value, { ex: ttl });
-        else await redis.set(key, value);
-      },
-      delete: async (key: string) => {
-        await redis.del(key);
-      },
-    },
-  } : {}),
+    };
+  })() : {}),
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {
@@ -178,7 +181,7 @@ export const auth = betterAuth({
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
     // Fix SEC-004: Only trust proxy headers if explicitely configured
-    trustedProxyHeaders: process.env.TRUSTED_PROXIES?.split(",") || false,
+    trustedProxyHeaders: !!process.env.TRUSTED_PROXIES,
   },
   rateLimit: {
     enabled: true,

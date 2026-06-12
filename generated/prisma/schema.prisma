@@ -95,6 +95,7 @@ model User {
   @@index([level])
   @@index([class])
   @@index([role])
+  @@index([createdAt])
   @@map("user")
 }
 
@@ -131,6 +132,8 @@ model Member {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([organizationId])
   @@map("member")
 }
 
@@ -371,6 +374,7 @@ model MissionSubmission {
   @@index([userId])
   @@index([missionId])
   @@index([createdAt])
+  @@index([status, missionId])
   @@map("mission_submission")
 }
 

@@ -10,6 +10,8 @@ vi.mock('../lib/prisma', () => ({
     organization: {
       findMany: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
+      count: vi.fn(),
     },
   },
 }));
@@ -37,14 +39,7 @@ describe('Squad Cohesion Decay Cron', () => {
   });
 
   it('should decay cohesion and reset streaks if below 0.9', async () => {
-    const mockSquads = [
-      { id: 'squad_1', cohesionScore: 1.0, streakCount: 5 }, // Should go to 0.9, streak stays
-      { id: 'squad_2', cohesionScore: 0.9, streakCount: 3 }, // Should go to 0.8, streak resets
-      { id: 'squad_3', cohesionScore: 0.1, streakCount: 1 }, // Should go to 0.0, streak resets
-    ];
-
-    (prisma.organization.findMany as any).mockResolvedValue(mockSquads);
-    (prisma.$transaction as any).mockImplementation(async (cb: any) => await cb(prisma));
+    (prisma.organization.count as any).mockResolvedValue(3);
 
     const req = new Request('http://localhost:3000/api/internal/cron/squad-decay', {
       method: 'POST',
@@ -61,17 +56,18 @@ describe('Squad Cohesion Decay Cron', () => {
     expect(data.message).toContain('3 escouades');
 
     // Verify updates
-    expect(prisma.organization.update).toHaveBeenCalledWith({
-      where: { id: 'squad_1' },
-      data: { cohesionScore: 0.9, streakCount: 5 },
+    expect(prisma.organization.updateMany).toHaveBeenCalledTimes(3);
+
+    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(1, {
+      data: { cohesionScore: { decrement: 0.1 } },
     });
-    expect(prisma.organization.update).toHaveBeenCalledWith({
-      where: { id: 'squad_2' },
-      data: { cohesionScore: 0.8, streakCount: 0 },
+    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(2, {
+      where: { cohesionScore: { lt: 0 } },
+      data: { cohesionScore: 0 },
     });
-    expect(prisma.organization.update).toHaveBeenCalledWith({
-      where: { id: 'squad_3' },
-      data: { cohesionScore: 0.0, streakCount: 0 },
+    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(3, {
+      where: { cohesionScore: { lt: 0.9 } },
+      data: { streakCount: 0 },
     });
 
     // Verify logging

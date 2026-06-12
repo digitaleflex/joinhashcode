@@ -63,14 +63,14 @@ export async function middleware(request: NextRequest) {
     let response;
     try {
       // 1. Try local loopback first to bypass DNS and NAT loopback limitations in Docker/production
-      response = await fetch(`http://127.0.0.1:${loopbackPort}/api/auth/get-session`, {
+      response = await fetch(`http://127.0.0.1:${loopbackPort}/api/auth/middleware-session`, {
         headers: requestHeaders,
         cache: 'no-store',
       });
     } catch (localError) {
       // 2. Fallback to origin if running on a custom port locally
       const baseUrl = request.nextUrl.origin;
-      response = await fetch(`${baseUrl}/api/auth/get-session`, {
+      response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
         headers: requestHeaders,
         cache: 'no-store'
       });
@@ -82,49 +82,12 @@ export async function middleware(request: NextRequest) {
       sessionFetchFailed = true;
     }
   } catch (error) {
-    console.error("🟢 [Middleware] Session fetch failed:", error);
+    console.error("🟢 [Middleware] Unified session fetch failed:", error);
     sessionFetchFailed = true;
   }
 
   const session = sessionData?.session;
   let user = sessionData?.user;
-
-  // Stale cache remediation (CVE-2026-STALE): Better Auth JWT cookies hold stale user fields (e.g. currentSituation or class)
-  // until a session update is requested. Query /api/user/me to bypass this cache and get the up-to-date fields
-  // directly from PostgreSQL. This prevents the infinite onboarding/quiz redirect loops.
-  if (session) {
-    try {
-      const requestHeaders = new Headers(request.headers);
-      const host = request.headers.get("host");
-      if (host) {
-        requestHeaders.set("host", host);
-      }
-
-      const loopbackPort = process.env.PORT || "3000";
-      let meResponse;
-      try {
-        meResponse = await fetch(`http://127.0.0.1:${loopbackPort}/api/user/me`, {
-          headers: requestHeaders,
-          cache: "no-store",
-        });
-      } catch {
-        const baseUrl = request.nextUrl.origin;
-        meResponse = await fetch(`${baseUrl}/api/user/me`, {
-          headers: requestHeaders,
-          cache: "no-store",
-        });
-      }
-
-      if (meResponse.ok) {
-        const freshUser = await meResponse.json();
-        if (freshUser) {
-          user = freshUser;
-        }
-      }
-    } catch (meError) {
-      console.error("🟢 [Middleware] Stale session fallback - direct user fetch failed:", meError);
-    }
-  }
 
   // Block banned users everywhere before any route-specific check
   if (user?.banned) {

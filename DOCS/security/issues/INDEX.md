@@ -29,21 +29,23 @@ Issues locales générées depuis l'[audit du 2026-06-12](../SECURITY_AUDIT_2026
 | [SEC-009](./SEC-009-csv-injection.md) | CSV/formula injection (export admin) | 🟡 Moyenne | ✅ DONE |
 | [SEC-010](./SEC-010-csp-hardening.md) | CSP `unsafe-inline` / `unsafe-eval` | 🟡 Moyenne | ✅ DONE |
 | [SEC-011](./SEC-011-rate-limit-storage.md) | Rate-limit en mémoire (non partagé) | 🟡 Moyenne | ✅ DONE |
-| [SEC-012](./SEC-012-mfa-enforcement.md) | MFA non imposée (staff) | 🟡 Moyenne | 🔴 OPEN |
+| [SEC-012](./SEC-012-mfa-enforcement.md) | MFA non imposée (staff) | 🟡 Moyenne | ✅ DONE |
 | [SEC-013](./SEC-013-beta-key-entropy.md) | Clés bêta 32 bits + énumérables | 🟡 Moyenne | ✅ DONE |
-| [SEC-014](./SEC-014-avatar-userid-exposure.md) | Avatars publics exposant l'userId | 🟡 Moyenne | ✅ DONE |
-| [SEC-015](./SEC-015-force-approve.md) | `forceApprove` ignore les critères | 🟡 Moyenne | ✅ DONE |
-| [SEC-016](./SEC-016-avatar-buffer-validation.md) | Avatar bufferisé avant contrôle taille | 🟡 Moyenne | ✅ DONE |
+| [SEC-014](./SEC-014-avatar-userid-exposure.md) | Avatars publics exposant l'userId | 🟡 Moyenne | 🔴 OPEN |
+| [SEC-015](./SEC-015-force-approve.md) | `forceApprove` ignore les critères | 🟡 Moyenne | 🔴 OPEN |
+| [SEC-016](./SEC-016-avatar-buffer-validation.md) | Avatar bufferisé avant contrôle taille | 🟡 Moyenne | 🔴 OPEN |
 
 ## P3 — Amélioration continue
 
 | ID | Titre | Gravité | Statut |
 |---|---|---|---|
-| [SEC-017](./SEC-017-quiz-answer-validation.md) | Réponses quiz non validées | 🔵 Faible | 🔴 OPEN |
-| [SEC-018](./SEC-018-data-retention.md) | Pas de politique de rétention | 🔵 Faible | 🔴 OPEN |
-| [SEC-019](./SEC-019-ts-build-errors.md) | `ignoreBuildErrors: true` | 🔵 Faible | 🔴 OPEN |
-| [SEC-020](./SEC-020-dependency-scanning.md) | Scan de dépendances en CI | 🔵 Faible | 🔴 OPEN |
+| [SEC-017](./SEC-017-quiz-answer-validation.md) | Réponses quiz non validées | 🔵 Faible | ✅ DONE |
+| [SEC-018](./SEC-018-data-retention.md) | Pas de politique de rétention | 🔵 Faible | ✅ DONE |
+| [SEC-019](./SEC-019-ts-build-errors.md) | `ignoreBuildErrors: true` | 🔵 Faible | ✅ DONE |
+| [SEC-020](./SEC-020-dependency-scanning.md) | Scan de dépendances en CI | 🔵 Faible | ✅ DONE |
 
 ---
 
-**Progression** : 16 / 20 résolues
+**Progression** : 20 / 20 résolues
+
+

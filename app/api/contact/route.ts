@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma"
 import { emailService } from "@/lib/email"
 import { z } from "zod"
 import { getClientIp } from "@/lib/utils"
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit"
 
 const CONTACT_TYPES = ["BUG", "FEATURE", "PARTNERSHIP", "OTHER"] as const;
-
+// ... existing schema ...
 const contactSchema = z.object({
   type: z.enum(CONTACT_TYPES).default("OTHER"),
   email: z.string().email().max(254),
@@ -15,32 +16,21 @@ const contactSchema = z.object({
   honeypot: z.string().optional(),
 });
 
-// In-memory rate limiter: max 3 requests per IP per hour
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
-    return false;
-  }
-
-  if (entry.count >= 3) return true;
-
-  entry.count++;
-  return false;
-}
-
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req.headers);
 
-    if (isRateLimited(ip)) {
+    const { limited, reset } = await checkRateLimit(mutationLimiter, ip);
+
+    if (limited) {
       return NextResponse.json(
-        { error: "Trop de messages envoyés. Réessaie dans une heure." },
-        { status: 429 }
+        { error: "Trop de messages envoyés. Réessaie plus tard." },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Reset': reset?.toString() ?? ''
+          }
+        }
       );
     }
 

@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { logActivity } from "@/lib/activity-log";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import { emailService } from "@/lib/email";
 
 const onboardingSchema = z.object({
   country: z.string().min(1).max(100).optional(),
@@ -65,6 +66,14 @@ export async function PATCH(req: Request) {
         country: parsed.data.country,
         situation: parsed.data.currentSituation
     });
+
+    // Send guidance email if onboarding is "complete" (mainObjective provided)
+    if (parsed.data.mainObjective) {
+      emailService.sendOnboardingCompletedEmail({
+        email: updatedUser.email,
+        name: updatedUser.name,
+      }).catch(err => console.error("[EMAIL_ERROR] sendOnboardingCompletedEmail", err));
+    }
 
     return NextResponse.json(updatedUser);
   } catch (error) {

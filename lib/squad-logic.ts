@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+import { awardXp } from "./experience";
 
 async function notifySquadMembers(
   organizationId: string,
@@ -147,11 +148,13 @@ async function rewardSquadMembers(
   });
 
   for (const member of members) {
+    if (xp > 0) {
+      await awardXp(member.userId, xp, `SQUAD_REWARD_${badgeName}`, organizationId);
+    }
     await prisma.user.update({
       where: { id: member.userId },
       data: {
         badges: { push: badgeName },
-        experience: { increment: xp },
       },
     });
   }

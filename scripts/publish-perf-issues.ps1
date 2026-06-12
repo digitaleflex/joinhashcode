@@ -1,17 +1,17 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
   Publie les 22 issues de performance et les 4 milestones sur GitHub.
-  Script créé le 2026-06-12 à partir de l'audit PERF_ISSUES.md.
+  Script crÃ©Ã© le 2026-06-12 Ã  partir de l'audit PERF_ISSUES.md.
 
 .DESCRIPTION
-  - Crée 4 milestones (M0, M1, M2, M3)
-  - Crée 22 issues avec labels, milestone et checklist
-  - Idempotent : vérifie si le milestone/issue existe déjà avant de créer
+  - CrÃ©e 4 milestones (M0, M1, M2, M3)
+  - CrÃ©e 22 issues avec labels, milestone et checklist
+  - Idempotent : vÃ©rifie si le milestone/issue existe dÃ©jÃ  avant de crÃ©er
 
 .USAGE
   pwsh scripts/publish-perf-issues.ps1
-  # Dry-run (affiche sans créer) :
+  # Dry-run (affiche sans crÃ©er) :
   pwsh scripts/publish-perf-issues.ps1 -DryRun
 #>
 
@@ -22,119 +22,119 @@ param(
 $ErrorActionPreference = "Stop"
 $REPO = "digitaleflex/joinhashcode"
 
-# ─── Labels ──────────────────────────────────────────────────────────────────
+# â”€â”€â”€ Labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $labels = @(
-    @{ name = "perf"; color = "e99695"; description = "Performance & Scalabilité" },
-    @{ name = "security"; color = "d73a4a"; description = "Sécurité" },
-    @{ name = "database"; color = "0075ca"; description = "Base de données" },
+    @{ name = "perf"; color = "e99695"; description = "Performance & ScalabilitÃ©" },
+    @{ name = "security"; color = "d73a4a"; description = "SÃ©curitÃ©" },
+    @{ name = "database"; color = "0075ca"; description = "Base de donnÃ©es" },
     @{ name = "frontend"; color = "7057ff"; description = "Frontend / UI" },
     @{ name = "infra"; color = "006b75"; description = "Infrastructure" },
-    @{ name = "ux"; color = "fbca04"; description = "Expérience utilisateur" },
-    @{ name = "critical"; color = "b60205"; description = "Priorité critique" },
-    @{ name = "important"; color = "d93f0b"; description = "Priorité importante" },
-    @{ name = "secondary"; color = "0e8a16"; description = "Priorité secondaire" }
+    @{ name = "ux"; color = "fbca04"; description = "ExpÃ©rience utilisateur" },
+    @{ name = "critical"; color = "b60205"; description = "PrioritÃ© critique" },
+    @{ name = "important"; color = "d93f0b"; description = "PrioritÃ© importante" },
+    @{ name = "secondary"; color = "0e8a16"; description = "PrioritÃ© secondaire" }
 )
 
-# ─── Milestones ──────────────────────────────────────────────────────────────
+# â”€â”€â”€ Milestones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $milestones = @(
     @{
-        title       = "M0 — Urgences sécurité & quick wins"
-        description = "Corriger les failles critiques et obtenir des gains de performance immédiats sans refactoring. Palier visé : 500 users."
+        title       = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
+        description = "Corriger les failles critiques et obtenir des gains de performance immÃ©diats sans refactoring. Palier visÃ© : 500 users."
         due_on      = "2026-06-13T23:59:59Z"
     },
     @{
-        title       = "M1 — Frontend & UX"
-        description = "Réduire le JavaScript envoyé au client, ajouter loading states, améliorer les Core Web Vitals. Palier visé : 1 000 users."
+        title       = "M1 â€” Frontend & UX"
+        description = "RÃ©duire le JavaScript envoyÃ© au client, ajouter loading states, amÃ©liorer les Core Web Vitals. Palier visÃ© : 1 000 users."
         due_on      = "2026-06-20T23:59:59Z"
     },
     @{
-        title       = "M2 — Base de données & caching"
-        description = "Migrer le cache vers Redis, optimiser les requêtes, améliorer le temps de réponse des API. Palier visé : 5 000 users."
+        title       = "M2 â€” Base de donnÃ©es & caching"
+        description = "Migrer le cache vers Redis, optimiser les requÃªtes, amÃ©liorer le temps de rÃ©ponse des API. Palier visÃ© : 5 000 users."
         due_on      = "2026-06-27T23:59:59Z"
     },
     @{
-        title       = "M3 — Infrastructure & scaling"
-        description = "CDN, PgBouncer, ISR, async notifications. Préparer l'infrastructure pour 10 000+ utilisateurs."
+        title       = "M3 â€” Infrastructure & scaling"
+        description = "CDN, PgBouncer, ISR, async notifications. PrÃ©parer l'infrastructure pour 10 000+ utilisateurs."
         due_on      = "2026-07-11T23:59:59Z"
     }
 )
 
-# ─── Issues ──────────────────────────────────────────────────────────────────
+# â”€â”€â”€ Issues â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $issues = @(
-    # ── M0 ──
+    # â”€â”€ M0 â”€â”€
     @{
-        title     = "PERF-001: Révoquer les secrets exposés dans .env.production"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        title     = "PERF-001: RÃ©voquer les secrets exposÃ©s dans .env.production"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "security", "critical")
         body      = @"
-## 🔴 CRITIQUE — Sécurité
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” SÃ©curitÃ©
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 30 min
-**Impact** : Sécurité (∞)
+**Impact** : SÃ©curitÃ© (âˆž)
 
 ### Contexte
-Le fichier ``.env.production`` est commité dans Git avec tous les secrets de production en clair : mots de passe PostgreSQL, clés OAuth Google/GitHub, tokens Resend/QStash/Upstash.
+Le fichier ``.env.production`` est commitÃ© dans Git avec tous les secrets de production en clair : mots de passe PostgreSQL, clÃ©s OAuth Google/GitHub, tokens Resend/QStash/Upstash.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``.env.production``
 - ``.gitignore``
 
 ### Checklist
-- [ ] Révoquer et régénérer le mot de passe PostgreSQL de production
-- [ ] Régénérer le ``BETTER_AUTH_SECRET``
-- [ ] Régénérer les credentials OAuth Google (``GOOGLE_CLIENT_SECRET``)
-- [ ] Régénérer les credentials OAuth GitHub (``GITHUB_CLIENT_SECRET``)
-- [ ] Régénérer la clé API Resend (``RESEND_API_KEY``)
-- [ ] Régénérer les tokens QStash (``QSTASH_TOKEN``, signing keys)
-- [ ] Régénérer les tokens Upstash Redis/KV
-- [ ] Ajouter ``.env.production`` à ``.gitignore``
+- [ ] RÃ©voquer et rÃ©gÃ©nÃ©rer le mot de passe PostgreSQL de production
+- [ ] RÃ©gÃ©nÃ©rer le ``BETTER_AUTH_SECRET``
+- [ ] RÃ©gÃ©nÃ©rer les credentials OAuth Google (``GOOGLE_CLIENT_SECRET``)
+- [ ] RÃ©gÃ©nÃ©rer les credentials OAuth GitHub (``GITHUB_CLIENT_SECRET``)
+- [ ] RÃ©gÃ©nÃ©rer la clÃ© API Resend (``RESEND_API_KEY``)
+- [ ] RÃ©gÃ©nÃ©rer les tokens QStash (``QSTASH_TOKEN``, signing keys)
+- [ ] RÃ©gÃ©nÃ©rer les tokens Upstash Redis/KV
+- [ ] Ajouter ``.env.production`` Ã  ``.gitignore``
 - [ ] Supprimer ``.env.production`` de l'historique Git (``git filter-branch`` ou BFG Repo Cleaner)
-- [ ] Configurer les secrets via variables d'environnement Docker (compose ``environment:`` ou fichier ``.env`` non commité)
-- [ ] Vérifier que ``.env``, ``.env.local``, ``.env.production`` sont tous dans ``.gitignore``
+- [ ] Configurer les secrets via variables d'environnement Docker (compose ``environment:`` ou fichier ``.env`` non commitÃ©)
+- [ ] VÃ©rifier que ``.env``, ``.env.local``, ``.env.production`` sont tous dans ``.gitignore``
 "@
     },
     @{
-        title     = "PERF-002: Supprimer la désactivation TLS globale"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        title     = "PERF-002: Supprimer la dÃ©sactivation TLS globale"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "security", "critical")
         body      = @"
-## 🔴 CRITIQUE — Sécurité
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” SÃ©curitÃ©
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 15 min
-**Impact** : Sécurité (∞)
+**Impact** : SÃ©curitÃ© (âˆž)
 
 ### Contexte
-``process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"`` dans ``lib/prisma.ts`` ligne 7 désactive la vérification des certificats TLS pour **tout le process Node.js**. Cela expose toutes les requêtes HTTP sortantes (Resend, QStash, Upstash) à des attaques Man-in-the-Middle.
+``process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"`` dans ``lib/prisma.ts`` ligne 7 dÃ©sactive la vÃ©rification des certificats TLS pour **tout le process Node.js**. Cela expose toutes les requÃªtes HTTP sortantes (Resend, QStash, Upstash) Ã  des attaques Man-in-the-Middle.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``lib/prisma.ts``
 
 ### Checklist
 - [ ] Supprimer la ligne ``process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"``
-- [ ] La connexion DB locale utilise déjà ``ssl: false`` quand ``isLocalDb`` est true — c'est suffisant
+- [ ] La connexion DB locale utilise dÃ©jÃ  ``ssl: false`` quand ``isLocalDb`` est true â€” c'est suffisant
 - [ ] Pour la prod Docker, le PostgreSQL est en local (``@db:5432``) donc pas besoin de SSL
 - [ ] Tester que la connexion DB fonctionne toujours en dev et en prod
-- [ ] Si un certificat auto-signé est nécessaire, utiliser ``ssl: { rejectUnauthorized: false }`` **uniquement** dans les options du Pool pg
+- [ ] Si un certificat auto-signÃ© est nÃ©cessaire, utiliser ``ssl: { rejectUnauthorized: false }`` **uniquement** dans les options du Pool pg
 "@
     },
     @{
         title     = "PERF-003: Configurer le pool de connexions PostgreSQL"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "database", "critical")
         body      = @"
-## 🔴 CRITIQUE — Performance DB
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” Performance DB
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 15 min
-**Impact** : 🟢🟢🟢 — Empêche la saturation DB dès ~100 users concurrents
+**Impact** : ðŸŸ¢ðŸŸ¢ðŸŸ¢ â€” EmpÃªche la saturation DB dÃ¨s ~100 users concurrents
 
 ### Contexte
-Le pool ``pg`` est instancié sans configuration de taille. Le défaut est ``max: 10`` connexions, insuffisant sous charge. Pas de timeout configuré.
+Le pool ``pg`` est instanciÃ© sans configuration de taille. Le dÃ©faut est ``max: 10`` connexions, insuffisant sous charge. Pas de timeout configurÃ©.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``lib/prisma.ts``
 
 ### Checklist
-- [ ] Configurer le pool ``pg`` avec des paramètres explicites :
+- [ ] Configurer le pool ``pg`` avec des paramÃ¨tres explicites :
   ``````typescript
   new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -144,250 +144,250 @@ Le pool ``pg`` est instancié sans configuration de taille. Le défaut est ``max
     ssl: isLocalDb ? false : { rejectUnauthorized: false },
   })
   ``````
-- [ ] Tester sous charge locale avec 20 requêtes simultanées
+- [ ] Tester sous charge locale avec 20 requÃªtes simultanÃ©es
 - [ ] Monitorer en production le nombre de connexions actives
 "@
     },
     @{
         title     = "PERF-004: Activer l'optimisation d'images Next.js"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "frontend", "critical")
         body      = @"
-## 🔴 CRITIQUE — Frontend
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” Frontend
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 20 min
-**Impact** : 🟢🟢🟢 — Amélioration LCP de ~1-2 secondes
+**Impact** : ðŸŸ¢ðŸŸ¢ðŸŸ¢ â€” AmÃ©lioration LCP de ~1-2 secondes
 
 ### Contexte
-``images: { unoptimized: true }`` dans ``next.config.mjs`` désactive toute l'optimisation d'images Next.js : pas de WebP/AVIF, pas de resize, pas de lazy loading natif. Tueur n°1 de LCP.
+``images: { unoptimized: true }`` dans ``next.config.mjs`` dÃ©sactive toute l'optimisation d'images Next.js : pas de WebP/AVIF, pas de resize, pas de lazy loading natif. Tueur nÂ°1 de LCP.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``next.config.mjs``
 
 ### Checklist
-- [ ] Supprimer ``unoptimized: true`` (ou le mettre à ``false``)
-- [ ] Vérifier que les ``remotePatterns`` couvrent tous les domaines d'images utilisés
-- [ ] Remplacer les ``<img>`` par ``<Image>`` de ``next/image`` dans les composants concernés
+- [ ] Supprimer ``unoptimized: true`` (ou le mettre Ã  ``false``)
+- [ ] VÃ©rifier que les ``remotePatterns`` couvrent tous les domaines d'images utilisÃ©s
+- [ ] Remplacer les ``<img>`` par ``<Image>`` de ``next/image`` dans les composants concernÃ©s
 - [ ] Tester que les images s'affichent correctement en dev
-- [ ] En prod standalone, vérifier que ``.next/cache/images`` est persisté (volume Docker)
+- [ ] En prod standalone, vÃ©rifier que ``.next/cache/images`` est persistÃ© (volume Docker)
 "@
     },
     @{
         title     = "PERF-005: Ajouter les index DB manquants"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "database", "critical")
         body      = @"
-## 🔴 CRITIQUE — Performance DB
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” Performance DB
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 15 min
-**Impact** : 🟢🟢 — Requêtes squad et feed 5-10x plus rapides
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RequÃªtes squad et feed 5-10x plus rapides
 
 ### Contexte
-Plusieurs requêtes fréquentes opèrent sur des colonnes non indexées, causant des full table scans.
+Plusieurs requÃªtes frÃ©quentes opÃ¨rent sur des colonnes non indexÃ©es, causant des full table scans.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``prisma/schema.prisma``
 
 ### Checklist
-- [ ] Ajouter ``@@index([userId])`` sur le modèle ``Member``
-- [ ] Ajouter ``@@index([organizationId])`` sur le modèle ``Member``
-- [ ] Ajouter ``@@index([createdAt])`` sur le modèle ``User``
+- [ ] Ajouter ``@@index([userId])`` sur le modÃ¨le ``Member``
+- [ ] Ajouter ``@@index([organizationId])`` sur le modÃ¨le ``Member``
+- [ ] Ajouter ``@@index([createdAt])`` sur le modÃ¨le ``User``
 - [ ] Ajouter un index composite ``@@index([status, missionId])`` sur ``MissionSubmission``
-- [ ] Générer la migration : ``npx prisma migrate dev --name add-perf-indexes``
-- [ ] Vérifier que la migration SQL est correcte
+- [ ] GÃ©nÃ©rer la migration : ``npx prisma migrate dev --name add-perf-indexes``
+- [ ] VÃ©rifier que la migration SQL est correcte
 - [ ] Appliquer en production : ``npx prisma migrate deploy``
 "@
     },
     @{
-        title     = "PERF-006: Réduire le chargement de submissions sur le dashboard"
-        milestone = "M0 — Urgences sécurité & quick wins"
+        title     = "PERF-006: RÃ©duire le chargement de submissions sur le dashboard"
+        milestone = "M0 â€” Urgences sÃ©curitÃ© & quick wins"
         labels    = @("perf", "frontend", "critical")
         body      = @"
-## 🔴 CRITIQUE — Performance
-**Créé le** : 2026-06-12
+## ðŸ”´ CRITIQUE â€” Performance
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 10 min
-**Impact** : 🟢🟢 — Réduit la taille HTML et le temps de sérialisation
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RÃ©duit la taille HTML et le temps de sÃ©rialisation
 
 ### Contexte
-Le dashboard charge ``take: 200`` soumissions avec JOIN mission. L'UI n'en affiche qu'une dizaine. Ces 200 objets sont sérialisés dans le HTML du Server Component.
+Le dashboard charge ``take: 200`` soumissions avec JOIN mission. L'UI n'en affiche qu'une dizaine. Ces 200 objets sont sÃ©rialisÃ©s dans le HTML du Server Component.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/dashboard/page.tsx``
 
 ### Checklist
-- [ ] Réduire ``take: 200`` à ``take: 20`` (ligne 67)
-- [ ] Ajouter un filtre ``status`` si seuls APPROVED et PENDING sont nécessaires
-- [ ] Si un historique complet est nécessaire, implémenter une pagination côté client
-- [ ] Vérifier que ``submissionsMap`` et ``MissionHistory`` fonctionnent toujours
+- [ ] RÃ©duire ``take: 200`` Ã  ``take: 20`` (ligne 67)
+- [ ] Ajouter un filtre ``status`` si seuls APPROVED et PENDING sont nÃ©cessaires
+- [ ] Si un historique complet est nÃ©cessaire, implÃ©menter une pagination cÃ´tÃ© client
+- [ ] VÃ©rifier que ``submissionsMap`` et ``MissionHistory`` fonctionnent toujours
 "@
     },
 
-    # ── M1 ──
+    # â”€â”€ M1 â”€â”€
     @{
-        title     = "PERF-007: Découper squad-journey.tsx (74 KB)"
-        milestone = "M1 — Frontend & UX"
+        title     = "PERF-007: DÃ©couper squad-journey.tsx (74 KB)"
+        milestone = "M1 â€” Frontend & UX"
         labels    = @("perf", "frontend", "important")
         body      = @"
-## 🟡 IMPORTANT — Frontend
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Frontend
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 3-4h
-**Impact** : 🟢🟢🟢 — Réduit le TTI de 2-4 secondes sur mobile
+**Impact** : ðŸŸ¢ðŸŸ¢ðŸŸ¢ â€” RÃ©duit le TTI de 2-4 secondes sur mobile
 
 ### Contexte
-``squad-journey.tsx`` fait 74 KB source (~200KB+ compilé). Méga-composant monolithique contenant tout le flow squad. Sur mobile 3G africain : 5-8s de chargement JS.
+``squad-journey.tsx`` fait 74 KB source (~200KB+ compilÃ©). MÃ©ga-composant monolithique contenant tout le flow squad. Sur mobile 3G africain : 5-8s de chargement JS.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``components/dashboard/squad-journey.tsx``
 
 ### Checklist
-- [ ] Identifier les sections logiques (lobby, membres, paramètres, chat, etc.)
-- [ ] Extraire chaque section dans un fichier séparé
+- [ ] Identifier les sections logiques (lobby, membres, paramÃ¨tres, chat, etc.)
+- [ ] Extraire chaque section dans un fichier sÃ©parÃ©
 - [ ] Utiliser ``dynamic()`` de Next.js pour lazy-loader les sections non visibles au premier render
-- [ ] Garder le composant principal comme orchestrateur léger (<5 KB)
+- [ ] Garder le composant principal comme orchestrateur lÃ©ger (<5 KB)
 - [ ] Ajouter des skeletons de chargement pour chaque section
 - [ ] Tester sur mobile (Chrome DevTools throttle 3G)
 "@
     },
     @{
-        title     = "PERF-008: Découper dashboard-shell.tsx (25 KB)"
-        milestone = "M1 — Frontend & UX"
+        title     = "PERF-008: DÃ©couper dashboard-shell.tsx (25 KB)"
+        milestone = "M1 â€” Frontend & UX"
         labels    = @("perf", "frontend", "important")
         body      = @"
-## 🟡 IMPORTANT — Frontend
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Frontend
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 2-3h
-**Impact** : 🟢🟢🟢 — Réduit le TTI de 1-2 secondes
+**Impact** : ðŸŸ¢ðŸŸ¢ðŸŸ¢ â€” RÃ©duit le TTI de 1-2 secondes
 
 ### Contexte
-Le dashboard est un seul composant ``"use client"`` de 422 lignes. Chaque widget est importé statiquement.
+Le dashboard est un seul composant ``"use client"`` de 422 lignes. Chaque widget est importÃ© statiquement.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``components/dashboard/dashboard-shell.tsx``
 
 ### Checklist
 - [ ] Identifier les widgets sous le fold (MemberCard, Arsenal, etc.)
 - [ ] Lazy-loader avec ``dynamic()`` les composants non critiques
 - [ ] Garder ``DailyCheckinWidget`` et ``MissionDeck`` en import statique (above the fold)
-- [ ] Mesurer la taille du bundle avant/après avec ``@next/bundle-analyzer``
+- [ ] Mesurer la taille du bundle avant/aprÃ¨s avec ``@next/bundle-analyzer``
 - [ ] Tester que la navigation reste fluide
 "@
     },
     @{
         title     = "PERF-009: Ajouter des loading.tsx dans les routes principales"
-        milestone = "M1 — Frontend & UX"
+        milestone = "M1 â€” Frontend & UX"
         labels    = @("perf", "ux", "important")
         body      = @"
-## 🟡 IMPORTANT — UX
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” UX
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 1h
-**Impact** : 🟢🟢 — Élimine les écrans blancs pendant le chargement
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” Ã‰limine les Ã©crans blancs pendant le chargement
 
 ### Contexte
-Les routes ``/dashboard``, ``/squad`` et ``/missions`` n'ont pas de ``loading.tsx`` fonctionnel. L'utilisateur voit un écran blanc pendant 1-3s.
+Les routes ``/dashboard``, ``/squad`` et ``/missions`` n'ont pas de ``loading.tsx`` fonctionnel. L'utilisateur voit un Ã©cran blanc pendant 1-3s.
 
-### Fichiers concernés
-- ``app/dashboard/loading.tsx`` (vérifier le contenu)
-- ``app/squad/loading.tsx`` (à créer)
-- ``app/missions/loading.tsx`` (à créer)
-- ``app/settings/loading.tsx`` (à créer)
+### Fichiers concernÃ©s
+- ``app/dashboard/loading.tsx`` (vÃ©rifier le contenu)
+- ``app/squad/loading.tsx`` (Ã  crÃ©er)
+- ``app/missions/loading.tsx`` (Ã  crÃ©er)
+- ``app/settings/loading.tsx`` (Ã  crÃ©er)
 
 ### Checklist
-- [ ] Vérifier le ``loading.tsx`` existant dans ``/dashboard``
-- [ ] Créer ``app/squad/loading.tsx`` avec un skeleton du SquadJourney
-- [ ] Créer ``app/missions/loading.tsx`` avec un skeleton des cartes missions
-- [ ] Créer ``app/settings/loading.tsx``
+- [ ] VÃ©rifier le ``loading.tsx`` existant dans ``/dashboard``
+- [ ] CrÃ©er ``app/squad/loading.tsx`` avec un skeleton du SquadJourney
+- [ ] CrÃ©er ``app/missions/loading.tsx`` avec un skeleton des cartes missions
+- [ ] CrÃ©er ``app/settings/loading.tsx``
 - [ ] Utiliser ``animate-pulse`` pour les skeletons
-- [ ] Tester en throttling réseau lent
+- [ ] Tester en throttling rÃ©seau lent
 "@
     },
     @{
-        title     = "PERF-010: Réduire les polices Google chargées"
-        milestone = "M1 — Frontend & UX"
+        title     = "PERF-010: RÃ©duire les polices Google chargÃ©es"
+        milestone = "M1 â€” Frontend & UX"
         labels    = @("perf", "frontend", "important")
         body      = @"
-## 🟡 IMPORTANT — Frontend
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Frontend
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 30 min
-**Impact** : 🟢🟢 — Réduit le FCP de 200-400ms
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RÃ©duit le FCP de 200-400ms
 
 ### Contexte
 Le layout charge 3 polices (Syne, Outfit, IBM Plex Mono) avec 14 poids. Chaque fichier ~20-40 KB.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/layout.tsx``
 - ``app/globals.css``
 
 ### Checklist
-- [ ] Réduire Syne à 2-3 poids max (700, 800)
-- [ ] Réduire Outfit à 2-3 poids (400, 500, 600)
+- [ ] RÃ©duire Syne Ã  2-3 poids max (700, 800)
+- [ ] RÃ©duire Outfit Ã  2-3 poids (400, 500, 600)
 - [ ] IBM Plex Mono : garder uniquement le poids 400
-- [ ] Ajouter ``display: 'swap'`` si pas déjà fait
+- [ ] Ajouter ``display: 'swap'`` si pas dÃ©jÃ  fait
 - [ ] Tester visuellement que rien ne casse
 "@
     },
     @{
         title     = "PERF-011: Conditionner les animations CSS avec prefers-reduced-motion"
-        milestone = "M1 — Frontend & UX"
+        milestone = "M1 â€” Frontend & UX"
         labels    = @("perf", "ux", "important")
         body      = @"
-## 🟡 IMPORTANT — A11y + Performance Mobile
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” A11y + Performance Mobile
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 30 min
-**Impact** : 🟢 — Réduit la consommation GPU sur mobile
+**Impact** : ðŸŸ¢ â€” RÃ©duit la consommation GPU sur mobile
 
 ### Contexte
-5+ animations CSS ``infinite`` (holo-sheen-sweep, hud-pulse, laser-sweep, grid-drift, hazard-sweep) tournent en permanence, même invisibles. Sur mobile bas de gamme : batterie + GPU excessifs.
+5+ animations CSS ``infinite`` (holo-sheen-sweep, hud-pulse, laser-sweep, grid-drift, hazard-sweep) tournent en permanence, mÃªme invisibles. Sur mobile bas de gamme : batterie + GPU excessifs.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/globals.css``
 
 ### Checklist
 - [ ] Ajouter une media query ``prefers-reduced-motion: reduce`` globale
 - [ ] Alternativement, cibler les animations les plus lourdes
-- [ ] Tester avec l'option "Reduce motion" activée
-- [ ] Vérifier que les transitions de navigation fonctionnent toujours
+- [ ] Tester avec l'option "Reduce motion" activÃ©e
+- [ ] VÃ©rifier que les transitions de navigation fonctionnent toujours
 "@
     },
 
-    # ── M2 ──
+    # â”€â”€ M2 â”€â”€
     @{
         title     = "PERF-012: Migrer le cache in-memory vers Redis (Upstash)"
-        milestone = "M2 — Base de données & caching"
+        milestone = "M2 â€” Base de donnÃ©es & caching"
         labels    = @("perf", "database", "infra", "important")
         body      = @"
-## 🟡 IMPORTANT — Scaling
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Scaling
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 2-3h
-**Impact** : 🟢🟢🟢 — Prérequis au scaling horizontal
+**Impact** : ðŸŸ¢ðŸŸ¢ðŸŸ¢ â€” PrÃ©requis au scaling horizontal
 
 ### Contexte
-Cache actuel = ``Map`` JS en mémoire (``lib/cache.ts``). Perdu à chaque redémarrage, non partageable entre instances. Upstash Redis est déjà configuré et payé.
+Cache actuel = ``Map`` JS en mÃ©moire (``lib/cache.ts``). Perdu Ã  chaque redÃ©marrage, non partageable entre instances. Upstash Redis est dÃ©jÃ  configurÃ© et payÃ©.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``lib/cache.ts``
 
 ### Checklist
-- [ ] Réécrire ``lib/cache.ts`` pour utiliser ``@upstash/redis``
-- [ ] Adapter les appelants à l'API async
-- [ ] Ajouter un préfixe aux clés (``hc:``) pour éviter les collisions avec le rate limiter
+- [ ] RÃ©Ã©crire ``lib/cache.ts`` pour utiliser ``@upstash/redis``
+- [ ] Adapter les appelants Ã  l'API async
+- [ ] Ajouter un prÃ©fixe aux clÃ©s (``hc:``) pour Ã©viter les collisions avec le rate limiter
 - [ ] Tester que le cache fonctionne en dev
 - [ ] Monitorer l'utilisation Redis dans le dashboard Upstash
 "@
     },
     @{
         title     = "PERF-013: Ajouter Cache-Control sur les API GET publiques"
-        milestone = "M2 — Base de données & caching"
+        milestone = "M2 â€” Base de donnÃ©es & caching"
         labels    = @("perf", "infra", "important")
         body      = @"
-## 🟡 IMPORTANT — Performance
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Performance
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 1h
-**Impact** : 🟢🟢 — Réduit la charge serveur de 30-50%
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RÃ©duit la charge serveur de 30-50%
 
 ### Contexte
-37/37 routes API en ``force-dynamic``. Certaines API GET (feed, leaderboard, public) pourraient servir des réponses cachées 30-60s.
+37/37 routes API en ``force-dynamic``. Certaines API GET (feed, leaderboard, public) pourraient servir des rÃ©ponses cachÃ©es 30-60s.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/api/feed/route.ts``
 - ``app/api/squad/leaderboard/route.ts``
 - ``app/api/squad/public/route.ts``
@@ -395,96 +395,96 @@ Cache actuel = ``Map`` JS en mémoire (``lib/cache.ts``). Perdu à chaque redém
 
 ### Checklist
 - [ ] Retirer ``force-dynamic`` des routes GET purement informatives
-- [ ] Ajouter ``Cache-Control: public, s-maxage=60, stale-while-revalidate=120`` sur les routes concernées
+- [ ] Ajouter ``Cache-Control: public, s-maxage=60, stale-while-revalidate=120`` sur les routes concernÃ©es
 - [ ] Ne PAS toucher aux routes POST/PATCH/DELETE ni aux routes user-specific
-- [ ] Tester que les réponses sont bien cachées (vérifier les headers)
+- [ ] Tester que les rÃ©ponses sont bien cachÃ©es (vÃ©rifier les headers)
 "@
     },
     @{
-        title     = "PERF-014: Paralléliser les requêtes de la page Squad"
-        milestone = "M2 — Base de données & caching"
+        title     = "PERF-014: ParallÃ©liser les requÃªtes de la page Squad"
+        milestone = "M2 â€” Base de donnÃ©es & caching"
         labels    = @("perf", "database", "important")
         body      = @"
-## 🟡 IMPORTANT — Performance
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Performance
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 30 min
-**Impact** : 🟢🟢 — Réduit le TTFB de 200-400ms
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RÃ©duit le TTFB de 200-400ms
 
 ### Contexte
-``app/squad/page.tsx`` fait 3 requêtes séquentielles au lieu de les exécuter en parallèle.
+``app/squad/page.tsx`` fait 3 requÃªtes sÃ©quentielles au lieu de les exÃ©cuter en parallÃ¨le.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/squad/page.tsx``
 
 ### Checklist
-- [ ] Paralléliser avec ``Promise.all`` les requêtes ``getFullOrganization`` + ``user.findUnique``
+- [ ] ParallÃ©liser avec ``Promise.all`` les requÃªtes ``getFullOrganization`` + ``user.findUnique``
 - [ ] Garder le fallback conditionnel (``member.findFirst``) uniquement si org est null
-- [ ] Vérifier que le comportement reste identique
+- [ ] VÃ©rifier que le comportement reste identique
 - [ ] Tester la page squad avec/sans squad
 "@
     },
     @{
-        title     = "PERF-015: Combiner les requêtes notifications"
-        milestone = "M2 — Base de données & caching"
+        title     = "PERF-015: Combiner les requÃªtes notifications"
+        milestone = "M2 â€” Base de donnÃ©es & caching"
         labels    = @("perf", "database", "important")
         body      = @"
-## 🟡 IMPORTANT — Performance DB
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Performance DB
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 15 min
-**Impact** : 🟢 — Réduit de 2 à 1 les requêtes DB par appel
+**Impact** : ðŸŸ¢ â€” RÃ©duit de 2 Ã  1 les requÃªtes DB par appel
 
 ### Contexte
-L'endpoint notifications fait 2 requêtes séparées : ``findMany`` + ``count``. Le comptage non-lu peut être dérivé du résultat.
+L'endpoint notifications fait 2 requÃªtes sÃ©parÃ©es : ``findMany`` + ``count``. Le comptage non-lu peut Ãªtre dÃ©rivÃ© du rÃ©sultat.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/api/user/notifications/route.ts``
 
 ### Checklist
-- [ ] Remplacer les 2 requêtes par un seul ``findMany`` + filtre JS pour le count
-- [ ] Si le nombre total de non-lus peut dépasser 20, paralléliser avec ``Promise.all`` à la place
+- [ ] Remplacer les 2 requÃªtes par un seul ``findMany`` + filtre JS pour le count
+- [ ] Si le nombre total de non-lus peut dÃ©passer 20, parallÃ©liser avec ``Promise.all`` Ã  la place
 - [ ] Tester la notification bell dans le dashboard
 "@
     },
     @{
-        title     = "PERF-016: Optimiser le feed API (éviter le full table scan)"
-        milestone = "M2 — Base de données & caching"
+        title     = "PERF-016: Optimiser le feed API (Ã©viter le full table scan)"
+        milestone = "M2 â€” Base de donnÃ©es & caching"
         labels    = @("perf", "database", "important")
         body      = @"
-## 🟡 IMPORTANT — Performance DB
-**Créé le** : 2026-06-12
+## ðŸŸ¡ IMPORTANT â€” Performance DB
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 30 min
-**Impact** : 🟢🟢 — Critique à 10K+ utilisateurs
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” Critique Ã  10K+ utilisateurs
 
 ### Contexte
-Le feed fait ``user.findMany({ orderBy: createdAt, take: 10 })`` sans filtre. À 100K users = full table scan.
+Le feed fait ``user.findMany({ orderBy: createdAt, take: 10 })`` sans filtre. Ã€ 100K users = full table scan.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/api/feed/route.ts``
 
 ### Checklist
 - [ ] S'assurer que PERF-005 est fait (index sur ``user.createdAt``)
 - [ ] Ajouter un filtre temporel (``createdAt >= 7 jours``) pour limiter le scan
-- [ ] Même chose pour les submissions du feed
-- [ ] Cacher le résultat dans Redis (cf. PERF-012) avec TTL de 60s
+- [ ] MÃªme chose pour les submissions du feed
+- [ ] Cacher le rÃ©sultat dans Redis (cf. PERF-012) avec TTL de 60s
 - [ ] Tester que le feed reste pertinent et non vide
 "@
     },
 
-    # ── M3 ──
+    # â”€â”€ M3 â”€â”€
     @{
         title     = "PERF-017: Ajouter PgBouncer devant PostgreSQL"
-        milestone = "M3 — Infrastructure & scaling"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "infra", "database", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Infrastructure
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Infrastructure
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 2-3h
-**Impact** : 🟢🟢 — Multiplie la capacité DB par 5-10x
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” Multiplie la capacitÃ© DB par 5-10x
 
 ### Contexte
-Sans PgBouncer, chaque connexion Node.js ouvre un processus backend PostgreSQL dédié (coûteux en mémoire).
+Sans PgBouncer, chaque connexion Node.js ouvre un processus backend PostgreSQL dÃ©diÃ© (coÃ»teux en mÃ©moire).
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``compose.yaml``
 - ``lib/prisma.ts``
 
@@ -499,74 +499,74 @@ Sans PgBouncer, chaque connexion Node.js ouvre un processus backend PostgreSQL d
     },
     @{
         title     = "PERF-018: ISR pour la page Missions"
-        milestone = "M3 — Infrastructure & scaling"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "frontend", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Performance
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Performance
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 1h
-**Impact** : 🟢 — TTFB quasi instantané pour ``/missions``
+**Impact** : ðŸŸ¢ â€” TTFB quasi instantanÃ© pour ``/missions``
 
 ### Contexte
-La page missions utilise déjà ``unstable_cache`` avec ``revalidate: 300`` mais le reste est SSR dynamique. Les données missions sont hardcodées.
+La page missions utilise dÃ©jÃ  ``unstable_cache`` avec ``revalidate: 300`` mais le reste est SSR dynamique. Les donnÃ©es missions sont hardcodÃ©es.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/missions/page.tsx``
 
 ### Checklist
-- [ ] Séparer les données statiques (liste missions) des données user-specific (submissions)
-- [ ] Créer un layout intermédiaire en ISR pour les missions statiques
-- [ ] Garder les submissions dynamiques (Suspense côté client)
-- [ ] Tester le temps de réponse avant/après
+- [ ] SÃ©parer les donnÃ©es statiques (liste missions) des donnÃ©es user-specific (submissions)
+- [ ] CrÃ©er un layout intermÃ©diaire en ISR pour les missions statiques
+- [ ] Garder les submissions dynamiques (Suspense cÃ´tÃ© client)
+- [ ] Tester le temps de rÃ©ponse avant/aprÃ¨s
 "@
     },
     @{
         title     = "PERF-019: Rendre les notifications asynchrones"
-        milestone = "M3 — Infrastructure & scaling"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "infra", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Performance API
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Performance API
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 2h
-**Impact** : 🟢🟢 — Réduit la latence des endpoints de soumission de mission
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” RÃ©duit la latence des endpoints de soumission de mission
 
 ### Contexte
-``triggerNotification()`` fait un write DB synchrone + envoi email dans le chemin critique. Si Resend timeout, la soumission entière ralentit.
+``triggerNotification()`` fait un write DB synchrone + envoi email dans le chemin critique. Si Resend timeout, la soumission entiÃ¨re ralentit.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``lib/qstash.ts``
 - ``app/api/missions/route.ts``
 
 ### Checklist
 - [ ] Option A : fire-and-forget la notification sans ``await``
-- [ ] Option B : utiliser QStash (déjà configuré) pour envoyer via queue HTTP
-- [ ] Vérifier que les emails sont déjà en fire-and-forget (``.catch()``)
-- [ ] Tester que les notifications sont toujours créées
+- [ ] Option B : utiliser QStash (dÃ©jÃ  configurÃ©) pour envoyer via queue HTTP
+- [ ] VÃ©rifier que les emails sont dÃ©jÃ  en fire-and-forget (``.catch()``)
+- [ ] Tester que les notifications sont toujours crÃ©Ã©es
 - [ ] Monitorer les erreurs dans les logs
 "@
     },
     @{
         title     = "PERF-020: Ajouter un CDN (Cloudflare) devant Traefik"
-        milestone = "M3 — Infrastructure & scaling"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "infra", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Infrastructure
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Infrastructure
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 2-3h
-**Impact** : 🟢🟢 — Cache les assets statiques et réduit la latence globale
+**Impact** : ðŸŸ¢ðŸŸ¢ â€” Cache les assets statiques et rÃ©duit la latence globale
 
 ### Contexte
-Chaque requête (JS, CSS, images, polices) atteint directement le serveur via Traefik. Un CDN absorbe 70-80% du trafic.
+Chaque requÃªte (JS, CSS, images, polices) atteint directement le serveur via Traefik. Un CDN absorbe 70-80% du trafic.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - Configuration DNS (``joinhashcode.com``)
 - ``next.config.mjs`` (headers CSP)
 
 ### Checklist
-- [ ] Créer un compte Cloudflare
+- [ ] CrÃ©er un compte Cloudflare
 - [ ] Migrer les DNS vers Cloudflare
 - [ ] Activer le proxy (nuage orange)
-- [ ] Configurer les règles de cache (``/_next/static/*`` = long, ``/api/*`` = bypass)
+- [ ] Configurer les rÃ¨gles de cache (``/_next/static/*`` = long, ``/api/*`` = bypass)
 - [ ] Adapter la CSP
 - [ ] Tester les headers de cache avec ``curl -I``
 - [ ] Activer la minification HTML/CSS/JS
@@ -574,100 +574,100 @@ Chaque requête (JS, CSS, images, polices) atteint directement le serveur via Tr
     },
     @{
         title     = "PERF-021: SSG pour la landing page"
-        milestone = "M3 — Infrastructure & scaling"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "frontend", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Performance
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Performance
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 1h
-**Impact** : 🟢 — TTFB < 100ms pour la page d'accueil
+**Impact** : ðŸŸ¢ â€” TTFB < 100ms pour la page d'accueil
 
 ### Contexte
-La page d'accueil est 100% statique (pas de fetch serveur). Elle peut être pre-rendue en SSG.
+La page d'accueil est 100% statique (pas de fetch serveur). Elle peut Ãªtre pre-rendue en SSG.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``app/page.tsx``
 
 ### Checklist
 - [ ] Ajouter ``export const dynamic = 'force-static'`` en haut de ``app/page.tsx``
-- [ ] Vérifier qu'aucun composant landing n'appelle de fonction serveur
-- [ ] Tester en build (``npm run build``) que la page est marquée ``○`` (statique)
-- [ ] Vérifier le TTFB en production
+- [ ] VÃ©rifier qu'aucun composant landing n'appelle de fonction serveur
+- [ ] Tester en build (``npm run build``) que la page est marquÃ©e ``â—‹`` (statique)
+- [ ] VÃ©rifier le TTFB en production
 "@
     },
     @{
-        title     = "PERF-022: Extraire les données missions du bundle JavaScript"
-        milestone = "M3 — Infrastructure & scaling"
+        title     = "PERF-022: Extraire les donnÃ©es missions du bundle JavaScript"
+        milestone = "M3 â€” Infrastructure & scaling"
         labels    = @("perf", "frontend", "secondary")
         body      = @"
-## 🟢 SECONDAIRE — Frontend
-**Créé le** : 2026-06-12
+## ðŸŸ¢ SECONDAIRE â€” Frontend
+**CrÃ©Ã© le** : 2026-06-12
 **Effort** : 1h
-**Impact** : 🟢 — Réduit le bundle de 36 KB
+**Impact** : ðŸŸ¢ â€” RÃ©duit le bundle de 36 KB
 
 ### Contexte
-``lib/missions.ts`` contient 36 KB de données missions hardcodées importées dans le bundle client.
+``lib/missions.ts`` contient 36 KB de donnÃ©es missions hardcodÃ©es importÃ©es dans le bundle client.
 
-### Fichiers concernés
+### Fichiers concernÃ©s
 - ``lib/missions.ts``
 - ``app/missions/page.tsx``
 - ``components/missions/missions-list.tsx``
 
 ### Checklist
-- [ ] Option A : S'assurer que le fichier n'est importé que dans les Server Components
+- [ ] Option A : S'assurer que le fichier n'est importÃ© que dans les Server Components
 - [ ] Option B : Migrer les missions vers la DB + seed via ``prisma/seed.ts``
-- [ ] Option C : Extraire dans un fichier JSON chargé côté serveur
-- [ ] Vérifier le bundle client avec ``@next/bundle-analyzer``
+- [ ] Option C : Extraire dans un fichier JSON chargÃ© cÃ´tÃ© serveur
+- [ ] VÃ©rifier le bundle client avec ``@next/bundle-analyzer``
 - [ ] Tester la page missions
 "@
     }
 )
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #  EXECUTION
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Write-Host ""
-Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║  HASHCODE — Publication des issues performance sur GitHub   ║" -ForegroundColor Cyan
-Write-Host "║  Repo: $REPO                                    ║" -ForegroundColor Cyan
-Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" -ForegroundColor Cyan
+Write-Host "â•‘  HASHCODE â€” Publication des issues performance sur GitHub   â•‘" -ForegroundColor Cyan
+Write-Host "â•‘  Repo: $REPO                                    â•‘" -ForegroundColor Cyan
+Write-Host "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Cyan
 Write-Host ""
 
 if ($DryRun) {
-    Write-Host "🔍 MODE DRY-RUN — Aucune modification ne sera effectuée" -ForegroundColor Yellow
+    Write-Host "ðŸ” MODE DRY-RUN â€” Aucune modification ne sera effectuÃ©e" -ForegroundColor Yellow
     Write-Host ""
 }
 
-# ── 1. Créer les labels ──────────────────────────────────────────────────────
-Write-Host "━━━ Étape 1/3 : Création des labels ━━━" -ForegroundColor Magenta
+# â”€â”€ 1. CrÃ©er les labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Write-Host "â”â”â” Ã‰tape 1/3 : CrÃ©ation des labels â”â”â”" -ForegroundColor Magenta
 foreach ($label in $labels) {
     $existing = gh label list --repo $REPO --search $label.name --json name 2>$null | ConvertFrom-Json
     if ($existing -and ($existing | Where-Object { $_.name -eq $label.name })) {
-        Write-Host "  ⏭️  Label '$($label.name)' existe déjà" -ForegroundColor DarkGray
+        Write-Host "  â­ï¸  Label '$($label.name)' existe dÃ©jÃ " -ForegroundColor DarkGray
     } else {
         if ($DryRun) {
-            Write-Host "  🏷️  [DRY] Créerait le label '$($label.name)' ($($label.color))" -ForegroundColor Yellow
+            Write-Host "  ðŸ·ï¸  [DRY] CrÃ©erait le label '$($label.name)' ($($label.color))" -ForegroundColor Yellow
         } else {
             gh label create $label.name --repo $REPO --color $label.color --description $label.description --force 2>$null
-            Write-Host "  ✅ Label '$($label.name)' créé" -ForegroundColor Green
+            Write-Host "  âœ… Label '$($label.name)' crÃ©Ã©" -ForegroundColor Green
         }
     }
 }
 Write-Host ""
 
-# ── 2. Créer les milestones ──────────────────────────────────────────────────
-Write-Host "━━━ Étape 2/3 : Création des milestones ━━━" -ForegroundColor Magenta
+# â”€â”€ 2. CrÃ©er les milestones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Write-Host "â”â”â” Ã‰tape 2/3 : CrÃ©ation des milestones â”â”â”" -ForegroundColor Magenta
 $milestoneMap = @{}
 
 foreach ($ms in $milestones) {
     $existing = gh api "repos/$REPO/milestones" --jq ".[] | select(.title == `"$($ms.title)`") | .number" 2>$null
     if ($existing) {
-        Write-Host "  ⏭️  Milestone '$($ms.title)' existe déjà (#$existing)" -ForegroundColor DarkGray
+        Write-Host "  â­ï¸  Milestone '$($ms.title)' existe dÃ©jÃ  (#$existing)" -ForegroundColor DarkGray
         $milestoneMap[$ms.title] = [int]$existing
     } else {
         if ($DryRun) {
-            Write-Host "  🎯 [DRY] Créerait le milestone '$($ms.title)'" -ForegroundColor Yellow
+            Write-Host "  ðŸŽ¯ [DRY] CrÃ©erait le milestone '$($ms.title)'" -ForegroundColor Yellow
             $milestoneMap[$ms.title] = 0
         } else {
             $msNumber = gh api "repos/$REPO/milestones" `
@@ -676,32 +676,32 @@ foreach ($ms in $milestones) {
                 --field description="$($ms.description)" `
                 --field due_on="$($ms.due_on)" `
                 --jq ".number"
-            Write-Host "  ✅ Milestone '$($ms.title)' créé (#$msNumber)" -ForegroundColor Green
+            Write-Host "  âœ… Milestone '$($ms.title)' crÃ©Ã© (#$msNumber)" -ForegroundColor Green
             $milestoneMap[$ms.title] = [int]$msNumber
         }
     }
 }
 Write-Host ""
 
-# ── 3. Créer les issues ──────────────────────────────────────────────────────
-Write-Host "━━━ Étape 3/3 : Création des issues ━━━" -ForegroundColor Magenta
+# â”€â”€ 3. CrÃ©er les issues â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Write-Host "â”â”â” Ã‰tape 3/3 : CrÃ©ation des issues â”â”â”" -ForegroundColor Magenta
 $created = 0
 $skipped = 0
 
 foreach ($issue in $issues) {
-    # Vérifier si l'issue existe déjà (par titre exact)
+    # VÃ©rifier si l'issue existe dÃ©jÃ  (par titre exact)
     $searchTitle = $issue.title -replace '["\[\]]', ''
     $existingIssues = gh issue list --repo $REPO --search "in:title $($issue.title.Substring(0, 8))" --state all --json title 2>$null | ConvertFrom-Json
     $alreadyExists = $existingIssues | Where-Object { $_.title -eq $issue.title }
 
     if ($alreadyExists) {
-        Write-Host "  ⏭️  '$($issue.title)' existe déjà" -ForegroundColor DarkGray
+        Write-Host "  â­ï¸  '$($issue.title)' existe dÃ©jÃ " -ForegroundColor DarkGray
         $skipped++
         continue
     }
 
     if ($DryRun) {
-        Write-Host "  📝 [DRY] Créerait: $($issue.title)" -ForegroundColor Yellow
+        Write-Host "  ðŸ“ [DRY] CrÃ©erait: $($issue.title)" -ForegroundColor Yellow
         Write-Host "          Labels: $($issue.labels -join ', ')  |  Milestone: $($issue.milestone)" -ForegroundColor DarkGray
         $created++
         continue
@@ -727,18 +727,19 @@ foreach ($issue in $issues) {
         @milestoneArgs 2>&1
 
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "  ✅ $($issue.title)" -ForegroundColor Green
+        Write-Host "  âœ… $($issue.title)" -ForegroundColor Green
         $created++
     } else {
-        Write-Host "  ❌ Erreur pour '$($issue.title)': $result" -ForegroundColor Red
+        Write-Host "  âŒ Erreur pour '$($issue.title)': $result" -ForegroundColor Red
     }
 
-    # Pause pour éviter le rate limiting GitHub API
+    # Pause pour Ã©viter le rate limiting GitHub API
     Start-Sleep -Milliseconds 500
 }
 
 Write-Host ""
-Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Cyan
-Write-Host "  Résultat: $created créées, $skipped ignorées (déjà existantes)" -ForegroundColor Cyan
-Write-Host "═══════════════════════════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Cyan
+Write-Host "  RÃ©sultat: $created crÃ©Ã©es, $skipped ignorÃ©es (dÃ©jÃ  existantes)" -ForegroundColor Cyan
+Write-Host "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Cyan
 Write-Host ""
+

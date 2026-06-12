@@ -66,7 +66,7 @@ jobs:
             HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
               -e DATABASE_URL \
               -e DIRECT_URL \
-              web sh -c "npx tsx prisma/seed.ts"
+              web sh -c "npx prisma db seed"
 
             # ── [4/5] Start / restart the application ────────────────────────
             echo "--- [4/5] Starting application ---"

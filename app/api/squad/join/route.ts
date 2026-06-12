@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { awardXp } from "@/lib/experience";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
@@ -22,9 +23,8 @@ export async function POST(req: Request) {
     const userId = session.user.id;
 
     // Refuse access for banned users
-    const sessionUser = session.user as any;
-    if (sessionUser.banned) {
-      const banExpires = sessionUser.banExpires ? new Date(sessionUser.banExpires) : null;
+    if (session.user.banned) {
+      const banExpires = session.user.banExpires ? new Date(session.user.banExpires) : null;
       if (!banExpires || banExpires > new Date()) {
         return NextResponse.json({ message: "Ton compte est suspendu." }, { status: 403 });
       }
@@ -146,10 +146,7 @@ export async function POST(req: Request) {
             xpAwarded: squadGenesisMission.xp,
           },
         }).catch(() => {});
-        await prisma.user.update({
-          where: { id: userId },
-          data: { experience: { increment: squadGenesisMission.xp } },
-        }).catch(() => {});
+        await awardXp(userId, squadGenesisMission.xp, "SQUAD_GENESIS", squadGenesisMission.id).catch(() => {});
       }
     }
 

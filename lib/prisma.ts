@@ -2,10 +2,7 @@ import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma";
 
-// Force bypass TLS certificate validation for Supabase issues (common in serverless/Node environments)
-// This is required when the database uses self-signed certificates or certs not in the system trust store.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
+// Global variable to maintain a singleton Prisma Client/Pool across hot reloads in development.
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
   pool: Pool | undefined;
@@ -22,6 +19,9 @@ const pool =
 
     return new Pool({
       connectionString: process.env.DATABASE_URL,
+      max: 20,                       // Maximum number of clients in the pool (PERF-003)
+      idleTimeoutMillis: 30000,      // Close idle clients after 30 seconds
+      connectionTimeoutMillis: 5000, // Return an error if a connection cannot be established within 5 seconds
       ssl: isLocalDb
         ? false
         : {

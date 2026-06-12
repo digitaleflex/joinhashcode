@@ -1,8 +1,9 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { awardXp } from "@/lib/experience";
 import { getCurrentCycleKey } from "@/lib/missions";
 import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
@@ -153,10 +154,13 @@ export async function POST(req: Request) {
         }
       });
 
+      if (experienceToIncrement > 0) {
+        await awardXp(session.user.id, experienceToIncrement, isAutoApproved ? "MISSION_COMPLETED" : "MISSION_SUBMISSION_SYNC_BONUS", mission.id, tx);
+      }
+
       await tx.user.update({
         where: { id: session.user.id },
         data: {
-          experience: { increment: experienceToIncrement },
           missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined
         }
       });

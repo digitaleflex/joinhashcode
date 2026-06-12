@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MessageSquarePlus, Loader2, Send, AlertTriangle, Lightbulb, MessageSquare } from "lucide-react"
+import { MessageSquarePlus, Loader2, Send, AlertTriangle, Lightbulb, MessageSquare, Star } from "lucide-react"
 import { toast } from "sonner"
 import {
     Dialog,
@@ -23,11 +23,14 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { SidebarMenuButton } from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
 
 export function BetaFeedbackDialog() {
     const [open, setOpen] = useState(false)
     const [type, setType] = useState<string>("GENERAL")
     const [content, setContent] = useState("")
+    const [rating, setRating] = useState<number>(0)
+    const [hoverRating, setHoverRating] = useState<number>(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -39,16 +42,23 @@ export function BetaFeedbackDialog() {
 
         setIsSubmitting(true)
         try {
+            const formData = new FormData()
+            formData.append("type", type)
+            formData.append("content", content)
+            if (rating > 0) {
+                formData.append("rating", rating.toString())
+            }
+
             const response = await fetch("/api/feedback", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type, content }),
+                body: formData,
             })
 
             if (!response.ok) throw new Error("Échec de l'envoi")
 
             toast.success("Transmission reçue ! Merci pour ton aide.")
             setContent("")
+            setRating(0)
             setOpen(false)
         } catch (error) {
             toast.error("Erreur lors de l'envoi du feedback.")
@@ -77,6 +87,41 @@ export function BetaFeedbackDialog() {
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 py-4">
+                    {/* Satisfaction Rating */}
+                    <div className="space-y-3 p-4 rounded-xl bg-white/5 border border-white/5">
+                        <Label className="text-[10px] uppercase font-mono text-zinc-500 tracking-wider">Satisfaction globale</Label>
+                        <div className="flex items-center gap-1.5">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    type="button"
+                                    className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
+                                    onClick={() => setRating(star)}
+                                    onMouseEnter={() => setHoverRating(star)}
+                                    onMouseLeave={() => setHoverRating(0)}
+                                >
+                                    <Star 
+                                        className={cn(
+                                            "size-6 transition-colors",
+                                            (hoverRating || rating) >= star 
+                                                ? "fill-primary text-primary drop-shadow-[0_0_5px_rgba(197,244,65,0.3)]" 
+                                                : "text-zinc-700 fill-transparent"
+                                        )} 
+                                    />
+                                </button>
+                            ))}
+                            {rating > 0 && (
+                                <span className="ml-2 text-[9px] font-mono text-primary uppercase tracking-widest animate-in fade-in slide-in-from-left-1">
+                                    {rating === 1 && "Décevant"}
+                                    {rating === 2 && "À améliorer"}
+                                    {rating === 3 && "Correct"}
+                                    {rating === 4 && "Très bon"}
+                                    {rating === 5 && "Excellent !"}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
                     <div className="space-y-2">
                         <Label htmlFor="type" className="text-xs uppercase font-mono text-zinc-500">Nature du retour</Label>
                         <Select value={type} onValueChange={setType}>

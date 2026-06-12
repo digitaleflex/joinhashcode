@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     let lastId: string | undefined = undefined;
 
     while (true) {
-      const inactiveUsers = await prisma.user.findMany({
+      const inactiveUsers: { id: string }[] = await prisma.user.findMany({
         where: {
           class: { not: null },
           OR: [
