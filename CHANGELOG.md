@@ -5,6 +5,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [2.2.0] — 2026-06-12
+
+### 🛡️ Sécurité (Plan de Remédiation 20/20)
+Cette release marque la complétion du plan de remédiation de sécurité suite à l'audit complet du système.
+
+#### Authentification & Autorisation
+- **MFA Obligatoire** — La double authentification est désormais requise pour tout accès au panel `/admin` (SEC-012).
+- **Rôles Staff** — Séparation stricte des privilèges ; les `MODERATOR` n'ont plus accès aux fonctions critiques d'administration (SEC-003).
+- **Hardening Bêta** — Entropie des clés bêta passée de 32 à 128 bits pour bloquer l'énumération ; rate-limit et uniformisation des erreurs (SEC-013).
+
+#### Infrastructure & Rate-Limiting
+- **Global Redis Limiter** — Migration de tous les compteurs de sécurité vers Redis (partagé entre instances) avec politique "Fail-Closed" en production (SEC-005, SEC-011).
+- **IP Trust** — Extraction fiable de l'IP réelle du client via proxy de confiance, bloquant l'usurpation d'identité (SEC-004).
+- **Nonce-based CSP** — Implémentation d'une Content Security Policy dynamique avec nonces par requête, supprimant `unsafe-eval` et protégeant contre le XSS (SEC-010).
+
+#### Intégrité des Données & Métier
+- **Anti-Farming XP** — Blocage des gains d'XP multiples via resoumission de mission ou manipulation de squad (SEC-001, SEC-002).
+- **Anti-Race Condition** — Sécurisation de la jonction de squad par transactions atomiques (SEC-006).
+- **CSV Injection** — Neutralisation des formules malicieuses dans les exports administratifs (SEC-009).
+- **Quiz Validation** — Validation algorithmique des réponses pour empêcher la falsification de profil (SEC-017).
+- **Avatar Security** — Validation des magic bytes (JPEG/PNG/WEBP) et anonymisation des noms de fichiers (SEC-014, SEC-016).
+
+#### Conformité & Pipeline
+- **GDPR Retention** — Cron de purge automatique des logs et messages après 6-24 mois (SEC-018).
+- **Security CI** — Pipeline de scan SAST (Semgrep) et audit de dépendances (SEC-020).
+- **TS Safety** — Désactivation de `ignoreBuildErrors` pour garantir l'intégrité du code (SEC-019).
+
+#### Corrections Techniques
+- **Fix Build** — Renommage `proxy` → `middleware` et correction des erreurs de syntaxe dans les routes API.
+
+---
+
 ## [Unreleased] — PRs en attente de merge
 
 ### fix(deps): patch Dependabot security vulnerabilities — PR #48
