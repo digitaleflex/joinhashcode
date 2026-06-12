@@ -73,7 +73,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               {uploadingAvatar ? (
                 <Loader2 className="size-10 animate-spin text-emerald-400" />
               ) : userData?.image ? (
-                <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
+                <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-5xl font-black text-emerald-500/10 uppercase">
                   {userData?.name?.charAt(0)}
