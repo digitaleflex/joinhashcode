@@ -8,6 +8,7 @@ import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
 
 const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
@@ -30,6 +31,11 @@ export async function POST(req: Request) {
 
     if (!session) {
       return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour valider ta mission." }, { status: 401 });
+    }
+
+    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
+    if (limited) {
+      return NextResponse.json({ message: "Trop de soumissions. Réessaie dans une minute." }, { status: 429 });
     }
 
     const body = await req.json();

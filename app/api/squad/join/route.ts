@@ -11,13 +11,13 @@ import crypto from "crypto";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);
-    if (limited) return new NextResponse("Trop de tentatives. Réessaie dans une heure.", { status: 429 });
+    if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie dans une heure." }, { status: 429 });
 
     const { slug } = await req.json();
-    if (!slug) return new NextResponse("Slug missing", { status: 400 });
+    if (!slug) return NextResponse.json({ message: "Slug missing" }, { status: 400 });
 
     const userId = session.user.id;
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     if (sessionUser.banned) {
       const banExpires = sessionUser.banExpires ? new Date(sessionUser.banExpires) : null;
       if (!banExpires || banExpires > new Date()) {
-        return new NextResponse("Ton compte est suspendu.", { status: 403 });
+        return NextResponse.json({ message: "Ton compte est suspendu." }, { status: 403 });
       }
     }
 
@@ -40,7 +40,14 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!squad) return new NextResponse("Escouade introuvable", { status: 404 });
+    if (!squad) return NextResponse.json({ message: "Escouade introuvable" }, { status: 404 });
+
+    // Prevent joining private squads directly
+    if (squad.isPrivate) {
+      return NextResponse.json({ 
+        error: "Cette escouade est privée. Tu dois être invité(e) ou envoyer une demande d'adhésion." 
+      }, { status: 403 });
+    }
 
     // Check level authorization
     const dbUser = await prisma.user.findUnique({
@@ -54,30 +61,48 @@ export async function POST(req: Request) {
       }, { status: 403 });
     }
 
-    // Check if full
-    if (squad.members.length >= 5) {
+    // Fix SEC-006: Use transaction to prevent race conditions on member count
+    const errorResult = await prisma.$transaction(async (tx) => {
+      // Re-check count inside transaction
+      const currentCount = await tx.member.count({
+        where: { organizationId: squad.id }
+      });
+
+      if (currentCount >= 5) {
+        throw new Error("SQUAD_FULL");
+      }
+
+      // Check if already in a squad (double check)
+      const alreadyMember = await tx.member.findFirst({
+        where: { userId }
+      });
+
+      if (alreadyMember) {
+        throw new Error("ALREADY_IN_SQUAD");
+      }
+
+      // Join
+      await tx.member.create({
+        data: {
+          id: crypto.randomUUID(),
+          userId,
+          organizationId: squad.id,
+          role: "member",
+          createdAt: new Date()
+        }
+      });
+      return null;
+    }).catch((err) => err.message);
+
+    if (errorResult === "SQUAD_FULL") {
       return NextResponse.json({ error: "Cette escouade est déjà complète (max 5)." }, { status: 400 });
     }
-
-    // Check if already in a squad
-    const existingMember = await prisma.member.findFirst({
-      where: { userId }
-    });
-
-    if (existingMember) {
+    if (errorResult === "ALREADY_IN_SQUAD") {
       return NextResponse.json({ error: "Tu es déjà membre d'une escouade." }, { status: 400 });
     }
-
-    // Join
-    await prisma.member.create({
-      data: {
-        id: crypto.randomUUID(),
-        userId,
-        organizationId: squad.id,
-        role: "member",
-        createdAt: new Date()
-      }
-    });
+    if (errorResult && typeof errorResult === "string" && errorResult !== "null") {
+      throw new Error(errorResult);
+    }
 
     logActivity({
       userId,
@@ -135,6 +160,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_JOIN]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

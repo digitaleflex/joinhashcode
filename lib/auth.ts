@@ -160,7 +160,8 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
-    trustedProxyHeaders: true,
+    // Fix SEC-004: Only trust proxy headers if explicitely configured
+    trustedProxyHeaders: process.env.TRUSTED_PROXIES?.split(",") || false,
   },
   rateLimit: {
     enabled: true,

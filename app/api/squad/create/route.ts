@@ -42,6 +42,11 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
 
+    const { limited } = await checkRateLimit(strictMutationLimiter, userId);
+    if (limited) {
+      return NextResponse.json({ message: "Trop de tentatives de création d'escouade. Réessaie plus tard." }, { status: 429 });
+    }
+
     // Check if user already has a squad
     const existingMember = await prisma.member.findFirst({
       where: { userId },

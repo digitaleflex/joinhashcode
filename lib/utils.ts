@@ -55,3 +55,17 @@ export function getSimilarity(s1: string, s2: string): number {
   const distance = matrix[len1][len2];
   return 1 - distance / Math.max(len1, len2);
 }
+
+/**
+ * Extracts the reliable client IP from request headers.
+ * Following SEC-004, it trusts the LAST entry in X-Forwarded-For if multiple exist,
+ * as it's the one added by our internal/trusted reverse proxy.
+ */
+export function getClientIp(headers: Headers): string {
+  const xff = headers.get("x-forwarded-for");
+  if (xff) {
+    const ips = xff.split(",").map(ip => ip.trim());
+    return ips[ips.length - 1] || "unknown";
+  }
+  return headers.get("x-real-ip") || "unknown";
+}

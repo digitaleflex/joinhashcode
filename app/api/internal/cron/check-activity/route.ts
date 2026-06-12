@@ -15,33 +15,55 @@ export async function POST(req: Request) {
     const expectedSecret = process.env.CRON_SECRET;
 
     if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
-      return new NextResponse("Accès non autorisé. Token de cron invalide.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Token de cron invalide." }, { status: 401 });
     }
 
     const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    const inactiveUsers = await prisma.user.findMany({
-      where: {
-        class: { not: null },
-        OR: [
-          { lastCheckinAt: null },
-          { lastCheckinAt: { lt: cutoff } },
-        ],
-      },
-      select: { id: true },
-    });
-
+    // Fix SEC-007: Process in batches to avoid DoS/Timeout
+    const BATCH_SIZE = 50;
     let notifiedCount = 0;
+    let lastId: string | undefined = undefined;
 
-    for (const user of inactiveUsers) {
-      await triggerNotification({
-        userId: user.id,
-        type: "DAILY_REMINDER",
-        title: "Check-in quotidien",
-        message: "Tu n'as pas encore fait ton check-in aujourd'hui. Maintiens ton streak !",
-        link: "/dashboard",
+    while (true) {
+      const inactiveUsers = await prisma.user.findMany({
+        where: {
+          class: { not: null },
+          OR: [
+            { lastCheckinAt: null },
+            { lastCheckinAt: { lt: cutoff } },
+          ],
+          id: lastId ? { gt: lastId } : undefined,
+        },
+        select: { id: true },
+        take: BATCH_SIZE,
+        orderBy: { id: 'asc' },
       });
-      notifiedCount++;
+
+      if (inactiveUsers.length === 0) break;
+
+      for (const user of inactiveUsers) {
+        try {
+          await triggerNotification({
+            userId: user.id,
+            type: "DAILY_REMINDER",
+            title: "Check-in quotidien",
+            message: "Tu n'as pas encore fait ton check-in aujourd'hui. Maintiens ton streak !",
+            link: "/dashboard",
+          });
+          notifiedCount++;
+        } catch (notifyErr) {
+          console.error(`[CRON_CHECK_ACTIVITY] Failed to notify user ${user.id}:`, notifyErr);
+        }
+      }
+
+      lastId = inactiveUsers[inactiveUsers.length - 1].id;
+      
+      // Safety break to prevent infinite loop if somehow data doesn't change
+      if (notifiedCount > 10000) {
+        console.warn("[CRON_CHECK_ACTIVITY] Reached safety limit of 10k notifications.");
+        break;
+      }
     }
 
     logActivity({
@@ -56,6 +78,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);
-    return new NextResponse("Erreur interne lors de la vérification d'activité.", { status: 500 });
+    return NextResponse.json({ message: "Erreur interne lors de la vérification d'activité." }, { status: 500 });
   }
 }
