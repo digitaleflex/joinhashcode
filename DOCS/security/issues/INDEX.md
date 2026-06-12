@@ -46,4 +46,4 @@ Issues locales générées depuis l'[audit du 2026-06-12](../SECURITY_AUDIT_2026
 
 ---
 
-**Progression** : 3 / 20 résolues
+**Progression** : 7 / 20 résolues
