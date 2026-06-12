@@ -51,15 +51,18 @@ export async function GET(req: Request) {
       orderBy: { createdAt: "desc" },
     });
 
-    // Simple CSV conversion
+    // Simple CSV conversion with Fix SEC-009: Formula Injection Protection
     const headers = Object.keys(users[0] || {}).join(",");
     const rows = users.map(user => 
       Object.values(user)
         .map(val => {
             if (val === null || val === undefined) return "";
-            if (typeof val === 'string') return `"${val.replace(/"/g, '""')}"`;
             if (val instanceof Date) return val.toISOString();
-            return val;
+            if (typeof val !== "string") return String(val);
+            
+            // Neutralize formula injection: prefix with single quote if starts with sensitive chars
+            const safeVal = /^[=+\-@\t\r]/.test(val) ? `'${val}` : val;
+            return `"${safeVal.replace(/"/g, '""')}"`;
         })
         .join(",")
     );
