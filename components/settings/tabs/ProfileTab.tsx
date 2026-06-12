@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef } from "react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { User, AtSign, Languages, Globe, Camera, Loader2 } from "lucide-react"
 import { toast } from "sonner"
@@ -74,7 +73,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               {uploadingAvatar ? (
                 <Loader2 className="size-10 animate-spin text-emerald-400" />
               ) : userData?.image ? (
-                <Image src={userData.image} alt="Avatar" fill className="object-cover" sizes="(max-width: 768px) 128px, 160px" />
+                <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-5xl font-black text-emerald-500/10 uppercase">
                   {userData?.name?.charAt(0)}

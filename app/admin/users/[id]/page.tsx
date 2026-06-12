@@ -29,7 +29,6 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { CLASS_COLORS } from "@/lib/member-card-constants"
-import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface PageProps {
@@ -481,7 +480,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                             <div className="flex items-center gap-3">
                               <div className="relative size-9 bg-zinc-950 border border-white/10 rounded-lg overflow-hidden flex items-center justify-center font-mono font-bold text-xs uppercase text-zinc-500">
                                 {member.user.image ? (
-                                  <Image src={member.user.image} alt={member.user.name} fill className="object-cover" sizes="36px" />
+                                  <img src={member.user.image} alt={member.user.name} className="w-full h-full object-cover" />
                                 ) : (
                                   member.user.name.charAt(0)
                                 )}
