@@ -1,0 +1,120 @@
+# Changelog
+
+All notable changes to HASHCODE are documented here.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+
+---
+
+## [Unreleased] — PRs en attente de merge
+
+### fix(deps): patch Dependabot security vulnerabilities — PR #48
+- `vitest` upgraded `^2.1.8` → `^3.2.6` (critical: arbitrary file read via UI server)
+- `hono` pnpm override `^4.12.25` (cookie injection, IP bypass, JWT, mount prefix)
+- `vite` pnpm override `^6.4.2` (path traversal in `.map` handling)
+- `esbuild` pnpm override `^0.25.0` (CORS bypass on dev server)
+- `ws`, `postcss`, `better-auth` — lock file refresh picks up patched versions
+
+### fix(avatar): relative upload URL + Docker permissions — PR #49
+- `lib/upload.ts` retourne une URL relative `/uploads/...` au lieu d'une URL absolue dépendant de `NEXT_PUBLIC_APP_URL` (fallback `localhost:3000` → image inaccessible)
+- `Dockerfile` : `mkdir -p public/uploads && chown nextjs:nodejs` déplacé APRÈS le `COPY --from=builder /app/public` pour ne pas écraser les permissions
+- `app/api/user/update` : schema Zod accepte désormais les chemins relatifs `/uploads/...` en plus des URLs complètes
+
+---
+
+## [2.1.0] — 2026-06-11
+
+### Auth & Sécurité
+- **Passkeys (WebAuthn)** — inscription et connexion biométrique/clé matérielle via `@better-auth/passkey`
+- **Multi-session** — gestion de plusieurs sessions actives simultanément
+- **Correction CVE-2025-29927** — header `x-middleware-subrequest` bloqué dans le proxy middleware
+- **Fix SSR 2FA redirect** — redirection correcte après authentification deux facteurs côté serveur
+- **Fix poll guests** — le polling de session est désormais ignoré pour les visiteurs non authentifiés
+- **localStorage dismissal** — les bandeaux d'information peuvent être fermés définitivement
+
+### Referral & Growth
+- **Système de referral** — lien d'invitation personnalisé, 50 XP accordés au referrer à la conversion
+- **Migration Prisma** — tables `referral` et `passkey` ajoutées au schéma
+
+### Infrastructure
+- **Suppression `shadowDatabaseUrl`** de la config Prisma pour corriger la génération en prod
+
+---
+
+## [2.0.0] — 2026-06-09 / 2026-06-10
+
+### Landing & Performance
+- **LCP optimisé** — images `priority`, `fetchpriority="high"`, suppression du chargement bloquant
+- **Hydration mismatches résolus** — composants `ThemeToggle`, `UserPresence`, animations conditionnelles
+- **OG Images dynamiques** — cartes Open Graph générées à la volée par profil (`/api/og/profile`)
+
+### UX & Navigation
+- **Tour interactif driver.js** — guide visuel complet sur tous les onglets principaux du dashboard (dashboard, missions, squad, dossier, settings)
+- **Sidebar restructurée** — nouvelle hiérarchie de navigation, action check-in rapide en accès direct
+- **Bouton gestion squad** — déplacé dans la top bar pour accès immédiat
+- **Fix id dossier tour** — attribut `id="tour-dossier-tips"` manquant ajouté
+
+### Squads — Management V2
+- **Page `/squad/manage`** — interface complète pour leaders : gestion membres, demandes d'adhésion, annonces
+- **Transfert de leadership** — le leader peut céder son rôle à un membre
+- **Dissolution de squad** — suppression complète avec confirmation destructive
+- **Visibilité & clearance** — contrôles tactiques (public/privé, niveau d'accès requis)
+- **Journal d'activité squad** — actions de gestion tracées dans l'`ActivityLog`
+- **Rapport cohésion** — intégré dans le dossier utilisateur et la vue admin
+
+### Missions
+- **Timeline de soumission** — historique complet intégré dans la carte de statut mission (P4)
+- **Concierge Moderation Mode** — claim, review multi-étapes, timeline visible par les reviewers
+- **Vue admin enrichie** — contexte projet, cartes visuelles dans la review de soumissions
+- **Rendu TEXT_RESPONSE** — affichage texte formaté (corrige l'affichage en liens cassés)
+
+### Auth
+- **2FA optionnelle** — la 2FA n'est plus bloquante pour les admins, rendue opt-in
+
+### Corrections
+- Résolution ISSUE-023, ISSUE-024, UX-006, PRODUCT-005 (audit QA sprint correctif)
+- 7 fichiers TypeScript corrigés (erreurs de types)
+- Fix soumissions peer-review bloquées → libération automatique via cron
+- Fix boucle infinie onboarding/quiz → refresh session forcé avant navigation
+- Fix join-request accept/reject API squad
+
+---
+
+## [1.5.0] — 2026-05-27 / 2026-06-02
+
+### Profil & Paramètres
+- **Profils publics** — page `/u/[pseudo]` partageable publiquement avec carte profil, scores, badges
+- **Settings modulaires** — refactoring du monolithe settings en onglets séparés : Profil, Spécialisation, Liens, Coffre-fort, Sécurité
+- **Upload avatar local** — migration Supabase Storage → stockage VPS local (`public/uploads/`)
+- **Sauvegarde langue** — champ `language` correctement persisté
+- **Hardening upload** — protection path traversal dans `saveFile` via `realpath` check
+
+### Sécurité
+- **Rate limiting** — Upstash Redis sur check-in, squad join, mission claim
+- **Headers sécurité** — durcissement CSP, HSTS, X-Frame-Options, Referrer-Policy
+- **Fix 3 vulnérabilités** — profil public et upload feedback sécurisés
+- **Audit limites Better Auth** — script `check-auth-limits.ts` exécuté automatiquement avant chaque déploiement
+
+### Infrastructure & CI/CD
+- **Middleware renommé `proxy.ts`** — compatibilité Next.js 16 (le fichier `middleware.ts` à la racine est réservé)
+- **Deploy pipeline robuste** — séquence : migration Prisma → audit → seed → start → health check (30 tentatives × 5s) → rollback automatique sur échec
+- **SSH single connection** — toutes les étapes de déploiement dans une seule session SSH pour éviter les timeouts port 22
+- **Cron jobs** — squad cohesion decay, release stale claims, rappels utilisateurs inactifs
+- **PR Labeler** — étiquetage automatique des PRs selon les fichiers modifiés
+- **Stale issues** — fermeture automatique des issues inactives après 30 jours
+- **Dependabot auto-merge** — workflow intelligent avec conditions de sécurité
+
+---
+
+## [1.0.0] — 2026-05-09 / 2026-05-25
+
+### Lancement public
+- Mise en ligne initiale de la plateforme HASHCODE
+- Onboarding complet en 3 étapes (situation, pays, objectif)
+- Quiz psychométrique → classification Builder / Creator / Strategist / Catalyst
+- Dashboard utilisateur avec XP, niveaux, streaks, missions
+- Système de squads avec cohésion, crons de decay, milestones
+- Peer-review de missions entre membres
+- Admin panel avec gestion soumissions et feedback bêta
+- Auth multi-providers : Google, GitHub, Magic Link (OTP Resend)
+- Dossier utilisateur — carte membre, scores, badges, rapport squad
+- Feedback bêta enrichi avec catégorisation et suivi admin
