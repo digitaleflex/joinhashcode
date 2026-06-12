@@ -27,8 +27,8 @@ Issues locales générées depuis l'[audit du 2026-06-12](../SECURITY_AUDIT_2026
 |---|---|---|---|
 | [SEC-008](./SEC-008-webhook-signature.md) | Webhook Resend : secret en URL, pas de signature | 🟡 Moyenne | ✅ DONE |
 | [SEC-009](./SEC-009-csv-injection.md) | CSV/formula injection (export admin) | 🟡 Moyenne | ✅ DONE |
-| [SEC-010](./SEC-010-csp-hardening.md) | CSP `unsafe-inline` / `unsafe-eval` | 🟡 Moyenne | 🟡 IN PROGRESS |
-| [SEC-011](./SEC-011-rate-limit-storage.md) | Rate-limit en mémoire (non partagé) | 🟡 Moyenne | 🔴 OPEN |
+| [SEC-010](./SEC-010-csp-hardening.md) | CSP `unsafe-inline` / `unsafe-eval` | 🟡 Moyenne | ✅ DONE |
+| [SEC-011](./SEC-011-rate-limit-storage.md) | Rate-limit en mémoire (non partagé) | 🟡 Moyenne | ✅ DONE |
 | [SEC-012](./SEC-012-mfa-enforcement.md) | MFA non imposée (staff) | 🟡 Moyenne | 🔴 OPEN |
 | [SEC-013](./SEC-013-beta-key-entropy.md) | Clés bêta 32 bits + énumérables | 🟡 Moyenne | ✅ DONE |
 | [SEC-014](./SEC-014-avatar-userid-exposure.md) | Avatars publics exposant l'userId | 🟡 Moyenne | ✅ DONE |
@@ -46,4 +46,4 @@ Issues locales générées depuis l'[audit du 2026-06-12](../SECURITY_AUDIT_2026
 
 ---
 
-**Progression** : 14 / 20 résolues · 1 en cours (SEC-010)
+**Progression** : 16 / 20 résolues
