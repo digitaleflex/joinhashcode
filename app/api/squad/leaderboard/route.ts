@@ -6,7 +6,7 @@ import { getCache, setCache } from "@/lib/cache";
 export async function GET() {
   try {
     const cacheKey = "squad_leaderboard";
-    const cached = getCache(cacheKey);
+    const cached = await getCache(cacheKey);
     if (cached) return NextResponse.json(cached);
 
     const squads = await prisma.organization.findMany({
@@ -42,7 +42,7 @@ export async function GET() {
         : 0,
     }));
 
-    setCache(cacheKey, ranked, 120); // 2 min cache
+    setCache(cacheKey, ranked, 120);
     return NextResponse.json(ranked);
   } catch (error) {
     console.error("[SQUAD_LEADERBOARD]", error);

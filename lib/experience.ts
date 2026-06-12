@@ -2,6 +2,7 @@ import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
 import { XP_THRESHOLDS } from "./missions";
 import { checkAndAwardBadges } from "./badge-engine";
+import { emailService } from "./email";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -63,7 +64,21 @@ export async function awardXp(
         experience: { increment: amount },
         level: nextLevel,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        level: true,
+      }
     });
+
+    // Send Level 5 celebration email
+    if (nextLevel === 5 && currentLevel < 5) {
+      emailService.sendLevel5ReachedEmail({
+        email: updatedUser.email,
+        name: updatedUser.name,
+      }).catch(err => console.error("[EMAIL_ERROR] sendLevel5ReachedEmail", err));
+    }
 
     // 4. Invalider le cache Redis
     await invalidateUserCache(userId).catch((err) =>

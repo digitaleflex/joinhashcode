@@ -436,8 +436,111 @@ export const emailService = {
       </div>
     `;
 
-    const html = generateEmailTemplate(content, `Niveau ${newLevel} atteint. De nouvelles missions s'ouvrent à toi.`);
+    const html = generateEmailTemplate(content, "Niveau ${newLevel} atteint. De nouvelles missions s'ouvrent à toi.");
     return this._send({ to: email, subject: `${escHtml(firstName)}, tu es maintenant niveau ${newLevel} sur HASHCODE 🎯`, html, text: stripHtml(content) });
+    },
+
+    async sendLevel5ReachedEmail({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Builder").split(" ")[0];
+    const content = `
+      <h1><span class="accent">${escHtml(firstName)},</span> tu es désormais un Agent Confirmé.</h1>
+      <p>Passer le <strong>Niveau 5</strong> n'est pas une mince affaire. Cela prouve ta constance et ton engagement dans l'écosystème.</p>
+      <div class="card">
+        <div class="card-value">NIVEAU 5</div>
+        <div class="card-label">Nouveau Grade : AGENT CONFIRMÉ</div>
+      </div>
+      <p>À ce stade, tu débloques des missions plus complexes et ta voix porte davantage au sein de ta guilde. Tu as prouvé que tu n'étais pas là par hasard.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Voir mes nouvelles opportunités →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">L'Afrique Tech a besoin de profils comme le tien. Continue de bâtir.</p>
+    `;
+
+    const html = generateEmailTemplate(content, "Félicitations pour ton passage au Niveau 5 ! Tu es désormais un Agent Confirmé.");
+    return this._send({ to: email, subject: `🎯 Cap franchi : Bienvenue au Niveau 5, ${escHtml(firstName)} !`, html, text: stripHtml(content) });
+    },
+
+    async sendSquadCreatedEmail({ email, name, squadName }: { email: string; name: string; squadName: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Leader").split(" ")[0];
+    const content = `
+      <h1>L'aventure commence en équipe, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Félicitations pour la création de <strong>${escHtml(squadName)}</strong>. Tu viens de poser la première pierre d'une unité d'élite.</p>
+      <div class="card">
+        <div class="card-value">SQUAD ACTIVÉE</div>
+        <div class="card-label">${escHtml(squadName)}</div>
+      </div>
+      <p><strong>Ton rôle de leader commence maintenant.</strong> Recrute des membres dont les talents complètent le tien (Bâtisseurs, Créateurs, Stratèges, Catalyseurs) pour maximiser votre score de cohésion.</p>
+      <p>Une squad complète progresse 3x plus vite qu'un bâtisseur seul.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/squad" class="btn">Gérer ma Squad →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">N'oublie pas : la force de la meute, c'est le loup, et la force du loup, c'est la meute.</p>
+    `;
+
+    const html = generateEmailTemplate(content, `Ta squad "${squadName}" est prête. Recrute tes alliés et domine le classement.`);
+    return this._send({ to: email, subject: `🤝 Esprit de Corps : Ta Squad "${escHtml(squadName)}" est née !`, html, text: stripHtml(content) });
+    },
+
+
+  async sendLevel5ReachedEmail({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Builder").split(" ")[0];
+    const content = `
+      <h1>Agent Confirmé : <span class="accent">${escHtml(firstName)}</span>, tu as franchi le palier critique.</h1>
+      <p>Atteindre le <strong>Niveau 5</strong> n'est pas une mince affaire. C'est le signe que tu es passé du statut de novice à celui de contributeur actif de l'écosystème.</p>
+      <div class="card">
+        <div class="card-value">NIVEAU 5</div>
+        <div class="card-label">Nouveau Grade : Agent Confirmé</div>
+      </div>
+      <p><strong>Qu'est-ce qui change ?</strong></p>
+      <ul style="color: #a1a1aa; padding-left: 20px;">
+        <li>Accès aux missions de grade <strong>"Advanced"</strong>.</li>
+        <li>Possibilité de devenir <strong>Reviewer</strong> pour guider les nouveaux.</li>
+        <li>Visibilité accrue pour les opportunités de la communauté.</li>
+      </ul>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions?grade=advanced" class="btn">Voir mes nouvelles missions →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Le build ne s'arrête jamais. Cap sur le niveau 10.</p>
+    `;
+
+    const html = generateEmailTemplate(content, "Félicitations pour ton passage au Niveau 5 ! Tu es désormais un Agent Confirmé.");
+    return this._send({ to: email, subject: `🎯 Palier atteint : Tu es désormais un Agent Confirmé (Niveau 5)`, html, text: stripHtml(content) });
+  },
+
+  async sendSquadCreatedEmail({ email, name, squadName }: { email: string; name: string; squadName: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Leader").split(" ")[0];
+    const content = `
+      <h1>Esprit de Corps : <span class="accent">${escHtml(squadName)}</span> est née.</h1>
+      <p>Bravo <strong>${escHtml(firstName)}</strong>. En créant ta propre squad, tu passes du build individuel au leadership collectif.</p>
+      <div class="card">
+        <div class="card-value">LEADER</div>
+        <div class="card-label">Ton nouveau rôle dans la squad</div>
+      </div>
+      <p>Le secret d'une squad qui gagne ? La <strong>Cohésion</strong>. Invite tes pairs les plus fiables et maintenez un rythme de build soutenu pour dominer le leaderboard.</p>
+      <p><strong>Tes prochaines actions :</strong></p>
+      <ol style="color: #a1a1aa; padding-left: 20px;">
+        <li>Partager le lien d'invitation à tes contacts.</li>
+        <li>Définir le premier objectif commun.</li>
+        <li>Veiller à ce que chacun fasse son check-in quotidien.</li>
+      </ol>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/squad" class="btn">Gérer mon escouade →</a>
+      </div>
+    `;
+
+    const html = generateEmailTemplate(content, `Ta squad "${squadName}" est officiellement active. Invite tes membres !`);
+    return this._send({ to: email, subject: `🛡️ Squad active : Félicitations pour la création de "${escHtml(squadName)}"`, html, text: stripHtml(content) });
   },
 
   async sendSquadMemberJoined({ leaderEmail, leaderName, newMemberName, squadName, memberCount }: { leaderEmail: string; leaderName: string; newMemberName: string; squadName: string; memberCount: number }) {

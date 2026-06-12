@@ -1,31 +1,19 @@
-﻿/**
- * Simple In-memory cache for HASHCODE.
- * For production with multiple containers, replace this with Redis.
- */
+import { redis } from "./ratelimit"
 
-type CacheEntry = {
-  data: any;
-  expires: number;
-};
-
-const cache = new Map<string, CacheEntry>();
-
-export function getCache<T>(key: string): T | null {
-  const entry = cache.get(key);
-  if (!entry) return null;
-  
-  if (Date.now() > entry.expires) {
-    cache.delete(key);
-    return null;
+export async function getCache<T>(key: string): Promise<T | null> {
+  if (!redis) return null
+  try {
+    const val = await redis.get(key)
+    if (val === null || val === undefined) return null
+    return (typeof val === "string" ? JSON.parse(val) : val) as T
+  } catch {
+    return null
   }
-  
-  return entry.data as T;
 }
 
-export function setCache(key: string, data: any, ttlSeconds: number = 60) {
-  cache.set(key, {
-    data,
-    expires: Date.now() + (ttlSeconds * 1000),
-  });
+export async function setCache(key: string, data: any, ttlSeconds = 60): Promise<void> {
+  if (!redis) return
+  try {
+    await redis.set(key, JSON.stringify(data), { ex: ttlSeconds })
+  } catch {}
 }
-

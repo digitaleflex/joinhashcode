@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
+import { emailService } from "@/lib/email";
 import crypto from "crypto";
 
 // ── Curated name generator ────────────────────────────────────────────────────
@@ -116,6 +117,13 @@ export async function POST(req: Request) {
       metadata: { name: squad.name, slug: squad.slug },
       request: req,
     });
+
+    // Send celebration email
+    emailService.sendSquadCreatedEmail({
+      email: session.user.email,
+      name: session.user.name,
+      squadName: squad.name,
+    }).catch(err => console.error("[EMAIL_ERROR] sendSquadCreatedEmail", err));
 
     // Auto-approve squad-genesis mission for the squad creator (Fix SEC-002: Check if already approved)
     const squadGenesisMission = await prisma.mission.findUnique({ where: { slug: "squad-genesis" } });

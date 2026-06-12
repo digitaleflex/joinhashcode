@@ -11,7 +11,7 @@ export async function GET(req: Request) {
     const cursor = searchParams.get("cursor");
 
     const cacheKey = `public_squads_${limit}_${cursor || "none"}`;
-    const cached = getCache(cacheKey);
+    const cached = await getCache(cacheKey);
     if (cached) return NextResponse.json(cached);
 
     const squads = await prisma.organization.findMany({
@@ -49,7 +49,7 @@ export async function GET(req: Request) {
       nextCursor,
     };
 
-    setCache(cacheKey, result, 300); // 5 mins cache
+    setCache(cacheKey, result, 300);
 
     return NextResponse.json(result);
   } catch (error) {
