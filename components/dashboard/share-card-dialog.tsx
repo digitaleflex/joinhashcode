@@ -10,7 +10,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Share2, Download, Copy, Check, ExternalLink, Twitter } from "lucide-react"
+import { Share2, Download, Copy, Check, ExternalLink } from "lucide-react"
 import { toast } from "sonner"
 
 interface ShareCardDialogProps {
@@ -108,7 +108,7 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
                 onClick={shareTwitter}
                 className="h-12 rounded-xl bg-black border border-white/10 hover:bg-zinc-900 text-white font-bold uppercase text-[10px] col-span-1"
             >
-                <Twitter className="mr-2 size-4" />
+                <svg className="mr-2 size-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 Partager sur X
             </Button>
             <Button
