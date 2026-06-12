@@ -7,21 +7,21 @@ import { NextResponse } from "next/server";
 export async function DELETE() {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const membership = await prisma.member.findFirst({
       where: { userId: session.user.id },
     });
 
     if (!membership) {
-      return new NextResponse("Tu n'es membre d'aucune escouade.", { status: 404 });
+      return NextResponse.json({ message: "Tu n'es membre d'aucune escouade." }, { status: 404 });
     }
 
     if (membership.role === "owner") {
       const count = await prisma.member.count({ where: { organizationId: membership.organizationId } });
       if (count > 1) {
-        return new NextResponse(
-          "Transfère le rôle de Leader avant de quitter l'escouade.",
+        return NextResponse.json(
+          { message: "Transfère le rôle de Leader avant de quitter l'escouade." },
           { status: 400 }
         );
       }
@@ -34,6 +34,6 @@ export async function DELETE() {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_LEAVE]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

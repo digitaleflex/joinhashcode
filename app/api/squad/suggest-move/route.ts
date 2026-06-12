@@ -14,10 +14,10 @@ const CLASS_LABELS: Record<string, string> = {
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() })
-    if (!session) return new NextResponse("Unauthorized", { status: 401 })
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const { targetUserId } = await req.json()
-    if (!targetUserId) return new NextResponse("targetUserId manquant", { status: 400 })
+    if (!targetUserId) return NextResponse.json({ message: "targetUserId manquant" }, { status: 400 })
 
     // Verify caller is leader of a squad
     const leaderMember = await prisma.member.findFirst({
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     })
 
     if (!leaderMember) {
-      return new NextResponse("Seul le leader peut envoyer cette suggestion.", { status: 403 })
+      return NextResponse.json({ message: "Seul le leader peut envoyer cette suggestion." }, { status: 403 })
     }
 
     // Verify target is in the same squad
@@ -36,11 +36,11 @@ export async function POST(req: Request) {
     })
 
     if (!targetMember) {
-      return new NextResponse("Ce membre ne fait pas partie de ton escouade.", { status: 404 })
+      return NextResponse.json({ message: "Ce membre ne fait pas partie de ton escouade." }, { status: 404 })
     }
 
     if (targetMember.role === "owner") {
-      return new NextResponse("Impossible d'envoyer cette suggestion au leader.", { status: 400 })
+      return NextResponse.json({ message: "Impossible d'envoyer cette suggestion au leader." }, { status: 400 })
     }
 
     const squadName = leaderMember.organization.name
@@ -59,6 +59,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("[SQUAD_SUGGEST_MOVE]", error)
-    return new NextResponse("Internal Server Error", { status: 500 })
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 })
   }
 }

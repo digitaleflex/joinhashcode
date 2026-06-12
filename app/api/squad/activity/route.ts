@@ -7,12 +7,12 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get("organizationId");
 
-    if (!organizationId) return new NextResponse("Organization ID missing", { status: 400 });
+    if (!organizationId) return NextResponse.json({ message: "Organization ID missing" }, { status: 400 });
 
     // Verify user is in the organization
     const membership = await prisma.member.findFirst({
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
       },
     });
 
-    if (!membership) return new NextResponse("Forbidden", { status: 403 });
+    if (!membership) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 
     // Get all member IDs
     const members = await prisma.member.findMany({
@@ -57,6 +57,6 @@ export async function GET(req: Request) {
     return NextResponse.json(logs);
   } catch (error) {
     console.error("[SQUAD_ACTIVITY_GET]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

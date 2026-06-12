@@ -14,7 +14,7 @@ import { logActivity } from "@/lib/activity-log";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { targetMemberId } = await req.json();
 
@@ -83,6 +83,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_TRANSFER_ERROR]", error);
-    return new NextResponse("Erreur lors du transfert de propriété.", { status: 500 });
+    return NextResponse.json({ message: "Erreur lors du transfert de propriété." }, { status: 500 });
   }
 }

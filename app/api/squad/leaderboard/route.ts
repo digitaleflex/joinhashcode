@@ -46,6 +46,6 @@ export async function GET() {
     return NextResponse.json(ranked);
   } catch (error) {
     console.error("[SQUAD_LEADERBOARD]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

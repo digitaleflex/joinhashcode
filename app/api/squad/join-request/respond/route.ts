@@ -9,7 +9,7 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
     const { requestId, memberId, action } = body;
@@ -17,16 +17,16 @@ export async function POST(req: Request) {
     // Legacy: remove an existing member directly
     if (memberId && action === "remove") {
       const target = await prisma.member.findUnique({ where: { id: memberId } });
-      if (!target) return new NextResponse("Membre introuvable", { status: 404 });
+      if (!target) return NextResponse.json({ message: "Membre introuvable" }, { status: 404 });
       
       const leadership = await prisma.member.findFirst({
         where: { organizationId: target.organizationId, userId: session.user.id, role: { in: ["owner", "admin"] } },
       });
-      if (!leadership) return new NextResponse("Interdit : Droits de commandement requis", { status: 403 });
+      if (!leadership) return NextResponse.json({ message: "Interdit : Droits de commandement requis" }, { status: 403 });
 
       // Security check: Admins cannot remove owners or other admins
       if (leadership.role === "admin" && (target.role === "owner" || target.role === "admin")) {
-        return new NextResponse("Interdit : Un officier ne peut pas révoquer un autre officier ou le chef.", { status: 403 });
+        return NextResponse.json({ message: "Interdit : Un officier ne peut pas révoquer un autre officier ou le chef." }, { status: 403 });
       }
 
       const org = await prisma.organization.findUnique({ where: { id: target.organizationId }, select: { name: true } });
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     }
 
     if (!requestId || !["accept", "reject"].includes(action)) {
-      return new NextResponse("Données invalides", { status: 400 });
+      return NextResponse.json({ message: "Données invalides" }, { status: 400 });
     }
 
     // Load the join request
@@ -52,9 +52,9 @@ export async function POST(req: Request) {
       where: { id: requestId },
       include: { user: { select: { id: true, name: true } } },
     });
-    if (!joinRequest) return new NextResponse("Demande introuvable", { status: 404 });
+    if (!joinRequest) return NextResponse.json({ message: "Demande introuvable" }, { status: 404 });
     if (joinRequest.status !== "PENDING") {
-      return new NextResponse("Cette demande a déjà été traitée", { status: 400 });
+      return NextResponse.json({ message: "Cette demande a déjà été traitée" }, { status: 400 });
     }
 
     // Verify caller has management rights
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
         role: { in: ["owner", "admin"] },
       },
     });
-    if (!leadership) return new NextResponse("Interdit : Droits de commandement requis", { status: 403 });
+    if (!leadership) return NextResponse.json({ message: "Interdit : Droits de commandement requis" }, { status: 403 });
 
     if (action === "accept") {
       // Check capacity (max 5)
@@ -136,6 +136,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[SQUAD_JOIN_REQUEST_RESPOND]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
