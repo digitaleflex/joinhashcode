@@ -1,6 +1,6 @@
 # SEC-004 — IP spoofable (`trustedProxyHeaders`)
 
-- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : ✅ DONE
 - **Catégorie** : Authentication Failures (OWASP A07)
 - **Fichier** : `lib/auth.ts:153`
 

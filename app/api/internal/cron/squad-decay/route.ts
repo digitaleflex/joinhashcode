@@ -22,40 +22,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Accès non autorisé. Token de cron invalide." }, { status: 401 });
     }
 
-    // 2. Perform global update via transaction
-    const result = await prisma.$transaction(async (tx) => {
-      // Get all squads to process them
-      const squads = await tx.organization.findMany({
-        select: { id: true, cohesionScore: true, streakCount: true }
-      });
+    // 2. Fix SEC-007: Use updateMany instead of per-squad loop — O(1) vs O(n) queries
+    // Step A: decrement all scores (clamped to 0 via max check below)
+    await prisma.organization.updateMany({
+      data: { cohesionScore: { decrement: 0.1 } },
+    });
 
-      let updatedCount = 0;
+    // Step B: clamp negative scores to 0
+    await prisma.organization.updateMany({
+      where: { cohesionScore: { lt: 0 } },
+      data: { cohesionScore: 0 },
+    });
 
-      for (const squad of squads) {
-        const newScore = Math.max(0.0, squad.cohesionScore - 0.1);
-        const newStreak = newScore < 0.9 ? 0 : squad.streakCount;
+    // Step C: reset streak for squads whose score dropped below 0.9
+    await prisma.organization.updateMany({
+      where: { cohesionScore: { lt: 0.9 } },
+      data: { streakCount: 0 },
+    });
 
-        await tx.organization.update({
-          where: { id: squad.id },
-          data: {
-            cohesionScore: newScore,
-            streakCount: newStreak
-          }
-        });
-        updatedCount++;
-      }
+    const result = await prisma.organization.count();
 
-      // 3. Log System Activity
-      await logActivity({
-        action: "SQUAD_DECAY",
-        entity: "System",
-        metadata: {
-          squadsProcessed: updatedCount,
-          decayAmount: 0.1
-        }
-      });
-
-      return updatedCount;
+    logActivity({
+      action: "SQUAD_DECAY",
+      entity: "System",
+      metadata: { squadsProcessed: result, decayAmount: 0.1 },
     });
 
     return NextResponse.json({

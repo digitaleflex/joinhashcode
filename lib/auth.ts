@@ -6,6 +6,7 @@ import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
 import { randomInt } from "crypto";
+import { redis } from "./ratelimit";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
@@ -154,6 +155,22 @@ export const auth = betterAuth({
       },
     },
   },
+  // Fix SEC-011: share rate-limit counters across replicas via Redis
+  ...(redis ? {
+    secondaryStorage: {
+      get: async (key: string) => {
+        const val = await redis.get<string>(key);
+        return val ?? null;
+      },
+      set: async (key: string, value: string, ttl?: number) => {
+        if (ttl) await redis.set(key, value, { ex: ttl });
+        else await redis.set(key, value);
+      },
+      delete: async (key: string) => {
+        await redis.del(key);
+      },
+    },
+  } : {}),
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {

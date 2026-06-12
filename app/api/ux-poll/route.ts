@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 /**
  * Save UX Research Poll Response
@@ -13,6 +14,9 @@ export async function POST(req: Request) {
     });
 
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+
+    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
 
     const { prefersDarkMode, modernityRating, readabilityIssues } = await req.json();
 

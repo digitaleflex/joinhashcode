@@ -1,6 +1,6 @@
 # SEC-005 — Pas de rate-limit généralisé / fail-open
 
-- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : 🟡 IN PROGRESS
 - **Catégorie** : API Security (OWASP API4 Unrestricted Resource Consumption)
 - **Fichiers** : `lib/ratelimit.ts:7-16`, routes mutantes sans limiteur
 

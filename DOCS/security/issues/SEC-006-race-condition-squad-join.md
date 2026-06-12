@@ -1,6 +1,6 @@
 # SEC-006 — Race condition join squad (TOCTOU)
 
-- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟠 Élevée · **Priorité** : P1 · **Statut** : ✅ DONE
 - **Catégorie** : Logique métier / concurrence
 - **Fichier** : `app/api/squad/join/route.ts:57-80`
 

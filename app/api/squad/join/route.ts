@@ -113,10 +113,10 @@ export async function POST(req: Request) {
       request: req,
     });
 
-    // Auto-approve squad-genesis mission for the new member
+    // Auto-approve squad-genesis mission for the new member (Fix SEC-002: Check if already approved)
     const squadGenesisMission = await prisma.mission.findUnique({ where: { slug: "squad-genesis" } });
     if (squadGenesisMission) {
-      await prisma.missionSubmission.upsert({
+      const existingSubmission = await prisma.missionSubmission.findUnique({
         where: {
           userId_missionId_cycleKey: {
             userId,
@@ -124,20 +124,33 @@ export async function POST(req: Request) {
             cycleKey: "PERMANENT",
           },
         },
-        update: { status: "APPROVED" },
-        create: {
-          userId,
-          missionId: squadGenesisMission.id,
-          cycleKey: "PERMANENT",
-          status: "APPROVED",
-          content: "Escouade rejointe automatiquement.",
-          xpAwarded: squadGenesisMission.xp,
-        },
-      }).catch(() => {});
-      await prisma.user.update({
-        where: { id: userId },
-        data: { experience: { increment: squadGenesisMission.xp } },
-      }).catch(() => {});
+        select: { status: true },
+      });
+
+      if (!existingSubmission || existingSubmission.status !== "APPROVED") {
+        await prisma.missionSubmission.upsert({
+          where: {
+            userId_missionId_cycleKey: {
+              userId,
+              missionId: squadGenesisMission.id,
+              cycleKey: "PERMANENT",
+            },
+          },
+          update: { status: "APPROVED" },
+          create: {
+            userId,
+            missionId: squadGenesisMission.id,
+            cycleKey: "PERMANENT",
+            status: "APPROVED",
+            content: "Escouade rejointe automatiquement.",
+            xpAwarded: squadGenesisMission.xp,
+          },
+        }).catch(() => {});
+        await prisma.user.update({
+          where: { id: userId },
+          data: { experience: { increment: squadGenesisMission.xp } },
+        }).catch(() => {});
+      }
     }
 
     const leader = squad.members.find((m) => m.role === "owner");

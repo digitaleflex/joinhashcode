@@ -1,6 +1,6 @@
 # SEC-001 — Farming XP via re-soumission de mission
 
-- **Gravité** : 🔴 Critique · **Priorité** : P0 · **Statut** : 🔴 OPEN
+- **Gravité** : 🔴 Critique · **Priorité** : P0 · **Statut** : ✅ DONE
 - **Catégorie** : Logique métier (OWASP A04 Insecure Design)
 - **Fichier** : `app/api/missions/route.ts:148-153`
 

@@ -39,6 +39,17 @@ export async function POST(
 
     const { criteria, feedback, forceApprove } = parsed.data;
 
+    // Fix SEC-015: forceApprove is restricted to ADMIN only
+    if (forceApprove) {
+      const me = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { role: true },
+      });
+      if (me?.role !== "ADMIN") {
+        return NextResponse.json({ message: "forceApprove réservé aux administrateurs." }, { status: 403 });
+      }
+    }
+
     const submission = await prisma.missionSubmission.findUnique({
       where: { id: submissionId },
       include: { mission: true, user: true },

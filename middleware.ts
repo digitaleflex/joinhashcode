@@ -1,10 +1,49 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
+// Fix SEC-010: Build nonce-based CSP — replaces static `unsafe-inline` for script-src
+function buildCSP(nonce: string): string {
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' https://va.vercel-scripts.com https://vercel.live https://*.vercel.live https://static.cloudflareinsights.com`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://vercel.live https://*.vercel.live",
+    "img-src 'self' data: https://lh3.googleusercontent.com https://avatars.githubusercontent.com https://api.qrserver.com https://vercel.live https://*.vercel.live https://vercel.com",
+    "font-src 'self' data: https://fonts.gstatic.com https://vercel.live https://*.vercel.live",
+    "connect-src 'self' https://vitals.vercel-insights.com https://vercel.live https://*.vercel.live",
+    "frame-src 'self' https://vercel.live https://*.vercel.live",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ].join("; ");
+}
+
 export async function middleware(request: NextRequest) {
   // CVE-2025-29927: strip header that would bypass middleware execution
   if (request.headers.get("x-middleware-subrequest")) {
     return new NextResponse("Forbidden", { status: 403 });
+  }
+
+  // Fix SEC-010: generate per-request nonce for CSP
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+
+  const isProtectedPath =
+    request.nextUrl.pathname.startsWith('/dashboard') ||
+    request.nextUrl.pathname.startsWith('/missions') ||
+    request.nextUrl.pathname.startsWith('/settings') ||
+    request.nextUrl.pathname.startsWith('/squad') ||
+    request.nextUrl.pathname.startsWith('/dossier') ||
+    request.nextUrl.pathname.startsWith('/reviewer') ||
+    request.nextUrl.pathname.startsWith('/feedback') ||
+    request.nextUrl.pathname.startsWith('/onboarding') ||
+    request.nextUrl.pathname.startsWith('/quiz');
+  const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
+
+  // Public routes: inject CSP nonce and return immediately — no session fetch
+  if (!isProtectedPath && !isBetaAccessPath) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-nonce", nonce);
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    response.headers.set("Content-Security-Policy", buildCSP(nonce));
+    return response;
   }
 
   let sessionData = null;
@@ -97,20 +136,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  const isProtectedPath =
-    request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/missions') ||
-    request.nextUrl.pathname.startsWith('/settings') ||
-    request.nextUrl.pathname.startsWith('/squad') ||
-    request.nextUrl.pathname.startsWith('/dossier') ||
-    request.nextUrl.pathname.startsWith('/reviewer') ||
-    request.nextUrl.pathname.startsWith('/feedback') ||
-    request.nextUrl.pathname.startsWith('/onboarding') ||
-    request.nextUrl.pathname.startsWith('/quiz');
-
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
-  const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
 
   if (isProtectedPath && !session) {
     // If the loopback session probe returned null (e.g. due to HTTP loopback / secure cookie mismatch),
@@ -150,20 +177,20 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  // Fix SEC-010: inject nonce into request headers (readable by server components via headers())
+  // and set nonce-based CSP on the response (overrides next.config.mjs for matched routes)
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set("Content-Security-Policy", buildCSP(nonce));
+  return response;
 }
 
 export const config = {
+  // SEC-010: expanded to all HTML pages so every response gets a CSP nonce.
+  // Static assets (_next/static, images, favicons) are excluded to avoid overhead.
+  // API routes are excluded — they don't serve HTML and don't need CSP.
   matcher: [
-    "/dashboard", "/dashboard/:path*",
-    "/missions",  "/missions/:path*",
-    "/settings",  "/settings/:path*",
-    "/dossier",   "/dossier/:path*",
-    "/squad",     "/squad/:path*",
-    "/reviewer",  "/reviewer/:path*",
-    "/feedback",  "/feedback/:path*",
-    "/onboarding", "/onboarding/:path*",
-    "/quiz",      "/quiz/:path*",
-    "/beta-access"
+    "/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
   ],
 };

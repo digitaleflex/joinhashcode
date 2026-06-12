@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     const { count = 1, prefix = "H26-" } = await req.json();
     
     const keysToCreate = Array.from({ length: count }).map(() => ({
-      key: `${prefix}${randomBytes(4).toString('hex').toUpperCase()}`,
+      key: `${prefix}${randomBytes(16).toString('hex').toUpperCase()}`,
     }));
 
     const createdKeys = await Promise.all(

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
 import { NextRequest, NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -14,6 +15,9 @@ export const POST = async (req: NextRequest) => {
     if (!session) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
+
+    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
 
     const formData = await req.formData();
     const type = formData.get("type") as string;

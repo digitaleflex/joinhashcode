@@ -1,6 +1,6 @@
 # SEC-002 — Farming XP via join/leave de squad
 
-- **Gravité** : 🔴 Critique · **Priorité** : P0 · **Statut** : 🔴 OPEN
+- **Gravité** : 🔴 Critique · **Priorité** : P0 · **Statut** : ✅ DONE
 - **Catégorie** : Logique métier (OWASP A04 Insecure Design)
 - **Fichiers** : `app/api/squad/join/route.ts:92-116`, `app/api/squad/create/route.ts:113-138`
 

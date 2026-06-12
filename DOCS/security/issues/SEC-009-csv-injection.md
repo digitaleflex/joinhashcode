@@ -1,6 +1,6 @@
 # SEC-009 — CSV / formula injection (export admin)
 
-- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : ✅ DONE
 - **Catégorie** : Injection (OWASP A03)
 - **Fichier** : `app/api/admin/users/export/route.ts:56-64`
 

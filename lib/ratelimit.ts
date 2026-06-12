@@ -6,6 +6,9 @@ const restUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_UR
 const restToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
 const configured = !!restUrl && !!restToken
 
+// Shared Redis client — exported for auth.ts secondaryStorage (SEC-011)
+export const redis = configured ? new Redis({ url: restUrl!, token: restToken! }) : null
+
 // Fix SEC-005: Fail closed in production if rate limiting is not configured
 if (!configured && process.env.NODE_ENV === "production") {
   console.error("❌ [CRITICAL] UPSTASH_REDIS_REST_URL or TOKEN missing in production. Rate limiting is REQUIRED.");

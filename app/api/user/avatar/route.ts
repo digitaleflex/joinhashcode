@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
 
 export async function POST(req: Request) {
   try {
@@ -37,8 +38,20 @@ export async function POST(req: Request) {
       "image/webp": "webp",
     };
     const ext = extByMime[file.type];
-    const fileName = `${session.user.id}-${Date.now()}.${ext}`;
     const buffer = await file.arrayBuffer();
+
+    // Fix SEC-016: validate magic bytes (not just client-supplied file.type)
+    const sig = Buffer.from(buffer).subarray(0, 12).toString("hex");
+    const validSig =
+      sig.startsWith("ffd8ff") ||                          // JPEG
+      sig.startsWith("89504e47") ||                        // PNG
+      (sig.startsWith("52494646") && sig.slice(16, 24) === "57454250"); // WEBP (RIFF....WEBP)
+    if (!validSig) {
+      return NextResponse.json({ message: "Contenu de fichier invalide." }, { status: 400 });
+    }
+
+    // Fix SEC-014: random filename — does not expose userId
+    const fileName = `${randomUUID()}.${ext}`;
 
     const url = await saveFile(buffer, fileName, "avatars");
 

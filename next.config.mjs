@@ -30,20 +30,9 @@ const nextConfig = {
         key: "Permissions-Policy",
         value: "camera=(), microphone=(), geolocation=()",
       },
-      {
-        key: "Content-Security-Policy",
-        value: `
-          default-src 'self';
-          script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://vercel.live https://*.vercel.live https://static.cloudflareinsights.com;
-          style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://vercel.live https://*.vercel.live;
-          img-src 'self' data: https://lh3.googleusercontent.com https://avatars.githubusercontent.com https://api.qrserver.com https://vercel.live https://*.vercel.live https://vercel.com;
-          font-src 'self' data: https://fonts.gstatic.com https://vercel.live https://*.vercel.live;
-          connect-src 'self' https://vitals.vercel-insights.com https://vercel.live https://*.vercel.live;
-          frame-src 'self' https://vercel.live https://*.vercel.live;
-          frame-ancestors 'none';
-          upgrade-insecure-requests;
-        `.replace(/\s{2,}/g, " ").trim(),
-      },
+      // SEC-010: CSP is now set dynamically per-request in middleware.ts (with nonce).
+      // Static CSP here would override the nonce-based one from middleware for matched routes.
+      // Public routes (/, /signin, /invite/*) are covered by the middleware matcher expansion below.
     ]
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""

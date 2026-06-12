@@ -1,6 +1,6 @@
 # SEC-003 — MODERATOR possède tous les droits ADMIN
 
-- **Gravité** : 🟠 Élevée · **Priorité** : P0 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟠 Élevée · **Priorité** : P0 · **Statut** : ✅ DONE
 - **Catégorie** : Broken Access Control (OWASP A01) — escalade verticale staff
 - **Fichier** : `lib/auth.ts:68-81, 186-193`
 

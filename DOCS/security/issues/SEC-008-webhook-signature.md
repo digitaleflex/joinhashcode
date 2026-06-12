@@ -1,6 +1,6 @@
 # SEC-008 — Webhook Resend : secret en URL, pas de signature
 
-- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : ✅ DONE
 - **Catégorie** : Software/Data Integrity (OWASP A08) + Cryptographic Failures (A02)
 - **Fichier** : `app/api/webhooks/resend/route.ts:11-14`
 

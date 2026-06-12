@@ -3,11 +3,15 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
-export async function DELETE() {
+export async function DELETE(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
+    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
 
     const membership = await prisma.member.findFirst({
       where: { userId: session.user.id },

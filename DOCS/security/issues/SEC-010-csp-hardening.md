@@ -1,6 +1,6 @@
 # SEC-010 — CSP `unsafe-inline` / `unsafe-eval`
 
-- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : 🔴 OPEN
+- **Gravité** : 🟡 Moyenne · **Priorité** : P2 · **Statut** : 🟡 IN PROGRESS
 - **Catégorie** : Security Misconfiguration (OWASP A05)
 - **Fichier** : `next.config.mjs:37`
 
