@@ -4,6 +4,7 @@ import { PATCH as updatePATCH } from "../app/api/user/update/route";
 import { NextRequest } from "next/server";
 import { prisma } from "../lib/prisma";
 import { auth } from "../lib/auth";
+import * as ratelimit from "../lib/ratelimit";
 
 vi.mock("../lib/prisma", () => {
   const mockPrisma = {
@@ -36,6 +37,13 @@ vi.mock("../lib/auth", () => ({
   },
 }));
 
+vi.mock("../lib/ratelimit", () => ({
+  checkRateLimit: vi.fn(() => Promise.resolve({ limited: false })),
+  checkinLimiter: {},
+  claimLimiter: {},
+  squadJoinLimiter: {},
+}));
+
 vi.mock("next/headers", () => ({
   headers: vi.fn(() => Promise.resolve(new Headers())),
 }));
@@ -62,8 +70,8 @@ describe("Security & Abuse Prevention", () => {
 
       const res = await checkinPOST(req);
       expect(res.status).toBe(429);
-      const text = await res.text();
-      expect(text).toContain("Tu as déjà signé ton check-in");
+      const json = await res.json();
+      expect(json.message).toContain("Tu as déjà signé ton check-in");
     });
 
     test("strips HTML from note", async () => {
@@ -114,8 +122,8 @@ describe("Security & Abuse Prevention", () => {
 
       const res = await updatePATCH(req);
       expect(res.status).toBe(429);
-      const text = await res.text();
-      expect(text).toContain("Doucement, bâtisseur ! Laisse ton terminal souffler une minute");
+      const json = await res.json();
+      expect(json.message).toContain("Doucement, bâtisseur ! Laisse ton terminal souffler une minute");
     });
 
     test("strips HTML from pseudo and bio", async () => {
@@ -142,6 +150,7 @@ describe("Security & Abuse Prevention", () => {
           pseudo: "Hacker",
           bio: "I am a cool person ...",
         }),
+        select: expect.any(Object),
       });
     });
   });
