@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     const expectedSecret = process.env.CRON_SECRET;
 
     if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
-      return new NextResponse("Accès non autorisé. Token de cron invalide.", { status: 401 });
+      return NextResponse.json({ message: "Accès non autorisé. Token de cron invalide." }, { status: 401 });
     }
 
     // 2. Perform global update via transaction
@@ -65,6 +65,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("[CRON_SQUAD_DECAY_ERROR]", error);
-    return new NextResponse("Erreur interne lors du traitement de la décomposition.", { status: 500 });
+    return NextResponse.json({ message: "Erreur interne lors du traitement de la décomposition." }, { status: 500 });
   }
 }
