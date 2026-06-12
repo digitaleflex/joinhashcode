@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   try {
     const secret = new URL(req.url).searchParams.get("secret");
     if (secret !== process.env.WEBHOOK_SECRET) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const payload = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     if (type === "email.bounced" || type === "email.complained") {
       const email = data.to[0];
-      
+
       await prisma.user.updateMany({
         where: { email },
         data: {
@@ -37,6 +37,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ processed: true });
   } catch (error) {
     await logError("Resend Webhook", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
-}
+  }

@@ -23,14 +23,14 @@ export async function PATCH(req: Request) {
 
     if (!session) {
       console.error("[ONBOARDING_PATCH] No session found for request");
-      return new NextResponse("Session expirée. Déconnecte-toi et reconnecte-toi.", { status: 401 });
+      return NextResponse.json({ message: "Session expirée. Déconnecte-toi et reconnecte-toi." }, { status: 401 });
     }
 
     const body = await req.json();
     const parsed = onboardingSchema.safeParse(body);
 
     if (!parsed.success) {
-      return new NextResponse("Données invalides", { status: 400 });
+      return NextResponse.json({ message: "Données invalides" }, { status: 400 });
     }
 
     const updatedUser = await prisma.user.update({
@@ -39,6 +39,17 @@ export async function PATCH(req: Request) {
         ...parsed.data,
         secondaryObjectives: parsed.data.secondaryObjectives || [],
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        country: true,
+        currentSituation: true,
+        mainObjective: true,
+        secondaryObjectives: true,
+        language: true,
+        updatedAt: true,
+      }
     });
 
     logActivity({
@@ -58,6 +69,6 @@ export async function PATCH(req: Request) {
     return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("[ONBOARDING_PATCH]", error);
-    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }

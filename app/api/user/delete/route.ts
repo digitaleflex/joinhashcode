@@ -8,7 +8,7 @@ import { logActivity } from "@/lib/activity-log";
 
 export async function DELETE(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },

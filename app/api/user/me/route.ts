@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -26,7 +26,7 @@ export async function GET() {
       twoFactorEnabled: true,
     },
   });
-  if (!user) return new NextResponse("Not found", { status: 404 });
+  if (!user) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
   return NextResponse.json(user);
 }

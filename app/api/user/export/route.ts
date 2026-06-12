@@ -7,7 +7,7 @@ import JSZip from "jszip";
 
 export async function GET(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const format = new URL(req.url).searchParams.get("format") ?? "json";
   const data = await collectUserData(session.user.id);
