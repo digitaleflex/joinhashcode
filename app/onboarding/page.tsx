@@ -3,177 +3,219 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Globe, Briefcase, Target, ChevronRight, 
-  Loader2, Check, Sparkles, GraduationCap, 
-  Laptop, Building2, Rocket, Coffee, 
-  RefreshCw, Brain, Lightbulb
+import {
+  Globe, Target, ChevronRight,
+  Loader2, GraduationCap,
+  Laptop, Building2, Rocket,
+  RefreshCw, Brain, Sprout,
+  Briefcase, Zap, Search,
+  Code2, Users, BarChart3,
+  Shield, Cloud, Layers,
+  Sparkles, Check, AtSign,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { 
-  UserSituation, 
-  MainObjective 
-} from "@/lib/types"
+import { Input } from "@/components/ui/input"
+import { UserSituation, MainObjective, TechnicalLevel } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { track } from "@vercel/analytics"
 import { authClient } from "@/lib/auth-client"
 
-const ONBOARDING_KEY = "hc_onboarding_progress";
+const ONBOARDING_KEY = "hc_onboarding_v2"
+
+// ─── Steps ────────────────────────────────────────────────────────────────────
 
 const STEPS = [
-  {
-    id: "context",
-    title: "Ton Contexte",
-    description: "D'où viens-tu et quelle est ta situation actuelle ?",
-    icon: Globe
-  },
-  {
-    id: "objective",
-    title: "Ton Objectif",
-    description: "Pourquoi rejoins-tu HASHCODE aujourd'hui ?",
-    icon: Target
-  }
+  { id: "welcome",    icon: Sparkles, phase: null },
+  { id: "identity",  icon: AtSign,   phase: "Profil" },
+  { id: "level",     icon: Zap,      phase: "Profil" },
+  { id: "context",   icon: Globe,    phase: "Profil" },
+  { id: "objective", icon: Target,   phase: "Profil" },
+  { id: "bridge",    icon: Brain,    phase: null },
 ]
 
+// ─── Meta ─────────────────────────────────────────────────────────────────────
+
+const SITUATION_META: Record<UserSituation, { icon: any; label: string }> = {
+  [UserSituation.STUDENT]:       { icon: GraduationCap, label: "Étudiant(e)" },
+  [UserSituation.EMPLOYEE]:      { icon: Building2,     label: "Salarié(e)" },
+  [UserSituation.SELF_TAUGHT]:   { icon: Brain,         label: "Autodidacte" },
+  [UserSituation.RETRAINING]:    { icon: RefreshCw,     label: "En reconversion" },
+  [UserSituation.ENTREPRENEUR]:  { icon: Rocket,        label: "Entrepreneur" },
+  [UserSituation.FREELANCE]:     { icon: Laptop,        label: "Freelance" },
+  [UserSituation.BEGINNER]:      { icon: Sprout,        label: "Je commence" },
+}
+
+const OBJECTIVE_META: Record<MainObjective, { icon: any }> = {
+  [MainObjective.FIND_JOB]:       { icon: Briefcase },
+  [MainObjective.LEARN_CODE]:     { icon: Code2 },
+  [MainObjective.CREATE_STARTUP]: { icon: Rocket },
+  [MainObjective.FREELANCE]:      { icon: Laptop },
+  [MainObjective.MASTER_AI]:      { icon: Brain },
+  [MainObjective.CYBERSECURITY]:  { icon: Shield },
+  [MainObjective.CLOUD_DEVOPS]:   { icon: Cloud },
+  [MainObjective.CREATE_PRODUCTS]:{ icon: Layers },
+}
+
+const CLASSES = [
+  { name: "Builder",    icon: "🏗️", desc: "Tu construis. Code, produits, systèmes." },
+  { name: "Creator",    icon: "🎨", desc: "Tu crées. Design, contenu, narration." },
+  { name: "Strategist", icon: "🧠", desc: "Tu analyses. Data, growth, business." },
+  { name: "Catalyst",   icon: "⚡", desc: "Tu fédères. Leadership, communauté." },
+]
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function OnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncing, setIsSyncing] = useState(true)
+  const [userName, setUserName] = useState("")
+  const [pseudoError, setPseudoError] = useState("")
 
   const [formData, setFormData] = useState<{
-    country: string;
-    currentSituation: UserSituation;
-    mainObjective: MainObjective;
-    secondaryObjectives: MainObjective[];
+    pseudo: string
+    technicalLevel: TechnicalLevel | ""
+    country: string
+    currentSituation: UserSituation | ""
+    mainObjective: MainObjective | ""
   }>(() => {
     try {
-      const saved = typeof window !== "undefined" ? localStorage.getItem(ONBOARDING_KEY) : null;
-      if (saved) return JSON.parse(saved);
+      const saved = typeof window !== "undefined" ? localStorage.getItem(ONBOARDING_KEY) : null
+      if (saved) return JSON.parse(saved)
     } catch { /* ignore */ }
     return {
+      pseudo: "",
+      technicalLevel: "",
       country: "",
-      currentSituation: "" as UserSituation,
-      mainObjective: "" as MainObjective,
-      secondaryObjectives: [] as MainObjective[],
-    };
+      currentSituation: "",
+      mainObjective: "",
+    }
   })
 
-  // Sync with DB on mount - use direct API fetch to bypass stale cache
   useEffect(() => {
     async function syncSession() {
       try {
-        const res = await authClient.getSession();
-        const session = res.data;
-        if (session?.user) {
-          const user = session.user as any;
-          if (user.currentSituation || user.country) {
-            setFormData(prev => ({
-              ...prev,
-              country: user.country || prev.country,
-              currentSituation: (user.currentSituation as UserSituation) || prev.currentSituation,
-              mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
-              secondaryObjectives: (user.secondaryObjectives as MainObjective[]) || prev.secondaryObjectives,
-            }));
-            
-            if (user.currentSituation) {
-              setStep(1);
-            }
-          }
+        const res = await authClient.getSession()
+        const user = (res.data?.user as any)
+        if (user) {
+          setUserName(user.name?.split(" ")[0] || "")
+          setFormData(prev => ({
+            ...prev,
+            pseudo: user.pseudo || prev.pseudo,
+            technicalLevel: (user.technicalLevel as TechnicalLevel) || prev.technicalLevel,
+            country: user.country || prev.country,
+            currentSituation: (user.currentSituation as UserSituation) || prev.currentSituation,
+            mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
+          }))
+          // Resume at right step
+          if (user.mainObjective) setStep(5)
+          else if (user.currentSituation) setStep(4)
+          else if (user.technicalLevel) setStep(3)
+          else if (user.pseudo) setStep(2)
+          else if (user.currentSituation) setStep(3)
         }
       } catch (err) {
-        console.error("Session sync failed:", err);
+        console.error("Session sync failed:", err)
       } finally {
-        setIsSyncing(false);
+        setIsSyncing(false)
       }
     }
-    syncSession();
-  }, []);
+    syncSession()
+  }, [])
 
   const updateForm = (next: typeof formData) => {
-    setFormData(next);
-    try { localStorage.setItem(ONBOARDING_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+    setFormData(next)
+    try { localStorage.setItem(ONBOARDING_KEY, JSON.stringify(next)) } catch { /* ignore */ }
   }
 
-  const handleComplete = async () => {
+  // ─── API saves ──────────────────────────────────────────────────────────────
+
+  const savePartial = async (data: Record<string, any>, onConflict?: () => void) => {
     setIsSubmitting(true)
     try {
       const res = await fetch("/api/onboarding", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       })
-
-      if (!res.ok) throw new Error("Failed to save")
-
-      try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ }
-      track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective });
-      toast.success("Profil initial configuré !")
-      
-      // Force refresh Better Auth session so cookies updated in browser immediately
-      try {
-        await authClient.getSession();
-      } catch (err) {
-        console.error("Session refresh failed:", err);
-      }
-
-      window.location.href = "/quiz"
-    } catch (error) {
-      toast.error("Une erreur est survenue")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const saveStepProgress = async () => {
-    setIsSubmitting(true)
-    try {
-      const res = await fetch("/api/onboarding", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          country: formData.country,
-          currentSituation: formData.currentSituation,
-        }),
-      })
-
       if (res.status === 401) {
-        toast.error("Session expirée. Veuillez vous reconnecter.");
-        router.push("/signin");
-        throw new Error("Unauthorized");
+        toast.error("Session expirée. Reconnecte-toi.")
+        router.push("/signin")
+        throw new Error("Unauthorized")
       }
-
-      if (!res.ok) throw new Error("Partial save failed")
-    } catch (error: any) {
-      if (error.message !== "Unauthorized") {
-        toast.error("Erreur de sauvegarde. Vérifiez votre connexion.");
+      if (res.status === 409) {
+        const body = await res.json()
+        toast.error(body.message || "Ce pseudo est déjà pris.")
+        onConflict?.()
+        throw new Error("Conflict")
       }
-      throw error;
+      if (!res.ok) throw new Error("Save failed")
     } finally {
       setIsSubmitting(false)
     }
   }
+
+  // ─── Navigation ─────────────────────────────────────────────────────────────
 
   const next = async () => {
+    setPseudoError("")
     try {
       if (step === 0) {
-        await saveStepProgress()
         setStep(1)
-      } else if (step < STEPS.length - 1) {
-        setStep(step + 1)
-      } else {
-        await handleComplete()
+      } else if (step === 1) {
+        // Save pseudo
+        await savePartial({ pseudo: formData.pseudo }, () => setPseudoError("Ce pseudo est déjà pris."))
+        setStep(2)
+      } else if (step === 2) {
+        // Save technicalLevel
+        await savePartial({ technicalLevel: formData.technicalLevel })
+        setStep(3)
+      } else if (step === 3) {
+        // Save country + situation
+        await savePartial({ country: formData.country, currentSituation: formData.currentSituation })
+        setStep(4)
+      } else if (step === 4) {
+        // Final save with objective
+        await savePartial({ mainObjective: formData.mainObjective })
+        track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective })
+        try { localStorage.removeItem(ONBOARDING_KEY) } catch { /* ignore */ }
+        try { await authClient.getSession() } catch { /* ignore */ }
+        setStep(5)
+      } else if (step === 5) {
+        // Bridge → quiz
+        window.location.href = "/quiz"
       }
-    } catch (err) {
-      console.error("Step navigation failed:", err);
+    } catch (err: any) {
+      if (err.message !== "Unauthorized" && err.message !== "Conflict") {
+        toast.error("Erreur de connexion. Vérifie ta connexion.")
+      }
     }
   }
 
   const prev = () => {
     if (step > 0) setStep(step - 1)
   }
+
+  // ─── Validation ─────────────────────────────────────────────────────────────
+
+  const isNextDisabled = () => {
+    if (isSubmitting) return true
+    if (step === 1) return !formData.pseudo || !/^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo)
+    if (step === 2) return !formData.technicalLevel
+    if (step === 3) return !formData.country || !formData.currentSituation
+    if (step === 4) return !formData.mainObjective
+    return false
+  }
+
+  // ─── Progress ───────────────────────────────────────────────────────────────
+
+  const profileSteps = [1, 2, 3, 4]
+  const profileProgress = profileSteps.filter(s => s < step).length
+  const profileTotal = profileSteps.length
+
+  // ─── Render ─────────────────────────────────────────────────────────────────
 
   if (isSyncing) {
     return (
@@ -185,210 +227,374 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,244,65,0.05),transparent_50%)] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-1 bg-border/50">
-        <motion.div 
-          className="h-full bg-primary"
-          initial={{ width: "0%" }}
-          animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
-        />
-      </div>
 
-      <div className="w-full max-w-2xl z-10 px-4">
+      {/* Phase progress bar (only during profile steps 1-4) */}
+      {step >= 1 && step <= 4 && (
+        <div className="absolute top-0 left-0 w-full">
+          <div className="h-0.5 bg-border/30">
+            <motion.div
+              className="h-full bg-primary"
+              initial={{ width: "0%" }}
+              animate={{ width: `${(profileProgress / profileTotal) * 100}%` }}
+              transition={{ duration: 0.4 }}
+            />
+          </div>
+          <div className="flex justify-center gap-6 py-3">
+            {["Profil", "Diagnostic", "Finalisation"].map((phase, i) => (
+              <span
+                key={phase}
+                className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${
+                  i === 0 ? "text-primary" : "text-muted-foreground/40"
+                }`}
+              >
+                {i === 0 ? `${phase} ${profileProgress}/${profileTotal}` : phase}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="w-full max-w-2xl z-10 px-4 mt-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="space-y-10"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="space-y-8"
           >
-            <div className="text-center space-y-4">
-              <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary mb-2 border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.05)]">
-                {(() => {
-                  const Icon = STEPS[step].icon;
-                  return Icon ? <Icon className="w-8 h-8" /> : null;
-                })()}
-              </div>
-              <div className="space-y-2">
-                <h1 className="text-2xl font-bold tracking-tight uppercase font-mono text-foreground">
-                  {STEPS[step].title}
-                </h1>
-                <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
-                  {STEPS[step].description}
-                </p>
-              </div>
-            </div>
 
-            <div className="grid gap-4">
-              {step === 0 && (
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Pays</label>
-                    <CountrySelector 
-                      value={formData.country}
-                      onChange={(val) => updateForm({ ...formData, country: val })}
-                    />
+            {/* ── Step 0: Welcome ─────────────────────────────────────────── */}
+            {step === 0 && (
+              <div className="text-center space-y-8">
+                <div className="space-y-2">
+                  <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.08)] mb-4">
+                    <Sparkles className="w-8 h-8" />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Situation Actuelle</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {(Object.values(UserSituation) as UserSituation[]).map((sit) => {
-                        const Icon = {
-                          [UserSituation.STUDENT]: GraduationCap,
-                          [UserSituation.FREELANCE]: Laptop,
-                          [UserSituation.EMPLOYEE]: Building2,
-                          [UserSituation.ENTREPRENEUR]: Rocket,
-                          [UserSituation.UNEMPLOYED]: Coffee,
-                          [UserSituation.RETRAINING]: RefreshCw,
-                          [UserSituation.SELF_TAUGHT]: Brain,
-                          [UserSituation.PROJECT_LEAD]: Lightbulb,
-                        }[sit] || Briefcase;
-
-                        const isSelected = formData.currentSituation === sit;
-
-                        return (
-                          <button
-                            key={sit}
-                            onClick={() => updateForm({ ...formData, currentSituation: sit })}
-                            className={`group relative p-4 rounded-2xl border transition-all duration-300 text-left overflow-hidden ${
-                              isSelected 
-                              ? "bg-primary/5 border-primary shadow-[0_0_20px_rgba(197,244,65,0.1)]" 
-                              : "bg-card/20 border-border/40 hover:border-primary/30 hover:bg-card/40"
-                            }`}
-                          >
-                            <div className="relative z-10 flex flex-col gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                                isSelected ? "bg-primary/20 text-primary" : "bg-muted/50 text-muted-foreground group-hover:text-primary/70"
-                              }`}>
-                                <Icon className="w-4 h-4" />
-                              </div>
-                              <div className="space-y-1">
-                                <p className={`text-sm font-medium transition-colors ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
-                                  {sit}
-                                </p>
-                              </div>
-                            </div>
-                            {isSelected && (
-                              <motion.div 
-                                layoutId="active-bg"
-                                className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent pointer-events-none"
-                              />
-                            )}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
+                  <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground">
+                    {userName ? `Bienvenue, ${userName} 👋` : "Bienvenue sur HASHCODE 👋"}
+                  </h1>
+                  <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
+                    HASHCODE est la plateforme des <span className="text-foreground font-semibold">talents tech africains</span> — profil psychométrique, communauté ciblée, missions concrètes.
+                  </p>
                 </div>
-              )}
 
-              {step === 1 && (
-                <div className="space-y-4">
-                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mb-2">
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-primary text-center">
-                      Sélectionnez 1 objectif principal + jusqu&apos;à 2 secondaires
-                    </p>
+                <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                  {[
+                    { icon: "🎯", label: "Ton profil", sub: "Builder, Creator, Strategist ou Catalyst" },
+                    { icon: "🛡️", label: "Ta squad", sub: "Trouve ta communauté" },
+                    { icon: "⚡", label: "Des missions", sub: "Progresse concrètement" },
+                  ].map(item => (
+                    <div key={item.label} className="p-3 rounded-2xl bg-white/2 border border-white/5 text-center space-y-1">
+                      <div className="text-xl">{item.icon}</div>
+                      <div className="text-[10px] font-bold text-white uppercase tracking-wide">{item.label}</div>
+                      <div className="text-[9px] text-zinc-500 leading-tight">{item.sub}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10">
+                  <Loader2 className="w-3 h-3 text-primary" style={{ animation: "none" }} />
+                  <span className="text-[10px] font-mono text-primary uppercase tracking-wider">~5 minutes pour créer ton profil</span>
+                </div>
+
+                <Button
+                  onClick={next}
+                  className="btn-primary-glow px-12 h-14 rounded-2xl text-sm font-black uppercase tracking-wider group"
+                >
+                  Commencer mon profil
+                  <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            )}
+
+            {/* ── Step 1: Pseudo ──────────────────────────────────────────── */}
+            {step === 1 && (
+              <div className="space-y-8">
+                <div className="text-center space-y-3">
+                  <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
+                    <AtSign className="w-6 h-6" />
                   </div>
-                  <div className="grid gap-2">
-                    {(Object.values(MainObjective) as MainObjective[]).map((obj) => {
-                      const isMain = formData.mainObjective === obj
-                      const isSecondary = formData.secondaryObjectives.includes(obj)
-                      
-                      const handleToggle = () => {
-                        if (isMain) {
-                          updateForm({ ...formData, mainObjective: "" as MainObjective })
-                        } else if (isSecondary) {
-                          updateForm({
-                            ...formData,
-                            secondaryObjectives: formData.secondaryObjectives.filter((o: MainObjective) => o !== obj)
-                          })
-                        } else if (!formData.mainObjective) {
-                          updateForm({ ...formData, mainObjective: obj })
-                        } else if (formData.secondaryObjectives.length < 2) {
-                          updateForm({
-                            ...formData,
-                            secondaryObjectives: [...formData.secondaryObjectives, obj]
-                          })
-                        } else {
-                          toast.error("Maximum 2 objectifs secondaires")
-                        }
-                      }
+                  <h2 className="text-xl font-black uppercase tracking-tighter">Ton identité HASHCODE</h2>
+                  <p className="text-muted-foreground text-sm">Choisis le handle qui te représentera dans la communauté.</p>
+                </div>
 
+                <div className="space-y-3">
+                  <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Ton pseudo</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-mono text-sm">@</span>
+                    <Input
+                      value={formData.pseudo}
+                      onChange={e => {
+                        setPseudoError("")
+                        const val = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "")
+                        updateForm({ ...formData, pseudo: val })
+                      }}
+                      placeholder="ton_pseudo"
+                      maxLength={20}
+                      className="pl-8 h-14 rounded-2xl bg-white/2 border-white/10 font-mono text-base focus:border-primary/50"
+                    />
+                    {formData.pseudo.length >= 3 && !pseudoError && /^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo) && (
+                      <Check className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+                    )}
+                  </div>
+                  {pseudoError && (
+                    <p className="text-xs text-red-400 font-mono">{pseudoError}</p>
+                  )}
+                  <p className="text-[10px] text-muted-foreground/60">3-20 caractères · lettres, chiffres et _ uniquement</p>
+
+                  {formData.pseudo.length >= 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 rounded-xl bg-primary/5 border border-primary/10"
+                    >
+                      <p className="text-xs text-primary font-mono">
+                        Tu apparaîtras comme <span className="font-black">@{formData.pseudo}</span> dans la communauté
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* ── Step 2: Technical Level ─────────────────────────────────── */}
+            {step === 2 && (
+              <div className="space-y-8">
+                <div className="text-center space-y-3">
+                  <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
+                    <Zap className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-xl font-black uppercase tracking-tighter">Ton niveau technique</h2>
+                  <p className="text-muted-foreground text-sm">Sois honnête — ça permet d'adapter les missions et le quiz à ton niveau.</p>
+                </div>
+
+                <div className="grid gap-3">
+                  {[
+                    {
+                      value: TechnicalLevel.BEGINNER,
+                      icon: "🌱",
+                      title: "Débutant(e)",
+                      desc: "Je commence, moins d'1 an d'expérience tech",
+                    },
+                    {
+                      value: TechnicalLevel.INTERMEDIATE,
+                      icon: "⚡",
+                      title: "Intermédiaire",
+                      desc: "J'ai des bases solides, 1-3 ans d'expérience",
+                    },
+                    {
+                      value: TechnicalLevel.ADVANCED,
+                      icon: "🔥",
+                      title: "Avancé(e)",
+                      desc: "Je ship en production, 3+ ans d'expérience",
+                    },
+                  ].map(opt => {
+                    const isSelected = formData.technicalLevel === opt.value
+                    return (
+                      <button
+                        key={opt.value}
+                        onClick={() => updateForm({ ...formData, technicalLevel: opt.value })}
+                        className={`relative p-5 rounded-2xl border text-left transition-all duration-200 ${
+                          isSelected
+                            ? "bg-primary/5 border-primary shadow-[0_0_20px_rgba(197,244,65,0.08)]"
+                            : "bg-white/2 border-white/8 hover:border-primary/30 hover:bg-white/4"
+                        }`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <span className="text-2xl">{opt.icon}</span>
+                          <div className="flex-1">
+                            <p className={`font-bold text-sm ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{opt.title}</p>
+                            <p className="text-[11px] text-muted-foreground/70 mt-0.5">{opt.desc}</p>
+                          </div>
+                          {isSelected && <Check className="w-4 h-4 text-primary shrink-0" />}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── Step 3: Context ─────────────────────────────────────────── */}
+            {step === 3 && (
+              <div className="space-y-6">
+                <div className="text-center space-y-3">
+                  <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
+                    <Globe className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-xl font-black uppercase tracking-tighter">Ton Contexte</h2>
+                  <p className="text-muted-foreground text-sm">D'où viens-tu et quelle est ta situation actuelle ?</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Pays</label>
+                  <CountrySelector
+                    value={formData.country}
+                    onChange={val => updateForm({ ...formData, country: val })}
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground ml-1">Situation Actuelle</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {(Object.values(UserSituation) as UserSituation[]).map(sit => {
+                      const meta = SITUATION_META[sit]
+                      const Icon = meta.icon
+                      const isSelected = formData.currentSituation === sit
                       return (
                         <button
-                          key={obj}
-                          onClick={handleToggle}
-                          className={`px-4 py-4 rounded-xl border text-sm transition-all text-left flex items-center justify-between group ${
-                            isMain 
-                            ? "bg-primary/10 border-primary text-primary ring-2 ring-primary/20" 
-                            : isSecondary
-                            ? "bg-primary/5 border-primary/40 text-primary/80 border-dashed"
-                            : "bg-card/50 border-border/50 text-muted-foreground hover:border-primary/30"
+                          key={sit}
+                          onClick={() => updateForm({ ...formData, currentSituation: sit })}
+                          className={`group p-4 rounded-2xl border transition-all duration-200 text-left min-h-[64px] flex items-center gap-3 ${
+                            isSelected
+                              ? "bg-primary/5 border-primary shadow-[0_0_16px_rgba(197,244,65,0.08)]"
+                              : "bg-white/2 border-white/8 hover:border-primary/30 hover:bg-white/4"
                           }`}
                         >
-                          <div className="flex items-center gap-3">
-                            <Target className={`w-4 h-4 transition-colors ${isMain || isSecondary ? "text-primary" : "text-muted-foreground group-hover:text-primary/50"}`} />
-                            <div className="flex flex-col">
-                              <span className="font-medium">{obj}</span>
-                              {isMain && <span className="text-[9px] uppercase tracking-tighter opacity-70">Objectif Principal</span>}
-                              {isSecondary && <span className="text-[9px] uppercase tracking-tighter opacity-70">Objectif Secondaire</span>}
-                            </div>
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                            isSelected ? "bg-primary/20 text-primary" : "bg-muted/50 text-muted-foreground"
+                          }`}>
+                            <Icon className="w-4 h-4" />
                           </div>
-                          <div className="flex items-center gap-2">
-                            {isMain && <Check className="w-4 h-4" />}
-                            {isSecondary && <div className="w-2 h-2 rounded-full bg-primary/40" />}
-                          </div>
+                          <p className={`text-sm font-medium leading-tight transition-colors ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
+                            {meta.label}
+                          </p>
+                          {isSelected && <Check className="w-4 h-4 text-primary ml-auto shrink-0" />}
                         </button>
                       )
                     })}
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between pt-8 border-t border-border/50">
-                <Button 
-                  variant="ghost" 
+            {/* ── Step 4: Objective ───────────────────────────────────────── */}
+            {step === 4 && (
+              <div className="space-y-6">
+                <div className="text-center space-y-3">
+                  <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
+                    <Target className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-xl font-black uppercase tracking-tighter">Ton Objectif Principal</h2>
+                  <p className="text-muted-foreground text-sm">Pourquoi rejoins-tu HASHCODE aujourd'hui ?</p>
+                </div>
+
+                <div className="grid gap-2">
+                  {(Object.values(MainObjective) as MainObjective[]).map(obj => {
+                    const meta = OBJECTIVE_META[obj]
+                    const Icon = meta.icon
+                    const isSelected = formData.mainObjective === obj
+                    return (
+                      <button
+                        key={obj}
+                        onClick={() => updateForm({ ...formData, mainObjective: obj })}
+                        className={`px-4 py-4 rounded-xl border text-sm transition-all text-left flex items-center gap-3 group min-h-[56px] ${
+                          isSelected
+                            ? "bg-primary/10 border-primary text-foreground ring-2 ring-primary/20"
+                            : "bg-white/2 border-white/8 text-muted-foreground hover:border-primary/30 hover:bg-white/4"
+                        }`}
+                      >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          isSelected ? "bg-primary/20 text-primary" : "bg-muted/50 text-muted-foreground"
+                        }`}>
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className="font-medium flex-1 leading-tight">{obj}</span>
+                        {isSelected && <Check className="w-4 h-4 text-primary shrink-0" />}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── Step 5: Bridge ──────────────────────────────────────────── */}
+            {step === 5 && (
+              <div className="text-center space-y-8">
+                <div className="space-y-3">
+                  <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.08)]">
+                    <Brain className="w-8 h-8" />
+                  </div>
+                  <h2 className="text-2xl font-black uppercase tracking-tighter">Ton Diagnostic de Profil</h2>
+                  <p className="text-muted-foreground text-sm max-w-md mx-auto">
+                    Le quiz analyse ta façon de penser et d'agir pour t'assigner l'une des <span className="text-foreground font-semibold">4 classes HASHCODE</span>.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {CLASSES.map(cls => (
+                    <div key={cls.name} className="p-4 rounded-2xl bg-white/2 border border-white/5 text-left space-y-2">
+                      <div className="text-2xl">{cls.icon}</div>
+                      <div className="font-black text-sm text-white uppercase tracking-wide">{cls.name}</div>
+                      <div className="text-[10px] text-zinc-500 leading-relaxed">{cls.desc}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-primary/5 border border-primary/10 text-left">
+                  <Sparkles className="w-4 h-4 text-primary shrink-0" />
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">
+                    <span className="text-primary font-bold">~3 minutes.</span>{" "}
+                    Réponds instinctivement — il n'y a pas de bonne ou mauvaise réponse.
+                  </p>
+                </div>
+
+                <Button
+                  onClick={next}
+                  disabled={isSubmitting}
+                  className="btn-primary-glow px-12 h-14 rounded-2xl text-sm font-black uppercase tracking-wider group w-full"
+                >
+                  {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                    <>
+                      Démarrer le diagnostic
+                      <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+
+            {/* ── Navigation (steps 1-4) ───────────────────────────────────── */}
+            {step >= 1 && step <= 4 && (
+              <div className="flex items-center justify-between pt-6 border-t border-border/30">
+                <Button
+                  variant="ghost"
                   onClick={prev}
-                  disabled={step === 0 || isSubmitting}
+                  disabled={isSubmitting}
                   className="font-mono text-xs uppercase tracking-wider"
                 >
                   Retour
                 </Button>
-                <Button 
+                <Button
                   onClick={next}
-                  disabled={isSubmitting || (step === 0 && (!formData.country || !formData.currentSituation)) || (step === 1 && !formData.mainObjective)}
+                  disabled={isNextDisabled()}
                   className="btn-primary-glow px-10 h-12 rounded-2xl group"
                 >
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      {step === STEPS.length - 1 ? "Terminer" : "Suivant"}
+                      {step === 4 ? "Terminer le profil" : "Suivant"}
                       <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </Button>
               </div>
-              
-              <p className="text-[10px] text-center text-muted-foreground/60 leading-relaxed max-w-sm mx-auto">
-                En poursuivant, vous acceptez que HASHCODE utilise vos réponses et interactions afin de <span className="text-muted-foreground">personnaliser votre expérience d&apos;apprentissage</span>. 
-                Consultez notre <a href="/privacy" className="underline hover:text-primary transition-colors">Politique de Confidentialité</a>.
-              </p>
-            </div>
+            )}
+
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase bg-muted/30 px-3 py-1 rounded-full border border-border/50">
-            <Sparkles className="w-3 h-3 text-primary" />
-            Étape {step + 1} / {STEPS.length}
-          </div>
-        </div>
+        {/* Privacy note */}
+        {step >= 1 && step <= 4 && (
+          <p className="mt-8 text-[9px] text-center text-muted-foreground/40 leading-relaxed max-w-sm mx-auto">
+            Tes réponses sont utilisées pour personnaliser ton expérience.{" "}
+            <a href="/privacy" className="underline hover:text-primary transition-colors">Politique de confidentialité</a>
+          </p>
+        )}
       </div>
     </div>
   )

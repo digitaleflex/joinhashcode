@@ -12,7 +12,11 @@ import { handleApiError } from "@/lib/api-error-handler";
 import { awardXp } from "@/lib/experience";
 import { cookies } from "next/headers";
 
+const pseudoRegex = /^[a-zA-Z0-9_]{3,20}$/;
+
 const onboardingSchema = z.object({
+  pseudo: z.string().regex(pseudoRegex, "Pseudo invalide (3-20 caractères, lettres, chiffres, _)").optional(),
+  technicalLevel: z.enum(["Débutant", "Intermédiaire", "Avancé"]).optional(),
   country: z.string().min(1).max(100).optional(),
   currentSituation: z.string().min(1).max(200).optional(),
   mainObjective: z.string().min(1).max(300).optional(),
@@ -48,6 +52,8 @@ export async function PATCH(req: Request) {
         id: true,
         name: true,
         email: true,
+        pseudo: true,
+        technicalLevel: true,
         country: true,
         currentSituation: true,
         mainObjective: true,
@@ -55,6 +61,11 @@ export async function PATCH(req: Request) {
         language: true,
         updatedAt: true,
       }
+    }).catch((err: any) => {
+      if (err?.code === "P2002" && err?.meta?.target?.includes("pseudo")) {
+        throw Object.assign(new Error("PSEUDO_TAKEN"), { status: 409 });
+      }
+      throw err;
     });
 
     logActivity({
@@ -98,7 +109,10 @@ export async function PATCH(req: Request) {
     await invalidateUserCache(session.user.id);
 
     return NextResponse.json(updatedUser);
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.message === "PSEUDO_TAKEN") {
+      return NextResponse.json({ message: "Ce pseudo est déjà pris, choisis-en un autre." }, { status: 409 });
+    }
     return handleApiError(error, "ONBOARDING_PATCH");
   }
 }

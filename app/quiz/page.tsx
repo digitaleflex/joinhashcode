@@ -45,20 +45,20 @@ export default async function QuizPage() {
       <Nav />
       <div className="flex-1 flex flex-col items-center justify-center pt-16 pb-12">
         <div className="w-full max-w-4xl px-4">
-          <Link 
-            href="/" 
+          <Link
+            href="/onboarding"
             className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors mb-12 group"
           >
             <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
-            ANNULER ET RETOURNER À L'ACCUEIL
+            RETOUR AU PROFIL
           </Link>
 
           <div className="text-center mb-6">
             <h1 className="text-sm font-mono uppercase text-primary mb-2">
-              Diagnostic de ton profil
+              Diagnostic de ton profil · ~3 minutes
             </h1>
             <p className="text-muted-foreground text-sm">
-              Réponds sincèrement pour obtenir le diagnostic le plus précis possible.
+              Réponds instinctivement — il n&apos;y a pas de bonne ou mauvaise réponse.
             </p>
           </div>
           <Quiz user={user ?? undefined} />
