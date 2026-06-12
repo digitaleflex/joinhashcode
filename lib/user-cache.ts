@@ -9,6 +9,11 @@ export async function getCachedUser(userId: string) {
   if (!redis) {
     return prisma.user.findUnique({
       where: { id: userId },
+      include: {
+        psychometrics: true,
+        socials: true,
+        stats: true,
+      }
     });
   }
 
@@ -26,6 +31,11 @@ export async function getCachedUser(userId: string) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
+    include: {
+      psychometrics: true,
+      socials: true,
+      stats: true,
+    }
   });
 
   if (user && redis) {

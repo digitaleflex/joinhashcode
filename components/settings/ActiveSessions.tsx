@@ -18,7 +18,7 @@ export function ActiveSessions() {
             const { data, error } = await authClient.listSessions()
             if (error) throw error
             // Sort to put current session first, then by newest
-            const sorted = (data || []).sort((a, b) => {
+            const sorted = (data || []).sort((a: any, b: any) => {
                 if (a.id === currentSession?.session?.id) return -1
                 if (b.id === currentSession?.session?.id) return 1
                 return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()

@@ -26,7 +26,7 @@ export async function GET(req: Request) {
   if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
-    const users = await prisma.user.findMany({
+    const usersData = await prisma.user.findMany({
       select: {
         id: true,
         name: true,
@@ -36,20 +36,50 @@ export async function GET(req: Request) {
         class: true,
         level: true,
         experience: true,
-        builderScore: true,
-        creatorScore: true,
-        strategistScore: true,
-        catalystScore: true,
-        confidenceScore: true,
         missionsCompletedCount: true,
-        currentStreak: true,
         createdAt: true,
         city: true,
         country: true,
         technicalLevel: true,
+        psychometrics: {
+          select: {
+            builderScore: true,
+            creatorScore: true,
+            strategistScore: true,
+            catalystScore: true,
+            confidenceScore: true,
+          }
+        },
+        stats: {
+          select: {
+            currentStreak: true,
+          }
+        }
       },
       orderBy: { createdAt: "desc" },
     });
+
+    const users = usersData.map(u => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      pseudo: u.pseudo,
+      role: u.role,
+      class: u.class,
+      level: u.level,
+      experience: u.experience,
+      builderScore: u.psychometrics?.builderScore ?? 0,
+      creatorScore: u.psychometrics?.creatorScore ?? 0,
+      strategistScore: u.psychometrics?.strategistScore ?? 0,
+      catalystScore: u.psychometrics?.catalystScore ?? 0,
+      confidenceScore: u.psychometrics?.confidenceScore ?? 0.25,
+      missionsCompletedCount: u.missionsCompletedCount,
+      currentStreak: u.stats?.currentStreak ?? 0,
+      createdAt: u.createdAt,
+      city: u.city,
+      country: u.country,
+      technicalLevel: u.technicalLevel,
+    }));
 
     // Simple CSV conversion with Fix SEC-009: Formula Injection Protection
     const headers = Object.keys(users[0] || {}).join(",");

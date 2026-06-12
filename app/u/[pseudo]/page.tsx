@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { DossierView } from "@/components/dossier/dossier-view";
 import { Nav } from "@/components/landing/nav";
@@ -39,16 +39,38 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PublicProfilePage({ params }: PageProps) {
   const { pseudo } = await params;
 
-  const user = await prisma.user.findUnique({
+  const dbUser = await prisma.user.findUnique({
     where: { pseudo },
     select: {
       id: true, name: true, pseudo: true, image: true, bio: true,
-      city: true, country: true, githubUrl: true, linkedinUrl: true, twitterUrl: true,
-      class: true, level: true, experience: true, currentStreak: true,
-      builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true,
-      confidenceScore: true, behavioralVibrancy: true, technicalLevel: true,
+      city: true, country: true,
+      class: true, level: true, experience: true,
+      behavioralVibrancy: true, technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
       memberNumber: true, missionsCompletedCount: true, createdAt: true, banned: true,
+      psychometrics: {
+        select: {
+          builderScore: true,
+          creatorScore: true,
+          strategistScore: true,
+          catalystScore: true,
+          confidenceScore: true,
+        }
+      },
+      socials: {
+        select: {
+          githubUrl: true,
+          linkedinUrl: true,
+          twitterUrl: true,
+          portfolioUrl: true,
+        }
+      },
+      stats: {
+        select: {
+          currentStreak: true,
+          lastCheckinAt: true,
+        }
+      },
       quizResults: {
         select: { id: true, profileType: true, createdAt: true },
         orderBy: { createdAt: 'desc' },
@@ -83,12 +105,27 @@ export default async function PublicProfilePage({ params }: PageProps) {
     },
   });
 
-  if (!user || user.banned) {
+  if (!dbUser || dbUser.banned) {
     notFound();
   }
 
-  const activeOrg = user.members[0]?.organization ?? null;
-  const quizResult = user.quizResults?.[0];
+  // Aplatir l'objet user pour la compatibilité avec DossierView
+  const user = {
+    ...dbUser,
+    githubUrl: dbUser.socials?.githubUrl ?? null,
+    linkedinUrl: dbUser.socials?.linkedinUrl ?? null,
+    twitterUrl: dbUser.socials?.twitterUrl ?? null,
+    portfolioUrl: dbUser.socials?.portfolioUrl ?? null,
+    currentStreak: dbUser.stats?.currentStreak ?? 0,
+    builderScore: dbUser.psychometrics?.builderScore ?? 0,
+    creatorScore: dbUser.psychometrics?.creatorScore ?? 0,
+    strategistScore: dbUser.psychometrics?.strategistScore ?? 0,
+    catalystScore: dbUser.psychometrics?.catalystScore ?? 0,
+    confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
+  };
+
+  const activeOrg = dbUser.members[0]?.organization ?? null;
+  const quizResult = dbUser.quizResults?.[0];
 
   // Fetch squad activity logs for the public view (limited)
   let squadMembersLogs: any[] = [];

@@ -37,8 +37,8 @@ export default async function AdminPage() {
     }),
     prisma.missionSubmission.findMany({ select: { userId: true }, distinct: ["userId"] }).then(r => r.length),
     // Retention
-    prisma.user.count({ where: { lastCheckinAt: { gte: sevenDaysAgo } } }),
-    prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
+    prisma.user.count({ where: { stats: { lastCheckinAt: { gte: sevenDaysAgo } } } }),
+    prisma.user.count({ where: { stats: { lastCheckinAt: { not: null } } } }),
   ])
 
   const profileColors: Record<string, string> = {

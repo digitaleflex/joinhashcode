@@ -114,7 +114,6 @@ export function UserRowActions({ user }: UserRowActionsProps) {
 
   const handleImpersonate = async () => {
     try {
-      // @ts-expect-error
       await authClient.admin.impersonate({
         userId: user.id,
       })

@@ -5,7 +5,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
-## [2.2.0] — 2026-06-12
+## [2.3.0] — 2026-06-12
 
 ### 🛡️ Sécurité (Plan de Remédiation 20/20)
 Cette release marque la complétion du plan de remédiation de sécurité suite à l'audit complet du système.

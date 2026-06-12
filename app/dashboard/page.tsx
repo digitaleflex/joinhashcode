@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   let member: any = null;
 
   try {
-    ;[dbUser, quizResult, submissions, member] = await Promise.all([
+    const [userRes, quizRes, subRes, memRes] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
@@ -33,18 +33,26 @@ export default async function DashboardPage() {
           level: true,
           experience: true,
           class: true,
-          builderScore: true,
-          creatorScore: true,
-          strategistScore: true,
-          catalystScore: true,
           missionsCompletedCount: true,
-          lastCheckinAt: true,
           behavioralVibrancy: true,
-          currentStreak: true,
-          confidenceScore: true,
           pseudo: true,
           referralCode: true,
           referralCount: true,
+          psychometrics: {
+            select: {
+              builderScore: true,
+              creatorScore: true,
+              strategistScore: true,
+              catalystScore: true,
+              confidenceScore: true,
+            }
+          },
+          stats: {
+            select: {
+              lastCheckinAt: true,
+              currentStreak: true,
+            }
+          }
         }
       }),
       prisma.quizResult.findFirst({
@@ -90,6 +98,20 @@ export default async function DashboardPage() {
         }
       })
     ]);
+
+    dbUser = userRes ? {
+      ...userRes,
+      builderScore: userRes.psychometrics?.builderScore ?? 0,
+      creatorScore: userRes.psychometrics?.creatorScore ?? 0,
+      strategistScore: userRes.psychometrics?.strategistScore ?? 0,
+      catalystScore: userRes.psychometrics?.catalystScore ?? 0,
+      confidenceScore: userRes.psychometrics?.confidenceScore ?? 0.25,
+      lastCheckinAt: userRes.stats?.lastCheckinAt ?? null,
+      currentStreak: userRes.stats?.currentStreak ?? 0,
+    } : null;
+    quizResult = quizRes;
+    submissions = subRes;
+    member = memRes;
   } catch (err) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
     throw err // propagates to app/dashboard/error.tsx

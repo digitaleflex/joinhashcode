@@ -42,6 +42,7 @@ vi.mock("../lib/ratelimit", () => ({
   checkinLimiter: {},
   claimLimiter: {},
   squadJoinLimiter: {},
+  redis: null,
 }));
 
 vi.mock("next/headers", () => ({

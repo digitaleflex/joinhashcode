@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import type { LucideIcon } from "lucide-react"
 import {
   Shield, UserPlus, Users, Activity, Zap, Trophy,
@@ -129,6 +130,7 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
 const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/
 
 export function SquadJourney({ user, squad }: { user: any; squad: any }) {
+  const router = useRouter()
   const [isCopying, setIsCopying] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [isAuditing, setIsAuditing] = useState(false)
@@ -357,7 +359,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
         throw new Error(data.error || "Erreur lors de la création.")
       }
       toast.success("Escouade créée — protocole initialisé !")
-      window.location.reload()
+      router.refresh()
     } catch (err: any) {
       toast.error(err.message || "Erreur lors de la création.")
     } finally {
@@ -375,7 +377,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       })
       if (!res.ok) throw new Error(await res.text())
       toast.success("Membre retiré de l'escouade.")
-      window.location.reload()
+      router.refresh()
     } catch (err: any) {
       toast.error(err.message || "Erreur lors de l'expulsion.")
     } finally {
@@ -395,7 +397,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       if (!res.ok) throw new Error(data.error || "Erreur lors du transfert.")
       toast.success("Leadership transféré avec succès.")
       setTransferTargetId(null)
-      window.location.reload()
+      router.refresh()
     } catch (err: any) {
       toast.error(err.message)
     } finally {
@@ -409,7 +411,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       const res = await fetch("/api/squad/disband", { method: "DELETE" })
       if (!res.ok) throw new Error(await res.text())
       toast.success("Escouade dissoute.")
-      window.location.reload()
+      router.refresh()
     } catch (err: any) {
       toast.error(err.message || "Erreur lors de la dissolution.")
     } finally {
@@ -439,7 +441,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       if (!res.ok) throw new Error(await res.text())
       toast.success(action === "accept" ? "Membre accepté !" : "Demande refusée.")
       setJoinRequests(prev => prev.filter(r => r.id !== requestId))
-      if (action === "accept") window.location.reload()
+      if (action === "accept") router.refresh()
     } catch (err: any) {
       toast.error(err.message || "Erreur.")
     } finally {

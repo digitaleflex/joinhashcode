@@ -29,10 +29,12 @@ export async function POST(req: Request) {
       const inactiveUsers: { id: string }[] = await prisma.user.findMany({
         where: {
           class: { not: null },
-          OR: [
-            { lastCheckinAt: null },
-            { lastCheckinAt: { lt: cutoff } },
-          ],
+          stats: {
+            OR: [
+              { lastCheckinAt: null },
+              { lastCheckinAt: { lt: cutoff } },
+            ],
+          },
           id: lastId ? { gt: lastId } : undefined,
         },
         select: { id: true },

@@ -75,7 +75,11 @@ export async function POST(req: Request) {
         lastHypothesisUpdate: true,
         class: true,
         missionsCompletedCount: true,
-        currentStreak: true,
+        stats: {
+          select: {
+            currentStreak: true,
+          }
+        },
       }
     });
 
@@ -112,7 +116,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
+    const SYNC_BONUS_XP = (dbUser.stats?.currentStreak || 0) >= 3 ? 6 : 5;
     const isAutoApproved = mission.isWeeklyChallenge;
     const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
     const xpToAward = isAutoApproved ? mission.xp : 0;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
@@ -26,6 +27,7 @@ function ActivityDot({ lastCheckinAt }: { lastCheckinAt?: string | null }) {
 }
 
 export function MemberList({ members, currentUserId }: MemberListProps) {
+  const router = useRouter();
   const currentUserMember = members.find((m) => m.userId === currentUserId);
   const isLeader = currentUserMember?.role === "owner";
   const isAdmin = currentUserMember?.role === "admin";
@@ -55,7 +57,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
       }
       else { 
         toast.success(`Rôle de ${name} mis à jour : ${newRole === 'admin' ? 'Officier' : 'Membre'}`); 
-        window.location.reload(); 
+        router.refresh(); 
       }
     } catch { toast.error("Une erreur inattendue est survenue"); }
   };
@@ -69,7 +71,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
         body: JSON.stringify({ memberId: guildMemberId, action: "remove" }),
       });
       if (!res.ok) { toast.error(await res.text() || "Erreur lors de la suppression"); }
-      else { toast.success(`${name} a été retiré de l'escouade`); window.location.reload(); }
+      else { toast.success(`${name} a été retiré de l'escouade`); router.refresh(); }
     } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
@@ -82,7 +84,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
         body: JSON.stringify({ targetMemberId: memberId }),
       });
       if (!res.ok) { const d = await res.json().catch(() => ({})); toast.error(d.error || "Erreur lors du transfert"); }
-      else { toast.success(`Leadership transféré à ${name}`); window.location.reload(); }
+      else { toast.success(`Leadership transféré à ${name}`); router.refresh(); }
     } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 

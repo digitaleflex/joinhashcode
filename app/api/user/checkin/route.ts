@@ -1,4 +1,4 @@
-﻿import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -66,8 +66,18 @@ export async function POST(req: Request) {
       await tx.user.update({
         where: { id: session.user.id },
         data: {
-          lastCheckinAt: new Date(),
-          currentStreak: { increment: 1 },
+          stats: {
+            upsert: {
+              create: {
+                lastCheckinAt: new Date(),
+                currentStreak: 1,
+              },
+              update: {
+                lastCheckinAt: new Date(),
+                currentStreak: { increment: 1 },
+              }
+            }
+          }
         },
       });
 

@@ -6,6 +6,7 @@ import { containsProfanity } from "@/lib/security";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { invalidateUserCache } from "@/lib/user-cache";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
@@ -67,9 +68,29 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ message: firstError || "Certaines données transmises sont invalides." }, { status: 400 });
     }
 
+    const { githubUrl, portfolioUrl, twitterUrl, linkedinUrl, ...restData } = parsed.data;
+
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
-      data: parsed.data,
+      data: {
+        ...restData,
+        socials: {
+          upsert: {
+            create: {
+              githubUrl: githubUrl || null,
+              portfolioUrl: portfolioUrl || null,
+              twitterUrl: twitterUrl || null,
+              linkedinUrl: linkedinUrl || null,
+            },
+            update: {
+              githubUrl: githubUrl !== undefined ? githubUrl : undefined,
+              portfolioUrl: portfolioUrl !== undefined ? portfolioUrl : undefined,
+              twitterUrl: twitterUrl !== undefined ? twitterUrl : undefined,
+              linkedinUrl: linkedinUrl !== undefined ? linkedinUrl : undefined,
+            }
+          }
+        }
+      },
       select: {
         id: true,
         name: true,
@@ -84,19 +105,43 @@ export async function PATCH(req: Request) {
         country: true,
         city: true,
         language: true,
-        githubUrl: true,
-        linkedinUrl: true,
-        twitterUrl: true,
-        portfolioUrl: true,
         domains: true,
         tools: true,
         mainObjective: true,
         secondaryObjectives: true,
         updatedAt: true,
+        socials: true,
       }
     });
 
-    return NextResponse.json(updatedUser);
+    await invalidateUserCache(session.user.id);
+
+    const safeUser = {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      image: updatedUser.image,
+      level: updatedUser.level,
+      experience: updatedUser.experience,
+      class: updatedUser.class,
+      role: updatedUser.role,
+      pseudo: updatedUser.pseudo,
+      bio: updatedUser.bio,
+      country: updatedUser.country,
+      city: updatedUser.city,
+      language: updatedUser.language,
+      githubUrl: updatedUser.socials?.githubUrl ?? null,
+      linkedinUrl: updatedUser.socials?.linkedinUrl ?? null,
+      twitterUrl: updatedUser.socials?.twitterUrl ?? null,
+      portfolioUrl: updatedUser.socials?.portfolioUrl ?? null,
+      domains: updatedUser.domains,
+      tools: updatedUser.tools,
+      mainObjective: updatedUser.mainObjective,
+      secondaryObjectives: updatedUser.secondaryObjectives,
+      updatedAt: updatedUser.updatedAt,
+    };
+
+    return NextResponse.json(safeUser);
   } catch (error: any) {
     console.error("[USER_UPDATE_PATCH]", error);
 

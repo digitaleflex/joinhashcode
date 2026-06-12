@@ -136,38 +136,25 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   badges: 'badges',
   behavioralVibrancy: 'behavioralVibrancy',
-  builderScore: 'builderScore',
-  catalystScore: 'catalystScore',
   cardSignature: 'cardSignature',
   cardIssuedAt: 'cardIssuedAt',
   cardTier: 'cardTier',
   city: 'city',
-  confidenceScore: 'confidenceScore',
   country: 'country',
-  creatorScore: 'creatorScore',
   currentSituation: 'currentSituation',
   domains: 'domains',
-  githubUrl: 'githubUrl',
   language: 'language',
   lastHypothesisUpdate: 'lastHypothesisUpdate',
   mainObjective: 'mainObjective',
   missionsCompletedCount: 'missionsCompletedCount',
-  portfolioUrl: 'portfolioUrl',
   pseudo: 'pseudo',
-  strategistScore: 'strategistScore',
   technicalLevel: 'technicalLevel',
   tools: 'tools',
   secondaryObjectives: 'secondaryObjectives',
   bio: 'bio',
-  linkedinUrl: 'linkedinUrl',
   memberNumber: 'memberNumber',
-  twitterUrl: 'twitterUrl',
   currentFocus: 'currentFocus',
   dreamStatement: 'dreamStatement',
-  lastCheckinAt: 'lastCheckinAt',
-  currentStreak: 'currentStreak',
-  longestStreak: 'longestStreak',
-  lastStreakDate: 'lastStreakDate',
   mainBlocker: 'mainBlocker',
   banned: 'banned',
   banReason: 'banReason',
@@ -469,6 +456,43 @@ exports.Prisma.PasskeyScalarFieldEnum = {
   aaguid: 'aaguid'
 };
 
+exports.Prisma.XpTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  reason: 'reason',
+  sourceId: 'sourceId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PsychometricScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  builderScore: 'builderScore',
+  creatorScore: 'creatorScore',
+  strategistScore: 'strategistScore',
+  catalystScore: 'catalystScore',
+  confidenceScore: 'confidenceScore'
+};
+
+exports.Prisma.UserSocialsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  githubUrl: 'githubUrl',
+  portfolioUrl: 'portfolioUrl',
+  linkedinUrl: 'linkedinUrl',
+  twitterUrl: 'twitterUrl'
+};
+
+exports.Prisma.EngagementStatsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastCheckinAt: 'lastCheckinAt',
+  lastStreakDate: 'lastStreakDate'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -524,7 +548,11 @@ exports.Prisma.ModelName = {
   JoinRequest: 'JoinRequest',
   BetaKey: 'BetaKey',
   TwoFactor: 'TwoFactor',
-  Passkey: 'Passkey'
+  Passkey: 'Passkey',
+  XpTransaction: 'XpTransaction',
+  Psychometric: 'Psychometric',
+  UserSocials: 'UserSocials',
+  EngagementStats: 'EngagementStats'
 };
 
 /**

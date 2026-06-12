@@ -16,7 +16,7 @@ export async function GET() {
 
     if (!membership) return NextResponse.json([]);
 
-    const members = await prisma.member.findMany({
+    const membersData = await prisma.member.findMany({
       where: { organizationId: membership.organizationId },
       select: {
         id: true,
@@ -30,11 +30,30 @@ export async function GET() {
             image: true,
             class: true,
             level: true,
-            lastCheckinAt: true,
+            stats: {
+              select: {
+                lastCheckinAt: true,
+              }
+            }
           },
         },
       },
     });
+
+    const members = membersData.map(m => ({
+      id: m.id,
+      userId: m.userId,
+      role: m.role,
+      user: {
+        id: m.user.id,
+        name: m.user.name,
+        pseudo: m.user.pseudo,
+        image: m.user.image,
+        class: m.user.class,
+        level: m.user.level,
+        lastCheckinAt: m.user.stats?.lastCheckinAt ?? null,
+      }
+    }));
 
     return NextResponse.json(members);
   } catch (error) {

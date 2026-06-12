@@ -133,6 +133,26 @@ export type TwoFactor = $Result.DefaultSelection<Prisma.$TwoFactorPayload>
  * 
  */
 export type Passkey = $Result.DefaultSelection<Prisma.$PasskeyPayload>
+/**
+ * Model XpTransaction
+ * 
+ */
+export type XpTransaction = $Result.DefaultSelection<Prisma.$XpTransactionPayload>
+/**
+ * Model Psychometric
+ * 
+ */
+export type Psychometric = $Result.DefaultSelection<Prisma.$PsychometricPayload>
+/**
+ * Model UserSocials
+ * 
+ */
+export type UserSocials = $Result.DefaultSelection<Prisma.$UserSocialsPayload>
+/**
+ * Model EngagementStats
+ * 
+ */
+export type EngagementStats = $Result.DefaultSelection<Prisma.$EngagementStatsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -494,6 +514,46 @@ export class PrismaClient<
     * ```
     */
   get passkey(): Prisma.PasskeyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.xpTransaction`: Exposes CRUD operations for the **XpTransaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more XpTransactions
+    * const xpTransactions = await prisma.xpTransaction.findMany()
+    * ```
+    */
+  get xpTransaction(): Prisma.XpTransactionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.psychometric`: Exposes CRUD operations for the **Psychometric** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Psychometrics
+    * const psychometrics = await prisma.psychometric.findMany()
+    * ```
+    */
+  get psychometric(): Prisma.PsychometricDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userSocials`: Exposes CRUD operations for the **UserSocials** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserSocials
+    * const userSocials = await prisma.userSocials.findMany()
+    * ```
+    */
+  get userSocials(): Prisma.UserSocialsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.engagementStats`: Exposes CRUD operations for the **EngagementStats** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EngagementStats
+    * const engagementStats = await prisma.engagementStats.findMany()
+    * ```
+    */
+  get engagementStats(): Prisma.EngagementStatsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -951,7 +1011,11 @@ export namespace Prisma {
     JoinRequest: 'JoinRequest',
     BetaKey: 'BetaKey',
     TwoFactor: 'TwoFactor',
-    Passkey: 'Passkey'
+    Passkey: 'Passkey',
+    XpTransaction: 'XpTransaction',
+    Psychometric: 'Psychometric',
+    UserSocials: 'UserSocials',
+    EngagementStats: 'EngagementStats'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -967,7 +1031,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "organization" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "quizFeedback" | "uXPollResponse" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest" | "betaKey" | "twoFactor" | "passkey"
+      modelProps: "user" | "organization" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "quizFeedback" | "uXPollResponse" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest" | "betaKey" | "twoFactor" | "passkey" | "xpTransaction" | "psychometric" | "userSocials" | "engagementStats"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2747,6 +2811,302 @@ export namespace Prisma {
           }
         }
       }
+      XpTransaction: {
+        payload: Prisma.$XpTransactionPayload<ExtArgs>
+        fields: Prisma.XpTransactionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.XpTransactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.XpTransactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          findFirst: {
+            args: Prisma.XpTransactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.XpTransactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          findMany: {
+            args: Prisma.XpTransactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>[]
+          }
+          create: {
+            args: Prisma.XpTransactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          createMany: {
+            args: Prisma.XpTransactionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.XpTransactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>[]
+          }
+          delete: {
+            args: Prisma.XpTransactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          update: {
+            args: Prisma.XpTransactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          deleteMany: {
+            args: Prisma.XpTransactionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.XpTransactionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.XpTransactionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>[]
+          }
+          upsert: {
+            args: Prisma.XpTransactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$XpTransactionPayload>
+          }
+          aggregate: {
+            args: Prisma.XpTransactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateXpTransaction>
+          }
+          groupBy: {
+            args: Prisma.XpTransactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<XpTransactionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.XpTransactionCountArgs<ExtArgs>
+            result: $Utils.Optional<XpTransactionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Psychometric: {
+        payload: Prisma.$PsychometricPayload<ExtArgs>
+        fields: Prisma.PsychometricFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PsychometricFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PsychometricFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          findFirst: {
+            args: Prisma.PsychometricFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PsychometricFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          findMany: {
+            args: Prisma.PsychometricFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>[]
+          }
+          create: {
+            args: Prisma.PsychometricCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          createMany: {
+            args: Prisma.PsychometricCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PsychometricCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>[]
+          }
+          delete: {
+            args: Prisma.PsychometricDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          update: {
+            args: Prisma.PsychometricUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          deleteMany: {
+            args: Prisma.PsychometricDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PsychometricUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PsychometricUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>[]
+          }
+          upsert: {
+            args: Prisma.PsychometricUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychometricPayload>
+          }
+          aggregate: {
+            args: Prisma.PsychometricAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePsychometric>
+          }
+          groupBy: {
+            args: Prisma.PsychometricGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PsychometricGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PsychometricCountArgs<ExtArgs>
+            result: $Utils.Optional<PsychometricCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserSocials: {
+        payload: Prisma.$UserSocialsPayload<ExtArgs>
+        fields: Prisma.UserSocialsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserSocialsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserSocialsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          findFirst: {
+            args: Prisma.UserSocialsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserSocialsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          findMany: {
+            args: Prisma.UserSocialsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>[]
+          }
+          create: {
+            args: Prisma.UserSocialsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          createMany: {
+            args: Prisma.UserSocialsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserSocialsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>[]
+          }
+          delete: {
+            args: Prisma.UserSocialsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          update: {
+            args: Prisma.UserSocialsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserSocialsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserSocialsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserSocialsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserSocialsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSocialsPayload>
+          }
+          aggregate: {
+            args: Prisma.UserSocialsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserSocials>
+          }
+          groupBy: {
+            args: Prisma.UserSocialsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserSocialsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserSocialsCountArgs<ExtArgs>
+            result: $Utils.Optional<UserSocialsCountAggregateOutputType> | number
+          }
+        }
+      }
+      EngagementStats: {
+        payload: Prisma.$EngagementStatsPayload<ExtArgs>
+        fields: Prisma.EngagementStatsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EngagementStatsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EngagementStatsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          findFirst: {
+            args: Prisma.EngagementStatsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EngagementStatsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          findMany: {
+            args: Prisma.EngagementStatsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>[]
+          }
+          create: {
+            args: Prisma.EngagementStatsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          createMany: {
+            args: Prisma.EngagementStatsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EngagementStatsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>[]
+          }
+          delete: {
+            args: Prisma.EngagementStatsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          update: {
+            args: Prisma.EngagementStatsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          deleteMany: {
+            args: Prisma.EngagementStatsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EngagementStatsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EngagementStatsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>[]
+          }
+          upsert: {
+            args: Prisma.EngagementStatsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EngagementStatsPayload>
+          }
+          aggregate: {
+            args: Prisma.EngagementStatsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEngagementStats>
+          }
+          groupBy: {
+            args: Prisma.EngagementStatsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EngagementStatsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EngagementStatsCountArgs<ExtArgs>
+            result: $Utils.Optional<EngagementStatsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2879,6 +3239,10 @@ export namespace Prisma {
     betaKey?: BetaKeyOmit
     twoFactor?: TwoFactorOmit
     passkey?: PasskeyOmit
+    xpTransaction?: XpTransactionOmit
+    psychometric?: PsychometricOmit
+    userSocials?: UserSocialsOmit
+    engagementStats?: EngagementStatsOmit
   }
 
   /* Types for Logging */
@@ -2977,6 +3341,7 @@ export namespace Prisma {
     referrals: number
     twofactors: number
     passkeys: number
+    xpTransactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2998,6 +3363,7 @@ export namespace Prisma {
     referrals?: boolean | UserCountOutputTypeCountReferralsArgs
     twofactors?: boolean | UserCountOutputTypeCountTwofactorsArgs
     passkeys?: boolean | UserCountOutputTypeCountPasskeysArgs
+    xpTransactions?: boolean | UserCountOutputTypeCountXpTransactionsArgs
   }
 
   // Custom InputTypes
@@ -3135,6 +3501,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPasskeysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasskeyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountXpTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: XpTransactionWhereInput
   }
 
 
@@ -3299,15 +3672,8 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     level: number | null
     experience: number | null
-    builderScore: number | null
-    catalystScore: number | null
-    confidenceScore: number | null
-    creatorScore: number | null
     missionsCompletedCount: number | null
-    strategistScore: number | null
     memberNumber: number | null
-    currentStreak: number | null
-    longestStreak: number | null
     reviewsCompleted: number | null
     referralCount: number | null
   }
@@ -3315,15 +3681,8 @@ export namespace Prisma {
   export type UserSumAggregateOutputType = {
     level: number | null
     experience: number | null
-    builderScore: number | null
-    catalystScore: number | null
-    confidenceScore: number | null
-    creatorScore: number | null
     missionsCompletedCount: number | null
-    strategistScore: number | null
     memberNumber: number | null
-    currentStreak: number | null
-    longestStreak: number | null
     reviewsCompleted: number | null
     referralCount: number | null
   }
@@ -3342,34 +3701,21 @@ export namespace Prisma {
     experience: number | null
     class: string | null
     role: string | null
-    builderScore: number | null
-    catalystScore: number | null
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    confidenceScore: number | null
     country: string | null
-    creatorScore: number | null
     currentSituation: string | null
-    githubUrl: string | null
     language: string | null
     lastHypothesisUpdate: Date | null
     mainObjective: string | null
     missionsCompletedCount: number | null
-    portfolioUrl: string | null
     pseudo: string | null
-    strategistScore: number | null
     technicalLevel: string | null
     bio: string | null
-    linkedinUrl: string | null
     memberNumber: number | null
-    twitterUrl: string | null
     dreamStatement: string | null
-    lastCheckinAt: Date | null
-    currentStreak: number | null
-    longestStreak: number | null
-    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -3398,34 +3744,21 @@ export namespace Prisma {
     experience: number | null
     class: string | null
     role: string | null
-    builderScore: number | null
-    catalystScore: number | null
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    confidenceScore: number | null
     country: string | null
-    creatorScore: number | null
     currentSituation: string | null
-    githubUrl: string | null
     language: string | null
     lastHypothesisUpdate: Date | null
     mainObjective: string | null
     missionsCompletedCount: number | null
-    portfolioUrl: string | null
     pseudo: string | null
-    strategistScore: number | null
     technicalLevel: string | null
     bio: string | null
-    linkedinUrl: string | null
     memberNumber: number | null
-    twitterUrl: string | null
     dreamStatement: string | null
-    lastCheckinAt: Date | null
-    currentStreak: number | null
-    longestStreak: number | null
-    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -3456,38 +3789,25 @@ export namespace Prisma {
     role: number
     badges: number
     behavioralVibrancy: number
-    builderScore: number
-    catalystScore: number
     cardSignature: number
     cardIssuedAt: number
     cardTier: number
     city: number
-    confidenceScore: number
     country: number
-    creatorScore: number
     currentSituation: number
     domains: number
-    githubUrl: number
     language: number
     lastHypothesisUpdate: number
     mainObjective: number
     missionsCompletedCount: number
-    portfolioUrl: number
     pseudo: number
-    strategistScore: number
     technicalLevel: number
     tools: number
     secondaryObjectives: number
     bio: number
-    linkedinUrl: number
     memberNumber: number
-    twitterUrl: number
     currentFocus: number
     dreamStatement: number
-    lastCheckinAt: number
-    currentStreak: number
-    longestStreak: number
-    lastStreakDate: number
     mainBlocker: number
     banned: number
     banReason: number
@@ -3508,15 +3828,8 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     level?: true
     experience?: true
-    builderScore?: true
-    catalystScore?: true
-    confidenceScore?: true
-    creatorScore?: true
     missionsCompletedCount?: true
-    strategistScore?: true
     memberNumber?: true
-    currentStreak?: true
-    longestStreak?: true
     reviewsCompleted?: true
     referralCount?: true
   }
@@ -3524,15 +3837,8 @@ export namespace Prisma {
   export type UserSumAggregateInputType = {
     level?: true
     experience?: true
-    builderScore?: true
-    catalystScore?: true
-    confidenceScore?: true
-    creatorScore?: true
     missionsCompletedCount?: true
-    strategistScore?: true
     memberNumber?: true
-    currentStreak?: true
-    longestStreak?: true
     reviewsCompleted?: true
     referralCount?: true
   }
@@ -3551,34 +3857,21 @@ export namespace Prisma {
     experience?: true
     class?: true
     role?: true
-    builderScore?: true
-    catalystScore?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    confidenceScore?: true
     country?: true
-    creatorScore?: true
     currentSituation?: true
-    githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
     mainObjective?: true
     missionsCompletedCount?: true
-    portfolioUrl?: true
     pseudo?: true
-    strategistScore?: true
     technicalLevel?: true
     bio?: true
-    linkedinUrl?: true
     memberNumber?: true
-    twitterUrl?: true
     dreamStatement?: true
-    lastCheckinAt?: true
-    currentStreak?: true
-    longestStreak?: true
-    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -3607,34 +3900,21 @@ export namespace Prisma {
     experience?: true
     class?: true
     role?: true
-    builderScore?: true
-    catalystScore?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    confidenceScore?: true
     country?: true
-    creatorScore?: true
     currentSituation?: true
-    githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
     mainObjective?: true
     missionsCompletedCount?: true
-    portfolioUrl?: true
     pseudo?: true
-    strategistScore?: true
     technicalLevel?: true
     bio?: true
-    linkedinUrl?: true
     memberNumber?: true
-    twitterUrl?: true
     dreamStatement?: true
-    lastCheckinAt?: true
-    currentStreak?: true
-    longestStreak?: true
-    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -3665,38 +3945,25 @@ export namespace Prisma {
     role?: true
     badges?: true
     behavioralVibrancy?: true
-    builderScore?: true
-    catalystScore?: true
     cardSignature?: true
     cardIssuedAt?: true
     cardTier?: true
     city?: true
-    confidenceScore?: true
     country?: true
-    creatorScore?: true
     currentSituation?: true
     domains?: true
-    githubUrl?: true
     language?: true
     lastHypothesisUpdate?: true
     mainObjective?: true
     missionsCompletedCount?: true
-    portfolioUrl?: true
     pseudo?: true
-    strategistScore?: true
     technicalLevel?: true
     tools?: true
     secondaryObjectives?: true
     bio?: true
-    linkedinUrl?: true
     memberNumber?: true
-    twitterUrl?: true
     currentFocus?: true
     dreamStatement?: true
-    lastCheckinAt?: true
-    currentStreak?: true
-    longestStreak?: true
-    lastStreakDate?: true
     mainBlocker?: true
     banned?: true
     banReason?: true
@@ -3815,38 +4082,25 @@ export namespace Prisma {
     role: string
     badges: string[]
     behavioralVibrancy: JsonValue | null
-    builderScore: number
-    catalystScore: number
     cardSignature: string | null
     cardIssuedAt: Date | null
     cardTier: string | null
     city: string | null
-    confidenceScore: number
     country: string | null
-    creatorScore: number
     currentSituation: string | null
     domains: string[]
-    githubUrl: string | null
     language: string
     lastHypothesisUpdate: Date | null
     mainObjective: string | null
     missionsCompletedCount: number
-    portfolioUrl: string | null
     pseudo: string | null
-    strategistScore: number
     technicalLevel: string | null
     tools: string[]
     secondaryObjectives: string[]
     bio: string | null
-    linkedinUrl: string | null
     memberNumber: number
-    twitterUrl: string | null
     currentFocus: string[]
     dreamStatement: string | null
-    lastCheckinAt: Date | null
-    currentStreak: number
-    longestStreak: number
-    lastStreakDate: Date | null
     mainBlocker: string | null
     banned: boolean | null
     banReason: string | null
@@ -3897,38 +4151,25 @@ export namespace Prisma {
     role?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
-    builderScore?: boolean
-    catalystScore?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    confidenceScore?: boolean
     country?: boolean
-    creatorScore?: boolean
     currentSituation?: boolean
     domains?: boolean
-    githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
     mainObjective?: boolean
     missionsCompletedCount?: boolean
-    portfolioUrl?: boolean
     pseudo?: boolean
-    strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
     secondaryObjectives?: boolean
     bio?: boolean
-    linkedinUrl?: boolean
     memberNumber?: boolean
-    twitterUrl?: boolean
     currentFocus?: boolean
     dreamStatement?: boolean
-    lastCheckinAt?: boolean
-    currentStreak?: boolean
-    longestStreak?: boolean
-    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -3942,6 +4183,9 @@ export namespace Prisma {
     referralCode?: boolean
     referrerId?: boolean
     referralCount?: boolean
+    psychometrics?: boolean | User$psychometricsArgs<ExtArgs>
+    socials?: boolean | User$socialsArgs<ExtArgs>
+    stats?: boolean | User$statsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
@@ -3962,6 +4206,7 @@ export namespace Prisma {
     referrals?: boolean | User$referralsArgs<ExtArgs>
     twofactors?: boolean | User$twofactorsArgs<ExtArgs>
     passkeys?: boolean | User$passkeysArgs<ExtArgs>
+    xpTransactions?: boolean | User$xpTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3981,38 +4226,25 @@ export namespace Prisma {
     role?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
-    builderScore?: boolean
-    catalystScore?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    confidenceScore?: boolean
     country?: boolean
-    creatorScore?: boolean
     currentSituation?: boolean
     domains?: boolean
-    githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
     mainObjective?: boolean
     missionsCompletedCount?: boolean
-    portfolioUrl?: boolean
     pseudo?: boolean
-    strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
     secondaryObjectives?: boolean
     bio?: boolean
-    linkedinUrl?: boolean
     memberNumber?: boolean
-    twitterUrl?: boolean
     currentFocus?: boolean
     dreamStatement?: boolean
-    lastCheckinAt?: boolean
-    currentStreak?: boolean
-    longestStreak?: boolean
-    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -4046,38 +4278,25 @@ export namespace Prisma {
     role?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
-    builderScore?: boolean
-    catalystScore?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    confidenceScore?: boolean
     country?: boolean
-    creatorScore?: boolean
     currentSituation?: boolean
     domains?: boolean
-    githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
     mainObjective?: boolean
     missionsCompletedCount?: boolean
-    portfolioUrl?: boolean
     pseudo?: boolean
-    strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
     secondaryObjectives?: boolean
     bio?: boolean
-    linkedinUrl?: boolean
     memberNumber?: boolean
-    twitterUrl?: boolean
     currentFocus?: boolean
     dreamStatement?: boolean
-    lastCheckinAt?: boolean
-    currentStreak?: boolean
-    longestStreak?: boolean
-    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -4111,38 +4330,25 @@ export namespace Prisma {
     role?: boolean
     badges?: boolean
     behavioralVibrancy?: boolean
-    builderScore?: boolean
-    catalystScore?: boolean
     cardSignature?: boolean
     cardIssuedAt?: boolean
     cardTier?: boolean
     city?: boolean
-    confidenceScore?: boolean
     country?: boolean
-    creatorScore?: boolean
     currentSituation?: boolean
     domains?: boolean
-    githubUrl?: boolean
     language?: boolean
     lastHypothesisUpdate?: boolean
     mainObjective?: boolean
     missionsCompletedCount?: boolean
-    portfolioUrl?: boolean
     pseudo?: boolean
-    strategistScore?: boolean
     technicalLevel?: boolean
     tools?: boolean
     secondaryObjectives?: boolean
     bio?: boolean
-    linkedinUrl?: boolean
     memberNumber?: boolean
-    twitterUrl?: boolean
     currentFocus?: boolean
     dreamStatement?: boolean
-    lastCheckinAt?: boolean
-    currentStreak?: boolean
-    longestStreak?: boolean
-    lastStreakDate?: boolean
     mainBlocker?: boolean
     banned?: boolean
     banReason?: boolean
@@ -4158,8 +4364,11 @@ export namespace Prisma {
     referralCount?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "badges" | "behavioralVibrancy" | "builderScore" | "catalystScore" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "confidenceScore" | "country" | "creatorScore" | "currentSituation" | "domains" | "githubUrl" | "language" | "lastHypothesisUpdate" | "mainObjective" | "missionsCompletedCount" | "portfolioUrl" | "pseudo" | "strategistScore" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "linkedinUrl" | "memberNumber" | "twitterUrl" | "currentFocus" | "dreamStatement" | "lastCheckinAt" | "currentStreak" | "longestStreak" | "lastStreakDate" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId" | "referralCode" | "referrerId" | "referralCount", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "badges" | "behavioralVibrancy" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "country" | "currentSituation" | "domains" | "language" | "lastHypothesisUpdate" | "mainObjective" | "missionsCompletedCount" | "pseudo" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "memberNumber" | "currentFocus" | "dreamStatement" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId" | "referralCode" | "referrerId" | "referralCount", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychometrics?: boolean | User$psychometricsArgs<ExtArgs>
+    socials?: boolean | User$socialsArgs<ExtArgs>
+    stats?: boolean | User$statsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     dailyCheckins?: boolean | User$dailyCheckinsArgs<ExtArgs>
     guildMembers?: boolean | User$guildMembersArgs<ExtArgs>
@@ -4180,6 +4389,7 @@ export namespace Prisma {
     referrals?: boolean | User$referralsArgs<ExtArgs>
     twofactors?: boolean | User$twofactorsArgs<ExtArgs>
     passkeys?: boolean | User$passkeysArgs<ExtArgs>
+    xpTransactions?: boolean | User$xpTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4194,6 +4404,9 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      psychometrics: Prisma.$PsychometricPayload<ExtArgs> | null
+      socials: Prisma.$UserSocialsPayload<ExtArgs> | null
+      stats: Prisma.$EngagementStatsPayload<ExtArgs> | null
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       dailyCheckins: Prisma.$DailyCheckinPayload<ExtArgs>[]
       guildMembers: Prisma.$GuildMemberPayload<ExtArgs>[]
@@ -4214,6 +4427,7 @@ export namespace Prisma {
       referrals: Prisma.$UserPayload<ExtArgs>[]
       twofactors: Prisma.$TwoFactorPayload<ExtArgs>[]
       passkeys: Prisma.$PasskeyPayload<ExtArgs>[]
+      xpTransactions: Prisma.$XpTransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4231,38 +4445,25 @@ export namespace Prisma {
       role: string
       badges: string[]
       behavioralVibrancy: Prisma.JsonValue | null
-      builderScore: number
-      catalystScore: number
       cardSignature: string | null
       cardIssuedAt: Date | null
       cardTier: string | null
       city: string | null
-      confidenceScore: number
       country: string | null
-      creatorScore: number
       currentSituation: string | null
       domains: string[]
-      githubUrl: string | null
       language: string
       lastHypothesisUpdate: Date | null
       mainObjective: string | null
       missionsCompletedCount: number
-      portfolioUrl: string | null
       pseudo: string | null
-      strategistScore: number
       technicalLevel: string | null
       tools: string[]
       secondaryObjectives: string[]
       bio: string | null
-      linkedinUrl: string | null
       memberNumber: number
-      twitterUrl: string | null
       currentFocus: string[]
       dreamStatement: string | null
-      lastCheckinAt: Date | null
-      currentStreak: number
-      longestStreak: number
-      lastStreakDate: Date | null
       mainBlocker: string | null
       banned: boolean | null
       banReason: string | null
@@ -4670,6 +4871,9 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    psychometrics<T extends User$psychometricsArgs<ExtArgs> = {}>(args?: Subset<T, User$psychometricsArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    socials<T extends User$socialsArgs<ExtArgs> = {}>(args?: Subset<T, User$socialsArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    stats<T extends User$statsArgs<ExtArgs> = {}>(args?: Subset<T, User$statsArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dailyCheckins<T extends User$dailyCheckinsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyCheckinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyCheckinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     guildMembers<T extends User$guildMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$guildMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4690,6 +4894,7 @@ export namespace Prisma {
     referrals<T extends User$referralsArgs<ExtArgs> = {}>(args?: Subset<T, User$referralsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     twofactors<T extends User$twofactorsArgs<ExtArgs> = {}>(args?: Subset<T, User$twofactorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TwoFactorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passkeys<T extends User$passkeysArgs<ExtArgs> = {}>(args?: Subset<T, User$passkeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasskeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    xpTransactions<T extends User$xpTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$xpTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4734,38 +4939,25 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'String'>
     readonly badges: FieldRef<"User", 'String[]'>
     readonly behavioralVibrancy: FieldRef<"User", 'Json'>
-    readonly builderScore: FieldRef<"User", 'Int'>
-    readonly catalystScore: FieldRef<"User", 'Int'>
     readonly cardSignature: FieldRef<"User", 'String'>
     readonly cardIssuedAt: FieldRef<"User", 'DateTime'>
     readonly cardTier: FieldRef<"User", 'String'>
     readonly city: FieldRef<"User", 'String'>
-    readonly confidenceScore: FieldRef<"User", 'Float'>
     readonly country: FieldRef<"User", 'String'>
-    readonly creatorScore: FieldRef<"User", 'Int'>
     readonly currentSituation: FieldRef<"User", 'String'>
     readonly domains: FieldRef<"User", 'String[]'>
-    readonly githubUrl: FieldRef<"User", 'String'>
     readonly language: FieldRef<"User", 'String'>
     readonly lastHypothesisUpdate: FieldRef<"User", 'DateTime'>
     readonly mainObjective: FieldRef<"User", 'String'>
     readonly missionsCompletedCount: FieldRef<"User", 'Int'>
-    readonly portfolioUrl: FieldRef<"User", 'String'>
     readonly pseudo: FieldRef<"User", 'String'>
-    readonly strategistScore: FieldRef<"User", 'Int'>
     readonly technicalLevel: FieldRef<"User", 'String'>
     readonly tools: FieldRef<"User", 'String[]'>
     readonly secondaryObjectives: FieldRef<"User", 'String[]'>
     readonly bio: FieldRef<"User", 'String'>
-    readonly linkedinUrl: FieldRef<"User", 'String'>
     readonly memberNumber: FieldRef<"User", 'Int'>
-    readonly twitterUrl: FieldRef<"User", 'String'>
     readonly currentFocus: FieldRef<"User", 'String[]'>
     readonly dreamStatement: FieldRef<"User", 'String'>
-    readonly lastCheckinAt: FieldRef<"User", 'DateTime'>
-    readonly currentStreak: FieldRef<"User", 'Int'>
-    readonly longestStreak: FieldRef<"User", 'Int'>
-    readonly lastStreakDate: FieldRef<"User", 'DateTime'>
     readonly mainBlocker: FieldRef<"User", 'String'>
     readonly banned: FieldRef<"User", 'Boolean'>
     readonly banReason: FieldRef<"User", 'String'>
@@ -5177,6 +5369,63 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.psychometrics
+   */
+  export type User$psychometricsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    where?: PsychometricWhereInput
+  }
+
+  /**
+   * User.socials
+   */
+  export type User$socialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    where?: UserSocialsWhereInput
+  }
+
+  /**
+   * User.stats
+   */
+  export type User$statsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    where?: EngagementStatsWhereInput
   }
 
   /**
@@ -5647,6 +5896,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasskeyScalarFieldEnum | PasskeyScalarFieldEnum[]
+  }
+
+  /**
+   * User.xpTransactions
+   */
+  export type User$xpTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    where?: XpTransactionWhereInput
+    orderBy?: XpTransactionOrderByWithRelationInput | XpTransactionOrderByWithRelationInput[]
+    cursor?: XpTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: XpTransactionScalarFieldEnum | XpTransactionScalarFieldEnum[]
   }
 
   /**
@@ -31968,6 +32241,4445 @@ export namespace Prisma {
 
 
   /**
+   * Model XpTransaction
+   */
+
+  export type AggregateXpTransaction = {
+    _count: XpTransactionCountAggregateOutputType | null
+    _avg: XpTransactionAvgAggregateOutputType | null
+    _sum: XpTransactionSumAggregateOutputType | null
+    _min: XpTransactionMinAggregateOutputType | null
+    _max: XpTransactionMaxAggregateOutputType | null
+  }
+
+  export type XpTransactionAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type XpTransactionSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type XpTransactionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    reason: string | null
+    sourceId: string | null
+    createdAt: Date | null
+  }
+
+  export type XpTransactionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    reason: string | null
+    sourceId: string | null
+    createdAt: Date | null
+  }
+
+  export type XpTransactionCountAggregateOutputType = {
+    id: number
+    userId: number
+    amount: number
+    reason: number
+    sourceId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type XpTransactionAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type XpTransactionSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type XpTransactionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    reason?: true
+    sourceId?: true
+    createdAt?: true
+  }
+
+  export type XpTransactionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    reason?: true
+    sourceId?: true
+    createdAt?: true
+  }
+
+  export type XpTransactionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    reason?: true
+    sourceId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type XpTransactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which XpTransaction to aggregate.
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of XpTransactions to fetch.
+     */
+    orderBy?: XpTransactionOrderByWithRelationInput | XpTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: XpTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` XpTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` XpTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned XpTransactions
+    **/
+    _count?: true | XpTransactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: XpTransactionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: XpTransactionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: XpTransactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: XpTransactionMaxAggregateInputType
+  }
+
+  export type GetXpTransactionAggregateType<T extends XpTransactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateXpTransaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateXpTransaction[P]>
+      : GetScalarType<T[P], AggregateXpTransaction[P]>
+  }
+
+
+
+
+  export type XpTransactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: XpTransactionWhereInput
+    orderBy?: XpTransactionOrderByWithAggregationInput | XpTransactionOrderByWithAggregationInput[]
+    by: XpTransactionScalarFieldEnum[] | XpTransactionScalarFieldEnum
+    having?: XpTransactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: XpTransactionCountAggregateInputType | true
+    _avg?: XpTransactionAvgAggregateInputType
+    _sum?: XpTransactionSumAggregateInputType
+    _min?: XpTransactionMinAggregateInputType
+    _max?: XpTransactionMaxAggregateInputType
+  }
+
+  export type XpTransactionGroupByOutputType = {
+    id: string
+    userId: string
+    amount: number
+    reason: string
+    sourceId: string | null
+    createdAt: Date
+    _count: XpTransactionCountAggregateOutputType | null
+    _avg: XpTransactionAvgAggregateOutputType | null
+    _sum: XpTransactionSumAggregateOutputType | null
+    _min: XpTransactionMinAggregateOutputType | null
+    _max: XpTransactionMaxAggregateOutputType | null
+  }
+
+  type GetXpTransactionGroupByPayload<T extends XpTransactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<XpTransactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof XpTransactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], XpTransactionGroupByOutputType[P]>
+            : GetScalarType<T[P], XpTransactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type XpTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    reason?: boolean
+    sourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["xpTransaction"]>
+
+  export type XpTransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    reason?: boolean
+    sourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["xpTransaction"]>
+
+  export type XpTransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    reason?: boolean
+    sourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["xpTransaction"]>
+
+  export type XpTransactionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    reason?: boolean
+    sourceId?: boolean
+    createdAt?: boolean
+  }
+
+  export type XpTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "amount" | "reason" | "sourceId" | "createdAt", ExtArgs["result"]["xpTransaction"]>
+  export type XpTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type XpTransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type XpTransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $XpTransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "XpTransaction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      amount: number
+      reason: string
+      sourceId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["xpTransaction"]>
+    composites: {}
+  }
+
+  type XpTransactionGetPayload<S extends boolean | null | undefined | XpTransactionDefaultArgs> = $Result.GetResult<Prisma.$XpTransactionPayload, S>
+
+  type XpTransactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<XpTransactionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: XpTransactionCountAggregateInputType | true
+    }
+
+  export interface XpTransactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['XpTransaction'], meta: { name: 'XpTransaction' } }
+    /**
+     * Find zero or one XpTransaction that matches the filter.
+     * @param {XpTransactionFindUniqueArgs} args - Arguments to find a XpTransaction
+     * @example
+     * // Get one XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends XpTransactionFindUniqueArgs>(args: SelectSubset<T, XpTransactionFindUniqueArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one XpTransaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {XpTransactionFindUniqueOrThrowArgs} args - Arguments to find a XpTransaction
+     * @example
+     * // Get one XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends XpTransactionFindUniqueOrThrowArgs>(args: SelectSubset<T, XpTransactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first XpTransaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionFindFirstArgs} args - Arguments to find a XpTransaction
+     * @example
+     * // Get one XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends XpTransactionFindFirstArgs>(args?: SelectSubset<T, XpTransactionFindFirstArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first XpTransaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionFindFirstOrThrowArgs} args - Arguments to find a XpTransaction
+     * @example
+     * // Get one XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends XpTransactionFindFirstOrThrowArgs>(args?: SelectSubset<T, XpTransactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more XpTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all XpTransactions
+     * const xpTransactions = await prisma.xpTransaction.findMany()
+     * 
+     * // Get first 10 XpTransactions
+     * const xpTransactions = await prisma.xpTransaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const xpTransactionWithIdOnly = await prisma.xpTransaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends XpTransactionFindManyArgs>(args?: SelectSubset<T, XpTransactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a XpTransaction.
+     * @param {XpTransactionCreateArgs} args - Arguments to create a XpTransaction.
+     * @example
+     * // Create one XpTransaction
+     * const XpTransaction = await prisma.xpTransaction.create({
+     *   data: {
+     *     // ... data to create a XpTransaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends XpTransactionCreateArgs>(args: SelectSubset<T, XpTransactionCreateArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many XpTransactions.
+     * @param {XpTransactionCreateManyArgs} args - Arguments to create many XpTransactions.
+     * @example
+     * // Create many XpTransactions
+     * const xpTransaction = await prisma.xpTransaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends XpTransactionCreateManyArgs>(args?: SelectSubset<T, XpTransactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many XpTransactions and returns the data saved in the database.
+     * @param {XpTransactionCreateManyAndReturnArgs} args - Arguments to create many XpTransactions.
+     * @example
+     * // Create many XpTransactions
+     * const xpTransaction = await prisma.xpTransaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many XpTransactions and only return the `id`
+     * const xpTransactionWithIdOnly = await prisma.xpTransaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends XpTransactionCreateManyAndReturnArgs>(args?: SelectSubset<T, XpTransactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a XpTransaction.
+     * @param {XpTransactionDeleteArgs} args - Arguments to delete one XpTransaction.
+     * @example
+     * // Delete one XpTransaction
+     * const XpTransaction = await prisma.xpTransaction.delete({
+     *   where: {
+     *     // ... filter to delete one XpTransaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends XpTransactionDeleteArgs>(args: SelectSubset<T, XpTransactionDeleteArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one XpTransaction.
+     * @param {XpTransactionUpdateArgs} args - Arguments to update one XpTransaction.
+     * @example
+     * // Update one XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends XpTransactionUpdateArgs>(args: SelectSubset<T, XpTransactionUpdateArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more XpTransactions.
+     * @param {XpTransactionDeleteManyArgs} args - Arguments to filter XpTransactions to delete.
+     * @example
+     * // Delete a few XpTransactions
+     * const { count } = await prisma.xpTransaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends XpTransactionDeleteManyArgs>(args?: SelectSubset<T, XpTransactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more XpTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many XpTransactions
+     * const xpTransaction = await prisma.xpTransaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends XpTransactionUpdateManyArgs>(args: SelectSubset<T, XpTransactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more XpTransactions and returns the data updated in the database.
+     * @param {XpTransactionUpdateManyAndReturnArgs} args - Arguments to update many XpTransactions.
+     * @example
+     * // Update many XpTransactions
+     * const xpTransaction = await prisma.xpTransaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more XpTransactions and only return the `id`
+     * const xpTransactionWithIdOnly = await prisma.xpTransaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends XpTransactionUpdateManyAndReturnArgs>(args: SelectSubset<T, XpTransactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one XpTransaction.
+     * @param {XpTransactionUpsertArgs} args - Arguments to update or create a XpTransaction.
+     * @example
+     * // Update or create a XpTransaction
+     * const xpTransaction = await prisma.xpTransaction.upsert({
+     *   create: {
+     *     // ... data to create a XpTransaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the XpTransaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends XpTransactionUpsertArgs>(args: SelectSubset<T, XpTransactionUpsertArgs<ExtArgs>>): Prisma__XpTransactionClient<$Result.GetResult<Prisma.$XpTransactionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of XpTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionCountArgs} args - Arguments to filter XpTransactions to count.
+     * @example
+     * // Count the number of XpTransactions
+     * const count = await prisma.xpTransaction.count({
+     *   where: {
+     *     // ... the filter for the XpTransactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends XpTransactionCountArgs>(
+      args?: Subset<T, XpTransactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], XpTransactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a XpTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends XpTransactionAggregateArgs>(args: Subset<T, XpTransactionAggregateArgs>): Prisma.PrismaPromise<GetXpTransactionAggregateType<T>>
+
+    /**
+     * Group by XpTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {XpTransactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends XpTransactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: XpTransactionGroupByArgs['orderBy'] }
+        : { orderBy?: XpTransactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, XpTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetXpTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the XpTransaction model
+   */
+  readonly fields: XpTransactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for XpTransaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__XpTransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the XpTransaction model
+   */
+  interface XpTransactionFieldRefs {
+    readonly id: FieldRef<"XpTransaction", 'String'>
+    readonly userId: FieldRef<"XpTransaction", 'String'>
+    readonly amount: FieldRef<"XpTransaction", 'Int'>
+    readonly reason: FieldRef<"XpTransaction", 'String'>
+    readonly sourceId: FieldRef<"XpTransaction", 'String'>
+    readonly createdAt: FieldRef<"XpTransaction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * XpTransaction findUnique
+   */
+  export type XpTransactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which XpTransaction to fetch.
+     */
+    where: XpTransactionWhereUniqueInput
+  }
+
+  /**
+   * XpTransaction findUniqueOrThrow
+   */
+  export type XpTransactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which XpTransaction to fetch.
+     */
+    where: XpTransactionWhereUniqueInput
+  }
+
+  /**
+   * XpTransaction findFirst
+   */
+  export type XpTransactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which XpTransaction to fetch.
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of XpTransactions to fetch.
+     */
+    orderBy?: XpTransactionOrderByWithRelationInput | XpTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for XpTransactions.
+     */
+    cursor?: XpTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` XpTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` XpTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of XpTransactions.
+     */
+    distinct?: XpTransactionScalarFieldEnum | XpTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * XpTransaction findFirstOrThrow
+   */
+  export type XpTransactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which XpTransaction to fetch.
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of XpTransactions to fetch.
+     */
+    orderBy?: XpTransactionOrderByWithRelationInput | XpTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for XpTransactions.
+     */
+    cursor?: XpTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` XpTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` XpTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of XpTransactions.
+     */
+    distinct?: XpTransactionScalarFieldEnum | XpTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * XpTransaction findMany
+   */
+  export type XpTransactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which XpTransactions to fetch.
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of XpTransactions to fetch.
+     */
+    orderBy?: XpTransactionOrderByWithRelationInput | XpTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing XpTransactions.
+     */
+    cursor?: XpTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` XpTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` XpTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of XpTransactions.
+     */
+    distinct?: XpTransactionScalarFieldEnum | XpTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * XpTransaction create
+   */
+  export type XpTransactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a XpTransaction.
+     */
+    data: XOR<XpTransactionCreateInput, XpTransactionUncheckedCreateInput>
+  }
+
+  /**
+   * XpTransaction createMany
+   */
+  export type XpTransactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many XpTransactions.
+     */
+    data: XpTransactionCreateManyInput | XpTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * XpTransaction createManyAndReturn
+   */
+  export type XpTransactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to create many XpTransactions.
+     */
+    data: XpTransactionCreateManyInput | XpTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * XpTransaction update
+   */
+  export type XpTransactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a XpTransaction.
+     */
+    data: XOR<XpTransactionUpdateInput, XpTransactionUncheckedUpdateInput>
+    /**
+     * Choose, which XpTransaction to update.
+     */
+    where: XpTransactionWhereUniqueInput
+  }
+
+  /**
+   * XpTransaction updateMany
+   */
+  export type XpTransactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update XpTransactions.
+     */
+    data: XOR<XpTransactionUpdateManyMutationInput, XpTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which XpTransactions to update
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * Limit how many XpTransactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * XpTransaction updateManyAndReturn
+   */
+  export type XpTransactionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * The data used to update XpTransactions.
+     */
+    data: XOR<XpTransactionUpdateManyMutationInput, XpTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which XpTransactions to update
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * Limit how many XpTransactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * XpTransaction upsert
+   */
+  export type XpTransactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the XpTransaction to update in case it exists.
+     */
+    where: XpTransactionWhereUniqueInput
+    /**
+     * In case the XpTransaction found by the `where` argument doesn't exist, create a new XpTransaction with this data.
+     */
+    create: XOR<XpTransactionCreateInput, XpTransactionUncheckedCreateInput>
+    /**
+     * In case the XpTransaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<XpTransactionUpdateInput, XpTransactionUncheckedUpdateInput>
+  }
+
+  /**
+   * XpTransaction delete
+   */
+  export type XpTransactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+    /**
+     * Filter which XpTransaction to delete.
+     */
+    where: XpTransactionWhereUniqueInput
+  }
+
+  /**
+   * XpTransaction deleteMany
+   */
+  export type XpTransactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which XpTransactions to delete
+     */
+    where?: XpTransactionWhereInput
+    /**
+     * Limit how many XpTransactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * XpTransaction without action
+   */
+  export type XpTransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the XpTransaction
+     */
+    select?: XpTransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the XpTransaction
+     */
+    omit?: XpTransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: XpTransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Psychometric
+   */
+
+  export type AggregatePsychometric = {
+    _count: PsychometricCountAggregateOutputType | null
+    _avg: PsychometricAvgAggregateOutputType | null
+    _sum: PsychometricSumAggregateOutputType | null
+    _min: PsychometricMinAggregateOutputType | null
+    _max: PsychometricMaxAggregateOutputType | null
+  }
+
+  export type PsychometricAvgAggregateOutputType = {
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    confidenceScore: number | null
+  }
+
+  export type PsychometricSumAggregateOutputType = {
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    confidenceScore: number | null
+  }
+
+  export type PsychometricMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    confidenceScore: number | null
+  }
+
+  export type PsychometricMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    builderScore: number | null
+    creatorScore: number | null
+    strategistScore: number | null
+    catalystScore: number | null
+    confidenceScore: number | null
+  }
+
+  export type PsychometricCountAggregateOutputType = {
+    id: number
+    userId: number
+    builderScore: number
+    creatorScore: number
+    strategistScore: number
+    catalystScore: number
+    confidenceScore: number
+    _all: number
+  }
+
+
+  export type PsychometricAvgAggregateInputType = {
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    confidenceScore?: true
+  }
+
+  export type PsychometricSumAggregateInputType = {
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    confidenceScore?: true
+  }
+
+  export type PsychometricMinAggregateInputType = {
+    id?: true
+    userId?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    confidenceScore?: true
+  }
+
+  export type PsychometricMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    confidenceScore?: true
+  }
+
+  export type PsychometricCountAggregateInputType = {
+    id?: true
+    userId?: true
+    builderScore?: true
+    creatorScore?: true
+    strategistScore?: true
+    catalystScore?: true
+    confidenceScore?: true
+    _all?: true
+  }
+
+  export type PsychometricAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Psychometric to aggregate.
+     */
+    where?: PsychometricWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Psychometrics to fetch.
+     */
+    orderBy?: PsychometricOrderByWithRelationInput | PsychometricOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PsychometricWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Psychometrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Psychometrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Psychometrics
+    **/
+    _count?: true | PsychometricCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PsychometricAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PsychometricSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PsychometricMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PsychometricMaxAggregateInputType
+  }
+
+  export type GetPsychometricAggregateType<T extends PsychometricAggregateArgs> = {
+        [P in keyof T & keyof AggregatePsychometric]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePsychometric[P]>
+      : GetScalarType<T[P], AggregatePsychometric[P]>
+  }
+
+
+
+
+  export type PsychometricGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PsychometricWhereInput
+    orderBy?: PsychometricOrderByWithAggregationInput | PsychometricOrderByWithAggregationInput[]
+    by: PsychometricScalarFieldEnum[] | PsychometricScalarFieldEnum
+    having?: PsychometricScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PsychometricCountAggregateInputType | true
+    _avg?: PsychometricAvgAggregateInputType
+    _sum?: PsychometricSumAggregateInputType
+    _min?: PsychometricMinAggregateInputType
+    _max?: PsychometricMaxAggregateInputType
+  }
+
+  export type PsychometricGroupByOutputType = {
+    id: string
+    userId: string
+    builderScore: number
+    creatorScore: number
+    strategistScore: number
+    catalystScore: number
+    confidenceScore: number
+    _count: PsychometricCountAggregateOutputType | null
+    _avg: PsychometricAvgAggregateOutputType | null
+    _sum: PsychometricSumAggregateOutputType | null
+    _min: PsychometricMinAggregateOutputType | null
+    _max: PsychometricMaxAggregateOutputType | null
+  }
+
+  type GetPsychometricGroupByPayload<T extends PsychometricGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PsychometricGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PsychometricGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PsychometricGroupByOutputType[P]>
+            : GetScalarType<T[P], PsychometricGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PsychometricSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    confidenceScore?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychometric"]>
+
+  export type PsychometricSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    confidenceScore?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychometric"]>
+
+  export type PsychometricSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    confidenceScore?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychometric"]>
+
+  export type PsychometricSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    builderScore?: boolean
+    creatorScore?: boolean
+    strategistScore?: boolean
+    catalystScore?: boolean
+    confidenceScore?: boolean
+  }
+
+  export type PsychometricOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "builderScore" | "creatorScore" | "strategistScore" | "catalystScore" | "confidenceScore", ExtArgs["result"]["psychometric"]>
+  export type PsychometricInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PsychometricIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PsychometricIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PsychometricPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Psychometric"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      builderScore: number
+      creatorScore: number
+      strategistScore: number
+      catalystScore: number
+      confidenceScore: number
+    }, ExtArgs["result"]["psychometric"]>
+    composites: {}
+  }
+
+  type PsychometricGetPayload<S extends boolean | null | undefined | PsychometricDefaultArgs> = $Result.GetResult<Prisma.$PsychometricPayload, S>
+
+  type PsychometricCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PsychometricFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PsychometricCountAggregateInputType | true
+    }
+
+  export interface PsychometricDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Psychometric'], meta: { name: 'Psychometric' } }
+    /**
+     * Find zero or one Psychometric that matches the filter.
+     * @param {PsychometricFindUniqueArgs} args - Arguments to find a Psychometric
+     * @example
+     * // Get one Psychometric
+     * const psychometric = await prisma.psychometric.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PsychometricFindUniqueArgs>(args: SelectSubset<T, PsychometricFindUniqueArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Psychometric that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PsychometricFindUniqueOrThrowArgs} args - Arguments to find a Psychometric
+     * @example
+     * // Get one Psychometric
+     * const psychometric = await prisma.psychometric.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PsychometricFindUniqueOrThrowArgs>(args: SelectSubset<T, PsychometricFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Psychometric that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricFindFirstArgs} args - Arguments to find a Psychometric
+     * @example
+     * // Get one Psychometric
+     * const psychometric = await prisma.psychometric.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PsychometricFindFirstArgs>(args?: SelectSubset<T, PsychometricFindFirstArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Psychometric that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricFindFirstOrThrowArgs} args - Arguments to find a Psychometric
+     * @example
+     * // Get one Psychometric
+     * const psychometric = await prisma.psychometric.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PsychometricFindFirstOrThrowArgs>(args?: SelectSubset<T, PsychometricFindFirstOrThrowArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Psychometrics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Psychometrics
+     * const psychometrics = await prisma.psychometric.findMany()
+     * 
+     * // Get first 10 Psychometrics
+     * const psychometrics = await prisma.psychometric.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const psychometricWithIdOnly = await prisma.psychometric.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PsychometricFindManyArgs>(args?: SelectSubset<T, PsychometricFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Psychometric.
+     * @param {PsychometricCreateArgs} args - Arguments to create a Psychometric.
+     * @example
+     * // Create one Psychometric
+     * const Psychometric = await prisma.psychometric.create({
+     *   data: {
+     *     // ... data to create a Psychometric
+     *   }
+     * })
+     * 
+     */
+    create<T extends PsychometricCreateArgs>(args: SelectSubset<T, PsychometricCreateArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Psychometrics.
+     * @param {PsychometricCreateManyArgs} args - Arguments to create many Psychometrics.
+     * @example
+     * // Create many Psychometrics
+     * const psychometric = await prisma.psychometric.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PsychometricCreateManyArgs>(args?: SelectSubset<T, PsychometricCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Psychometrics and returns the data saved in the database.
+     * @param {PsychometricCreateManyAndReturnArgs} args - Arguments to create many Psychometrics.
+     * @example
+     * // Create many Psychometrics
+     * const psychometric = await prisma.psychometric.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Psychometrics and only return the `id`
+     * const psychometricWithIdOnly = await prisma.psychometric.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PsychometricCreateManyAndReturnArgs>(args?: SelectSubset<T, PsychometricCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Psychometric.
+     * @param {PsychometricDeleteArgs} args - Arguments to delete one Psychometric.
+     * @example
+     * // Delete one Psychometric
+     * const Psychometric = await prisma.psychometric.delete({
+     *   where: {
+     *     // ... filter to delete one Psychometric
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PsychometricDeleteArgs>(args: SelectSubset<T, PsychometricDeleteArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Psychometric.
+     * @param {PsychometricUpdateArgs} args - Arguments to update one Psychometric.
+     * @example
+     * // Update one Psychometric
+     * const psychometric = await prisma.psychometric.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PsychometricUpdateArgs>(args: SelectSubset<T, PsychometricUpdateArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Psychometrics.
+     * @param {PsychometricDeleteManyArgs} args - Arguments to filter Psychometrics to delete.
+     * @example
+     * // Delete a few Psychometrics
+     * const { count } = await prisma.psychometric.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PsychometricDeleteManyArgs>(args?: SelectSubset<T, PsychometricDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Psychometrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Psychometrics
+     * const psychometric = await prisma.psychometric.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PsychometricUpdateManyArgs>(args: SelectSubset<T, PsychometricUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Psychometrics and returns the data updated in the database.
+     * @param {PsychometricUpdateManyAndReturnArgs} args - Arguments to update many Psychometrics.
+     * @example
+     * // Update many Psychometrics
+     * const psychometric = await prisma.psychometric.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Psychometrics and only return the `id`
+     * const psychometricWithIdOnly = await prisma.psychometric.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PsychometricUpdateManyAndReturnArgs>(args: SelectSubset<T, PsychometricUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Psychometric.
+     * @param {PsychometricUpsertArgs} args - Arguments to update or create a Psychometric.
+     * @example
+     * // Update or create a Psychometric
+     * const psychometric = await prisma.psychometric.upsert({
+     *   create: {
+     *     // ... data to create a Psychometric
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Psychometric we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PsychometricUpsertArgs>(args: SelectSubset<T, PsychometricUpsertArgs<ExtArgs>>): Prisma__PsychometricClient<$Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Psychometrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricCountArgs} args - Arguments to filter Psychometrics to count.
+     * @example
+     * // Count the number of Psychometrics
+     * const count = await prisma.psychometric.count({
+     *   where: {
+     *     // ... the filter for the Psychometrics we want to count
+     *   }
+     * })
+    **/
+    count<T extends PsychometricCountArgs>(
+      args?: Subset<T, PsychometricCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PsychometricCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Psychometric.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PsychometricAggregateArgs>(args: Subset<T, PsychometricAggregateArgs>): Prisma.PrismaPromise<GetPsychometricAggregateType<T>>
+
+    /**
+     * Group by Psychometric.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychometricGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PsychometricGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PsychometricGroupByArgs['orderBy'] }
+        : { orderBy?: PsychometricGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PsychometricGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPsychometricGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Psychometric model
+   */
+  readonly fields: PsychometricFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Psychometric.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PsychometricClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Psychometric model
+   */
+  interface PsychometricFieldRefs {
+    readonly id: FieldRef<"Psychometric", 'String'>
+    readonly userId: FieldRef<"Psychometric", 'String'>
+    readonly builderScore: FieldRef<"Psychometric", 'Int'>
+    readonly creatorScore: FieldRef<"Psychometric", 'Int'>
+    readonly strategistScore: FieldRef<"Psychometric", 'Int'>
+    readonly catalystScore: FieldRef<"Psychometric", 'Int'>
+    readonly confidenceScore: FieldRef<"Psychometric", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Psychometric findUnique
+   */
+  export type PsychometricFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter, which Psychometric to fetch.
+     */
+    where: PsychometricWhereUniqueInput
+  }
+
+  /**
+   * Psychometric findUniqueOrThrow
+   */
+  export type PsychometricFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter, which Psychometric to fetch.
+     */
+    where: PsychometricWhereUniqueInput
+  }
+
+  /**
+   * Psychometric findFirst
+   */
+  export type PsychometricFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter, which Psychometric to fetch.
+     */
+    where?: PsychometricWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Psychometrics to fetch.
+     */
+    orderBy?: PsychometricOrderByWithRelationInput | PsychometricOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Psychometrics.
+     */
+    cursor?: PsychometricWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Psychometrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Psychometrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Psychometrics.
+     */
+    distinct?: PsychometricScalarFieldEnum | PsychometricScalarFieldEnum[]
+  }
+
+  /**
+   * Psychometric findFirstOrThrow
+   */
+  export type PsychometricFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter, which Psychometric to fetch.
+     */
+    where?: PsychometricWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Psychometrics to fetch.
+     */
+    orderBy?: PsychometricOrderByWithRelationInput | PsychometricOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Psychometrics.
+     */
+    cursor?: PsychometricWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Psychometrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Psychometrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Psychometrics.
+     */
+    distinct?: PsychometricScalarFieldEnum | PsychometricScalarFieldEnum[]
+  }
+
+  /**
+   * Psychometric findMany
+   */
+  export type PsychometricFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter, which Psychometrics to fetch.
+     */
+    where?: PsychometricWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Psychometrics to fetch.
+     */
+    orderBy?: PsychometricOrderByWithRelationInput | PsychometricOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Psychometrics.
+     */
+    cursor?: PsychometricWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Psychometrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Psychometrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Psychometrics.
+     */
+    distinct?: PsychometricScalarFieldEnum | PsychometricScalarFieldEnum[]
+  }
+
+  /**
+   * Psychometric create
+   */
+  export type PsychometricCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Psychometric.
+     */
+    data: XOR<PsychometricCreateInput, PsychometricUncheckedCreateInput>
+  }
+
+  /**
+   * Psychometric createMany
+   */
+  export type PsychometricCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Psychometrics.
+     */
+    data: PsychometricCreateManyInput | PsychometricCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Psychometric createManyAndReturn
+   */
+  export type PsychometricCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * The data used to create many Psychometrics.
+     */
+    data: PsychometricCreateManyInput | PsychometricCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Psychometric update
+   */
+  export type PsychometricUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Psychometric.
+     */
+    data: XOR<PsychometricUpdateInput, PsychometricUncheckedUpdateInput>
+    /**
+     * Choose, which Psychometric to update.
+     */
+    where: PsychometricWhereUniqueInput
+  }
+
+  /**
+   * Psychometric updateMany
+   */
+  export type PsychometricUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Psychometrics.
+     */
+    data: XOR<PsychometricUpdateManyMutationInput, PsychometricUncheckedUpdateManyInput>
+    /**
+     * Filter which Psychometrics to update
+     */
+    where?: PsychometricWhereInput
+    /**
+     * Limit how many Psychometrics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Psychometric updateManyAndReturn
+   */
+  export type PsychometricUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * The data used to update Psychometrics.
+     */
+    data: XOR<PsychometricUpdateManyMutationInput, PsychometricUncheckedUpdateManyInput>
+    /**
+     * Filter which Psychometrics to update
+     */
+    where?: PsychometricWhereInput
+    /**
+     * Limit how many Psychometrics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Psychometric upsert
+   */
+  export type PsychometricUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Psychometric to update in case it exists.
+     */
+    where: PsychometricWhereUniqueInput
+    /**
+     * In case the Psychometric found by the `where` argument doesn't exist, create a new Psychometric with this data.
+     */
+    create: XOR<PsychometricCreateInput, PsychometricUncheckedCreateInput>
+    /**
+     * In case the Psychometric was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PsychometricUpdateInput, PsychometricUncheckedUpdateInput>
+  }
+
+  /**
+   * Psychometric delete
+   */
+  export type PsychometricDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+    /**
+     * Filter which Psychometric to delete.
+     */
+    where: PsychometricWhereUniqueInput
+  }
+
+  /**
+   * Psychometric deleteMany
+   */
+  export type PsychometricDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Psychometrics to delete
+     */
+    where?: PsychometricWhereInput
+    /**
+     * Limit how many Psychometrics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Psychometric without action
+   */
+  export type PsychometricDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Psychometric
+     */
+    select?: PsychometricSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Psychometric
+     */
+    omit?: PsychometricOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychometricInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserSocials
+   */
+
+  export type AggregateUserSocials = {
+    _count: UserSocialsCountAggregateOutputType | null
+    _min: UserSocialsMinAggregateOutputType | null
+    _max: UserSocialsMaxAggregateOutputType | null
+  }
+
+  export type UserSocialsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    githubUrl: string | null
+    portfolioUrl: string | null
+    linkedinUrl: string | null
+    twitterUrl: string | null
+  }
+
+  export type UserSocialsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    githubUrl: string | null
+    portfolioUrl: string | null
+    linkedinUrl: string | null
+    twitterUrl: string | null
+  }
+
+  export type UserSocialsCountAggregateOutputType = {
+    id: number
+    userId: number
+    githubUrl: number
+    portfolioUrl: number
+    linkedinUrl: number
+    twitterUrl: number
+    _all: number
+  }
+
+
+  export type UserSocialsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    linkedinUrl?: true
+    twitterUrl?: true
+  }
+
+  export type UserSocialsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    linkedinUrl?: true
+    twitterUrl?: true
+  }
+
+  export type UserSocialsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    githubUrl?: true
+    portfolioUrl?: true
+    linkedinUrl?: true
+    twitterUrl?: true
+    _all?: true
+  }
+
+  export type UserSocialsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSocials to aggregate.
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSocials to fetch.
+     */
+    orderBy?: UserSocialsOrderByWithRelationInput | UserSocialsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserSocialsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSocials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSocials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserSocials
+    **/
+    _count?: true | UserSocialsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserSocialsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserSocialsMaxAggregateInputType
+  }
+
+  export type GetUserSocialsAggregateType<T extends UserSocialsAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserSocials]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserSocials[P]>
+      : GetScalarType<T[P], AggregateUserSocials[P]>
+  }
+
+
+
+
+  export type UserSocialsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserSocialsWhereInput
+    orderBy?: UserSocialsOrderByWithAggregationInput | UserSocialsOrderByWithAggregationInput[]
+    by: UserSocialsScalarFieldEnum[] | UserSocialsScalarFieldEnum
+    having?: UserSocialsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserSocialsCountAggregateInputType | true
+    _min?: UserSocialsMinAggregateInputType
+    _max?: UserSocialsMaxAggregateInputType
+  }
+
+  export type UserSocialsGroupByOutputType = {
+    id: string
+    userId: string
+    githubUrl: string | null
+    portfolioUrl: string | null
+    linkedinUrl: string | null
+    twitterUrl: string | null
+    _count: UserSocialsCountAggregateOutputType | null
+    _min: UserSocialsMinAggregateOutputType | null
+    _max: UserSocialsMaxAggregateOutputType | null
+  }
+
+  type GetUserSocialsGroupByPayload<T extends UserSocialsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserSocialsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserSocialsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserSocialsGroupByOutputType[P]>
+            : GetScalarType<T[P], UserSocialsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSocialsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    linkedinUrl?: boolean
+    twitterUrl?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSocials"]>
+
+  export type UserSocialsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    linkedinUrl?: boolean
+    twitterUrl?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSocials"]>
+
+  export type UserSocialsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    linkedinUrl?: boolean
+    twitterUrl?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSocials"]>
+
+  export type UserSocialsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    githubUrl?: boolean
+    portfolioUrl?: boolean
+    linkedinUrl?: boolean
+    twitterUrl?: boolean
+  }
+
+  export type UserSocialsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "githubUrl" | "portfolioUrl" | "linkedinUrl" | "twitterUrl", ExtArgs["result"]["userSocials"]>
+  export type UserSocialsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserSocialsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserSocialsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserSocialsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserSocials"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      githubUrl: string | null
+      portfolioUrl: string | null
+      linkedinUrl: string | null
+      twitterUrl: string | null
+    }, ExtArgs["result"]["userSocials"]>
+    composites: {}
+  }
+
+  type UserSocialsGetPayload<S extends boolean | null | undefined | UserSocialsDefaultArgs> = $Result.GetResult<Prisma.$UserSocialsPayload, S>
+
+  type UserSocialsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserSocialsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserSocialsCountAggregateInputType | true
+    }
+
+  export interface UserSocialsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserSocials'], meta: { name: 'UserSocials' } }
+    /**
+     * Find zero or one UserSocials that matches the filter.
+     * @param {UserSocialsFindUniqueArgs} args - Arguments to find a UserSocials
+     * @example
+     * // Get one UserSocials
+     * const userSocials = await prisma.userSocials.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserSocialsFindUniqueArgs>(args: SelectSubset<T, UserSocialsFindUniqueArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserSocials that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserSocialsFindUniqueOrThrowArgs} args - Arguments to find a UserSocials
+     * @example
+     * // Get one UserSocials
+     * const userSocials = await prisma.userSocials.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserSocialsFindUniqueOrThrowArgs>(args: SelectSubset<T, UserSocialsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSocials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsFindFirstArgs} args - Arguments to find a UserSocials
+     * @example
+     * // Get one UserSocials
+     * const userSocials = await prisma.userSocials.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserSocialsFindFirstArgs>(args?: SelectSubset<T, UserSocialsFindFirstArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSocials that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsFindFirstOrThrowArgs} args - Arguments to find a UserSocials
+     * @example
+     * // Get one UserSocials
+     * const userSocials = await prisma.userSocials.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserSocialsFindFirstOrThrowArgs>(args?: SelectSubset<T, UserSocialsFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserSocials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserSocials
+     * const userSocials = await prisma.userSocials.findMany()
+     * 
+     * // Get first 10 UserSocials
+     * const userSocials = await prisma.userSocials.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userSocialsWithIdOnly = await prisma.userSocials.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserSocialsFindManyArgs>(args?: SelectSubset<T, UserSocialsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserSocials.
+     * @param {UserSocialsCreateArgs} args - Arguments to create a UserSocials.
+     * @example
+     * // Create one UserSocials
+     * const UserSocials = await prisma.userSocials.create({
+     *   data: {
+     *     // ... data to create a UserSocials
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserSocialsCreateArgs>(args: SelectSubset<T, UserSocialsCreateArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserSocials.
+     * @param {UserSocialsCreateManyArgs} args - Arguments to create many UserSocials.
+     * @example
+     * // Create many UserSocials
+     * const userSocials = await prisma.userSocials.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserSocialsCreateManyArgs>(args?: SelectSubset<T, UserSocialsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserSocials and returns the data saved in the database.
+     * @param {UserSocialsCreateManyAndReturnArgs} args - Arguments to create many UserSocials.
+     * @example
+     * // Create many UserSocials
+     * const userSocials = await prisma.userSocials.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserSocials and only return the `id`
+     * const userSocialsWithIdOnly = await prisma.userSocials.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserSocialsCreateManyAndReturnArgs>(args?: SelectSubset<T, UserSocialsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserSocials.
+     * @param {UserSocialsDeleteArgs} args - Arguments to delete one UserSocials.
+     * @example
+     * // Delete one UserSocials
+     * const UserSocials = await prisma.userSocials.delete({
+     *   where: {
+     *     // ... filter to delete one UserSocials
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserSocialsDeleteArgs>(args: SelectSubset<T, UserSocialsDeleteArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserSocials.
+     * @param {UserSocialsUpdateArgs} args - Arguments to update one UserSocials.
+     * @example
+     * // Update one UserSocials
+     * const userSocials = await prisma.userSocials.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserSocialsUpdateArgs>(args: SelectSubset<T, UserSocialsUpdateArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserSocials.
+     * @param {UserSocialsDeleteManyArgs} args - Arguments to filter UserSocials to delete.
+     * @example
+     * // Delete a few UserSocials
+     * const { count } = await prisma.userSocials.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserSocialsDeleteManyArgs>(args?: SelectSubset<T, UserSocialsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSocials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserSocials
+     * const userSocials = await prisma.userSocials.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserSocialsUpdateManyArgs>(args: SelectSubset<T, UserSocialsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSocials and returns the data updated in the database.
+     * @param {UserSocialsUpdateManyAndReturnArgs} args - Arguments to update many UserSocials.
+     * @example
+     * // Update many UserSocials
+     * const userSocials = await prisma.userSocials.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserSocials and only return the `id`
+     * const userSocialsWithIdOnly = await prisma.userSocials.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserSocialsUpdateManyAndReturnArgs>(args: SelectSubset<T, UserSocialsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserSocials.
+     * @param {UserSocialsUpsertArgs} args - Arguments to update or create a UserSocials.
+     * @example
+     * // Update or create a UserSocials
+     * const userSocials = await prisma.userSocials.upsert({
+     *   create: {
+     *     // ... data to create a UserSocials
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserSocials we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserSocialsUpsertArgs>(args: SelectSubset<T, UserSocialsUpsertArgs<ExtArgs>>): Prisma__UserSocialsClient<$Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserSocials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsCountArgs} args - Arguments to filter UserSocials to count.
+     * @example
+     * // Count the number of UserSocials
+     * const count = await prisma.userSocials.count({
+     *   where: {
+     *     // ... the filter for the UserSocials we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserSocialsCountArgs>(
+      args?: Subset<T, UserSocialsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserSocialsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserSocials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserSocialsAggregateArgs>(args: Subset<T, UserSocialsAggregateArgs>): Prisma.PrismaPromise<GetUserSocialsAggregateType<T>>
+
+    /**
+     * Group by UserSocials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSocialsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserSocialsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserSocialsGroupByArgs['orderBy'] }
+        : { orderBy?: UserSocialsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserSocialsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserSocialsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserSocials model
+   */
+  readonly fields: UserSocialsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserSocials.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserSocialsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserSocials model
+   */
+  interface UserSocialsFieldRefs {
+    readonly id: FieldRef<"UserSocials", 'String'>
+    readonly userId: FieldRef<"UserSocials", 'String'>
+    readonly githubUrl: FieldRef<"UserSocials", 'String'>
+    readonly portfolioUrl: FieldRef<"UserSocials", 'String'>
+    readonly linkedinUrl: FieldRef<"UserSocials", 'String'>
+    readonly twitterUrl: FieldRef<"UserSocials", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserSocials findUnique
+   */
+  export type UserSocialsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSocials to fetch.
+     */
+    where: UserSocialsWhereUniqueInput
+  }
+
+  /**
+   * UserSocials findUniqueOrThrow
+   */
+  export type UserSocialsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSocials to fetch.
+     */
+    where: UserSocialsWhereUniqueInput
+  }
+
+  /**
+   * UserSocials findFirst
+   */
+  export type UserSocialsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSocials to fetch.
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSocials to fetch.
+     */
+    orderBy?: UserSocialsOrderByWithRelationInput | UserSocialsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSocials.
+     */
+    cursor?: UserSocialsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSocials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSocials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSocials.
+     */
+    distinct?: UserSocialsScalarFieldEnum | UserSocialsScalarFieldEnum[]
+  }
+
+  /**
+   * UserSocials findFirstOrThrow
+   */
+  export type UserSocialsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSocials to fetch.
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSocials to fetch.
+     */
+    orderBy?: UserSocialsOrderByWithRelationInput | UserSocialsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSocials.
+     */
+    cursor?: UserSocialsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSocials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSocials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSocials.
+     */
+    distinct?: UserSocialsScalarFieldEnum | UserSocialsScalarFieldEnum[]
+  }
+
+  /**
+   * UserSocials findMany
+   */
+  export type UserSocialsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSocials to fetch.
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSocials to fetch.
+     */
+    orderBy?: UserSocialsOrderByWithRelationInput | UserSocialsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserSocials.
+     */
+    cursor?: UserSocialsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSocials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSocials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSocials.
+     */
+    distinct?: UserSocialsScalarFieldEnum | UserSocialsScalarFieldEnum[]
+  }
+
+  /**
+   * UserSocials create
+   */
+  export type UserSocialsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserSocials.
+     */
+    data: XOR<UserSocialsCreateInput, UserSocialsUncheckedCreateInput>
+  }
+
+  /**
+   * UserSocials createMany
+   */
+  export type UserSocialsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserSocials.
+     */
+    data: UserSocialsCreateManyInput | UserSocialsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserSocials createManyAndReturn
+   */
+  export type UserSocialsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserSocials.
+     */
+    data: UserSocialsCreateManyInput | UserSocialsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSocials update
+   */
+  export type UserSocialsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserSocials.
+     */
+    data: XOR<UserSocialsUpdateInput, UserSocialsUncheckedUpdateInput>
+    /**
+     * Choose, which UserSocials to update.
+     */
+    where: UserSocialsWhereUniqueInput
+  }
+
+  /**
+   * UserSocials updateMany
+   */
+  export type UserSocialsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserSocials.
+     */
+    data: XOR<UserSocialsUpdateManyMutationInput, UserSocialsUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSocials to update
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * Limit how many UserSocials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSocials updateManyAndReturn
+   */
+  export type UserSocialsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * The data used to update UserSocials.
+     */
+    data: XOR<UserSocialsUpdateManyMutationInput, UserSocialsUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSocials to update
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * Limit how many UserSocials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSocials upsert
+   */
+  export type UserSocialsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserSocials to update in case it exists.
+     */
+    where: UserSocialsWhereUniqueInput
+    /**
+     * In case the UserSocials found by the `where` argument doesn't exist, create a new UserSocials with this data.
+     */
+    create: XOR<UserSocialsCreateInput, UserSocialsUncheckedCreateInput>
+    /**
+     * In case the UserSocials was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserSocialsUpdateInput, UserSocialsUncheckedUpdateInput>
+  }
+
+  /**
+   * UserSocials delete
+   */
+  export type UserSocialsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+    /**
+     * Filter which UserSocials to delete.
+     */
+    where: UserSocialsWhereUniqueInput
+  }
+
+  /**
+   * UserSocials deleteMany
+   */
+  export type UserSocialsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSocials to delete
+     */
+    where?: UserSocialsWhereInput
+    /**
+     * Limit how many UserSocials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSocials without action
+   */
+  export type UserSocialsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSocials
+     */
+    select?: UserSocialsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSocials
+     */
+    omit?: UserSocialsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSocialsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EngagementStats
+   */
+
+  export type AggregateEngagementStats = {
+    _count: EngagementStatsCountAggregateOutputType | null
+    _avg: EngagementStatsAvgAggregateOutputType | null
+    _sum: EngagementStatsSumAggregateOutputType | null
+    _min: EngagementStatsMinAggregateOutputType | null
+    _max: EngagementStatsMaxAggregateOutputType | null
+  }
+
+  export type EngagementStatsAvgAggregateOutputType = {
+    currentStreak: number | null
+    longestStreak: number | null
+  }
+
+  export type EngagementStatsSumAggregateOutputType = {
+    currentStreak: number | null
+    longestStreak: number | null
+  }
+
+  export type EngagementStatsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastCheckinAt: Date | null
+    lastStreakDate: Date | null
+  }
+
+  export type EngagementStatsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    currentStreak: number | null
+    longestStreak: number | null
+    lastCheckinAt: Date | null
+    lastStreakDate: Date | null
+  }
+
+  export type EngagementStatsCountAggregateOutputType = {
+    id: number
+    userId: number
+    currentStreak: number
+    longestStreak: number
+    lastCheckinAt: number
+    lastStreakDate: number
+    _all: number
+  }
+
+
+  export type EngagementStatsAvgAggregateInputType = {
+    currentStreak?: true
+    longestStreak?: true
+  }
+
+  export type EngagementStatsSumAggregateInputType = {
+    currentStreak?: true
+    longestStreak?: true
+  }
+
+  export type EngagementStatsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastCheckinAt?: true
+    lastStreakDate?: true
+  }
+
+  export type EngagementStatsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastCheckinAt?: true
+    lastStreakDate?: true
+  }
+
+  export type EngagementStatsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    currentStreak?: true
+    longestStreak?: true
+    lastCheckinAt?: true
+    lastStreakDate?: true
+    _all?: true
+  }
+
+  export type EngagementStatsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EngagementStats to aggregate.
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngagementStats to fetch.
+     */
+    orderBy?: EngagementStatsOrderByWithRelationInput | EngagementStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EngagementStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngagementStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngagementStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EngagementStats
+    **/
+    _count?: true | EngagementStatsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EngagementStatsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EngagementStatsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EngagementStatsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EngagementStatsMaxAggregateInputType
+  }
+
+  export type GetEngagementStatsAggregateType<T extends EngagementStatsAggregateArgs> = {
+        [P in keyof T & keyof AggregateEngagementStats]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEngagementStats[P]>
+      : GetScalarType<T[P], AggregateEngagementStats[P]>
+  }
+
+
+
+
+  export type EngagementStatsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EngagementStatsWhereInput
+    orderBy?: EngagementStatsOrderByWithAggregationInput | EngagementStatsOrderByWithAggregationInput[]
+    by: EngagementStatsScalarFieldEnum[] | EngagementStatsScalarFieldEnum
+    having?: EngagementStatsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EngagementStatsCountAggregateInputType | true
+    _avg?: EngagementStatsAvgAggregateInputType
+    _sum?: EngagementStatsSumAggregateInputType
+    _min?: EngagementStatsMinAggregateInputType
+    _max?: EngagementStatsMaxAggregateInputType
+  }
+
+  export type EngagementStatsGroupByOutputType = {
+    id: string
+    userId: string
+    currentStreak: number
+    longestStreak: number
+    lastCheckinAt: Date | null
+    lastStreakDate: Date | null
+    _count: EngagementStatsCountAggregateOutputType | null
+    _avg: EngagementStatsAvgAggregateOutputType | null
+    _sum: EngagementStatsSumAggregateOutputType | null
+    _min: EngagementStatsMinAggregateOutputType | null
+    _max: EngagementStatsMaxAggregateOutputType | null
+  }
+
+  type GetEngagementStatsGroupByPayload<T extends EngagementStatsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EngagementStatsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EngagementStatsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EngagementStatsGroupByOutputType[P]>
+            : GetScalarType<T[P], EngagementStatsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EngagementStatsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastCheckinAt?: boolean
+    lastStreakDate?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engagementStats"]>
+
+  export type EngagementStatsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastCheckinAt?: boolean
+    lastStreakDate?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engagementStats"]>
+
+  export type EngagementStatsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastCheckinAt?: boolean
+    lastStreakDate?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["engagementStats"]>
+
+  export type EngagementStatsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    currentStreak?: boolean
+    longestStreak?: boolean
+    lastCheckinAt?: boolean
+    lastStreakDate?: boolean
+  }
+
+  export type EngagementStatsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "currentStreak" | "longestStreak" | "lastCheckinAt" | "lastStreakDate", ExtArgs["result"]["engagementStats"]>
+  export type EngagementStatsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EngagementStatsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EngagementStatsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EngagementStatsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EngagementStats"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      currentStreak: number
+      longestStreak: number
+      lastCheckinAt: Date | null
+      lastStreakDate: Date | null
+    }, ExtArgs["result"]["engagementStats"]>
+    composites: {}
+  }
+
+  type EngagementStatsGetPayload<S extends boolean | null | undefined | EngagementStatsDefaultArgs> = $Result.GetResult<Prisma.$EngagementStatsPayload, S>
+
+  type EngagementStatsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EngagementStatsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EngagementStatsCountAggregateInputType | true
+    }
+
+  export interface EngagementStatsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EngagementStats'], meta: { name: 'EngagementStats' } }
+    /**
+     * Find zero or one EngagementStats that matches the filter.
+     * @param {EngagementStatsFindUniqueArgs} args - Arguments to find a EngagementStats
+     * @example
+     * // Get one EngagementStats
+     * const engagementStats = await prisma.engagementStats.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EngagementStatsFindUniqueArgs>(args: SelectSubset<T, EngagementStatsFindUniqueArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EngagementStats that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EngagementStatsFindUniqueOrThrowArgs} args - Arguments to find a EngagementStats
+     * @example
+     * // Get one EngagementStats
+     * const engagementStats = await prisma.engagementStats.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EngagementStatsFindUniqueOrThrowArgs>(args: SelectSubset<T, EngagementStatsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EngagementStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsFindFirstArgs} args - Arguments to find a EngagementStats
+     * @example
+     * // Get one EngagementStats
+     * const engagementStats = await prisma.engagementStats.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EngagementStatsFindFirstArgs>(args?: SelectSubset<T, EngagementStatsFindFirstArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EngagementStats that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsFindFirstOrThrowArgs} args - Arguments to find a EngagementStats
+     * @example
+     * // Get one EngagementStats
+     * const engagementStats = await prisma.engagementStats.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EngagementStatsFindFirstOrThrowArgs>(args?: SelectSubset<T, EngagementStatsFindFirstOrThrowArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EngagementStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EngagementStats
+     * const engagementStats = await prisma.engagementStats.findMany()
+     * 
+     * // Get first 10 EngagementStats
+     * const engagementStats = await prisma.engagementStats.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const engagementStatsWithIdOnly = await prisma.engagementStats.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EngagementStatsFindManyArgs>(args?: SelectSubset<T, EngagementStatsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EngagementStats.
+     * @param {EngagementStatsCreateArgs} args - Arguments to create a EngagementStats.
+     * @example
+     * // Create one EngagementStats
+     * const EngagementStats = await prisma.engagementStats.create({
+     *   data: {
+     *     // ... data to create a EngagementStats
+     *   }
+     * })
+     * 
+     */
+    create<T extends EngagementStatsCreateArgs>(args: SelectSubset<T, EngagementStatsCreateArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EngagementStats.
+     * @param {EngagementStatsCreateManyArgs} args - Arguments to create many EngagementStats.
+     * @example
+     * // Create many EngagementStats
+     * const engagementStats = await prisma.engagementStats.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EngagementStatsCreateManyArgs>(args?: SelectSubset<T, EngagementStatsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EngagementStats and returns the data saved in the database.
+     * @param {EngagementStatsCreateManyAndReturnArgs} args - Arguments to create many EngagementStats.
+     * @example
+     * // Create many EngagementStats
+     * const engagementStats = await prisma.engagementStats.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EngagementStats and only return the `id`
+     * const engagementStatsWithIdOnly = await prisma.engagementStats.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EngagementStatsCreateManyAndReturnArgs>(args?: SelectSubset<T, EngagementStatsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EngagementStats.
+     * @param {EngagementStatsDeleteArgs} args - Arguments to delete one EngagementStats.
+     * @example
+     * // Delete one EngagementStats
+     * const EngagementStats = await prisma.engagementStats.delete({
+     *   where: {
+     *     // ... filter to delete one EngagementStats
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EngagementStatsDeleteArgs>(args: SelectSubset<T, EngagementStatsDeleteArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EngagementStats.
+     * @param {EngagementStatsUpdateArgs} args - Arguments to update one EngagementStats.
+     * @example
+     * // Update one EngagementStats
+     * const engagementStats = await prisma.engagementStats.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EngagementStatsUpdateArgs>(args: SelectSubset<T, EngagementStatsUpdateArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EngagementStats.
+     * @param {EngagementStatsDeleteManyArgs} args - Arguments to filter EngagementStats to delete.
+     * @example
+     * // Delete a few EngagementStats
+     * const { count } = await prisma.engagementStats.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EngagementStatsDeleteManyArgs>(args?: SelectSubset<T, EngagementStatsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EngagementStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EngagementStats
+     * const engagementStats = await prisma.engagementStats.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EngagementStatsUpdateManyArgs>(args: SelectSubset<T, EngagementStatsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EngagementStats and returns the data updated in the database.
+     * @param {EngagementStatsUpdateManyAndReturnArgs} args - Arguments to update many EngagementStats.
+     * @example
+     * // Update many EngagementStats
+     * const engagementStats = await prisma.engagementStats.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EngagementStats and only return the `id`
+     * const engagementStatsWithIdOnly = await prisma.engagementStats.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EngagementStatsUpdateManyAndReturnArgs>(args: SelectSubset<T, EngagementStatsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EngagementStats.
+     * @param {EngagementStatsUpsertArgs} args - Arguments to update or create a EngagementStats.
+     * @example
+     * // Update or create a EngagementStats
+     * const engagementStats = await prisma.engagementStats.upsert({
+     *   create: {
+     *     // ... data to create a EngagementStats
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EngagementStats we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EngagementStatsUpsertArgs>(args: SelectSubset<T, EngagementStatsUpsertArgs<ExtArgs>>): Prisma__EngagementStatsClient<$Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EngagementStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsCountArgs} args - Arguments to filter EngagementStats to count.
+     * @example
+     * // Count the number of EngagementStats
+     * const count = await prisma.engagementStats.count({
+     *   where: {
+     *     // ... the filter for the EngagementStats we want to count
+     *   }
+     * })
+    **/
+    count<T extends EngagementStatsCountArgs>(
+      args?: Subset<T, EngagementStatsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EngagementStatsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EngagementStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EngagementStatsAggregateArgs>(args: Subset<T, EngagementStatsAggregateArgs>): Prisma.PrismaPromise<GetEngagementStatsAggregateType<T>>
+
+    /**
+     * Group by EngagementStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EngagementStatsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EngagementStatsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EngagementStatsGroupByArgs['orderBy'] }
+        : { orderBy?: EngagementStatsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EngagementStatsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEngagementStatsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EngagementStats model
+   */
+  readonly fields: EngagementStatsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EngagementStats.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EngagementStatsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EngagementStats model
+   */
+  interface EngagementStatsFieldRefs {
+    readonly id: FieldRef<"EngagementStats", 'String'>
+    readonly userId: FieldRef<"EngagementStats", 'String'>
+    readonly currentStreak: FieldRef<"EngagementStats", 'Int'>
+    readonly longestStreak: FieldRef<"EngagementStats", 'Int'>
+    readonly lastCheckinAt: FieldRef<"EngagementStats", 'DateTime'>
+    readonly lastStreakDate: FieldRef<"EngagementStats", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EngagementStats findUnique
+   */
+  export type EngagementStatsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which EngagementStats to fetch.
+     */
+    where: EngagementStatsWhereUniqueInput
+  }
+
+  /**
+   * EngagementStats findUniqueOrThrow
+   */
+  export type EngagementStatsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which EngagementStats to fetch.
+     */
+    where: EngagementStatsWhereUniqueInput
+  }
+
+  /**
+   * EngagementStats findFirst
+   */
+  export type EngagementStatsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which EngagementStats to fetch.
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngagementStats to fetch.
+     */
+    orderBy?: EngagementStatsOrderByWithRelationInput | EngagementStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EngagementStats.
+     */
+    cursor?: EngagementStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngagementStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngagementStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EngagementStats.
+     */
+    distinct?: EngagementStatsScalarFieldEnum | EngagementStatsScalarFieldEnum[]
+  }
+
+  /**
+   * EngagementStats findFirstOrThrow
+   */
+  export type EngagementStatsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which EngagementStats to fetch.
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngagementStats to fetch.
+     */
+    orderBy?: EngagementStatsOrderByWithRelationInput | EngagementStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EngagementStats.
+     */
+    cursor?: EngagementStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngagementStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngagementStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EngagementStats.
+     */
+    distinct?: EngagementStatsScalarFieldEnum | EngagementStatsScalarFieldEnum[]
+  }
+
+  /**
+   * EngagementStats findMany
+   */
+  export type EngagementStatsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which EngagementStats to fetch.
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EngagementStats to fetch.
+     */
+    orderBy?: EngagementStatsOrderByWithRelationInput | EngagementStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EngagementStats.
+     */
+    cursor?: EngagementStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EngagementStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EngagementStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EngagementStats.
+     */
+    distinct?: EngagementStatsScalarFieldEnum | EngagementStatsScalarFieldEnum[]
+  }
+
+  /**
+   * EngagementStats create
+   */
+  export type EngagementStatsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EngagementStats.
+     */
+    data: XOR<EngagementStatsCreateInput, EngagementStatsUncheckedCreateInput>
+  }
+
+  /**
+   * EngagementStats createMany
+   */
+  export type EngagementStatsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EngagementStats.
+     */
+    data: EngagementStatsCreateManyInput | EngagementStatsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EngagementStats createManyAndReturn
+   */
+  export type EngagementStatsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * The data used to create many EngagementStats.
+     */
+    data: EngagementStatsCreateManyInput | EngagementStatsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EngagementStats update
+   */
+  export type EngagementStatsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EngagementStats.
+     */
+    data: XOR<EngagementStatsUpdateInput, EngagementStatsUncheckedUpdateInput>
+    /**
+     * Choose, which EngagementStats to update.
+     */
+    where: EngagementStatsWhereUniqueInput
+  }
+
+  /**
+   * EngagementStats updateMany
+   */
+  export type EngagementStatsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EngagementStats.
+     */
+    data: XOR<EngagementStatsUpdateManyMutationInput, EngagementStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which EngagementStats to update
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * Limit how many EngagementStats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EngagementStats updateManyAndReturn
+   */
+  export type EngagementStatsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * The data used to update EngagementStats.
+     */
+    data: XOR<EngagementStatsUpdateManyMutationInput, EngagementStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which EngagementStats to update
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * Limit how many EngagementStats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EngagementStats upsert
+   */
+  export type EngagementStatsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EngagementStats to update in case it exists.
+     */
+    where: EngagementStatsWhereUniqueInput
+    /**
+     * In case the EngagementStats found by the `where` argument doesn't exist, create a new EngagementStats with this data.
+     */
+    create: XOR<EngagementStatsCreateInput, EngagementStatsUncheckedCreateInput>
+    /**
+     * In case the EngagementStats was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EngagementStatsUpdateInput, EngagementStatsUncheckedUpdateInput>
+  }
+
+  /**
+   * EngagementStats delete
+   */
+  export type EngagementStatsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+    /**
+     * Filter which EngagementStats to delete.
+     */
+    where: EngagementStatsWhereUniqueInput
+  }
+
+  /**
+   * EngagementStats deleteMany
+   */
+  export type EngagementStatsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EngagementStats to delete
+     */
+    where?: EngagementStatsWhereInput
+    /**
+     * Limit how many EngagementStats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EngagementStats without action
+   */
+  export type EngagementStatsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EngagementStats
+     */
+    select?: EngagementStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EngagementStats
+     */
+    omit?: EngagementStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EngagementStatsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -31997,38 +36709,25 @@ export namespace Prisma {
     role: 'role',
     badges: 'badges',
     behavioralVibrancy: 'behavioralVibrancy',
-    builderScore: 'builderScore',
-    catalystScore: 'catalystScore',
     cardSignature: 'cardSignature',
     cardIssuedAt: 'cardIssuedAt',
     cardTier: 'cardTier',
     city: 'city',
-    confidenceScore: 'confidenceScore',
     country: 'country',
-    creatorScore: 'creatorScore',
     currentSituation: 'currentSituation',
     domains: 'domains',
-    githubUrl: 'githubUrl',
     language: 'language',
     lastHypothesisUpdate: 'lastHypothesisUpdate',
     mainObjective: 'mainObjective',
     missionsCompletedCount: 'missionsCompletedCount',
-    portfolioUrl: 'portfolioUrl',
     pseudo: 'pseudo',
-    strategistScore: 'strategistScore',
     technicalLevel: 'technicalLevel',
     tools: 'tools',
     secondaryObjectives: 'secondaryObjectives',
     bio: 'bio',
-    linkedinUrl: 'linkedinUrl',
     memberNumber: 'memberNumber',
-    twitterUrl: 'twitterUrl',
     currentFocus: 'currentFocus',
     dreamStatement: 'dreamStatement',
-    lastCheckinAt: 'lastCheckinAt',
-    currentStreak: 'currentStreak',
-    longestStreak: 'longestStreak',
-    lastStreakDate: 'lastStreakDate',
     mainBlocker: 'mainBlocker',
     banned: 'banned',
     banReason: 'banReason',
@@ -32402,6 +37101,55 @@ export namespace Prisma {
   export type PasskeyScalarFieldEnum = (typeof PasskeyScalarFieldEnum)[keyof typeof PasskeyScalarFieldEnum]
 
 
+  export const XpTransactionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    amount: 'amount',
+    reason: 'reason',
+    sourceId: 'sourceId',
+    createdAt: 'createdAt'
+  };
+
+  export type XpTransactionScalarFieldEnum = (typeof XpTransactionScalarFieldEnum)[keyof typeof XpTransactionScalarFieldEnum]
+
+
+  export const PsychometricScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    builderScore: 'builderScore',
+    creatorScore: 'creatorScore',
+    strategistScore: 'strategistScore',
+    catalystScore: 'catalystScore',
+    confidenceScore: 'confidenceScore'
+  };
+
+  export type PsychometricScalarFieldEnum = (typeof PsychometricScalarFieldEnum)[keyof typeof PsychometricScalarFieldEnum]
+
+
+  export const UserSocialsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    githubUrl: 'githubUrl',
+    portfolioUrl: 'portfolioUrl',
+    linkedinUrl: 'linkedinUrl',
+    twitterUrl: 'twitterUrl'
+  };
+
+  export type UserSocialsScalarFieldEnum = (typeof UserSocialsScalarFieldEnum)[keyof typeof UserSocialsScalarFieldEnum]
+
+
+  export const EngagementStatsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    currentStreak: 'currentStreak',
+    longestStreak: 'longestStreak',
+    lastCheckinAt: 'lastCheckinAt',
+    lastStreakDate: 'lastStreakDate'
+  };
+
+  export type EngagementStatsScalarFieldEnum = (typeof EngagementStatsScalarFieldEnum)[keyof typeof EngagementStatsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -32554,38 +37302,25 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableFilter<"User">
-    builderScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
     cardSignature?: StringNullableFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
-    confidenceScore?: FloatFilter<"User"> | number
     country?: StringNullableFilter<"User"> | string | null
-    creatorScore?: IntFilter<"User"> | number
     currentSituation?: StringNullableFilter<"User"> | string | null
     domains?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     missionsCompletedCount?: IntFilter<"User"> | number
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
     pseudo?: StringNullableFilter<"User"> | string | null
-    strategistScore?: IntFilter<"User"> | number
     technicalLevel?: StringNullableFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
     secondaryObjectives?: StringNullableListFilter<"User">
     bio?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
     memberNumber?: IntFilter<"User"> | number
-    twitterUrl?: StringNullableFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -32599,6 +37334,9 @@ export namespace Prisma {
     referralCode?: StringNullableFilter<"User"> | string | null
     referrerId?: StringNullableFilter<"User"> | string | null
     referralCount?: IntFilter<"User"> | number
+    psychometrics?: XOR<PsychometricNullableScalarRelationFilter, PsychometricWhereInput> | null
+    socials?: XOR<UserSocialsNullableScalarRelationFilter, UserSocialsWhereInput> | null
+    stats?: XOR<EngagementStatsNullableScalarRelationFilter, EngagementStatsWhereInput> | null
     accounts?: AccountListRelationFilter
     dailyCheckins?: DailyCheckinListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
@@ -32619,6 +37357,7 @@ export namespace Prisma {
     referrals?: UserListRelationFilter
     twofactors?: TwoFactorListRelationFilter
     passkeys?: PasskeyListRelationFilter
+    xpTransactions?: XpTransactionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -32637,38 +37376,25 @@ export namespace Prisma {
     role?: SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
     cardSignature?: SortOrderInput | SortOrder
     cardIssuedAt?: SortOrderInput | SortOrder
     cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
-    confidenceScore?: SortOrder
     country?: SortOrderInput | SortOrder
-    creatorScore?: SortOrder
     currentSituation?: SortOrderInput | SortOrder
     domains?: SortOrder
-    githubUrl?: SortOrderInput | SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
     missionsCompletedCount?: SortOrder
-    portfolioUrl?: SortOrderInput | SortOrder
     pseudo?: SortOrderInput | SortOrder
-    strategistScore?: SortOrder
     technicalLevel?: SortOrderInput | SortOrder
     tools?: SortOrder
     secondaryObjectives?: SortOrder
     bio?: SortOrderInput | SortOrder
-    linkedinUrl?: SortOrderInput | SortOrder
     memberNumber?: SortOrder
-    twitterUrl?: SortOrderInput | SortOrder
     currentFocus?: SortOrder
     dreamStatement?: SortOrderInput | SortOrder
-    lastCheckinAt?: SortOrderInput | SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
-    lastStreakDate?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
@@ -32682,6 +37408,9 @@ export namespace Prisma {
     referralCode?: SortOrderInput | SortOrder
     referrerId?: SortOrderInput | SortOrder
     referralCount?: SortOrder
+    psychometrics?: PsychometricOrderByWithRelationInput
+    socials?: UserSocialsOrderByWithRelationInput
+    stats?: EngagementStatsOrderByWithRelationInput
     accounts?: AccountOrderByRelationAggregateInput
     dailyCheckins?: DailyCheckinOrderByRelationAggregateInput
     guildMembers?: GuildMemberOrderByRelationAggregateInput
@@ -32702,6 +37431,7 @@ export namespace Prisma {
     referrals?: UserOrderByRelationAggregateInput
     twofactors?: TwoFactorOrderByRelationAggregateInput
     passkeys?: PasskeyOrderByRelationAggregateInput
+    xpTransactions?: XpTransactionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -32728,35 +37458,22 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableFilter<"User">
-    builderScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
     cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
-    confidenceScore?: FloatFilter<"User"> | number
     country?: StringNullableFilter<"User"> | string | null
-    creatorScore?: IntFilter<"User"> | number
     currentSituation?: StringNullableFilter<"User"> | string | null
     domains?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     missionsCompletedCount?: IntFilter<"User"> | number
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
-    strategistScore?: IntFilter<"User"> | number
     technicalLevel?: StringNullableFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
     secondaryObjectives?: StringNullableListFilter<"User">
     bio?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
-    twitterUrl?: StringNullableFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -32768,6 +37485,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: StringNullableFilter<"User"> | string | null
     referrerId?: StringNullableFilter<"User"> | string | null
     referralCount?: IntFilter<"User"> | number
+    psychometrics?: XOR<PsychometricNullableScalarRelationFilter, PsychometricWhereInput> | null
+    socials?: XOR<UserSocialsNullableScalarRelationFilter, UserSocialsWhereInput> | null
+    stats?: XOR<EngagementStatsNullableScalarRelationFilter, EngagementStatsWhereInput> | null
     accounts?: AccountListRelationFilter
     dailyCheckins?: DailyCheckinListRelationFilter
     guildMembers?: GuildMemberListRelationFilter
@@ -32788,6 +37508,7 @@ export namespace Prisma {
     referrals?: UserListRelationFilter
     twofactors?: TwoFactorListRelationFilter
     passkeys?: PasskeyListRelationFilter
+    xpTransactions?: XpTransactionListRelationFilter
   }, "id" | "email" | "cardSignature" | "pseudo" | "memberNumber" | "betaKeyId" | "referralCode">
 
   export type UserOrderByWithAggregationInput = {
@@ -32806,38 +37527,25 @@ export namespace Prisma {
     role?: SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrderInput | SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
     cardSignature?: SortOrderInput | SortOrder
     cardIssuedAt?: SortOrderInput | SortOrder
     cardTier?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
-    confidenceScore?: SortOrder
     country?: SortOrderInput | SortOrder
-    creatorScore?: SortOrder
     currentSituation?: SortOrderInput | SortOrder
     domains?: SortOrder
-    githubUrl?: SortOrderInput | SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrderInput | SortOrder
     mainObjective?: SortOrderInput | SortOrder
     missionsCompletedCount?: SortOrder
-    portfolioUrl?: SortOrderInput | SortOrder
     pseudo?: SortOrderInput | SortOrder
-    strategistScore?: SortOrder
     technicalLevel?: SortOrderInput | SortOrder
     tools?: SortOrder
     secondaryObjectives?: SortOrder
     bio?: SortOrderInput | SortOrder
-    linkedinUrl?: SortOrderInput | SortOrder
     memberNumber?: SortOrder
-    twitterUrl?: SortOrderInput | SortOrder
     currentFocus?: SortOrder
     dreamStatement?: SortOrderInput | SortOrder
-    lastCheckinAt?: SortOrderInput | SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
-    lastStreakDate?: SortOrderInput | SortOrder
     mainBlocker?: SortOrderInput | SortOrder
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
@@ -32877,38 +37585,25 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"User"> | string
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableWithAggregatesFilter<"User">
-    builderScore?: IntWithAggregatesFilter<"User"> | number
-    catalystScore?: IntWithAggregatesFilter<"User"> | number
     cardSignature?: StringNullableWithAggregatesFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     cardTier?: StringNullableWithAggregatesFilter<"User"> | string | null
     city?: StringNullableWithAggregatesFilter<"User"> | string | null
-    confidenceScore?: FloatWithAggregatesFilter<"User"> | number
     country?: StringNullableWithAggregatesFilter<"User"> | string | null
-    creatorScore?: IntWithAggregatesFilter<"User"> | number
     currentSituation?: StringNullableWithAggregatesFilter<"User"> | string | null
     domains?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     language?: StringWithAggregatesFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     mainObjective?: StringNullableWithAggregatesFilter<"User"> | string | null
     missionsCompletedCount?: IntWithAggregatesFilter<"User"> | number
-    portfolioUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     pseudo?: StringNullableWithAggregatesFilter<"User"> | string | null
-    strategistScore?: IntWithAggregatesFilter<"User"> | number
     technicalLevel?: StringNullableWithAggregatesFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
     secondaryObjectives?: StringNullableListFilter<"User">
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
-    linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     memberNumber?: IntWithAggregatesFilter<"User"> | number
-    twitterUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableWithAggregatesFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    currentStreak?: IntWithAggregatesFilter<"User"> | number
-    longestStreak?: IntWithAggregatesFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableWithAggregatesFilter<"User"> | string | null
     banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -34752,6 +39447,257 @@ export namespace Prisma {
     aaguid?: StringNullableWithAggregatesFilter<"Passkey"> | string | null
   }
 
+  export type XpTransactionWhereInput = {
+    AND?: XpTransactionWhereInput | XpTransactionWhereInput[]
+    OR?: XpTransactionWhereInput[]
+    NOT?: XpTransactionWhereInput | XpTransactionWhereInput[]
+    id?: StringFilter<"XpTransaction"> | string
+    userId?: StringFilter<"XpTransaction"> | string
+    amount?: IntFilter<"XpTransaction"> | number
+    reason?: StringFilter<"XpTransaction"> | string
+    sourceId?: StringNullableFilter<"XpTransaction"> | string | null
+    createdAt?: DateTimeFilter<"XpTransaction"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type XpTransactionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    sourceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type XpTransactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: XpTransactionWhereInput | XpTransactionWhereInput[]
+    OR?: XpTransactionWhereInput[]
+    NOT?: XpTransactionWhereInput | XpTransactionWhereInput[]
+    userId?: StringFilter<"XpTransaction"> | string
+    amount?: IntFilter<"XpTransaction"> | number
+    reason?: StringFilter<"XpTransaction"> | string
+    sourceId?: StringNullableFilter<"XpTransaction"> | string | null
+    createdAt?: DateTimeFilter<"XpTransaction"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type XpTransactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    sourceId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: XpTransactionCountOrderByAggregateInput
+    _avg?: XpTransactionAvgOrderByAggregateInput
+    _max?: XpTransactionMaxOrderByAggregateInput
+    _min?: XpTransactionMinOrderByAggregateInput
+    _sum?: XpTransactionSumOrderByAggregateInput
+  }
+
+  export type XpTransactionScalarWhereWithAggregatesInput = {
+    AND?: XpTransactionScalarWhereWithAggregatesInput | XpTransactionScalarWhereWithAggregatesInput[]
+    OR?: XpTransactionScalarWhereWithAggregatesInput[]
+    NOT?: XpTransactionScalarWhereWithAggregatesInput | XpTransactionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"XpTransaction"> | string
+    userId?: StringWithAggregatesFilter<"XpTransaction"> | string
+    amount?: IntWithAggregatesFilter<"XpTransaction"> | number
+    reason?: StringWithAggregatesFilter<"XpTransaction"> | string
+    sourceId?: StringNullableWithAggregatesFilter<"XpTransaction"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"XpTransaction"> | Date | string
+  }
+
+  export type PsychometricWhereInput = {
+    AND?: PsychometricWhereInput | PsychometricWhereInput[]
+    OR?: PsychometricWhereInput[]
+    NOT?: PsychometricWhereInput | PsychometricWhereInput[]
+    id?: StringFilter<"Psychometric"> | string
+    userId?: StringFilter<"Psychometric"> | string
+    builderScore?: IntFilter<"Psychometric"> | number
+    creatorScore?: IntFilter<"Psychometric"> | number
+    strategistScore?: IntFilter<"Psychometric"> | number
+    catalystScore?: IntFilter<"Psychometric"> | number
+    confidenceScore?: FloatFilter<"Psychometric"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PsychometricOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PsychometricWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: PsychometricWhereInput | PsychometricWhereInput[]
+    OR?: PsychometricWhereInput[]
+    NOT?: PsychometricWhereInput | PsychometricWhereInput[]
+    builderScore?: IntFilter<"Psychometric"> | number
+    creatorScore?: IntFilter<"Psychometric"> | number
+    strategistScore?: IntFilter<"Psychometric"> | number
+    catalystScore?: IntFilter<"Psychometric"> | number
+    confidenceScore?: FloatFilter<"Psychometric"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type PsychometricOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+    _count?: PsychometricCountOrderByAggregateInput
+    _avg?: PsychometricAvgOrderByAggregateInput
+    _max?: PsychometricMaxOrderByAggregateInput
+    _min?: PsychometricMinOrderByAggregateInput
+    _sum?: PsychometricSumOrderByAggregateInput
+  }
+
+  export type PsychometricScalarWhereWithAggregatesInput = {
+    AND?: PsychometricScalarWhereWithAggregatesInput | PsychometricScalarWhereWithAggregatesInput[]
+    OR?: PsychometricScalarWhereWithAggregatesInput[]
+    NOT?: PsychometricScalarWhereWithAggregatesInput | PsychometricScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Psychometric"> | string
+    userId?: StringWithAggregatesFilter<"Psychometric"> | string
+    builderScore?: IntWithAggregatesFilter<"Psychometric"> | number
+    creatorScore?: IntWithAggregatesFilter<"Psychometric"> | number
+    strategistScore?: IntWithAggregatesFilter<"Psychometric"> | number
+    catalystScore?: IntWithAggregatesFilter<"Psychometric"> | number
+    confidenceScore?: FloatWithAggregatesFilter<"Psychometric"> | number
+  }
+
+  export type UserSocialsWhereInput = {
+    AND?: UserSocialsWhereInput | UserSocialsWhereInput[]
+    OR?: UserSocialsWhereInput[]
+    NOT?: UserSocialsWhereInput | UserSocialsWhereInput[]
+    id?: StringFilter<"UserSocials"> | string
+    userId?: StringFilter<"UserSocials"> | string
+    githubUrl?: StringNullableFilter<"UserSocials"> | string | null
+    portfolioUrl?: StringNullableFilter<"UserSocials"> | string | null
+    linkedinUrl?: StringNullableFilter<"UserSocials"> | string | null
+    twitterUrl?: StringNullableFilter<"UserSocials"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserSocialsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserSocialsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserSocialsWhereInput | UserSocialsWhereInput[]
+    OR?: UserSocialsWhereInput[]
+    NOT?: UserSocialsWhereInput | UserSocialsWhereInput[]
+    githubUrl?: StringNullableFilter<"UserSocials"> | string | null
+    portfolioUrl?: StringNullableFilter<"UserSocials"> | string | null
+    linkedinUrl?: StringNullableFilter<"UserSocials"> | string | null
+    twitterUrl?: StringNullableFilter<"UserSocials"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type UserSocialsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    portfolioUrl?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
+    _count?: UserSocialsCountOrderByAggregateInput
+    _max?: UserSocialsMaxOrderByAggregateInput
+    _min?: UserSocialsMinOrderByAggregateInput
+  }
+
+  export type UserSocialsScalarWhereWithAggregatesInput = {
+    AND?: UserSocialsScalarWhereWithAggregatesInput | UserSocialsScalarWhereWithAggregatesInput[]
+    OR?: UserSocialsScalarWhereWithAggregatesInput[]
+    NOT?: UserSocialsScalarWhereWithAggregatesInput | UserSocialsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserSocials"> | string
+    userId?: StringWithAggregatesFilter<"UserSocials"> | string
+    githubUrl?: StringNullableWithAggregatesFilter<"UserSocials"> | string | null
+    portfolioUrl?: StringNullableWithAggregatesFilter<"UserSocials"> | string | null
+    linkedinUrl?: StringNullableWithAggregatesFilter<"UserSocials"> | string | null
+    twitterUrl?: StringNullableWithAggregatesFilter<"UserSocials"> | string | null
+  }
+
+  export type EngagementStatsWhereInput = {
+    AND?: EngagementStatsWhereInput | EngagementStatsWhereInput[]
+    OR?: EngagementStatsWhereInput[]
+    NOT?: EngagementStatsWhereInput | EngagementStatsWhereInput[]
+    id?: StringFilter<"EngagementStats"> | string
+    userId?: StringFilter<"EngagementStats"> | string
+    currentStreak?: IntFilter<"EngagementStats"> | number
+    longestStreak?: IntFilter<"EngagementStats"> | number
+    lastCheckinAt?: DateTimeNullableFilter<"EngagementStats"> | Date | string | null
+    lastStreakDate?: DateTimeNullableFilter<"EngagementStats"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type EngagementStatsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastCheckinAt?: SortOrderInput | SortOrder
+    lastStreakDate?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type EngagementStatsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: EngagementStatsWhereInput | EngagementStatsWhereInput[]
+    OR?: EngagementStatsWhereInput[]
+    NOT?: EngagementStatsWhereInput | EngagementStatsWhereInput[]
+    currentStreak?: IntFilter<"EngagementStats"> | number
+    longestStreak?: IntFilter<"EngagementStats"> | number
+    lastCheckinAt?: DateTimeNullableFilter<"EngagementStats"> | Date | string | null
+    lastStreakDate?: DateTimeNullableFilter<"EngagementStats"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type EngagementStatsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastCheckinAt?: SortOrderInput | SortOrder
+    lastStreakDate?: SortOrderInput | SortOrder
+    _count?: EngagementStatsCountOrderByAggregateInput
+    _avg?: EngagementStatsAvgOrderByAggregateInput
+    _max?: EngagementStatsMaxOrderByAggregateInput
+    _min?: EngagementStatsMinOrderByAggregateInput
+    _sum?: EngagementStatsSumOrderByAggregateInput
+  }
+
+  export type EngagementStatsScalarWhereWithAggregatesInput = {
+    AND?: EngagementStatsScalarWhereWithAggregatesInput | EngagementStatsScalarWhereWithAggregatesInput[]
+    OR?: EngagementStatsScalarWhereWithAggregatesInput[]
+    NOT?: EngagementStatsScalarWhereWithAggregatesInput | EngagementStatsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EngagementStats"> | string
+    userId?: StringWithAggregatesFilter<"EngagementStats"> | string
+    currentStreak?: IntWithAggregatesFilter<"EngagementStats"> | number
+    longestStreak?: IntWithAggregatesFilter<"EngagementStats"> | number
+    lastCheckinAt?: DateTimeNullableWithAggregatesFilter<"EngagementStats"> | Date | string | null
+    lastStreakDate?: DateTimeNullableWithAggregatesFilter<"EngagementStats"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -34768,38 +39714,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -34811,6 +39744,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -34831,6 +39767,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -34849,38 +39786,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -34894,6 +39818,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -34912,6 +39839,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -34930,37 +39858,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34972,6 +39887,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -34992,6 +39910,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -35010,38 +39929,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35055,6 +39961,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -35073,6 +39982,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -35091,38 +40001,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -35154,37 +40051,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35214,38 +40098,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37271,6 +42142,261 @@ export namespace Prisma {
     aaguid?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type XpTransactionCreateInput = {
+    id?: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutXpTransactionsInput
+  }
+
+  export type XpTransactionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type XpTransactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutXpTransactionsNestedInput
+  }
+
+  export type XpTransactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type XpTransactionCreateManyInput = {
+    id?: string
+    userId: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type XpTransactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type XpTransactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PsychometricCreateInput = {
+    id?: string
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    confidenceScore?: number
+    user: UserCreateNestedOneWithoutPsychometricsInput
+  }
+
+  export type PsychometricUncheckedCreateInput = {
+    id?: string
+    userId: string
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    confidenceScore?: number
+  }
+
+  export type PsychometricUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutPsychometricsNestedInput
+  }
+
+  export type PsychometricUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type PsychometricCreateManyInput = {
+    id?: string
+    userId: string
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    confidenceScore?: number
+  }
+
+  export type PsychometricUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type PsychometricUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type UserSocialsCreateInput = {
+    id?: string
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+    user: UserCreateNestedOneWithoutSocialsInput
+  }
+
+  export type UserSocialsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+  }
+
+  export type UserSocialsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutSocialsNestedInput
+  }
+
+  export type UserSocialsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserSocialsCreateManyInput = {
+    id?: string
+    userId: string
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+  }
+
+  export type UserSocialsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserSocialsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EngagementStatsCreateInput = {
+    id?: string
+    currentStreak?: number
+    longestStreak?: number
+    lastCheckinAt?: Date | string | null
+    lastStreakDate?: Date | string | null
+    user: UserCreateNestedOneWithoutStatsInput
+  }
+
+  export type EngagementStatsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    currentStreak?: number
+    longestStreak?: number
+    lastCheckinAt?: Date | string | null
+    lastStreakDate?: Date | string | null
+  }
+
+  export type EngagementStatsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutStatsNestedInput
+  }
+
+  export type EngagementStatsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EngagementStatsCreateManyInput = {
+    id?: string
+    userId: string
+    currentStreak?: number
+    longestStreak?: number
+    lastCheckinAt?: Date | string | null
+    lastStreakDate?: Date | string | null
+  }
+
+  export type EngagementStatsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EngagementStatsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -37370,20 +42496,24 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type PsychometricNullableScalarRelationFilter = {
+    is?: PsychometricWhereInput | null
+    isNot?: PsychometricWhereInput | null
+  }
+
+  export type UserSocialsNullableScalarRelationFilter = {
+    is?: UserSocialsWhereInput | null
+    isNot?: UserSocialsWhereInput | null
+  }
+
+  export type EngagementStatsNullableScalarRelationFilter = {
+    is?: EngagementStatsWhereInput | null
+    isNot?: EngagementStatsWhereInput | null
   }
 
   export type AccountListRelationFilter = {
@@ -37498,6 +42628,12 @@ export namespace Prisma {
     none?: PasskeyWhereInput
   }
 
+  export type XpTransactionListRelationFilter = {
+    every?: XpTransactionWhereInput
+    some?: XpTransactionWhereInput
+    none?: XpTransactionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -37571,6 +42707,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type XpTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -37587,38 +42727,25 @@ export namespace Prisma {
     role?: SortOrder
     badges?: SortOrder
     behavioralVibrancy?: SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    confidenceScore?: SortOrder
     country?: SortOrder
-    creatorScore?: SortOrder
     currentSituation?: SortOrder
     domains?: SortOrder
-    githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
     mainObjective?: SortOrder
     missionsCompletedCount?: SortOrder
-    portfolioUrl?: SortOrder
     pseudo?: SortOrder
-    strategistScore?: SortOrder
     technicalLevel?: SortOrder
     tools?: SortOrder
     secondaryObjectives?: SortOrder
     bio?: SortOrder
-    linkedinUrl?: SortOrder
     memberNumber?: SortOrder
-    twitterUrl?: SortOrder
     currentFocus?: SortOrder
     dreamStatement?: SortOrder
-    lastCheckinAt?: SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
-    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -37637,15 +42764,8 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
-    confidenceScore?: SortOrder
-    creatorScore?: SortOrder
     missionsCompletedCount?: SortOrder
-    strategistScore?: SortOrder
     memberNumber?: SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
     reviewsCompleted?: SortOrder
     referralCount?: SortOrder
   }
@@ -37664,34 +42784,21 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    confidenceScore?: SortOrder
     country?: SortOrder
-    creatorScore?: SortOrder
     currentSituation?: SortOrder
-    githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
     mainObjective?: SortOrder
     missionsCompletedCount?: SortOrder
-    portfolioUrl?: SortOrder
     pseudo?: SortOrder
-    strategistScore?: SortOrder
     technicalLevel?: SortOrder
     bio?: SortOrder
-    linkedinUrl?: SortOrder
     memberNumber?: SortOrder
-    twitterUrl?: SortOrder
     dreamStatement?: SortOrder
-    lastCheckinAt?: SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
-    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -37720,34 +42827,21 @@ export namespace Prisma {
     experience?: SortOrder
     class?: SortOrder
     role?: SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
     cardSignature?: SortOrder
     cardIssuedAt?: SortOrder
     cardTier?: SortOrder
     city?: SortOrder
-    confidenceScore?: SortOrder
     country?: SortOrder
-    creatorScore?: SortOrder
     currentSituation?: SortOrder
-    githubUrl?: SortOrder
     language?: SortOrder
     lastHypothesisUpdate?: SortOrder
     mainObjective?: SortOrder
     missionsCompletedCount?: SortOrder
-    portfolioUrl?: SortOrder
     pseudo?: SortOrder
-    strategistScore?: SortOrder
     technicalLevel?: SortOrder
     bio?: SortOrder
-    linkedinUrl?: SortOrder
     memberNumber?: SortOrder
-    twitterUrl?: SortOrder
     dreamStatement?: SortOrder
-    lastCheckinAt?: SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
-    lastStreakDate?: SortOrder
     mainBlocker?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
@@ -37765,15 +42859,8 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     level?: SortOrder
     experience?: SortOrder
-    builderScore?: SortOrder
-    catalystScore?: SortOrder
-    confidenceScore?: SortOrder
-    creatorScore?: SortOrder
     missionsCompletedCount?: SortOrder
-    strategistScore?: SortOrder
     memberNumber?: SortOrder
-    currentStreak?: SortOrder
-    longestStreak?: SortOrder
     reviewsCompleted?: SortOrder
     referralCount?: SortOrder
   }
@@ -37892,7 +42979,15 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
     notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -37900,20 +42995,7 @@ export namespace Prisma {
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type OrganizationCountOrderByAggregateInput = {
@@ -37983,6 +43065,22 @@ export namespace Prisma {
     cohesionScore?: SortOrder
     streakCount?: SortOrder
     requiredLevel?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type OrganizationScalarRelationFilter = {
@@ -39010,6 +44108,151 @@ export namespace Prisma {
     counter?: SortOrder
   }
 
+  export type XpTransactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    sourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type XpTransactionAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type XpTransactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    sourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type XpTransactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    sourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type XpTransactionSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PsychometricCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+  }
+
+  export type PsychometricAvgOrderByAggregateInput = {
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+  }
+
+  export type PsychometricMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+  }
+
+  export type PsychometricMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+  }
+
+  export type PsychometricSumOrderByAggregateInput = {
+    builderScore?: SortOrder
+    creatorScore?: SortOrder
+    strategistScore?: SortOrder
+    catalystScore?: SortOrder
+    confidenceScore?: SortOrder
+  }
+
+  export type UserSocialsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
+  }
+
+  export type UserSocialsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
+  }
+
+  export type UserSocialsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    githubUrl?: SortOrder
+    portfolioUrl?: SortOrder
+    linkedinUrl?: SortOrder
+    twitterUrl?: SortOrder
+  }
+
+  export type EngagementStatsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastCheckinAt?: SortOrder
+    lastStreakDate?: SortOrder
+  }
+
+  export type EngagementStatsAvgOrderByAggregateInput = {
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+  }
+
+  export type EngagementStatsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastCheckinAt?: SortOrder
+    lastStreakDate?: SortOrder
+  }
+
+  export type EngagementStatsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+    lastCheckinAt?: SortOrder
+    lastStreakDate?: SortOrder
+  }
+
+  export type EngagementStatsSumOrderByAggregateInput = {
+    currentStreak?: SortOrder
+    longestStreak?: SortOrder
+  }
+
   export type UserCreatebadgesInput = {
     set: string[]
   }
@@ -39032,6 +44275,24 @@ export namespace Prisma {
 
   export type UserCreatecanReviewProfilesInput = {
     set: string[]
+  }
+
+  export type PsychometricCreateNestedOneWithoutUserInput = {
+    create?: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychometricCreateOrConnectWithoutUserInput
+    connect?: PsychometricWhereUniqueInput
+  }
+
+  export type UserSocialsCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSocialsCreateOrConnectWithoutUserInput
+    connect?: UserSocialsWhereUniqueInput
+  }
+
+  export type EngagementStatsCreateNestedOneWithoutUserInput = {
+    create?: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EngagementStatsCreateOrConnectWithoutUserInput
+    connect?: EngagementStatsWhereUniqueInput
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -39172,6 +44433,31 @@ export namespace Prisma {
     connect?: PasskeyWhereUniqueInput | PasskeyWhereUniqueInput[]
   }
 
+  export type XpTransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput> | XpTransactionCreateWithoutUserInput[] | XpTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: XpTransactionCreateOrConnectWithoutUserInput | XpTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: XpTransactionCreateManyUserInputEnvelope
+    connect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+  }
+
+  export type PsychometricUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychometricCreateOrConnectWithoutUserInput
+    connect?: PsychometricWhereUniqueInput
+  }
+
+  export type UserSocialsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSocialsCreateOrConnectWithoutUserInput
+    connect?: UserSocialsWhereUniqueInput
+  }
+
+  export type EngagementStatsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EngagementStatsCreateOrConnectWithoutUserInput
+    connect?: EngagementStatsWhereUniqueInput
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -39298,6 +44584,13 @@ export namespace Prisma {
     connect?: PasskeyWhereUniqueInput | PasskeyWhereUniqueInput[]
   }
 
+  export type XpTransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput> | XpTransactionCreateWithoutUserInput[] | XpTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: XpTransactionCreateOrConnectWithoutUserInput | XpTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: XpTransactionCreateManyUserInputEnvelope
+    connect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -39331,14 +44624,6 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdatedomainsInput = {
     set?: string[]
     push?: string | string[]
@@ -39366,6 +44651,36 @@ export namespace Prisma {
   export type UserUpdatecanReviewProfilesInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type PsychometricUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychometricCreateOrConnectWithoutUserInput
+    upsert?: PsychometricUpsertWithoutUserInput
+    disconnect?: PsychometricWhereInput | boolean
+    delete?: PsychometricWhereInput | boolean
+    connect?: PsychometricWhereUniqueInput
+    update?: XOR<XOR<PsychometricUpdateToOneWithWhereWithoutUserInput, PsychometricUpdateWithoutUserInput>, PsychometricUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserSocialsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSocialsCreateOrConnectWithoutUserInput
+    upsert?: UserSocialsUpsertWithoutUserInput
+    disconnect?: UserSocialsWhereInput | boolean
+    delete?: UserSocialsWhereInput | boolean
+    connect?: UserSocialsWhereUniqueInput
+    update?: XOR<XOR<UserSocialsUpdateToOneWithWhereWithoutUserInput, UserSocialsUpdateWithoutUserInput>, UserSocialsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EngagementStatsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EngagementStatsCreateOrConnectWithoutUserInput
+    upsert?: EngagementStatsUpsertWithoutUserInput
+    disconnect?: EngagementStatsWhereInput | boolean
+    delete?: EngagementStatsWhereInput | boolean
+    connect?: EngagementStatsWhereUniqueInput
+    update?: XOR<XOR<EngagementStatsUpdateToOneWithWhereWithoutUserInput, EngagementStatsUpdateWithoutUserInput>, EngagementStatsUncheckedUpdateWithoutUserInput>
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -39640,6 +44955,50 @@ export namespace Prisma {
     deleteMany?: PasskeyScalarWhereInput | PasskeyScalarWhereInput[]
   }
 
+  export type XpTransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput> | XpTransactionCreateWithoutUserInput[] | XpTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: XpTransactionCreateOrConnectWithoutUserInput | XpTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: XpTransactionUpsertWithWhereUniqueWithoutUserInput | XpTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: XpTransactionCreateManyUserInputEnvelope
+    set?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    disconnect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    delete?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    connect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    update?: XpTransactionUpdateWithWhereUniqueWithoutUserInput | XpTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: XpTransactionUpdateManyWithWhereWithoutUserInput | XpTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: XpTransactionScalarWhereInput | XpTransactionScalarWhereInput[]
+  }
+
+  export type PsychometricUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychometricCreateOrConnectWithoutUserInput
+    upsert?: PsychometricUpsertWithoutUserInput
+    disconnect?: PsychometricWhereInput | boolean
+    delete?: PsychometricWhereInput | boolean
+    connect?: PsychometricWhereUniqueInput
+    update?: XOR<XOR<PsychometricUpdateToOneWithWhereWithoutUserInput, PsychometricUpdateWithoutUserInput>, PsychometricUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserSocialsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSocialsCreateOrConnectWithoutUserInput
+    upsert?: UserSocialsUpsertWithoutUserInput
+    disconnect?: UserSocialsWhereInput | boolean
+    delete?: UserSocialsWhereInput | boolean
+    connect?: UserSocialsWhereUniqueInput
+    update?: XOR<XOR<UserSocialsUpdateToOneWithWhereWithoutUserInput, UserSocialsUpdateWithoutUserInput>, UserSocialsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EngagementStatsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EngagementStatsCreateOrConnectWithoutUserInput
+    upsert?: EngagementStatsUpsertWithoutUserInput
+    disconnect?: EngagementStatsWhereInput | boolean
+    delete?: EngagementStatsWhereInput | boolean
+    connect?: EngagementStatsWhereUniqueInput
+    update?: XOR<XOR<EngagementStatsUpdateToOneWithWhereWithoutUserInput, EngagementStatsUpdateWithoutUserInput>, EngagementStatsUncheckedUpdateWithoutUserInput>
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -39892,6 +45251,20 @@ export namespace Prisma {
     deleteMany?: PasskeyScalarWhereInput | PasskeyScalarWhereInput[]
   }
 
+  export type XpTransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput> | XpTransactionCreateWithoutUserInput[] | XpTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: XpTransactionCreateOrConnectWithoutUserInput | XpTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: XpTransactionUpsertWithWhereUniqueWithoutUserInput | XpTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: XpTransactionCreateManyUserInputEnvelope
+    set?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    disconnect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    delete?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    connect?: XpTransactionWhereUniqueInput | XpTransactionWhereUniqueInput[]
+    update?: XpTransactionUpdateWithWhereUniqueWithoutUserInput | XpTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: XpTransactionUpdateManyWithWhereWithoutUserInput | XpTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: XpTransactionScalarWhereInput | XpTransactionScalarWhereInput[]
+  }
+
   export type MemberCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MemberCreateWithoutOrganizationInput, MemberUncheckedCreateWithoutOrganizationInput> | MemberCreateWithoutOrganizationInput[] | MemberUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MemberCreateOrConnectWithoutOrganizationInput | MemberCreateOrConnectWithoutOrganizationInput[]
@@ -39932,6 +45305,14 @@ export namespace Prisma {
     connectOrCreate?: JoinRequestCreateOrConnectWithoutOrganizationInput | JoinRequestCreateOrConnectWithoutOrganizationInput[]
     createMany?: JoinRequestCreateManyOrganizationInputEnvelope
     connect?: JoinRequestWhereUniqueInput | JoinRequestWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type MemberUpdateManyWithoutOrganizationNestedInput = {
@@ -40587,6 +45968,62 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasskeysInput, UserUpdateWithoutPasskeysInput>, UserUncheckedUpdateWithoutPasskeysInput>
   }
 
+  export type UserCreateNestedOneWithoutXpTransactionsInput = {
+    create?: XOR<UserCreateWithoutXpTransactionsInput, UserUncheckedCreateWithoutXpTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutXpTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutXpTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutXpTransactionsInput, UserUncheckedCreateWithoutXpTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutXpTransactionsInput
+    upsert?: UserUpsertWithoutXpTransactionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutXpTransactionsInput, UserUpdateWithoutXpTransactionsInput>, UserUncheckedUpdateWithoutXpTransactionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPsychometricsInput = {
+    create?: XOR<UserCreateWithoutPsychometricsInput, UserUncheckedCreateWithoutPsychometricsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPsychometricsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPsychometricsNestedInput = {
+    create?: XOR<UserCreateWithoutPsychometricsInput, UserUncheckedCreateWithoutPsychometricsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPsychometricsInput
+    upsert?: UserUpsertWithoutPsychometricsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPsychometricsInput, UserUpdateWithoutPsychometricsInput>, UserUncheckedUpdateWithoutPsychometricsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSocialsInput = {
+    create?: XOR<UserCreateWithoutSocialsInput, UserUncheckedCreateWithoutSocialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSocialsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSocialsNestedInput = {
+    create?: XOR<UserCreateWithoutSocialsInput, UserUncheckedCreateWithoutSocialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSocialsInput
+    upsert?: UserUpsertWithoutSocialsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSocialsInput, UserUpdateWithoutSocialsInput>, UserUncheckedUpdateWithoutSocialsInput>
+  }
+
+  export type UserCreateNestedOneWithoutStatsInput = {
+    create?: XOR<UserCreateWithoutStatsInput, UserUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStatsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutStatsNestedInput = {
+    create?: XOR<UserCreateWithoutStatsInput, UserUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStatsInput
+    upsert?: UserUpsertWithoutStatsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStatsInput, UserUpdateWithoutStatsInput>, UserUncheckedUpdateWithoutStatsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -40651,17 +46088,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
@@ -40765,6 +46191,17 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -40789,6 +46226,14 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -40803,14 +46248,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -40861,6 +46298,71 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type PsychometricCreateWithoutUserInput = {
+    id?: string
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    confidenceScore?: number
+  }
+
+  export type PsychometricUncheckedCreateWithoutUserInput = {
+    id?: string
+    builderScore?: number
+    creatorScore?: number
+    strategistScore?: number
+    catalystScore?: number
+    confidenceScore?: number
+  }
+
+  export type PsychometricCreateOrConnectWithoutUserInput = {
+    where: PsychometricWhereUniqueInput
+    create: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserSocialsCreateWithoutUserInput = {
+    id?: string
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+  }
+
+  export type UserSocialsUncheckedCreateWithoutUserInput = {
+    id?: string
+    githubUrl?: string | null
+    portfolioUrl?: string | null
+    linkedinUrl?: string | null
+    twitterUrl?: string | null
+  }
+
+  export type UserSocialsCreateOrConnectWithoutUserInput = {
+    where: UserSocialsWhereUniqueInput
+    create: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+  }
+
+  export type EngagementStatsCreateWithoutUserInput = {
+    id?: string
+    currentStreak?: number
+    longestStreak?: number
+    lastCheckinAt?: Date | string | null
+    lastStreakDate?: Date | string | null
+  }
+
+  export type EngagementStatsUncheckedCreateWithoutUserInput = {
+    id?: string
+    currentStreak?: number
+    longestStreak?: number
+    lastCheckinAt?: Date | string | null
+    lastStreakDate?: Date | string | null
+  }
+
+  export type EngagementStatsCreateOrConnectWithoutUserInput = {
+    where: EngagementStatsWhereUniqueInput
+    create: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -41406,38 +46908,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -41449,6 +46938,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -41468,6 +46960,7 @@ export namespace Prisma {
     referrer?: UserCreateNestedOneWithoutReferralsInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReferralsInput = {
@@ -41486,38 +46979,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -41531,6 +47011,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -41548,6 +47031,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReferralsInput = {
@@ -41571,38 +47055,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -41614,6 +47085,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -41633,6 +47107,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReferrerInput = {
@@ -41651,38 +47126,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -41695,6 +47157,9 @@ export namespace Prisma {
     betaKeyId?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -41713,6 +47178,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReferrerInput = {
@@ -41783,6 +47249,115 @@ export namespace Prisma {
   export type PasskeyCreateManyUserInputEnvelope = {
     data: PasskeyCreateManyUserInput | PasskeyCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type XpTransactionCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type XpTransactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type XpTransactionCreateOrConnectWithoutUserInput = {
+    where: XpTransactionWhereUniqueInput
+    create: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type XpTransactionCreateManyUserInputEnvelope = {
+    data: XpTransactionCreateManyUserInput | XpTransactionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PsychometricUpsertWithoutUserInput = {
+    update: XOR<PsychometricUpdateWithoutUserInput, PsychometricUncheckedUpdateWithoutUserInput>
+    create: XOR<PsychometricCreateWithoutUserInput, PsychometricUncheckedCreateWithoutUserInput>
+    where?: PsychometricWhereInput
+  }
+
+  export type PsychometricUpdateToOneWithWhereWithoutUserInput = {
+    where?: PsychometricWhereInput
+    data: XOR<PsychometricUpdateWithoutUserInput, PsychometricUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PsychometricUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type PsychometricUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    builderScore?: IntFieldUpdateOperationsInput | number
+    creatorScore?: IntFieldUpdateOperationsInput | number
+    strategistScore?: IntFieldUpdateOperationsInput | number
+    catalystScore?: IntFieldUpdateOperationsInput | number
+    confidenceScore?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type UserSocialsUpsertWithoutUserInput = {
+    update: XOR<UserSocialsUpdateWithoutUserInput, UserSocialsUncheckedUpdateWithoutUserInput>
+    create: XOR<UserSocialsCreateWithoutUserInput, UserSocialsUncheckedCreateWithoutUserInput>
+    where?: UserSocialsWhereInput
+  }
+
+  export type UserSocialsUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserSocialsWhereInput
+    data: XOR<UserSocialsUpdateWithoutUserInput, UserSocialsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserSocialsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserSocialsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EngagementStatsUpsertWithoutUserInput = {
+    update: XOR<EngagementStatsUpdateWithoutUserInput, EngagementStatsUncheckedUpdateWithoutUserInput>
+    create: XOR<EngagementStatsCreateWithoutUserInput, EngagementStatsUncheckedCreateWithoutUserInput>
+    where?: EngagementStatsWhereInput
+  }
+
+  export type EngagementStatsUpdateToOneWithWhereWithoutUserInput = {
+    where?: EngagementStatsWhereInput
+    data: XOR<EngagementStatsUpdateWithoutUserInput, EngagementStatsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EngagementStatsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EngagementStatsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    longestStreak?: IntFieldUpdateOperationsInput | number
+    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -42289,37 +47864,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42331,6 +47893,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -42350,6 +47915,7 @@ export namespace Prisma {
     referrer?: UserUpdateOneWithoutReferralsNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReferralsInput = {
@@ -42368,38 +47934,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42413,6 +47966,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -42430,6 +47986,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutReferrerInput = {
@@ -42467,38 +48024,25 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     badges?: StringNullableListFilter<"User">
     behavioralVibrancy?: JsonNullableFilter<"User">
-    builderScore?: IntFilter<"User"> | number
-    catalystScore?: IntFilter<"User"> | number
     cardSignature?: StringNullableFilter<"User"> | string | null
     cardIssuedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     cardTier?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
-    confidenceScore?: FloatFilter<"User"> | number
     country?: StringNullableFilter<"User"> | string | null
-    creatorScore?: IntFilter<"User"> | number
     currentSituation?: StringNullableFilter<"User"> | string | null
     domains?: StringNullableListFilter<"User">
-    githubUrl?: StringNullableFilter<"User"> | string | null
     language?: StringFilter<"User"> | string
     lastHypothesisUpdate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainObjective?: StringNullableFilter<"User"> | string | null
     missionsCompletedCount?: IntFilter<"User"> | number
-    portfolioUrl?: StringNullableFilter<"User"> | string | null
     pseudo?: StringNullableFilter<"User"> | string | null
-    strategistScore?: IntFilter<"User"> | number
     technicalLevel?: StringNullableFilter<"User"> | string | null
     tools?: StringNullableListFilter<"User">
     secondaryObjectives?: StringNullableListFilter<"User">
     bio?: StringNullableFilter<"User"> | string | null
-    linkedinUrl?: StringNullableFilter<"User"> | string | null
     memberNumber?: IntFilter<"User"> | number
-    twitterUrl?: StringNullableFilter<"User"> | string | null
     currentFocus?: StringNullableListFilter<"User">
     dreamStatement?: StringNullableFilter<"User"> | string | null
-    lastCheckinAt?: DateTimeNullableFilter<"User"> | Date | string | null
-    currentStreak?: IntFilter<"User"> | number
-    longestStreak?: IntFilter<"User"> | number
-    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     mainBlocker?: StringNullableFilter<"User"> | string | null
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
@@ -42572,6 +48116,34 @@ export namespace Prisma {
     transports?: StringNullableFilter<"Passkey"> | string | null
     createdAt?: DateTimeNullableFilter<"Passkey"> | Date | string | null
     aaguid?: StringNullableFilter<"Passkey"> | string | null
+  }
+
+  export type XpTransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: XpTransactionWhereUniqueInput
+    update: XOR<XpTransactionUpdateWithoutUserInput, XpTransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<XpTransactionCreateWithoutUserInput, XpTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type XpTransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: XpTransactionWhereUniqueInput
+    data: XOR<XpTransactionUpdateWithoutUserInput, XpTransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type XpTransactionUpdateManyWithWhereWithoutUserInput = {
+    where: XpTransactionScalarWhereInput
+    data: XOR<XpTransactionUpdateManyMutationInput, XpTransactionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type XpTransactionScalarWhereInput = {
+    AND?: XpTransactionScalarWhereInput | XpTransactionScalarWhereInput[]
+    OR?: XpTransactionScalarWhereInput[]
+    NOT?: XpTransactionScalarWhereInput | XpTransactionScalarWhereInput[]
+    id?: StringFilter<"XpTransaction"> | string
+    userId?: StringFilter<"XpTransaction"> | string
+    amount?: IntFilter<"XpTransaction"> | number
+    reason?: StringFilter<"XpTransaction"> | string
+    sourceId?: StringNullableFilter<"XpTransaction"> | string | null
+    createdAt?: DateTimeFilter<"XpTransaction"> | Date | string
   }
 
   export type MemberCreateWithoutOrganizationInput = {
@@ -42765,38 +48337,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -42808,6 +48367,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -42827,6 +48389,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMembersInput = {
@@ -42845,38 +48408,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -42890,6 +48440,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -42907,6 +48460,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMembersInput = {
@@ -42994,37 +48548,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43036,6 +48577,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -43055,6 +48599,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembersInput = {
@@ -43073,38 +48618,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43118,6 +48650,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -43135,6 +48670,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrganizationCreateWithoutInvitationsInput = {
@@ -43200,38 +48736,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -43243,6 +48766,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -43262,6 +48788,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInvitationsInput = {
@@ -43280,38 +48807,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -43325,6 +48839,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -43342,6 +48859,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInvitationsInput = {
@@ -43429,37 +48947,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43471,6 +48976,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -43490,6 +48998,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvitationsInput = {
@@ -43508,38 +49017,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43553,6 +49049,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -43570,6 +49069,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutActivityLogsInput = {
@@ -43588,38 +49088,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -43631,6 +49118,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -43650,6 +49140,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -43668,38 +49159,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -43713,6 +49191,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -43730,6 +49211,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -43764,37 +49246,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43806,6 +49275,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -43825,6 +49297,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -43843,38 +49316,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43888,6 +49348,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -43905,6 +49368,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDailyCheckinsInput = {
@@ -43923,38 +49387,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -43966,6 +49417,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
@@ -43985,6 +49439,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDailyCheckinsInput = {
@@ -44003,38 +49458,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -44048,6 +49490,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -44065,6 +49510,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDailyCheckinsInput = {
@@ -44099,37 +49545,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44141,6 +49574,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
@@ -44160,6 +49596,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDailyCheckinsInput = {
@@ -44178,38 +49615,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44223,6 +49647,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -44240,6 +49667,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MissionSubmissionCreateWithoutMissionInput = {
@@ -44405,38 +49833,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -44448,6 +49863,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
@@ -44467,6 +49885,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGuildMembersInput = {
@@ -44485,38 +49904,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -44530,6 +49936,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -44547,6 +49956,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGuildMembersInput = {
@@ -44620,37 +50030,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44662,6 +50059,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
@@ -44681,6 +50081,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuildMembersInput = {
@@ -44699,38 +50100,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44744,6 +50132,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -44761,6 +50152,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -44779,38 +50171,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -44822,6 +50201,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -44841,6 +50223,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -44859,38 +50242,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -44904,6 +50274,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -44921,6 +50294,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -44955,37 +50329,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44997,6 +50358,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -45016,6 +50380,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -45034,38 +50399,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45079,6 +50431,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -45096,6 +50451,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -45114,38 +50470,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -45157,6 +50500,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
@@ -45176,6 +50522,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -45194,38 +50541,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -45239,6 +50573,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
     missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
@@ -45256,6 +50593,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -45290,37 +50628,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45332,6 +50657,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
@@ -45351,6 +50679,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -45369,38 +50698,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45414,6 +50730,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
     missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
@@ -45431,6 +50750,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutQuizResultsInput = {
@@ -45449,38 +50769,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -45492,6 +50799,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -45511,6 +50821,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuizResultsInput = {
@@ -45529,38 +50840,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -45574,6 +50872,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -45591,6 +50892,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuizResultsInput = {
@@ -45646,37 +50948,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45688,6 +50977,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -45707,6 +50999,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizResultsInput = {
@@ -45725,38 +51018,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45770,6 +51050,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -45787,6 +51070,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuizFeedbackUpsertWithoutQuizResultInput = {
@@ -45888,38 +51172,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -45931,6 +51202,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -45950,6 +51224,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUxPollResponsesInput = {
@@ -45968,38 +51243,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -46013,6 +51275,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -46030,6 +51295,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUxPollResponsesInput = {
@@ -46064,37 +51330,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46106,6 +51359,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -46125,6 +51381,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUxPollResponsesInput = {
@@ -46143,38 +51400,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46188,6 +51432,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -46205,6 +51452,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MissionCreateWithoutSubmissionsInput = {
@@ -46286,38 +51534,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -46329,6 +51564,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -46348,6 +51586,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
@@ -46366,38 +51605,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -46411,6 +51637,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -46428,6 +51657,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMissionSubmissionsInput = {
@@ -46451,38 +51681,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -46494,6 +51711,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -46513,6 +51733,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInReviewInput = {
@@ -46531,38 +51752,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -46576,6 +51784,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -46593,6 +51804,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInReviewInput = {
@@ -46726,37 +51938,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46768,6 +51967,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -46787,6 +51989,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
@@ -46805,38 +52008,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46850,6 +52040,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -46867,6 +52060,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutSubmissionsInReviewInput = {
@@ -46896,37 +52090,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46938,6 +52119,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -46957,6 +52141,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInReviewInput = {
@@ -46975,38 +52160,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47020,6 +52192,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -47037,6 +52212,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MissionReviewUpsertWithWhereUniqueWithoutSubmissionInput = {
@@ -47124,38 +52300,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47167,6 +52330,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -47186,6 +52352,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -47204,38 +52371,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47249,6 +52403,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -47266,6 +52423,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -47359,37 +52517,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47401,6 +52546,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -47420,6 +52568,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -47438,38 +52587,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47483,6 +52619,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -47500,6 +52639,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -47518,38 +52658,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47561,6 +52688,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -47580,6 +52710,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -47598,38 +52729,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47643,6 +52761,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -47660,6 +52781,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -47694,37 +52816,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47736,6 +52845,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -47755,6 +52867,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -47773,38 +52886,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47818,6 +52918,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -47835,6 +52938,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutBetaFeedbacksInput = {
@@ -47853,38 +52957,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47896,6 +52987,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -47915,6 +53009,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBetaFeedbacksInput = {
@@ -47933,38 +53028,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -47978,6 +53060,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -47995,6 +53080,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBetaFeedbacksInput = {
@@ -48029,37 +53115,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48071,6 +53144,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -48090,6 +53166,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBetaFeedbacksInput = {
@@ -48108,38 +53185,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48153,6 +53217,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -48170,6 +53237,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrganizationCreateWithoutJoinRequestsInput = {
@@ -48235,38 +53303,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -48278,6 +53333,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -48297,6 +53355,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinRequestsInput = {
@@ -48315,38 +53374,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -48360,6 +53406,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -48377,6 +53426,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinRequestsInput = {
@@ -48464,37 +53514,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48506,6 +53543,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -48525,6 +53565,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinRequestsInput = {
@@ -48543,38 +53584,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48588,6 +53616,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -48605,6 +53636,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutBetaKeyInput = {
@@ -48623,38 +53655,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -48666,6 +53685,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -48685,6 +53707,7 @@ export namespace Prisma {
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBetaKeyInput = {
@@ -48703,38 +53726,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -48747,6 +53757,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -48765,6 +53778,7 @@ export namespace Prisma {
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBetaKeyInput = {
@@ -48799,37 +53813,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48841,6 +53842,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -48860,6 +53864,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBetaKeyInput = {
@@ -48878,38 +53883,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48922,6 +53914,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -48940,6 +53935,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTwofactorsInput = {
@@ -48958,38 +53954,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -49001,6 +53984,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -49020,6 +54006,7 @@ export namespace Prisma {
     referrer?: UserCreateNestedOneWithoutReferralsInput
     referrals?: UserCreateNestedManyWithoutReferrerInput
     passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTwofactorsInput = {
@@ -49038,38 +54025,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -49083,6 +54057,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -49100,6 +54077,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTwofactorsInput = {
@@ -49134,37 +54112,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49176,6 +54141,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -49195,6 +54163,7 @@ export namespace Prisma {
     referrer?: UserUpdateOneWithoutReferralsNestedInput
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTwofactorsInput = {
@@ -49213,38 +54182,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49258,6 +54214,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -49275,6 +54234,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPasskeysInput = {
@@ -49293,38 +54253,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -49336,6 +54283,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: string | null
     referralCode?: string | null
     referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
@@ -49355,6 +54305,7 @@ export namespace Prisma {
     referrer?: UserCreateNestedOneWithoutReferralsInput
     referrals?: UserCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPasskeysInput = {
@@ -49373,38 +54324,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -49418,6 +54356,9 @@ export namespace Prisma {
     referralCode?: string | null
     referrerId?: string | null
     referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
     guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
@@ -49435,6 +54376,7 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
     referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
     twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPasskeysInput = {
@@ -49469,37 +54411,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49511,6 +54440,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -49530,6 +54462,7 @@ export namespace Prisma {
     referrer?: UserUpdateOneWithoutReferralsNestedInput
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasskeysInput = {
@@ -49548,38 +54481,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49593,6 +54513,9 @@ export namespace Prisma {
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referrerId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -49610,6 +54533,1203 @@ export namespace Prisma {
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutXpTransactionsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    referralCode?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
+    referrer?: UserCreateNestedOneWithoutReferralsInput
+    referrals?: UserCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutXpTransactionsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
+    referralCode?: string | null
+    referrerId?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
+    referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutXpTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutXpTransactionsInput, UserUncheckedCreateWithoutXpTransactionsInput>
+  }
+
+  export type UserUpsertWithoutXpTransactionsInput = {
+    update: XOR<UserUpdateWithoutXpTransactionsInput, UserUncheckedUpdateWithoutXpTransactionsInput>
+    create: XOR<UserCreateWithoutXpTransactionsInput, UserUncheckedCreateWithoutXpTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutXpTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutXpTransactionsInput, UserUncheckedUpdateWithoutXpTransactionsInput>
+  }
+
+  export type UserUpdateWithoutXpTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
+    referrer?: UserUpdateOneWithoutReferralsNestedInput
+    referrals?: UserUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutXpTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referrerId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPsychometricsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    referralCode?: string | null
+    referralCount?: number
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
+    referrer?: UserCreateNestedOneWithoutReferralsInput
+    referrals?: UserCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPsychometricsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
+    referralCode?: string | null
+    referrerId?: string | null
+    referralCount?: number
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
+    referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPsychometricsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPsychometricsInput, UserUncheckedCreateWithoutPsychometricsInput>
+  }
+
+  export type UserUpsertWithoutPsychometricsInput = {
+    update: XOR<UserUpdateWithoutPsychometricsInput, UserUncheckedUpdateWithoutPsychometricsInput>
+    create: XOR<UserCreateWithoutPsychometricsInput, UserUncheckedCreateWithoutPsychometricsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPsychometricsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPsychometricsInput, UserUncheckedUpdateWithoutPsychometricsInput>
+  }
+
+  export type UserUpdateWithoutPsychometricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
+    referrer?: UserUpdateOneWithoutReferralsNestedInput
+    referrals?: UserUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPsychometricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referrerId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSocialsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    referralCode?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsCreateNestedOneWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
+    referrer?: UserCreateNestedOneWithoutReferralsInput
+    referrals?: UserCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSocialsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
+    referralCode?: string | null
+    referrerId?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    stats?: EngagementStatsUncheckedCreateNestedOneWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
+    referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSocialsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSocialsInput, UserUncheckedCreateWithoutSocialsInput>
+  }
+
+  export type UserUpsertWithoutSocialsInput = {
+    update: XOR<UserUpdateWithoutSocialsInput, UserUncheckedUpdateWithoutSocialsInput>
+    create: XOR<UserCreateWithoutSocialsInput, UserUncheckedCreateWithoutSocialsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSocialsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSocialsInput, UserUncheckedUpdateWithoutSocialsInput>
+  }
+
+  export type UserUpdateWithoutSocialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
+    referrer?: UserUpdateOneWithoutReferralsNestedInput
+    referrals?: UserUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSocialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referrerId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutStatsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    referralCode?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricCreateNestedOneWithoutUserInput
+    socials?: UserSocialsCreateNestedOneWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    members?: MemberCreateNestedManyWithoutUserInput
+    invitations?: InvitationCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestCreateNestedManyWithoutUserInput
+    betaKey?: BetaKeyCreateNestedOneWithoutUserInput
+    referrer?: UserCreateNestedOneWithoutReferralsInput
+    referrals?: UserCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStatsInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    emailStatus?: string
+    emailLastBounced?: Date | string | null
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    level?: number
+    experience?: number
+    class?: string | null
+    role?: string
+    badges?: UserCreatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: string | null
+    cardIssuedAt?: Date | string | null
+    cardTier?: string | null
+    city?: string | null
+    country?: string | null
+    currentSituation?: string | null
+    domains?: UserCreatedomainsInput | string[]
+    language?: string
+    lastHypothesisUpdate?: Date | string | null
+    mainObjective?: string | null
+    missionsCompletedCount?: number
+    pseudo?: string | null
+    technicalLevel?: string | null
+    tools?: UserCreatetoolsInput | string[]
+    secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
+    bio?: string | null
+    memberNumber?: number
+    currentFocus?: UserCreatecurrentFocusInput | string[]
+    dreamStatement?: string | null
+    mainBlocker?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    canReviewProfiles?: UserCreatecanReviewProfilesInput | string[]
+    reviewsCompleted?: number
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
+    twoFactorBackupCodes?: string | null
+    betaKeyId?: string | null
+    referralCode?: string | null
+    referrerId?: string | null
+    referralCount?: number
+    psychometrics?: PsychometricUncheckedCreateNestedOneWithoutUserInput
+    socials?: UserSocialsUncheckedCreateNestedOneWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    dailyCheckins?: DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+    guildMembers?: GuildMemberUncheckedCreateNestedManyWithoutUserInput
+    missionSubmissions?: MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+    submissionsInReview?: MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+    reviewsGiven?: MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    betaFeedbacks?: BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    quizResults?: QuizResultUncheckedCreateNestedManyWithoutUserInput
+    uxPollResponses?: UXPollResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    members?: MemberUncheckedCreateNestedManyWithoutUserInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutUserInput
+    joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutUserInput
+    referrals?: UserUncheckedCreateNestedManyWithoutReferrerInput
+    twofactors?: TwoFactorUncheckedCreateNestedManyWithoutUserInput
+    passkeys?: PasskeyUncheckedCreateNestedManyWithoutUserInput
+    xpTransactions?: XpTransactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStatsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStatsInput, UserUncheckedCreateWithoutStatsInput>
+  }
+
+  export type UserUpsertWithoutStatsInput = {
+    update: XOR<UserUpdateWithoutStatsInput, UserUncheckedUpdateWithoutStatsInput>
+    create: XOR<UserCreateWithoutStatsInput, UserUncheckedCreateWithoutStatsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStatsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStatsInput, UserUncheckedUpdateWithoutStatsInput>
+  }
+
+  export type UserUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    members?: MemberUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUpdateManyWithoutUserNestedInput
+    betaKey?: BetaKeyUpdateOneWithoutUserNestedInput
+    referrer?: UserUpdateOneWithoutReferralsNestedInput
+    referrals?: UserUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    emailStatus?: StringFieldUpdateOperationsInput | string
+    emailLastBounced?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    level?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    badges?: UserUpdatebadgesInput | string[]
+    behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
+    cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cardTier?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
+    domains?: UserUpdatedomainsInput | string[]
+    language?: StringFieldUpdateOperationsInput | string
+    lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
+    missionsCompletedCount?: IntFieldUpdateOperationsInput | number
+    pseudo?: NullableStringFieldUpdateOperationsInput | string | null
+    technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    tools?: UserUpdatetoolsInput | string[]
+    secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    memberNumber?: IntFieldUpdateOperationsInput | number
+    currentFocus?: UserUpdatecurrentFocusInput | string[]
+    dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
+    mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canReviewProfiles?: UserUpdatecanReviewProfilesInput | string[]
+    reviewsCompleted?: IntFieldUpdateOperationsInput | number
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
+    betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referrerId?: NullableStringFieldUpdateOperationsInput | string | null
+    referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+    guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+    missionSubmissions?: MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    submissionsInReview?: MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+    reviewsGiven?: MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    betaFeedbacks?: BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    quizResults?: QuizResultUncheckedUpdateManyWithoutUserNestedInput
+    uxPollResponses?: UXPollResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    members?: MemberUncheckedUpdateManyWithoutUserNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutUserNestedInput
+    joinRequests?: JoinRequestUncheckedUpdateManyWithoutUserNestedInput
+    referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
+    twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+    passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -49801,38 +55921,25 @@ export namespace Prisma {
     role?: string
     badges?: UserCreatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: number
-    catalystScore?: number
     cardSignature?: string | null
     cardIssuedAt?: Date | string | null
     cardTier?: string | null
     city?: string | null
-    confidenceScore?: number
     country?: string | null
-    creatorScore?: number
     currentSituation?: string | null
     domains?: UserCreatedomainsInput | string[]
-    githubUrl?: string | null
     language?: string
     lastHypothesisUpdate?: Date | string | null
     mainObjective?: string | null
     missionsCompletedCount?: number
-    portfolioUrl?: string | null
     pseudo?: string | null
-    strategistScore?: number
     technicalLevel?: string | null
     tools?: UserCreatetoolsInput | string[]
     secondaryObjectives?: UserCreatesecondaryObjectivesInput | string[]
     bio?: string | null
-    linkedinUrl?: string | null
     memberNumber?: number
-    twitterUrl?: string | null
     currentFocus?: UserCreatecurrentFocusInput | string[]
     dreamStatement?: string | null
-    lastCheckinAt?: Date | string | null
-    currentStreak?: number
-    longestStreak?: number
-    lastStreakDate?: Date | string | null
     mainBlocker?: string | null
     banned?: boolean | null
     banReason?: string | null
@@ -49865,6 +55972,14 @@ export namespace Prisma {
     transports?: string | null
     createdAt?: Date | string | null
     aaguid?: string | null
+  }
+
+  export type XpTransactionCreateManyUserInput = {
+    id?: string
+    amount: number
+    reason: string
+    sourceId?: string | null
+    createdAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -50408,37 +56523,24 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50450,6 +56552,9 @@ export namespace Prisma {
     twoFactorBackupCodes?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUpdateOneWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUpdateManyWithoutUserNestedInput
@@ -50469,6 +56574,7 @@ export namespace Prisma {
     referrals?: UserUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReferrerInput = {
@@ -50487,38 +56593,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50531,6 +56624,9 @@ export namespace Prisma {
     betaKeyId?: NullableStringFieldUpdateOperationsInput | string | null
     referralCode?: NullableStringFieldUpdateOperationsInput | string | null
     referralCount?: IntFieldUpdateOperationsInput | number
+    psychometrics?: PsychometricUncheckedUpdateOneWithoutUserNestedInput
+    socials?: UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+    stats?: EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     dailyCheckins?: DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
     guildMembers?: GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -50549,6 +56645,7 @@ export namespace Prisma {
     referrals?: UserUncheckedUpdateManyWithoutReferrerNestedInput
     twofactors?: TwoFactorUncheckedUpdateManyWithoutUserNestedInput
     passkeys?: PasskeyUncheckedUpdateManyWithoutUserNestedInput
+    xpTransactions?: XpTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutReferrerInput = {
@@ -50567,38 +56664,25 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     badges?: UserUpdatebadgesInput | string[]
     behavioralVibrancy?: NullableJsonNullValueInput | InputJsonValue
-    builderScore?: IntFieldUpdateOperationsInput | number
-    catalystScore?: IntFieldUpdateOperationsInput | number
     cardSignature?: NullableStringFieldUpdateOperationsInput | string | null
     cardIssuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cardTier?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
-    confidenceScore?: FloatFieldUpdateOperationsInput | number
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    creatorScore?: IntFieldUpdateOperationsInput | number
     currentSituation?: NullableStringFieldUpdateOperationsInput | string | null
     domains?: UserUpdatedomainsInput | string[]
-    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
     language?: StringFieldUpdateOperationsInput | string
     lastHypothesisUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainObjective?: NullableStringFieldUpdateOperationsInput | string | null
     missionsCompletedCount?: IntFieldUpdateOperationsInput | number
-    portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     pseudo?: NullableStringFieldUpdateOperationsInput | string | null
-    strategistScore?: IntFieldUpdateOperationsInput | number
     technicalLevel?: NullableStringFieldUpdateOperationsInput | string | null
     tools?: UserUpdatetoolsInput | string[]
     secondaryObjectives?: UserUpdatesecondaryObjectivesInput | string[]
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     memberNumber?: IntFieldUpdateOperationsInput | number
-    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     currentFocus?: UserUpdatecurrentFocusInput | string[]
     dreamStatement?: NullableStringFieldUpdateOperationsInput | string | null
-    lastCheckinAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currentStreak?: IntFieldUpdateOperationsInput | number
-    longestStreak?: IntFieldUpdateOperationsInput | number
-    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     mainBlocker?: NullableStringFieldUpdateOperationsInput | string | null
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50671,6 +56755,30 @@ export namespace Prisma {
     transports?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aaguid?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type XpTransactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type XpTransactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type XpTransactionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MemberCreateManyOrganizationInput = {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -275,6 +275,11 @@ function MissionCard({
   });
   const [socialForm, setSocialForm] = useState({ telegram: '', discord: '', whatsapp: '' });
 
+  const socialFormRef = useRef(socialForm);
+  useEffect(() => {
+    socialFormRef.current = socialForm;
+  }, [socialForm]);
+
   useEffect(() => {
     if (mission.id === "social-connection-protocol" && (status === "APPROVED" || status === "PENDING")) {
       setSocialClicks({ telegram: true, discord: true, whatsapp: true });
@@ -286,19 +291,22 @@ function MissionCard({
   const handleSocialClick = useCallback((platform: string) => {
     if (mission.id !== "social-connection-protocol") return;
     if (status === "APPROVED" || status === "PENDING") return;
-    if (socialClicks[platform]) return;
-    const newClicks = { ...socialClicks, [platform]: true };
-    setSocialClicks(newClicks);
-    const count = Object.values(newClicks).filter(Boolean).length;
-    if (count < 3) {
-      toast.info(`${count}/3 canaux rejoints — continue !`);
-    } else {
-      toast.success("Tous les canaux rejoints ! Entre tes identifiants pour valider.");
-    }
-  }, [socialClicks, status, mission.id]);
+    
+    setSocialClicks((prev) => {
+      if (prev[platform]) return prev;
+      const next = { ...prev, [platform]: true };
+      const count = Object.values(next).filter(Boolean).length;
+      if (count < 3) {
+        toast.info(`${count}/3 canaux rejoints — continue !`);
+      } else {
+        toast.success("Tous les canaux rejoints ! Entre tes identifiants pour valider.");
+      }
+      return next;
+    });
+  }, [status, mission.id]);
 
   const handleSocialSubmit = useCallback(async () => {
-    const { telegram, discord, whatsapp } = socialForm;
+    const { telegram, discord, whatsapp } = socialFormRef.current;
     if (!telegram.trim() || !discord.trim() || !whatsapp.trim()) {
       toast.error("Remplis les 3 champs pour valider la mission.");
       return;
@@ -327,7 +335,7 @@ function MissionCard({
     } finally {
       setIsSubmitting(false);
     }
-  }, [socialForm, router]);
+  }, [router]);
 
   return (
     <Card className={cn(

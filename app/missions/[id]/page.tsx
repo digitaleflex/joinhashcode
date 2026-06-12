@@ -76,7 +76,7 @@ export default async function MissionBriefingPage({
   const targets = complementaryClasses[userClass] || ["BUILDER", "CREATOR"]
 
   // Query 3 suggested partners with complementary classes
-  const suggestedPartners = await prisma.user.findMany({
+  const suggestedPartnersRaw = await prisma.user.findMany({
     where: {
       id: { not: dbUser.id },
       class: { in: targets },
@@ -86,12 +86,25 @@ export default async function MissionBriefingPage({
       id: true,
       pseudo: true,
       class: true,
-      githubUrl: true,
-      linkedinUrl: true,
-      twitterUrl: true,
+      socials: {
+        select: {
+          githubUrl: true,
+          linkedinUrl: true,
+          twitterUrl: true,
+        }
+      }
     },
     take: 3,
   })
+
+  const suggestedPartners = suggestedPartnersRaw.map(p => ({
+    id: p.id,
+    pseudo: p.pseudo,
+    class: p.class,
+    githubUrl: p.socials?.githubUrl ?? null,
+    linkedinUrl: p.socials?.linkedinUrl ?? null,
+    twitterUrl: p.socials?.twitterUrl ?? null,
+  }))
 
   const submission = dbUser.missionSubmissions[0]
   const isCompleted = submission?.status === "APPROVED"

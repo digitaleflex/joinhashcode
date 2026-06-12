@@ -7,6 +7,7 @@ import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
 import { randomInt } from "crypto";
 import { redis } from "./ratelimit";
+import { invalidateUserCache } from "./user-cache";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
@@ -120,18 +121,11 @@ export const auth = betterAuth({
       language: { type: "string", required: true, defaultValue: "fr" },
       currentSituation: { type: "string", required: false },
       technicalLevel: { type: "string", required: false },
-      githubUrl: { type: "string", required: false },
-      portfolioUrl: { type: "string", required: false },
       mainObjective: { type: "string", required: false },
-      builderScore: { type: "number", required: true, defaultValue: 0 },
-      creatorScore: { type: "number", required: true, defaultValue: 0 },
-      strategistScore: { type: "number", required: true, defaultValue: 0 },
-      catalystScore: { type: "number", required: true, defaultValue: 0 },
       missionsCompletedCount: { type: "number", required: true, defaultValue: 0 },
       dreamStatement: { type: "string", required: false },
       currentFocus: { type: "string[]", required: false },
       mainBlocker: { type: "string", required: false },
-      lastCheckinAt: { type: "date", required: false },
       betaKeyId: { type: "string", required: false },
     },
   },
@@ -149,8 +143,46 @@ export const auth = betterAuth({
 
           await prisma.user.update({
             where: { id: user.id },
-            data: { referralCode },
+            data: {
+              referralCode,
+              psychometrics: {
+                create: {
+                  builderScore: 0,
+                  creatorScore: 0,
+                  strategistScore: 0,
+                  catalystScore: 0,
+                  confidenceScore: 0.25,
+                }
+              },
+              socials: {
+                create: {
+                  githubUrl: null,
+                  portfolioUrl: null,
+                  linkedinUrl: null,
+                  twitterUrl: null,
+                }
+              },
+              stats: {
+                create: {
+                  currentStreak: 0,
+                  longestStreak: 0,
+                  lastCheckinAt: null,
+                  lastStreakDate: null,
+                }
+              }
+            },
           });
+
+          await invalidateUserCache(user.id).catch((err) =>
+            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${user.id} lors de la création :`, err)
+          );
+        },
+      },
+      update: {
+        after: async (user) => {
+          await invalidateUserCache(user.id).catch((err) =>
+            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${user.id} lors de la modification :`, err)
+          );
         },
       },
     },

@@ -19,7 +19,19 @@ export default async function AdminSquadsPage() {
     include: {
       members: {
         include: {
-          user: { select: { id: true, name: true, pseudo: true, class: true, lastCheckinAt: true } },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              pseudo: true,
+              class: true,
+              stats: {
+                select: {
+                  lastCheckinAt: true,
+                }
+              }
+            }
+          },
         },
       },
     },
@@ -77,7 +89,7 @@ export default async function AdminSquadsPage() {
             const health = healthLabel(squad.cohesionScore, memberCount)
             const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")
             const lastCheckin = squad.members
-              .map(m => m.user.lastCheckinAt)
+              .map(m => m.user.stats?.lastCheckinAt)
               .filter(Boolean)
               .sort((a, b) => (b as Date).getTime() - (a as Date).getTime())[0]
 

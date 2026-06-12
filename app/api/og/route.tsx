@@ -22,10 +22,14 @@ export async function GET(req: Request) {
         pseudo: true,
         class: true,
         level: true,
-        builderScore: true,
-        creatorScore: true,
-        strategistScore: true,
-        catalystScore: true,
+        psychometrics: {
+          select: {
+            builderScore: true,
+            creatorScore: true,
+            strategistScore: true,
+            catalystScore: true,
+          }
+        }
       }
     });
 
@@ -103,10 +107,10 @@ export async function GET(req: Request) {
 
               {/* Stats Section */}
               <div style={{ display: 'flex', flexDirection: 'column', width: '220px', gap: '15px', justifyContent: 'center' }}>
-                <StatRow label="BUILDER" value={user.builderScore} />
-                <StatRow label="CREATOR" value={user.creatorScore} />
-                <StatRow label="STRATEGIST" value={user.strategistScore} />
-                <StatRow label="CATALYST" value={user.catalystScore} />
+                <StatRow label="BUILDER" value={user.psychometrics?.builderScore ?? 0} />
+                <StatRow label="CREATOR" value={user.psychometrics?.creatorScore ?? 0} />
+                <StatRow label="STRATEGIST" value={user.psychometrics?.strategistScore ?? 0} />
+                <StatRow label="CATALYST" value={user.psychometrics?.catalystScore ?? 0} />
               </div>
             </div>
 

@@ -5,21 +5,23 @@ import { magicLinkClient, emailOTPClient, adminClient, organizationClient, twoFa
 import { passkeyClient } from "@better-auth/passkey/client"
 import type { auth } from "./auth"
 
-export const authClient = createAuthClient({
+const client = createAuthClient({
     plugins: [
         magicLinkClient(),
         emailOTPClient(),
         adminClient(),
-        organizationClient(),
+        organizationClient() as any,
         twoFactorClient({
             onTwoFactorRedirect() {
                 if (typeof window !== "undefined") {
                     window.location.href = "/2fa";
                 }
             },
-        }),
-        passkeyClient()
+        }) as any,
+        passkeyClient() as any
     ]
 })
+
+export const authClient = client as any
 
 export const { signIn, signUp, signOut, useSession } = authClient

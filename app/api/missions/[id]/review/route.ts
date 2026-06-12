@@ -17,6 +17,7 @@ import { BehavioralVibrancy } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
+import { awardXp } from "@/lib/experience";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -85,9 +86,10 @@ export async function POST(
             where: { id: submissionId },
             data: { status: "PENDING_ADMIN", xpAwarded, qualityLevel },
           });
+          await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
           await tx.user.update({
             where: { id: session.user.id },
-            data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
+            data: { reviewsCompleted: { increment: 1 } },
           });
         });
 
@@ -140,9 +142,6 @@ export async function POST(
         return NextResponse.json({ success: true, qualityLevel, status: "PENDING_ADMIN" });
       }
 
-      // INIT missions: direct approval
-      const newXp = (submission.user.experience || 0) + xpAwarded;
-
       const missionWeights: BehavioralVibrancy = {
         builder: submission.mission.weightBuilder || 0,
         creator: submission.mission.weightCreator || 0,
@@ -150,6 +149,7 @@ export async function POST(
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
+      let updatedSubmitterUser: any;
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
           data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
@@ -159,13 +159,19 @@ export async function POST(
           data: { status: "APPROVED", xpAwarded, qualityLevel },
         });
         await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
+        
+        updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId, tx);
+        
         await tx.user.update({
           where: { id: submission.userId },
-          data: { experience: newXp, missionsCompletedCount: { increment: 1 } },
+          data: { missionsCompletedCount: { increment: 1 } },
         });
+        
+        await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
+        
         await tx.user.update({
           where: { id: session.user.id },
-          data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
+          data: { reviewsCompleted: { increment: 1 } },
         });
 
         const userMember = await tx.member.findFirst({
@@ -177,8 +183,7 @@ export async function POST(
         }
       });
 
-      const updatedUser = await calculateAndSetLevel(submission.userId, newXp, prisma);
-      const newLevel = updatedUser?.level ?? submission.user.level;
+      const newLevel = updatedSubmitterUser?.level ?? submission.user.level;
       const didLevelUp = newLevel > (submission.user.level || 1);
 
       try {

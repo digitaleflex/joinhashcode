@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
-import { Prisma } from "../generated/prisma";
 import { invalidateUserCache } from "./user-cache";
+import { XP_THRESHOLDS } from "./missions";
+import { checkAndAwardBadges } from "./badge-engine";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -44,9 +45,15 @@ export async function awardXp(
     const currentLevel = user.level;
     const nextXp = currentXp + amount;
 
-    // Progression simple : 1000 XP par niveau
-    const xpPerLevel = 1000;
-    const targetLevel = Math.floor(nextXp / xpPerLevel) + 1;
+    // Progression basée sur les seuils réels XP_THRESHOLDS
+    let targetLevel = 1;
+    if (nextXp >= XP_THRESHOLDS[4]) {
+      targetLevel = 4;
+    } else if (nextXp >= XP_THRESHOLDS[3]) {
+      targetLevel = 3;
+    } else if (nextXp >= XP_THRESHOLDS[2]) {
+      targetLevel = 2;
+    }
     const nextLevel = targetLevel > currentLevel ? targetLevel : currentLevel;
 
     // 3. Mettre à jour l'utilisateur
@@ -66,13 +73,21 @@ export async function awardXp(
     return updatedUser;
   };
 
+  let resultUser;
   // Si on est déjà dans une transaction Prisma existante, l'utiliser
   if (customTx) {
-    return execute(customTx);
+    resultUser = await execute(customTx);
+  } else {
+    // Sinon, démarrer une transaction Prisma isolée
+    resultUser = await prisma.$transaction(async (tx) => {
+      return execute(tx);
+    });
   }
 
-  // Sinon, démarrer une transaction Prisma isolée
-  return prisma.$transaction(async (tx) => {
-    return execute(tx);
-  });
+  // 5. Déclencher la vérification des badges après la transaction
+  await checkAndAwardBadges(userId).catch((err) =>
+    console.error(`🟢 [XP_SERVICE] Échec du badge check pour ${userId} :`, err)
+  );
+
+  return resultUser;
 }

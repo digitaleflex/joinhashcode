@@ -23,42 +23,34 @@ model User {
   role                     String              @default("MEMBER")
   badges                   String[]
   behavioralVibrancy       Json?
-  builderScore             Int                 @default(0)
-  catalystScore            Int                 @default(0)
   cardSignature            String?             @unique
   cardIssuedAt             DateTime?
   cardTier                 String?             @default("STANDARD")
   city                     String?
-  confidenceScore          Float               @default(0.25)
   country                  String?
-  creatorScore             Int                 @default(0)
   currentSituation         String?
   domains                  String[]
-  githubUrl                String?
   language                 String              @default("fr")
   lastHypothesisUpdate     DateTime?
   mainObjective            String?
   missionsCompletedCount   Int                 @default(0)
-  portfolioUrl             String?
   pseudo                   String?             @unique
-  strategistScore          Int                 @default(0)
   technicalLevel           String?
   tools                    String[]
   secondaryObjectives      String[]
   bio                      String?
-  linkedinUrl              String?
   memberNumber             Int                 @unique @default(autoincrement())
-  twitterUrl               String?
   currentFocus             String[]
   dreamStatement           String?
-  lastCheckinAt            DateTime?
-  currentStreak            Int       @default(0)
-  longestStreak            Int       @default(0)
-  lastStreakDate           DateTime?
   mainBlocker              String?
   banned                   Boolean?            @default(false)
   banReason                String?
   banExpires               DateTime?
+
+  // Relations spécialisées issues de la scission du God Model
+  psychometrics            Psychometric?
+  socials                  UserSocials?
+  stats                    EngagementStats?
   accounts                 Account[]
   dailyCheckins            DailyCheckin[]
   guildMembers             GuildMember[]
@@ -520,5 +512,42 @@ model XpTransaction {
   @@index([userId])
   @@index([createdAt])
   @@map("xp_transaction")
+}
+
+model Psychometric {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  builderScore    Int      @default(0)
+  creatorScore    Int      @default(0)
+  strategistScore Int      @default(0)
+  catalystScore   Int      @default(0)
+  confidenceScore Float    @default(0.25)
+
+  @@map("psychometric")
+}
+
+model UserSocials {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  githubUrl    String?
+  portfolioUrl String?
+  linkedinUrl  String?
+  twitterUrl   String?
+
+  @@map("user_socials")
+}
+
+model EngagementStats {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastCheckinAt  DateTime?
+  lastStreakDate DateTime?
+
+  @@map("engagement_stats")
 }
 

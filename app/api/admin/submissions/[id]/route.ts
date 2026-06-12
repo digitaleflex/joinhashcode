@@ -41,7 +41,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     const submission = await prisma.missionSubmission.findUnique({
       where: { id },
-      include: { mission: true, user: true }
+      include: {
+        mission: true,
+        user: {
+          include: {
+            stats: true
+          }
+        }
+      }
     });
 
     if (!submission) return NextResponse.json({ message: "Submission not found" }, { status: 404 });
@@ -56,7 +63,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       let xpAwarded = computeXp(submission.mission.xp, level);
 
       // Apply streak multiplier
-      const userStreak = submission.user.currentStreak || 0;
+      const userStreak = submission.user.stats?.currentStreak || 0;
       let multiplier = 1.0;
       if (userStreak >= 7) multiplier = 1.2;
       else if (userStreak >= 3) multiplier = 1.1;

@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -7,6 +7,8 @@ import { z } from "zod";
 import { logActivity } from "@/lib/activity-log";
 import { trackEvent, EVENTS } from "@/lib/analytics";
 import { emailService } from "@/lib/email";
+import { invalidateUserCache } from "@/lib/user-cache";
+import { handleApiError } from "@/lib/api-error-handler";
 
 const onboardingSchema = z.object({
   country: z.string().min(1).max(100).optional(),
@@ -75,9 +77,10 @@ export async function PATCH(req: Request) {
       }).catch(err => console.error("[EMAIL_ERROR] sendOnboardingCompletedEmail", err));
     }
 
+    await invalidateUserCache(session.user.id);
+
     return NextResponse.json(updatedUser);
   } catch (error) {
-    console.error("[ONBOARDING_PATCH]", error);
-    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
+    return handleApiError(error, "ONBOARDING_PATCH");
   }
 }

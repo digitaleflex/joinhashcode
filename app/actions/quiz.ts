@@ -2,12 +2,13 @@
 
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "../generated/prisma";
+import { Prisma } from "../../generated/prisma";
 import { headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
 import { logActivity } from "@/lib/activity-log";
 import { z } from "zod";
+import { questions } from "@/lib/questions";
 
 const QuizSubmissionSchema = z.object({
   answers: z.array(z.string()).min(1),
@@ -120,13 +121,26 @@ export async function submitQuiz(rawData: unknown) {
         data: {
           class: analysis.primary,
           level: analysis.level,
-          builderScore: analysis.scores.builder,
-          creatorScore: analysis.scores.creator,
-          strategistScore: analysis.scores.strategist,
-          catalystScore: analysis.scores.catalyst,
-          confidenceScore: 0.25,
           behavioralVibrancy: analysis.scores as Prisma.InputJsonValue,
           lastHypothesisUpdate: new Date(),
+          psychometrics: {
+            upsert: {
+              create: {
+                builderScore: analysis.scores.builder,
+                creatorScore: analysis.scores.creator,
+                strategistScore: analysis.scores.strategist,
+                catalystScore: analysis.scores.catalyst,
+                confidenceScore: 0.25,
+              },
+              update: {
+                builderScore: analysis.scores.builder,
+                creatorScore: analysis.scores.creator,
+                strategistScore: analysis.scores.strategist,
+                catalystScore: analysis.scores.catalyst,
+                confidenceScore: 0.25,
+              }
+            }
+          }
         },
       });
 

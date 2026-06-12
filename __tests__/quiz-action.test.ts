@@ -110,7 +110,7 @@ describe("Quiz Server Action", () => {
     });
 
     const res = await submitQuiz({
-      answers: ["answer_1"],
+      answers: Array(13).fill("builder"),
     });
 
     expect(res).toEqual({
@@ -137,8 +137,8 @@ describe("Quiz Server Action", () => {
     (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
 
     const res = await submitQuiz({
-      answers: ["answer_1", "answer_2"],
-      responseTimes: [1000, 2000],
+      answers: Array(13).fill("builder"),
+      responseTimes: Array(13).fill(1000),
     });
 
     expect(res.success).toBe(true);
@@ -150,8 +150,8 @@ describe("Quiz Server Action", () => {
       data: {
         user: { connect: { id: "user-1" } },
         profileType: "builder",
-        answers: { "0": "answer_1", "1": "answer_2" },
-        averageResponseTime: 1500,
+        answers: Object.fromEntries(Array(13).fill("builder").map((a, i) => [i, a])),
+        averageResponseTime: 1000,
       },
     });
 
@@ -160,7 +160,24 @@ describe("Quiz Server Action", () => {
       data: expect.objectContaining({
         class: "builder",
         level: 1,
-        builderScore: 100,
+        psychometrics: {
+          upsert: {
+            create: {
+              builderScore: 100,
+              creatorScore: 0,
+              strategistScore: 0,
+              catalystScore: 0,
+              confidenceScore: 0.25,
+            },
+            update: {
+              builderScore: 100,
+              creatorScore: 0,
+              strategistScore: 0,
+              catalystScore: 0,
+              confidenceScore: 0.25,
+            },
+          },
+        },
       }),
     });
 
