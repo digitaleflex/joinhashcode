@@ -13,10 +13,10 @@ export async function POST(
 ) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
     const { limited } = await checkRateLimit(claimLimiter, session.user.id);
-    if (limited) return new NextResponse("Trop de claims. Réessaie dans une heure.", { status: 429 });
+    if (limited) return NextResponse.json({ message: "Trop de claims. Réessaie dans une heure." }, { status: 429 });
 
     const { id: submissionId } = await params;
 
@@ -31,24 +31,21 @@ export async function POST(
       }),
     ]);
 
-    if (!submission) return new NextResponse("Soumission introuvable.", { status: 404 });
-    if (!reviewer) return new NextResponse("Utilisateur introuvable.", { status: 404 });
+    if (!submission) return NextResponse.json({ message: "Soumission introuvable." }, { status: 404 });
+    if (!reviewer) return NextResponse.json({ message: "Utilisateur introuvable." }, { status: 404 });
 
     // Concierge Mode: Restrict to ADMIN or MODERATOR
     if (reviewer.role !== "ADMIN" && reviewer.role !== "MODERATOR") {
-      return new NextResponse("Le claim de mission est réservé à la modération.", { status: 403 });
+      return NextResponse.json({ message: "Le claim de mission est réservé à la modération." }, { status: 403 });
     }
 
     if (submission.status !== "PENDING") {
-      return new NextResponse("Cette soumission n'est plus disponible pour révision.", { status: 400 });
+      return NextResponse.json({ message: "Cette soumission n'est plus disponible pour révision." }, { status: 400 });
     }
 
     // PRO missions are admin-only — block peer review at claim stage
     if (submission.mission.missionLevel === "PRO") {
-      return new NextResponse(
-        "Cette mission est réservée à la validation admin. Elle ne peut pas être réclamée par un pair.",
-        { status: 403 }
-      );
+      return NextResponse.json({ message: "Cette mission est réservée à la validation admin. Elle ne peut pas être réclamée par un pair." }, { status: 403 });
     }
 
     const missionRequiredLevel = LEVEL_REQUIREMENT[submission.mission.missionLevel ?? "INIT"] ?? 1;
@@ -64,7 +61,7 @@ export async function POST(
     });
 
     if (!eligible) {
-      return new NextResponse("Tu n'es pas éligible pour reviewer cette mission.", { status: 403 });
+      return NextResponse.json({ message: "Tu n'es pas éligible pour reviewer cette mission." }, { status: 403 });
     }
 
     const updated = await prisma.missionSubmission.update({
@@ -84,6 +81,6 @@ export async function POST(
     return NextResponse.json({ success: true, submission: updated });
   } catch (error) {
     console.error("[CLAIM_REVIEW]", error);
-    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }

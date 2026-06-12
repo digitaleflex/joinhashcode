@@ -50,7 +50,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
-  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
     const { id } = await params;
@@ -80,7 +80,7 @@ export async function PUT(
       return NextResponse.json(error.errors, { status: 400 });
     }
     console.error("[ADMIN_MISSIONS_PUT]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
 
@@ -89,7 +89,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
-  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
     const { id } = await params;
@@ -116,6 +116,6 @@ export async function DELETE(
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("[ADMIN_MISSIONS_DELETE]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }

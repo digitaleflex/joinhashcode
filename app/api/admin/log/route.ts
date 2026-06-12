@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     headers: await headers(),
   });
 
-  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const admin = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   });
 
   if (!admin || !["ADMIN", "MODERATOR"].includes(admin.role)) {
-    return new NextResponse("Forbidden", { status: 403 });
+    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
   }
 
   try {
@@ -34,6 +34,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[ADMIN_LOG_API_ERROR]", error);
-    return new NextResponse("Error", { status: 500 });
+    return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

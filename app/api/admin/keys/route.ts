@@ -24,7 +24,7 @@ async function checkAdmin() {
 
 export async function GET() {
   const admin = await checkAdmin();
-  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
     const keys = await prisma.betaKey.findMany({
@@ -41,13 +41,13 @@ export async function GET() {
     return NextResponse.json(keys);
   } catch (error) {
     console.error("[ADMIN_KEYS_GET]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
-  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
     const { count = 1, prefix = "H26-" } = await req.json();
@@ -70,6 +70,6 @@ export async function POST(req: Request) {
     return NextResponse.json(createdKeys);
   } catch (error) {
     console.error("[ADMIN_KEYS_POST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }

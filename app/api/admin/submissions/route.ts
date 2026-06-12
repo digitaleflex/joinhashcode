@@ -10,10 +10,10 @@ const HISTORY_STATUSES = ["APPROVED", "REJECTED", "NEEDS_REVISION"]
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return new NextResponse("Forbidden", { status: 403 });
+    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 
     const { searchParams } = new URL(req.url);
     const tab = searchParams.get("tab") === "history" ? "history" : "pending";
@@ -72,6 +72,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ submissions, total, page, limit });
   } catch (error) {
     console.error("[ADMIN_SUBMISSIONS_GET]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -23,13 +23,13 @@ async function checkAdmin() {
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
-  if (!admin) return new NextResponse("Unauthorized", { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   try {
     const { title, message, type = "SYSTEM", link = null } = await req.json();
 
     if (!title || !message) {
-      return new NextResponse("Missing title or message", { status: 400 });
+      return NextResponse.json({ message: "Missing title or message" }, { status: 400 });
     }
 
     const users = await prisma.user.findMany({
@@ -58,6 +58,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ count: users.length });
   } catch (error) {
     console.error("[ADMIN_NOTIFICATIONS_BROADCAST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }

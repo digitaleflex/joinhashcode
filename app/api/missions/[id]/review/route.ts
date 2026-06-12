@@ -30,12 +30,12 @@ export async function POST(
 ) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return new NextResponse("Non autorisé. Connecte-toi pour continuer.", { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
     const { id: submissionId } = await params;
     const body = await req.json();
     const parsed = reviewSchema.safeParse(body);
-    if (!parsed.success) return new NextResponse("Données invalides. Vérifie les champs et réessaie.", { status: 400 });
+    if (!parsed.success) return NextResponse.json({ message: "Données invalides. Vérifie les champs et réessaie." }, { status: 400 });
 
     const { criteria, feedback, forceApprove } = parsed.data;
 
@@ -44,12 +44,12 @@ export async function POST(
       include: { mission: true, user: true },
     });
 
-    if (!submission) return new NextResponse("Soumission introuvable.", { status: 404 });
+    if (!submission) return NextResponse.json({ message: "Soumission introuvable." }, { status: 404 });
     if (submission.reviewerId !== session.user.id) {
-      return new NextResponse("Tu n'es pas le reviewer assigné à cette soumission.", { status: 403 });
+      return NextResponse.json({ message: "Tu n'es pas le reviewer assigné à cette soumission." }, { status: 403 });
     }
     if (submission.status !== "IN_REVIEW") {
-      return new NextResponse("Cette soumission n'est pas en cours de revue.", { status: 400 });
+      return NextResponse.json({ message: "Cette soumission n'est pas en cours de revue." }, { status: 400 });
     }
 
     const missionCriteria = getCriteriaForMission(submission.mission.category);
@@ -223,10 +223,7 @@ export async function POST(
         where: { id: submissionId },
         data: { status: "NEEDS_REVISION", revisionNotes, revisionCount: { increment: 1 }, adminFeedback: feedback },
       });
-      await tx.user.update({
-        where: { id: session.user.id },
-        data: { experience: { increment: reviewerXpReward }, reviewsCompleted: { increment: 1 } },
-      });
+      // REMOVED: reviewer XP reward here to prevent spamming 'needs revision' for XP
       return updated;
     });
 
@@ -274,6 +271,6 @@ export async function POST(
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
   } catch (error) {
     console.error("[SUBMIT_REVIEW]", error);
-    return new NextResponse("Erreur système. Réessaie dans un instant.", { status: 500 });
+    return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }

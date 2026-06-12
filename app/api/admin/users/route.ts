@@ -7,14 +7,14 @@ import { NextResponse } from "next/server"
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() })
-    if (!session) return new NextResponse("Unauthorized", { status: 401 })
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const dbUser = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { role: true },
     })
     if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
-      return new NextResponse("Forbidden", { status: 403 })
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
     const { searchParams } = new URL(req.url)
@@ -52,12 +52,9 @@ export async function GET(req: Request) {
           id: true,
           name: true,
           email: true,
-          image: true,
           pseudo: true,
           role: true,
-          class: true,
           level: true,
-          experience: true,
           banned: true,
           createdAt: true,
         },
@@ -71,6 +68,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ users, total, page, limit })
   } catch (error) {
     console.error("[ADMIN_USERS_GET]", error)
-    return new NextResponse("Internal Server Error", { status: 500 })
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 })
   }
 }
