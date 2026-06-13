@@ -5,8 +5,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
     return [
       {
         popover: {
-          title: "Bienvenue dans la Console HASHCODE",
-          description: "Ceci est ton hub d'opérations. Laisse-moi te guider à travers les éléments clés pour bien démarrer.",
+          title: "Console HASHCODE : Ton Hub Stratégique",
+          description: "Bienvenue, Talent. C'est ici que ton évolution commence. Ce dashboard n'est pas qu'un tableau de bord, c'est l'interface de ton identité numérique. Chaque donnée ici influe sur ta réputation communautaire.",
           side: "over",
           align: "center"
         }
@@ -14,8 +14,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-sidebar",
         popover: {
-          title: "Navigation Globale",
-          description: "Accède ici à tes Missions, ton Dossier, et ton Escouade. Si tu as le niveau, c'est aussi ici que tu trouveras tes accès Leadership.",
+          title: "Navigation & Accès",
+          description: "Ton arsenal complet. Missions pour l'XP, Dossier pour ton portfolio, et Escouade pour le travail d'équipe. Plus tu montes en niveau, plus de nouvelles options s'ouvriront ici (Leadership, Lab, etc.).",
           side: "right",
           align: "start"
         }
@@ -23,8 +23,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-checkin",
         popover: {
-          title: "Neural Check-in",
-          description: "L'action la plus importante de ta journée. Prends 30 secondes chaque jour pour signaler ton avancement. Cela booste ton XP et ton score de vitalité.",
+          title: "Neural Check-in (Vitalité)",
+          description: "L'action la plus critique. Signaler ton avancement quotidien maintient ta 'Vibrance'. Une Vibrance haute multiplie tes gains d'XP et signale aux autres que tu es un membre actif et fiable.",
           side: "right",
           align: "start"
         }
@@ -32,8 +32,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-missions",
         popover: {
-          title: "Missions Recommandées",
-          description: "Le système analyse ton profil et te propose les défis les plus adaptés pour monter en niveau rapidement.",
+          title: "Missions Recommandées (FYP)",
+          description: "Le système analyse tes compétences actuelles (Radar) et tes objectifs pour te proposer les défis optimaux. Compléter ces missions est la voie la plus rapide vers le niveau supérieur.",
           side: "top",
           align: "center"
         }
@@ -41,8 +41,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-feed",
         popover: {
-          title: "Flux Neural (Activité)",
-          description: "Reste connecté avec le reste de la communauté. Ici s'affichent les validations de missions et la formation de nouvelles escouades en temps réel.",
+          title: "Flux Neural (Intelligence)",
+          description: "Ne reste pas isolé. Le flux te montre les succès de tes pairs. S'inspirer des soumissions validées des autres est un excellent moyen d'apprendre les standards de qualité HASHCODE.",
           side: "left",
           align: "start"
         }
@@ -50,8 +50,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-progression",
         popover: {
-          title: "Ta Progression",
-          description: "Suis ton évolution de XP vers le niveau supérieur. Chaque mission validée remplit cette jauge.",
+          title: "Progression & Niveau",
+          description: "Ton niveau définit tes privilèges. Chaque mission validée remplit cette jauge. À chaque passage de niveau (CORE, PRO, ELITE), tu débloques des missions plus complexes et mieux récompensées.",
           side: "top",
           align: "start"
         }
@@ -59,8 +59,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-member-card",
         popover: {
-          title: "Carte de Membre",
-          description: "Ta carte officielle HASHCODE. Elle se met à jour automatiquement avec ton niveau et tes spécialités. Partage-la pour prouver ton implication !",
+          title: "Carte de Membre Holographique",
+          description: "C'est ton badge d'honneur. Il contient ton Score de Confiance (basé sur la qualité de tes preuves). Partage-le sur LinkedIn pour prouver ton implication réelle dans des projets concrets.",
           side: "top",
           align: "center"
         }
@@ -73,7 +73,7 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         popover: {
           title: "Arsenal des Missions",
-          description: "C'est ici que tu prouves ta valeur. Les missions sont classées par difficulté (INIT, CORE, PRO).",
+          description: "Ici, la théorie s'arrête et l'action commence. Choisis des missions qui correspondent à tes objectifs de carrière pour construire un portfolio cohérent.",
           side: "over",
           align: "center"
         }
@@ -81,8 +81,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-weekly-challenge",
         popover: {
-          title: "Challenge Hebdomadaire",
-          description: "Un défi unique disponible uniquement cette semaine. Le réussir te donne un bonus massif d'XP.",
+          title: "Challenge Hebdomadaire (Rare)",
+          description: "Un défi temporaire à haute intensité. Le réussir te donne des badges exclusifs et un bonus massif de progression. C'est le meilleur moyen de se faire remarquer par les recruteurs du réseau.",
           side: "bottom",
           align: "center"
         }
@@ -90,8 +90,8 @@ export function getStepsForPath(pathname: string): DriveStep[] {
       {
         element: "#tour-missions-list",
         popover: {
-          title: "Liste des Missions",
-          description: "Sélectionne une mission adaptée à ton niveau. Les missions grisées nécessitent de monter de niveau d'abord.",
+          title: "Hiérarchie des Missions",
+          description: "INIT pour les bases, CORE pour les compétences techniques, PRO pour les projets complexes. Respecte la courbe d'apprentissage pour bâtir une expertise solide.",
           side: "top",
           align: "center"
         }

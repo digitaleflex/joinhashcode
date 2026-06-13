@@ -8,10 +8,13 @@ import "driver.js/dist/driver.css"
 import { getStepsForPath } from "@/lib/tours"
 import { useEffect } from "react"
 
-export function TourButton() {
+export function TourButton({ autoStart = false }: { autoStart?: boolean }) {
   const pathname = usePathname()
 
-  const startTour = () => {
+  const startTour = (isAuto = false) => {
+    // Prevent auto-start if already done in this session or globally
+    if (isAuto && localStorage.getItem(`tour_completed_${pathname}`)) return
+
     const steps = getStepsForPath(pathname)
     if (!steps || steps.length === 0) return
 
@@ -20,10 +23,11 @@ export function TourButton() {
       nextBtnText: 'Suivant',
       prevBtnText: 'Précédent',
       doneBtnText: 'Terminer',
-      popoverClass: 'driverjs-theme', // We will add custom css in globals.css
+      popoverClass: 'driverjs-theme',
       steps: steps,
       onDestroyStarted: () => {
         if (!driverObj.hasNextStep() || confirm("Voulez-vous vraiment quitter le guide ?")) {
+          localStorage.setItem(`tour_completed_${pathname}`, "true")
           driverObj.destroy();
         }
       },
@@ -32,11 +36,18 @@ export function TourButton() {
     driverObj.drive();
   }
 
+  useEffect(() => {
+    if (autoStart) {
+      const timer = setTimeout(() => startTour(true), 1500) // Delay to ensure page is settled
+      return () => clearTimeout(timer)
+    }
+  }, [autoStart, pathname])
+
   return (
     <Button 
       variant="ghost" 
       size="icon" 
-      onClick={startTour}
+      onClick={() => startTour(false)}
       title="Guide interactif"
       className="h-10 w-10 rounded-xl hover:bg-primary/10 text-zinc-400 hover:text-primary transition-all group"
     >

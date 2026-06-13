@@ -31,6 +31,12 @@ import { InviteMemberForm } from "./squad/InviteMemberForm"
 import { OrgSettingsForm } from "./squad/OrgSettingsForm"
 import { PendingInvitations } from "./squad/PendingInvitations"
 import { TourButton } from "@/components/tour/tour-button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
@@ -121,7 +127,18 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
         )}
 
         {/* Tour Guide Trigger */}
-        <TourButton />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <TourButton autoStart={user.experience === 0} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+              Besoin d'aide ? Lance le guide interactif.
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         {/* Notifications */}
         <NotificationBell />
