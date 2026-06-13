@@ -2,6 +2,9 @@ name: "Reusable Build"
 
 on:
   workflow_call:
+    secrets:
+      SENTRY_AUTH_TOKEN:
+        required: true
     outputs:
       image-tag:
         description: "The short SHA tag of the built image"
@@ -39,6 +42,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          secrets: |
+            sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}
       - id: image-ref
         run: |
           TAG="${GITHUB_SHA:0:7}"

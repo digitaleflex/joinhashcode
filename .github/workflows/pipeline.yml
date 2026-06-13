@@ -31,6 +31,8 @@ jobs:
     needs: [test]
     if: github.event_name == 'push'
     uses: ./.github/workflows/reusable-build.yml
+    secrets:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   deploy:
     name: "Deployment"
