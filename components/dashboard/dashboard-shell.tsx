@@ -36,6 +36,7 @@ import { NextStepsCard } from "./next-steps-card"
 import { ReferralCard } from "./ReferralCard"
 import { AmbassadorGoal } from "./AmbassadorGoal"
 import { WelcomeModal } from "./welcome-modal"
+import { ActivationChecklist } from "./activation-checklist"
 import {
   Tooltip,
   TooltipContent,
@@ -122,6 +123,13 @@ export function DashboardShell({
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-10">
+
+            {/* ACTIVATION CHECKLIST */}
+            <ActivationChecklist 
+              user={user} 
+              hasSquad={!!squad} 
+              hasSubmission={fullSubmissions.length > 0} 
+            />
 
             {/* Global Alerts */}
             {isLocked && (
