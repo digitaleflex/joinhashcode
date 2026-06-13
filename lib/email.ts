@@ -112,19 +112,95 @@ export const emailService = {
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
-      <h1>Bienvenue, <span class="accent">${escHtml(firstName)}</span>. Tu es au bon endroit.</h1>
-      <p>HASHCODE n'est pas une plateforme de plus. C'est un réseau de bâtisseurs africains qui choisissent d'agir — pas seulement d'apprendre.</p>
-      <p>En rejoignant la communauté, tu accèdes à un système conçu pour te faire progresser : un profil psychométrique qui te connaît, des missions réelles qui testent tes capacités, et une guilde de pairs qui avancent avec toi.</p>
-      <p><strong>Pour commencer, complète ton profil.</strong> Cela prend moins de 5 minutes et débloque l'intégralité de l'écosystème.</p>
+      <h1>Bienvenue, <span class="accent">${escHtml(firstName)}</span>. Ton signal est actif.</h1>
+      <p>HASHCODE n'est pas une plateforme de plus. C'est un réseau de bâtisseurs qui choisissent l'action. Ta calibration est terminée, tu es maintenant prêt à évoluer.</p>
+      <p>Mais attention : un signal qui ne vibre pas finit par s'éteindre. Ta priorité absolue aujourd'hui est de maintenir ta <strong>Vibrance</strong>.</p>
+      <div class="card">
+        <div class="card-label">Action Prioritaire</div>
+        <div class="card-value">NEURAL CHECK-IN</div>
+      </div>
+      <p>Connecte-toi chaque jour pour valider ta présence, gagner tes premiers points d'XP et activer ton multiplicateur de série. Ici, la régularité dépasse l'intensité.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/onboarding" class="btn">Compléter mon profil →</a>
+        <a href="${APP_URL}/dashboard" class="btn">Effectuer mon Check-in →</a>
       </div>
       <hr class="divider">
-      <p class="note">Des questions ? Réponds directement à cet email — on est là.</p>
+      <p class="note">Reste synchronisé. Ton aventure commence maintenant.</p>
     `;
 
-    const html = generateEmailTemplate(content, "Ton aventure commence maintenant. Complète ton profil pour débloquer l'écosystème.");
-    return this._send({ to: email, subject: `Bienvenue dans HASHCODE, ${escHtml(firstName)} 👋`, html, text: stripHtml(content) });
+    const html = generateEmailTemplate(content, "Initialisation de ton signal terminée. Bienvenue dans l'écosystème.");
+    return this._send({ to: email, subject: `[HASHCODE] Initialisation terminée — Bienvenue, ${escHtml(firstName)} 👋`, html, text: stripHtml(content) });
+  },
+
+  async sendMissionProtocolEmail({ email, name, userClass }: { email: string; name: string; userClass: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Builder").split(" ")[0];
+    const content = `
+      <h1>Ta première preuve de maîtrise t'attend, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Le réseau t'a identifié comme un <strong>${escHtml(userClass)}</strong>. Mais ton Dashboard ne montre pour l'instant que ton potentiel. Pour monter en grade, tu dois fournir des <strong>Preuves de Travail</strong>.</p>
+      <p>Ici, on ne croit pas aux CV, on croit aux livrables fonctionnels.</p>
+      <div class="card">
+        <div class="card-label">Étape Suivante</div>
+        <div class="card-value">PREMIÈRE MISSION</div>
+      </div>
+      <p>Choisis une mission <strong>INIT</strong> adaptée à ton vecteur. Soumets ton lien GitHub ou ton URL de projet. Vise le niveau 'Exemplaire' pour booster ton Score de Confiance.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/missions" class="btn">Accéder à l'Arsenal →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">À toi de build. Montre au réseau ce que tu sais faire.</p>
+    `;
+
+    const html = generateEmailTemplate(content, "Passe du potentiel à l'action. Ta première mission t'attend.");
+    return this._send({ to: email, subject: `[PROTOCOLE] Ta première mission HASHCODE — Prêt(e) ? 🎯`, html, text: stripHtml(content) });
+  },
+
+  async sendSquadPowerEmail({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Builder").split(" ")[0];
+    const content = `
+      <h1>On ne build pas un empire seul, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Tu as commencé à accumuler de l'XP, mais ton évolution plafonnera si tu restes isolé. HASHCODE est conçu pour la <strong>Symbiose Cognitive</strong>.</p>
+      <p>Une <strong>Squad complète (5 membres)</strong> progresse 3x plus vite. C'est le point d'équilibre parfait pour une cohésion totale sans surcharge d'information.</p>
+      <div class="card">
+        <div class="card-label">Accélérateur</div>
+        <div class="card-value">SQUAD SYNC</div>
+      </div>
+      <p>Rejoins des profils complémentaires (Builder, Creator, Strategist, Catalyst). Le score de cohésion boostera tes gains d'XP sur chaque action.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/squad" class="btn">Trouver ma Squad →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">L'union fait la force du build. Ne reste pas seul(e).</p>
+    `;
+
+    const html = generateEmailTemplate(content, "Multiplie ton impact. Découvre la puissance des Squads.");
+    return this._send({ to: email, subject: `[SYNERGIE] Ne build pas seul(e) — Active ta Squad 🤝`, html, text: stripHtml(content) });
+  },
+
+  async sendDigitalIdentityEmail({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+
+    const firstName = (name || "Builder").split(" ")[0];
+    const content = `
+      <h1>Fais briller ton signal auprès du monde, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Après une semaine d'activité, ton <strong>Dossier Tactique</strong> commence à devenir impressionnant. Ton Radar d'Évolution montre tes véritables forces.</p>
+      <p>Il est temps de transformer ta réputation interne en une autorité externe incontestable.</p>
+      <div class="card">
+        <div class="card-label">Statut Actuel</div>
+        <div class="card-value">AGENT VALIDÉ</div>
+      </div>
+      <p>Partage ta <strong>Carte de Membre holographique</strong> sur LinkedIn et X. Elle contient tes preuves réelles, pas de simples mots. Utilise ton profil HASHCODE comme ton nouveau portfolio interactif.</p>
+      <div class="btn-wrap">
+        <a href="${APP_URL}/settings" class="btn">Lier mes comptes sociaux →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Ton travail parle pour toi. Montre-leur ta valeur réelle.</p>
+    `;
+
+    const html = generateEmailTemplate(content, "Transforme ton XP en réputation. Partage ton Dossier Tactique.");
+    return this._send({ to: email, subject: `[RÉPUTATION] Ta carte de membre est prête à être déployée 🚀`, html, text: stripHtml(content) });
   },
 
   async sendBetaKeyVerifiedEmail({ email, name }: { email: string; name: string }) {
