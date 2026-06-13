@@ -33,6 +33,7 @@ import { BottomNav } from "./bottom-nav"
 import { MissionHistory } from "./mission-history"
 import { ReferralCard } from "./ReferralCard"
 import { AmbassadorGoal } from "./AmbassadorGoal"
+import { WelcomeModal } from "./welcome-modal"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -88,6 +89,15 @@ export function DashboardShell({
 
   return (
     <SidebarProvider>
+      {/* First-visit welcome modal — shown once after quiz completion */}
+      {user?.class && (
+        <WelcomeModal
+          userId={user.id}
+          userName={user.name}
+          userClass={user.class}
+        />
+      )}
+
       <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
