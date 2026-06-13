@@ -203,13 +203,13 @@ export function Quiz({ user }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black text-primary">Prêt à commencer ?</span>
+              <span className="text-[10px] font-mono font-black text-primary uppercase tracking-widest">Protocole de Calibration Neurale</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-white italic leading-[0.95]">
-              Découvre ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">style de build</span>
+              Définis ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Identité de Build</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-md font-light">
-              Évalue ta façon de concevoir, de coder et de collaborer pour trouver la guilde qui te correspond.
+              Cette évaluation détermine ta classe initiale et calibre le flux de missions que tu recevras. Réponds avec sincérité technique.
             </p>
           </div>
 

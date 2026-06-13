@@ -14,6 +14,7 @@ import {
   Check,
   Target,
   User as UserIcon,
+  Info,
 } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import Link from "next/link"
@@ -35,6 +36,12 @@ import { NextStepsCard } from "./next-steps-card"
 import { ReferralCard } from "./ReferralCard"
 import { AmbassadorGoal } from "./AmbassadorGoal"
 import { WelcomeModal } from "./welcome-modal"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -136,7 +143,16 @@ export function DashboardShell({
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
                     <div className={cn("h-2 w-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]", config.color.replace('text-', 'bg-'))}></div>
-                    <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500">{profile.toLowerCase()}_connecté_</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 cursor-help">{profile.toLowerCase()}_connecté_</span>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                          Ta classe actuelle est basée sur tes missions validées.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                   <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.04em] leading-tight text-white">
                     Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
@@ -157,18 +173,47 @@ export function DashboardShell({
 
                 {/* Cyber HUD Right Panel */}
                 <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 w-full md:min-w-55 md:w-auto">
-                  <div className="text-left md:text-right">
-                    <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
-                    <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
-                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="text-left md:text-right cursor-help group/hub">
+                          <div className="flex items-center md:justify-end gap-1.5 mb-0.5">
+                            <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
+                            <Info className="size-2.5 text-zinc-600 group-hover/hub:text-primary transition-colors md:hidden" />
+                          </div>
+                          <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                        {levelName === "INIT" && "Niveau de départ. Valide des missions pour monter CORE."}
+                        {levelName === "CORE" && "Niveau intermédiaire. Accès aux missions techniques."}
+                        {levelName === "PRO" && "Expertise confirmée. Tu peux encadrer des recrues."}
+                        {levelName === "ELITE" && "L'élite de HASHCODE. Tes actions influencent le réseau."}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
                   <div className="h-px w-full bg-white/5 hidden md:block"></div>
-                  <div className="text-right">
-                    <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
-                    <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
-                      <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
-                      <span>{user.currentStreak ?? 0} {user.currentStreak > 1 ? 'jours' : 'jour'}</span>
-                    </div>
-                  </div>
+                  
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="text-right cursor-help group/hub">
+                          <div className="flex items-center justify-end gap-1.5 mb-0.5">
+                            <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
+                            <Info className="size-2.5 text-zinc-600 group-hover/hub:text-primary transition-colors md:hidden" />
+                          </div>
+                          <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
+                            <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
+                            <span>{user.currentStreak ?? 0} {user.currentStreak > 1 ? 'jours' : 'jour'}</span>
+                          </div>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                        Maintiens ta série pour booster tes gains d'XP.
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </div>
               <Zap className={`absolute -bottom-10 -right-10 h-32 sm:h-56 w-32 sm:w-56 ${config.color} opacity-[0.03] -rotate-12 group-hover:scale-110 transition-transform duration-1000`} />
@@ -221,7 +266,18 @@ export function DashboardShell({
                         <span className="text-muted-foreground uppercase">Niveau {levelName}</span>
                         <span className="text-primary">{user.experience} XP</span>
                       </div>
-                      <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                            Chaque palier de 1000 XP te rapproche du grade supérieur.
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                       <p className="text-[10px] text-zinc-600 font-mono">
                         {1000 - (user.experience % 1000)} XP pour le niveau suivant
                       </p>
@@ -229,11 +285,11 @@ export function DashboardShell({
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">missions</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                       </div>
                       <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1">niveau</div>
+                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
                       </div>
                     </div>
@@ -255,62 +311,89 @@ export function DashboardShell({
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                       <Users className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">identité_numérique</span>
+                    <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight uppercase">identité_numérique</span>
                   </div>
                   <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">connectivité_</CardTitle>
                   <CardDescription className="text-zinc-500 font-medium tracking-tight">Montre ton travail. Les recruteurs vérifient ces liens.</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-2">
                   <div className="grid gap-4">
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-zinc-400 group-hover/item:text-white transition-colors">
-                          <Globe className="h-4 w-4" />
-                        </div>
-                        <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.portfolioUrl ? "Portfolio lié" : "Portfolio"}</span>
-                      </div>
-                      {user.portfolioUrl ? (
-                        <Check className="h-4 w-4 text-primary" />
-                      ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Connecter</Link>
-                        </Button>
-                      )}
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors cursor-help">
+                            <div className="flex items-center gap-4">
+                              <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-zinc-400 group-hover/item:text-white transition-colors">
+                                <Globe className="h-4 w-4" />
+                              </div>
+                              <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.portfolioUrl ? "Portfolio lié" : "Portfolio"}</span>
+                            </div>
+                            {user.portfolioUrl ? (
+                              <Check className="h-4 w-4 text-primary" />
+                            ) : (
+                              <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                                <Link href="/settings">Connecter</Link>
+                              </Button>
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                          Ton portfolio centralise tes preuves de travail validées.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
 
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-[#0077B5] group-hover/item:brightness-125 transition-all">
-                          <Linkedin className="h-4 w-4" />
-                        </div>
-                        <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.linkedinUrl ? "LinkedIn lié" : "LinkedIn"}</span>
-                      </div>
-                      {user.linkedinUrl ? (
-                        <Check className="h-4 w-4 text-primary" />
-                      ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Connecter</Link>
-                        </Button>
-                      )}
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors cursor-help">
+                            <div className="flex items-center gap-4">
+                              <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-[#0077B5] group-hover/item:brightness-125 transition-all">
+                                <Linkedin className="h-4 w-4" />
+                              </div>
+                              <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.linkedinUrl ? "LinkedIn lié" : "LinkedIn"}</span>
+                            </div>
+                            {user.linkedinUrl ? (
+                              <Check className="h-4 w-4 text-primary" />
+                            ) : (
+                              <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                                <Link href="/settings">Connecter</Link>
+                              </Button>
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                          Lier LinkedIn permet de synchroniser tes badges officiels.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
 
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-white">
-                          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                          </svg>
-                        </div>
-                        <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.twitterUrl ? "X (Twitter) lié" : "X (Twitter)"}</span>
-                      </div>
-                      {user.twitterUrl ? (
-                        <Check className="h-4 w-4 text-primary" />
-                      ) : (
-                        <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
-                          <Link href="/settings">Connecter</Link>
-                        </Button>
-                      )}
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors cursor-help">
+                            <div className="flex items-center gap-4">
+                              <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-white">
+                                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+                                  <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                                </svg>
+                              </div>
+                              <span className="text-sm font-medium text-zinc-300 group-hover/item:text-white transition-colors">{user.twitterUrl ? "X (Twitter) lié" : "X (Twitter)"}</span>
+                            </div>
+                            {user.twitterUrl ? (
+                              <Check className="h-4 w-4 text-primary" />
+                            ) : (
+                              <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                                <Link href="/settings">Connecter</Link>
+                              </Button>
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                          L'activité sur X booste ton score de vitalité communautaire.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </CardContent>
               </Card>

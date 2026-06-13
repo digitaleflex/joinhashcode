@@ -1,11 +1,7 @@
 "use client"
 
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Brain,
-  User as UserIcon,
   Globe,
   ShieldCheck,
   Zap,
@@ -16,9 +12,7 @@ import {
   Lightbulb,
   Flame,
   Target,
-  History,
-  Medal,
-  ChevronRight
+  Info
 } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
@@ -29,6 +23,12 @@ import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
 import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 import { ReferralWidget } from "@/components/dashboard/referral-widget";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface DossierViewProps {
   user: any;
@@ -43,10 +43,9 @@ export function DossierView({
   user, 
   activeOrg, 
   quizResult, 
-  squadMembersLogs, 
   isPublic = false,
   isInspecting = false 
-}: DossierViewProps) {
+}: Omit<DossierViewProps, "squadMembersLogs">) {
   
   // Neural Loop Logic: Engagement tips based on stats (Only for private/admin view)
   const engagementTips = [];
@@ -163,27 +162,47 @@ export function DossierView({
                   </p>
                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6">
                       <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                          <div className="space-y-3">
-                              <div className="flex items-center gap-2">
-                                  <Zap className="size-3.5 text-primary" />
-                                  <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Activité</span>
-                              </div>
-                              <div className="text-lg sm:text-xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
-                              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                  <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
-                              </div>
-                          </div>
+                          <TooltipProvider>
+                              <Tooltip>
+                                  <TooltipTrigger asChild>
+                                      <div className="space-y-3 cursor-help group/item">
+                                          <div className="flex items-center gap-2">
+                                              <Zap className="size-3.5 text-primary" />
+                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Activité</span>
+                                              <Info className="size-2.5 text-zinc-600 group-hover/item:text-primary transition-colors md:hidden" />
+                                          </div>
+                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
+                                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                              <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
+                                          </div>
+                                      </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                      Ton score de 'Vibrancy'. Il augmente avec tes check-ins réguliers et tes interactions.
+                                  </TooltipContent>
+                              </Tooltip>
+                          </TooltipProvider>
                           
-                          <div className="space-y-3">
-                              <div className="flex items-center gap-2">
-                                  <ShieldCheck className="size-3.5 text-emerald-500" />
-                                  <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Confiance</span>
-                              </div>
-                              <div className="text-xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
-                              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                  <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
-                              </div>
-                          </div>
+                          <TooltipProvider>
+                              <Tooltip>
+                                  <TooltipTrigger asChild>
+                                      <div className="space-y-3 cursor-help group/item">
+                                          <div className="flex items-center gap-2">
+                                              <ShieldCheck className="size-3.5 text-emerald-500" />
+                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Confiance</span>
+                                              <Info className="size-2.5 text-zinc-600 group-hover/item:text-emerald-500 transition-colors md:hidden" />
+                                          </div>
+                                          <div className="text-xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
+                                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                              <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
+                                          </div>
+                                      </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                      La précision de ton travail. Un score haut permet une validation plus rapide de tes missions.
+                                  </TooltipContent>
+                              </Tooltip>
+                          </TooltipProvider>
                       </div>
 
                       {!isPublic && engagementTips.length > 0 && (
@@ -332,15 +351,24 @@ export function DossierView({
                                       </h4>
                                       <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                           {[
-                                              { label: 'BUILDER', value: user.builderScore, color: 'text-blue-400' },
-                                              { label: 'CREATOR', value: user.creatorScore, color: 'text-purple-400' },
-                                              { label: 'STRATEGIST', value: user.strategistScore, color: 'text-amber-400' },
-                                              { label: 'CATALYST', value: user.catalystScore, color: 'text-emerald-400' }
+                                              { label: 'BUILDER', value: user.builderScore, color: 'text-blue-400', desc: "Conception et implémentation technique." },
+                                              { label: 'CREATOR', value: user.creatorScore, color: 'text-purple-400', desc: "Concepts originaux et design impactant." },
+                                              { label: 'STRATEGIST', value: user.strategistScore, color: 'text-amber-400', desc: "Vision globale et optimisation." },
+                                              { label: 'CATALYST', value: user.catalystScore, color: 'text-emerald-400', desc: "Force d'accélération et concrétisation." }
                                           ].map((stat) => (
-                                              <div key={stat.label} className="p-3 rounded-xl bg-white/2 border border-white/5">
-                                                  <div className="text-[7px] sm:text-[8px] font-mono text-zinc-600 uppercase mb-0.5">{stat.label}</div>
-                                                  <div className={cn("text-base sm:text-lg font-black font-mono italic", stat.color)}>{stat.value}%</div>
-                                              </div>
+                                              <TooltipProvider key={stat.label}>
+                                                  <Tooltip>
+                                                      <TooltipTrigger asChild>
+                                                          <div className="p-3 rounded-xl bg-white/2 border border-white/5 cursor-help">
+                                                              <div className="text-[7px] sm:text-[8px] font-mono text-zinc-600 uppercase mb-0.5">{stat.label}</div>
+                                                              <div className={cn("text-base sm:text-lg font-black font-mono italic", stat.color)}>{stat.value}%</div>
+                                                          </div>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                                          {stat.desc}
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              </TooltipProvider>
                                           ))}
                                       </div>
                                   </div>

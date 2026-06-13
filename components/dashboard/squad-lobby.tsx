@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail, UserSearch } from "lucide-react"
+import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail, UserSearch, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -21,6 +21,12 @@ import { JoinRequestsManager } from "./squad/JoinRequestsManager"
 import { SquadActivityFeed } from "./squad/SquadActivityFeed"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Activity } from "lucide-react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const [isCopying, setIsLocked] = useState(false)
@@ -257,12 +263,37 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                         </div>
 
                     <div className="space-y-2 relative z-10">
-                        <p className="text-lg text-white font-bold uppercase tracking-tight">
-                            Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
-                        </p>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center justify-center gap-2 cursor-help group/sync">
+                                        <p className="text-lg text-white font-bold uppercase tracking-tight">
+                                            Synchronisation : <span className="text-primary italic">{Math.round((memberCount / 5) * 100)}%</span>
+                                        </p>
+                                        <Info className="size-3 text-zinc-600 group-hover/sync:text-primary transition-colors md:hidden" />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                                    Le niveau de remplissage de ton escouade. Requis : 5 membres.
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        
                         {memberCount >= 1 && (
                             <div className="flex flex-col items-center gap-1">
-                                <div className="text-[9px] text-primary/60 font-mono uppercase">Cohésion de l&apos;unité</div>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <div className="flex items-center gap-1.5 cursor-help group/unit">
+                                                <div className="text-[9px] text-primary/60 font-mono uppercase">Cohésion de l&apos;unité</div>
+                                                <Info className="size-2 text-zinc-700 group-hover/unit:text-primary transition-colors md:hidden" />
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                            Reflète l'activité globale du groupe. Si un membre s'arrête de build, ce score baisse.
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                                 <div className="flex items-center gap-2">
                                     <div className="h-1 w-32 bg-white/5 rounded-full overflow-hidden">
                                         <div 

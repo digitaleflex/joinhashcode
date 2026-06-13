@@ -5,6 +5,12 @@ import { Users, Copy, Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface SquadBannerProps {
   user: any
@@ -66,10 +72,19 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
           <div className="text-[9px] font-mono font-black uppercase text-amber-500">
             Escouade requise
           </div>
-          <div className="text-lg font-black text-white tracking-tighter">
-            {memberCount}
-            <span className="text-zinc-600 font-light">/5 membres</span>
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="text-lg font-black text-white tracking-tighter cursor-help">
+                  {memberCount}
+                  <span className="text-zinc-600 font-light">/5 membres</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                Une escouade complète (5) débloque des missions avancées et multiplie la vitalité de chaque membre.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 

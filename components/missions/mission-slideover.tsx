@@ -6,6 +6,12 @@ import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { useRouter } from "next/navigation"
 import { Zap, Clock, ChevronRight, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface MissionSlideOverProps {
   mission: any | null
@@ -53,12 +59,40 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
             <div className="space-y-2 flex-1 min-w-0">
               {/* Badges */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider", TYPE_COLORS[mission.type] || TYPE_COLORS.GENERAL)}>
-                  {mission.type}
-                </span>
-                <span className="text-[9px] font-mono text-zinc-500 bg-zinc-900 border border-white/5 px-2 py-0.5 rounded-full">
-                  {DIFFICULTY_LABEL[mission.level] || `Niv. ${mission.level}`}
-                </span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider cursor-help", TYPE_COLORS[mission.type] || TYPE_COLORS.GENERAL)}>
+                        {mission.type}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                      {mission.type === "CODE" && "Focus : Implémentation technique et algorithmique."}
+                      {mission.type === "DESIGN" && "Focus : Expérience utilisateur et esthétique visuelle."}
+                      {mission.type === "BUSINESS" && "Focus : Stratégie de marché et croissance."}
+                      {mission.type === "NETWORK" && "Focus : Collaboration et engagement communautaire."}
+                      {mission.type === "INTRO" && "Focus : Ton premier pas dans l'écosystème."}
+                      {!["CODE", "DESIGN", "BUSINESS", "NETWORK", "INTRO"].includes(mission.type) && "Mission polyvalente combinant plusieurs vecteurs."}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="text-[9px] font-mono text-zinc-500 bg-zinc-900 border border-white/5 px-2 py-0.5 rounded-full cursor-help">
+                        {DIFFICULTY_LABEL[mission.level] || `Niv. ${mission.level}`}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                      {mission.level <= 1 && "Niveau Initié : Idéal pour apprendre les bases sans pression."}
+                      {mission.level === 2 && "Niveau Apprenti : Demande une connaissance des outils standards."}
+                      {mission.level === 3 && "Niveau Confirmé : Nécessite une rigueur technique et une preuve solide."}
+                      {mission.level >= 4 && "Niveau Expert : Défis complexes simulant des cas de production réels."}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
                 {isApproved && (
                   <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                     ✓ Complété
@@ -70,10 +104,19 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
 
               {/* Meta */}
               <div className="flex items-center gap-4 text-[9px] font-mono text-zinc-500">
-                <span className="flex items-center gap-1">
-                  <Zap className="size-2.5 text-primary" />
-                  +{mission.xpReward || mission.xp} XP
-                </span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="flex items-center gap-1 cursor-help hover:text-primary transition-colors">
+                        <Zap className="size-2.5 text-primary" />
+                        +{mission.xpReward || mission.xp} XP
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                      XP de base récompensant la validation de cette mission.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 {mission.duration && (
                   <span className="flex items-center gap-1">
                     <Clock className="size-2.5" />

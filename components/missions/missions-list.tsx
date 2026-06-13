@@ -13,6 +13,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { MissionSlideOver } from "./mission-slideover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface MissionWithStats extends Mission {
   completionsCount: number;
@@ -123,17 +129,28 @@ export function MissionsList({
           
           return (
             <div key={stage} className="flex items-center flex-1">
-              <div className={cn(
-                "flex-1 py-3 px-4 flex flex-col items-center gap-0.5 rounded-2xl border transition-all duration-500",
-                isActive ? `${config.bgColor} ${config.borderColor}` : isDone ? "bg-zinc-900/30 border-white/5" : "bg-transparent border-transparent"
-              )}>
-                <span className="text-[8px] font-mono font-black uppercase tracking-widest" style={{ color: isActive ? config.color : isDone ? "#6b7280" : "#374151" }}>
-                  {config.label}
-                </span>
-                <span className="text-[7px] text-zinc-600 font-mono text-center hidden md:block">{config.sublabel}</span>
-                {isDone && <span className="text-[7px] text-emerald-500 font-mono mt-0.5">✓ Complété</span>}
-                {isActive && <div className="size-1.5 rounded-full mt-0.5 animate-pulse" style={{ backgroundColor: config.color }} />}
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className={cn(
+                      "flex-1 py-3 px-4 flex flex-col items-center gap-0.5 rounded-2xl border transition-all duration-500 cursor-help",
+                      isActive ? `${config.bgColor} ${config.borderColor}` : isDone ? "bg-zinc-900/30 border-white/5" : "bg-transparent border-transparent"
+                    )}>
+                      <span className="text-[8px] font-mono font-black uppercase tracking-widest" style={{ color: isActive ? config.color : isDone ? "#6b7280" : "#374151" }}>
+                        {config.label}
+                      </span>
+                      <span className="text-[7px] text-zinc-600 font-mono text-center hidden md:block">{config.sublabel}</span>
+                      {isDone && <span className="text-[7px] text-emerald-500 font-mono mt-0.5">✓ Complété</span>}
+                      {isActive && <div className="size-1.5 rounded-full mt-0.5 animate-pulse" style={{ backgroundColor: config.color }} />}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-xs">
+                    {stage === "INIT" && "Missions d'initiation pour maîtriser les outils de base du réseau."}
+                    {stage === "CORE" && "Le cœur de ton expertise technique. Valide tes compétences fondamentales."}
+                    {stage === "PRO" && "Défis complexes simulant des environnements de production réels."}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
               {i < 2 && (
                 <div className={cn("h-px w-2 md:w-4 shrink-0", isDone || isActive ? "bg-white/10" : "bg-zinc-900")} />
@@ -345,17 +362,40 @@ function MissionCard({
       <CardHeader className="pb-4 shrink-0">
         <div className="flex items-start justify-between mb-4">
           <div className="flex flex-wrap gap-2">
-            <Badge className={cn(
-              "text-[9px] uppercase font-black tracking-wider",
-              isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
-              isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
-              'bg-primary/10 text-primary border-primary/20'
-            )}>
-              {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
-            </Badge>
-            <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500">
-              {mission.type}
-            </Badge>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge className={cn(
+                    "text-[9px] uppercase font-black tracking-wider cursor-help",
+                    isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
+                    isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
+                    'bg-primary/10 text-primary border-primary/20'
+                  )}>
+                    {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                  {isCompleted ? "Récompense déjà acquise." : isPending ? "En attente de validation par un reviewer." : "XP à gagner pour cette mission."}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500 cursor-help">
+                    {mission.type}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                  {mission.type === "CODE" && "Mission technique (Build)"}
+                  {mission.type === "DESIGN" && "Mission créative (UX/UI)"}
+                  {mission.type === "BUSINESS" && "Mission stratégique (Growth)"}
+                  {mission.type === "NETWORK" && "Mission sociale (Commu)"}
+                  {mission.type === "INTRO" && "Mission d'intégration"}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           {isLocked ? (
             <div className="p-2 bg-white/5 rounded-lg border border-white/10">

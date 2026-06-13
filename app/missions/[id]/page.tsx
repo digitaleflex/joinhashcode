@@ -17,6 +17,12 @@ import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline } from "@/components/missions/submission-timeline"
 import { SuggestedPartners } from "@/components/missions/suggested-partners"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default async function MissionBriefingPage({
   params,
@@ -190,9 +196,18 @@ export default async function MissionBriefingPage({
                   <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">
                     Récompense
                   </div>
-                  <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none">
-                    +{mission.xp}
-                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none cursor-help">
+                          +{mission.xp}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                        XP de base. Un travail exemplaire peut rapporter un bonus.
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <div className="text-xs font-mono text-primary/60 uppercase mt-1">
                     XP
                   </div>
@@ -208,16 +223,37 @@ export default async function MissionBriefingPage({
                     <span className="text-zinc-300">{mission.duration}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
-                  {methodIcon}
-                  <span className="uppercase tracking-wider text-[10px]">Méthode</span>
-                  <span className="text-zinc-300">{mission.submissionMethod.replace(/_/g, " ")}</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono">
-                  <Layers className="w-3.5 h-3.5 text-primary/40" />
-                  <span className="uppercase tracking-wider text-[10px]">Livrables</span>
-                  <span className="text-zinc-300">{mission.deliverables.length} élément{mission.deliverables.length > 1 ? "s" : ""}</span>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono cursor-help">
+                        {methodIcon}
+                        <span className="uppercase tracking-wider text-[10px]">Méthode</span>
+                        <span className="text-zinc-300 underline decoration-dotted decoration-zinc-700 underline-offset-4">{mission.submissionMethod.replace(/_/g, " ")}</span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                      {mission.submissionMethod === "GITHUB_LINK" && "Lien vers un dépôt Git public ou partagé avec joinhashcode."}
+                      {mission.submissionMethod === "LIVE_URL" && "URL de ton projet déployé et accessible en ligne."}
+                      {mission.submissionMethod === "TEXT_RESPONSE" && "Réponse directe via le formulaire de soumission."}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono cursor-help">
+                        <Layers className="w-3.5 h-3.5 text-primary/40" />
+                        <span className="uppercase tracking-wider text-[10px]">Livrables</span>
+                        <span className="text-zinc-300 underline decoration-dotted decoration-zinc-700 underline-offset-4">{mission.deliverables.length} élément{mission.deliverables.length > 1 ? "s" : ""}</span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                      Éléments obligatoires à fournir pour l'approbation de la mission.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
 
