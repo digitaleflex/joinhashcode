@@ -31,6 +31,7 @@ import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
 import { MissionHistory } from "./mission-history"
+import { NextStepsCard } from "./next-steps-card"
 import { ReferralCard } from "./ReferralCard"
 import { AmbassadorGoal } from "./AmbassadorGoal"
 import { WelcomeModal } from "./welcome-modal"
@@ -86,6 +87,15 @@ export function DashboardShell({
   const isSquadFull = useMemo(() => !!(squad && squad.members.length >= 5), [squad])
   const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
+
+  const hasCheckinToday = useMemo(() => {
+    if (!user?.lastCheckin) return false
+    const last = new Date(user.lastCheckin)
+    const now = new Date()
+    return last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth() && last.getDate() === now.getDate()
+  }, [user?.lastCheckin])
+
+  const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
 
   return (
     <SidebarProvider>
@@ -167,6 +177,14 @@ export function DashboardShell({
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
+                {isNewUser && (
+                  <NextStepsCard
+                    hasMissions={(user?.missionsCompletedCount ?? 0) > 0}
+                    hasSquad={!!squad}
+                    hasCheckin={hasCheckinToday}
+                    hasProfile={!!(user?.pseudo && user?.country)}
+                  />
+                )}
                 <div id="tour-checkin">
                   <DailyCheckinWidget />
                 </div>

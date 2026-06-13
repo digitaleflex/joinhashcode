@@ -10,6 +10,8 @@ export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVibrancy>> = {
   'Product': { strategist: 0.5, builder: 0.5 },
 };
 
+export { LEVEL_THRESHOLDS, getLevelProgress } from './level-utils';
+
 export function calculateNewVibrancy(
   currentVibrancy: BehavioralVibrancy,
   actionWeights: BehavioralVibrancy,

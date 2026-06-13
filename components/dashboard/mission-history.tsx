@@ -3,10 +3,12 @@
 import { useMemo } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { History, Award, Calendar, CheckCircle2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { History, Calendar, CheckCircle2, Target } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 interface MissionHistoryProps {
   submissions: any[]
@@ -19,7 +21,39 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
     )
   }, [submissions])
 
-  if (sortedSubmissions.length === 0) return null
+  if (sortedSubmissions.length === 0) {
+    return (
+      <Card variant="premium" className="overflow-hidden">
+        <CardHeader className="pb-3">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
+              <History className="h-5 w-5" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">historique_missions</CardTitle>
+          <CardDescription className="text-zinc-500 font-medium tracking-tight">
+            Ton parcours de preuves et de réalisations.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-2">
+          <div className="flex flex-col items-center justify-center py-10 gap-5 text-center">
+            <div className="p-4 rounded-2xl bg-white/2 border border-white/5">
+              <Target className="h-8 w-8 text-zinc-600" />
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-sm font-bold text-zinc-400">Aucune mission complétée pour l&apos;instant</p>
+              <p className="text-[11px] text-zinc-600 font-mono max-w-xs">
+                Chaque mission approuvée apparaît ici. Commence par une mission INIT — elles sont conçues pour les débutants.
+              </p>
+            </div>
+            <Button asChild size="sm" className="btn-primary-glow h-10 rounded-xl font-bold text-xs uppercase tracking-wider">
+              <Link href="/missions">Voir les missions disponibles</Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
     <Card variant="premium" className="overflow-hidden group">
