@@ -2,6 +2,8 @@
 node_modules/
 .pnp
 .pnp.js
+package-lock.json
+yarn.lock
 
 # Testing
 coverage/
@@ -72,3 +74,6 @@ __v0_jsx-dev-runtime.ts
 
 # Fichiers uploadés localement (servis par VPS, pas versionnés)
 public/uploads/
+
+# Sentry Config File
+.env.sentry-build-plugin
