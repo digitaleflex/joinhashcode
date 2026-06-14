@@ -98,7 +98,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/dashboard"}
-                  tooltip="Console"
+                  tooltip="Accède à ton centre de commande et ton résumé d'activité."
                   className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/dashboard">
@@ -113,7 +113,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/squad"}
-                  tooltip={hasSquad ? "Mon Escouade" : "Escouade"}
+                  tooltip={hasSquad ? "Gère ton équipe de 5 et progresse ensemble." : "Rejoins une escouade de développeurs complémentaires."}
                   className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/squad" className="flex items-center gap-2">
@@ -133,7 +133,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/missions"}
-                  tooltip="Missions"
+                  tooltip="Relève des défis techniques réels pour booster ton XP."
                   className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/missions">
@@ -148,7 +148,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/dossier"}
-                  tooltip="Mon Dossier"
+                  tooltip="Consulte ton portfolio, tes badges et ton radar de compétences."
                   className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                 >
                   <Link href="/dossier">
@@ -173,7 +173,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                     <SidebarMenuButton
                       asChild
                       isActive={pathname === "/reviewer"}
-                      tooltip="Reviewer"
+                      tooltip="Analyse et valide les preuves de missions de la communauté."
                       className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                     >
                       <Link href="/reviewer">
@@ -190,7 +190,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                     <SidebarMenuButton
                       asChild
                       isActive={pathname.startsWith("/admin")}
-                      tooltip="Administration"
+                      tooltip="Panneau de contrôle global : membres, missions et système."
                       className="h-10 text-muted-foreground hover:text-white hover:bg-white/5 data-[active=true]:bg-white/10 data-[active=true]:text-white"
                     >
                       <Link href="/admin">

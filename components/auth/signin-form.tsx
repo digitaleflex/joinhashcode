@@ -241,6 +241,7 @@ export function SignInForm() {
                                 )}
                             </Button>
 
+                            {/* 
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInPasskey}
@@ -256,6 +257,7 @@ export function SignInForm() {
                                     </>
                                 )}
                             </Button>
+                            */}
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
