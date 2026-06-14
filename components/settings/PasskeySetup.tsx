@@ -8,14 +8,14 @@ import { toast } from "sonner"
 
 export function PasskeySetup() {
     // Correct Better Auth v1 Passkey hooks
-    const { data: passkeys, isPending } = authClient.useListPasskeys()
+    const { data: passkeys, isPending } = (authClient as any).useListPasskeys()
     const [adding, setAdding] = useState(false)
 
     const handleAddPasskey = async () => {
         setAdding(true)
         try {
             // Correct method: authClient.passkey.addPasskey()
-            const { error } = await authClient.passkey.addPasskey()
+            const { error } = await (authClient as any).passkey.addPasskey()
             if (error) throw new Error(error.message || "Erreur inconnue")
             toast.success("Passkey ajouté avec succès")
         } catch (error: any) {
@@ -30,7 +30,7 @@ export function PasskeySetup() {
     const handleDeletePasskey = async (id: string) => {
         if (!confirm("Supprimer ce Passkey ?")) return
         try {
-            const { error } = await authClient.passkey.deletePasskey({ id })
+            const { error } = await (authClient as any).passkey.deletePasskey({ id })
             if (error) throw new Error(error.message)
             toast.success("Passkey supprimé")
         } catch (error: any) {
