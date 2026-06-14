@@ -1,6 +1,7 @@
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import nextPlugin from "@next/eslint-plugin-next";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default [
   {
@@ -20,6 +21,7 @@ export default [
     plugins: {
       "@typescript-eslint": tsPlugin,
       "@next/next": nextPlugin,
+      "unused-imports": unusedImports,
     },
     languageOptions: {
       parser: tsParser,
@@ -32,6 +34,11 @@ export default [
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/ban-ts-comment": "off",
+      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      ],
     },
   },
 ];
