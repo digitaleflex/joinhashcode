@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -31,7 +31,12 @@ export function SignInForm() {
     const [otp, setOtp] = useState("")
     const [resendCooldown, setResendCooldown] = useState(0)
 
-    // ... (useEffect remains unchanged)
+    useEffect(() => {
+        const ref = new URLSearchParams(window.location.search).get("ref")
+        if (ref && /^[a-zA-Z0-9_-]{3,50}$/.test(ref)) {
+            document.cookie = `hashcode_ref=${encodeURIComponent(ref)}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`
+        }
+    }, [])
 
     const handleSignInGoogle = async () => {
         setLoadingProvider("google")
