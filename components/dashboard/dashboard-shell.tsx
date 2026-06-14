@@ -27,9 +27,15 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
+import { WelcomeModal } from "./welcome-modal"
+import { AmbassadorGoal } from "./AmbassadorGoal"
+import { ReferralCard } from "./ReferralCard"
+import { MissionHistory } from "./mission-history"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { type Mission } from "@/lib/missions"
 import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
+import { WeeklyChallengeWidget } from "./weekly-challenge-widget"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
 import { NextStepsCard } from "./next-steps-card"
@@ -38,20 +44,6 @@ import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 
 const NeuralFeed = dynamic(() => import("./neural-feed").then((m) => m.NeuralFeed), { ssr: false })
-const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
-const ReferralCard = dynamic(() => import("./ReferralCard").then((m) => m.ReferralCard), { ssr: false })
-const AmbassadorGoal = dynamic(() => import("./AmbassadorGoal").then((m) => m.AmbassadorGoal), { ssr: false })
-const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
-const LevelUpModal = dynamic(() => import("./level-up-modal").then((m) => m.LevelUpModal), { ssr: false })
-const ShareCardDialog = dynamic(() => import("./share-card-dialog").then((m) => m.ShareCardDialog), { ssr: false })
-import { getLevelProgress } from "@/lib/level-utils"
-import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -249,6 +241,9 @@ export function DashboardShell({
                 )}
                 <div id="tour-checkin">
                   <DailyCheckinWidget />
+                </div>
+                <div id="tour-weekly">
+                  <WeeklyChallengeWidget />
                 </div>
                 <div id="tour-missions">
                   <MissionDeck recommendedMissions={recommendedMissions} />
