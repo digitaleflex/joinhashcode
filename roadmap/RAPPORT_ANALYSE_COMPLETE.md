@@ -129,13 +129,11 @@
 
 ## 2. En Cours / Partiel
 
-| Fonctionnalité               | Ce qui est fait                                               | Ce qui manque                                                               |
-| ---------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| **P10 — GitHub OAuth**       | Google OAuth fonctionnel, variables d'env présentes           | GitHub non configuré comme provider dans `lib/auth.ts`                      |
-| **P14 — Squad RBAC avancé**  | Rôles owner/admin/member via org plugin                       | Pas d'actions spécialisées par squad (validation, etc.)                     |
-| **P17 — Parrainage signup**  | Code généré, lien partage, XP reward onboarding + beta-verify | Lecture du paramètre `?ref=` au signup pour écrire le cookie `hashcode_ref` |
-| **ISSUE-023 — Localisation** | Champ `city` dans settings et API update                      | Dashboard strict (exige city+country), dossier affiche `UNKNOWN_LOCATION`   |
-| **Admin Analytics**          | Stats basiques (users, quiz, funnel)                          | Manque cohésion moyenne squad, drop-off missions                            |
+| Fonctionnalité               | Ce qui est fait                          | Ce qui manque                                                             |
+| ---------------------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
+| **P14 — Squad RBAC avancé**  | Rôles owner/admin/member via org plugin  | Pas d'actions spécialisées par squad (validation, etc.)                   |
+| **ISSUE-023 — Localisation** | Champ `city` dans settings et API update | Dashboard strict (exige city+country), dossier affiche `UNKNOWN_LOCATION` |
+| **Admin Analytics**          | Stats basiques (users, quiz, funnel)     | Manque cohésion moyenne squad, drop-off missions                          |
 
 ### ✅ Déjà implémentés (correction du rapport initial)
 
@@ -151,15 +149,11 @@
 
 ### 3.1 Roadmap P-files
 
-| Priorité   | ID  | Fonctionnalité                                  | Effort | Zone         |
-| ---------- | --- | ----------------------------------------------- | ------ | ------------ |
-| 🔴 Haute   | P10 | Configurer GitHub OAuth provider                | ~1h    | Auth         |
-| 🔴 Haute   | P16 | Floating feedback button + sidebar link         | ~1h    | UX           |
-| 🟡 Moyenne | P17 | Lire `?ref=` au signup + attribuer `referrerId` | ~1h    | Growth       |
-| 🟡 Moyenne | P20 | Afficher modale UX Poll aux utilisateurs        | ~1h    | UX           |
-| 🟢 Basse   | P14 | Actions squad spécialisées (validation, etc.)   | ~2h    | Squads       |
-| 🟢 Basse   | P12 | Page sécurité multi-session dans settings       | ~1h30  | Settings     |
-| 🟢 Basse   | P15 | Stripe integration (pricing, subscription)      | ~3h    | Monétisation |
+| Priorité   | ID  | Fonctionnalité                                | Effort | Zone         |
+| ---------- | --- | --------------------------------------------- | ------ | ------------ |
+| 🟡 Moyenne | P14 | Actions squad spécialisées (validation, etc.) | ~2h    | Squads       |
+| 🟢 Basse   | P12 | Page sécurité multi-session dans settings     | ~1h30  | Settings     |
+| 🟢 Basse   | P15 | Stripe integration (pricing, subscription)    | ~3h    | Monétisation |
 
 ### 3.2 Performance (PERF Issues)
 
@@ -176,11 +170,10 @@
 
 ### 3.3 Bugs & UX (User Reports)
 
-| Priorité   | Issue       | Tâche                                                                         |
-| ---------- | ----------- | ----------------------------------------------------------------------------- |
-| 🔴 Haute   | ISSUE-024   | Corriger crash Recharts sur mobile dans `xp-growth-chart.tsx` (SSR/hydration) |
-| 🟡 Moyenne | UX-006      | Audit contrastes WCAG AA + ARIA sur BottomNav                                 |
-| 🟡 Moyenne | PRODUCT-005 | Améliorer landing page et formulaire sign-in pour clarifier valeur            |
+| Priorité   | Issue       | Tâche                                                              |
+| ---------- | ----------- | ------------------------------------------------------------------ |
+| 🟡 Moyenne | UX-006      | Audit contrastes WCAG AA + ARIA sur BottomNav                      |
+| 🟡 Moyenne | PRODUCT-005 | Améliorer landing page et formulaire sign-in pour clarifier valeur |
 
 ### 3.4 Production Readiness
 
@@ -196,15 +189,15 @@
 
 ## 4. Plan d'Action Prioritaire
 
-### Phase 1 — Quick Wins (Jour 1)
+### Phase 1 — Quick Wins (Jour 1) ✅ Terminée
 
-| #   | Tâche                                                                 | Effort | Impact                           | Statut       |
-| --- | --------------------------------------------------------------------- | ------ | -------------------------------- | ------------ |
-| 1   | **P17** — Lire `?ref=` au signup pour écrire le cookie `hashcode_ref` | ~1h    | 🟡 Haut — débloque le parrainage | ❌ À faire   |
-| 2   | **P10** — Configurer GitHub OAuth dans `lib/auth.ts`                  | ~1h    | 🟡 Moyen — élargit l'accès       | ❌ À faire   |
-| 3   | ~~ISSUE-024 — Crash Recharts~~                                        | —      | —                                | ✅ Déjà fait |
-| 4   | ~~P20 — UX Poll modal~~                                               | —      | —                                | ✅ Déjà fait |
-| 5   | ~~P16 — Floating feedback button~~                                    | —      | —                                | ✅ Déjà fait |
+| #   | Tâche                                                                 | Effort | Impact                           | Statut              |
+| --- | --------------------------------------------------------------------- | ------ | -------------------------------- | ------------------- |
+| 1   | **P17** — Lire `?ref=` au signup pour écrire le cookie `hashcode_ref` | ~1h    | 🟡 Haut — débloque le parrainage | ✅ Fait — `1190f44` |
+| 2   | **P10** — Configurer GitHub OAuth dans `lib/auth.ts`                  | ~1h    | 🟡 Moyen — élargit l'accès       | ✅ Fait — `d22809d` |
+| 3   | ~~ISSUE-024 — Crash Recharts~~                                        | —      | —                                | ✅ Déjà fait        |
+| 4   | ~~P20 — UX Poll modal~~                                               | —      | —                                | ✅ Déjà fait        |
+| 5   | ~~P16 — Floating feedback button~~                                    | —      | —                                | ✅ Déjà fait        |
 
 ### Phase 2 — UX & Bugs (Jour 2)
 
@@ -245,4 +238,4 @@
 
 ---
 
-**Récapitulatif :** ~90% du socle est livré. ~3 jours pour les correctifs critiques et quick wins, ~2 jours pour la perf, ~1 jour pour la mise en production. La bêta privée peut être lancée après la Phase 2.
+**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 (Quick Wins) terminée** — 2 correctifs livrés, 3 déjà préexistants. Reste ~2 jours pour la Phase 2 (UX & Bugs), ~2 jours pour la perf, ~1 jour pour la mise en production.
