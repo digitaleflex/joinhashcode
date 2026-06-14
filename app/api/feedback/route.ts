@@ -69,8 +69,8 @@ export const POST = async (req: NextRequest) => {
 
       try {
         attachmentUrl = await saveFile(buffer, fileName, "feedback");
-      } catch (_) {
-        console.error("[FEEDBACK_UPLOAD_ERROR]", err);
+      } catch (error: unknown) {
+        console.error("[FEEDBACK_UPLOAD_ERROR]", error);
         return NextResponse.json(
           { error: "Le service de pièces jointes est indisponible. Réessaie sans pièce jointe." },
           { status: 503 }
@@ -99,7 +99,7 @@ export const POST = async (req: NextRequest) => {
       message: "Feedback envoyé avec succès !",
       id: feedback.id
     });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("Feedback API Error:", error);
     return NextResponse.json(
       { error: "Erreur interne du serveur" },

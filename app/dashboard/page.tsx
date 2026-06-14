@@ -127,9 +127,9 @@ export default async function DashboardPage() {
     quizResult = quizRes;
     submissions = subRes as any;
     member = memRes;
-  } catch (_) {
-    console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
-    throw err
+  } catch (error: unknown) {
+    console.error("[DASHBOARD_PAGE] DB fetch failed:", error)
+    throw error
   }
 
   const submissionsMap = (submissions ?? []).reduce((acc, s) => {

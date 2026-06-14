@@ -35,8 +35,8 @@ export async function trackEvent(
           timestamp: new Date().toISOString()
         }),
       });
-    } catch (_) {
-      console.error("[ANALYTICS_CAPTURE_FAILED]", err);
+    } catch (error: unknown) {
+      console.error("[ANALYTICS_CAPTURE_FAILED]", error);
     }
   }
 }

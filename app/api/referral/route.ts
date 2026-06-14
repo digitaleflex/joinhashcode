@@ -32,7 +32,7 @@ export async function GET() {
       referralCount: user!.referralCount,
       referrals: user!.referrals,
     }, { headers: { "Cache-Control": "private, no-cache" } });
-  } catch (_) {
+  } catch (error: unknown) {
     return handleApiError(error, "REFERRAL_GET");
   }
 }

@@ -36,7 +36,7 @@ export async function DELETE(req: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[SQUAD_LEAVE]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

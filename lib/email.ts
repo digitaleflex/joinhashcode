@@ -699,7 +699,7 @@ export const emailService = {
       });
       if (error) return { success: false, error };
       return { success: true, data };
-    } catch (_) {
+    } catch (error: unknown) {
       return { success: false, error };
     }
   },

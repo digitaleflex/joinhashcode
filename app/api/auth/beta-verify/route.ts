@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     }).catch(err => console.error("[EMAIL_ERROR] sendBetaKeyVerifiedEmail", err));
 
     return NextResponse.json({ success: true });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[BETA_VERIFY_POST]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }

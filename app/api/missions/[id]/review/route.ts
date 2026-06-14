@@ -106,7 +106,7 @@ export async function POST(
               message: `Mission CORE validée par pair (${submission.user.name}). Confirmation admin nécessaire.`,
               link: `/admin/submissions`,
             });
-          } catch (_) {
+          } catch (error: unknown) {
             console.error("[NOTIFICATION_ERROR]", err);
           }
           emailService.sendAdminCoreMissionPending({
@@ -125,7 +125,7 @@ export async function POST(
             message: `Ton pair a validé ta soumission. Confirmation admin en cours, tu seras notifié(e).`,
             link: `/missions/${submission.missionId}`,
           });
-        } catch (_) {
+        } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", err);
         }
 
@@ -205,7 +205,7 @@ export async function POST(
             newLevel,
           });
         }
-      } catch (_) {
+      } catch (error: unknown) {
         console.error("[NOTIFICATION_ERROR]", err);
       }
 
@@ -250,7 +250,7 @@ export async function POST(
         message: feedback,
         link: `/missions/${submission.missionId}`,
       });
-    } catch (_) {
+    } catch (error: unknown) {
       console.error("[NOTIFICATION_ERROR]", err);
     }
 
@@ -277,14 +277,14 @@ export async function POST(
             message: `La soumission de ${submission.user.name} a atteint ${updatedSubmission.revisionCount} révisions sans validation. Intervention admin nécessaire.`,
             link: `/admin/submissions`,
           });
-        } catch (_) {
+        } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", err);
         }
       }
     }
 
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[SUBMIT_REVIEW]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

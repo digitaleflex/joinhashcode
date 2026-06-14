@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, id: feedback.id });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[QUIZ_FEEDBACK_ERROR]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }

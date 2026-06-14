@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     await emailService.sendContactNotification({ type, email, subject, content })
 
     return NextResponse.json({ success: true, messageId: message.id })
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[CONTACT_API_ERROR]", error)
     return NextResponse.json(
       { error: "Une erreur est survenue lors de la transmission" },

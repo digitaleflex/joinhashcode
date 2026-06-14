@@ -123,9 +123,9 @@ export default async function MissionsPage() {
         select: { id: true },
       }),
     ])
-  } catch (_) {
-    console.error("[MISSIONS_PAGE] DB fetch failed:", err)
-    throw err // propagates to app/missions/error.tsx
+  } catch (error: unknown) {
+    console.error("[MISSIONS_PAGE] DB fetch failed:", error)
+    throw error // propagates to app/missions/error.tsx
   }
 
   if (!finalDbUser) {

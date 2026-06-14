@@ -40,7 +40,7 @@ export default function BetaAccessPage() {
         const error = await response.text();
         toast.error(error || "Clé invalide ou déjà utilisée");
       }
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur de connexion au serveur");
     } finally {
       setLoading(false);

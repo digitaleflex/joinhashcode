@@ -192,7 +192,7 @@ export default function FeedbackForm() {
                                     <div className="flex items-center gap-3 min-w-0">
                                         {filePreview ? (
                                             <div className="relative size-12 rounded-lg border border-white/10 overflow-hidden shrink-0">
-                                                <img src={filePreview} alt="Aperçu" className="object-cover size-full" />
+                                                <Image src={filePreview} alt="Aperçu" width={48} height={48} className="object-cover size-full" />
                                             </div>
                                         ) : (
                                             <div className="size-12 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-xs font-mono text-zinc-400 shrink-0">

@@ -41,7 +41,7 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
 
             if (!res.ok) throw new Error()
             setStep("thanks")
-        } catch (_) {
+        } catch (error: unknown) {
             toast.error("Erreur lors de l'envoi de ton avis")
         } finally {
             setIsSubmitting(false)

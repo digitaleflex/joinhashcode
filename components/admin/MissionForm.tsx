@@ -102,7 +102,7 @@ export function MissionForm({ initialData, onSuccess }: MissionFormProps) {
 
       toast.success(initialData ? "Mission mise à jour" : "Mission créée");
       onSuccess();
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Une erreur est survenue");
     } finally {
       setLoading(false);

@@ -60,7 +60,7 @@ export function BetaFeedbackDialog() {
             setContent("")
             setRating(0)
             setOpen(false)
-        } catch (_) {
+        } catch (error: unknown) {
             toast.error("Erreur lors de l'envoi du feedback.")
             console.error(error)
         } finally {

@@ -77,7 +77,7 @@ export async function logActivity(opts: LogOptions): Promise<void> {
         userAgent: request?.headers.get("user-agent") ?? null,
       },
     })
-  } catch (_) {
-    console.error("[ACTIVITY_LOG_ERROR]", action, err)
+  } catch (error: unknown) {
+    console.error("[ACTIVITY_LOG_ERROR]", action, error)
   }
 }

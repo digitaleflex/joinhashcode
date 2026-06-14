@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[AVATAR_POST]", error);
     return NextResponse.json({ message: "Une erreur système est survenue. Réessaie dans un instant." }, { status: 500 });
   }

@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[SQUAD_TRANSFER_ERROR]", error);
     return NextResponse.json({ message: "Erreur lors du transfert de propriété." }, { status: 500 });
   }

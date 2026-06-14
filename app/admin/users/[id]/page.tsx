@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { questions } from "@/lib/questions"
@@ -477,7 +478,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                             <div className="flex items-center gap-3">
                               <div className="relative size-9 bg-zinc-950 border border-white/10 rounded-lg overflow-hidden flex items-center justify-center font-mono font-bold text-xs uppercase text-zinc-500">
                                 {member.user.image ? (
-                                  <img src={member.user.image} alt={member.user.name} className="w-full h-full object-cover" />
+                                  <Image src={member.user.image} alt={member.user.name} width={36} height={36} className="w-full h-full object-cover" />
                                 ) : (
                                   member.user.name.charAt(0)
                                 )}

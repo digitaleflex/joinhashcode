@@ -36,7 +36,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         setTotpData(data);
         setStep("setup");
       }
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);
@@ -58,7 +58,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.success("Double authentification activée !");
         router.refresh();
       }
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);
@@ -78,7 +78,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.success("2FA désactivée");
         router.refresh();
       }
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);

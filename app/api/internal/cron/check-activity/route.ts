@@ -78,7 +78,7 @@ export async function POST(req: Request) {
       success: true,
       message: `${notifiedCount} utilisateurs notifiés.`,
     });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);
     return NextResponse.json({ message: "Erreur interne lors de la vérification d'activité." }, { status: 500 });
   }

@@ -40,7 +40,7 @@ export async function GET() {
     });
 
     return NextResponse.json(eligible);
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[REVIEWER_QUEUE]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

@@ -30,8 +30,8 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                     text: "Découvre ton profil de bâtisseur tech et rejoins une escouade d'élite.",
                     url: referralLink,
                 })
-            } catch (_) {
-                console.error("Erreur de partage:", err)
+            } catch (error: unknown) {
+                console.error("Erreur de partage:", error)
             }
         } else {
             copyLink()

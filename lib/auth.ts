@@ -1,4 +1,5 @@
-import { betterAuth } from "better-auth";
+import * as betterAuthModule from "better-auth";
+const { betterAuth } = betterAuthModule;
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
@@ -145,7 +146,7 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        after: async (user) => {
+        after: async (user: any) => {
           if ((user as any).class) {
             await emailService.sendWelcomeProfileEmail({
               email: user.email,
@@ -200,7 +201,7 @@ export const auth = betterAuth({
         },
       },
       update: {
-        after: async (user) => {
+        after: async (user: any) => {
           await invalidateUserCache(user.id).catch((err) =>
             console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${user.id} lors de la modification :`, err)
           );

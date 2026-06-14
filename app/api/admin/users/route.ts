@@ -66,7 +66,7 @@ export async function GET(req: Request) {
     ])
 
     return NextResponse.json({ users, total, page, limit })
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[ADMIN_USERS_GET]", error)
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 })
   }

@@ -17,7 +17,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
         if (!response.ok) throw new Error("Échec");
         const data = await response.json();
         setLogs(data);
-      } catch (_) {
+      } catch (error: unknown) {
         console.error(err);
       } finally {
         setIsLoading(false);

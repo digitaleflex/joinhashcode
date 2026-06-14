@@ -48,7 +48,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
       await (authClient.admin as any).stopImpersonating();
       toast.success("Retour au compte administrateur");
       window.location.href = "/admin/users";
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur lors de l'arrêt de l'impersonation");
     }
   }

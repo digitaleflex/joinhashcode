@@ -291,7 +291,7 @@ export async function checkAndAwardBadges(userId: string) {
     }
 
     return newBadges;
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[BADGE_ENGINE_ERROR]", error);
     return [];
   }

@@ -79,7 +79,7 @@ export async function POST(
     });
 
     return NextResponse.json({ success: true, submission: updated });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[CLAIM_REVIEW]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

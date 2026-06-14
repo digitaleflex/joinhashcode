@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[UX_POLL_ERROR]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
@@ -63,7 +63,7 @@ export async function GET(req: Request) {
         });
 
         return NextResponse.json({ hasAnswered: !!response });
-    } catch (_) {
+    } catch (error: unknown) {
         return NextResponse.json({ hasAnswered: false });
     }
 }

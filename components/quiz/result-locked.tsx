@@ -111,8 +111,8 @@ export function ResultLocked({ analysis }: Props) {
             try {
               // Force cookie refresh to ensure Next.js middleware gets up-to-date fields
               await authClient.getSession()
-            } catch (_) {
-              console.error("Session update failed:", err)
+            } catch (error: unknown) {
+              console.error("Session update failed:", error)
             }
             window.location.href = destination
           }}

@@ -21,7 +21,7 @@ export function PendingInvitations() {
       } else {
         setInvitations(data || []);
       }
-    } catch (_) {
+    } catch (error: unknown) {
       console.error(err);
     } finally {
       setIsLoading(false);

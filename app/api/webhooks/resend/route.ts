@@ -34,8 +34,8 @@ export async function POST(req: Request) {
         "svix-timestamp": svix_timestamp,
         "svix-signature": svix_signature,
       });
-    } catch (_) {
-      console.error("[RESEND_WEBHOOK] Invalid signature:", err);
+    } catch (error: unknown) {
+      console.error("[RESEND_WEBHOOK] Invalid signature:", error);
       return NextResponse.json({ message: "Invalid signature" }, { status: 401 });
     }
 
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ processed: true });
-  } catch (_) {
+  } catch (error: unknown) {
     await logError("Resend Webhook", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

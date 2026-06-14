@@ -50,7 +50,7 @@ export default function AdminNotificationsPage() {
       setTitle("");
       setMessage("");
       setLink("");
-    } catch (_) {
+    } catch (error: unknown) {
       toast.error("Erreur lors de la diffusion");
     } finally {
       setLoading(false);

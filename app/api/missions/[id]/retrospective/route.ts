@@ -74,7 +74,7 @@ export async function PATCH(
     });
 
     return NextResponse.json({ submission });
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[MISSION_RETROSPECTIVE]", error);
     return NextResponse.json({ message: "Erreur interne du système." }, { status: 500 });
   }

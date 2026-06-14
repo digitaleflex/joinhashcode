@@ -66,7 +66,7 @@ export function UXPollBanner() {
             localStorage.setItem("hashcode_ux_poll_dismissed", "true")
             setStep("thanks")
             setTimeout(() => setIsVisible(false), 3000)
-        } catch (_) {
+        } catch (error: unknown) {
             toast.error("Erreur lors de l'envoi du sondage.")
         } finally {
             setSubmitting(false)

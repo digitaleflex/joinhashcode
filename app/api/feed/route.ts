@@ -79,7 +79,7 @@ export async function GET() {
     return NextResponse.json({ events: finalEvents }, {
       headers: { "Cache-Control": "private, no-cache" },
     })
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[FEED_GET]", error)
     return NextResponse.json({ events: [] }, { status: 500, headers: { "Cache-Control": "private, no-cache" } })
   }

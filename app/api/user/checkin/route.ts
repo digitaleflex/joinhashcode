@@ -121,7 +121,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(result);
-  } catch (_) {
+  } catch (error: unknown) {
     console.error("[CHECKIN_POST]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
