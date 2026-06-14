@@ -131,6 +131,14 @@ export const emailService = {
     return this._send({ to: email, subject: `[HASHCODE] Initialisation terminée — Bienvenue, ${escHtml(firstName)} 👋`, html, text: stripHtml(content) });
   },
 
+  async sendWelcomeProfileEmail({ email, name, profileType }: { email: string; name: string; profileType: string }) {
+    return this.sendWelcomeEmail({ email, name }); // Placeholder for now
+  },
+
+  async sendWelcomePendingQuiz({ email, name }: { email: string; name: string }) {
+    return this.sendWelcomeEmail({ email, name }); // Placeholder for now
+  },
+
   async sendMissionProtocolEmail({ email, name, userClass }: { email: string; name: string; userClass: string }) {
     if (!resend) return { success: true, mocked: true };
 
@@ -154,7 +162,8 @@ export const emailService = {
     const html = generateEmailTemplate(content, "Passe du potentiel à l'action. Ta première mission t'attend.");
     return this._send({ to: email, subject: `[PROTOCOLE] Ta première mission HASHCODE — Prêt(e) ? 🎯`, html, text: stripHtml(content) });
   },
-
+  
+  // ... (keeping other methods as they were)
   async sendSquadPowerEmail({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
 
@@ -583,7 +592,7 @@ export const emailService = {
 
     const html = generateEmailTemplate(content, `${newMemberName} a rejoint ${squadName}. Ta squad compte maintenant ${memberCount} membres.`);
     return this._send({ to: leaderEmail, subject: `${escHtml(newMemberName)} vient de rejoindre ${escHtml(squadName)}`, html, text: stripHtml(content) });
-  },
+    },
 
   async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, level, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; level: number; missionsCount: number }) {
     if (!resend) return { success: true, mocked: true };
@@ -691,7 +700,7 @@ export const emailService = {
       if (error) return { success: false, error };
       return { success: true, data };
     } catch (_) {
-      return { success: false, error: err };
+      return { success: false, error };
     }
   },
 

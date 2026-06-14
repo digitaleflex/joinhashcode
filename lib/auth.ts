@@ -1,4 +1,5 @@
-import { betterAuth } from "better-auth";
+import * as betterAuthLib from "better-auth";
+const { betterAuth } = betterAuthLib;
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
