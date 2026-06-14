@@ -1,11 +1,11 @@
 "use client"
 
 import { useMemo } from "react"
+import dynamic from "next/dynamic"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShareCardDialog } from "./share-card-dialog"
 import {
   Zap,
   TrendingUp,
@@ -30,16 +30,20 @@ import { DailyCheckinWidget } from "./daily-checkin-widget"
 import { type Mission } from "@/lib/missions"
 import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
-import { NeuralFeed } from "./neural-feed"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
-import { MissionHistory } from "./mission-history"
 import { NextStepsCard } from "./next-steps-card"
-import { ReferralCard } from "./ReferralCard"
-import { AmbassadorGoal } from "./AmbassadorGoal"
-import { WelcomeModal } from "./welcome-modal"
 import { ActivationChecklist } from "./activation-checklist"
-import { LevelUpModal } from "./level-up-modal"
+import { getLevelProgress } from "@/lib/level-utils"
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
+
+const NeuralFeed = dynamic(() => import("./neural-feed").then((m) => m.NeuralFeed), { ssr: false })
+const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
+const ReferralCard = dynamic(() => import("./ReferralCard").then((m) => m.ReferralCard), { ssr: false })
+const AmbassadorGoal = dynamic(() => import("./AmbassadorGoal").then((m) => m.AmbassadorGoal), { ssr: false })
+const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
+const LevelUpModal = dynamic(() => import("./level-up-modal").then((m) => m.LevelUpModal), { ssr: false })
+const ShareCardDialog = dynamic(() => import("./share-card-dialog").then((m) => m.ShareCardDialog), { ssr: false })
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import {
