@@ -5,6 +5,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [2.4.0] — 2026-06-13
+
+### 🧠 Expérience Utilisateur & Pédagogie (Sprint Clarté)
+Cette release transforme l'application en un environnement auto-documenté, garantissant qu'aucun talent n'est laissé sans guide, quel que soit son support.
+
+#### Onboarding & Activation
+- **Checklist d'Activation (J+0)** — Nouveau guide visuel interactif en haut du Dashboard pour transformer les nouveaux inscrits en membres actifs (Profil, Squad, Mission).
+- **Auto-Onboarding** — Déclenchement automatique de la visite guidée interactive pour tout nouvel utilisateur (XP=0) avec persistance via `localStorage`.
+- **Campagne d'E-mails Stratégique** — Automatisation d'une série de 4 e-mails "Drip" (J0, J1, J3, J7) pour guider l'évolution du talent (Vibrance, Missions, Squad, Réputation).
+- **Calibration Neurale** — Introduction enrichie du Quiz de profilage et explications détaillées sur les résultats (Builder, Creator, Strategist, Catalyst).
+
+#### Accessibilité & Aide Contextuelle
+- **Omniprésence Documentaire** — Déploiement massif de tooltips pédagogiques expliquant le "Pourquoi" stratégique de chaque métrique (Niveau, XP, Série, Confiance, Activité).
+- **Mobile-First Help** — Ajout d'icônes d'information `(i)` intelligentes (`md:hidden`) sur mobile pour permettre l'ouverture des aides contextuelles au toucher.
+- **Réécriture Stratégique** — Refonte des textes d'aide pour passer d'une simple navigation à un véritable conseil tactique pour l'évolution de carrière.
+
+#### Sécurité & Fiabilité (Maintenance)
+- **Patch de Sécurité Dépendances** — Mise à jour critique de `vitest` (v3.2.6), `hono`, `vite` et `esbuild` pour corriger les vulnérabilités de lecture de fichiers et contournement CORS.
+- **Correction build Docker** — Optimisation des permissions `public/uploads` et support des URLs relatives pour les avatars utilisateur.
+- **Harnais de Test UX** — Mise en place de tests automatisés (Vitest) validant les moteurs d'onboarding et de campagne drip.
+
+#### Documentation
+- **UX Cockpit** — Création de `DOCS/UX_COCKPIT.md` définissant les nouveaux standards d'aide contextuelle et d'accessibilité mobile.
+- **Guide des E-mails** — Création de `DOCS/EMAIL_GUIDES.md` pour le pilotage de la communication sortante.
+
+---
+
 ## [2.3.0] — 2026-06-12
 
 ### 🛡️ Sécurité (Plan de Remédiation 20/20)
