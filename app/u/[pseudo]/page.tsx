@@ -165,7 +165,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
           user={user}
           activeOrg={activeOrg}
           quizResult={quizResult}
-          squadMembersLogs={squadMembersLogs}
           isPublic={true}
         />
       </main>

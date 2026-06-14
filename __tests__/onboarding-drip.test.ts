@@ -47,7 +47,7 @@ describe('Onboarding Drip Cron', () => {
 
     // Mock findMany to return users only for the first step (Day 1) to simplify
     vi.mocked(prisma.user.findMany)
-      .mockResolvedValueOnce(mockUsers) // Day 1
+      .mockResolvedValueOnce(mockUsers as any) // Day 1
       .mockResolvedValueOnce([])        // Day 3
       .mockResolvedValueOnce([]);       // Day 7
 

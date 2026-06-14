@@ -3,7 +3,6 @@
 import { createAuthClient } from "better-auth/react"
 import { magicLinkClient, emailOTPClient, adminClient, organizationClient, twoFactorClient } from "better-auth/client/plugins"
 import { passkeyClient } from "@better-auth/passkey/client"
-import type { auth } from "./auth"
 
 const client = createAuthClient({
     plugins: [
@@ -23,5 +22,7 @@ const client = createAuthClient({
 })
 
 export const authClient = client as any
+
+export type Session = typeof client.$Infer.Session
 
 export const { signIn, signUp, signOut, useSession } = authClient

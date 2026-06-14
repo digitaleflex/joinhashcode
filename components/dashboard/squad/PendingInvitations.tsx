@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Mail, Loader2 } from "lucide-react";
 
 export function PendingInvitations() {
+  const router = useRouter();
   const [invitations, setInvitations] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,7 +48,7 @@ export function PendingInvitations() {
       } else {
         toast.success(action === "accept" ? "Invitation acceptée !" : "Invitation refusée");
         fetchInvitations();
-        if (action === "accept") window.location.reload();
+        if (action === "accept") router.refresh();
       }
     } catch {
       toast.error("Erreur technique lors de l'action");

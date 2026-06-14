@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ interface OrgSettingsFormProps {
 }
 
 export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
+  const router = useRouter();
   const [name, setName] = useState(organization.name);
   const [slug, setSlug] = useState(organization.slug || "");
   const [description, setDescription] = useState(organization.description || "");
@@ -35,7 +37,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
         toast.error(data.error || "Erreur lors de la mise à jour");
       } else {
         toast.success("Paramètres tactiques mis à jour");
-        window.location.reload();
+        router.refresh();
       }
     } catch {
       toast.error("Une erreur inattendue est survenue");

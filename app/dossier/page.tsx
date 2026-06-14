@@ -164,7 +164,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
             user={user}
             activeOrg={activeOrg}
             quizResult={quizResult}
-            squadMembersLogs={squadMembersLogs}
             isInspecting={isInspecting}
           />
         </main>

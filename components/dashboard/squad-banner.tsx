@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Users, Copy, Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -18,6 +19,7 @@ interface SquadBannerProps {
 }
 
 export function SquadBanner({ user, squad }: SquadBannerProps) {
+  const router = useRouter()
   const [copied, setCopied] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [origin, setOrigin] = useState("")
@@ -51,7 +53,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
       })
       if (!res.ok) throw new Error()
       toast.success("Escouade créée !")
-      window.location.reload()
+      router.refresh()
     } catch {
       toast.error("Erreur lors de la création, réessaie.")
     } finally {

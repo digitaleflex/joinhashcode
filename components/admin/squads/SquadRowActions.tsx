@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { MoreHorizontal, ShieldAlert, Crown, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import {
@@ -44,6 +45,7 @@ interface SquadRowActionsProps {
 }
 
 export function SquadRowActions({ squad }: SquadRowActionsProps) {
+  const router = useRouter()
   const [isDisbandDialogOpen, setIsDisbandDialogOpen] = useState(false)
   const [disbandConfirmText, setDisbandConfirmText] = useState("")
   const [isPending, setIsPending] = useState(false)
@@ -62,7 +64,7 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
         throw new Error(data.error || "Erreur lors du transfert.")
       }
       toast.success(`Leadership transféré à ${memberName}`)
-      window.location.reload()
+      router.refresh()
     } catch (error: any) {
       toast.error(error.message)
     } finally {
@@ -83,7 +85,7 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
         throw new Error(data.error || "Erreur lors de la dissolution.")
       }
       toast.success("Escouade dissoute (Force admin)")
-      window.location.reload()
+      router.refresh()
     } catch (error: any) {
       toast.error(error.message)
     } finally {
@@ -136,7 +138,7 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
             className="text-rose-500 hover:bg-rose-500/10 hover:text-rose-400 cursor-pointer mt-1"
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            <span>Dissoudre l'Escouade</span>
+            <span>Dissoudre l&apos;Escouade</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -149,7 +151,7 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
               Dissolution Forcée (Admin)
             </DialogTitle>
             <DialogDescription className="text-zinc-400">
-              Vous êtes sur le point de supprimer l'escouade <strong className="text-white">{squad.name}</strong>. Tous ses membres perdront leur progression de groupe.
+              Vous êtes sur le point de supprimer l&apos;escouade <strong className="text-white">{squad.name}</strong>. Tous ses membres perdront leur progression de groupe.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 
 export function TwoFactorSetup({ user }: { user: any }) {
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [totpData, setTotpData] = useState<{ totpURI: string; backupCodes: string[] } | null>(null);
   const [verificationCode, setVerificationCode] = useState("");
@@ -56,7 +58,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.error(error.message || "Code invalide");
       } else {
         toast.success("Double authentification activée !");
-        window.location.reload();
+        router.refresh();
       }
     } catch (err) {
       toast.error("Erreur technique");
@@ -78,7 +80,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.error(error.message);
       } else {
         toast.success("2FA désactivée");
-        window.location.reload();
+        router.refresh();
       }
     } catch (err) {
       toast.error("Erreur technique");
@@ -182,7 +184,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
                 </div>
 
                 <Button className="w-full h-12 uppercase font-bold" onClick={() => setStep("verify")}>
-                    J"ai scanné le code
+                    J&apos;ai scanné le code
                 </Button>
               </div>
             )}
@@ -202,7 +204,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
                     />
                 </div>
                 <Button type="submit" className="w-full h-12 uppercase font-bold" disabled={isPending}>
-                    {isPending ? "Activation..." : "Finaliser l\"activation"}
+                    {isPending ? "Activation..." : "Finaliser l&apos;activation"}
                 </Button>
                 <button type="button" className="w-full text-[10px] text-zinc-600 hover:text-zinc-400 underline" onClick={() => setStep("setup")}>
                     Retour au QR Code

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Users, UserPlus, Copy, Check, ShieldAlert, ShieldCheck, Zap, Loader2, Settings, Mail, UserSearch, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/tooltip"
 
 export function SquadLobby({ user, squad }: { user: any, squad: any }) {
+    const router = useRouter()
     const [isCopying, setIsLocked] = useState(false)
     const [isCreating, setIsCreating] = useState(false)
     
@@ -66,7 +68,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                 throw new Error(text || "Erreur lors de la création de l'escouade.")
             }
             toast.success("Escouade créée avec succès !")
-            window.location.reload()
+            router.refresh()
         } catch (error: any) {
             toast.error(error.message || "Erreur lors de la création de l'escouade.")
             console.error(error)
@@ -110,7 +112,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                             </DialogTrigger>
                             <DialogContent className="max-w-2xl bg-zinc-950 border-white/10 text-white">
                                 <DialogHeader>
-                                    <DialogTitle className="text-xl font-bold uppercase italic tracking-tight">Configuration de l"Escouade</DialogTitle>
+                                    <DialogTitle className="text-xl font-bold uppercase italic tracking-tight">Configuration de l&apos;Escouade</DialogTitle>
                                 </DialogHeader>
                                 <Tabs defaultValue="members" className="mt-4">
                                     <TabsList className="bg-zinc-900 border-white/5 grid grid-cols-5 h-auto p-1">
@@ -290,7 +292,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                            Reflète l'activité globale du groupe. Si un membre s'arrête de build, ce score baisse.
+                                            Reflète l&apos;activité globale du groupe. Si un membre s&apos;arrête de build, ce score baisse.
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>

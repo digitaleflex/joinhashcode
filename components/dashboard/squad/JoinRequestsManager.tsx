@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Loader2 } from "lucide-react";
 
 export function JoinRequestsManager({ organizationId }: { organizationId: string }) {
+  const router = useRouter();
   const [requests, setRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,7 +42,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
       
       toast.success(action === "accept" ? "Agent recruté !" : "Candidature refusée");
       fetchRequests();
-      if (action === "accept") window.location.reload();
+      if (action === "accept") router.refresh();
     } catch {
       toast.error("Erreur technique");
     }

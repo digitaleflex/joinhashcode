@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getCachedUser } from "@/lib/user-cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -14,22 +14,24 @@ export async function GET() {
       return NextResponse.json({ session: null, user: null });
     }
 
-    // Récupère l'utilisateur en BDD de manière fraîche pour bypasser le cache JWT stale
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        banned: true,
-        banExpires: true,
-        currentSituation: true,
-        class: true,
-        role: true,
-      },
-    });
+    // Utilise le cache Redis pour éviter le hit DB sur chaque page chargée
+    const user = await getCachedUser(session.user.id);
 
+    if (!user) {
+      return NextResponse.json({ session: null, user: null });
+    }
+
+    // Retourne uniquement les champs nécessaires au middleware pour rester léger
     return NextResponse.json({
       session,
-      user,
+      user: {
+        id: user.id,
+        banned: user.banned,
+        banExpires: user.banExpires,
+        currentSituation: user.currentSituation,
+        class: user.class,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("🟢 [Middleware Session API] Error getting unified session/user:", error);

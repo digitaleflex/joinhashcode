@@ -5,6 +5,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [2.5.0] — 2026-06-13
+
+### 🛡️ Solidification & Gamification Elite (Opération Phoenix)
+Cette release marque la fin du cycle de consolidation technique et l'explosion du système de récompenses.
+
+#### Dette Technique & Performance
+- **Éradication des types `as any`** — Nettoyage en profondeur du client d'authentification et du moteur d'évolution pour une sécurité de type totale (TSC Green).
+- **Zéro Rechargement Brutal** — Remplacement des `window.location.reload()` par des `router.refresh()` pour une fluidité SPA parfaite.
+- **Middleware Optimisé** — Intégration du cache Redis dans le middleware de session, réduisant les hits DB de 50%.
+
+#### Gamification Elite
+- **Expansion Massive des Badges** — Passage de 5 à **32 badges originaux** (Rangs, Missions, Discipline, Spécialisation, Social, Qualité).
+- **Moteur de Célébration (Wow Effect)** — Nouvelle séquence de révélation neurale après le quiz et modal de montée en grade avec effets de confettis.
+
+#### UX & Cohérence
+- **Dossier Tactique Unifié** — Refonte des vues publiques et privées avec typage strict et suppression des dépendances inutilisées.
+- **Accessibilité Mobile Initiale** — Harmonisation de la navigation mobile sur les pages critiques.
+
+---
+
 ## [2.4.0] — 2026-06-13
 
 ### 🧠 Expérience Utilisateur & Pédagogie (Sprint Clarté)
