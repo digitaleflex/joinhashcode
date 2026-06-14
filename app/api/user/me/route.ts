@@ -58,5 +58,5 @@ export async function GET() {
     twoFactorEnabled: user.twoFactorEnabled,
   };
 
-  return NextResponse.json(safeUser);
+  return NextResponse.json(safeUser, { headers: { "Cache-Control": "private, no-cache" } });
 }

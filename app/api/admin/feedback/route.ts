@@ -100,8 +100,8 @@ export const PATCH = async (req: NextRequest) => {
             message: `Ton feedback a été résolu ! Tu reçois +${FEEDBACK_XP_REWARD} XP pour ta contribution.`,
             link: "/dashboard",
           });
-        } catch (_) {
-          console.error("Notification Error:", err);
+        } catch (error) {
+          console.error("Notification Error:", error);
         }
       }
 
@@ -118,8 +118,9 @@ export const PATCH = async (req: NextRequest) => {
     }
 
     return NextResponse.json({ success: true });
-  } catch (_) {
-    console.error("Admin Feedback API Error:", error);
+  } catch (e: any) {
+    console.error("Admin Feedback API Error:", e);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
-};
+  };
+

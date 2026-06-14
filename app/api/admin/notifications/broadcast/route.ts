@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ count: users.length });
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_NOTIFICATIONS_BROADCAST]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

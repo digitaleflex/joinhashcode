@@ -39,7 +39,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(keys);
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_KEYS_GET]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(createdKeys);
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_KEYS_POST]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

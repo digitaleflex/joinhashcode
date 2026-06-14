@@ -49,7 +49,7 @@ export async function DELETE(
     }
 
     return new NextResponse(null, { status: 204 });
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_KEYS_DELETE]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

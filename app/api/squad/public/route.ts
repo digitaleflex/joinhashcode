@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
     const cacheKey = `public_squads_${limit}_${cursor || "none"}`;
     const cached = await getCache(cacheKey);
-    if (cached) return NextResponse.json(cached);
+    if (cached) return NextResponse.json(cached, { headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
 
     const squads = await prisma.organization.findMany({
       where: {
@@ -51,9 +51,9 @@ export async function GET(req: Request) {
 
     setCache(cacheKey, result, 300);
 
-    return NextResponse.json(result);
+    return NextResponse.json(result, { headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
   } catch (_) {
     console.error("[SQUAD_PUBLIC_GET]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500, headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
   }
 }

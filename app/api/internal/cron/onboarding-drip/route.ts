@@ -74,7 +74,7 @@ export async function POST(req: Request) {
           });
 
           totalSent++;
-        } catch (err) {
+        } catch (_) {
           console.error(`[CRON_ONBOARDING_DRIP] Failed to send Day ${step.day} to ${user.id}:`, err);
         }
       }
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       details: { d1: d1.start, d3: d3.start, d7: d7.start }
     });
 
-  } catch (error) {
+  } catch (_) {
     console.error("[CRON_ONBOARDING_DRIP_ERROR]", error);
     return NextResponse.json({ message: "Erreur interne lors du traitement du drip." }, { status: 500 });
   }

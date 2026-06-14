@@ -2,12 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import dynamic from "next/dynamic";
-
-const SquadJourney = dynamic(
-    () => import("@/components/dashboard/squad-journey").then((mod) => mod.SquadJourney),
-    { ssr: false }
-);
+import SquadPageClient from "./squad-page-client";
 
 export default async function SquadPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -89,12 +84,5 @@ export default async function SquadPage() {
     })),
   } : dbSquad;
 
-  return (
-    <div id="tour-squad-journey" className="h-full w-full">
-      <SquadJourney
-        user={dbUser || (session.user as any)}
-        squad={squad}
-      />
-    </div>
-  );
+  return <SquadPageClient user={dbUser || (session.user as any)} squad={squad} />;
 }

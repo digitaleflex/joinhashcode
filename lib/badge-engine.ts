@@ -14,10 +14,13 @@ export interface ExtendedUserForBadges {
   squadId?: string | null;
 }
 
+export type BadgeRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
+
 export interface BadgeDefinition {
   id: string;
   name: string;
   description: string;
+  rarity: BadgeRarity;
   criteria: (user: ExtendedUserForBadges) => boolean;
 }
 
@@ -27,24 +30,28 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "INITIE",
     name: "Initié",
     description: "Atteindre le niveau 2.",
+    rarity: "COMMON",
     criteria: (user) => user.level >= 2,
   },
   {
     id: "VETERAN",
     name: "Vétéran",
     description: "Atteindre le niveau 5.",
+    rarity: "RARE",
     criteria: (user) => user.level >= 5,
   },
   {
     id: "ELITE",
     name: "Élite",
     description: "Atteindre le niveau 10.",
+    rarity: "EPIC",
     criteria: (user) => user.level >= 10,
   },
   {
     id: "LEGENDE",
     name: "Légende",
     description: "Atteindre le niveau 50.",
+    rarity: "LEGENDARY",
     criteria: (user) => user.level >= 50,
   },
 
@@ -53,24 +60,28 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "PREMIERE_PREUVE",
     name: "Première Preuve",
     description: "Compléter sa toute première mission.",
+    rarity: "COMMON",
     criteria: (user) => user.missionsCompletedCount >= 1,
   },
   {
     id: "BOURREAU_TRAVAIL",
     name: "Bourreau de Travail",
     description: "Compléter 25 missions.",
+    rarity: "RARE",
     criteria: (user) => user.missionsCompletedCount >= 25,
   },
   {
     id: "METRONOME",
     name: "Métronome",
     description: "Compléter 50 missions.",
+    rarity: "EPIC",
     criteria: (user) => user.missionsCompletedCount >= 50,
   },
   {
     id: "LA_MACHINE",
     name: "La Machine",
     description: "Compléter 100 missions.",
+    rarity: "LEGENDARY",
     criteria: (user) => user.missionsCompletedCount >= 100,
   },
 
@@ -79,18 +90,21 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "REGULIER",
     name: "Régulier",
     description: "Maintenir une série de 7 jours de check-ins.",
+    rarity: "COMMON",
     criteria: (user) => (user.currentStreak ?? 0) >= 7,
   },
   {
     id: "INFLEXIBLE",
     name: "Inflexible",
     description: "Maintenir une série de 30 jours de check-ins.",
+    rarity: "EPIC",
     criteria: (user) => (user.currentStreak ?? 0) >= 30,
   },
   {
     id: "INARRETABLE",
     name: "Inarrêtable",
     description: "Maintenir une série de 100 jours de check-ins.",
+    rarity: "LEGENDARY",
     criteria: (user) => (user.currentStreak ?? 0) >= 100,
   },
 
@@ -99,30 +113,35 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "ARCHITECTE",
     name: "Architecte",
     description: "Compléter 10 missions de type CODE.",
-    criteria: (user) => (user.vibrancy?.builder ?? 0) >= 100, // Basé sur le score d'évolution
+    rarity: "RARE",
+    criteria: (user) => (user.vibrancy?.builder ?? 0) >= 100,
   },
   {
     id: "VISIONNAIRE",
     name: "Visionnaire",
     description: "Compléter 10 missions de type DESIGN.",
+    rarity: "RARE",
     criteria: (user) => (user.vibrancy?.creator ?? 0) >= 100,
   },
   {
     id: "STRATEGE",
     name: "Stratège",
     description: "Compléter 10 missions de type BUSINESS.",
+    rarity: "RARE",
     criteria: (user) => (user.vibrancy?.strategist ?? 0) >= 100,
   },
   {
     id: "CATALYSEUR",
     name: "Catalyseur",
     description: "Compléter 10 missions de type NETWORK.",
+    rarity: "RARE",
     criteria: (user) => (user.vibrancy?.catalyst ?? 0) >= 100,
   },
   {
     id: "POLYMATH",
     name: "Polymath",
     description: "Avoir au moins 50 points dans chaque vecteur comportemental.",
+    rarity: "LEGENDARY",
     criteria: (user) => 
       (user.vibrancy?.builder ?? 0) >= 50 && 
       (user.vibrancy?.creator ?? 0) >= 50 && 
@@ -135,25 +154,29 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "RECRUTEUR",
     name: "Recruteur",
     description: "Inviter un nouveau membre actif.",
+    rarity: "COMMON",
     criteria: (user) => (user.referralCount ?? 0) >= 1,
   },
   {
     id: "GROWTH_HACKER",
     name: "Growth Hacker",
     description: "Parrainer 5 membres actifs.",
+    rarity: "EPIC",
     criteria: (user) => (user.referralCount ?? 0) >= 5,
   },
   {
     id: "BATISSEUR_TRIBU",
     name: "Bâtisseur de Tribu",
     description: "Parrainer 20 membres actifs.",
+    rarity: "LEGENDARY",
     criteria: (user) => (user.referralCount ?? 0) >= 20,
   },
   {
     id: "FRERE_ARMES",
     name: "Frère d'Armes",
     description: "Être membre d'une escouade complète (5 agents).",
-    criteria: (user) => !!user.squadId, // Simplifié
+    rarity: "RARE",
+    criteria: (user) => !!user.squadId,
   },
 
   // --- TIER 6: QUALITÉ & CONTRIBUTIONS ---
@@ -161,25 +184,29 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "ZERO_FAUTE",
     name: "Zéro Faute",
     description: "Compléter 5 missions sans aucune demande de révision.",
-    criteria: (user) => false, // Logique complexe nécessitant un compteur en DB
+    rarity: "EPIC",
+    criteria: (user) => false,
   },
   {
     id: "MENTOR",
     name: "Mentor",
     description: "Effectuer 10 reviews de missions approuvées.",
+    rarity: "RARE",
     criteria: (user) => (user.reviewsCount ?? 0) >= 10,
   },
   {
     id: "EXPERT_CERTIFIE",
     name: "Expert Certifié",
     description: "Effectuer 50 reviews de missions.",
+    rarity: "LEGENDARY",
     criteria: (user) => (user.reviewsCount ?? 0) >= 50,
   },
   {
     id: "L_EXEMPLAIRE",
     name: "L'Exemplaire",
     description: "Obtenir 5 fois le niveau de qualité 'EXEMPLARY'.",
-    criteria: (user) => false, // Logique complexe
+    rarity: "LEGENDARY",
+    criteria: (user) => false,
   },
 
   // --- SPÉCIAUX ---
@@ -187,12 +214,14 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "EARLY_ADOPTER",
     name: "Pionnier",
     description: "Membre de la phase Bêta.",
+    rarity: "RARE",
     criteria: (_user) => true,
   },
   {
     id: "SYNCHRO_GOLD",
     name: "Sync Gold",
     description: "Atteindre une cohésion de 100% avec ton escouade.",
+    rarity: "EPIC",
     criteria: (user) => false,
   }
 ];

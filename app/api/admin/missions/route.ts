@@ -54,7 +54,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(missions);
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_MISSIONS_GET]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(mission);
-  } catch (_) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.errors, { status: 400 });
     }

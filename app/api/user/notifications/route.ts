@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     where: { userId: session.user.id, isRead: false },
   });
 
-  return NextResponse.json({ notifications, unreadCount });
+  return NextResponse.json({ notifications, unreadCount }, { headers: { "Cache-Control": "private, no-cache" } });
 }
 
 export async function PATCH(req: NextRequest) {

@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const cacheKey = "squad_leaderboard";
     const cached = await getCache(cacheKey);
-    if (cached) return NextResponse.json(cached);
+    if (cached) return NextResponse.json(cached, { headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
 
     const squads = await prisma.organization.findMany({
       where: { isPrivate: false },
@@ -43,9 +43,9 @@ export async function GET() {
     }));
 
     setCache(cacheKey, ranked, 120);
-    return NextResponse.json(ranked);
+    return NextResponse.json(ranked, { headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
   } catch (_) {
     console.error("[SQUAD_LEADERBOARD]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500, headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
   }
 }

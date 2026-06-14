@@ -77,10 +77,10 @@ export async function GET() {
     const finalEvents = events.slice(0, 5)
 
     return NextResponse.json({ events: finalEvents }, {
-      headers: { "Cache-Control": "public, max-age=30, stale-while-revalidate=60" },
+      headers: { "Cache-Control": "private, no-cache" },
     })
   } catch (_) {
     console.error("[FEED_GET]", error)
-    return NextResponse.json({ events: [] }, { status: 500 })
+    return NextResponse.json({ events: [] }, { status: 500, headers: { "Cache-Control": "private, no-cache" } })
   }
 }

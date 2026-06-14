@@ -116,8 +116,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
             newLevel,
           });
         }
-      } catch (_) {
-        console.error("[NOTIFICATION_ERROR]", err);
+      } catch (error) {
+        console.error("[NOTIFICATION_ERROR]", error);
       }
 
       logActivity({
@@ -155,8 +155,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           message: feedback || "Ta soumission nécessite des améliorations. Consulte le feedback.",
           link: `/missions/${submission.missionId}`
         });
-      } catch (_) {
-        console.error("[NOTIFICATION_ERROR]", err);
+      } catch (error) {
+        console.error("[NOTIFICATION_ERROR]", error);
       }
 
       emailService.sendMissionNeedsRevision({
@@ -193,8 +193,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           message: feedback || "Ta soumission n'a pas été retenue.",
           link: "/missions"
         });
-      } catch (_) {
-        console.error("[NOTIFICATION_ERROR]", err);
+      } catch (error) {
+        console.error("[NOTIFICATION_ERROR]", error);
       }
 
       emailService.sendMissionRejected({
@@ -217,7 +217,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     return NextResponse.json({ message: "Invalid action" }, { status: 400 });
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_SUBMISSION_PATCH]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

@@ -18,5 +18,5 @@ export async function GET() {
   return NextResponse.json({
     database: dbStatus,
     email: emailStatus.connected ? "online" : "mocked",
-  });
+  }, { headers: { "Cache-Control": "public, max-age=30, s-maxage=30" } });
 }

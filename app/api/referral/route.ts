@@ -31,7 +31,7 @@ export async function GET() {
       referralCode: user!.referralCode,
       referralCount: user!.referralCount,
       referrals: user!.referrals,
-    });
+    }, { headers: { "Cache-Control": "private, no-cache" } });
   } catch (_) {
     return handleApiError(error, "REFERRAL_GET");
   }

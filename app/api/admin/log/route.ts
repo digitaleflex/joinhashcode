@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (_) {
+  } catch (error) {
     console.error("[ADMIN_LOG_API_ERROR]", error);
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }

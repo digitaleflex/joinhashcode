@@ -23,7 +23,7 @@ export function FeedbackStatusToggle({ id, currentStatus }: { id: string, curren
 
             toast.success(`Statut mis à jour : ${newStatus}`)
             router.refresh()
-        } catch (_) {
+        } catch (error) {
             toast.error("Échec de la mise à jour du statut.")
             console.error(error)
         } finally {
