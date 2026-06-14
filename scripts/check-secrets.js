@@ -1,9 +1,9 @@
-const { execSync } = require('child_process');
-const path = require('path');
+import { execSync } from 'child_process';
+import path from 'path';
 
 const patterns = [
   "AKIA[0-9A-Z]{16}", // AWS
-  "sk_live_",         // Stripe
+  "sk_live_[a-zA-Z0-9]{32,}", // Stripe (plus spécifique)
   "ghp_[a-zA-Z0-9]{36}", // GitHub
   "-----BEGIN.*PRIVATE KEY-----" // SSH/PEM
 ];
@@ -13,8 +13,8 @@ console.log('🔍 Scanning for secrets...');
 let found = false;
 patterns.forEach(pattern => {
   try {
-    // Search in ts, tsx, js, json, md, excluding node_modules, .next, .git
-    const cmd = `grep -rnE "${pattern}" . --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git --include="*.ts" --include="*.tsx" --include="*.js" --include="*.json" --include="*.md" 2>/dev/null`;
+    // Search in ts, tsx, js, json, md, excluding node_modules, .next, .git, et le script lui-même
+    const cmd = `grep -rnE "${pattern}" . --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git --exclude="check-secrets.js" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.json" --include="*.md" 2>/dev/null`;
     const output = execSync(cmd).toString();
     if (output) {
       console.error(`❌ Potential secret found with pattern ${pattern}:`);
