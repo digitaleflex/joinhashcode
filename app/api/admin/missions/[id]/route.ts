@@ -75,7 +75,7 @@ export async function PUT(
     });
 
     return NextResponse.json(mission);
-  } catch (error) {
+  } catch (_) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(error.errors, { status: 400 });
     }
@@ -114,7 +114,7 @@ export async function DELETE(
     }
 
     return new NextResponse(null, { status: 204 });
-  } catch (error) {
+  } catch (_) {
     console.error("[ADMIN_MISSIONS_DELETE]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

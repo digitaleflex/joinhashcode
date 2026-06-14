@@ -62,7 +62,7 @@ export async function checkRateLimit(
   try {
     const { success, reset } = await limiter.limit(identifier)
     return { limited: !success, reset }
-  } catch (error) {
+  } catch (_) {
     console.error("[RATELIMIT_ERROR]", error);
     // Fail closed on Redis error in production
     return { limited: process.env.NODE_ENV === "production" };

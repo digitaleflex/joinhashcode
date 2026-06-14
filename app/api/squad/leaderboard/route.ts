@@ -44,7 +44,7 @@ export async function GET() {
 
     setCache(cacheKey, ranked, 120);
     return NextResponse.json(ranked);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_LEADERBOARD]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

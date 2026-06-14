@@ -43,7 +43,7 @@ export default function AdminMissionsPage() {
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setMissions(data);
-    } catch (error) {
+    } catch (_) {
       toast.error("Erreur lors du chargement des missions");
     } finally {
       setLoading(false);
@@ -64,7 +64,7 @@ export default function AdminMissionsPage() {
       if (!response.ok) throw new Error("Failed to delete");
       toast.success("Mission supprimée");
       fetchMissions();
-    } catch (error) {
+    } catch (_) {
       toast.error("Erreur lors de la suppression");
     }
   };

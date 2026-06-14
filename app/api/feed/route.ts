@@ -79,7 +79,7 @@ export async function GET() {
     return NextResponse.json({ events: finalEvents }, {
       headers: { "Cache-Control": "public, max-age=30, stale-while-revalidate=60" },
     })
-  } catch (error) {
+  } catch (_) {
     console.error("[FEED_GET]", error)
     return NextResponse.json({ events: [] }, { status: 500 })
   }

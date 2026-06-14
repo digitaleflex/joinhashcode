@@ -100,7 +100,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(request);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_JOIN_REQUEST_POST]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
@@ -148,7 +148,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(requests);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_JOIN_REQUEST_GET]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

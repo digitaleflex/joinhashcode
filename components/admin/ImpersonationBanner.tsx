@@ -19,7 +19,7 @@ export function ImpersonationBanner() {
             await authClient.admin.stopImpersonating()
             toast.success("Retour au compte administrateur")
             window.location.href = "/admin/users"
-        } catch (error) {
+        } catch (_) {
             toast.error("Erreur lors de l'arrêt de l'impersonification")
         } finally {
             setIsStopping(false)

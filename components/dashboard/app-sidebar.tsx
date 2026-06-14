@@ -11,7 +11,6 @@ import {
   MoreHorizontal,
   LogOut,
   ShieldAlert,
-  MessageSquarePlus,
   Activity,
   Users,
   ClipboardCheck,
@@ -41,7 +40,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
-import { cn } from "@/lib/utils"
 import { getLevelProgress } from "@/lib/level-utils"
 import { DailyCheckinDialog } from "./daily-checkin-dialog"
 import { BetaFeedbackDialog } from "./beta-feedback-dialog"

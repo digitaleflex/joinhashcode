@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, Shield, AlertTriangle, TrendingDown } from "lucide-react"
+import { Users, Zap, Shield, AlertTriangle } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { SquadRowActions } from "@/components/admin/squads/SquadRowActions"

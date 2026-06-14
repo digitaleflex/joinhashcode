@@ -3,17 +3,12 @@
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
-  Zap, 
   Cpu, 
   Target, 
   ChevronRight, 
-  Check, 
   Plus, 
   Search, 
-  Sparkles, 
-  ShieldAlert,
-  Loader2,
-  Layout
+  Sparkles
 } from "lucide-react"
 import { TECH_TREE, SPECIALIZATION_QUIZ } from "@/lib/tech-tree"
 import { Button } from "@/components/ui/button"

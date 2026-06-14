@@ -2,42 +2,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  FileText,
-  Brain,
-  User as UserIcon,
-  Globe,
-  Target,
-  ShieldCheck,
-  Zap,
-  Medal,
-  ChevronRight,
-  Fingerprint,
-  Activity,
-  Cpu,
-  Flame,
-  TrendingUp,
-  History,
-  Users,
-  Share2,
-  Download,
-  Lightbulb
-} from "lucide-react";
-import { Github, Linkedin } from "@/components/ui/brand-icons";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+
+
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { BottomNav } from "@/components/dashboard/bottom-nav";
-import { Button } from "@/components/ui/button";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
-import { MemberCard } from "@/components/ui/member-card";
-import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
-import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
-import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 import { DossierView } from "@/components/dossier/dossier-view";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 

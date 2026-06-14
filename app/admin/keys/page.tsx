@@ -15,7 +15,6 @@ import {
   Plus, 
   Trash2, 
   Key, 
-  User, 
   CheckCircle2, 
   Clock,
   RefreshCcw,
@@ -37,7 +36,7 @@ export default function AdminKeysPage() {
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setKeys(data);
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors du chargement des clés");
     } finally {
       setLoading(false);
@@ -59,7 +58,7 @@ export default function AdminKeysPage() {
       if (!response.ok) throw new Error("Failed to generate");
       toast.success(`${generateCount} clé(s) générée(s)`);
       fetchKeys();
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de la génération");
     } finally {
       setGenerating(false);
@@ -76,7 +75,7 @@ export default function AdminKeysPage() {
       if (!response.ok) throw new Error("Failed to delete");
       toast.success("Clé révoquée");
       fetchKeys();
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de la révocation");
     }
   };

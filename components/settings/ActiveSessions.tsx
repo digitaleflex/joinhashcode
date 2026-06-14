@@ -24,7 +24,7 @@ export function ActiveSessions() {
                 return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
             })
             setSessions(sorted)
-        } catch (error) {
+        } catch (_) {
             console.error(error)
             toast.error("Erreur lors du chargement des sessions")
         } finally {
@@ -45,7 +45,7 @@ export function ActiveSessions() {
             if (error) throw error
             toast.success("Session déconnectée avec succès")
             setSessions(prev => prev.filter(s => s.id !== id))
-        } catch (error) {
+        } catch (_) {
             toast.error("Erreur lors de la déconnexion de l'appareil")
         } finally {
             setRevokingId(null)
@@ -60,7 +60,7 @@ export function ActiveSessions() {
             if (error) throw error
             toast.success("Tous les autres appareils ont été déconnectés")
             fetchSessions()
-        } catch (error) {
+        } catch (_) {
             toast.error("Erreur lors de la déconnexion globale")
             setLoading(false)
         }

@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         messages: purgedMessages.count
       }
     });
-  } catch (error) {
+  } catch (_) {
     console.error("[CRON_PURGE_DATA_ERROR]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

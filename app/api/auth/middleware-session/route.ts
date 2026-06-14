@@ -35,7 +35,7 @@ export async function GET() {
       session,
       user: safeUser,
     });
-  } catch (error) {
+  } catch (_) {
     console.error("🟢 [Middleware Session API] Error getting unified session/user:", error);
     return NextResponse.json({ session: null, user: null, error: "Internal Server Error" }, { status: 500 });
   }

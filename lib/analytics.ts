@@ -35,7 +35,7 @@ export async function trackEvent(
           timestamp: new Date().toISOString()
         }),
       });
-    } catch (err) {
+    } catch (_) {
       console.error("[ANALYTICS_CAPTURE_FAILED]", err);
     }
   }

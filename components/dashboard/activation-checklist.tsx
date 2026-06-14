@@ -1,11 +1,11 @@
 "use client"
 
-import { CheckCircle2, Circle, User, Users, Target, Sparkles, ChevronRight } from "lucide-react"
+import { CheckCircle2, User, Users, Target, Sparkles, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 
 interface ActivationChecklistProps {
   user: any

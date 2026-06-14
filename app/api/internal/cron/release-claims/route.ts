@@ -92,7 +92,7 @@ export async function POST(req: Request) {
       released: result.count,
       ids: staleIds,
     });
-  } catch (error) {
+  } catch (_) {
     console.error("[CRON_RELEASE_CLAIMS_ERROR]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

@@ -78,7 +78,7 @@ export async function PATCH(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_ROLE_UPDATE_ERROR]", error);
     return NextResponse.json({ message: "Erreur lors de la mise à jour du rôle." }, { status: 500 });
   }

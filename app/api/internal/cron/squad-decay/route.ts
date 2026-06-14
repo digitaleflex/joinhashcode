@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       message: `Décomposition de la cohésion terminée pour ${result} escouades.`,
       decayAmount: 0.1
     });
-  } catch (error) {
+  } catch (_) {
     console.error("[CRON_SQUAD_DECAY_ERROR]", error);
     return NextResponse.json({ message: "Erreur interne lors du traitement de la décomposition." }, { status: 500 });
   }

@@ -146,10 +146,18 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          await emailService.sendWelcomeEmail({
-            email: user.email,
-            name: user.name,
-          });
+          if ((user as any).class) {
+            await emailService.sendWelcomeProfileEmail({
+              email: user.email,
+              name: user.name,
+              profileType: (user as any).class,
+            });
+          } else {
+            await emailService.sendWelcomePendingQuiz({
+              email: user.email,
+              name: user.name,
+            });
+          }
 
           const referralCode = (user as any).pseudo?.toLowerCase() ||
             `${user.name.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;

@@ -15,7 +15,7 @@ export function SquadDiscovery() {
         if (!response.ok) throw new Error("Échec du chargement");
         const json = await response.json();
         setSquads(json.data || []); // json.data instead of json
-      } catch (err) {
+      } catch (_) {
         console.error(err);
       } finally {
         setIsLoading(false);

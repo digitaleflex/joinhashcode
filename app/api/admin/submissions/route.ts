@@ -70,7 +70,7 @@ export async function GET(req: Request) {
     ]);
 
     return NextResponse.json({ submissions, total, page, limit });
-  } catch (error) {
+  } catch (_) {
     console.error("[ADMIN_SUBMISSIONS_GET]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

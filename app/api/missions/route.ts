@@ -218,7 +218,7 @@ export async function POST(req: Request) {
       bonusXp: SYNC_BONUS_XP, 
       missionXp: xpToAward
     });
-  } catch (error) {
+  } catch (_) {
     console.error("[MISSION_SUBMIT]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

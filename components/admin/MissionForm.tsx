@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -103,7 +102,7 @@ export function MissionForm({ initialData, onSuccess }: MissionFormProps) {
 
       toast.success(initialData ? "Mission mise à jour" : "Mission créée");
       onSuccess();
-    } catch (error) {
+    } catch (_) {
       toast.error("Une erreur est survenue");
     } finally {
       setLoading(false);

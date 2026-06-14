@@ -123,7 +123,7 @@ export default async function MissionsPage() {
         select: { id: true },
       }),
     ])
-  } catch (err) {
+  } catch (_) {
     console.error("[MISSIONS_PAGE] DB fetch failed:", err)
     throw err // propagates to app/missions/error.tsx
   }

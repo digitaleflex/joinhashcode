@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "lib/**/*.ts",
+    "components/**/*.{ts,tsx}",
+    "hooks/**/*.ts",
+    "types/**/*.d.ts"
+  ],
+  "project": ["**/*.{ts,tsx}"],
+  "ignore": [
+    "eslint.config.mjs",
+    "next.config.mjs",
+    "postcss.config.mjs",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "prisma/seed.ts",
+    "scripts/**"
+  ]
+}

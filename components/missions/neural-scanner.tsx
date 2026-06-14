@@ -5,10 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { 
   Zap, 
   Search, 
-  Cpu, 
-  ShieldCheck, 
-  CheckCircle2,
-  Loader2,
+  Cpu,
   Fingerprint,
   Radio
 } from "lucide-react"

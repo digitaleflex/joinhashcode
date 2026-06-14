@@ -112,7 +112,7 @@ export async function GET(req: Request) {
         "Content-Disposition": `attachment; filename=hashcode-users-export-${new Date().toISOString().split('T')[0]}.csv`,
       },
     });
-  } catch (error) {
+  } catch (_) {
     console.error("[ADMIN_USERS_EXPORT_GET]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }

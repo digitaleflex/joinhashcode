@@ -45,7 +45,7 @@ export function SignInForm() {
                 provider: "google",
                 callbackURL: getSafeCallbackUrl()
             })
-        } catch (error) {
+        } catch (_) {
             console.error(error)
             toast.error("Échec de la connexion Google. Réessaie ou utilise l'email.")
         } finally {
@@ -73,7 +73,7 @@ export function SignInForm() {
             toast.success("Code de sécurité envoyé !")
             setStep("otp")
             setResendCooldown(60) // Start 60s cooldown
-        } catch (error) {
+        } catch (_) {
             console.error(error)
             toast.error("Erreur lors de l'envoi du code")
         } finally {
@@ -99,7 +99,7 @@ export function SignInForm() {
 
             toast.success("Authentification réussie")
             window.location.href = getSafeCallbackUrl()
-        } catch (error) {
+        } catch (_) {
             console.error(error)
             toast.error("Code invalide ou expiré")
         } finally {
@@ -114,7 +114,7 @@ export function SignInForm() {
                 provider: "github",
                 callbackURL: getSafeCallbackUrl()
             })
-        } catch (error) {
+        } catch (_) {
             console.error(error)
             toast.error("Échec de la connexion GitHub. Réessaie ou utilise l'email.")
         } finally {

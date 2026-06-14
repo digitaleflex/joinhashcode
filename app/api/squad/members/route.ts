@@ -56,7 +56,7 @@ export async function GET() {
     }));
 
     return NextResponse.json(members);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_MEMBERS_GET]", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }

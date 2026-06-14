@@ -87,7 +87,7 @@ export async function updateSquadCohesion(
         }
       }
     }
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_COHESION_UPDATE_ERROR]", error);
   }
 }

@@ -13,7 +13,6 @@ import {
   LogOut,
   MoreHorizontal,
   Activity,
-  ShieldCheck,
   User as UserIcon,
   Swords,
   ScrollText,

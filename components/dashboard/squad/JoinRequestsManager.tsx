@@ -19,7 +19,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
       if (!response.ok) throw new Error("Échec du chargement");
       const data = await response.json();
       setRequests(data);
-    } catch (err) {
+    } catch (_) {
       console.error(err);
     } finally {
       setIsLoading(false);

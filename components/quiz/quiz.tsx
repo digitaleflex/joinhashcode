@@ -4,18 +4,15 @@ import { useState } from "react"
 import { submitQuiz } from "@/app/actions/quiz"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import type { AnalysisResult } from "@/lib/analysis"
 import {
-  ChevronRight, ChevronLeft, Sparkles, Zap, ShieldAlert, ShieldCheck
+  ChevronRight, ChevronLeft, Sparkles
 } from "lucide-react"
 import { useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
 import { track } from "@vercel/analytics"
-import { cn } from "@/lib/utils"
 
 interface QuizUser {
   id: string;

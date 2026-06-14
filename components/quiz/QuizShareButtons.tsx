@@ -1,18 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { Share2, Copy, Check, MessageSquare } from "lucide-react"
+import { Copy, Check, MessageSquare } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils"
 
 interface QuizShareButtonsProps {
     profileType: string
-    userName: string
+    _userName: string
 }
 
-export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProps) {
+export function QuizShareButtons({ profileType, _userName }: QuizShareButtonsProps) {
     const [copied, setCopied] = useState(false)
     
     // Construct the share URL (ideally a public profile page or a dedicated result landing)

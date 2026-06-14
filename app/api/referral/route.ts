@@ -32,7 +32,7 @@ export async function GET() {
       referralCount: user!.referralCount,
       referrals: user!.referrals,
     });
-  } catch (error) {
+  } catch (_) {
     return handleApiError(error, "REFERRAL_GET");
   }
 }

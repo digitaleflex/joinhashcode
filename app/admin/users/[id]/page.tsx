@@ -4,7 +4,6 @@ import { questions } from "@/lib/questions"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { UserRowActions } from "@/components/admin/UserRowActions"
 import { 
   ChevronLeft, 
@@ -16,8 +15,6 @@ import {
   Shield, 
   Clock, 
   Globe,
-  User as UserIcon,
-  MessageSquare,
   Compass,
   Briefcase,
   AlertCircle,
@@ -28,7 +25,6 @@ import {
   Flame
 } from "lucide-react"
 import Link from "next/link"
-import { CLASS_COLORS } from "@/lib/member-card-constants"
 import { cn } from "@/lib/utils"
 
 interface PageProps {

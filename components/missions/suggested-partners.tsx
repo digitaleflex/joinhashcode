@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { Users, Shield, Sparkles, Trophy, Cpu, ExternalLink, MessageSquare } from "lucide-react"
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,

@@ -4,7 +4,6 @@ import { PATCH as updatePATCH } from "../app/api/user/update/route";
 import { NextRequest } from "next/server";
 import { prisma } from "../lib/prisma";
 import { auth } from "../lib/auth";
-import * as ratelimit from "../lib/ratelimit";
 
 vi.mock("../lib/prisma", () => {
   const mockPrisma = {

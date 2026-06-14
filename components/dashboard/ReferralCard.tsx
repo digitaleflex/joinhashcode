@@ -1,11 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Share2, Copy, Check, Users, Gift, ArrowRight } from "lucide-react"
+import { Share2, Copy, Check, Users, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils"
 
 interface ReferralCardProps {
     referralCode: string
@@ -31,7 +30,7 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                     text: "Découvre ton profil de bâtisseur tech et rejoins une escouade d'élite.",
                     url: referralLink,
                 })
-            } catch (err) {
+            } catch (_) {
                 console.error("Erreur de partage:", err)
             }
         } else {

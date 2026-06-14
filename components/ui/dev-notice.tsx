@@ -1,7 +1,6 @@
 "use client"
 
 import { Construction, Mail, Info } from "lucide-react"
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface DevNoticeProps {

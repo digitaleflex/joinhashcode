@@ -163,7 +163,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(squad);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_CREATE]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

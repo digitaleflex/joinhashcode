@@ -8,8 +8,8 @@ import {
   Loader2, GraduationCap,
   Laptop, Building2, Rocket,
   RefreshCw, Brain, Sprout,
-  Briefcase, Zap, Search,
-  Code2, Users, BarChart3,
+  Briefcase, Zap,
+  Code2,
   Shield, Cloud, Layers,
   Sparkles, Check, AtSign,
 } from "lucide-react"
@@ -116,7 +116,7 @@ export default function OnboardingPage() {
           else if (user.pseudo) setStep(2)
           else if (user.currentSituation) setStep(3)
         }
-      } catch (err) {
+      } catch (_) {
         console.error("Session sync failed:", err)
       } finally {
         setIsSyncing(false)

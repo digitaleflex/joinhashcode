@@ -25,7 +25,7 @@ export async function getCachedUser(userId: string) {
       }
       return cached;
     }
-  } catch (err) {
+  } catch (_) {
     console.error("🟢 [Cache User] Redis read error, falling back to database:", err);
   }
 
@@ -41,7 +41,7 @@ export async function getCachedUser(userId: string) {
   if (user && redis) {
     try {
       await redis.set(cacheKey, JSON.stringify(user), { ex: CACHE_TTL });
-    } catch (err) {
+    } catch (_) {
       console.error("🟢 [Cache User] Redis write error:", err);
     }
   }
@@ -54,7 +54,7 @@ export async function invalidateUserCache(userId: string) {
   const cacheKey = `user:profile:${userId}`;
   try {
     await redis.del(cacheKey);
-  } catch (err) {
+  } catch (_) {
     console.error(`🟢 [Cache User] Redis invalidate error for user ${userId}:`, err);
   }
 }

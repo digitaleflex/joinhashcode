@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,7 @@ export default function TwoFactorPage() {
         toast.success("Authentification réussie");
         window.location.href = "/dashboard";
       }
-    } catch (err) {
+    } catch (_) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);

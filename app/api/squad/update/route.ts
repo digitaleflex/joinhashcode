@@ -82,7 +82,7 @@ export async function PATCH(req: Request) {
     });
 
     return NextResponse.json(updated);
-  } catch (error) {
+  } catch (_) {
     console.error("[SQUAD_UPDATE]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

@@ -127,7 +127,7 @@ export default async function DashboardPage() {
     quizResult = quizRes;
     submissions = subRes as any;
     member = memRes;
-  } catch (err) {
+  } catch (_) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
     throw err
   }

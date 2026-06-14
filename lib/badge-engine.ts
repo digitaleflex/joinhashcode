@@ -262,7 +262,7 @@ export async function checkAndAwardBadges(userId: string) {
     }
 
     return newBadges;
-  } catch (error) {
+  } catch (_) {
     console.error("[BADGE_ENGINE_ERROR]", error);
     return [];
   }

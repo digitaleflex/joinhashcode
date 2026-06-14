@@ -56,7 +56,7 @@ export async function processReferralReward(newUserId: string) {
     });
 
     console.log(`[REFERRAL] Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
-  } catch (error) {
+  } catch (_) {
     console.error("[REFERRAL_REWARD_ERROR]", error);
   }
 }

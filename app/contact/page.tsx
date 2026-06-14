@@ -39,7 +39,7 @@ export default function ContactPage() {
       } else {
         alert("Erreur lors de la transmission. Réessaye.")
       }
-    } catch (error) {
+    } catch (_) {
       console.error(error)
       alert("Erreur réseau.")
     } finally {

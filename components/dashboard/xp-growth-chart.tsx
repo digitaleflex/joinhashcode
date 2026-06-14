@@ -10,7 +10,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts"
-import { format, subDays, startOfDay, isSameDay } from "date-fns"
+import { format, subDays } from "date-fns"
 import { fr } from "date-fns/locale"
 
 interface ActivityLog {

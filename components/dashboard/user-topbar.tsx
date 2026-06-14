@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, Globe, LogOut, Bell, ShieldAlert, Users, Activity, UserSearch, Mail, Inbox } from "lucide-react"
+import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -16,20 +16,8 @@ import Image from "next/image"
 import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MemberList } from "./squad/MemberList"
-import { SquadActivityFeed } from "./squad/SquadActivityFeed"
-import { JoinRequestsManager } from "./squad/JoinRequestsManager"
-import { InviteMemberForm } from "./squad/InviteMemberForm"
-import { OrgSettingsForm } from "./squad/OrgSettingsForm"
-import { PendingInvitations } from "./squad/PendingInvitations"
+
+
 import { TourButton } from "@/components/tour/tour-button"
 import {
   Tooltip,
@@ -60,7 +48,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
       await (authClient.admin as any).stopImpersonating();
       toast.success("Retour au compte administrateur");
       window.location.href = "/admin/users";
-    } catch (error) {
+    } catch (_) {
       toast.error("Erreur lors de l'arrêt de l'impersonation");
     }
   }

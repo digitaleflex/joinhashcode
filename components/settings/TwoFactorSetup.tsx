@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShieldCheck, ShieldAlert, Key, Copy, Check } from "lucide-react";
+import { ShieldCheck, ShieldAlert, Key } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -22,7 +23,6 @@ export function TwoFactorSetup({ user }: { user: any }) {
   const [isPending, setIsPending] = useState(false);
   const [totpData, setTotpData] = useState<{ totpURI: string; backupCodes: string[] } | null>(null);
   const [verificationCode, setVerificationCode] = useState("");
-  const [password, setPassword] = useState("");
   const [step, setStep] = useState<"start" | "setup" | "verify">("start");
 
   const handleStartSetup = async () => {
@@ -36,7 +36,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         setTotpData(data);
         setStep("setup");
       }
-    } catch (err) {
+    } catch (_) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);
@@ -58,7 +58,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.success("Double authentification activée !");
         router.refresh();
       }
-    } catch (err) {
+    } catch (_) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);
@@ -70,9 +70,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
 
     setIsPending(true);
     try {
-      const { error } = await authClient.twoFactor.disable({
-        password: "", // Not needed for passwordless
-      });
+      const { error } = await authClient.twoFactor.disable({});
 
       if (error) {
         toast.error(error.message);
@@ -80,7 +78,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
         toast.success("2FA désactivée");
         router.refresh();
       }
-    } catch (err) {
+    } catch (_) {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);
@@ -156,9 +154,11 @@ export function TwoFactorSetup({ user }: { user: any }) {
             {step === "setup" && totpData && (
               <div className="space-y-6 py-4 flex flex-col items-center">
                 <div className="bg-white p-3 rounded-xl">
-                    <img 
+                    <Image 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(totpData.totpURI)}`} 
                         alt="2FA QR Code"
+                        width={192}
+                        height={192}
                         className="size-48"
                     />
                 </div>

@@ -3,18 +3,13 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
-  Zap,
-  ChevronRight,
-  ChevronLeft,
   Sparkles,
-  Flame,
   X,
-  Lock,
   ArrowRight,
   Check
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Mission } from "@/lib/missions"
 import Link from "next/link"
