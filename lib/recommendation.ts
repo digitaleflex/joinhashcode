@@ -10,7 +10,7 @@ export function getRecommendedMissions(
   const available = MISSIONS.filter(m =>
     m.requiredLevel <= userLevel &&
     !completedMissionIds.includes(m.id) &&
-    !completedMissionIds.includes(m.slug)
+    (!m.slug || !completedMissionIds.includes(m.slug))
   );
 
   if (available.length === 0) return [];
