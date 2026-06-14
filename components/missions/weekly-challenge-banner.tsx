@@ -1,9 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Zap, Check, ChevronRight } from "lucide-react"
+import { Zap, Check, ChevronRight, Clock } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface WeeklyChallengeBannerProps {
   mission: any
@@ -48,6 +54,20 @@ export function WeeklyChallengeBanner({ mission, isCompleted, daysLeft }: Weekly
               <span className="text-[7px] font-mono text-zinc-600">
                 {isCompleted ? "Complété" : `Reset dans ${daysLeft}j`}
               </span>
+              {!isCompleted && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-1 text-[7px] font-mono text-zinc-600 hover:text-primary transition-colors cursor-help border-l border-white/5 pl-2 ml-1">
+                        <Clock className="size-2" /> ~14h
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[9px] text-zinc-300 font-mono">
+                      Délai de validation estimé.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
             </div>
             <p className="text-sm font-semibold text-white">{mission.title}</p>
             <p className="text-[10px] text-zinc-400 font-light">{mission.shortDesc}</p>

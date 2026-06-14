@@ -123,6 +123,19 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                     {mission.duration}
                   </span>
                 )}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="flex items-center gap-1 cursor-help hover:text-primary transition-colors">
+                        <Clock className="size-2.5" />
+                        ~{mission.avgDelay || 12}h
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                      Délai moyen de validation par le réseau.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>

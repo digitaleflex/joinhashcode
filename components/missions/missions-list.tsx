@@ -5,7 +5,7 @@ import { Mission } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send } from "lucide-react";
+import { CheckCircle2, Lock, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -24,6 +24,7 @@ export interface MissionWithStats extends Mission {
   completionsCount: number;
   avgRating: number | null;
   ratingsCount: number;
+  avgDelay: number;
 }
 
 type ProgressionStage = "INIT" | "CORE" | "PRO";
@@ -504,7 +505,7 @@ function MissionCard({
 
         <div className="space-y-4 mt-auto pt-4">
           <div className="flex items-center justify-between pt-3 border-t border-white/5">
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="size-1.5 rounded-full bg-emerald-500/60" />
                 <span className="text-[9px] font-mono text-zinc-500 uppercase">
@@ -513,6 +514,22 @@ function MissionCard({
                     : "Sois le premier"}
                 </span>
               </div>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex items-center gap-1.5 cursor-help group/delay">
+                      <Clock className="size-2.5 text-zinc-600 group-hover/delay:text-primary transition-colors" />
+                      <span className="text-[9px] font-mono text-zinc-500 uppercase">
+                        ~{mission.avgDelay}h
+                      </span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                    Délai moyen de validation par le réseau.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
               {mission.avgRating !== null && mission.ratingsCount >= 3 && (
                 <div className="hidden sm:flex items-center gap-1">

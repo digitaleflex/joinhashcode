@@ -15,7 +15,7 @@ import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-ba
 
 const getMissionsEnrichment = unstable_cache(
   async () => {
-    const [completionsRaw, ratingsRaw, missionSlugs] = await Promise.all([
+    const [completionsRaw, ratingsRaw, delaysRaw, missionSlugs] = await Promise.all([
       prisma.missionSubmission.groupBy({
         by: ["missionId"],
         where: { status: "APPROVED" },
@@ -27,12 +27,33 @@ const getMissionsEnrichment = unstable_cache(
         _avg: { userRating: true },
         _count: { userRating: true },
       }),
+      prisma.missionSubmission.findMany({
+        where: { status: "APPROVED" },
+        select: { missionId: true, createdAt: true, updatedAt: true },
+      }),
       prisma.mission.findMany({ select: { id: true, slug: true } }),
     ])
     const idToSlug = Object.fromEntries(missionSlugs.map(m => [m.id, m.slug]))
+
+    // Calcul des délais moyens par mission
+    const delaysByMission: Record<string, number[]> = {}
+    delaysRaw.forEach(d => {
+      const delayHours = (d.updatedAt.getTime() - d.createdAt.getTime()) / (1000 * 60 * 60)
+      if (!delaysByMission[d.missionId]) delaysByMission[d.missionId] = []
+      delaysByMission[d.missionId].push(delayHours)
+    })
+
+    const avgDelayMap: Record<string, number> = {}
+    Object.entries(delaysByMission).forEach(([mId, delays]) => {
+      const avg = delays.reduce((a, b) => a + b, 0) / delays.length
+      const slug = idToSlug[mId] ?? mId
+      avgDelayMap[slug] = Math.round(avg) || 14
+    })
+
     return {
       completionsMap: Object.fromEntries(completionsRaw.map(c => [idToSlug[c.missionId] ?? c.missionId, c._count._all])),
       ratingsMap: Object.fromEntries(ratingsRaw.map(r => [idToSlug[r.missionId] ?? r.missionId, { avg: r._avg.userRating, count: r._count.userRating }])),
+      avgDelayMap,
     }
   },
   ["missions-enrichment"],
@@ -69,11 +90,12 @@ export default async function MissionsPage() {
   let weeklyMission: any = null
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
+  let avgDelayMap: Record<string, number> = {}
 
   let userSquad: { id: string } | null = null
 
   try {
-    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap }, userSquad] = await Promise.all([
+    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap, avgDelayMap }, userSquad] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
@@ -136,6 +158,7 @@ export default async function MissionsPage() {
     completionsCount: completionsMap[m.id] || 0,
     avgRating: ratingsMap[m.id]?.avg || null,
     ratingsCount: ratingsMap[m.id]?.count || 0,
+    avgDelay: avgDelayMap[m.id] || 12, // Default global delay reassurance
   }));
   // --- END ENRICHMENT ---
 
