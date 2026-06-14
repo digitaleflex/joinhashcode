@@ -187,7 +187,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     id: "EARLY_ADOPTER",
     name: "Pionnier",
     description: "Membre de la phase Bêta.",
-    criteria: (user) => true,
+    criteria: (_user) => true,
   },
   {
     id: "SYNCHRO_GOLD",
@@ -267,3 +267,4 @@ export async function checkAndAwardBadges(userId: string) {
     return [];
   }
 }
+

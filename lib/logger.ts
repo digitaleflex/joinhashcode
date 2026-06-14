@@ -76,7 +76,7 @@ export async function logInfo(title: string, message: string, metadata: Record<s
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-  } catch (alertError) {
+  } catch {
     // Silent fail for info logs
   }
 }

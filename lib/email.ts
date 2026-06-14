@@ -268,7 +268,7 @@ export const emailService = {
     return this._send({ to: email, subject: "Ton lien de connexion HASHCODE (expire dans 10 min)", html, text: stripHtml(content) });
   },
 
-  async sendOtpEmail({ email, otp, type }: { email: string; otp: string; type: string }) {
+  async sendOtpEmail({ email, otp, type: _type }: { email: string; otp: string; type: string }) {
     if (!resend) return { success: true, mocked: true };
 
     const content = `
