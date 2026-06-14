@@ -4,41 +4,43 @@ HASHCODE is an AI-driven tech talent profiling and community matching platform t
 
 ## 🚀 Key Features
 
-*   **Psychometric Profiling Quiz**: Classifies users into one of four professional profiles:
-    *   🛠️ **Builder**
-    *   🎨 **Creator**
-    *   🧠 **Strategist**
-    *   ⚡ **Catalyst**
-*   **Custom Evolution Engine**: Tracks user progress using standard metrics:
-    *   **Vibrancy**: Energy, activity, and contribution level.
-    *   **Drift**: Path focus, exploration index, and behavioral alignment.
-    *   **Confidence**: Skill depth, task success rate, and progression certainty.
-*   **Onboarding & Interactive Funnel**: Enforces progression from registration, through onboarding, to community matching.
-*   **Missions & Collaboration**: Enables users to accept, submit, and grow through missions inside their Guild.
+- **Psychometric Profiling Quiz**: Classifies users into one of four professional profiles:
+  - 🛠️ **Builder**
+  - 🎨 **Creator**
+  - 🧠 **Strategist**
+  - ⚡ **Catalyst**
+- **Custom Evolution Engine**: Tracks user progress using standard metrics:
+  - **Vibrancy**: Energy, activity, and contribution level.
+  - **Drift**: Path focus, exploration index, and behavioral alignment.
+  - **Confidence**: Skill depth, task success rate, and progression certainty.
+- **Onboarding & Interactive Funnel**: Enforces progression from registration, through onboarding, to community matching.
+- **Missions & Collaboration**: Enables users to accept, submit, and grow through missions inside their Guild.
 
 ---
 
 ## 🛠️ Technology Stack
 
-*   **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
-*   **Styling & UI**: Tailwind CSS v4, [Radix UI](https://www.radix-ui.com/) Primitives, Shadcn/UI (New York style), Lucide React Icons, Framer Motion for premium micro-animations, and Sonner for toasts
-*   **Database & ORM**: PostgreSQL (Supabase) + [Prisma ORM 7](https://www.prisma.io/) with PgBouncer connection pooling
-*   **Authentication**: [Better Auth](https://www.better-auth.com/) with Prisma adapter and NextCookies session storage (Google, GitHub, Magic Link)
-*   **Validation**: [Zod](https://zod.dev/) and React Hook Form
-*   **Testing**: [Vitest](https://vitest.dev/)
+- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
+- **Styling & UI**: Tailwind CSS v4, [Radix UI](https://www.radix-ui.com/) Primitives, Shadcn/UI (New York style), Lucide React Icons, Framer Motion for premium micro-animations, and Sonner for toasts
+- **Database & ORM**: PostgreSQL (Supabase) + [Prisma ORM 7](https://www.prisma.io/) with PgBouncer connection pooling
+- **Authentication**: [Better Auth](https://www.better-auth.com/) with Prisma adapter and NextCookies session storage (Google, GitHub, Magic Link)
+- **Validation**: [Zod](https://zod.dev/) and React Hook Form
+- **Testing**: [Vitest](https://vitest.dev/)
 
 ---
 
 ## 📂 Architecture & Key Components
 
-*   `app/` — Pages and REST API routes (`app/api/`)
-*   `components/` — UI components and shadcn/ui base wrappers (`components/ui/`)
-*   `lib/` — Shared business logic, database client, evolution engine, missions scoring, and authentication configuration
-*   `prisma/` — Database schema (`schema.prisma`) and seed configurations
-*   `middleware.ts` — Handles user session validation and onboarding funnel enforcement
+- `app/` — Pages and REST API routes (`app/api/`)
+- `components/` — UI components and shadcn/ui base wrappers (`components/ui/`)
+- `lib/` — Shared business logic, database client, evolution engine, missions scoring, and authentication configuration
+- `prisma/` — Database schema (`schema.prisma`) and seed configurations
+- `middleware.ts` — Handles user session validation and onboarding funnel enforcement
 
 ### Onboarding Funnel Routing
+
 The middleware enforces a three-stage workflow:
+
 1. **No active session** ➡️ Redirects to `/signin`
 2. **Session active, but no `currentSituation`** ➡️ Redirects to `/onboarding`
 3. **Session active, onboarding completed, but no profile class assigned** ➡️ Redirects to `/quiz`
@@ -68,8 +70,11 @@ pnpm lint
 # Open Prisma Studio to browse your database locally
 npx prisma studio
 
-# Push database schema changes directly (dev mode)
-npx prisma db push
+# Generate Prisma client
+npx prisma generate
+
+# Apply migrations and update database schema (dev mode)
+npx prisma migrate dev --name <description>
 ```
 
 ### 🐳 Docker & Local Environment
@@ -91,7 +96,8 @@ We provide a specialized local environment setup using Docker to run both the da
 ## 🔒 Security & Guidelines
 
 This codebase strictly adheres to the **EHAF Security Engineering Standard**:
-*   Never trust external input: validate all inputs using strict Zod schemas server-side.
-*   Enforce authentication checks server-side.
-*   Ensure environment variables (`.env`, `.env.local`) are kept out of source control.
-*   Prevent SQL injection by relying on parameterized queries built-in to Prisma.
+
+- Never trust external input: validate all inputs using strict Zod schemas server-side.
+- Enforce authentication checks server-side.
+- Ensure environment variables (`.env`, `.env.local`) are kept out of source control.
+- Prevent SQL injection by relying on parameterized queries built-in to Prisma.

@@ -1,3 +1,0 @@
-
-# Just do it inline
-npx vitest run --reporter=verbose __tests__/passkey-auth.test.ts 2>&1 | tail -10

@@ -1,32 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Mail, Fingerprint } from "lucide-react"
+import { Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
-
-/** Maps Better Auth / OAuth error messages to user-friendly French strings */
-function getOAuthErrorMessage(error: unknown): string {
-    const msg = (error as any)?.message?.toLowerCase() ?? ""
-    if (msg.includes("access_denied") || msg.includes("cancelled") || msg.includes("cancel"))
-        return "Connexion annulée. Tu as refusé l'accès à ton compte."
-    if (msg.includes("banned") || msg.includes("suspended") || msg.includes("suspendu"))
-        return "Ton compte a été suspendu. Contacte le support."
-    if (msg.includes("email") && (msg.includes("exist") || msg.includes("taken")))
-        return "Cet email est déjà associé à un autre compte. Essaie une autre méthode."
-    if (msg.includes("rate") || msg.includes("limit") || msg.includes("too many"))
-        return "Trop de tentatives. Attends quelques minutes avant de réessayer."
-    if (msg.includes("network") || msg.includes("fetch") || msg.includes("timeout"))
-        return "Problème réseau. Vérifie ta connexion et réessaie."
-    const detail = (error as any)?.message
-    return detail ? `Erreur de connexion : ${detail}` : "Erreur de connexion. Réessaie ou utilise un autre moyen."
-}
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
 function getSafeCallbackUrl(fallback = "/quiz"): string {
