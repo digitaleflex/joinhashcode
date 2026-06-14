@@ -129,11 +129,10 @@
 
 ## 2. En Cours / Partiel
 
-| Fonctionnalité               | Ce qui est fait                          | Ce qui manque                                                             |
-| ---------------------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
-| **P14 — Squad RBAC avancé**  | Rôles owner/admin/member via org plugin  | Pas d'actions spécialisées par squad (validation, etc.)                   |
-| **ISSUE-023 — Localisation** | Champ `city` dans settings et API update | Dashboard strict (exige city+country), dossier affiche `UNKNOWN_LOCATION` |
-| **Admin Analytics**          | Stats basiques (users, quiz, funnel)     | Manque cohésion moyenne squad, drop-off missions                          |
+| Fonctionnalité              | Ce qui est fait                         | Ce qui manque                                           |
+| --------------------------- | --------------------------------------- | ------------------------------------------------------- |
+| **P14 — Squad RBAC avancé** | Rôles owner/admin/member via org plugin | Pas d'actions spécialisées par squad (validation, etc.) |
+| **Admin Analytics**         | Stats basiques (users, quiz, funnel)    | Manque cohésion moyenne squad, drop-off missions        |
 
 ### ✅ Déjà implémentés (correction du rapport initial)
 
@@ -142,6 +141,11 @@
 | **P16 — Feedback V2**          | `FloatingFeedbackButton` déjà présent dans `app/layout.tsx` + `BetaFeedbackDialog` dans le sidebar |
 | **P20 — UX Poll**              | `UXPollBanner` déjà actif dans le layout racine, API + DB opérationnels                            |
 | **ISSUE-024 — Crash Recharts** | Guard `isMounted` + skeleton déjà en place dans `xp-growth-chart.tsx`                              |
+| **P10 — GitHub OAuth**         | ✅ Fait — commit `d22809d`                                                                         |
+| **P17 — Parrainage signup**    | ✅ Fait — commit `1190f44`                                                                         |
+| **ISSUE-023 — Localisation**   | Déjà OK — code utilise `user.city \|\| user.country`, pas de `UNKNOWN_LOCATION` dans le source     |
+| **UX-006 (ARIA)**              | `aria-current="page"` et `aria-label` déjà présents dans `bottom-nav.tsx`                          |
+| **PRODUCT-005 (valeur)**       | Message "Rejoins ta Squad de 5 développeurs..." déjà présent dans signin + FAQ landing page        |
 
 ---
 
@@ -199,14 +203,14 @@
 | 4   | ~~P20 — UX Poll modal~~                                               | —      | —                                | ✅ Déjà fait        |
 | 5   | ~~P16 — Floating feedback button~~                                    | —      | —                                | ✅ Déjà fait        |
 
-### Phase 2 — UX & Bugs (Jour 2)
+### Phase 2 — UX & Bugs ✅ Vérifiée (déjà faite)
 
-| #   | Tâche                                                                | Effort |
-| --- | -------------------------------------------------------------------- | ------ |
-| 6   | **ISSUE-023** — Assouplir condition localisation dashboard + dossier | ~1h    |
-| 7   | **UX-006** — Audit contrastes + ARIA sur BottomNav                   | ~2h    |
-| 8   | **PRODUCT-005** — Améliorer landing page + sign-in form              | ~2h    |
-| 9   | **Admin Analytics** — Ajouter cohésion moyenne + drop-off missions   | ~2h    |
+| #   | Tâche                                                      | Statut           |
+| --- | ---------------------------------------------------------- | ---------------- |
+| 6   | ~~ISSUE-023 — Localisation~~                               | ✅ Déjà OK       |
+| 7   | ~~UX-006 — ARIA BottomNav~~                                | ✅ Déjà présent  |
+| 8   | ~~PRODUCT-005 — Landing page value prop~~                  | ✅ Déjà présent  |
+| 9   | **Admin Analytics** — Cohésion moyenne + drop-off missions | ⏳ Reste à faire |
 
 ### Phase 3 — Performance (Jour 3-4)
 
@@ -238,4 +242,4 @@
 
 ---
 
-**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 (Quick Wins) terminée** — 2 correctifs livrés, 3 déjà préexistants. Reste ~2 jours pour la Phase 2 (UX & Bugs), ~2 jours pour la perf, ~1 jour pour la mise en production.
+**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 (Quick Wins) terminée** — 2 correctifs livrés (P17, P10). ✅ **Phase 2 (UX & Bugs) vérifiée** — 3 items déjà implémentés, seul Admin Analytics reste. Prochaine étape recommandée : **Phase 3 (Performance)** — PERF-007 (lazy-load squad-journey), PERF-014 (Promise.all squad queries), ou PERF-022 (missions bundle split). ~2 jours de travail restant avant mise en production.
