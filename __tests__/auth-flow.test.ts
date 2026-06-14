@@ -2,6 +2,20 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { middleware } from '../middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
+// Mock next/headers to provide cookies
+vi.mock('next/headers', () => ({
+  cookies: vi.fn(() => ({
+    get: vi.fn((name) => {
+      if (name === 'auth_token' || name === 'session') {
+        return { value: 'mock-session-token' };
+      }
+      return undefined;
+    }),
+    getAll: vi.fn(() => []),
+  })),
+  headers: vi.fn(() => Promise.resolve(new Headers())),
+}));
+
 // Helper to create a request
 function createRequest(path: string, cookie?: string) {
   const url = `http://localhost:3000${path}`;

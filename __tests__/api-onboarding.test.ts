@@ -54,6 +54,15 @@ vi.mock("../lib/user-cache", () => ({
 // Mock next/headers
 vi.mock("next/headers", () => ({
   headers: vi.fn(() => Promise.resolve(new Headers())),
+  cookies: vi.fn(() => ({
+    get: vi.fn((name) => {
+      if (name === "auth_token" || name === "session") {
+        return { value: "mock-session-token" };
+      }
+      return undefined;
+    }),
+    getAll: vi.fn(() => []),
+  })),
 }));
 
 function createJsonRequest(body: any, headers?: Record<string, string>) {

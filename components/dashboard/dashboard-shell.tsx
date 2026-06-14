@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { ShareCardDialog } from "./share-card-dialog"
 import {
   Zap,
   TrendingUp,
@@ -15,6 +16,7 @@ import {
   Target,
   User as UserIcon,
   Info,
+  Download
 } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import Link from "next/link"
@@ -546,6 +548,21 @@ export function DashboardShell({
                     confidenceScore={user.confidenceScore ?? 0.25}
                     missionsCompleted={user.missionsCompletedCount ?? 0}
                     tools={user.tools ?? []}
+                    actions={
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto w-full">
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
+                        >
+                          <a href={`/api/card/${user.id}`} download={`hashcode-passport-${user.pseudo ?? user.name}.png`}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Exporter HD
+                          </a>
+                        </Button>
+                        <ShareCardDialog userId={user.id} userName={user.pseudo ?? user.name} />
+                      </div>
+                    }
                   />
                 </div>
               </div>

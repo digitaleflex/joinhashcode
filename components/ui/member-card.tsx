@@ -20,6 +20,7 @@ interface MemberCardProps {
   confidenceScore?: number;
   missionsCompleted?: number;
   tools?: string[];
+  actions?: React.ReactNode;
 }
 
 export function MemberCard({
@@ -35,6 +36,7 @@ export function MemberCard({
   confidenceScore = 0.25,
   missionsCompleted = 0,
   tools = [],
+  actions,
 }: MemberCardProps) {
   const [copied, setCopied] = useState(false);
 
@@ -52,7 +54,7 @@ export function MemberCard({
   const cardUrl = `/api/card/${userId}`;
 
   const handleCopy = async () => {
-    const url = `${window.location.origin}/dossier`;
+    const url = `${window.location.origin}/u/${userId}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -68,7 +70,7 @@ export function MemberCard({
           borderColor: `${accent}40`,
         }}
       >
-        {/* GUILD SPECIFIC PATTERNS — decorative background, absolute */}
+        {/* ... (patterns unchanged) */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
           {userClass === "builder" && (
             <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(${accent}20 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
@@ -174,7 +176,7 @@ export function MemberCard({
                </div>
                <div className="p-1 bg-white rounded-md">
                   <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/dossier`)}`}
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=50x50&color=000000&bgcolor=FFFFFF&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL || "https://joinhashcode.com"}/u/${userId}`)}`}
                     width={24}
                     height={24}
                     alt="QR"
@@ -187,26 +189,28 @@ export function MemberCard({
       </div>
 
       {/* Actions */}
-      <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-        <Button
-          asChild
-          variant="outline"
-          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
-        >
-          <a href={cardUrl} download={`hashcode-passport-${pseudo}.png`}>
-            <Download className="mr-2 h-4 w-4" />
-            Exporter
-          </a>
-        </Button>
-        <Button
-          variant="outline"
-          onClick={handleCopy}
-          className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
-        >
-          {copied ? <Check className="mr-2 h-4 w-4 text-emerald-500" /> : <Share2 className="mr-2 h-4 w-4" />}
-          {copied ? "Copié !" : "Partager"}
-        </Button>
-      </div>
+      {actions ? actions : (
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
+          >
+            <a href={cardUrl} download={`hashcode-passport-${pseudo}.png`}>
+              <Download className="mr-2 h-4 w-4" />
+              Exporter
+            </a>
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleCopy}
+            className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
+          >
+            {copied ? <Check className="mr-2 h-4 w-4 text-emerald-500" /> : <Share2 className="mr-2 h-4 w-4" />}
+            {copied ? "Copié !" : "Partager"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://joinhashcode.com'
   const profileUrl = `${appUrl}/u/${userId}`
   const imageUrl = `/api/card/${userId}`
-  const shareText = `Mon habilitation HASHCODE — profil ${userName} sur la plateforme des talents tech africains 🌍`
+  const shareText = `Habilitation HASHCODE validée. Profil calibré : ${userName.toUpperCase()} [${userId.slice(0,4)}]. Prêt pour les prochaines missions du réseau. 🚀 #HashCode #TechTalent`
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl)
