@@ -144,17 +144,26 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
   }
 
   if (submitSuccess && !showRetroForm) {
+    const isSignalMission = missionId === "signal-ouverture";
+    
     return (
       <div className="space-y-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
         <StepIndicator />
         <div className="flex flex-col items-center gap-4">
-          <div className="size-16 rounded-full bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center">
-            <Check className="size-8 text-emerald-400" />
+          <div className={cn(
+            "size-16 rounded-full border flex items-center justify-center",
+            isSignalMission ? "bg-primary/20 border-primary/40 animate-pulse" : "bg-emerald-950/40 border-emerald-500/30"
+          )}>
+            <Check className={cn("size-8", isSignalMission ? "text-primary" : "text-emerald-400")} />
           </div>
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-white">Mission soumise ✓</h3>
+            <h3 className="text-base font-bold text-white">
+              {isSignalMission ? "SIGNAL_STABILISÉ ✓" : "Mission soumise ✓"}
+            </h3>
             <p className="text-xs text-zinc-400 font-light max-w-xs">
-              Ta soumission est en file d'attente. Un reviewer va l'examiner sous 48h.
+              {isSignalMission 
+                ? "Ton identité numérique est désormais synchronisée. XP accordés immédiatement." 
+                : "Ta soumission est en file d'attente. Un reviewer va l'examiner sous 48h."}
             </p>
           </div>
         </div>

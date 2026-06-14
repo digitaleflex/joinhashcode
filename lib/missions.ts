@@ -29,6 +29,43 @@ export interface Mission {
 }
 
 export const MISSIONS: Mission[] = [
+  // --- MISSIONS D'INITIALISATION (QUICK WINS) ---
+  {
+    id: "signal-ouverture",
+    title: "Signal d'Ouverture",
+    shortDesc: "Initialise ton lien avec le réseau.",
+    description: "Confirme que tu es prêt à builder. Cette action synchronise ton terminal avec le serveur central de HASHCODE.",
+    xpReward: 15,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: [
+      "Confirmer la disponibilité pour la phase active.",
+    ],
+    type: "INTRO",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "INIT",
+    duration: "1min",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    comingSoon: false,
+    deliverables: ["Confirmation de synchronisation"],
+    fullBriefing: `
+# Mission : Signal d'Ouverture
+
+Félicitations, tu as franchi les premières couches de sécurité. Ton profil est actif, mais ton signal doit être stabilisé.
+
+### Instructions
+1. Dans le champ de réponse, tape simplement : **"SIGNAL_ACTIF"**.
+2. Valide la mission.
+
+### Résultat attendu
+- Gain immédiat d'XP.
+- Stabilisation de ton profil dans la base de données.
+    `
+  },
   // --- MISSIONS GÉNÉRIQUES / INTRO ---
   {
     id: "introduction-ancrage",
