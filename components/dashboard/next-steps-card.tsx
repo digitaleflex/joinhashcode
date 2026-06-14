@@ -22,43 +22,34 @@ interface NextStepsCardProps {
   hasProfile: boolean // pseudo + country filled
 }
 
-export function NextStepsCard({ hasMissions, hasSquad, hasCheckin, hasProfile }: NextStepsCardProps) {
+export function NextStepsCard({ hasMissions, hasSquad, hasProfile }: Omit<NextStepsCardProps, "hasCheckin">) {
   const steps: Step[] = [
     {
       id: "profile",
       icon: UserCircle,
-      title: "Compléter ton profil",
-      desc: "Pseudo, pays, domaines — plus tu complètes, plus tu es visible.",
+      title: "Calibrer ton identité",
+      desc: "Pseudo, pays, spécialités — finalise ta configuration pour que le réseau te reconnaisse.",
       href: "/settings",
       done: hasProfile,
       xp: 50,
     },
     {
-      id: "checkin",
-      icon: Zap,
-      title: "Faire ton check-in du jour",
-      desc: "5 secondes. Chaque check-in nourrit ta série et la cohésion de ta squad.",
-      href: "/dashboard#tour-checkin",
-      done: hasCheckin,
-      xp: 25,
+      id: "squad",
+      icon: Users,
+      title: "Rejoindre une unité",
+      desc: "Ne build pas en solo. Rallie une squad active de 5 membres pour multiplier ta progression.",
+      href: "/squad",
+      done: hasSquad,
+      xp: 100,
     },
     {
       id: "mission",
       icon: Target,
-      title: "Compléter ta première mission",
-      desc: "Choisis une mission INIT adaptée à ton niveau. Soumets, fais reviewer.",
+      title: "Première preuve de travail",
+      desc: "Choisis ta mission d'initialisation. Soumets ton travail, sois reviewé, gagne ton grade.",
       href: "/missions",
       done: hasMissions,
       xp: 200,
-    },
-    {
-      id: "squad",
-      icon: Users,
-      title: "Rejoindre ou créer une squad",
-      desc: "Une squad active multiplie ta progression. Max 5 membres.",
-      href: "/squad",
-      done: hasSquad,
-      xp: 100,
     },
   ]
 
