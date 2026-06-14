@@ -105,6 +105,15 @@ export const auth = betterAuth({
   }),
   account: {
     storeStateStrategy: "database",
+    accountLinking: {
+      enabled: true,
+    }
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
   },
   user: {
     changeEmail: {
