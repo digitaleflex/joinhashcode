@@ -13,16 +13,33 @@ export default async function SquadPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/signin");
 
-  // Fetch full organization using Better Auth API
-  const org = await auth.api.getFullOrganization({
-    headers: await headers(),
-  });
+  const headers_ = await headers();
+  const userId = session.user.id;
+
+  const [org, dbUser] = await Promise.all([
+    auth.api.getFullOrganization({ headers: headers_ }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        pseudo: true,
+        class: true,
+        level: true,
+        experience: true,
+        badges: true,
+        role: true,
+      },
+    }),
+  ]);
 
   // Fallback to database lookup if BA active organization cookie is missing
   let dbSquad = null;
   if (!org) {
     const member = await prisma.member.findFirst({
-      where: { userId: session.user.id },
+      where: { userId },
       include: {
         organization: {
           include: {
@@ -58,22 +75,6 @@ export default async function SquadPage() {
       };
     }
   }
-
-  const dbUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      image: true,
-      pseudo: true,
-      class: true,
-      level: true,
-      experience: true,
-      badges: true,
-      role: true,
-    },
-  });
 
   // Map Organization to the expected "squad" format for SquadJourney
   // This ensures backward compatibility with the UI while using the new system
