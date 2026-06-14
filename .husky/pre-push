@@ -1,3 +1,4 @@
+pnpm type-check
 pnpm build
 pnpm test
 pnpm security-scan

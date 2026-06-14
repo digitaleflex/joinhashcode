@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "db:seed": "tsx prisma/seed.ts",
     "test": "vitest",
-    "security-scan": "pnpm audit",
+    "type-check": "tsc --noEmit",
+    "check-secrets": "node scripts/check-secrets.js",
+    "security-scan": "pnpm audit && pnpm check-secrets",
     "docs": "typedoc",
     "prepare": "husky"
   },

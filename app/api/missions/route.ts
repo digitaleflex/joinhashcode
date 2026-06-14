@@ -119,7 +119,7 @@ export async function POST(req: Request) {
     const SYNC_BONUS_XP = (dbUser.stats?.currentStreak || 0) >= 3 ? 6 : 5;
     const isAutoApproved = mission.isWeeklyChallenge || mission.slug === "signal-ouverture" || mission.id === "signal-ouverture";
     const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
-    const xpToAward = isAutoApproved ? (mission.xp || mission.xpReward || 0) : 0;
+    const xpToAward = isAutoApproved ? (mission.xp || 0) : 0;
 
     // Fix SEC-001: Award SYNC_BONUS_XP only on the FIRST submission for this mission/cycle
     const experienceToIncrement = (existingSubmission ? 0 : SYNC_BONUS_XP) + xpToAward;
