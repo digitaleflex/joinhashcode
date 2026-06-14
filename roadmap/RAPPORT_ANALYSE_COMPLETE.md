@@ -212,15 +212,15 @@
 | 8   | ~~PRODUCT-005 — Landing page value prop~~                  | ✅ Déjà présent  |
 | 9   | **Admin Analytics** — Cohésion moyenne + drop-off missions | ⏳ Reste à faire |
 
-### Phase 3 — Performance (Jour 3-4)
+### Phase 3 — Performance
 
-| #   | Tâche                                                      | Effort |
-| --- | ---------------------------------------------------------- | ------ |
-| 10  | **PERF-007** — Lazy-load `squad-journey.tsx`               | ~1h    |
-| 11  | **PERF-008** — Lazy-load widgets dashboard                 | ~2h    |
-| 12  | **PERF-014** — Paralléliser requêtes Squad                 | ~1h    |
-| 13  | **PERF-022** — Extraire `lib/missions.ts` du bundle client | ~3h    |
-| 14  | **PERF-013** — Cache-Control sur GET APIs                  | ~2h    |
+| #   | Tâche                                                      | Effort | Statut              |
+| --- | ---------------------------------------------------------- | ------ | ------------------- |
+| 10  | **PERF-007** — Lazy-load `squad-journey.tsx`               | ~1h    | ✅ Fait — `0f5f9d2` |
+| 11  | **PERF-008** — Lazy-load widgets dashboard                 | ~2h    | ⏳ Reste            |
+| 12  | **PERF-014** — Paralléliser requêtes Squad                 | ~1h    | ✅ Fait — `b871afc` |
+| 13  | **PERF-022** — Extraire `lib/missions.ts` du bundle client | ~3h    | ⏳ Reste            |
+| 14  | **PERF-013** — Cache-Control sur GET APIs                  | ~2h    | ⏳ Reste            |
 
 ### Phase 4 — Production Ready (Jour 5)
 
@@ -242,4 +242,4 @@
 
 ---
 
-**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 (Quick Wins) terminée** — 2 correctifs livrés (P17, P10). ✅ **Phase 2 (UX & Bugs) vérifiée** — 3 items déjà implémentés, seul Admin Analytics reste. Prochaine étape recommandée : **Phase 3 (Performance)** — PERF-007 (lazy-load squad-journey), PERF-014 (Promise.all squad queries), ou PERF-022 (missions bundle split). ~2 jours de travail restant avant mise en production.
+**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 terminée** — P17, P10. ✅ **Phase 2 vérifiée** — déjà en place. ✅ **Phase 3 : 2/5 faits** — PERF-007, PERF-014. Reste : PERF-008, PERF-022, PERF-013, Admin Analytics, Production Readiness. ~1-2 jours de travail.
