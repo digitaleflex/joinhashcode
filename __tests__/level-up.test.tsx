@@ -18,8 +18,8 @@ describe('LevelUpModal Component', () => {
     render(<LevelUpModal currentLevel={2} userClass="BUILDER" />);
     
     // Check if dialog content exists (Radix Dialogs are portals, so we check screen)
-    expect(screen.getByText('Niveau 2')).toBeDefined();
-    expect(screen.getByText('APPRENTI')).toBeDefined();
+    expect(screen.getByText(/OPÉRATEUR Core/i)).toBeDefined();
+    expect(screen.getByText(/ACCÉDER AU NIVEAU 2/i)).toBeDefined();
     expect(screen.getByTestId('confetti')).toBeDefined();
   });
 
