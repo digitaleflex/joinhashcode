@@ -37,6 +37,8 @@ import { ReferralCard } from "./ReferralCard"
 import { AmbassadorGoal } from "./AmbassadorGoal"
 import { WelcomeModal } from "./welcome-modal"
 import { ActivationChecklist } from "./activation-checklist"
+import { LevelUpModal } from "./level-up-modal"
+import { getLevelProgress } from "@/lib/level-utils"
 import {
   Tooltip,
   TooltipContent,
@@ -90,8 +92,8 @@ export function DashboardShell({
   recommendedMissions?: Mission[]
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
-  const level = user?.level || 1;
-  const levelName = LEVEL_MAP[level] || "INIT";
+  const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
+  const levelName = LEVEL_MAP[level] || "AGENT"
   const isSquadFull = useMemo(() => !!(squad && squad.members.length >= 5), [squad])
   const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
@@ -278,16 +280,18 @@ export function DashboardShell({
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div className="cursor-help">
-                              <Progress value={(user.experience % 1000) / 10} variant="glow" className="h-2" />
+                              <Progress value={percent} variant="glow" className="h-2" />
                             </div>
                           </TooltipTrigger>
                           <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                            Chaque palier de 1000 XP te rapproche du grade supérieur.
+                            {xpNeededForNext > 0 
+                              ? `Encore ${xpNeededForNext} XP pour atteindre le niveau ${level + 1}.` 
+                              : "Tu as atteint le niveau maximum pour cette phase."}
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                       <p className="text-[10px] text-zinc-600 font-mono">
-                        {1000 - (user.experience % 1000)} XP pour le niveau suivant
+                        {xpNeededForNext > 0 ? `${xpNeededForNext} XP pour le niveau suivant` : "Niveau Max"}
                       </p>
                     </div>
 
@@ -535,6 +539,7 @@ export function DashboardShell({
         </main>
         <BottomNav />
       </SidebarInset>
+      <LevelUpModal currentLevel={level} userClass={profile} />
     </SidebarProvider>
   );
 }

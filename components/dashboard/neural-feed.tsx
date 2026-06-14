@@ -9,6 +9,12 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface NeuralEvent {
   id: string
@@ -45,12 +51,22 @@ export function NeuralFeed() {
     }
   }
 
+  const getIconDesc = (type: string) => {
+    switch (type) {
+      case "MISSION_SUBMISSION": return "Mission validée"
+      case "LEVEL_UP": return "Montée en grade"
+      case "SQUAD_CREATED": return "Nouvelle unité"
+      case "USER_JOINED": return "Nouvel agent"
+      default: return "Activité système"
+    }
+  }
+
   const getLabel = (event: NeuralEvent) => {
     switch (event.type) {
-      case "MISSION_SUBMISSION": return `a soumis ${event.meta}`
-      case "LEVEL_UP": return `est passé ${event.meta}`
-      case "SQUAD_CREATED": return `a créé ${event.meta}`
-      case "USER_JOINED": return `a rejoint le réseau`
+      case "MISSION_SUBMISSION": return `a validé une mission`
+      case "LEVEL_UP": return `a franchi un nouveau palier`
+      case "SQUAD_CREATED": return `a activé une nouvelle Squad`
+      case "USER_JOINED": return `a synchronisé son signal`
       default: return ""
     }
   }
@@ -107,9 +123,18 @@ export function NeuralFeed() {
                 <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="relative shrink-0 mt-1">
-                  <div className="size-8 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center">
-                    {getIcon(event.type)}
-                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="size-8 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center cursor-help">
+                          {getIcon(event.type)}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                        {getIconDesc(event.type)}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   {idx === 0 && (
                     <div className="absolute -top-1 -right-1 size-2 bg-primary rounded-full shadow-[0_0_8px_#B8FF3B]" />
                   )}
@@ -127,12 +152,23 @@ export function NeuralFeed() {
                   </p>
                   {event.user.class && (
                     <div className="mt-2 flex items-center gap-2">
-                      <div className="h-0.5 w-4 bg-zinc-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary/40 w-1/2" />
-                      </div>
-                      <span className="text-[8px] font-mono font-bold text-zinc-600 tracking-tight">
-                        signal: {event.user.class}
-                      </span>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="flex items-center gap-2 cursor-help group/signal">
+                              <div className="h-0.5 w-4 bg-zinc-800 rounded-full overflow-hidden">
+                                <div className="h-full bg-primary/40 w-1/2" />
+                              </div>
+                              <span className="text-[8px] font-mono font-bold text-zinc-600 tracking-tight group-hover/signal:text-zinc-400 transition-colors">
+                                signal: {event.user.class}
+                              </span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                            Vecteur d&apos;identité tech détecté.
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   )}
                 </div>
