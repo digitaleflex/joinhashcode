@@ -2,7 +2,12 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { SquadJourney } from "@/components/dashboard/squad-journey";
+import dynamic from "next/dynamic";
+
+const SquadJourney = dynamic(
+    () => import("@/components/dashboard/squad-journey").then((mod) => mod.SquadJourney),
+    { ssr: false }
+);
 
 export default async function SquadPage() {
   const session = await auth.api.getSession({ headers: await headers() });
