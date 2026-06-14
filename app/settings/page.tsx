@@ -15,6 +15,7 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
+import Link from "next/link"
 
 // Modular Settings Subcomponents
 import { ProfileTab } from "@/components/settings/tabs/ProfileTab"

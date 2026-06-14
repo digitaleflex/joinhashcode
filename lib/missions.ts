@@ -5,6 +5,7 @@ export type ProgressionLevel = "INIT" | "CORE" | "PRO";
 
 export interface Mission {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   shortDesc: string;
