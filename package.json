@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "db:seed": "tsx prisma/seed.ts",
     "test": "vitest",
-    "docs": "typedoc"
+    "security-scan": "pnpm audit",
+    "docs": "typedoc",
+    "prepare": "husky"
   },
   "dependencies": {
     "@better-auth/passkey": "^1.6.18",
@@ -106,7 +108,9 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^10.4.0",
     "eslint-config-next": "^16.2.6",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
+    "lint-staged": "^17.0.7",
     "postcss": "^8.5",
     "prisma": "^7.8.0",
     "tailwindcss": "^4.2.0",

@@ -215,15 +215,15 @@ export function DossierView({
                                 <Brain className="size-3 text-primary" />
                                 Glossaire des Concepts
                             </h5>
-                            <div className="grid grid-cols-1 gap-2">
+                            <div className="grid grid-cols-1 gap-3">
                                 {[
-                                    { k: "Vibrancy", v: "Vitalité de ton signal. Dépend de ta régularité." },
-                                    { k: "Drift", v: "Dérive entre tes aspirations et tes actions réelles." },
-                                    { k: "Confidence", v: "Niveau de certitude du système sur tes capacités." }
+                                    { k: "Vitalité", v: "Force de ton signal. Dépend de ta régularité quotidienne." },
+                                    { k: "Alignement", v: "Précision de ta trajectoire. Un écart (Drift) est une opportunité de recalibrer tes ambitions." },
+                                    { k: "Confiance", v: "Niveau de certitude du système sur tes capacités techniques." }
                                 ].map((item) => (
-                                    <div key={item.k} className="text-[9px] font-mono flex gap-2">
-                                        <span className="text-primary font-bold">[{item.k}]</span>
-                                        <span className="text-zinc-500">{item.v}</span>
+                                    <div key={item.k} className="text-[9px] font-mono flex gap-2 items-start">
+                                        <span className="text-primary font-bold shrink-0">[{item.k}]</span>
+                                        <span className="text-zinc-500 leading-tight">{item.v}</span>
                                     </div>
                                 ))}
                             </div>

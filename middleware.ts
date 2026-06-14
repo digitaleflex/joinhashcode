@@ -36,6 +36,8 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/onboarding') ||
     request.nextUrl.pathname.startsWith('/quiz');
   const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
+  const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
+  const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
 
   // Public routes: inject CSP nonce and return immediately — no session fetch
   if (!isProtectedPath && !isBetaAccessPath) {

@@ -1,8 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { middleware } from '../middleware';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
-// Mock next/headers to provide cookies
+// Mock better-auth/cookies
+vi.mock('better-auth/cookies', () => ({
+  getSessionCookie: vi.fn((req) => {
+    // Check if there is a cookie header with a session token
+    const cookie = req.headers.get('cookie');
+    return cookie && (cookie.includes('auth_token') || cookie.includes('session')) 
+      ? { value: 'mock-session-token' } 
+      : null;
+  }),
+}));
+
+// Mock next/headers to provide cookies and headers
 vi.mock('next/headers', () => ({
   cookies: vi.fn(() => ({
     get: vi.fn((name) => {
@@ -57,7 +68,8 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       }),
     });
 
-    const req = createRequest('/dashboard');
+    // Provide a cookie to satisfy getSessionCookie
+    const req = createRequest('/dashboard', 'session=mock-token');
     const res = await middleware(req);
 
     expect(res?.status).toBe(307);
@@ -74,7 +86,8 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       }),
     });
 
-    const req = createRequest('/dashboard');
+    // Provide a cookie to satisfy getSessionCookie
+    const req = createRequest('/dashboard', 'session=mock-token');
     const res = await middleware(req);
 
     expect(res?.status).toBe(307);
@@ -96,7 +109,8 @@ describe('Middleware Auth & Onboarding Funnel', () => {
       }),
     });
 
-    const req = createRequest('/dashboard');
+    // Provide a cookie to satisfy getSessionCookie
+    const req = createRequest('/dashboard', 'session=mock-token');
     const res = await middleware(req);
 
     expect(res?.status).not.toBe(307);
