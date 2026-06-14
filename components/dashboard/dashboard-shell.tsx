@@ -256,7 +256,10 @@ export function DashboardShell({
             </div>
 
             {/* TIER 3: ASYMMETRIC CYBER BENTO GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className={cn(
+              "grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-700",
+              isNewUser && "opacity-40 grayscale-[0.5] pointer-events-none md:pointer-events-auto hover:opacity-100 hover:grayscale-0"
+            )}>
               
               {/* Bento Box 1: core_evolution_ (spans 2 cols on md) */}
               <Card variant="premium" className="md:col-span-2 overflow-hidden group" id="tour-progression">
