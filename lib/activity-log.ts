@@ -46,7 +46,7 @@ interface LogOptions {
   action: ActivityAction | string
   entity?: string
   entityId?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   metadata?: Record<string, any>
   request?: Request
 }

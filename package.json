@@ -15,6 +15,7 @@
     "type-check": "tsc --noEmit",
     "check-secrets": "node scripts/check-secrets.js",
     "security-scan": "pnpm audit && pnpm check-secrets",
+    "generate:openapi": "tsx scripts/generate-openapi.ts",
     "docs": "typedoc",
     "prepare": "husky"
   },
@@ -101,6 +102,7 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "devDependencies": {
+    "@asteasolutions/zod-to-openapi": "^8.5.0",
     "@better-auth/cli": "^1.4.21",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4.2.0",
@@ -110,6 +112,7 @@
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-dist": "^3.30.6",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^10.4.0",
     "eslint-config-next": "^16.2.6",
@@ -134,7 +137,7 @@
       "@hono/node-server": "^1.19.13",
       "hono": "^4.12.25",
       "vite": "^6.4.2",
-      "esbuild": "^0.25.0",
+      "esbuild": "0.28.1",
       "@better-fetch/fetch": "^1.2.2"
     }
   }

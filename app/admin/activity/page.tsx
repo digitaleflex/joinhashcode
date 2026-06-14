@@ -77,7 +77,7 @@ function ActionBadge({ action }: { action: string }) {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function MetadataCell({ metadata }: { metadata: any }) {
   if (!metadata || typeof metadata !== "object") return <span className="text-zinc-700">—</span>
 
@@ -191,7 +191,7 @@ export default async function AdminActivityPage({
             ))}
           </div>
 
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          { }
           {(logs as any[]).map((log) => (
             <div
               key={log.id}
