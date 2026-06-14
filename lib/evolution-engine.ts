@@ -1,5 +1,6 @@
 import { prisma } from './prisma';
 import { BehavioralVibrancy, updateVibrancyWithDecay } from './evolution';
+import { Prisma } from '../generated/prisma';
 
 export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVibrancy>> = {
   'Code': { builder: 1 },
@@ -24,7 +25,7 @@ export async function updateUserEvolution(
   userId: string,
   actionWeights: BehavioralVibrancy,
   confidenceGain: number,
-  tx?: any
+  tx?: Prisma.TransactionClient
 ) {
   const client = tx || prisma;
 
@@ -32,14 +33,18 @@ export async function updateUserEvolution(
     where: { id: userId },
     select: {
       behavioralVibrancy: true,
-      confidenceScore: true,
       lastHypothesisUpdate: true,
+      psychometrics: {
+        select: {
+          confidenceScore: true,
+        }
+      }
     }
   });
 
   if (!user) return;
 
-  const currentVibrancy = (user.behavioralVibrancy as any) || {
+  const currentVibrancy = (user.behavioralVibrancy as unknown as BehavioralVibrancy) || {
     builder: 0,
     creator: 0,
     strategist: 0,
@@ -47,14 +52,26 @@ export async function updateUserEvolution(
   };
 
   const newVibrancy = calculateNewVibrancy(currentVibrancy, actionWeights, user.lastHypothesisUpdate);
-  const newConfidence = Math.min(user.confidenceScore + confidenceGain, 1.0);
+  const currentConfidence = user.psychometrics?.confidenceScore ?? 0.25;
+  const newConfidence = Math.min(currentConfidence + confidenceGain, 1.0);
 
-  return await client.user.update({
+  // Update both User (vibrancy) and Psychometric (confidence)
+  await client.user.update({
     where: { id: userId },
     data: {
-      behavioralVibrancy: newVibrancy as any,
-      confidenceScore: newConfidence,
+      behavioralVibrancy: newVibrancy as unknown as Prisma.InputJsonValue,
       lastHypothesisUpdate: new Date(),
+    }
+  });
+
+  return await client.psychometric.upsert({
+    where: { userId },
+    create: {
+      userId,
+      confidenceScore: newConfidence,
+    },
+    update: {
+      confidenceScore: newConfidence,
     }
   });
 }

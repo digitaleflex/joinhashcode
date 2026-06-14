@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
-
 import { getRecommendedMissions } from "@/lib/recommendation";
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -15,10 +15,10 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
-  // Fetch all required data in parallel — wrap so DB errors go to error.tsx with a log
-  let dbUser: any = null;
+  // Fetch all required data in parallel
+  let dbUser: UserProfile | null = null;
   let quizResult: any = null;
-  let submissions: any[] = [];
+  let submissions: DetailedMissionSubmission[] = [];
   let member: any = null;
 
   try {
@@ -38,6 +38,19 @@ export default async function DashboardPage() {
           pseudo: true,
           referralCode: true,
           referralCount: true,
+          role: true,
+          language: true,
+          memberNumber: true,
+          createdAt: true,
+          domains: true,
+          tools: true,
+          badges: true,
+          bio: true,
+          currentSituation: true,
+          technicalLevel: true,
+          mainObjective: true,
+          country: true,
+          city: true,
           psychometrics: {
             select: {
               builderScore: true,
@@ -65,9 +78,8 @@ export default async function DashboardPage() {
           mission: {
             select: {
               title: true,
+              category: true,
               slug: true,
-              xp: true,
-              missionLevel: true,
             }
           }
         },
@@ -106,27 +118,29 @@ export default async function DashboardPage() {
       strategistScore: userRes.psychometrics?.strategistScore ?? 0,
       catalystScore: userRes.psychometrics?.catalystScore ?? 0,
       confidenceScore: userRes.psychometrics?.confidenceScore ?? 0.25,
-      lastCheckinAt: userRes.stats?.lastCheckinAt ?? null,
+      lastCheckin: userRes.stats?.lastCheckinAt ?? null,
       currentStreak: userRes.stats?.currentStreak ?? 0,
+      badges: userRes.badges || [],
+      domains: userRes.domains || [],
+      tools: userRes.tools || [],
     } : null;
     quizResult = quizRes;
-    submissions = subRes;
+    submissions = subRes as any;
     member = memRes;
   } catch (err) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", err)
-    throw err // propagates to app/dashboard/error.tsx
+    throw err
   }
 
-  const submissionsMap = (submissions ?? []).reduce((acc: any, s: any) => {
+  const submissionsMap = (submissions ?? []).reduce((acc, s) => {
     const slug = s.mission?.slug ?? s.missionId;
     acc[slug] = s.status;
     return acc;
   }, {} as Record<string, string>);
 
-  // Calculate recommendations (FYP Algorithm) — use slugs to match MISSIONS[n].id
   const completedIds = (submissions ?? [])
-    .filter((s: any) => s.status === "APPROVED" || s.status === "PENDING")
-    .map((s: any) => s.mission?.slug ?? s.missionId);
+    .filter((s) => s.status === "APPROVED" || s.status === "PENDING")
+    .map((s) => s.mission?.slug ?? s.missionId);
 
   const recommendedMissions = getRecommendedMissions(
     dbUser?.behavioralVibrancy as any,
@@ -136,7 +150,6 @@ export default async function DashboardPage() {
     3
   );
 
-  // Pass Organization data directly to UI — roles are already correct ("owner" / "member")
   const squad = member?.organization ? {
     ...member.organization,
     members: member.organization.members.map((m: any) => ({
@@ -148,9 +161,13 @@ export default async function DashboardPage() {
     }))
   } : null;
 
+  if (!dbUser) {
+    redirect("/signin");
+  }
+
   return (
     <DashboardShell
-      user={dbUser || (session.user as any)}
+      user={dbUser}
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}

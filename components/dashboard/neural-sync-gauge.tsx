@@ -91,7 +91,7 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
             <Zap className="size-4 text-primary fill-primary" />
           </div>
           <div className="space-y-0.5">
-            <p className="text-[10px] font-bold text-white uppercase tracking-wider">NEURAL MOMENTUM ACTIVE</p>
+            <p className="text-[10px] font-bold text-white uppercase tracking-wider">DYNAMIQUE ACTIVE</p>
             <p className="text-[9px] text-primary/60 font-mono italic">
               +{multiplierValue === "1.2x" ? "20" : "10"}% XP sur chaque mission et check-in.
             </p>

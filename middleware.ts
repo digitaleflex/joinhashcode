@@ -47,74 +47,42 @@ export async function middleware(request: NextRequest) {
   }
 
   let sessionData = null;
-  // True when we could NOT determine the session (network/port/container error),
-  // as opposed to a confirmed "no session". On failure we do NOT fail open blindly:
-  // we fall back to the presence of the signed session cookie (see below).
-  let sessionFetchFailed = false;
+  // Use getSessionCookie to check for session presence without network call
+  const sessionCookie = getSessionCookie(request);
 
-  try {
-    const requestHeaders = new Headers(request.headers);
-    const host = request.headers.get("host");
-    if (host) {
-      requestHeaders.set("host", host);
-    }
+  if (isProtectedPath && !sessionCookie) {
+    const signinUrl = new URL("/signin", request.url);
+    signinUrl.searchParams.set("reason", "auth_required");
+    signinUrl.searchParams.set("callbackURL", request.nextUrl.pathname);
+    return NextResponse.redirect(signinUrl);
+  }
 
-    const loopbackPort = process.env.PORT || "3000";
-    let response;
+  // We could fetch session here, but to avoid 503 timeouts, we rely on the destination page 
+  // to perform the heavy validation. For onboarding/quiz redirects, we only check 
+  // if the session cookie is present.
+  
+  // NOTE: If we REALLY need user data (banned check, onboarding step) in middleware, 
+  // we must ensure the fetch doesn't stall.
+  if (sessionCookie) {
     try {
-      // 1. Try local loopback first to bypass DNS and NAT loopback limitations in Docker/production
-      response = await fetch(`http://127.0.0.1:${loopbackPort}/api/auth/middleware-session`, {
+      const requestHeaders = new Headers(request.headers);
+      const baseUrl = request.nextUrl.origin;
+      const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
         headers: requestHeaders,
         cache: 'no-store',
+        signal: AbortSignal.timeout(3000) // Strict 3s timeout to prevent 503 hang
       });
-    } catch (localError) {
-      // 2. Fallback to origin if running on a custom port locally
-      const baseUrl = request.nextUrl.origin;
-      response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
-        headers: requestHeaders,
-        cache: 'no-store'
-      });
-    }
 
-    if (response.ok) {
-      sessionData = await response.json();
-    } else {
-      sessionFetchFailed = true;
+      if (response.ok) {
+        sessionData = await response.json();
+      }
+    } catch (error) {
+      console.error("🟢 [Middleware] Unified session fetch failed or timed out:", error);
     }
-  } catch (error) {
-    console.error("🟢 [Middleware] Unified session fetch failed:", error);
-    sessionFetchFailed = true;
   }
 
   const session = sessionData?.session;
   let user = sessionData?.user;
-
-  // Block banned users everywhere before any route-specific check
-  if (user?.banned) {
-    const banExpires = user.banExpires ? new Date(user.banExpires as string) : null;
-    if (!banExpires || banExpires > new Date()) {
-      const bannedUrl = new URL("/signin", request.url);
-      bannedUrl.searchParams.set("error", "banned");
-      return NextResponse.redirect(bannedUrl);
-    }
-  }
-
-  const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
-  const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
-
-  if (isProtectedPath && !session) {
-    // If the loopback session probe returned null (e.g. due to HTTP loopback / secure cookie mismatch),
-    // we fall back to the presence of the session cookie. This prevents the signin↔onboarding
-    // infinite redirect loop. The destination page's own server-side getSession() guard will
-    // cryptographically re-validate the session cookie, keeping the application secure.
-    const hasSessionCookie = !!getSessionCookie(request);
-    if (!hasSessionCookie) {
-      const signinUrl = new URL("/signin", request.url);
-      signinUrl.searchParams.set("reason", "auth_required");
-      signinUrl.searchParams.set("callbackURL", request.nextUrl.pathname);
-      return NextResponse.redirect(signinUrl);
-    }
-  }
 
   if (session && user) {
     // Redirect anyone landing on /beta-access to the appropriate next step

@@ -5,6 +5,7 @@ import { Nav } from "@/components/landing/nav";
 import { Footer } from "@/components/landing/footer";
 import { Metadata } from "next";
 import { APP_URL } from "@/lib/config";
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 
 interface PageProps {
   params: Promise<{ pseudo: string }>
@@ -43,11 +44,13 @@ export default async function PublicProfilePage({ params }: PageProps) {
     where: { pseudo },
     select: {
       id: true, name: true, pseudo: true, image: true, bio: true,
+      email: true, role: true, language: true,
       city: true, country: true,
       class: true, level: true, experience: true,
       behavioralVibrancy: true, technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
       memberNumber: true, missionsCompletedCount: true, createdAt: true, banned: true,
+      referralCount: true,
       psychometrics: {
         select: {
           builderScore: true,
@@ -110,7 +113,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   }
 
   // Aplatir l'objet user pour la compatibilité avec DossierView
-  const user = {
+  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
     ...dbUser,
     githubUrl: dbUser.socials?.githubUrl ?? null,
     linkedinUrl: dbUser.socials?.linkedinUrl ?? null,
@@ -122,6 +125,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
     strategistScore: dbUser.psychometrics?.strategistScore ?? 0,
     catalystScore: dbUser.psychometrics?.catalystScore ?? 0,
     confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
+    lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
+    missionSubmissions: dbUser.missionSubmissions as any,
+    activityLogs: dbUser.activityLogs,
   };
 
   const activeOrg = dbUser.members[0]?.organization ?? null;
@@ -130,7 +136,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   // Fetch squad activity logs for the public view (limited)
   let squadMembersLogs: any[] = [];
   if (activeOrg) {
-    const squadMemberIds = (activeOrg as any).members.map((m: any) => m.userId);
+    const squadMemberIds = activeOrg.members.map((m) => m.user.id);
     squadMembersLogs = await prisma.activityLog.findMany({
       where: {
         userId: { in: squadMemberIds },

@@ -1,11 +1,24 @@
 ﻿import { prisma } from "./prisma";
 import { triggerNotification } from "./qstash";
+import { BehavioralVibrancy } from "./types";
+
+export interface ExtendedUserForBadges {
+  id: string;
+  level: number;
+  missionsCompletedCount: number;
+  badges: string[];
+  currentStreak: number;
+  referralCount: number;
+  reviewsCount?: number;
+  vibrancy: BehavioralVibrancy;
+  squadId?: string | null;
+}
 
 export interface BadgeDefinition {
   id: string;
   name: string;
   description: string;
-  criteria: (user: any) => boolean;
+  criteria: (user: ExtendedUserForBadges) => boolean;
 }
 
 export const BADGE_DEFINITIONS: BadgeDefinition[] = [
@@ -204,9 +217,19 @@ export async function checkAndAwardBadges(userId: string) {
     const newBadges: string[] = [];
 
     // Adapter user pour les critères
-    const userWithStats = {
-      ...user,
-      vibrancy: user.behavioralVibrancy as any
+    const userWithStats: ExtendedUserForBadges = {
+      id: user.id,
+      level: user.level,
+      missionsCompletedCount: user.missionsCompletedCount,
+      badges: user.badges,
+      currentStreak: 0, // Sera implémenté avec engagementStats
+      referralCount: user.referralCount,
+      vibrancy: (user.behavioralVibrancy as unknown as BehavioralVibrancy) || {
+        builder: 0,
+        creator: 0,
+        strategist: 0,
+        catalyst: 0,
+      }
     };
 
     for (const badge of BADGE_DEFINITIONS) {

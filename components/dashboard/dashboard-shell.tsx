@@ -39,6 +39,7 @@ import { WelcomeModal } from "./welcome-modal"
 import { ActivationChecklist } from "./activation-checklist"
 import { LevelUpModal } from "./level-up-modal"
 import { getLevelProgress } from "@/lib/level-utils"
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import {
   Tooltip,
   TooltipContent,
@@ -83,10 +84,10 @@ export function DashboardShell({
   recommendedMissions = [],
   fullSubmissions = []
 }: {
-  user: any,
+  user: UserProfile,
   quizResult: any,
   submissions?: Record<string, string>,
-  fullSubmissions?: any[],
+  fullSubmissions?: DetailedMissionSubmission[],
   squad?: any,
   memberRole?: string,
   recommendedMissions?: Mission[]
@@ -246,7 +247,7 @@ export function DashboardShell({
                 <div id="tour-missions">
                   <MissionDeck recommendedMissions={recommendedMissions} />
                 </div>
-                <MissionHistory submissions={fullSubmissions.filter((s: any) => s.status === "APPROVED")} />
+                <MissionHistory submissions={fullSubmissions.filter((s) => s.status === "APPROVED")} />
               </div>
 
               <div className="space-y-8" id="tour-feed">

@@ -39,6 +39,7 @@ import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
 import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 import { DossierView } from "@/components/dossier/dossier-view";
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 
 interface PageProps {
   searchParams: Promise<{ userId?: string }>
@@ -71,16 +72,56 @@ export default async function DossierPage({ searchParams }: PageProps) {
     }
   }
 
-  const user = await prisma.user.findUnique({
+  const dbUser = await prisma.user.findUnique({
     where: { id: targetUserId },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      level: true,
+      experience: true,
+      class: true,
+      missionsCompletedCount: true,
+      behavioralVibrancy: true,
+      pseudo: true,
+      referralCode: true,
+      referralCount: true,
+      role: true,
+      language: true,
+      memberNumber: true,
+      createdAt: true,
+      domains: true,
+      tools: true,
+      badges: true,
+      bio: true,
+      currentSituation: true,
+      technicalLevel: true,
+      mainObjective: true,
+      country: true,
+      city: true,
+      psychometrics: {
+        select: {
+          builderScore: true,
+          creatorScore: true,
+          strategistScore: true,
+          catalystScore: true,
+          confidenceScore: true,
+        }
+      },
+      stats: {
+        select: {
+          lastCheckinAt: true,
+          currentStreak: true,
+        }
+      },
       quizResults: {
         orderBy: { createdAt: 'desc' },
         take: 1
       },
       missionSubmissions: {
         orderBy: { createdAt: 'desc' },
-        take: 3,
+        take: 10,
         include: {
           mission: true
         }
@@ -114,16 +155,28 @@ export default async function DossierPage({ searchParams }: PageProps) {
     },
   });
 
-  if (!user) return null;
+  if (!dbUser) return null;
 
-  const activeOrg = user.members[0]?.organization ?? null;
-  const quizResult = user.quizResults?.[0];
-  const answers = quizResult?.answers as any || {};
+  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
+    ...dbUser,
+    builderScore: dbUser.psychometrics?.builderScore ?? 0,
+    creatorScore: dbUser.psychometrics?.creatorScore ?? 0,
+    strategistScore: dbUser.psychometrics?.strategistScore ?? 0,
+    catalystScore: dbUser.psychometrics?.catalystScore ?? 0,
+    confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
+    lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
+    currentStreak: dbUser.stats?.currentStreak ?? 0,
+    missionSubmissions: dbUser.missionSubmissions as any,
+    activityLogs: dbUser.activityLogs,
+  };
+
+  const activeOrg = dbUser.members[0]?.organization ?? null;
+  const quizResult = dbUser.quizResults?.[0];
 
   // Fetch squad activity logs if in a squad
   let squadMembersLogs: any[] = [];
   if (activeOrg) {
-    const squadMemberIds = (activeOrg as any).members.map((m: any) => m.userId);
+    const squadMemberIds = activeOrg.members.map((m) => m.userId);
     squadMembersLogs = await prisma.activityLog.findMany({
       where: {
         userId: { in: squadMemberIds },

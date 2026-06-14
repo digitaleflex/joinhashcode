@@ -28,9 +28,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
   const handleStartSetup = async () => {
     setIsPending(true);
     try {
-      const { data, error } = await authClient.twoFactor.enable({
-        password: "", // Not needed for passwordless, but passed to satisfy types if required
-      });
+      const { data, error } = await authClient.twoFactor.enable();
 
       if (error) {
         toast.error(error.message || "Erreur d'authentification");

@@ -32,8 +32,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
+
 interface DossierViewProps {
-  user: any;
+  user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] };
   activeOrg: any;
   quizResult: any;
   squadMembersLogs: any[];
@@ -52,8 +54,8 @@ export function DossierView({
   // Neural Loop Logic: Engagement tips based on stats (Only for private/admin view)
   const engagementTips = [];
   if (!isPublic) {
-    if (user.currentStreak < 3) engagementTips.push("Active le boost de Vibrancy en complétant un Check-in 3 jours de suite.");
-    if (user.missionSubmissions.length === 0) engagementTips.push("Initialise ta première mission pour calibrer ton Profile Drift.");
+    if (user.currentStreak < 3) engagementTips.push("Active le boost de Vitalité en complétant un Check-in 3 jours de suite.");
+    if (user.missionSubmissions.length === 0) engagementTips.push("Initialise ta première mission pour voir comment ton profil évolue (Dérive).");
     if (!activeOrg) engagementTips.push("Rejoins une Squad pour débloquer les bonus de Cohésion Réseau.");
     if (user.experience < 500) engagementTips.push("Atteins 500 XP pour débloquer l'Habilitation Niveau 2.");
   }
@@ -173,14 +175,14 @@ export function DossierView({
                                               <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Activité</span>
                                               <Info className="size-2.5 text-zinc-600 group-hover/item:text-primary transition-colors md:hidden" />
                                           </div>
-                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{(user.behavioralVibrancy as any)?.score || "0.85"}<span className="text-primary text-xs ml-1">%</span></div>
+                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round((user.behavioralVibrancy?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                              <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as any)?.score || 0.85) * 100}%` }} />
+                                              <div className="h-full bg-primary" style={{ width: `${(user.behavioralVibrancy?.score || 0.85) * 100}%` }} />
                                           </div>
                                       </div>
                                   </TooltipTrigger>
                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      Ton score de 'Vibrancy'. Il augmente avec tes check-ins réguliers et tes interactions.
+                                      Ton score de 'Vibrancy' (Vitalité). Il augmente avec tes check-ins réguliers et tes interactions.
                                   </TooltipContent>
                               </Tooltip>
                           </TooltipProvider>
@@ -201,11 +203,32 @@ export function DossierView({
                                       </div>
                                   </TooltipTrigger>
                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      La précision de ton travail. Un score haut permet une validation plus rapide de tes missions.
+                                      Indice de fiabilité. Un score haut permet une validation plus rapide de tes missions.
                                   </TooltipContent>
                               </Tooltip>
                           </TooltipProvider>
                       </div>
+
+                      {!isPublic && (
+                        <div className="space-y-4 pt-6 border-t border-white/5">
+                            <h5 className="text-[9px] sm:text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
+                                <Brain className="size-3 text-primary" />
+                                Glossaire des Concepts
+                            </h5>
+                            <div className="grid grid-cols-1 gap-2">
+                                {[
+                                    { k: "Vibrancy", v: "Vitalité de ton signal. Dépend de ta régularité." },
+                                    { k: "Drift", v: "Dérive entre tes aspirations et tes actions réelles." },
+                                    { k: "Confidence", v: "Niveau de certitude du système sur tes capacités." }
+                                ].map((item) => (
+                                    <div key={item.k} className="text-[9px] font-mono flex gap-2">
+                                        <span className="text-primary font-bold">[{item.k}]</span>
+                                        <span className="text-zinc-500">{item.v}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                      )}
 
                       {!isPublic && engagementTips.length > 0 && (
                         <div className="space-y-4 pt-6 border-t border-white/5">
@@ -353,10 +376,10 @@ export function DossierView({
                                       </h4>
                                       <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                           {[
-                                              { label: 'BUILDER', value: user.builderScore, color: 'text-blue-400', desc: "Conception et implémentation technique." },
-                                              { label: 'CREATOR', value: user.creatorScore, color: 'text-purple-400', desc: "Concepts originaux et design impactant." },
-                                              { label: 'STRATEGIST', value: user.strategistScore, color: 'text-amber-400', desc: "Vision globale et optimisation." },
-                                              { label: 'CATALYST', value: user.catalystScore, color: 'text-emerald-400', desc: "Force d'accélération et concrétisation." }
+                                              { label: 'BÂTISSEUR', value: user.builderScore, color: 'text-blue-400', desc: "Conception et implémentation technique." },
+                                              { label: 'CRÉATEUR', value: user.creatorScore, color: 'text-purple-400', desc: "Concepts originaux et design impactant." },
+                                              { label: 'STRATÈGE', value: user.strategistScore, color: 'text-amber-400', desc: "Vision globale et optimisation." },
+                                              { label: 'CATALYSEUR', value: user.catalystScore, color: 'text-emerald-400', desc: "Force d'accélération et concrétisation." }
                                           ].map((stat) => (
                                               <TooltipProvider key={stat.label}>
                                                   <Tooltip>

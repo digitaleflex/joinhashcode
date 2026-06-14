@@ -222,6 +222,7 @@ export function SignInForm() {
                                 </Button>
                             </form>
 
+{/* 
                             <div className="relative my-2">
                                 <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5"></span></div>
                                 <div className="relative flex justify-center text-[8px] uppercase font-mono text-zinc-600 bg-background px-2">Ou utiliser</div>
@@ -245,6 +246,7 @@ export function SignInForm() {
                             <p className="text-[9px] text-zinc-500 font-mono text-center mt-2.5 select-none">
                                 💡 Configure ta clé dans tes <span className="text-zinc-400 font-bold">Paramètres &gt; Sécurité</span> une fois connecté.
                             </p>
+                            */}
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}

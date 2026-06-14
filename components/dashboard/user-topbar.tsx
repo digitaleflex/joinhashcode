@@ -110,6 +110,11 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
           <input 
             type="text" 
             placeholder="Rechercher une mission, un outil..." 
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                toast.info("Recherche bientôt disponible : Nous synchronisons les index de données.");
+              }
+            }}
             className="w-full bg-muted/50 border border-border/20 h-10 pl-10 pr-4 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-primary/40 transition-all"
           />
         </div>

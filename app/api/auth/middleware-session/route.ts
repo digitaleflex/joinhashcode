@@ -21,17 +21,19 @@ export async function GET() {
       return NextResponse.json({ session: null, user: null });
     }
 
-    // Retourne uniquement les champs nécessaires au middleware pour rester léger
+    // Retourne uniquement les champs nécessaires au middleware pour rester léger et type-safe
+    const safeUser: Record<string, unknown> = {
+      id: user.id,
+      banned: user.banned,
+      banExpires: user.banExpires,
+      currentSituation: user.currentSituation,
+      class: user.class,
+      role: user.role,
+    };
+
     return NextResponse.json({
       session,
-      user: {
-        id: user.id,
-        banned: user.banned,
-        banExpires: user.banExpires,
-        currentSituation: user.currentSituation,
-        class: user.class,
-        role: user.role,
-      },
+      user: safeUser,
     });
   } catch (error) {
     console.error("🟢 [Middleware Session API] Error getting unified session/user:", error);

@@ -7,14 +7,16 @@ import { Fingerprint, Loader2, Plus, Trash2, Smartphone, Monitor } from "lucide-
 import { toast } from "sonner"
 
 export function PasskeySetup() {
-    const { data: passkeys, isPending } = (authClient as any).useListPasskeys()
+    // Correct Better Auth v1 Passkey hooks
+    const { data: passkeys, isPending } = authClient.useListPasskeys()
     const [adding, setAdding] = useState(false)
 
     const handleAddPasskey = async () => {
         setAdding(true)
         try {
+            // Correct method: authClient.passkey.addPasskey()
             const { error } = await authClient.passkey.addPasskey()
-            if (error) throw new Error((error as any).message)
+            if (error) throw new Error(error.message || "Erreur inconnue")
             toast.success("Passkey ajouté avec succès")
         } catch (error: any) {
             if (!error.message?.includes("cancel")) {
@@ -28,10 +30,10 @@ export function PasskeySetup() {
     const handleDeletePasskey = async (id: string) => {
         if (!confirm("Supprimer ce Passkey ?")) return
         try {
-            const { error } = await (authClient as any).passkey.deletePasskey({ id })
-            if (error) throw error
+            const { error } = await authClient.passkey.deletePasskey({ id })
+            if (error) throw new Error(error.message)
             toast.success("Passkey supprimé")
-        } catch {
+        } catch (error: any) {
             toast.error("Erreur lors de la suppression")
         }
     }

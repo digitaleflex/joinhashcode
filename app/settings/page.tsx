@@ -6,7 +6,7 @@ import {
   User, Link as LinkIcon,
   Save, Loader2,
   Shield, Sparkles, Activity,
-  Settings, Fingerprint
+  Settings, Fingerprint, ChevronLeft
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -127,6 +127,15 @@ export default function SettingsPage() {
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-12">
+            
+            {/* Back Button */}
+            <Link 
+              href="/dashboard" 
+              className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-500 hover:text-primary transition-colors group mb-2"
+            >
+              <ChevronLeft className="size-3 group-hover:-translate-x-0.5 transition-transform" />
+              RETOUR AU DASHBOARD
+            </Link>
 
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-10">

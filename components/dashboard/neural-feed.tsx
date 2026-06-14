@@ -178,7 +178,10 @@ export function NeuralFeed() {
         )}
       </div>
 
-      <button className="w-full group py-3 px-4 rounded-xl border border-dashed border-white/10 hover:border-primary/30 text-zinc-600 hover:text-primary transition-all flex items-center justify-center gap-2">
+      <button 
+        onClick={() => toast.info("Historique complet bientôt disponible : Nous compilons tes archives tactiques.")}
+        className="w-full group py-3 px-4 rounded-xl border border-dashed border-white/10 hover:border-primary/30 text-zinc-600 hover:text-primary transition-all flex items-center justify-center gap-2"
+      >
         <span className="text-[9px] font-mono font-bold tracking-tight">Voir toute l&apos;activité</span>
         <ChevronRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
       </button>
