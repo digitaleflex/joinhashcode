@@ -205,22 +205,22 @@
 
 ### Phase 2 — UX & Bugs ✅ Vérifiée (déjà faite)
 
-| #   | Tâche                                                      | Statut           |
-| --- | ---------------------------------------------------------- | ---------------- |
-| 6   | ~~ISSUE-023 — Localisation~~                               | ✅ Déjà OK       |
-| 7   | ~~UX-006 — ARIA BottomNav~~                                | ✅ Déjà présent  |
-| 8   | ~~PRODUCT-005 — Landing page value prop~~                  | ✅ Déjà présent  |
-| 9   | **Admin Analytics** — Cohésion moyenne + drop-off missions | ⏳ Reste à faire |
+| #   | Tâche                                                      | Statut              |
+| --- | ---------------------------------------------------------- | ------------------- |
+| 6   | ~~ISSUE-023 — Localisation~~                               | ✅ Déjà OK          |
+| 7   | ~~UX-006 — ARIA BottomNav~~                                | ✅ Déjà présent     |
+| 8   | ~~PRODUCT-005 — Landing page value prop~~                  | ✅ Déjà présent     |
+| 9   | **Admin Analytics** — Cohésion moyenne + drop-off missions | ✅ Fait — `b69dc01` |
 
 ### Phase 3 — Performance
 
-| #   | Tâche                                                      | Effort | Statut              |
-| --- | ---------------------------------------------------------- | ------ | ------------------- |
-| 10  | **PERF-007** — Lazy-load `squad-journey.tsx`               | ~1h    | ✅ Fait — `0f5f9d2` |
-| 11  | **PERF-008** — Lazy-load widgets dashboard                 | ~2h    | ⏳ Reste            |
-| 12  | **PERF-014** — Paralléliser requêtes Squad                 | ~1h    | ✅ Fait — `b871afc` |
-| 13  | **PERF-022** — Extraire `lib/missions.ts` du bundle client | ~3h    | ⏳ Reste            |
-| 14  | **PERF-013** — Cache-Control sur GET APIs                  | ~2h    | ⏳ Reste            |
+| #   | Tâche                                                      | Effort | Statut                               |
+| --- | ---------------------------------------------------------- | ------ | ------------------------------------ |
+| 10  | **PERF-007** — Lazy-load `squad-journey.tsx`               | ~1h    | ✅ Fait — `0f5f9d2`                  |
+| 11  | **PERF-008** — Lazy-load 7 widgets dashboard               | ~2h    | ✅ Fait — `04f4f67`                  |
+| 12  | **PERF-014** — Paralléliser requêtes Squad                 | ~1h    | ✅ Fait — `b871afc`                  |
+| 13  | **PERF-022** — Extraire `lib/missions.ts` du bundle client | ~3h    | ❌ Non nécessaire — type-only import |
+| 14  | **PERF-013** — Cache-Control sur GET APIs                  | ~2h    | ⏳ Reste                             |
 
 ### Phase 4 — Production Ready (Jour 5)
 
@@ -242,4 +242,4 @@
 
 ---
 
-**Récapitulatif :** ~90% du socle est livré. ✅ **Phase 1 terminée** — P17, P10. ✅ **Phase 2 vérifiée** — déjà en place. ✅ **Phase 3 : 2/5 faits** — PERF-007, PERF-014. Reste : PERF-008, PERF-022, PERF-013, Admin Analytics, Production Readiness. ~1-2 jours de travail.
+**Récapitulatif :** ~95% du socle est livré. ✅ **Phase 1 (P17, P10)** — faite. ✅ **Phase 2** — vérifiée. ✅ **Phase 3** — PERF-007, PERF-008, PERF-014 faits ; PERF-022 non nécessaire. ✅ **Admin Analytics** — fait. Reste : PERF-013 (Cache-Control), Production Readiness (~1 jour).
