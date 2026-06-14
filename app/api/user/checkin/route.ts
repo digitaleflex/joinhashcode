@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
+import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
 
@@ -44,13 +45,35 @@ export async function POST(req: Request) {
       const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
       if (hoursSince < 20) {
         return NextResponse.json({ 
-            message: "Tu as déjà signé ton check-in aujourd\"hui. Reviens dans quelques heures pour la suite de ton build !" 
+            message: "Tu as déjà signé ton check-in aujourd'hui. Reviens dans quelques heures pour la suite de ton build !" 
         }, { status: 429 });
       }
-
     }
 
-    // Process check-in
+    // 2. Variable Reward Logic (Neuro-Engagement)
+    const isCriticalHit = Math.random() < 0.15; // 15% chance
+    const baseXP = 10;
+    const bonusXP = isCriticalHit ? 15 : 0;
+    const totalXP = baseXP + bonusXP;
+    
+    const successMessages = [
+        "Signal synchronisé. Ton build avance.",
+        "Check-in validé. Le réseau te voit.",
+        "Empreinte confirmée. Continue de livrer.",
+        "Connexion établie. HASHCODE est fier de toi.",
+    ];
+    
+    const rareMessages = [
+        "SYNCHRONISATION EXCEPTIONNELLE : Signal rare détecté. Gain d'XP doublé !",
+        "FLUX OPTIMAL : Ta régularité impressionne le système. Bonus de confiance accordé.",
+        "RÉSONANCE NEURONALE : Tu es sur une fréquence rare. Profite de ce boost de signal !",
+    ];
+
+    const finalMessage = isCriticalHit 
+        ? rareMessages[Math.floor(Math.random() * rareMessages.length)]
+        : successMessages[Math.floor(Math.random() * successMessages.length)];
+
+    // 3. Process check-in transaction
     const result = await prisma.$transaction(async (tx) => {
       const checkin = await tx.dailyCheckin.create({
         data: {
@@ -62,7 +85,7 @@ export async function POST(req: Request) {
         },
       });
 
-      // Update user streak and vibrancy
+      // Update user streak
       await tx.user.update({
         where: { id: session.user.id },
         data: {
@@ -81,13 +104,17 @@ export async function POST(req: Request) {
         },
       });
 
+      // Award XP with variable reward
+      await awardXp(session.user.id, totalXP, "DAILY_CHECKIN", checkin.id, tx);
+
+      // Update Vibrancy and Confidence
       const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
       await updateUserEvolution(session.user.id, weights, 0.05, tx);
 
-      return checkin;
+      return { ...checkin, finalMessage, totalXP, isCriticalHit };
     });
 
-    // Update squad cohesion if member
+    // 4. Update squad cohesion if member
     const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
     if (membership) {
         await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
@@ -99,3 +126,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }
 }
+

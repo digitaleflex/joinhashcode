@@ -70,11 +70,11 @@ export function DailyCheckinWidget({
       // La cloche de notifications se rafraîchit automatiquement
       queryClient.invalidateQueries({ queryKey: ["notifications"] })
 
-      if (data.surge) {
+      if (data.isCriticalHit) {
         setSurgeActive(true)
-        toast.success(`SURGE ×3 ! +${data.xpEarned} XP`, { duration: 4000 })
+        toast.success(data.finalMessage, { duration: 5000 })
       } else {
-        toast.success(`Check-in enregistré · +${data.xpEarned} XP · Streak ${data.streak}j`)
+        toast.success(`Check-in enregistré · +${data.totalXP} XP`)
       }
 
       setTimeout(() => {
@@ -86,7 +86,7 @@ export function DailyCheckinWidget({
         } else {
           onClose?.()
         }
-      }, 2200)
+      }, 3500)
     },
     onError: (err: Error) => {
       toast.error(err.message || "Erreur lors de l'enregistrement")
@@ -96,6 +96,10 @@ export function DailyCheckinWidget({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.note || !formData.domain) return
+    if (formData.note.length < 20) {
+      toast.error("Ta note est trop courte. Détaille un peu plus tes progrès (min 20 car.).")
+      return
+    }
     checkin.mutate(formData)
   }
 
@@ -119,14 +123,22 @@ export function DailyCheckinWidget({
             animate={{ opacity: 1, scale: 1 }}
             className="py-12 flex flex-col items-center justify-center text-center space-y-4"
           >
-            <div className={`h-16 w-16 rounded-full flex items-center justify-center ${surgeActive ? "bg-yellow-500/20 border border-yellow-500/40 text-yellow-400" : "bg-primary/20 border border-primary/40 text-primary"}`}>
-              {surgeActive ? <Zap className="h-8 w-8" /> : <Check className="h-8 w-8" />}
+            <div className={cn(
+              "h-20 w-20 rounded-full flex items-center justify-center transition-all duration-700",
+              surgeActive ? "bg-primary/20 border-2 border-primary animate-bounce shadow-[0_0_30px_rgba(var(--primary),0.3)]" : "bg-primary/10 border border-primary/20"
+            )}>
+              {surgeActive ? <Zap className="h-10 w-10 text-primary fill-primary" /> : <Check className="h-10 w-10 text-primary" />}
             </div>
-            <div className="space-y-1">
-              <p className="text-lg font-bold">{surgeActive ? "BOOST DE XP ACTIF !" : "Trace enregistrée"}</p>
-              <p className="text-xs text-muted-foreground">
-                {surgeActive ? "Récompense ×3 déclenchée. Continue." : "À demain pour la suite du build."}
+            <div className="space-y-2 max-w-xs">
+              <p className={cn("text-lg font-black uppercase tracking-tighter italic", surgeActive ? "text-primary" : "text-white")}>
+                {surgeActive ? "BOOST DÉTECTÉ !" : "Trace enregistrée"}
               </p>
+              <p className="text-[10px] font-mono text-zinc-400 uppercase leading-relaxed">
+                {checkin.data?.finalMessage || "Signal stabilisé."}
+              </p>
+              <div className="pt-2">
+                <Badge variant="outline" className="font-mono text-primary border-primary/20">+{checkin.data?.totalXP || 10} XP</Badge>
+              </div>
             </div>
           </motion.div>
         ) : (
