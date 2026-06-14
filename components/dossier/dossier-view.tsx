@@ -172,8 +172,8 @@ export function DossierView({
                                       <div className="space-y-3 cursor-help group/item">
                                           <div className="flex items-center gap-2">
                                               <Zap className="size-3.5 text-primary" />
-                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Activité</span>
-                                              <Info className="size-2.5 text-zinc-600 group-hover/item:text-primary transition-colors md:hidden" />
+                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
+                                              <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
                                           </div>
                                           <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round((user.behavioralVibrancy?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -182,7 +182,7 @@ export function DossierView({
                                       </div>
                                   </TooltipTrigger>
                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      Ton score de 'Vibrancy' (Vitalité). Il augmente avec tes check-ins réguliers et tes interactions.
+                                      La 'Vibrancy' mesure la force de ton signal. Elle augmente avec tes check-ins quotidiens et ton activité constante.
                                   </TooltipContent>
                               </Tooltip>
                           </TooltipProvider>
@@ -194,7 +194,7 @@ export function DossierView({
                                           <div className="flex items-center gap-2">
                                               <ShieldCheck className="size-3.5 text-emerald-500" />
                                               <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Confiance</span>
-                                              <Info className="size-2.5 text-zinc-600 group-hover/item:text-emerald-500 transition-colors md:hidden" />
+                                              <Info className="size-2.5 text-zinc-700 group-hover/item:text-emerald-500 transition-colors" />
                                           </div>
                                           <div className="text-xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -203,7 +203,7 @@ export function DossierView({
                                       </div>
                                   </TooltipTrigger>
                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      Indice de fiabilité. Un score haut permet une validation plus rapide de tes missions.
+                                      L'indice de 'Confidence' reflète ta fiabilité technique. Un score élevé permet de valider tes missions sans délai.
                                   </TooltipContent>
                               </Tooltip>
                           </TooltipProvider>

@@ -190,7 +190,7 @@ export function DashboardShell({
                         <div className="text-left md:text-right cursor-help group/hub">
                           <div className="flex items-center md:justify-end gap-1.5 mb-0.5">
                             <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
-                            <Info className="size-2.5 text-zinc-600 group-hover/hub:text-primary transition-colors md:hidden" />
+                            <Info className="size-2.5 text-zinc-700 group-hover/hub:text-primary transition-colors" />
                           </div>
                           <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
                         </div>
@@ -212,7 +212,7 @@ export function DashboardShell({
                         <div className="text-right cursor-help group/hub">
                           <div className="flex items-center justify-end gap-1.5 mb-0.5">
                             <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
-                            <Info className="size-2.5 text-zinc-600 group-hover/hub:text-primary transition-colors md:hidden" />
+                            <Info className="size-2.5 text-zinc-700 group-hover/hub:text-orange-500 transition-colors" />
                           </div>
                           <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
                             <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
@@ -221,7 +221,7 @@ export function DashboardShell({
                         </div>
                       </TooltipTrigger>
                       <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                        Maintiens ta série pour booster tes gains d'XP.
+                        Maintiens ta série en effectuant un check-in chaque jour pour booster tes gains d'XP.
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -267,7 +267,19 @@ export function DashboardShell({
                     </div>
                     <Badge variant="outline" className="font-mono text-[10px] font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
                   </div>
-                  <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info className="size-3.5 text-zinc-700 cursor-help hover:text-primary transition-colors mt-1" />
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-56">
+                          Accumule de l'XP via les missions et les check-ins pour monter en grade et débloquer de nouvelles habilitations.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <CardDescription className="text-zinc-500 font-medium tracking-tight">Ta progression vers le niveau suivant.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-2">

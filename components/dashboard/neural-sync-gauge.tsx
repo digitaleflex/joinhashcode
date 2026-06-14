@@ -23,31 +23,44 @@ export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGa
   const multiplierValue = currentStreak >= 7 ? "1.2x" : isMultiplierActive ? "1.1x" : "1.0x"
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-end justify-between">
+    <div className="space-y-6 w-full">
+      <div className="flex items-end justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <Zap className={cn("size-3", isMultiplierActive ? "text-primary animate-pulse" : "text-zinc-600")} />
-            <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight">Score d'engagement</span>
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center gap-2 cursor-help group/label">
+                  <Zap className={cn("size-3", isMultiplierActive ? "text-primary animate-pulse" : "text-zinc-600")} />
+                  <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight uppercase">Indice de Confiance</span>
+                  <Info className="size-2.5 text-zinc-700 group-hover/label:text-primary transition-colors" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300 max-w-56">
+                Le système évalue ta précision. Un score haut (80%+) accélère la validation de tes futures missions.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <h4 className="text-2xl font-bold tracking-tighter text-white">
-            {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg tracking-tight">signal</span>
+            {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg tracking-tight">sync</span>
           </h4>
         </div>
 
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="flex flex-col items-end gap-1 cursor-help">
+              <div className="flex flex-col items-end gap-1 cursor-help group/streak">
                 <div className="flex items-center gap-1.5">
+                  <span className="text-lg font-bold font-mono tracking-tight text-white">{currentStreak}</span>
                   <Flame className={cn("size-4", currentStreak > 0 ? "text-orange-500" : "text-zinc-800")} />
-                  <span className="text-lg font-bold font-mono tracking-tight">{currentStreak}</span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none">jours de suite</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none uppercase">Régularité</span>
+                  <Info className="size-2 text-zinc-800 group-hover/streak:text-orange-500 transition-colors" />
+                </div>
               </div>
             </TooltipTrigger>
             <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300">
-              maintiens ta sync pour booster ton XP
+              Enchaîne les jours d'activité pour activer le multiplicateur d'XP (Bonus à partir de 3 jours).
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
