@@ -13,8 +13,8 @@ console.log('🔍 Scanning for secrets...');
 let found = false;
 patterns.forEach(pattern => {
   try {
-    // Search in ts, tsx, js, json, md, excluding node_modules, .next, .git, et le script lui-même
-    const cmd = `grep -rnE "${pattern}" . --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git --exclude="check-secrets.js" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.json" --include="*.md" 2>/dev/null`;
+    // Search only git-tracked files, excluding the script itself
+    const cmd = `git grep -nE "${pattern}" -- '*.ts' '*.tsx' '*.js' '*.json' '*.md' ':!check-secrets.js' 2>/dev/null`;
     const output = execSync(cmd).toString();
     if (output) {
       console.error(`❌ Potential secret found with pattern ${pattern}:`);
@@ -22,7 +22,7 @@ patterns.forEach(pattern => {
       found = true;
     }
   } catch (e) {
-    // grep returns exit code 1 if no match found
+    // git grep returns exit code 1 if no match found
   }
 });
 
