@@ -174,7 +174,7 @@ export async function submitQuiz(rawData: unknown) {
 
     // Fire-and-forget email notification
     emailService
-      .sendQuizResults({
+      .sendWelcomeProfileEmail({
         email: session.user.email,
         name: session.user.name,
         profileType: analysis.primary,
