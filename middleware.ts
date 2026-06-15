@@ -3,14 +3,20 @@ import { getSessionCookie } from "better-auth/cookies";
 
 // Fix SEC-010: Build nonce-based CSP — replaces static `unsafe-inline` for script-src
 function buildCSP(nonce: string): string {
+  const isDev = process.env.NODE_ENV !== "production";
+  const scriptSrc = isDev
+    ? `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`
+    : `script-src 'self' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
+
   return [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' https://va.vercel-scripts.com https://vercel.live https://*.vercel.live https://static.cloudflareinsights.com`,
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://vercel.live https://*.vercel.live",
-    "img-src 'self' data: https://lh3.googleusercontent.com https://avatars.githubusercontent.com https://api.qrserver.com https://vercel.live https://*.vercel.live https://vercel.com",
-    "font-src 'self' data: https://fonts.gstatic.com https://vercel.live https://*.vercel.live",
-    "connect-src 'self' https://vitals.vercel-insights.com https://vercel.live https://*.vercel.live",
-    "frame-src 'self' https://vercel.live https://*.vercel.live",
+    scriptSrc,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: https://lh3.googleusercontent.com https://avatars.githubusercontent.com https://api.qrserver.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "connect-src 'self' blob:",
+    "worker-src 'self' blob:",
+    "frame-src 'self'",
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
@@ -72,7 +78,7 @@ export async function middleware(request: NextRequest) {
       const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
         headers: requestHeaders,
         cache: 'no-store',
-        signal: AbortSignal.timeout(3000) // Strict 3s timeout to prevent 503 hang
+        signal: AbortSignal.timeout(5000) // Relaxed 5s timeout to prevent 503 hang under latency
       });
 
       if (response.ok) {
