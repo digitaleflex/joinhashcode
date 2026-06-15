@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { awardXp } from "@/lib/experience";
 import { getCurrentCycleKey } from "@/lib/missions";
-import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
 import { trackEvent, EVENTS } from "@/lib/analytics";
@@ -151,8 +150,6 @@ export class MissionsService {
     });
     
     if (finalUser) {
-      await calculateAndSetLevel(userId, finalUser.experience, prisma);
-      
       // Track Analytics
       if (finalUser.missionsCompletedCount === 1) {
           await trackEvent(userId, EVENTS.FIRST_MISSION_STARTED, { 

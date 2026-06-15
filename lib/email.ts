@@ -5,6 +5,19 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
+const EMAIL_WARNING_THROTTLE_MS = 300_000;
+let lastWarningTime = 0;
+
+function warnEmailMissing(context: string) {
+  const now = Date.now();
+  if (now - lastWarningTime > EMAIL_WARNING_THROTTLE_MS) {
+    lastWarningTime = now;
+    console.warn(`[EMAIL_WARN] ${context}: RESEND_API_KEY manquant — emails en mode mock silencieux. Définissez RESEND_API_KEY pour envoyer les vrais emails.`);
+  }
+}
+
+export { warnEmailMissing };
+
 const escHtml = (str: string) =>
   str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
 
@@ -108,7 +121,10 @@ const generateEmailTemplate = (content: string, previewText?: string) => `
 
 export const emailService = {
   async sendWelcomeEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendWelcomeEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -132,15 +148,26 @@ export const emailService = {
   },
 
   async sendWelcomeProfileEmail({ email, name, profileType }: { email: string; name: string; profileType: string }) {
-    return this.sendWelcomeEmail({ email, name }); // Placeholder for now
+    if (!resend) {
+      warnEmailMissing("sendWelcomeProfileEmail");
+      return { success: true, mocked: true };
+    }
+    return this.sendWelcomeEmail({ email, name }); // Placeholder for now,
   },
 
   async sendWelcomePendingQuiz({ email, name }: { email: string; name: string }) {
+    if (!resend) {
+      warnEmailMissing("sendWelcomePendingQuiz");
+      return { success: true, mocked: true };
+    }
     return this.sendWelcomeEmail({ email, name }); // Placeholder for now
   },
 
   async sendMissionProtocolEmail({ email, name, userClass }: { email: string; name: string; userClass: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendMissionProtocolEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -165,7 +192,10 @@ export const emailService = {
   
   // ... (keeping other methods as they were)
   async sendSquadPowerEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendSquadPowerEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -189,7 +219,10 @@ export const emailService = {
   },
 
   async sendDigitalIdentityEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendDigitalIdentityEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -213,7 +246,10 @@ export const emailService = {
   },
 
   async sendBetaKeyVerifiedEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendBetaKeyVerifiedEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -237,7 +273,10 @@ export const emailService = {
   },
 
   async sendOnboardingCompletedEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendOnboardingCompletedEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -261,7 +300,10 @@ export const emailService = {
   },
 
   async sendMagicLink({ email, url }: { email: string; url: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendMagicLink");
+      return { success: true, mocked: true };
+    }
 
     const content = `
       <h1>Ton lien de connexion</h1>
@@ -278,7 +320,10 @@ export const emailService = {
   },
 
   async sendOtpEmail({ email, otp, type: _type }: { email: string; otp: string; type: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendOtpEmail");
+      return { success: true, mocked: true };
+    }
 
     const content = `
       <h1>Ton code de vérification</h1>
@@ -361,7 +406,10 @@ export const emailService = {
 
   async sendContactNotification({ type, email, subject, content: messageContent }: { type: string; email: string; subject: string; content: string }) {
     const adminEmail = process.env.ADMIN_EMAIL || "admin@joinhashcode.com";
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendContactNotification");
+      return { success: true, mocked: true };
+    }
 
     const content = `
       <h1>Nouveau message reçu</h1>
@@ -379,7 +427,10 @@ export const emailService = {
   },
 
   async sendFeedbackReceipt({ email, name, type }: { email: string; name: string; type: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendFeedbackReceipt");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const typeLabels: Record<string, string> = {
@@ -401,7 +452,10 @@ export const emailService = {
   },
 
   async sendFeedbackUpdate({ email, name, status }: { email: string; name: string; status: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendFeedbackUpdate");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const statusInfo: Record<string, { headline: string; body: string; cta: boolean }> = {
@@ -438,7 +492,10 @@ export const emailService = {
   },
 
   async sendMissionSubmitted({ email, name, missionTitle, bonusXp }: { email: string; name: string; missionTitle: string; bonusXp: number }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendMissionSubmitted");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -461,7 +518,10 @@ export const emailService = {
   },
 
   async sendMissionNeedsRevision({ email, name, missionTitle, feedback, revisionCount }: { email: string; name: string; missionTitle: string; feedback: string; revisionCount?: number }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendMissionNeedsRevision");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -483,7 +543,10 @@ export const emailService = {
   },
 
   async sendMissionRejected({ email, name, missionTitle, feedback }: { email: string; name: string; missionTitle: string; feedback?: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendMissionRejected");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -505,7 +568,10 @@ export const emailService = {
   },
 
   async sendLevelUp({ email, name, newLevel }: { email: string; name: string; newLevel: number }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendLevelUp");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -526,7 +592,10 @@ export const emailService = {
     },
 
     async sendLevel5ReachedEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendLevel5ReachedEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -549,7 +618,10 @@ export const emailService = {
     },
 
     async sendSquadCreatedEmail({ email, name, squadName }: { email: string; name: string; squadName: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendSquadCreatedEmail");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Leader").split(" ")[0];
     const content = `
@@ -573,8 +645,38 @@ export const emailService = {
     },
 
 
+  async sendSquadInvitationEmail({ email, name, leaderName, squadName, invitationLink }: { email: string; name: string; leaderName: string; squadName: string; invitationLink: string }) {
+    if (!resend) {
+      warnEmailMissing("sendSquadInvitationEmail");
+      return { success: true, mocked: true };
+    }
+
+    const firstName = (name || "Talent").split(" ")[0];
+    const content = `
+      <h1>Ta place dans l'escouade t'attend, <span class="accent">${escHtml(firstName)}</span> !</h1>
+      <p><strong>${escHtml(leaderName)}</strong> t'invite à rejoindre son escouade <strong>${escHtml(squadName)}</strong> sur HASHCODE.</p>
+      <div class="card">
+        <div class="card-value">INVITATION RECUE</div>
+        <div class="card-label">${escHtml(squadName)}</div>
+      </div>
+      <p>Rejoindre une escouade te permet de collaborer sur des projets réels, de participer aux missions collectives et de bénéficier d'un multiplicateur d'XP de groupe basé sur la Cohésion.</p>
+      <div class="btn-wrap">
+        <a href="${invitationLink}" class="btn">Répondre à l'invitation →</a>
+      </div>
+      <hr class="divider">
+      <p class="note">Si tu fais déjà partie d'une escouade, tu devras la quitter pour pouvoir accepter celle-ci.</p>
+    `;
+
+    const html = generateEmailTemplate(content, `Tu as reçu une invitation pour rejoindre l'escouade ${squadName}`);
+    return this._send({ to: email, subject: `🤝 Recrutement : Rejoins l'escouade "${escHtml(squadName)}" !`, html, text: stripHtml(content) });
+  },
+
+
   async sendSquadMemberJoined({ leaderEmail, leaderName, newMemberName, squadName, memberCount }: { leaderEmail: string; leaderName: string; newMemberName: string; squadName: string; memberCount: number }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendSquadMemberJoined");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (leaderName || "Leader").split(" ")[0];
     const content = `
@@ -595,7 +697,10 @@ export const emailService = {
     },
 
   async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, level, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; level: number; missionsCount: number }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendAdminAccountDeleted");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (adminName || "Admin").split(" ")[0];
     const content = `
@@ -616,7 +721,10 @@ export const emailService = {
   },
 
   async sendAccountDeleted({ email, name }: { email: string; name: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendAccountDeleted");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (name || "Builder").split(" ")[0];
     const content = `
@@ -631,7 +739,10 @@ export const emailService = {
   },
 
   async sendAdminCoreMissionPending({ adminEmail, adminName, submitterName, missionTitle }: { adminEmail: string; adminName: string; submitterName: string; missionTitle: string }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendAdminCoreMissionPending");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (adminName || "Admin").split(" ")[0];
     const content = `
@@ -648,7 +759,10 @@ export const emailService = {
   },
 
   async sendSquadCohesionAlert({ leaderEmail, leaderName, squadName, cohesionScore, level }: { leaderEmail: string; leaderName: string; squadName: string; cohesionScore: number; level: "low" | "critical" }) {
-    if (!resend) return { success: true, mocked: true };
+    if (!resend) {
+      warnEmailMissing("sendSquadCohesionAlert");
+      return { success: true, mocked: true };
+    }
 
     const firstName = (leaderName || "Leader").split(" ")[0];
     const isCritical = level === "critical";

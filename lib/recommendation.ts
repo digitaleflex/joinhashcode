@@ -1,33 +1,39 @@
-import { MISSIONS, Mission } from "./missions";
 
-export function getRecommendedMissions(
-  userVibrancy: unknown,
-  userClass: string | null,
-  userLevel: number,
-  completedMissionIds: string[],
-  limit: number = 3
-): Mission[] {
-  const available = MISSIONS.filter(m =>
-    m.requiredLevel <= userLevel &&
-    !completedMissionIds.includes(m.id) &&
-    (!m.slug || !completedMissionIds.includes(m.slug))
-  );
+interface PsychometricProperties {
+  comportement: number; // 0-1
+  capacite: number; // 0-1
+  alignement: number; // 0-1
+}
 
-  if (available.length === 0) return [];
+/**
+ * Calcule le score de talent pour un individu en se basant sur des propriétés psychométriques et un score de confiance.
+ * Pondération: 45% Comportement, 35% Capacité, 20% Alignement.
+ * Un boost de 1.1x est appliqué si le score de confiance est supérieur à 0.7.
+ *
+ * @param psychometricProperties - Un objet contenant les scores de comportement, capacité et alignement (entre 0 et 1).
+ * @param levelXp - Le niveau d'expérience (non utilisé dans le calcul actuel mais peut être étendu).
+ * @param confidenceScore - Le score de confiance (entre 0 et 1).
+ * @returns Le score de talent calculé.
+ */
+export function calculateTalentScore(
+  psychometricProperties: PsychometricProperties,
+  levelXp: number,
+  confidenceScore: number
+): number {
+  const { comportement, capacite, alignement } = psychometricProperties;
 
-  // FORCE: Quick Win for new users (Signal d'Ouverture)
-  const quickWin = available.find(m => m.id === "signal-ouverture");
-  const filteredAvailable = available.filter(m => m.id !== "signal-ouverture");
+  // Appliquer les pondérations
+  let score =
+    (comportement * 0.45) +
+    (capacite * 0.35) +
+    (alignement * 0.20);
 
-  // Priorité aux missions du profil de l'utilisateur, puis les autres
-  const aligned = filteredAvailable.filter(m =>
-    userClass && m.targetProfiles.includes(userClass.toLowerCase() as any)
-  );
-  const others = filteredAvailable.filter(m =>
-    !userClass || !m.targetProfiles.includes(userClass.toLowerCase() as any)
-  );
+  // Appliquer le boost de confiance
+  if (confidenceScore > 0.7) {
+    score *= 1.1;
+  }
 
-  const finalMissions = quickWin ? [quickWin, ...aligned, ...others] : [...aligned, ...others];
-
-  return finalMissions.slice(0, limit);
+  // Normaliser le score si nécessaire, bien qu'avec les inputs 0-1 et les poids, il devrait rester dans une plage raisonnable.
+  // Pour l'instant, on suppose que le score max est 1 (si tous les inputs sont 1).
+  return score;
 }

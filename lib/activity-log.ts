@@ -1,4 +1,5 @@
 import { prisma } from "./prisma"
+import { sanitizeMetadata } from "./logger"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
@@ -72,7 +73,7 @@ export async function logActivity(opts: LogOptions): Promise<void> {
         action,
         entity: entity ?? null,
         entityId: entityId ?? null,
-        metadata: metadata ?? undefined,
+        metadata: metadata ? (sanitizeMetadata(metadata) as any) : undefined,
         ip: request ? getClientIp(request) : null,
         userAgent: request?.headers.get("user-agent") ?? null,
       },
