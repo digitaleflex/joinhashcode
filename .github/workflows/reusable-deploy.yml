@@ -74,16 +74,26 @@ jobs:
 
             # ── [5/5] Verify Health & Rollback if failure ───────────────────
             echo "--- [5/5] Running health check ---"
-            MAX=30
             HEALTHY=false
-            for i in $(seq 1 $MAX); do
-              RESPONSE=$(docker compose --env-file .env.production exec -T web sh -c "wget -qO- http://127.0.0.1:3000/api/status" 2>/dev/null || echo "offline")
+            # Phase 1: wait for container to be running (up to 60s)
+            for i in $(seq 1 12); do
+              if docker inspect -f '{{.State.Status}}' hashcode-web 2>/dev/null | grep -q "running"; then
+                echo "Container is running after $((i * 5))s"
+                break
+              fi
+              echo "Waiting for container to start... ($i/12)"
+              sleep 5
+            done
+
+            # Phase 2: check HTTP health endpoint (up to 90s)
+            for i in $(seq 1 18); do
+              RESPONSE=$(docker compose --env-file .env.production exec -T web node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(console.log).catch(()=>console.log('offline'))" 2>/dev/null || node -e "console.log('offline')")
               if echo "$RESPONSE" | grep -q "online"; then
                 echo "App healthy: $RESPONSE"
                 HEALTHY=true
                 break
               fi
-              echo "Waiting for container to become healthy... ($i/$MAX)"
+              echo "Waiting for app to respond... ($i/18)"
               sleep 5
             done
 
@@ -92,7 +102,8 @@ jobs:
               docker compose --env-file .env.production logs --tail=100 web || true
               
               echo "Rolling back to :latest image..."
-              HASHCODE_IMAGE="ghcr.io/${{ github.repository }}:latest" docker compose --env-file .env.production up -d web
+              LATEST_IMAGE="ghcr.io/${{ github.repository }}:latest"
+              HASHCODE_IMAGE="$LATEST_IMAGE" docker compose --env-file .env.production up -d web
               echo "Rollback complete."
               exit 1
             fi
