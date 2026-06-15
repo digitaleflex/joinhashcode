@@ -25,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { SquadChatWidget } from "./squad-chat-widget"
 
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
@@ -132,6 +133,11 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        {/* Squad Chat (Only if in a squad) */}
+        {((session.data?.session as any)?.activeOrganizationId || squad) && (
+          <SquadChatWidget userId={user.id} />
+        )}
 
         {/* Notifications */}
         <NotificationBell />

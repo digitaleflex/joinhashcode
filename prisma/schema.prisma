@@ -112,14 +112,49 @@ model Organization {
   twoFactorBackupCodes     String?
   invitations   Invitation[]
   joinRequests             JoinRequest[]
+  messages      SquadMessage[]
 
   @@map("organization")
+}
+
+model User {
+...
+  dailyCheckins            DailyCheckin[]
+  guildMembers             GuildMember[]
+  missionSubmissions       MissionSubmission[] @relation("SubmissionOwner")
+  submissionsInReview      MissionSubmission[] @relation("SubmissionReviewer")
+  canReviewProfiles        String[]        @default([])
+  reviewsCompleted         Int             @default(0)
+  reviewsGiven             MissionReview[] @relation("ReviewsGiven")
+  notifications            Notification[]
+  betaFeedbacks            BetaFeedback[]
+  activityLogs             ActivityLog[]
+  quizResults              QuizResult[]
+  uxPollResponses          UXPollResponse[]
+  sessions                 Session[]
+  members                  Member[]
+  squadMessages            SquadMessage[]
+...
+}
+
+model SquadMessage {
+  id             String       @id @default(cuid())
+  content        String       @db.Text
+  userId         String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([createdAt])
+  @@map("squad_message")
 }
 
 model Member {
   id             String       @id
   organizationId String
-  userId         String
+  userId         String       @unique
   role           String
   createdAt      DateTime
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
