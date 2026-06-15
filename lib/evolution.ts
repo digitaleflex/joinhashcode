@@ -1,4 +1,4 @@
-export interface BehavioralVibrancy {
+export interface BehavioralVitality {
   builder: number;
   creator: number;
   strategist: number;
@@ -6,34 +6,34 @@ export interface BehavioralVibrancy {
 }
 
 /**
- * Calcule la nouvelle "Vibrancy" (somme pondérée des actions).
+ * Calcule la nouvelle Vitalité (somme pondérée des actions).
  */
-export const updateVibrancy = (
-  currentVibrancy: BehavioralVibrancy,
-  missionWeights: BehavioralVibrancy,
+export const updateVitality = (
+  currentVitality: BehavioralVitality,
+  missionWeights: BehavioralVitality,
   qualityMultiplier: number = 1 // Basé sur le feedback ou la réussite
-): BehavioralVibrancy => {
+): BehavioralVitality => {
   return {
-    builder: currentVibrancy.builder + (missionWeights.builder * qualityMultiplier),
-    creator: currentVibrancy.creator + (missionWeights.creator * qualityMultiplier),
-    strategist: currentVibrancy.strategist + (missionWeights.strategist * qualityMultiplier),
-    catalyst: currentVibrancy.catalyst + (missionWeights.catalyst * qualityMultiplier),
+    builder: currentVitality.builder + (missionWeights.builder * qualityMultiplier),
+    creator: currentVitality.creator + (missionWeights.creator * qualityMultiplier),
+    strategist: currentVitality.strategist + (missionWeights.strategist * qualityMultiplier),
+    catalyst: currentVitality.catalyst + (missionWeights.catalyst * qualityMultiplier),
   };
 };
 
 /**
- * Calcule la nouvelle "Vibrancy" avec application du "Time Decay" (Phase 2).
+ * Calcule la nouvelle Vitalité avec application du "Time Decay".
  * Les scores diminuent de moitié tous les halfLifeDays si aucune activité.
  */
-export const updateVibrancyWithDecay = (
-  currentVibrancy: BehavioralVibrancy,
-  missionWeights: BehavioralVibrancy,
+export const updateVitalityWithDecay = (
+  currentVitality: BehavioralVitality,
+  missionWeights: BehavioralVitality,
   lastUpdate: Date | null,
   now: Date = new Date(),
   halfLifeDays: number = 30
-): { vibrancy: BehavioralVibrancy; decayFactor: number } => {
+): { vitality: BehavioralVitality; decayFactor: number } => {
   if (!lastUpdate) {
-    return { vibrancy: updateVibrancy(currentVibrancy, missionWeights), decayFactor: 1 };
+    return { vitality: updateVitality(currentVitality, missionWeights), decayFactor: 1 };
   }
 
   const diffMs = now.getTime() - lastUpdate.getTime();
@@ -47,11 +47,11 @@ export const updateVibrancyWithDecay = (
   };
 
   return {
-    vibrancy: {
-      builder: applyDecay(currentVibrancy.builder) + missionWeights.builder,
-      creator: applyDecay(currentVibrancy.creator) + missionWeights.creator,
-      strategist: applyDecay(currentVibrancy.strategist) + missionWeights.strategist,
-      catalyst: applyDecay(currentVibrancy.catalyst) + missionWeights.catalyst,
+    vitality: {
+      builder: applyDecay(currentVitality.builder) + missionWeights.builder,
+      creator: applyDecay(currentVitality.creator) + missionWeights.creator,
+      strategist: applyDecay(currentVitality.strategist) + missionWeights.strategist,
+      catalyst: applyDecay(currentVitality.catalyst) + missionWeights.catalyst,
     },
     decayFactor
   };

@@ -1,8 +1,8 @@
 import { prisma } from './prisma';
-import { BehavioralVibrancy, updateVibrancyWithDecay } from './evolution';
+import { BehavioralVitality, updateVitalityWithDecay } from './evolution';
 import { Prisma } from '../generated/prisma';
 
-export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVibrancy>> = {
+export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
   'Code': { builder: 1 },
   'Design': { creator: 1 },
   'Business': { strategist: 1 },
@@ -13,17 +13,17 @@ export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVibrancy>> = {
 
 export { LEVEL_THRESHOLDS, getLevelProgress } from './level-utils';
 
-export function calculateNewVibrancy(
-  currentVibrancy: BehavioralVibrancy,
-  actionWeights: BehavioralVibrancy,
+export function calculateNewVitality(
+  currentVitality: BehavioralVitality,
+  actionWeights: BehavioralVitality,
   lastUpdate: Date | null = null
 ) {
-  return updateVibrancyWithDecay(currentVibrancy, actionWeights, lastUpdate).vibrancy;
+  return updateVitalityWithDecay(currentVitality, actionWeights, lastUpdate).vitality;
 }
 
 export async function updateUserEvolution(
   userId: string,
-  actionWeights: BehavioralVibrancy,
+  actionWeights: BehavioralVitality,
   confidenceGain: number,
   tx?: Prisma.TransactionClient
 ) {
@@ -44,14 +44,14 @@ export async function updateUserEvolution(
 
   if (!user) return;
 
-  const currentVibrancy = (user.behavioralVibrancy as unknown as BehavioralVibrancy) || {
+  const currentVitality = (user.behavioralVibrancy as unknown as BehavioralVitality) || {
     builder: 0,
     creator: 0,
     strategist: 0,
     catalyst: 0,
   };
 
-  const newVibrancy = calculateNewVibrancy(currentVibrancy, actionWeights, user.lastHypothesisUpdate);
+  const newVitality = calculateNewVitality(currentVitality, actionWeights, user.lastHypothesisUpdate);
   const currentConfidence = user.psychometrics?.confidenceScore ?? 0.25;
   const newConfidence = Math.min(currentConfidence + confidenceGain, 1.0);
 
@@ -59,7 +59,7 @@ export async function updateUserEvolution(
   await client.user.update({
     where: { id: userId },
     data: {
-      behavioralVibrancy: newVibrancy as unknown as Prisma.InputJsonValue,
+      behavioralVibrancy: newVitality as unknown as Prisma.InputJsonValue,
       lastHypothesisUpdate: new Date(),
     }
   });
