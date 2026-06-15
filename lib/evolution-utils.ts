@@ -1,22 +1,51 @@
-﻿import { XP_THRESHOLDS } from "./missions";
-import { checkAndAwardBadges } from "./badge-engine";
+import { BehavioralVitality } from "./evolution";
 
-export async function calculateAndSetLevel(userId: string, currentExperience: number, prisma: any) {
-  let newLevel = 1;
+/**
+ * Mapping des classes vers les clés de vitalité comportementale.
+ */
+export const CLASS_TO_QUADRANT: Record<string, keyof BehavioralVitality> = {
+  'Bâtisseur': 'builder',
+  'Créateur': 'creator',
+  'Stratège': 'strategist',
+  'Catalyseur': 'catalyst',
+  'BÂTISSEUR': 'builder',
+  'CRÉATEUR': 'creator',
+  'STRATÈGE': 'strategist',
+  'CATALYSEUR': 'catalyst',
+};
 
-  for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS).sort((a, b) => Number(a[0]) - Number(b[0]))) {
-    if (currentExperience >= threshold) {
-      newLevel = Number(levelStr);
-    }
-  }
+/**
+ * Calcule le niveau de synchronisation neuronale (Sync_Level).
+ * Il s'agit du pourcentage de dominance de la classe choisie par rapport à l'activité totale.
+ * 
+ * @param classLabel La classe de l'utilisateur (ex: "Bâtisseur")
+ * @param vitality Les scores actuels de vitalité (builder, creator, strategist, catalyst)
+ * @returns Un score entre 0 et 100
+ */
+export function calculateNeuralSync(
+  classLabel: string | null,
+  vitality: BehavioralVitality
+): number {
+  if (!classLabel) return 100;
 
-  const updatedUser = await prisma.user.update({
-    where: { id: userId },
-    data: { level: newLevel },
-  });
+  const targetKey = CLASS_TO_QUADRANT[classLabel];
+  if (!targetKey) return 100;
 
-  // Trigger badge check after level update
-  await checkAndAwardBadges(userId);
+  const total = vitality.builder + vitality.creator + vitality.strategist + vitality.catalyst;
+  
+  if (total === 0) return 100; // Synchronisé par défaut au démarrage
 
-  return updatedUser;
+  const sync = (vitality[targetKey] / total) * 100;
+  
+  return Math.min(Math.max(Math.round(sync), 0), 100);
+}
+
+/**
+ * Retourne un libellé et une couleur basés sur le score de synchronisation.
+ */
+export function getSyncStatus(score: number) {
+  if (score >= 80) return { label: "OPTIMAL", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20" };
+  if (score >= 50) return { label: "SYNCHRONISÉ", color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" };
+  if (score >= 30) return { label: "DÉRIVE LÉGÈRE", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20" };
+  return { label: "DÉRIVE CRITIQUE", color: "text-destructive", bg: "bg-destructive/10", border: "border-destructive/20" };
 }

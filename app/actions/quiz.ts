@@ -29,7 +29,7 @@ export async function submitQuiz(rawData: unknown) {
     });
 
     if (!session) {
-      return { success: false, error: "Unauthorized", status: 401 };
+      return { success: false, error: "Non autorisé", status: 401 };
     }
 
     const result = QuizSubmissionSchema.safeParse(rawData);
@@ -66,18 +66,37 @@ export async function submitQuiz(rawData: unknown) {
       };
     }
 
-    // Block re-taking the quiz if profile is already assigned
+    // Block re-taking the quiz if profile is already assigned AND cooldown/24h conditions are not met
     const existingUser = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { class: true },
+      select: { class: true, createdAt: true },
     });
 
     if (existingUser?.class) {
-      return {
-        success: false,
-        error: "Quiz déjà complété. Ton profil est verrouillé.",
-        status: 409,
-      };
+      const lastQuiz = await prisma.quizResult.findFirst({
+        where: { userId: session.user.id },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (lastQuiz) {
+        const now = new Date();
+        const quizCreatedAt = new Date(lastQuiz.createdAt);
+        const userCreatedAt = new Date(existingUser.createdAt);
+
+        const isNewAccount = (now.getTime() - userCreatedAt.getTime()) < 24 * 60 * 60 * 1000;
+        const COOLDOWN_MS = 14 * 24 * 60 * 60 * 1000;
+        const cooldownEnd = new Date(quizCreatedAt.getTime() + COOLDOWN_MS);
+        const isCooldownElapsed = now.getTime() >= cooldownEnd.getTime();
+
+        if (!isNewAccount && !isCooldownElapsed) {
+          const daysLeft = Math.ceil((cooldownEnd.getTime() - now.getTime()) / (24 * 60 * 60 * 1000));
+          return {
+            success: false,
+            error: `Recalibrage verrouillé. Tu dois attendre encore ${daysLeft} jour(s) pour repasser le quiz.`,
+            status: 409,
+          };
+        }
+      }
     }
 
     // Run core algorithm
@@ -153,7 +172,15 @@ export async function submitQuiz(rawData: unknown) {
         throw new Error(`La guilde [${guildSlug}] est introuvable.`);
       }
 
-      // 4. Enroll the user in the Guild
+      // 4. Clean up other active guild memberships of profile classes (except the new one)
+      await tx.guildMember.deleteMany({
+        where: {
+          userId: session.user.id,
+          guildId: { not: guild.id },
+        },
+      });
+
+      // 5. Enroll the user in the Guild
       await tx.guildMember.upsert({
         where: {
           userId_guildId: {
@@ -212,7 +239,7 @@ export async function submitQuiz(rawData: unknown) {
     console.error("[QUIZ_SERVER_ACTION_ERROR]", error);
     return {
       success: false,
-      error: error.message || "Internal Server Error",
+      error: error.message || "Erreur interne du serveur",
       status: 500,
     };
   }

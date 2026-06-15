@@ -119,7 +119,7 @@ model Organization {
 model Member {
   id             String       @id
   organizationId String
-  userId         String
+  userId         String       @unique
   role           String
   createdAt      DateTime
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)

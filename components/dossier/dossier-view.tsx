@@ -38,6 +38,8 @@ import {
 import { toast } from "sonner";
 
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
+import { calculateNeuralSync } from "@/lib/evolution-utils";
+import { NeuralSyncGauge } from "@/components/dashboard/neural-sync-gauge";
 
 interface DossierViewProps {
   user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] };
@@ -66,6 +68,13 @@ export function DossierView({
 }: Omit<DossierViewProps, "squadMembersLogs">) {
   const [sendingInvite, setSendingInvite] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
+
+  const syncScore = calculateNeuralSync(user.class, {
+    builder: user.builderScore,
+    creator: user.creatorScore,
+    strategist: user.strategistScore,
+    catalyst: user.catalystScore,
+  });
 
   const handleInvite = async () => {
     const targetClass = user.class?.toLowerCase();
@@ -235,6 +244,17 @@ export function DossierView({
                       )}
                     </div>
                   )}
+              </div>
+
+              {/* Neural Sync Gauge */}
+              <div className="space-y-4">
+                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                      Alignement Neural
+                      <div className="h-px bg-white/5 flex-1" />
+                  </p>
+                  <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8">
+                      <NeuralSyncGauge score={syncScore} />
+                  </Card>
               </div>
 
               {/* Evolution Engine Metrics (Only if NOT public or optionally public) */}

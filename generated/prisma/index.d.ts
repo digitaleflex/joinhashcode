@@ -37762,16 +37762,16 @@ export namespace Prisma {
 
   export type MemberWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId?: string
     AND?: MemberWhereInput | MemberWhereInput[]
     OR?: MemberWhereInput[]
     NOT?: MemberWhereInput | MemberWhereInput[]
     organizationId?: StringFilter<"Member"> | string
-    userId?: StringFilter<"Member"> | string
     role?: StringFilter<"Member"> | string
     createdAt?: DateTimeFilter<"Member"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "userId">
 
   export type MemberOrderByWithAggregationInput = {
     id?: SortOrder
