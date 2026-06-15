@@ -72,7 +72,7 @@ export async function POST(req: Request) {
         await prisma.organization.update({
           where: { id: squad.id },
           data: { 
-            // lastComboAt: new Date(), // Waiting for migration
+            lastComboAt: new Date(),
             streakCount: { increment: 1 }
           }
         });

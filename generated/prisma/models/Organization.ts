@@ -48,6 +48,7 @@ export type OrganizationMinAggregateOutputType = {
   cohesionScore: number | null
   streakCount: number | null
   lastStreakAt: Date | null
+  lastComboAt: Date | null
   requiredLevel: number | null
   isPrivate: boolean | null
   description: string | null
@@ -67,6 +68,7 @@ export type OrganizationMaxAggregateOutputType = {
   cohesionScore: number | null
   streakCount: number | null
   lastStreakAt: Date | null
+  lastComboAt: Date | null
   requiredLevel: number | null
   isPrivate: boolean | null
   description: string | null
@@ -86,6 +88,7 @@ export type OrganizationCountAggregateOutputType = {
   cohesionScore: number
   streakCount: number
   lastStreakAt: number
+  lastComboAt: number
   requiredLevel: number
   isPrivate: number
   description: number
@@ -119,6 +122,7 @@ export type OrganizationMinAggregateInputType = {
   cohesionScore?: true
   streakCount?: true
   lastStreakAt?: true
+  lastComboAt?: true
   requiredLevel?: true
   isPrivate?: true
   description?: true
@@ -138,6 +142,7 @@ export type OrganizationMaxAggregateInputType = {
   cohesionScore?: true
   streakCount?: true
   lastStreakAt?: true
+  lastComboAt?: true
   requiredLevel?: true
   isPrivate?: true
   description?: true
@@ -157,6 +162,7 @@ export type OrganizationCountAggregateInputType = {
   cohesionScore?: true
   streakCount?: true
   lastStreakAt?: true
+  lastComboAt?: true
   requiredLevel?: true
   isPrivate?: true
   description?: true
@@ -263,6 +269,7 @@ export type OrganizationGroupByOutputType = {
   cohesionScore: number
   streakCount: number
   lastStreakAt: Date | null
+  lastComboAt: Date | null
   requiredLevel: number
   isPrivate: boolean
   description: string | null
@@ -305,6 +312,7 @@ export type OrganizationWhereInput = {
   cohesionScore?: Prisma.FloatFilter<"Organization"> | number
   streakCount?: Prisma.IntFilter<"Organization"> | number
   lastStreakAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
+  lastComboAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   requiredLevel?: Prisma.IntFilter<"Organization"> | number
   isPrivate?: Prisma.BoolFilter<"Organization"> | boolean
   description?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -328,6 +336,7 @@ export type OrganizationOrderByWithRelationInput = {
   cohesionScore?: Prisma.SortOrder
   streakCount?: Prisma.SortOrder
   lastStreakAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastComboAt?: Prisma.SortOrderInput | Prisma.SortOrder
   requiredLevel?: Prisma.SortOrder
   isPrivate?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -354,6 +363,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   cohesionScore?: Prisma.FloatFilter<"Organization"> | number
   streakCount?: Prisma.IntFilter<"Organization"> | number
   lastStreakAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
+  lastComboAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
   requiredLevel?: Prisma.IntFilter<"Organization"> | number
   isPrivate?: Prisma.BoolFilter<"Organization"> | boolean
   description?: Prisma.StringNullableFilter<"Organization"> | string | null
@@ -377,6 +387,7 @@ export type OrganizationOrderByWithAggregationInput = {
   cohesionScore?: Prisma.SortOrder
   streakCount?: Prisma.SortOrder
   lastStreakAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastComboAt?: Prisma.SortOrderInput | Prisma.SortOrder
   requiredLevel?: Prisma.SortOrder
   isPrivate?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -404,6 +415,7 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   cohesionScore?: Prisma.FloatWithAggregatesFilter<"Organization"> | number
   streakCount?: Prisma.IntWithAggregatesFilter<"Organization"> | number
   lastStreakAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
+  lastComboAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
   requiredLevel?: Prisma.IntWithAggregatesFilter<"Organization"> | number
   isPrivate?: Prisma.BoolWithAggregatesFilter<"Organization"> | boolean
   description?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
@@ -423,6 +435,7 @@ export type OrganizationCreateInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -446,6 +459,7 @@ export type OrganizationUncheckedCreateInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -469,6 +483,7 @@ export type OrganizationUpdateInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -492,6 +507,7 @@ export type OrganizationUncheckedUpdateInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -515,6 +531,7 @@ export type OrganizationCreateManyInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -534,6 +551,7 @@ export type OrganizationUpdateManyMutationInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -553,6 +571,7 @@ export type OrganizationUncheckedUpdateManyInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,6 +591,7 @@ export type OrganizationCountOrderByAggregateInput = {
   cohesionScore?: Prisma.SortOrder
   streakCount?: Prisma.SortOrder
   lastStreakAt?: Prisma.SortOrder
+  lastComboAt?: Prisma.SortOrder
   requiredLevel?: Prisma.SortOrder
   isPrivate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -597,6 +617,7 @@ export type OrganizationMaxOrderByAggregateInput = {
   cohesionScore?: Prisma.SortOrder
   streakCount?: Prisma.SortOrder
   lastStreakAt?: Prisma.SortOrder
+  lastComboAt?: Prisma.SortOrder
   requiredLevel?: Prisma.SortOrder
   isPrivate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -616,6 +637,7 @@ export type OrganizationMinOrderByAggregateInput = {
   cohesionScore?: Prisma.SortOrder
   streakCount?: Prisma.SortOrder
   lastStreakAt?: Prisma.SortOrder
+  lastComboAt?: Prisma.SortOrder
   requiredLevel?: Prisma.SortOrder
   isPrivate?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -710,6 +732,7 @@ export type OrganizationCreateWithoutMessagesInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -732,6 +755,7 @@ export type OrganizationUncheckedCreateWithoutMessagesInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -770,6 +794,7 @@ export type OrganizationUpdateWithoutMessagesInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -792,6 +817,7 @@ export type OrganizationUncheckedUpdateWithoutMessagesInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -814,6 +840,7 @@ export type OrganizationCreateWithoutMembersInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -836,6 +863,7 @@ export type OrganizationUncheckedCreateWithoutMembersInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -874,6 +902,7 @@ export type OrganizationUpdateWithoutMembersInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -896,6 +925,7 @@ export type OrganizationUncheckedUpdateWithoutMembersInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -918,6 +948,7 @@ export type OrganizationCreateWithoutInvitationsInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -940,6 +971,7 @@ export type OrganizationUncheckedCreateWithoutInvitationsInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -978,6 +1010,7 @@ export type OrganizationUpdateWithoutInvitationsInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1000,6 +1033,7 @@ export type OrganizationUncheckedUpdateWithoutInvitationsInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1022,6 +1056,7 @@ export type OrganizationCreateWithoutJoinRequestsInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -1044,6 +1079,7 @@ export type OrganizationUncheckedCreateWithoutJoinRequestsInput = {
   cohesionScore?: number
   streakCount?: number
   lastStreakAt?: Date | string | null
+  lastComboAt?: Date | string | null
   requiredLevel?: number
   isPrivate?: boolean
   description?: string | null
@@ -1082,6 +1118,7 @@ export type OrganizationUpdateWithoutJoinRequestsInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1104,6 +1141,7 @@ export type OrganizationUncheckedUpdateWithoutJoinRequestsInput = {
   cohesionScore?: Prisma.FloatFieldUpdateOperationsInput | number
   streakCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastStreakAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastComboAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requiredLevel?: Prisma.IntFieldUpdateOperationsInput | number
   isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1184,6 +1222,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   cohesionScore?: boolean
   streakCount?: boolean
   lastStreakAt?: boolean
+  lastComboAt?: boolean
   requiredLevel?: boolean
   isPrivate?: boolean
   description?: boolean
@@ -1208,6 +1247,7 @@ export type OrganizationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   cohesionScore?: boolean
   streakCount?: boolean
   lastStreakAt?: boolean
+  lastComboAt?: boolean
   requiredLevel?: boolean
   isPrivate?: boolean
   description?: boolean
@@ -1227,6 +1267,7 @@ export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   cohesionScore?: boolean
   streakCount?: boolean
   lastStreakAt?: boolean
+  lastComboAt?: boolean
   requiredLevel?: boolean
   isPrivate?: boolean
   description?: boolean
@@ -1246,6 +1287,7 @@ export type OrganizationSelectScalar = {
   cohesionScore?: boolean
   streakCount?: boolean
   lastStreakAt?: boolean
+  lastComboAt?: boolean
   requiredLevel?: boolean
   isPrivate?: boolean
   description?: boolean
@@ -1255,7 +1297,7 @@ export type OrganizationSelectScalar = {
   twoFactorBackupCodes?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "logo" | "createdAt" | "metadata" | "cohesionScore" | "streakCount" | "lastStreakAt" | "requiredLevel" | "isPrivate" | "description" | "announcement" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "logo" | "createdAt" | "metadata" | "cohesionScore" | "streakCount" | "lastStreakAt" | "lastComboAt" | "requiredLevel" | "isPrivate" | "description" | "announcement" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.Organization$membersArgs<ExtArgs>
   invitations?: boolean | Prisma.Organization$invitationsArgs<ExtArgs>
@@ -1284,6 +1326,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     cohesionScore: number
     streakCount: number
     lastStreakAt: Date | null
+    lastComboAt: Date | null
     requiredLevel: number
     isPrivate: boolean
     description: string | null
@@ -1727,6 +1770,7 @@ export interface OrganizationFieldRefs {
   readonly cohesionScore: Prisma.FieldRef<"Organization", 'Float'>
   readonly streakCount: Prisma.FieldRef<"Organization", 'Int'>
   readonly lastStreakAt: Prisma.FieldRef<"Organization", 'DateTime'>
+  readonly lastComboAt: Prisma.FieldRef<"Organization", 'DateTime'>
   readonly requiredLevel: Prisma.FieldRef<"Organization", 'Int'>
   readonly isPrivate: Prisma.FieldRef<"Organization", 'Boolean'>
   readonly description: Prisma.FieldRef<"Organization", 'String'>

@@ -3,7 +3,7 @@ import { emailService } from "./email";
 
 export interface NotificationPayload {
   userId: string;
-  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM" | "MISSION_REVIEW_RELEASED" | "ACHIEVEMENT";
+  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM" | "MISSION_REVIEW_RELEASED" | "ACHIEVEMENT" | "SQUAD_STREAK_3" | "SQUAD_STREAK_7";
   title: string;
   message: string;
   link?: string;

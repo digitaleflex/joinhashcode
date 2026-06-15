@@ -80,7 +80,8 @@ export const ModelName = {
   Psychometric: 'Psychometric',
   UserSocials: 'UserSocials',
   EngagementStats: 'EngagementStats',
-  TeamApplication: 'TeamApplication'
+  TeamApplication: 'TeamApplication',
+  MemberImpact: 'MemberImpact'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -162,6 +163,7 @@ export const OrganizationScalarFieldEnum = {
   cohesionScore: 'cohesionScore',
   streakCount: 'streakCount',
   lastStreakAt: 'lastStreakAt',
+  lastComboAt: 'lastComboAt',
   requiredLevel: 'requiredLevel',
   isPrivate: 'isPrivate',
   description: 'description',
@@ -580,6 +582,27 @@ export const TeamApplicationScalarFieldEnum = {
 } as const
 
 export type TeamApplicationScalarFieldEnum = (typeof TeamApplicationScalarFieldEnum)[keyof typeof TeamApplicationScalarFieldEnum]
+
+
+export const MemberImpactScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  score7d: 'score7d',
+  score30d: 'score30d',
+  score90d: 'score90d',
+  scoreAllTime: 'scoreAllTime',
+  trustScore: 'trustScore',
+  integrityScore: 'integrityScore',
+  missionsCount: 'missionsCount',
+  qualityRate: 'qualityRate',
+  contributionScore: 'contributionScore',
+  topSpecialties: 'topSpecialties',
+  titleOfGlory: 'titleOfGlory',
+  talentJourney: 'talentJourney',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MemberImpactScalarFieldEnum = (typeof MemberImpactScalarFieldEnum)[keyof typeof MemberImpactScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -544,6 +544,7 @@ export type UserWhereInput = {
   referralCode?: Prisma.StringNullableFilter<"User"> | string | null
   referrerId?: Prisma.StringNullableFilter<"User"> | string | null
   referralCount?: Prisma.IntFilter<"User"> | number
+  impact?: Prisma.XOR<Prisma.MemberImpactNullableScalarRelationFilter, Prisma.MemberImpactWhereInput> | null
   psychometrics?: Prisma.XOR<Prisma.PsychometricNullableScalarRelationFilter, Prisma.PsychometricWhereInput> | null
   socials?: Prisma.XOR<Prisma.UserSocialsNullableScalarRelationFilter, Prisma.UserSocialsWhereInput> | null
   stats?: Prisma.XOR<Prisma.EngagementStatsNullableScalarRelationFilter, Prisma.EngagementStatsWhereInput> | null
@@ -619,6 +620,7 @@ export type UserOrderByWithRelationInput = {
   referralCode?: Prisma.SortOrderInput | Prisma.SortOrder
   referrerId?: Prisma.SortOrderInput | Prisma.SortOrder
   referralCount?: Prisma.SortOrder
+  impact?: Prisma.MemberImpactOrderByWithRelationInput
   psychometrics?: Prisma.PsychometricOrderByWithRelationInput
   socials?: Prisma.UserSocialsOrderByWithRelationInput
   stats?: Prisma.EngagementStatsOrderByWithRelationInput
@@ -697,6 +699,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   twoFactorBackupCodes?: Prisma.StringNullableFilter<"User"> | string | null
   referrerId?: Prisma.StringNullableFilter<"User"> | string | null
   referralCount?: Prisma.IntFilter<"User"> | number
+  impact?: Prisma.XOR<Prisma.MemberImpactNullableScalarRelationFilter, Prisma.MemberImpactWhereInput> | null
   psychometrics?: Prisma.XOR<Prisma.PsychometricNullableScalarRelationFilter, Prisma.PsychometricWhereInput> | null
   socials?: Prisma.XOR<Prisma.UserSocialsNullableScalarRelationFilter, Prisma.UserSocialsWhereInput> | null
   stats?: Prisma.XOR<Prisma.EngagementStatsNullableScalarRelationFilter, Prisma.EngagementStatsWhereInput> | null
@@ -878,6 +881,7 @@ export type UserCreateInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -953,6 +957,7 @@ export type UserUncheckedCreateInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -1023,6 +1028,7 @@ export type UserUpdateInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -1098,6 +1104,7 @@ export type UserUncheckedUpdateInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -1944,6 +1951,20 @@ export type UserUpdateOneRequiredWithoutStatsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStatsInput, Prisma.UserUpdateWithoutStatsInput>, Prisma.UserUncheckedUpdateWithoutStatsInput>
 }
 
+export type UserCreateNestedOneWithoutImpactInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImpactInput, Prisma.UserUncheckedCreateWithoutImpactInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImpactInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutImpactNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImpactInput, Prisma.UserUncheckedCreateWithoutImpactInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImpactInput
+  upsert?: Prisma.UserUpsertWithoutImpactInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutImpactInput, Prisma.UserUpdateWithoutImpactInput>, Prisma.UserUncheckedUpdateWithoutImpactInput>
+}
+
 export type UserCreateWithoutReferralsInput = {
   id: string
   name: string
@@ -1990,6 +2011,7 @@ export type UserCreateWithoutReferralsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -2064,6 +2086,7 @@ export type UserUncheckedCreateWithoutReferralsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -2139,6 +2162,7 @@ export type UserCreateWithoutReferrerInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -2212,6 +2236,7 @@ export type UserUncheckedCreateWithoutReferrerInput = {
   betaKeyId?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -2303,6 +2328,7 @@ export type UserUpdateWithoutReferralsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -2377,6 +2403,7 @@ export type UserUncheckedUpdateWithoutReferralsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -2516,6 +2543,7 @@ export type UserCreateWithoutSquadMessagesInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -2590,6 +2618,7 @@ export type UserUncheckedCreateWithoutSquadMessagesInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -2675,6 +2704,7 @@ export type UserUpdateWithoutSquadMessagesInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -2749,6 +2779,7 @@ export type UserUncheckedUpdateWithoutSquadMessagesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -2819,6 +2850,7 @@ export type UserCreateWithoutMembersInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -2893,6 +2925,7 @@ export type UserUncheckedCreateWithoutMembersInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -2978,6 +3011,7 @@ export type UserUpdateWithoutMembersInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -3052,6 +3086,7 @@ export type UserUncheckedUpdateWithoutMembersInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -3122,6 +3157,7 @@ export type UserCreateWithoutInvitationsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -3196,6 +3232,7 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -3281,6 +3318,7 @@ export type UserUpdateWithoutInvitationsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -3355,6 +3393,7 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -3425,6 +3464,7 @@ export type UserCreateWithoutActivityLogsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -3499,6 +3539,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -3584,6 +3625,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -3658,6 +3700,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -3728,6 +3771,7 @@ export type UserCreateWithoutDailyCheckinsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -3802,6 +3846,7 @@ export type UserUncheckedCreateWithoutDailyCheckinsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -3887,6 +3932,7 @@ export type UserUpdateWithoutDailyCheckinsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -3961,6 +4007,7 @@ export type UserUncheckedUpdateWithoutDailyCheckinsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -4031,6 +4078,7 @@ export type UserCreateWithoutGuildMembersInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -4105,6 +4153,7 @@ export type UserUncheckedCreateWithoutGuildMembersInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -4190,6 +4239,7 @@ export type UserUpdateWithoutGuildMembersInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -4264,6 +4314,7 @@ export type UserUncheckedUpdateWithoutGuildMembersInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -4334,6 +4385,7 @@ export type UserCreateWithoutSessionsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -4408,6 +4460,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -4493,6 +4546,7 @@ export type UserUpdateWithoutSessionsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -4567,6 +4621,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -4637,6 +4692,7 @@ export type UserCreateWithoutAccountsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -4711,6 +4767,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -4796,6 +4853,7 @@ export type UserUpdateWithoutAccountsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -4870,6 +4928,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -4940,6 +4999,7 @@ export type UserCreateWithoutQuizResultsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -5014,6 +5074,7 @@ export type UserUncheckedCreateWithoutQuizResultsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -5099,6 +5160,7 @@ export type UserUpdateWithoutQuizResultsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -5173,6 +5235,7 @@ export type UserUncheckedUpdateWithoutQuizResultsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -5243,6 +5306,7 @@ export type UserCreateWithoutUxPollResponsesInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -5317,6 +5381,7 @@ export type UserUncheckedCreateWithoutUxPollResponsesInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -5402,6 +5467,7 @@ export type UserUpdateWithoutUxPollResponsesInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -5476,6 +5542,7 @@ export type UserUncheckedUpdateWithoutUxPollResponsesInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -5546,6 +5613,7 @@ export type UserCreateWithoutMissionSubmissionsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -5620,6 +5688,7 @@ export type UserUncheckedCreateWithoutMissionSubmissionsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -5695,6 +5764,7 @@ export type UserCreateWithoutSubmissionsInReviewInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -5769,6 +5839,7 @@ export type UserUncheckedCreateWithoutSubmissionsInReviewInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -5854,6 +5925,7 @@ export type UserUpdateWithoutMissionSubmissionsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -5928,6 +6000,7 @@ export type UserUncheckedUpdateWithoutMissionSubmissionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -6008,6 +6081,7 @@ export type UserUpdateWithoutSubmissionsInReviewInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -6082,6 +6156,7 @@ export type UserUncheckedUpdateWithoutSubmissionsInReviewInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -6152,6 +6227,7 @@ export type UserCreateWithoutReviewsGivenInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -6226,6 +6302,7 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -6311,6 +6388,7 @@ export type UserUpdateWithoutReviewsGivenInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -6385,6 +6463,7 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -6455,6 +6534,7 @@ export type UserCreateWithoutNotificationsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -6529,6 +6609,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -6614,6 +6695,7 @@ export type UserUpdateWithoutNotificationsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -6688,6 +6770,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -6758,6 +6841,7 @@ export type UserCreateWithoutBetaFeedbacksInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -6832,6 +6916,7 @@ export type UserUncheckedCreateWithoutBetaFeedbacksInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -6917,6 +7002,7 @@ export type UserUpdateWithoutBetaFeedbacksInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -6991,6 +7077,7 @@ export type UserUncheckedUpdateWithoutBetaFeedbacksInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -7061,6 +7148,7 @@ export type UserCreateWithoutJoinRequestsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -7135,6 +7223,7 @@ export type UserUncheckedCreateWithoutJoinRequestsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -7220,6 +7309,7 @@ export type UserUpdateWithoutJoinRequestsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -7294,6 +7384,7 @@ export type UserUncheckedUpdateWithoutJoinRequestsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -7364,6 +7455,7 @@ export type UserCreateWithoutBetaKeyInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -7437,6 +7529,7 @@ export type UserUncheckedCreateWithoutBetaKeyInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -7523,6 +7616,7 @@ export type UserUpdateWithoutBetaKeyInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -7596,6 +7690,7 @@ export type UserUncheckedUpdateWithoutBetaKeyInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -7667,6 +7762,7 @@ export type UserCreateWithoutTwofactorsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -7741,6 +7837,7 @@ export type UserUncheckedCreateWithoutTwofactorsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -7826,6 +7923,7 @@ export type UserUpdateWithoutTwofactorsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -7900,6 +7998,7 @@ export type UserUncheckedUpdateWithoutTwofactorsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -7970,6 +8069,7 @@ export type UserCreateWithoutPasskeysInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -8044,6 +8144,7 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -8129,6 +8230,7 @@ export type UserUpdateWithoutPasskeysInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -8203,6 +8305,7 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -8273,6 +8376,7 @@ export type UserCreateWithoutXpTransactionsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
@@ -8347,6 +8451,7 @@ export type UserUncheckedCreateWithoutXpTransactionsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
@@ -8432,6 +8537,7 @@ export type UserUpdateWithoutXpTransactionsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -8506,6 +8612,7 @@ export type UserUncheckedUpdateWithoutXpTransactionsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -8576,6 +8683,7 @@ export type UserCreateWithoutPsychometricsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8650,6 +8758,7 @@ export type UserUncheckedCreateWithoutPsychometricsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8735,6 +8844,7 @@ export type UserUpdateWithoutPsychometricsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8809,6 +8919,7 @@ export type UserUncheckedUpdateWithoutPsychometricsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8879,6 +8990,7 @@ export type UserCreateWithoutSocialsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8953,6 +9065,7 @@ export type UserUncheckedCreateWithoutSocialsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9038,6 +9151,7 @@ export type UserUpdateWithoutSocialsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9112,6 +9226,7 @@ export type UserUncheckedUpdateWithoutSocialsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9182,6 +9297,7 @@ export type UserCreateWithoutStatsInput = {
   twoFactorBackupCodes?: string | null
   referralCode?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9256,6 +9372,7 @@ export type UserUncheckedCreateWithoutStatsInput = {
   referralCode?: string | null
   referrerId?: string | null
   referralCount?: number
+  impact?: Prisma.MemberImpactUncheckedCreateNestedOneWithoutUserInput
   psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
   socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9341,6 +9458,7 @@ export type UserUpdateWithoutStatsInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9415,8 +9533,316 @@ export type UserUncheckedUpdateWithoutStatsInput = {
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  dailyCheckins?: Prisma.DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
+  guildMembers?: Prisma.GuildMemberUncheckedUpdateManyWithoutUserNestedInput
+  missionSubmissions?: Prisma.MissionSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  submissionsInReview?: Prisma.MissionSubmissionUncheckedUpdateManyWithoutReviewerNestedInput
+  reviewsGiven?: Prisma.MissionReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  betaFeedbacks?: Prisma.BetaFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  quizResults?: Prisma.QuizResultUncheckedUpdateManyWithoutUserNestedInput
+  uxPollResponses?: Prisma.UXPollResponseUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  joinRequests?: Prisma.JoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  referrals?: Prisma.UserUncheckedUpdateManyWithoutReferrerNestedInput
+  twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+  xpTransactions?: Prisma.XpTransactionUncheckedUpdateManyWithoutUserNestedInput
+  squadMessages?: Prisma.SquadMessageUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutImpactInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  emailStatus?: string
+  emailLastBounced?: Date | string | null
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  level?: number
+  experience?: number
+  class?: string | null
+  role?: string
+  badges?: Prisma.UserCreatebadgesInput | string[]
+  behavioralVibrancy?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  cardSignature?: string | null
+  cardIssuedAt?: Date | string | null
+  cardTier?: string | null
+  city?: string | null
+  country?: string | null
+  currentSituation?: string | null
+  domains?: Prisma.UserCreatedomainsInput | string[]
+  language?: string
+  lastHypothesisUpdate?: Date | string | null
+  mainObjective?: string | null
+  missionsCompletedCount?: number
+  pseudo?: string | null
+  technicalLevel?: string | null
+  tools?: Prisma.UserCreatetoolsInput | string[]
+  secondaryObjectives?: Prisma.UserCreatesecondaryObjectivesInput | string[]
+  bio?: string | null
+  memberNumber?: number
+  currentFocus?: Prisma.UserCreatecurrentFocusInput | string[]
+  dreamStatement?: string | null
+  mainBlocker?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  canReviewProfiles?: Prisma.UserCreatecanReviewProfilesInput | string[]
+  reviewsCompleted?: number
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  twoFactorBackupCodes?: string | null
+  referralCode?: string | null
+  referralCount?: number
+  psychometrics?: Prisma.PsychometricCreateNestedOneWithoutUserInput
+  socials?: Prisma.UserSocialsCreateNestedOneWithoutUserInput
+  stats?: Prisma.EngagementStatsCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  dailyCheckins?: Prisma.DailyCheckinCreateNestedManyWithoutUserInput
+  guildMembers?: Prisma.GuildMemberCreateNestedManyWithoutUserInput
+  missionSubmissions?: Prisma.MissionSubmissionCreateNestedManyWithoutUserInput
+  submissionsInReview?: Prisma.MissionSubmissionCreateNestedManyWithoutReviewerInput
+  reviewsGiven?: Prisma.MissionReviewCreateNestedManyWithoutReviewerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  betaFeedbacks?: Prisma.BetaFeedbackCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  quizResults?: Prisma.QuizResultCreateNestedManyWithoutUserInput
+  uxPollResponses?: Prisma.UXPollResponseCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  joinRequests?: Prisma.JoinRequestCreateNestedManyWithoutUserInput
+  betaKey?: Prisma.BetaKeyCreateNestedOneWithoutUserInput
+  referrer?: Prisma.UserCreateNestedOneWithoutReferralsInput
+  referrals?: Prisma.UserCreateNestedManyWithoutReferrerInput
+  twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+  xpTransactions?: Prisma.XpTransactionCreateNestedManyWithoutUserInput
+  squadMessages?: Prisma.SquadMessageCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutImpactInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  emailStatus?: string
+  emailLastBounced?: Date | string | null
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  level?: number
+  experience?: number
+  class?: string | null
+  role?: string
+  badges?: Prisma.UserCreatebadgesInput | string[]
+  behavioralVibrancy?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  cardSignature?: string | null
+  cardIssuedAt?: Date | string | null
+  cardTier?: string | null
+  city?: string | null
+  country?: string | null
+  currentSituation?: string | null
+  domains?: Prisma.UserCreatedomainsInput | string[]
+  language?: string
+  lastHypothesisUpdate?: Date | string | null
+  mainObjective?: string | null
+  missionsCompletedCount?: number
+  pseudo?: string | null
+  technicalLevel?: string | null
+  tools?: Prisma.UserCreatetoolsInput | string[]
+  secondaryObjectives?: Prisma.UserCreatesecondaryObjectivesInput | string[]
+  bio?: string | null
+  memberNumber?: number
+  currentFocus?: Prisma.UserCreatecurrentFocusInput | string[]
+  dreamStatement?: string | null
+  mainBlocker?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  canReviewProfiles?: Prisma.UserCreatecanReviewProfilesInput | string[]
+  reviewsCompleted?: number
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  twoFactorBackupCodes?: string | null
+  betaKeyId?: string | null
+  referralCode?: string | null
+  referrerId?: string | null
+  referralCount?: number
+  psychometrics?: Prisma.PsychometricUncheckedCreateNestedOneWithoutUserInput
+  socials?: Prisma.UserSocialsUncheckedCreateNestedOneWithoutUserInput
+  stats?: Prisma.EngagementStatsUncheckedCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  dailyCheckins?: Prisma.DailyCheckinUncheckedCreateNestedManyWithoutUserInput
+  guildMembers?: Prisma.GuildMemberUncheckedCreateNestedManyWithoutUserInput
+  missionSubmissions?: Prisma.MissionSubmissionUncheckedCreateNestedManyWithoutUserInput
+  submissionsInReview?: Prisma.MissionSubmissionUncheckedCreateNestedManyWithoutReviewerInput
+  reviewsGiven?: Prisma.MissionReviewUncheckedCreateNestedManyWithoutReviewerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  betaFeedbacks?: Prisma.BetaFeedbackUncheckedCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  quizResults?: Prisma.QuizResultUncheckedCreateNestedManyWithoutUserInput
+  uxPollResponses?: Prisma.UXPollResponseUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  joinRequests?: Prisma.JoinRequestUncheckedCreateNestedManyWithoutUserInput
+  referrals?: Prisma.UserUncheckedCreateNestedManyWithoutReferrerInput
+  twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+  xpTransactions?: Prisma.XpTransactionUncheckedCreateNestedManyWithoutUserInput
+  squadMessages?: Prisma.SquadMessageUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutImpactInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutImpactInput, Prisma.UserUncheckedCreateWithoutImpactInput>
+}
+
+export type UserUpsertWithoutImpactInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutImpactInput, Prisma.UserUncheckedUpdateWithoutImpactInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutImpactInput, Prisma.UserUncheckedCreateWithoutImpactInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutImpactInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutImpactInput, Prisma.UserUncheckedUpdateWithoutImpactInput>
+}
+
+export type UserUpdateWithoutImpactInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  emailLastBounced?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  experience?: Prisma.IntFieldUpdateOperationsInput | number
+  class?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  badges?: Prisma.UserUpdatebadgesInput | string[]
+  behavioralVibrancy?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  cardSignature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardIssuedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cardTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentSituation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domains?: Prisma.UserUpdatedomainsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  lastHypothesisUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mainObjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  missionsCompletedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pseudo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicalLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tools?: Prisma.UserUpdatetoolsInput | string[]
+  secondaryObjectives?: Prisma.UserUpdatesecondaryObjectivesInput | string[]
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentFocus?: Prisma.UserUpdatecurrentFocusInput | string[]
+  dreamStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mainBlocker?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canReviewProfiles?: Prisma.UserUpdatecanReviewProfilesInput | string[]
+  reviewsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
+  socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
+  stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  dailyCheckins?: Prisma.DailyCheckinUpdateManyWithoutUserNestedInput
+  guildMembers?: Prisma.GuildMemberUpdateManyWithoutUserNestedInput
+  missionSubmissions?: Prisma.MissionSubmissionUpdateManyWithoutUserNestedInput
+  submissionsInReview?: Prisma.MissionSubmissionUpdateManyWithoutReviewerNestedInput
+  reviewsGiven?: Prisma.MissionReviewUpdateManyWithoutReviewerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  betaFeedbacks?: Prisma.BetaFeedbackUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  quizResults?: Prisma.QuizResultUpdateManyWithoutUserNestedInput
+  uxPollResponses?: Prisma.UXPollResponseUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  joinRequests?: Prisma.JoinRequestUpdateManyWithoutUserNestedInput
+  betaKey?: Prisma.BetaKeyUpdateOneWithoutUserNestedInput
+  referrer?: Prisma.UserUpdateOneWithoutReferralsNestedInput
+  referrals?: Prisma.UserUpdateManyWithoutReferrerNestedInput
+  twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+  xpTransactions?: Prisma.XpTransactionUpdateManyWithoutUserNestedInput
+  squadMessages?: Prisma.SquadMessageUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutImpactInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  emailLastBounced?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  experience?: Prisma.IntFieldUpdateOperationsInput | number
+  class?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  badges?: Prisma.UserUpdatebadgesInput | string[]
+  behavioralVibrancy?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  cardSignature?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardIssuedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cardTier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentSituation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domains?: Prisma.UserUpdatedomainsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  lastHypothesisUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mainObjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  missionsCompletedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pseudo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicalLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tools?: Prisma.UserUpdatetoolsInput | string[]
+  secondaryObjectives?: Prisma.UserUpdatesecondaryObjectivesInput | string[]
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  memberNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  currentFocus?: Prisma.UserUpdatecurrentFocusInput | string[]
+  dreamStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mainBlocker?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canReviewProfiles?: Prisma.UserUpdatecanReviewProfilesInput | string[]
+  reviewsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  betaKeyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referrerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
+  socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
+  stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   dailyCheckins?: Prisma.DailyCheckinUncheckedUpdateManyWithoutUserNestedInput
   guildMembers?: Prisma.GuildMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -9533,6 +9959,7 @@ export type UserUpdateWithoutReferrerInput = {
   twoFactorBackupCodes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUpdateOneWithoutUserNestedInput
@@ -9606,6 +10033,7 @@ export type UserUncheckedUpdateWithoutReferrerInput = {
   betaKeyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referralCount?: Prisma.IntFieldUpdateOperationsInput | number
+  impact?: Prisma.MemberImpactUncheckedUpdateOneWithoutUserNestedInput
   psychometrics?: Prisma.PsychometricUncheckedUpdateOneWithoutUserNestedInput
   socials?: Prisma.UserSocialsUncheckedUpdateOneWithoutUserNestedInput
   stats?: Prisma.EngagementStatsUncheckedUpdateOneWithoutUserNestedInput
@@ -9930,6 +10358,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   referralCode?: boolean
   referrerId?: boolean
   referralCount?: boolean
+  impact?: boolean | Prisma.User$impactArgs<ExtArgs>
   psychometrics?: boolean | Prisma.User$psychometricsArgs<ExtArgs>
   socials?: boolean | Prisma.User$socialsArgs<ExtArgs>
   stats?: boolean | Prisma.User$statsArgs<ExtArgs>
@@ -10114,6 +10543,7 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "emailStatus" | "emailLastBounced" | "image" | "createdAt" | "updatedAt" | "level" | "experience" | "class" | "role" | "badges" | "behavioralVibrancy" | "cardSignature" | "cardIssuedAt" | "cardTier" | "city" | "country" | "currentSituation" | "domains" | "language" | "lastHypothesisUpdate" | "mainObjective" | "missionsCompletedCount" | "pseudo" | "technicalLevel" | "tools" | "secondaryObjectives" | "bio" | "memberNumber" | "currentFocus" | "dreamStatement" | "mainBlocker" | "banned" | "banReason" | "banExpires" | "canReviewProfiles" | "reviewsCompleted" | "twoFactorEnabled" | "twoFactorSecret" | "twoFactorBackupCodes" | "betaKeyId" | "referralCode" | "referrerId" | "referralCount", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  impact?: boolean | Prisma.User$impactArgs<ExtArgs>
   psychometrics?: boolean | Prisma.User$psychometricsArgs<ExtArgs>
   socials?: boolean | Prisma.User$socialsArgs<ExtArgs>
   stats?: boolean | Prisma.User$statsArgs<ExtArgs>
@@ -10153,6 +10583,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    impact: Prisma.$MemberImpactPayload<ExtArgs> | null
     psychometrics: Prisma.$PsychometricPayload<ExtArgs> | null
     socials: Prisma.$UserSocialsPayload<ExtArgs> | null
     stats: Prisma.$EngagementStatsPayload<ExtArgs> | null
@@ -10621,6 +11052,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  impact<T extends Prisma.User$impactArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$impactArgs<ExtArgs>>): Prisma.Prisma__MemberImpactClient<runtime.Types.Result.GetResult<Prisma.$MemberImpactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   psychometrics<T extends Prisma.User$psychometricsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$psychometricsArgs<ExtArgs>>): Prisma.Prisma__PsychometricClient<runtime.Types.Result.GetResult<Prisma.$PsychometricPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   socials<T extends Prisma.User$socialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$socialsArgs<ExtArgs>>): Prisma.Prisma__UserSocialsClient<runtime.Types.Result.GetResult<Prisma.$UserSocialsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stats<T extends Prisma.User$statsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$statsArgs<ExtArgs>>): Prisma.Prisma__EngagementStatsClient<runtime.Types.Result.GetResult<Prisma.$EngagementStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -11120,6 +11552,25 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.impact
+ */
+export type User$impactArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MemberImpact
+   */
+  select?: Prisma.MemberImpactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MemberImpact
+   */
+  omit?: Prisma.MemberImpactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberImpactInclude<ExtArgs> | null
+  where?: Prisma.MemberImpactWhereInput
 }
 
 /**

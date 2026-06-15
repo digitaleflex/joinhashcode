@@ -191,3 +191,8 @@ export type EngagementStats = Prisma.EngagementStatsModel
  * 
  */
 export type TeamApplication = Prisma.TeamApplicationModel
+/**
+ * Model MemberImpact
+ * 
+ */
+export type MemberImpact = Prisma.MemberImpactModel

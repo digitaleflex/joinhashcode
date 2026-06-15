@@ -413,7 +413,8 @@ export const ModelName = {
   Psychometric: 'Psychometric',
   UserSocials: 'UserSocials',
   EngagementStats: 'EngagementStats',
-  TeamApplication: 'TeamApplication'
+  TeamApplication: 'TeamApplication',
+  MemberImpact: 'MemberImpact'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -429,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "organization" | "squadMessage" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "quizFeedback" | "uXPollResponse" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest" | "betaKey" | "twoFactor" | "passkey" | "xpTransaction" | "psychometric" | "userSocials" | "engagementStats" | "teamApplication"
+    modelProps: "user" | "organization" | "squadMessage" | "member" | "invitation" | "activityLog" | "dailyCheckin" | "mission" | "guild" | "guildMember" | "session" | "account" | "verification" | "quizResult" | "quizFeedback" | "uXPollResponse" | "missionSubmission" | "missionReview" | "contactMessage" | "notification" | "betaFeedback" | "joinRequest" | "betaKey" | "twoFactor" | "passkey" | "xpTransaction" | "psychometric" | "userSocials" | "engagementStats" | "teamApplication" | "memberImpact"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2653,6 +2654,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MemberImpact: {
+      payload: Prisma.$MemberImpactPayload<ExtArgs>
+      fields: Prisma.MemberImpactFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MemberImpactFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MemberImpactFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        findFirst: {
+          args: Prisma.MemberImpactFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MemberImpactFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        findMany: {
+          args: Prisma.MemberImpactFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>[]
+        }
+        create: {
+          args: Prisma.MemberImpactCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        createMany: {
+          args: Prisma.MemberImpactCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MemberImpactCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>[]
+        }
+        delete: {
+          args: Prisma.MemberImpactDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        update: {
+          args: Prisma.MemberImpactUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        deleteMany: {
+          args: Prisma.MemberImpactDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MemberImpactUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MemberImpactUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>[]
+        }
+        upsert: {
+          args: Prisma.MemberImpactUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MemberImpactPayload>
+        }
+        aggregate: {
+          args: Prisma.MemberImpactAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMemberImpact>
+        }
+        groupBy: {
+          args: Prisma.MemberImpactGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberImpactGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MemberImpactCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MemberImpactCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2755,6 +2830,7 @@ export const OrganizationScalarFieldEnum = {
   cohesionScore: 'cohesionScore',
   streakCount: 'streakCount',
   lastStreakAt: 'lastStreakAt',
+  lastComboAt: 'lastComboAt',
   requiredLevel: 'requiredLevel',
   isPrivate: 'isPrivate',
   description: 'description',
@@ -3175,6 +3251,27 @@ export const TeamApplicationScalarFieldEnum = {
 export type TeamApplicationScalarFieldEnum = (typeof TeamApplicationScalarFieldEnum)[keyof typeof TeamApplicationScalarFieldEnum]
 
 
+export const MemberImpactScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  score7d: 'score7d',
+  score30d: 'score30d',
+  score90d: 'score90d',
+  scoreAllTime: 'scoreAllTime',
+  trustScore: 'trustScore',
+  integrityScore: 'integrityScore',
+  missionsCount: 'missionsCount',
+  qualityRate: 'qualityRate',
+  contributionScore: 'contributionScore',
+  topSpecialties: 'topSpecialties',
+  titleOfGlory: 'titleOfGlory',
+  talentJourney: 'talentJourney',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MemberImpactScalarFieldEnum = (typeof MemberImpactScalarFieldEnum)[keyof typeof MemberImpactScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3445,6 +3542,7 @@ export type GlobalOmitConfig = {
   userSocials?: Prisma.UserSocialsOmit
   engagementStats?: Prisma.EngagementStatsOmit
   teamApplication?: Prisma.TeamApplicationOmit
+  memberImpact?: Prisma.MemberImpactOmit
 }
 
 /* Types for Logging */
