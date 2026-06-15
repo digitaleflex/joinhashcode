@@ -2,12 +2,17 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { Search, Globe, Compass, ChevronRight } from "lucide-react"
+import { motion } from "framer-motion"
+import {
+  Search, Globe, ChevronRight, Sparkles, TrendingUp, Trophy,
+  Cpu, Palette, BarChart3, Users,
+} from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 interface Talent {
   id: string
@@ -29,42 +34,201 @@ interface Talent {
   } | null
 }
 
-const CLASS_CONFIGS: Record<string, { label: string; color: string; bg: string; border: string; glow: string }> = {
+const CLASS_CONFIGS: Record<string, { label: string; icon: typeof Cpu; color: string; bg: string; border: string; gradient: string }> = {
   builder: {
     label: "Builder",
+    icon: Cpu,
     color: "text-blue-400",
     bg: "bg-blue-500/5",
-    border: "border-blue-500/20 hover:border-blue-500/50",
-    glow: "hover:shadow-[0_0_25px_rgba(59,130,246,0.15)]",
+    border: "border-blue-500/20",
+    gradient: "from-blue-600/10 via-transparent to-transparent",
   },
   creator: {
     label: "Créateur",
+    icon: Palette,
     color: "text-purple-400",
     bg: "bg-purple-500/5",
-    border: "border-purple-500/20 hover:border-purple-500/50",
-    glow: "hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]",
+    border: "border-purple-500/20",
+    gradient: "from-purple-600/10 via-transparent to-transparent",
   },
   strategist: {
     label: "Stratège",
+    icon: BarChart3,
     color: "text-amber-400",
     bg: "bg-amber-500/5",
-    border: "border-amber-500/20 hover:border-amber-500/50",
-    glow: "hover:shadow-[0_0_25px_rgba(245,158,11,0.15)]",
+    border: "border-amber-500/20",
+    gradient: "from-amber-600/10 via-transparent to-transparent",
   },
   catalyst: {
     label: "Catalyseur",
+    icon: Users,
     color: "text-emerald-400",
     bg: "bg-emerald-500/5",
-    border: "border-emerald-500/20 hover:border-emerald-500/50",
-    glow: "hover:shadow-[0_0_25px_rgba(16,185,129,0.15)]",
+    border: "border-emerald-500/20",
+    gradient: "from-emerald-600/10 via-transparent to-transparent",
   },
   unknown: {
     label: "Initié",
+    icon: Sparkles,
     color: "text-zinc-400",
     bg: "bg-zinc-500/5",
-    border: "border-zinc-500/20 hover:border-zinc-500/50",
-    glow: "hover:shadow-[0_0_20px_rgba(113,113,122,0.1)]",
+    border: "border-zinc-500/20",
+    gradient: "from-zinc-600/10 via-transparent to-transparent",
   },
+}
+
+const PROFILE_SCORES = [
+  { key: "builderScore" as const, label: "Builder", color: "bg-blue-500", bar: "bg-gradient-to-r from-blue-500 to-blue-400" },
+  { key: "creatorScore" as const, label: "Créateur", color: "bg-purple-500", bar: "bg-gradient-to-r from-purple-500 to-purple-400" },
+  { key: "strategistScore" as const, label: "Stratège", color: "bg-amber-500", bar: "bg-gradient-to-r from-amber-500 to-amber-400" },
+  { key: "catalystScore" as const, label: "Catalyseur", color: "bg-emerald-500", bar: "bg-gradient-to-r from-emerald-500 to-emerald-400" },
+]
+
+function MiniPsychoBars({ scores }: { scores: { builderScore: number; creatorScore: number; strategistScore: number; catalystScore: number } }) {
+  return (
+    <div className="grid grid-cols-4 gap-1">
+      {PROFILE_SCORES.map((p) => (
+        <div key={p.key} className="space-y-1">
+          <div className="h-14 rounded-lg bg-zinc-900/80 border border-white/5 relative overflow-hidden">
+            <div
+              className={`absolute bottom-0 left-0 right-0 ${p.bar} transition-all duration-500`}
+              style={{ height: `${scores[p.key]}%` }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[9px] font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                {scores[p.key]}
+              </span>
+            </div>
+          </div>
+          <span className="block text-[7px] font-mono text-zinc-600 text-center uppercase tracking-wider">
+            {p.label.slice(0, 3)}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function TalentCard({ talent, index }: { talent: Talent; index: number }) {
+  const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
+  const psychometrics = talent.psychometrics || { builderScore: 0, creatorScore: 0, strategistScore: 0, catalystScore: 0 }
+
+  const sortedScores = PROFILE_SCORES.map((p) => ({
+    ...p,
+    score: psychometrics[p.key],
+  })).sort((a, b) => b.score - a.score)
+
+  const isHybrid = sortedScores[0].score - sortedScores[1].score < 15 && sortedScores[0].score > 0
+  const displayLabel = isHybrid ? `${sortedScores[0].label} × ${sortedScores[1].label}` : cfg.label
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <HoverCard openDelay={300}>
+        <HoverCardTrigger asChild>
+          <Card
+            className={`group relative cursor-pointer overflow-hidden rounded-[1.75rem] border transition-all duration-500 hover:scale-[1.02] ${cfg.border} ${cfg.bg}`}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-b ${cfg.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+            <CardContent className="relative p-5 space-y-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <Avatar className="h-12 w-12 rounded-xl border border-white/10 shadow-lg shrink-0">
+                    <AvatarImage src={talent.image || ""} alt={talent.name} />
+                    <AvatarFallback className="rounded-xl bg-zinc-900 text-white font-extrabold uppercase text-sm">
+                      {talent.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <h3 className="font-extrabold text-base text-white uppercase italic tracking-tight truncate max-w-36">
+                      {talent.name}
+                    </h3>
+                    <p className="font-mono text-[9px] text-zinc-500 uppercase">
+                      @{talent.pseudo || "talent"}
+                    </p>
+                  </div>
+                </div>
+                <Badge
+                  variant="outline"
+                  className={`font-mono text-[8px] uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
+                    isHybrid ? "text-[#C5F441] border-[#C5F441]/30" : cfg.color
+                  }`}
+                >
+                  {displayLabel}
+                </Badge>
+              </div>
+
+              <MiniPsychoBars scores={psychometrics} />
+
+              <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center gap-3 text-[10px] font-mono">
+                  <span className="text-zinc-600">LV.{talent.level}</span>
+                  <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                </div>
+                {(talent.city || talent.country) && (
+                  <div className="flex items-center gap-1 text-[9px] text-zinc-500">
+                    <Globe className="size-2.5 shrink-0" />
+                    <span className="truncate max-w-20">
+                      {[talent.city, talent.country].filter(Boolean).join(", ")}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="w-full h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"
+              >
+                <Link href={`/dossier?userId=${talent.id}`}>
+                  Voir le Dossier <ChevronRight className="size-3 ml-0.5" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </HoverCardTrigger>
+        <HoverCardContent
+          side="top"
+          align="center"
+          className="w-72 rounded-2xl border-white/10 bg-zinc-950/95 backdrop-blur-xl p-4 space-y-3"
+        >
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10 rounded-lg border border-white/10">
+              <AvatarImage src={talent.image || ""} alt={talent.name} />
+              <AvatarFallback className="rounded-lg bg-zinc-900 text-white font-bold text-xs">
+                {talent.name.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-bold text-sm text-white">{talent.name}</p>
+              <p className="font-mono text-[9px] text-zinc-500">{displayLabel} · LV.{talent.level}</p>
+            </div>
+          </div>
+          {talent.bio && (
+            <p className="text-[11px] text-zinc-400 font-light leading-relaxed line-clamp-2 italic">
+              &ldquo;{talent.bio}&rdquo;
+            </p>
+          )}
+          {talent.tools.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {talent.tools.slice(0, 4).map((tool) => (
+                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
+                  {tool}
+                </span>
+              ))}
+              {talent.tools.length > 4 && (
+                <span className="text-[9px] font-mono text-zinc-600">+{talent.tools.length - 4}</span>
+              )}
+            </div>
+          )}
+        </HoverCardContent>
+      </HoverCard>
+    </motion.div>
+  )
 }
 
 export function TalentsClient({ talents }: { talents: Talent[] }) {
@@ -85,27 +249,116 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
     })
   }, [talents, search, selectedClass])
 
+  const classCounts = useMemo(() => {
+    const counts: Record<string, number> = { builder: 0, creator: 0, strategist: 0, catalyst: 0, unknown: 0 }
+    talents.forEach((t) => {
+      const key = (t.class || "unknown").toLowerCase()
+      counts[key] = (counts[key] || 0) + 1
+    })
+    return counts
+  }, [talents])
+
+  const topTalents = useMemo(() => {
+    return [...talents].sort((a, b) => b.experience - a.experience).slice(0, 3)
+  }, [talents])
+
   return (
     <div className="space-y-10">
-      {/* Intro Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-8 sm:pb-10">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-            <Compass className="size-3.5 text-primary" />
-            <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-primary">Annuaire</span>
+      {/* Hero */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-transparent rounded-[3rem] pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+              <TrendingUp className="size-3.5 text-primary" />
+              <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-primary">Annuaire</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase italic leading-none">
+              Carte des <span className="text-primary">Talents</span>
+            </h1>
+            <p className="text-zinc-500 text-sm font-light max-w-xl">
+              Explorez le réseau des bâtisseurs, designers, stratèges et catalyseurs qui font la tech africaine.
+            </p>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase italic leading-none">
-            Réseau des <span className="text-primary">Talents</span>
-          </h1>
-          <p className="text-zinc-500 text-sm font-light">
-            Découvrez et connectez-vous avec les bâtisseurs de l'écosystème.
-          </p>
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+          {[
+            { label: "Talents actifs", value: talents.length, icon: Trophy, color: "text-primary" },
+            { label: "Builders", value: classCounts.builder, icon: Cpu, color: "text-blue-400" },
+            { label: "Créateurs", value: classCounts.creator, icon: Palette, color: "text-purple-400" },
+            { label: "Stratèges", value: classCounts.strategist, icon: BarChart3, color: "text-amber-400" },
+            { label: "Catalyseurs", value: classCounts.catalyst, icon: Users, color: "text-emerald-400" },
+            { label: "Initiés", value: classCounts.unknown, icon: Sparkles, color: "text-zinc-400" },
+            { label: "Niveau max", value: Math.max(...talents.map((t) => t.level), 0), icon: TrendingUp, color: "text-[#C5F441]" },
+            { label: "Moy. XP", value: Math.round(talents.reduce((a, t) => a + t.experience, 0) / Math.max(talents.length, 1)), icon: Trophy, color: "text-primary" },
+          ].map((stat) => {
+            const Icon = stat.icon
+            return (
+              <div
+                key={stat.label}
+                className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900/40 border border-white/5"
+              >
+                <div className={`size-8 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center shrink-0 ${stat.color}`}>
+                  <Icon className="size-4" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-lg font-black text-white font-mono tabular-nums">{stat.value}</div>
+                  <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider truncate">{stat.label}</div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
 
-      {/* Control Deck: Search & Filters */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        {/* Search */}
+      {/* Spotlight — Top 3 */}
+      {topTalents.length >= 3 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Trophy className="size-4 text-amber-400" />
+            <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+              Top Talents de la Semaine
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {topTalents.map((talent, i) => {
+              const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
+              const Icon = cfg.icon
+              return (
+                <Link key={talent.id} href={`/dossier?userId=${talent.id}`} className="group block">
+                  <div className={`relative overflow-hidden rounded-2xl border p-5 transition-all duration-500 hover:scale-[1.02] ${cfg.border} ${cfg.bg}`}>
+                    <div className="absolute -top-6 -right-6 size-20 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center">
+                      <span className="text-3xl font-black font-mono text-white/5">#{i + 1}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-12 w-12 rounded-xl border border-white/10 shadow-lg shrink-0">
+                        <AvatarImage src={talent.image || ""} alt={talent.name} />
+                        <AvatarFallback className="rounded-xl bg-zinc-900 text-white font-extrabold">
+                          {talent.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0">
+                        <h3 className="font-extrabold text-sm text-white uppercase italic truncate">{talent.name}</h3>
+                        <div className="flex items-center gap-2 text-[9px] font-mono text-zinc-500">
+                          <Icon className="size-3" />
+                          <span>{cfg.label}</span>
+                          <span>· LV.{talent.level}</span>
+                          <span>· {talent.experience.toLocaleString()} XP</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
         <div className="lg:col-span-4 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
           <Input
@@ -115,182 +368,71 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
             className="input-premium pl-11 h-12 rounded-2xl text-sm placeholder:text-zinc-600 border-white/10"
           />
         </div>
-
-        {/* Filter Buttons */}
-        <div className="lg:col-span-8 flex flex-wrap gap-2.5">
-          <Button
+        <div className="lg:col-span-8 flex flex-wrap gap-2">
+          <button
             onClick={() => setSelectedClass("all")}
-            variant={selectedClass === "all" ? "default" : "outline"}
-            className={`h-11 px-5 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all border-white/10 ${
-              selectedClass === "all" ? "bg-primary text-black" : "bg-transparent text-zinc-400 hover:text-white"
+            className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
+              selectedClass === "all"
+                ? "bg-primary text-black border-primary"
+                : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
             }`}
           >
-            Tous ({talents.length})
-          </Button>
+            Tous
+          </button>
           {Object.entries(CLASS_CONFIGS).map(([key, cfg]) => {
-            const count = talents.filter((t) => (t.class || "unknown").toLowerCase() === key).length
+            const Icon = cfg.icon
+            const count = classCounts[key] || 0
+            const isActive = selectedClass === key
             return (
-              <Button
+              <button
                 key={key}
                 onClick={() => setSelectedClass(key)}
-                variant={selectedClass === key ? "default" : "outline"}
-                className={`h-11 px-5 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all border-white/10 ${
-                  selectedClass === key
-                    ? "bg-white/10 text-white border-white/30"
-                    : "bg-transparent text-zinc-400 hover:text-white"
+                className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+                  isActive
+                    ? `${cfg.color} ${cfg.bg} ${cfg.border}`
+                    : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
                 }`}
               >
-                <span className={cfg.color}>{cfg.label}</span>
-                <span className="ml-1.5 text-[10px] opacity-60">({count})</span>
-              </Button>
+                <Icon className="size-3.5" />
+                {cfg.label}
+                <span className="text-[9px] opacity-50">({count})</span>
+              </button>
             )
           })}
         </div>
       </div>
 
-      {/* Grid List */}
+      {/* Talents Grid */}
       {filteredTalents.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTalents.map((talent) => {
-            const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
-
-            // Psychometric scores
-            const psychometrics = talent.psychometrics || {
-              builderScore: 0,
-              creatorScore: 0,
-              strategistScore: 0,
-              catalystScore: 0,
-            }
-
-            // Detect hybrid profile on the fly
-            const sortedScores = [
-              { name: "builder", label: "Builder", score: psychometrics.builderScore, color: "bg-blue-500", text: "text-blue-400" },
-              { name: "creator", label: "Créateur", score: psychometrics.creatorScore, color: "bg-purple-500", text: "text-purple-400" },
-              { name: "strategist", label: "Stratège", score: psychometrics.strategistScore, color: "bg-amber-500", text: "text-amber-400" },
-              { name: "catalyst", label: "Catalyseur", score: psychometrics.catalystScore, color: "bg-emerald-500", text: "text-emerald-400" },
-            ].sort((a, b) => b.score - a.score)
-
-            const top1 = sortedScores[0]
-            const top2 = sortedScores[1]
-            const gap = top1.score - top2.score
-            const isHybrid = gap < 15 && top1.score > 0
-            const hybridLabel = isHybrid ? `${top1.label} × ${top2.label}` : cfg.label
-
-            return (
-              <Card
-                key={talent.id}
-                className={`glass-card rounded-[2rem] border overflow-hidden transition-all duration-500 hover:scale-[1.02] ${cfg.border} ${cfg.glow} ${cfg.bg}`}
-              >
-                <CardContent className="p-6 sm:p-8 flex flex-col justify-between h-full space-y-6">
-                  {/* Top: Avatar & Meta */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <Avatar className="h-14 w-14 rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
-                        <AvatarImage src={talent.image || ""} alt={talent.name} />
-                        <AvatarFallback className="rounded-2xl bg-zinc-900 text-white font-extrabold uppercase">
-                          {talent.name.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="min-w-0">
-                        <h3 className="font-extrabold text-lg text-white uppercase italic tracking-tight truncate max-w-40 sm:max-w-48">
-                          {talent.name}
-                        </h3>
-                        <p className="font-mono text-[10px] text-zinc-500 uppercase font-medium">
-                          @{talent.pseudo || "talent"}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <Badge 
-                      variant="outline" 
-                      className={`font-mono text-[9px] uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 bg-white/2 shrink-0 ${
-                        isHybrid ? "text-[#C5F441] border-[#C5F441]/30" : cfg.color
-                      }`}
-                    >
-                      {hybridLabel}
-                    </Badge>
-                  </div>
-
-                  {/* Mid: Bio snippet */}
-                  <div className="flex-1">
-                    <p className="text-zinc-400 text-xs font-light leading-relaxed line-clamp-2 italic">
-                      {talent.bio ? `"${talent.bio}"` : "— Aucun statut défini —"}
-                    </p>
-                  </div>
-
-                  {/* Psychometric percentages */}
-                  <div className="space-y-2.5 border-t border-white/5 pt-4">
-                    <div className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest font-black">
-                      Vecteurs comportementaux
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                      {[
-                        { label: "Builder", value: psychometrics.builderScore, color: "bg-blue-500", text: "text-blue-400" },
-                        { label: "Créateur", value: psychometrics.creatorScore, color: "bg-purple-500", text: "text-purple-400" },
-                        { label: "Stratège", value: psychometrics.strategistScore, color: "bg-amber-500", text: "text-amber-400" },
-                        { label: "Catalyseur", value: psychometrics.catalystScore, color: "bg-emerald-500", text: "text-emerald-400" },
-                      ].map((item) => (
-                        <div key={item.label} className="space-y-1">
-                          <div className="flex justify-between items-center text-[9px] font-mono">
-                            <span className="text-zinc-500">{item.label}</span>
-                            <span className={`font-bold ${item.text}`}>{item.value}%</span>
-                          </div>
-                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                            <div className={`h-full ${item.color}`} style={{ width: `${item.value}%` }} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Badges: Level & Location */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-5">
-                    <div className="flex items-center gap-4">
-                      <div>
-                        <div className="text-[8px] font-mono text-zinc-600 uppercase">Niveau</div>
-                        <div className="text-sm font-black text-white font-mono">{talent.level}</div>
-                      </div>
-                      <div>
-                        <div className="text-[8px] font-mono text-zinc-600 uppercase">Expérience</div>
-                        <div className="text-sm font-black text-primary font-mono italic">{talent.experience} XP</div>
-                      </div>
-                    </div>
-
-                    {(talent.city || talent.country) && (
-                      <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium">
-                        <Globe className="size-3 text-primary shrink-0" />
-                        <span className="truncate max-w-28">
-                          {[talent.city, talent.country].filter(Boolean).join(", ")}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Action Link */}
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full h-12 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.01] hover:bg-white/5 hover:border-white/10 cursor-pointer"
-                  >
-                    <Link href={`/dossier?userId=${talent.id}`} className="flex items-center justify-center gap-1">
-                      Voir le Dossier <ChevronRight className="size-3.5" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            )
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filteredTalents.map((talent, idx) => (
+            <TalentCard key={talent.id} talent={talent} index={idx} />
+          ))}
         </div>
       ) : (
-        <div className="p-16 rounded-[2.5rem] bg-white/1 border border-dashed border-white/5 text-center space-y-4">
-          <div className="size-12 rounded-full bg-zinc-900 border border-white/5 flex items-center justify-center mx-auto opacity-30">
-            <Search className="size-6" />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-16 rounded-[2.5rem] bg-white/1 border border-dashed border-white/5 text-center space-y-4"
+        >
+          <div className="size-14 rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center mx-auto">
+            <Search className="size-6 text-zinc-600" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-mono text-sm text-zinc-500 uppercase tracking-widest">Aucun agent détecté</h3>
-            <p className="text-xs text-zinc-600">Essayez d'élargir les critères de recherche ou de filtre.</p>
+            <h3 className="font-mono text-sm text-zinc-500 uppercase tracking-widest">Aucun agent trouvé</h3>
+            <p className="text-xs text-zinc-600 max-w-xs mx-auto">
+              Essayez de modifier votre recherche ou de sélectionner un autre filtre de profil.
+            </p>
           </div>
-        </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => { setSearch(""); setSelectedClass("all") }}
+            className="rounded-xl text-[10px] uppercase font-bold tracking-wider"
+          >
+            Réinitialiser les filtres
+          </Button>
+        </motion.div>
       )}
     </div>
   )

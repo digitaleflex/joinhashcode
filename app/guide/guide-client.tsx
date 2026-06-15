@@ -293,6 +293,79 @@ export function GuideClient() {
             </CardContent>
           </Card>
 
+          {/* Fonctionnement du Quiz */}
+          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <Activity className="size-5 text-primary" /> Fonctionnement du Quiz Psychométrique
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Le diagnostic qui détermine votre profil comportemental dominant parmi les 4 classes HASHCODE.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 space-y-6">
+              <div className="text-xs text-zinc-400 leading-relaxed font-light space-y-3">
+                <p>
+                  Le quiz se compose de <strong className="text-white">13 questions</strong> à choix unique couvrant 8 dimensions (comportement, résolution de problème, motivation, environnement, scénario, vision, travail, technologie, identité, crise).
+                </p>
+                <p>
+                  Chaque question est pondérée (de 2 à 5 points). Votre réponse attribue <strong className="text-white">l&apos;intégralité du poids</strong> de la question au profil correspondant. Le score total de chaque profil détermine votre classement.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">Les 4 profils possibles</h4>
+                  <ul className="text-[10px] text-zinc-400 font-light space-y-1">
+                    <li><strong className="text-blue-400">Builder</strong> — orienté construction et exécution</li>
+                    <li><strong className="text-purple-400">Créateur</strong> — orienté design et expérience</li>
+                    <li><strong className="text-amber-400">Stratège</strong> — orienté analyse et planification</li>
+                    <li><strong className="text-emerald-400">Catalyseur</strong> — orienté communauté et coordination</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">Profil hybride</h4>
+                  <p className="text-[10px] text-zinc-400 font-light leading-relaxed">
+                    Si l&apos;écart entre votre profil principal et secondaire est inférieur à 15%, le système vous reconnaît comme <strong className="text-primary">profil hybride</strong> (ex: Builder × Créateur). Vous recevez alors des recommandations de missions adaptées à vos deux spécialités.
+                  </p>
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 pt-5 space-y-4">
+                <h4 className="text-xs font-mono font-bold text-white uppercase">Quand repasser le quiz ?</h4>
+                <div className="space-y-3 text-[11px] text-zinc-400 font-light leading-relaxed">
+                  <div className="flex gap-3">
+                    <span className="size-5 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-emerald-400 shrink-0 mt-0.5">1</span>
+                    <div>
+                      <strong className="text-white">Compte de moins de 24h :</strong> Vous pouvez repasser le quiz immédiatement et sans limite pour corriger une erreur de diagnostic. Aucun cooldown n&apos;est appliqué.
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="size-5 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-amber-400 shrink-0 mt-0.5">2</span>
+                    <div>
+                      <strong className="text-white">Évolution naturelle constatée :</strong> Si vous sentez que vos centres d&apos;intérêt ou votre façon de travailler ont changé (vous validez des missions d&apos;un autre profil, votre radar se déforme), vous pouvez repasser le quiz pour officialiser ce changement. Un <strong className="text-zinc-300">cooldown de 14 jours</strong> s&apos;applique entre chaque recalibrage.
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="size-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-blue-400 shrink-0 mt-0.5">3</span>
+                    <div>
+                      <strong className="text-white">Doute sur votre profil actuel :</strong> Vous avez été classé dans un profil qui ne vous correspond pas ou le résultat vous a surpris. Dans ce cas, repassez le quiz durant vos premières 24h (gratuit) ou attendez le reset de 14 jours.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
+                <p className="text-[10px] text-zinc-400 font-light leading-relaxed flex items-start gap-2">
+                  <AlertCircle className="size-3.5 text-primary shrink-0 mt-0.5" />
+                  <span>
+                    <strong className="text-white">Important :</strong> Repasser le quiz change votre classe et donc votre affectation de guild. Si vous êtes dans une escouade, prévenez vos coéquipiers avant de recalibrer — votre départ peut impacter l&apos;équilibre cognitif du groupe.
+                  </span>
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Glossaire Tactique */}
           <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
             <CardHeader className="p-0">
@@ -1052,6 +1125,49 @@ export function GuideClient() {
                   <h4 className="font-mono font-bold text-white uppercase text-[11px]">4. Je pense avoir choisi le mauvais profil comportemental</h4>
                   <p className="text-zinc-400">
                     Vous pouvez recalibrer votre diagnostic depuis l&apos;onglet Profil dans vos paramètres. C&apos;est gratuit durant vos premières 24h, puis soumis à un cooldown de 14 jours.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Programme Ambassadeur / Parrainage */}
+            <Card className="glass-card bg-indigo-950/20 border-indigo-500/10 rounded-3xl lg:col-span-5 p-6 space-y-6">
+              <CardHeader className="p-0">
+                <CardTitle className="text-sm font-mono font-bold text-indigo-400 uppercase flex items-center gap-1.5">
+                  <Award className="size-4" /> Programme Ambassadeur
+                </CardTitle>
+                <CardDescription className="text-xs text-zinc-500 font-light">
+                  Parrainez vos pairs et gagnez des récompenses en XP.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0 space-y-4 text-xs font-light leading-relaxed">
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <h4 className="font-mono font-bold text-white uppercase text-[10px]">Comment ça marche ?</h4>
+                  <p className="text-zinc-400">
+                    Chaque membre possède un <strong className="text-white">lien de parrainage unique</strong> accessible depuis le tableau de bord. Partagez-le sur vos réseaux, forums ou directement à vos contacts.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <h4 className="font-mono font-bold text-white uppercase text-[10px]">Récompenses</h4>
+                  <ul className="space-y-1.5 text-zinc-400">
+                    <li className="flex items-center gap-2">
+                      <span className="text-indigo-400 font-mono text-[10px]">+50 XP</span>
+                      <span>par filleul qui rejoint et complète son onboarding</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-amber-400 font-mono text-[10px]">Badge Ambassadeur</span>
+                      <span>après 5 filleuls parrainés</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-emerald-400 font-mono text-[10px]">Badge Émissaire</span>
+                      <span>après 20 filleuls parrainés</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-2">
+                  <h4 className="font-mono font-bold text-primary uppercase text-[10px]">Astuce</h4>
+                  <p className="text-zinc-400">
+                    Partagez votre lien dans vos stories WhatsApp, groupes Telegram ou sur LinkedIn après avoir terminé le quiz — vos résultats de profil sont un excellent argument de recommandation !
                   </p>
                 </div>
               </CardContent>
