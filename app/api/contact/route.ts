@@ -6,13 +6,16 @@ import { z } from "zod"
 import { getClientIp } from "@/lib/utils"
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit"
 
-const CONTACT_TYPES = ["BUG", "FEATURE", "PARTNERSHIP", "OTHER"] as const;
+const CONTACT_TYPES = ["BUG", "FEATURE", "PARTNERSHIP", "TEAM", "OTHER"] as const;
 // ... existing schema ...
 const contactSchema = z.object({
   type: z.enum(CONTACT_TYPES).default("OTHER"),
   email: z.string().email().max(254),
   subject: z.string().min(1).max(200),
   content: z.string().min(1).max(5000),
+  github: z.string().max(500).optional(),
+  portfolio: z.string().max(500).optional(),
+  skills: z.string().max(1000).optional(),
   honeypot: z.string().optional(),
 });
 
@@ -42,7 +45,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: firstError }, { status: 400 })
     }
 
-    const { type, email, subject, content, honeypot } = parsed.data
+    const { type, email, subject, content, github, portfolio, skills, honeypot } = parsed.data
 
     // 1. Honeypot Check
     if (honeypot) {
@@ -51,7 +54,7 @@ export async function POST(req: NextRequest) {
     }
 
     const message = await prisma.contactMessage.create({
-      data: { type, email, subject, content },
+      data: { type, email, subject, content, github, portfolio, skills },
     })
 
     await emailService.sendContactNotification({ type, email, subject, content })

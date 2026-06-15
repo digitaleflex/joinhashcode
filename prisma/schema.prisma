@@ -46,6 +46,15 @@ model User {
   banned                   Boolean?            @default(false)
   banReason                String?
   banExpires               DateTime?
+  visitorId                String?
+  fraudRiskScore           Int                 @default(0)
+  consentLocation          Boolean             @default(false)
+  consentLocationAt        DateTime?
+  latitude                 Float?
+  longitude                Float?
+  locationAccuracy         Float?
+  locationUpdatedAt        DateTime?
+  ipCountry                String?
 
 
   // Relations spécialisées
@@ -86,6 +95,8 @@ model User {
   passkeys                 Passkey[]
   xpTransactions           XpTransaction[]
   squadMessages            SquadMessage[]
+  fraudEvents              FraudEvent[]
+  locations                UserLocation[]
 
   @@index([level])
   @@index([class])
@@ -413,6 +424,9 @@ model ContactMessage {
   email     String
   subject   String
   content   String
+  github    String?
+  portfolio String?
+  skills    String?
   status    String   @default("UNREAD")
   createdAt DateTime @default(now())
 
@@ -566,6 +580,38 @@ model EngagementStats {
   lastStreakDate DateTime?
 
   @@map("engagement_stats")
+}
+
+model FraudEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String   // FINGERPRINT_SHARED, VPN_DETECTED, PROXY_DETECTED, TOR_DETECTED, EMAIL_TEMPORARY, FRAUD_SCORE_UPDATED
+  details   String?  // JSON — flexible payload
+  riskDelta Int      @default(0)
+  ip        String?
+  visitorId String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("fraud_event")
+}
+
+model UserLocation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  latitude  Float
+  longitude Float
+  accuracy  Float?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+  @@map("user_location")
 }
 
 model TeamApplication {

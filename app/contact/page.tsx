@@ -1,46 +1,70 @@
 "use client"
 
-import { useState } from "react"
-// import { motion } from "framer-motion"
+import { Suspense, useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Send, MessageSquare, Lightbulb, Shield, Loader2 } from "lucide-react"
+import { Send, MessageSquare, Lightbulb, Shield, Users, Loader2 } from "lucide-react"
 
-export default function ContactPage() {
-  const [type, setType] = useState<"support" | "suggestion" | "partner">("support")
+type ContactType = "support" | "suggestion" | "partner" | "team"
+
+function ContactForm() {
+  const searchParams = useSearchParams()
+  const [type, setType] = useState<ContactType>("support")
   const [formData, setFormData] = useState({
     email: "",
     subject: "",
-    content: ""
+    content: "",
+    github: "",
+    portfolio: "",
+    skills: "",
   })
   const [isSending, setIsSending] = useState(false)
   const [isSent, setIsSent] = useState(false)
+
+  useEffect(() => {
+    const t = searchParams.get("type")
+    if (t === "team" || t === "partner" || t === "suggestion") setType(t)
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSending(true)
 
     try {
+      const typeMap: Record<string, string> = {
+        support: "BUG",
+        suggestion: "FEATURE",
+        partner: "PARTNERSHIP",
+        team: "TEAM",
+      }
+
+      const payload: Record<string, string> = {
+        type: typeMap[type] || "OTHER",
+        email: formData.email,
+        subject: formData.subject,
+        content: formData.content,
+      }
+      if (formData.github) payload.github = formData.github
+      if (formData.portfolio) payload.portfolio = formData.portfolio
+      if (formData.skills) payload.skills = formData.skills
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type,
-          ...formData
-        })
+        body: JSON.stringify(payload),
       })
 
       if (response.ok) {
         setIsSent(true)
-        setFormData({ email: "", subject: "", content: "" })
+        setFormData({ email: "", subject: "", content: "", github: "", portfolio: "", skills: "" })
       } else {
         alert("Erreur lors de la transmission. Réessaye.")
       }
-    } catch (error: unknown) {
-      console.error(error)
+    } catch {
       alert("Erreur réseau.")
     } finally {
       setIsSending(false)
@@ -52,13 +76,11 @@ export default function ContactPage() {
       <Nav />
       
       <div className="relative pt-8 sm:pt-32 pb-24 overflow-hidden">
-        {/* Background Decor */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-20" />
         
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             
-            {/* Left Content: Text & Info */}
             <div className="lg:col-span-5">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="h-px w-8 bg-primary/50" />
@@ -70,38 +92,14 @@ export default function ContactPage() {
                 Transmets tes <span className="text-primary text-glow">Données</span>.
               </h1>
               <p className="text-zinc-400 text-lg leading-relaxed mb-12">
-                Que ce soit pour un bug critique, une idée révolutionnaire ou une alliance stratégique, notre canal est ouvert 24/7.
+                Que ce soit pour un bug, une idée, un partenariat ou rejoindre la team HASHCODE, notre canal est ouvert 24/7.
               </p>
-
-              <div className="space-y-6">
-                <div className="p-6 rounded-2xl border border-white/5 bg-zinc-900/30 backdrop-blur-sm">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                      <Shield className="h-5 w-5" />
-                    </div>
-                    <span className="font-mono text-xs uppercase tracking-wider text-white">System Status</span>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-[10px] font-mono uppercase">
-                      <span className="text-zinc-500">Support Latency</span>
-                      <span className="text-emerald-500">{"<"} 24h</span>
-                    </div>
-                    <div className="flex justify-between items-center text-[10px] font-mono uppercase">
-                      <span className="text-zinc-500">Core Network</span>
-                      <span className="text-emerald-500">Operational</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Right Content: The Form */}
             <div className="lg:col-span-7">
               <div className="p-8 sm:p-10 rounded-[2.5rem] border border-white/10 bg-zinc-900/40 backdrop-blur-xl shadow-2xl relative">
                 {isSent ? (
-                  <div 
-                    className="py-20 text-center"
-                  >
+                  <div className="py-20 text-center">
                     <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                       <Send className="h-8 w-8 text-primary" />
                     </div>
@@ -111,17 +109,17 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-8">
-                    {/* Selector */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                       {[
                         { id: "support", icon: MessageSquare, label: "Support" },
                         { id: "suggestion", icon: Lightbulb, label: "Idée" },
-                        { id: "partner", icon: Shield, label: "Elite" },
+                        { id: "partner", icon: Shield, label: "Élite" },
+                        { id: "team", icon: Users, label: "La Team" },
                       ].map((item) => (
                         <button
                           key={item.id}
                           type="button"
-                          onClick={() => setType(item.id as any)}
+                          onClick={() => setType(item.id as ContactType)}
                           className={`flex items-center sm:flex-col justify-start sm:justify-center gap-4 sm:gap-2 p-4 sm:p-4 rounded-2xl border transition-all ${
                             type === item.id 
                             ? "bg-primary/10 border-primary text-primary" 
@@ -133,6 +131,43 @@ export default function ContactPage() {
                         </button>
                       ))}
                     </div>
+
+                    {type === "team" && (
+                      <div className="p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-4">
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider font-bold">
+                          Tu veux construire HASHCODE avec nous ? Raconte-nous tout.
+                        </p>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">GitHub / Portfolio</label>
+                            <Input
+                              placeholder="github.com/tonsuperpseudo"
+                              value={formData.github}
+                              onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                              className="bg-black/40 border-white/10 focus:border-indigo-500/50 transition-all h-11 rounded-xl"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">LinkedIn / X</label>
+                            <Input
+                              placeholder="linkedin.com/in/tonprofil"
+                              value={formData.portfolio}
+                              onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
+                              className="bg-black/40 border-white/10 focus:border-indigo-500/50 transition-all h-11 rounded-xl"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">Compétences clés</label>
+                          <Input
+                            placeholder="Next.js, UI/UX, DevOps, Community, etc."
+                            value={formData.skills}
+                            onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                            className="bg-black/40 border-white/10 focus:border-indigo-500/50 transition-all h-11 rounded-xl"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
@@ -158,9 +193,17 @@ export default function ContactPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase text-zinc-500 ml-1">Transmission_Content</label>
+                      <label className="text-[10px] font-mono uppercase text-zinc-500 ml-1">
+                        {type === "team" ? "Parle-nous de toi et de ta motivation" : "Transmission_Content"}
+                      </label>
                       <Textarea 
-                        placeholder={type === "suggestion" ? "Décris-nous ton idée géniale..." : "Comment pouvons-nous t'aider ?"} 
+                        placeholder={
+                          type === "team"
+                            ? "Pourquoi veux-tu rejoindre HASHCODE ? Qu'apporterais-tu à l'équipe ?"
+                            : type === "suggestion"
+                            ? "Décris-nous ton idée géniale..."
+                            : "Comment pouvons-nous t'aider ?"
+                        }
                         required 
                         value={formData.content}
                         onChange={(e) => setFormData({ ...formData, content: e.target.value })}
@@ -195,5 +238,13 @@ export default function ContactPage() {
 
       <Footer />
     </main>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <ContactForm />
+    </Suspense>
   )
 }
