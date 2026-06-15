@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, BarChart2, FileText, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2 } from "lucide-react"
+import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2 } from "lucide-react"
 
 export default async function AdminPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
 
   const [
     userCount,
@@ -33,6 +34,10 @@ export default async function AdminPage() {
     // Passkey
     passkeyCount,
     passkeyUsers,
+    // Previous period for trends
+    prevUserCount,
+    prevSubmissionCount,
+    prevActiveCount,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.findMany({
@@ -88,6 +93,10 @@ export default async function AdminPage() {
     // Passkey
     prisma.passkey.count(),
     prisma.passkey.groupBy({ by: ["userId"], _count: { userId: true } }).then(r => r.length),
+    // Previous period trends
+    prisma.user.count({ where: { createdAt: { lt: sevenDaysAgo } } }),
+    prisma.missionSubmission.count({ where: { createdAt: { lt: sevenDaysAgo } } }),
+    prisma.user.count({ where: { stats: { lastCheckinAt: { gte: fourteenDaysAgo, lt: sevenDaysAgo } } } }),
   ])
 
   const profileColors: Record<string, string> = {
@@ -109,19 +118,33 @@ export default async function AdminPage() {
       {/* KPI Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Membres total", value: userCount, icon: Users, color: "text-primary" },
+          { label: "Membres total", value: userCount, prev: prevUserCount, icon: Users, color: "text-primary" },
           { label: "Profils quizés", value: quizByProfile.reduce((a, b) => a + b._count.profileType, 0), icon: BarChart2, color: "text-[#22D3EE]" },
-          { label: "Missions validées", value: submissionStats.find(s => s.status === "APPROVED")?._count.status ?? 0, icon: Zap, color: "text-[#B8FF3B]" },
-          { label: "En attente", value: submissionStats.find(s => s.status === "PENDING")?._count.status ?? 0, icon: FileText, color: "text-[#F97316]" },
-        ].map((kpi) => (
-          <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3 shadow-sm hover:border-white/10 transition-colors">
-            <div className={`flex items-center gap-2 ${kpi.color}`}>
-              <kpi.icon className="h-4 w-4" />
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
+          { label: "Missions validées", value: submissionStats.find(s => s.status === "APPROVED")?._count.status ?? 0, prev: prevSubmissionCount, icon: Zap, color: "text-[#B8FF3B]" },
+          { label: "Actifs 7j", value: activeRecently, prev: prevActiveCount, icon: Activity, color: "text-[#F97316]" },
+        ].map((kpi) => {
+          const pctChange = kpi.prev != null && kpi.prev > 0
+            ? Math.round(((kpi.value - kpi.prev) / kpi.prev) * 100)
+            : null
+          return (
+            <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3 shadow-sm hover:border-white/10 transition-colors">
+              <div className={`flex items-center gap-2 ${kpi.color}`}>
+                <kpi.icon className="h-4 w-4" />
+                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
+              </div>
+              <div className="flex items-end gap-3">
+                <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
+                {pctChange !== null && (
+                  <span className={`text-[10px] font-mono font-bold mb-1 ${
+                    pctChange > 0 ? "text-emerald-400" : pctChange < 0 ? "text-red-400" : "text-zinc-500"
+                  }`}>
+                    {pctChange > 0 ? "↑" : pctChange < 0 ? "↓" : "→"} {Math.abs(pctChange)}%
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Onboarding Funnel */}

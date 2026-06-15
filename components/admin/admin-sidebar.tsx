@@ -19,6 +19,7 @@ import {
   Target,
   Bell,
   KeyRound,
+  ShieldBan,
 } from "lucide-react"
 
 import {
@@ -54,6 +55,7 @@ const adminNavItems = [
   { title: "Escouades",      url: "/admin/squads",      icon: Swords },
   { title: "Notifications",  url: "/admin/notifications", icon: Bell },
   { title: "Clés API",       url: "/admin/keys",        icon: KeyRound },
+  { title: "Anti-Fraude",    url: "/admin/fraud",       icon: ShieldBan },
   { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
   { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
 ]

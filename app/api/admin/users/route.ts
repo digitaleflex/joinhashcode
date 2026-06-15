@@ -24,6 +24,7 @@ export async function GET(req: Request) {
     const search = searchParams.get("search")?.trim() ?? ""
     const role = searchParams.get("role") ?? ""
     const status = searchParams.get("status") ?? ""
+    const fraudLevel = searchParams.get("fraudLevel") ?? ""
 
     const where: Record<string, unknown> = {}
 
@@ -45,6 +46,16 @@ export async function GET(req: Request) {
       where.banned = { not: true }
     }
 
+    if (fraudLevel === "NORMAL") {
+      where.fraudRiskScore = { lte: 30 }
+    } else if (fraudLevel === "SURVEILLANCE") {
+      where.fraudRiskScore = { gte: 31, lte: 60 }
+    } else if (fraudLevel === "MANUAL_REVIEW") {
+      where.fraudRiskScore = { gte: 61, lte: 80 }
+    } else if (fraudLevel === "BLOCKED") {
+      where.fraudRiskScore = { gte: 81 }
+    }
+
     const [users, total] = await Promise.all([
       prisma.user.findMany({
         where,
@@ -57,6 +68,10 @@ export async function GET(req: Request) {
           level: true,
           banned: true,
           createdAt: true,
+          fraudRiskScore: true,
+          experience: true,
+          image: true,
+          class: true,
         },
         orderBy: { createdAt: "desc" },
         take: limit,

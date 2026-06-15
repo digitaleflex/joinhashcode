@@ -23,7 +23,8 @@ import {
   Layers,
   BookOpen,
   Users,
-  Flame
+  Flame,
+  ScrollText
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -76,6 +77,13 @@ export default async function UserDossierPage({ params }: PageProps) {
 
   const activeOrg = user.members?.[0]?.organization ?? null;
   
+  // Fetch user's own activity log
+  const userActivityLogs = await prisma.activityLog.findMany({
+    where: { userId: id },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  })
+
   // Fetch squad activity logs if in a squad
   let squadMembersLogs: any[] = [];
   if (activeOrg) {
@@ -202,6 +210,20 @@ export default async function UserDossierPage({ params }: PageProps) {
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-zinc-300">{user.role}</p>
                       {user.banned && <Badge variant="destructive" className="text-[9px] h-4">BANNI</Badge>}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <Shield className="h-4 w-4 text-zinc-500" />
+                  <div className="flex-1">
+                    <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Score Anti-Fraude</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-zinc-300">{user.fraudRiskScore ?? 0}</p>
+                      {(user.fraudRiskScore ?? 0) >= 61 ? (
+                        <Badge variant="destructive" className="text-[9px] h-4">BLOQUÉ</Badge>
+                      ) : (user.fraudRiskScore ?? 0) >= 31 ? (
+                        <Badge className="text-[9px] h-4 bg-amber-500/10 text-amber-500 border-amber-500/20">SURVEILLANCE</Badge>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -600,6 +622,49 @@ export default async function UserDossierPage({ params }: PageProps) {
                       >
                         {sub.status}
                       </Badge>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Activity Timeline Card */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader className="border-b border-white/5 mb-6 pb-6">
+              <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
+                <ScrollText className="h-6 w-6 text-primary" /> Activité Récente
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {userActivityLogs.length === 0 ? (
+                <p className="text-zinc-600 font-mono text-sm py-8 text-center italic">Aucune activité enregistrée.</p>
+              ) : (
+                <div className="space-y-0">
+                  {userActivityLogs.map((log, i) => (
+                    <div key={log.id} className="flex gap-4 pb-4 last:pb-0">
+                      <div className="flex flex-col items-center">
+                        <div className={`size-2 rounded-full mt-1.5 ${
+                          log.action.startsWith("ADMIN_") ? "bg-primary" :
+                          log.action.startsWith("MISSION_") ? "bg-amber-500" :
+                          log.action.startsWith("SQUAD_") ? "bg-violet-500" :
+                          "bg-zinc-600"
+                        }`} />
+                        {i < userActivityLogs.length - 1 && <div className="w-px flex-1 bg-white/5 mt-1" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">
+                            {log.action.replace(/_/g, " ")}
+                          </span>
+                          <span className="text-[9px] font-mono text-zinc-600">
+                            {new Date(log.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                          </span>
+                        </div>
+                        {log.metadata && (
+                          <p className="text-[10px] font-mono text-zinc-500 mt-0.5 truncate">{String(log.metadata)}</p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

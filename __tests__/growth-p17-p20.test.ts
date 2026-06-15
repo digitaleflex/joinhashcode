@@ -15,10 +15,14 @@ vi.mock('../lib/prisma', () => ({
       create: vi.fn(),
     },
     activityLog: {
+      findFirst: vi.fn(),
       create: vi.fn(),
     },
     xpTransaction: {
       create: vi.fn(),
+    },
+    dailyCheckin: {
+      count: vi.fn(),
     },
     $transaction: vi.fn((arg) => {
       if (typeof arg === 'function') {
@@ -31,7 +35,7 @@ vi.mock('../lib/prisma', () => ({
 
 describe('Referral System Logic (P17)', () => {
   it('should not award reward if user has no referrer', async () => {
-    (prisma.user.findUnique as any).mockResolvedValue({ id: 'user_new', referrerId: null });
+    (prisma.user.findUnique as any).mockResolvedValue({ id: 'user_new', referrerId: null, createdAt: new Date() });
     
     await processReferralReward('user_new');
     
@@ -45,7 +49,8 @@ describe('Referral System Logic (P17)', () => {
         return Promise.resolve({ 
           id: 'user_new', 
           referrerId: mockReferrerId,
-          name: 'Nouveau Filleul' 
+          name: 'Nouveau Filleul',
+          createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 jours (valide > 7)
         });
       }
       if (where.id === mockReferrerId) {
@@ -57,6 +62,9 @@ describe('Referral System Logic (P17)', () => {
       }
       return Promise.resolve(null);
     });
+
+    (prisma.activityLog.findFirst as any).mockResolvedValue(null);
+    (prisma.dailyCheckin.count as any).mockResolvedValue(3);
 
     await processReferralReward('user_new');
 

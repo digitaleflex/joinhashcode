@@ -132,3 +132,6 @@ export const config = {
     "/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
   ],
 };
+
+export { proxy as middleware };
+
