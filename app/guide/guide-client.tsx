@@ -30,6 +30,79 @@ export function GuideClient() {
         </div>
       </div>
 
+      {/* Bento Grid: Quick Start Path */}
+      <div className="space-y-4">
+        <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase flex items-center gap-3">
+          <span className="h-px w-8 bg-zinc-800" />
+          protocole_d_ancrage_rapide (4 étapes)
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-3 opacity-5 text-white pointer-events-none group-hover:scale-105 transition-transform duration-500">
+              <Activity className="size-12" />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[9px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 01</span>
+              <span className="text-[9px] font-mono text-zinc-600">OBLIGATOIRE</span>
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-tight">Le Quiz Profil</h4>
+              <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                Complète l&apos;évaluation psychométrique pour débloquer ton radar comportemental de départ.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-3 opacity-5 text-white pointer-events-none group-hover:scale-105 transition-transform duration-500">
+              <BookOpen className="size-12" />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[9px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 02</span>
+              <span className="text-[9px] font-mono text-zinc-600">VISIBILITÉ</span>
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-tight">Ancre ton dossier</h4>
+              <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                Ajoute ta biographie, tes technos et ta ville pour que les autres agents puissent te recruter.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-3 opacity-5 text-white pointer-events-none group-hover:scale-105 transition-transform duration-500">
+              <Users className="size-12" />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[9px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 03</span>
+              <span className="text-[9px] font-mono text-zinc-600">SYNERGIE</span>
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-tight">Forme ton Unité</h4>
+              <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                Rejoins une escouade de 5 membres complémentaires en veillant à ne pas dépasser 2 profils identiques.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-3 opacity-5 text-white pointer-events-none group-hover:scale-105 transition-transform duration-500">
+              <Target className="size-12" />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[9px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 04</span>
+              <span className="text-[9px] font-mono text-zinc-600">XP & BADGES</span>
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-tight">Lance ta mission</h4>
+              <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                Résous ton premier défi technique, soumets ton livrable et gagne de l&apos;expérience après validation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Tabs Container */}
       <Tabs defaultValue="evolution" onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-zinc-900/80 border border-white/5 p-1 h-auto flex flex-wrap gap-1 rounded-2xl w-full md:w-max">
