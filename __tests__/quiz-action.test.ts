@@ -14,12 +14,14 @@ vi.mock("../lib/prisma", () => {
     },
     quizResult: {
       create: vi.fn(),
+      findFirst: vi.fn(),
     },
     guild: {
       findUnique: vi.fn(),
     },
     guildMember: {
       upsert: vi.fn(),
+      deleteMany: vi.fn(),
     },
     $transaction: vi.fn(),
   };
@@ -101,24 +103,97 @@ describe("Quiz Server Action", () => {
     expect(res.error).toBe("Données invalides");
   });
 
-  test("should return 409 when user already has a class assigned", async () => {
+  test("should return 409 when user is under cooldown and account is older than 24h", async () => {
     (auth.api.getSession as any).mockResolvedValue({
       user: { id: "user-1", email: "test@example.com", name: "Test User" },
     });
 
+    // Account created 2 days ago
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
     (prisma.user.findUnique as any).mockResolvedValue({
       class: "builder",
+      createdAt: twoDaysAgo,
+    });
+
+    // Quiz completed 5 days ago (so inside the 14-days cooldown window)
+    const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
+    (prisma.quizResult.findFirst as any).mockResolvedValue({
+      createdAt: fiveDaysAgo,
     });
 
     const res = await submitQuiz({
       answers: Array(13).fill("builder"),
     });
 
-    expect(res).toEqual({
-      success: false,
-      error: "Quiz déjà complété. Ton profil est verrouillé.",
-      status: 409,
+    expect(res.success).toBe(false);
+    expect(res.status).toBe(409);
+    expect(res.error).toContain("Recalibrage verrouillé");
+  });
+
+  test("should allow retake when account is less than 24h old", async () => {
+    (auth.api.getSession as any).mockResolvedValue({
+      user: { id: "user-1", email: "test@example.com", name: "Test User" },
     });
+
+    // Account created 2 hours ago
+    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+    (prisma.user.findUnique as any).mockResolvedValue({
+      class: "builder",
+      createdAt: twoHoursAgo,
+    });
+
+    // Quiz completed 1 hour ago
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    (prisma.quizResult.findFirst as any).mockResolvedValue({
+      createdAt: oneHourAgo,
+    });
+
+    // Mock prisma responses in transaction
+    (prisma.quizResult.create as any).mockResolvedValue({ id: "quiz-res-123" });
+    (prisma.guild.findUnique as any).mockResolvedValue({ id: "guild-123", slug: "builders" });
+    (prisma.guildMember.upsert as any).mockResolvedValue({ id: "member-123" });
+    (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
+
+    const res = await submitQuiz({
+      answers: Array(13).fill("builder"),
+      responseTimes: Array(13).fill(1000),
+    });
+
+    expect(res.success).toBe(true);
+    expect(res.quizResultId).toBe("quiz-res-123");
+  });
+
+  test("should allow retake when cooldown has elapsed", async () => {
+    (auth.api.getSession as any).mockResolvedValue({
+      user: { id: "user-1", email: "test@example.com", name: "Test User" },
+    });
+
+    // Account created 20 days ago
+    const twentyDaysAgo = new Date(Date.now() - 20 * 24 * 60 * 60 * 1000);
+    (prisma.user.findUnique as any).mockResolvedValue({
+      class: "builder",
+      createdAt: twentyDaysAgo,
+    });
+
+    // Quiz completed 15 days ago (so outside the 14-days cooldown window)
+    const fifteenDaysAgo = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000);
+    (prisma.quizResult.findFirst as any).mockResolvedValue({
+      createdAt: fifteenDaysAgo,
+    });
+
+    // Mock prisma responses in transaction
+    (prisma.quizResult.create as any).mockResolvedValue({ id: "quiz-res-123" });
+    (prisma.guild.findUnique as any).mockResolvedValue({ id: "guild-123", slug: "builders" });
+    (prisma.guildMember.upsert as any).mockResolvedValue({ id: "member-123" });
+    (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
+
+    const res = await submitQuiz({
+      answers: Array(13).fill("builder"),
+      responseTimes: Array(13).fill(1000),
+    });
+
+    expect(res.success).toBe(true);
+    expect(res.quizResultId).toBe("quiz-res-123");
   });
 
   test("should successfully complete the quiz flow", async () => {
