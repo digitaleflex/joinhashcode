@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Cookie, X } from "lucide-react"
+import { Cookie, X, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
 
   useEffect(() => {
-    // Check if consent was already given
     const consent = localStorage.getItem("hc_cookie_consent")
-    if (!consent) {
+    const gpsConsent = localStorage.getItem("hc_gps_consent")
+    if (!consent && gpsConsent === null) {
       const timer = setTimeout(() => setIsVisible(true), 2000)
       return () => clearTimeout(timer)
     }
@@ -20,11 +21,19 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     localStorage.setItem("hc_cookie_consent", "accepted")
+    localStorage.setItem("hc_gps_consent", "accepted")
+    setIsVisible(false)
+  }
+
+  const handleAcceptEssential = () => {
+    localStorage.setItem("hc_cookie_consent", "accepted")
+    localStorage.setItem("hc_gps_consent", "declined")
     setIsVisible(false)
   }
 
   const handleDecline = () => {
     localStorage.setItem("hc_cookie_consent", "declined")
+    localStorage.setItem("hc_gps_consent", "declined")
     setIsVisible(false)
   }
 
@@ -38,7 +47,6 @@ export function CookieBanner() {
           className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:w-100 z-100"
         >
           <div className="bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden relative group">
-            {/* Background Glow */}
             <div className="absolute -top-24 -right-24 size-48 bg-primary/5 rounded-full blur-[80px]" />
             
             <div className="relative space-y-4">
@@ -49,24 +57,67 @@ export function CookieBanner() {
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Respect de ta vie numérique</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    Nous utilisons uniquement les cookies nécessaires à ta sécurité et, avec ton accord, des outils anonymes pour améliorer l&apos;expérience HASHCODE.
+                    Nous utilisons des cookies essentiels pour ta sécurité. Avec ton accord, nous collectons aussi des données de localisation pour la protection anti-fraude.
                   </p>
                 </div>
               </div>
 
+              {showDetails && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  className="space-y-3 border-t border-white/5 pt-4"
+                >
+                  <label className="flex items-start gap-3 p-3 rounded-xl bg-white/3 border border-white/5">
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      id="consent-gps"
+                      className="mt-1 h-4 w-4 rounded border-white/20 bg-zinc-800 text-primary focus:ring-primary"
+                      onChange={(e) => {
+                        if (!e.target.checked) {
+                          localStorage.setItem("hc_gps_consent", "declined")
+                        }
+                      }}
+                    />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="size-3.5 text-primary" />
+                        <span className="text-xs font-bold text-white">Géolocalisation anti-fraude</span>
+                      </div>
+                      <p className="text-[10px] text-zinc-500 mt-1">
+                        Utilisée uniquement pour détecter les activités suspectes. Jamais partagée ni revendue. Données purgées après 90 jours.
+                      </p>
+                    </div>
+                  </label>
+                </motion.div>
+              )}
+
               <p className="text-[10px] text-zinc-500 leading-tight">
-                Tu as le plein contrôle : accepter nous aide à bâtir un meilleur outil, refuser ne limitera pas ton accès.{" "}
-                <Link href="/privacy" className="underline hover:text-zinc-300 transition-colors">Politique de confidentialité</Link>
+                Tu as le plein contrôle : tu peux modifier ces choix à tout moment sur{" "}
+                <Link href="/cookies" className="underline hover:text-zinc-300 transition-colors">la page des cookies</Link>.{" "}
+                <button onClick={() => setShowDetails(!showDetails)} className="underline hover:text-zinc-300">
+                  {showDetails ? "Masquer" : "Personnaliser"}
+                </button>
               </p>
 
               <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                <Button 
+                <Button
                   onClick={handleAccept}
                   className="btn-primary-glow flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider"
                 >
-                  Accepter l&apos;analyse
+                  {showDetails ? "Tout accepter" : "Accepter"}
                 </Button>
-                <Button 
+                {showDetails && (
+                  <Button
+                    onClick={handleAcceptEssential}
+                    variant="outline"
+                    className="flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/10 text-zinc-400 hover:text-white"
+                  >
+                    Essentiels uniquement
+                  </Button>
+                )}
+                <Button
                   variant="ghost"
                   onClick={handleDecline}
                   className="flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider text-zinc-500 hover:text-white border border-white/5 hover:border-white/10"

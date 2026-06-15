@@ -3,7 +3,7 @@
 import Link from "next/link"
 // import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Zap, Shield, Target } from "lucide-react"
+import { ArrowRight, Zap, Shield, Target, Users } from "lucide-react"
 
 export function FinalCta() {
   return (
@@ -46,7 +46,7 @@ export function FinalCta() {
           </div>
 
           <div
-            className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-16 border-t border-white/5"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-16 border-t border-white/5"
           >
             <div className="flex flex-col items-center gap-2">
               <Shield className="size-5 text-zinc-600" />
@@ -56,9 +56,13 @@ export function FinalCta() {
               <Target className="size-5 text-zinc-600" />
               <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Objectifs Réels</span>
             </div>
-            <div className="hidden sm:flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2">
               <Zap className="size-5 text-zinc-600" />
               <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Impact Immédiat</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Users className="size-5 text-indigo-400" />
+              <span className="font-mono text-[9px] uppercase font-bold text-indigo-400 tracking-tighter">Parrainage</span>
             </div>
           </div>
         </div>

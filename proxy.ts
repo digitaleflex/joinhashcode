@@ -21,7 +21,7 @@ function buildCSP(nonce: string): string {
   ].join("; ");
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // CVE-2025-29927: strip header that would bypass middleware execution
   if (request.headers.get("x-middleware-subrequest")) {
     return new NextResponse("Forbidden", { status: 403 });

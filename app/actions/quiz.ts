@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "../../generated/prisma";
+import { Prisma } from "../../generated/prisma/client";
 import { headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";

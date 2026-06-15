@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
+import { purgeOldLocations } from "@/lib/location";
 
 /**
  * Data Purge Cron
@@ -39,13 +40,17 @@ export async function POST(req: Request) {
       where: { createdAt: { lt: retentionMessages } },
     });
 
+    // 4. Purge old GPS location data (anonymize after 90 days)
+    const purgedLocations = await purgeOldLocations();
+
     logActivity({
       action: "CRON_PURGE_DATA",
       entity: "System",
       metadata: { 
         purgedLogs: purgedLogs.count,
         purgedNotifications: purgedNotifications.count,
-        purgedMessages: purgedMessages.count
+        purgedMessages: purgedMessages.count,
+        purgedLocations
       },
     });
 
@@ -54,7 +59,8 @@ export async function POST(req: Request) {
       purged: {
         logs: purgedLogs.count,
         notifications: purgedNotifications.count,
-        messages: purgedMessages.count
+        messages: purgedMessages.count,
+        locations: purgedLocations
       }
     });
   } catch (error: unknown) {

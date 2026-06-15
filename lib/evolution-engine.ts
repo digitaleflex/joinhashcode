@@ -1,6 +1,6 @@
 import { prisma } from './prisma';
 import { BehavioralVitality, updateVitalityWithDecay } from './evolution';
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '../generated/prisma/client';
 
 export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
   'Code': { builder: 1 },

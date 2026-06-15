@@ -36,7 +36,8 @@ export function ReferralWidget() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const xpEarned = (data?.referralCount ?? 0) * 100
+  const xpPerReferral = 50
+  const xpEarned = (data?.referralCount ?? 0) * xpPerReferral
 
   return (
     <div className="space-y-4">
@@ -56,7 +57,7 @@ export function ReferralWidget() {
             <div className="text-[9px] font-mono text-zinc-600 uppercase">Filleuls</div>
           </div>
           <div className="rounded-2xl bg-primary/5 border border-primary/10 p-3 text-center space-y-1">
-            <div className="text-xl font-extrabold text-primary tabular-nums">100</div>
+            <div className="text-xl font-extrabold text-primary tabular-nums">{xpPerReferral}</div>
             <div className="text-[9px] font-mono text-zinc-600 uppercase">XP / filleul</div>
           </div>
           <div className="rounded-2xl bg-white/3 border border-white/5 p-3 text-center space-y-1">
@@ -69,7 +70,7 @@ export function ReferralWidget() {
         <div className="flex items-start gap-3 p-3 rounded-2xl bg-primary/3 border border-primary/10">
           <Gift className="size-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Partage ton lien. Quand un(e) ami(e) rejoint HASHCODE et complète son onboarding, tu gagnes automatiquement <span className="text-primary font-bold">100 XP</span>.
+            Partage ton lien. Quand un(e) ami(e) rejoint HASHCODE et complète son onboarding, tu gagnes automatiquement <span className="text-primary font-bold">{xpPerReferral} XP</span>.
           </p>
         </div>
 
@@ -79,7 +80,7 @@ export function ReferralWidget() {
         ) : (
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0 bg-zinc-950 border border-white/8 rounded-2xl px-3 py-2.5 flex items-center gap-2">
-              <span className="text-[10px] font-mono text-zinc-600 shrink-0">hashcode.app/signin?ref=</span>
+              <span className="text-[10px] font-mono text-zinc-600 shrink-0">{typeof window !== "undefined" ? window.location.host : "joinhashcode.com"}/signin?ref=</span>
               <span className="text-[11px] font-mono font-bold text-primary truncate">{data?.referralCode}</span>
             </div>
             <button

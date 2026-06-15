@@ -97,11 +97,22 @@ export async function PATCH(req: Request) {
       if (refCode) {
         const currentUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { referrerId: true } });
         if (!currentUser?.referrerId) {
-          const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true } });
+          const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true, name: true } });
           if (referrer && referrer.id !== session.user.id) {
             await prisma.user.update({ where: { id: session.user.id }, data: { referrerId: referrer.id } });
             await prisma.user.update({ where: { id: referrer.id }, data: { referralCount: { increment: 1 } } });
-            awardXp(referrer.id, 100, "REFERRAL_COMPLETED", session.user.id).catch(() => {});
+            awardXp(referrer.id, 50, "REFERRAL_COMPLETED", session.user.id).catch(() => {});
+
+            // Notify referrer via notification (non-blocking)
+            prisma.notification.create({
+              data: {
+                userId: referrer.id,
+                type: "REFERRAL_SUCCESS",
+                title: "Récompense de parrainage ! 💎",
+                message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
+                link: "/dashboard",
+              }
+            }).catch(() => {});
           }
         }
         cookieStore.delete("hashcode_ref");

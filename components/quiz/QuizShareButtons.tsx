@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Copy, Check, MessageSquare } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import { Button } from "@/components/ui/button"
@@ -13,13 +13,22 @@ interface QuizShareButtonsProps {
 
 export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProps) {
     const [copied, setCopied] = useState(false)
+    const [referralCode, setReferralCode] = useState<string | null>(null)
+
+    useEffect(() => {
+        fetch("/api/referral")
+            .then(r => r.ok ? r.json() : null)
+            .then(d => { if (d?.referralCode) setReferralCode(d.referralCode) })
+            .catch(() => {})
+    }, [])
     
     // Construct the share URL (ideally a public profile page or a dedicated result landing)
     // For now, we'll use the site root as a fallback if no public profile exists
-    const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://joinhashcode.com"
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://joinhashcode.com"
+    const shareUrl = referralCode ? `${baseUrl}/signin?ref=${referralCode}` : baseUrl
     
     const profileLabel = profileType.toUpperCase()
-    const shareText = `Je viens de découvrir mon profil tech sur HASHCODE : je suis un ${profileLabel} ! 🚀\n\nFais le test toi aussi pour découvrir ton style de build.`
+    const shareText = `Je viens de découvrir mon profil tech sur HASHCODE : je suis un ${profileLabel} ! 🚀\n\n${userName} — rejoins-moi et découvre ton style de build.`
 
     const copyLink = () => {
         navigator.clipboard.writeText(shareUrl)

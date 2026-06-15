@@ -3,7 +3,7 @@
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { motion } from "framer-motion"
-import { Shield, Database, Fingerprint, Lock, Trash2, Mail } from "lucide-react"
+import { Shield, Database, Fingerprint, Lock, Trash2, Mail, MapPin } from "lucide-react"
 
 export default function PrivacyPage() {
   return (
@@ -115,11 +115,32 @@ export default function PrivacyPage() {
               </p>
             </section>
 
-            {/* 6. Droits utilisateur */}
+            {/* 6. Géolocalisation */}
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-primary" />
+                6. Géolocalisation & Anti-Fraude
+              </h2>
+              <p className="leading-relaxed">
+                HASHCODE propose une fonctionnalité optionnelle de géolocalisation pour renforcer la sécurité de votre compte et détecter les activités suspectes (ex : connexion depuis deux pays en moins de 2 heures).
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong className="text-zinc-200">Consentement explicite requis :</strong> La collecte n&apos;a lieu qu&apos;après votre accord via la bannière de cookies.</li>
+                <li><strong className="text-zinc-200">Données collectées :</strong> Latitude, longitude, précision (accuracy).</li>
+                <li><strong className="text-zinc-200">Usage exclusif :</strong> Analyse anti-fraude interne. Jamais partagées avec des tiers.</li>
+                <li><strong className="text-zinc-200">Rétention limitée :</strong> Données purgées automatiquement après 90 jours.</li>
+                <li><strong className="text-zinc-200">Pas de blocage :</strong> Refuser n&apos;affecte pas votre accès à la plateforme.</li>
+              </ul>
+              <p className="text-sm">
+                Vous pouvez gérer ce consentement à tout moment depuis la page <a href="/cookies" className="text-primary hover:underline">Gestion des cookies</a>.
+              </p>
+            </section>
+
+            {/* 7. Droits utilisateur */}
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Trash2 className="w-5 h-5 text-primary" />
-                6. Vos Droits & Contrôle
+                7. Vos Droits & Contrôle
               </h2>
               <p className="leading-relaxed">
                 Vous restez maître de vos données à tout moment :
@@ -128,14 +149,15 @@ export default function PrivacyPage() {
                 <li><strong className="text-zinc-200">Droit à l&apos;Oubli :</strong> Vous pouvez demander la suppression complète de votre compte et de toutes les données associées.</li>
                 <li><strong className="text-zinc-200">Droit d&apos;Export :</strong> Vous pouvez demander une copie de vos données d&apos;activité et d&apos;évaluation.</li>
                 <li><strong className="text-zinc-200">Analytics :</strong> Vous pouvez choisir de limiter la collecte de données analytiques via vos réglages.</li>
+                <li><strong className="text-zinc-200">Géolocalisation :</strong> Vous pouvez activer ou désactiver à tout moment depuis la <a href="/cookies" className="text-primary hover:underline">page des cookies</a>.</li>
               </ul>
             </section>
 
-            {/* 7. Contact */}
+            {/* 8. Contact */}
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary" />
-                7. Contact & Transmission
+                8. Contact & Transmission
               </h2>
               <p className="leading-relaxed">
                 Pour toute question concernant le traitement de vos données ou pour exercer vos droits, contactez-nous via le Hub de Transmission : <a href="mailto:privacy@joinhashcode.com" className="text-primary hover:underline">privacy@joinhashcode.com</a>

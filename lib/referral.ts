@@ -1,38 +1,54 @@
 import { prisma } from "./prisma";
 import { awardXp } from "./experience";
 
-/**
- * Handle Referral Success
- * 
- * When a new user completes their account validation (e.g., beta key activated),
- * the referrer receives a reward (+50 XP).
- */
+const MIN_DAYS_BEFORE_REWARD = 7
+const MIN_CHECKINS_BEFORE_REWARD = 3
+
 export async function processReferralReward(newUserId: string) {
   try {
-    // 1. Check if the user was referred
     const user = await prisma.user.findUnique({
       where: { id: newUserId },
-      select: { id: true, referrerId: true, name: true }
+      select: { id: true, referrerId: true, name: true, createdAt: true }
     });
 
     if (!user || !user.referrerId) return;
+    if (user.referrerId === newUserId) return;
 
-    // 2. Grant reward to referrer
+    const existingReward = await prisma.activityLog.findFirst({
+      where: {
+        userId: user.referrerId,
+        action: "REFERRAL_REWARD_GRANTED",
+        entityId: newUserId,
+      },
+    });
+    if (existingReward) return;
+
+    // Anti-fraud: minimum account age
+    const accountAgeDays = (Date.now() - user.createdAt.getTime()) / (1000 * 60 * 60 * 24)
+    if (accountAgeDays < MIN_DAYS_BEFORE_REWARD) {
+      console.log(`[REFERRAL_DEFERRED] ${newUserId} account age ${accountAgeDays.toFixed(1)}d < ${MIN_DAYS_BEFORE_REWARD}d`)
+      return
+    }
+
+    // Anti-fraud: minimum check-ins
+    const checkinCount = await prisma.dailyCheckin.count({
+      where: { userId: newUserId },
+    })
+    if (checkinCount < MIN_CHECKINS_BEFORE_REWARD) {
+      console.log(`[REFERRAL_DEFERRED] ${newUserId} check-ins ${checkinCount} < ${MIN_CHECKINS_BEFORE_REWARD}`)
+      return
+    }
+
     const rewardXp = 50;
-    
+
     await prisma.$transaction(async (tx) => {
-      // Award XP via helper and register transaction
       await awardXp(user.referrerId!, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
 
-      // Update Referral Count
       await tx.user.update({
         where: { id: user.referrerId! },
-        data: {
-          referralCount: { increment: 1 }
-        }
+        data: { referralCount: { increment: 1 } }
       });
-      
-      // Create notification for Referrer
+
       await tx.notification.create({
         data: {
           userId: user.referrerId!,
@@ -42,15 +58,14 @@ export async function processReferralReward(newUserId: string) {
           link: "/dashboard",
         }
       });
-      
-      // Log Activity for Referrer
+
       await tx.activityLog.create({
         data: {
           userId: user.referrerId!,
           action: "REFERRAL_REWARD_GRANTED",
           entity: "user",
           entityId: newUserId,
-          metadata: { xpGranted: rewardXp, referredUserName: user.name }
+          metadata: { xpGranted: rewardXp, referredUserName: user.name, accountAgeDays: Math.round(accountAgeDays), checkinCount }
         }
       });
     });

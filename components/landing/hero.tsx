@@ -123,7 +123,7 @@ export function Hero({
                 ))}
               </div>
               <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-zinc-400">
-                <span className="text-primary">{(totalMembers).toLocaleString()}</span> Builders synchronisés
+                <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> Builders synchronisés
                 {realCount !== undefined && realCount > 0 && (
                   <span className="ml-2 opacity-30 text-[8px]">
                     (Total DB: {realCount})
