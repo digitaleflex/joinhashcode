@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "../generated/prisma/client";
 
 // Global variable to maintain a singleton Prisma Client/Pool across hot reloads in development.
 const globalForPrisma = globalThis as unknown as {
@@ -19,9 +19,9 @@ const pool =
 
     return new Pool({
       connectionString: process.env.DATABASE_URL,
-      max: 20,                       // Maximum number of clients in the pool (PERF-003)
-      idleTimeoutMillis: 30000,      // Close idle clients after 30 seconds
-      connectionTimeoutMillis: 5000, // Return an error if a connection cannot be established within 5 seconds
+      max: 10,                       // Limit concurrent connections to avoid overwhelming remote DB
+      idleTimeoutMillis: 60000,      // Keep idle connections alive longer for reuse
+      connectionTimeoutMillis: 15000, // 15s timeout for remote VPS latency
       ssl: isLocalDb
         ? false
         : {

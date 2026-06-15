@@ -14,118 +14,90 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
-  // Fetch all required data in parallel
+  // Single consolidated query to reduce connection pressure on remote DB
   let dbUser: UserProfile | null = null;
   let quizResult: any = null;
   let submissions: DetailedMissionSubmission[] = [];
   let member: any = null;
 
   try {
-    const [userRes, quizRes, subRes, memRes] = await Promise.all([
-      prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          level: true,
-          experience: true,
-          class: true,
-          missionsCompletedCount: true,
-          behavioralVibrancy: true,
-          pseudo: true,
-          referralCode: true,
-          referralCount: true,
-          role: true,
-          language: true,
-          memberNumber: true,
-          createdAt: true,
-          domains: true,
-          tools: true,
-          badges: true,
-          bio: true,
-          currentSituation: true,
-          technicalLevel: true,
-          mainObjective: true,
-          country: true,
-          city: true,
-          psychometrics: {
-            select: {
-              builderScore: true,
-              creatorScore: true,
-              strategistScore: true,
-              catalystScore: true,
-              confidenceScore: true,
-            }
-          },
-          stats: {
-            select: {
-              lastCheckinAt: true,
-              currentStreak: true,
-            }
-          }
-        }
-      }),
-      prisma.quizResult.findFirst({
-        where: { userId: session.user.id },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.missionSubmission.findMany({
-        where: { userId: session.user.id },
-        include: {
-          mission: {
-            select: {
-              title: true,
-              category: true,
-              slug: true,
-            }
-          }
+    const userData = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: {
+        psychometrics: {
+          select: { builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true, confidenceScore: true },
         },
-        orderBy: { createdAt: 'desc' },
-        take: 20,
-      }),
-      prisma.member.findFirst({
-        where: { userId: session.user.id },
-        include: {
-          organization: {
-            include: {
-              members: {
-                take: 5,
-                include: {
-                  user: {
-                    select: {
-                      id: true,
-                      name: true,
-                      pseudo: true,
-                      image: true,
-                      class: true,
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      })
-    ]);
+        stats: {
+          select: { lastCheckinAt: true, currentStreak: true },
+        },
+        quizResults: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+        },
+        missionSubmissions: {
+          include: { mission: { select: { title: true, category: true, slug: true } } },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+        },
+        members: {
+          take: 1,
+          include: {
+            organization: {
+              include: {
+                members: {
+                  take: 5,
+                  include: {
+                    user: { select: { id: true, name: true, pseudo: true, image: true, class: true } },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
 
-    dbUser = userRes ? {
-      ...userRes,
-      builderScore: userRes.psychometrics?.builderScore ?? 0,
-      creatorScore: userRes.psychometrics?.creatorScore ?? 0,
-      strategistScore: userRes.psychometrics?.strategistScore ?? 0,
-      catalystScore: userRes.psychometrics?.catalystScore ?? 0,
-      confidenceScore: userRes.psychometrics?.confidenceScore ?? 0.25,
-      lastCheckin: userRes.stats?.lastCheckinAt ?? null,
-      currentStreak: userRes.stats?.currentStreak ?? 0,
-      badges: userRes.badges || [],
-      domains: userRes.domains || [],
-      tools: userRes.tools || [],
-    } : null;
-    quizResult = quizRes;
-    submissions = subRes as any;
-    member = memRes;
+    if (!userData) {
+      redirect("/signin")
+    }
+
+    dbUser = {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      image: userData.image,
+      level: userData.level,
+      experience: userData.experience,
+      class: userData.class,
+      missionsCompletedCount: userData.missionsCompletedCount,
+      behavioralVibrancy: userData.behavioralVibrancy,
+      pseudo: userData.pseudo,
+      referralCode: userData.referralCode,
+      referralCount: userData.referralCount,
+      role: userData.role,
+      language: userData.language,
+      memberNumber: userData.memberNumber,
+      createdAt: userData.createdAt,
+      domains: userData.domains || [],
+      tools: userData.tools || [],
+      badges: userData.badges || [],
+      bio: userData.bio,
+      currentSituation: userData.currentSituation,
+      technicalLevel: userData.technicalLevel,
+      mainObjective: userData.mainObjective,
+      country: userData.country,
+      city: userData.city,
+      builderScore: userData.psychometrics?.builderScore ?? 0,
+      creatorScore: userData.psychometrics?.creatorScore ?? 0,
+      strategistScore: userData.psychometrics?.strategistScore ?? 0,
+      catalystScore: userData.psychometrics?.catalystScore ?? 0,
+      confidenceScore: userData.psychometrics?.confidenceScore ?? 0.25,
+      lastCheckin: userData.stats?.lastCheckinAt ?? null,
+      currentStreak: userData.stats?.currentStreak ?? 0,
+    } as UserProfile
+    quizResult = userData.quizResults[0] ?? null
+    submissions = userData.missionSubmissions as any
+    member = userData.members[0] ?? null
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error)
     throw error
