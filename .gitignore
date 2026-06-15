@@ -69,5 +69,8 @@ __v0_jsx-dev-runtime.ts
 .claude/
 .superpowers/
 
+# Généré par Prisma (regénéré via prisma generate dans build/dev)
+generated/
+
 # Fichiers uploadés localement (servis par VPS, pas versionnés)
 public/uploads/
