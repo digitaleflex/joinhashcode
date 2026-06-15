@@ -9,7 +9,7 @@ import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { organizationId } = await req.json();
     if (!organizationId) return NextResponse.json({ message: "Organization ID missing" }, { status: 400 });
@@ -111,14 +111,14 @@ export async function POST(req: Request) {
     return NextResponse.json(request);
   } catch (error: unknown) {
     console.error("[SQUAD_JOIN_REQUEST_POST]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }
 
 export async function GET(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get("organizationId");
@@ -133,7 +133,7 @@ export async function GET(req: Request) {
       },
     });
 
-    if (!membership) return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    if (!membership) return NextResponse.json({ message: "Accès refusé" }, { status: 403 });
 
     const requests = await prisma.joinRequest.findMany({
       where: {
@@ -159,6 +159,6 @@ export async function GET(req: Request) {
     return NextResponse.json(requests);
   } catch (error: unknown) {
     console.error("[SQUAD_JOIN_REQUEST_GET]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }

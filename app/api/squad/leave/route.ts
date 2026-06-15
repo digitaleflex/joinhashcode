@@ -8,10 +8,10 @@ import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 export async function DELETE(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
-    if (limited) return NextResponse.json({ message: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+    if (limited) return NextResponse.json({ message: "Action trop fréquente. Réessaie dans une minute." }, { status: 429 });
 
     const membership = await prisma.member.findFirst({
       where: { userId: session.user.id },
@@ -38,6 +38,6 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error("[SQUAD_LEAVE]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }

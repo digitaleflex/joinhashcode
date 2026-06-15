@@ -54,6 +54,6 @@ export async function GET(req: Request) {
     return NextResponse.json(result, { headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
   } catch (error: unknown) {
     console.error("[SQUAD_PUBLIC_GET]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500, headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500, headers: { "Cache-Control": "public, max-age=60, s-maxage=60" } });
   }
 }

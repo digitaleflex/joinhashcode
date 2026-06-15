@@ -8,14 +8,14 @@ import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria
 export async function GET() {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const reviewer = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { id: true, class: true, level: true, missionsCompletedCount: true },
     });
 
-    if (!reviewer) return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!reviewer) return NextResponse.json({ message: "Utilisateur non trouvé" }, { status: 404 });
 
     const pendingSubmissions = await prisma.missionSubmission.findMany({
       where: { status: "PENDING" },
@@ -42,6 +42,6 @@ export async function GET() {
     return NextResponse.json(eligible);
   } catch (error: unknown) {
     console.error("[REVIEWER_QUEUE]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }

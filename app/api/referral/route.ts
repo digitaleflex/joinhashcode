@@ -9,7 +9,7 @@ import { handleApiError } from "@/lib/api-error-handler";
 export async function GET() {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     let user = await prisma.user.findUnique({
       where: { id: session.user.id },

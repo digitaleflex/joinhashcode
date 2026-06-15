@@ -72,7 +72,10 @@ export async function PATCH(req: Request) {
       action: "ONBOARDING_PARTIAL_SAVE",
       entity: "user",
       entityId: session.user.id,
-      metadata: { currentSituation: parsed.data.currentSituation, country: parsed.data.country, step: parsed.data.mainObjective ? "complete" : "step0" },
+      metadata: { 
+        ...parsed.data,
+        isComplete: !!parsed.data.mainObjective 
+      },
       request: req,
     });
 

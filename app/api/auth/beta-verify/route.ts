@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const { key } = await req.json();
 
     if (!key) {
-      return NextResponse.json({ message: "Key is required" }, { status: 400 });
+      return NextResponse.json({ message: "La clé est requise" }, { status: 400 });
     }
 
     const betaKey = await prisma.betaKey.findUnique({

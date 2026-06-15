@@ -13,7 +13,7 @@ import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie dans une heure." }, { status: 429 });
@@ -179,6 +179,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error("[SQUAD_JOIN]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }

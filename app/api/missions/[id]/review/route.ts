@@ -12,7 +12,7 @@ import {
 } from "@/lib/acceptance-criteria";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
-import { BehavioralVibrancy } from "@/lib/evolution";
+import { BehavioralVitality } from "@/lib/evolution";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
@@ -140,7 +140,7 @@ export async function POST(
         return NextResponse.json({ success: true, qualityLevel, status: "PENDING_ADMIN" });
       }
 
-      const missionWeights: BehavioralVibrancy = {
+      const missionWeights: BehavioralVitality = {
         builder: submission.mission.weightBuilder || 0,
         creator: submission.mission.weightCreator || 0,
         strategist: submission.mission.weightStrategist || 0,

@@ -10,6 +10,24 @@ import { invalidateUserCache } from "@/lib/user-cache";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
+const TRUSTED_IMAGE_DOMAINS = [
+  "lh3.googleusercontent.com",
+  "avatars.githubusercontent.com",
+  "api.qrserver.com",
+];
+
+const imageSchema = z.union([
+  z.string().url().max(500).refine((url) => {
+    try {
+      const { hostname } = new URL(url);
+      return TRUSTED_IMAGE_DOMAINS.includes(hostname);
+    } catch {
+      return false;
+    }
+  }, "Domaine d'image non autorisé. Utilise un upload local ou un fournisseur de confiance."),
+  z.string().regex(/^\/uploads\/[a-zA-Z0-9_/-]+\.(jpg|jpeg|png|webp)$/),
+]).optional().nullable().or(z.literal("")).transform(v => v || undefined);
+
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional().nullable().transform(v => v || undefined),
   pseudo: z.string()
@@ -22,10 +40,7 @@ const updateSchema = z.object({
   bio: z.string().transform(stripHtml).pipe(z.string().max(500))
     .refine(v => !containsProfanity(v), "Ta biographie contient des termes non autorisés.")
     .optional().nullable().transform(v => v || undefined),
-  image: z.union([
-    z.string().url().max(500),
-    z.string().regex(/^\/uploads\/[a-zA-Z0-9_/-]+\.(jpg|jpeg|png|webp)$/),
-  ]).optional().nullable().or(z.literal("")).transform(v => v || undefined),
+  image: imageSchema,
   country: z.string().max(100).optional().nullable().transform(v => v || undefined),
   city: z.string().max(100).optional().nullable().transform(v => v || undefined),
   language: z.enum(["fr", "en"]).optional().nullable().transform(v => v || undefined),

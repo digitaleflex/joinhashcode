@@ -17,7 +17,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
-    if (limited) return NextResponse.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+    if (limited) return NextResponse.json({ error: "Laisse nous le temps de lire ! Réessaie dans une minute." }, { status: 429 });
 
     const formData = await req.formData();
     const type = formData.get("type") as string;

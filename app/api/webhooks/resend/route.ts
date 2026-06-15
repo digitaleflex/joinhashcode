@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const secret = process.env.RESEND_WEBHOOK_SECRET;
     if (!secret) {
       console.error("[CRITICAL] RESEND_WEBHOOK_SECRET not configured.");
-      return NextResponse.json({ message: "Configuration Error" }, { status: 500 });
+      return NextResponse.json({ message: "Erreur de configuration" }, { status: 500 });
     }
 
     const wh = new Webhook(secret);
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       });
     } catch (error: unknown) {
       console.error("[RESEND_WEBHOOK] Invalid signature:", error);
-      return NextResponse.json({ message: "Invalid signature" }, { status: 401 });
+      return NextResponse.json({ message: "Signature invalide" }, { status: 401 });
     }
 
     const { type, data } = evt;
@@ -62,6 +62,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ processed: true });
   } catch (error: unknown) {
     await logError("Resend Webhook", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

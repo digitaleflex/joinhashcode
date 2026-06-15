@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
     if (limited) {
-      return NextResponse.json({ message: "Trop de soumissions. Réessaie dans une minute." }, { status: 429 });
+      return NextResponse.json({ message: "Action trop rapide. Réessaie dans quelques secondes." }, { status: 429 });
     }
 
     const body = await req.json();

@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
-    if (limited) return NextResponse.json({ message: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+    if (limited) return NextResponse.json({ message: "Ton avis compte, mais laisse le système respirer. Réessaie dans une minute." }, { status: 429 });
 
     const { prefersDarkMode, modernityRating, readabilityIssues } = await req.json();
 

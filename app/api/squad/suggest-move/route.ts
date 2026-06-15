@@ -14,7 +14,7 @@ const CLASS_LABELS: Record<string, string> = {
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() })
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 })
 
     const { targetUserId } = await req.json()
     if (!targetUserId) return NextResponse.json({ message: "targetUserId manquant" }, { status: 400 })
@@ -59,6 +59,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true })
   } catch (error: unknown) {
     console.error("[SQUAD_SUGGEST_MOVE]", error)
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 })
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 })
   }
 }

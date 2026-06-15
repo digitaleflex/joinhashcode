@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 interface NeuralEvent {
   id: string
@@ -25,6 +27,11 @@ function formatRelativeTime(date: Date): string {
 
 export async function GET() {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) {
+      return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    }
+
     // Fetch latest relevant activity logs
     const logs = await prisma.activityLog.findMany({
       where: {

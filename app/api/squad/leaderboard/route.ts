@@ -46,6 +46,6 @@ export async function GET() {
     return NextResponse.json(ranked, { headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
   } catch (error: unknown) {
     console.error("[SQUAD_LEADERBOARD]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500, headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500, headers: { "Cache-Control": "public, max-age=120, s-maxage=120" } });
   }
 }

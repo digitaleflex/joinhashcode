@@ -6,10 +6,10 @@ import { getCachedUser } from "@/lib/user-cache";
 
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   const user = await getCachedUser(session.user.id);
-  if (!user) return NextResponse.json({ message: "Not found" }, { status: 404 });
+  if (!user) return NextResponse.json({ message: "Non trouvé" }, { status: 404 });
 
   // Projeter les champs requis pour le frontend
   const safeUser = {

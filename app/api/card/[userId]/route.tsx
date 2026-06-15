@@ -12,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (!session) return new NextResponse("Non autorisé", { status: 401 });
 
   const { userId } = await params;
 
@@ -30,7 +30,7 @@ export async function GET(
   });
 
   if (!user) {
-    return new Response("Not found", { status: 404 });
+    return new Response("Non trouvé", { status: 404 });
   }
 
   const accent = CLASS_COLORS[user.class ?? "builder"] ?? "#B8FF3B";

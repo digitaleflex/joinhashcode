@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const session = await auth.api.getSession({ headers: req.headers });
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   const notifications = await prisma.notification.findMany({
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const session = await auth.api.getSession({ headers: req.headers });
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   await prisma.notification.updateMany({

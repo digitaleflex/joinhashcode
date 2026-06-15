@@ -9,7 +9,7 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const body = await req.json();
     const { requestId, memberId, action } = body;
@@ -136,6 +136,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error("[SQUAD_JOIN_REQUEST_RESPOND]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }
