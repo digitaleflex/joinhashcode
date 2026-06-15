@@ -34,14 +34,11 @@ ENV QSTASH_TOKEN=build_placeholder_token
 ENV NODE_ENV=production
 
 RUN pnpm prisma generate
-# SENTRY_AUTH_TOKEN injecté via BuildKit secret — jamais stocké dans les layers
 # Mode standalone = image finale ultra-légère (pas de node_modules dans le runner)
-RUN --mount=type=secret,id=sentry_token \
-    SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token 2>/dev/null || echo "") \
-    pnpm build
+RUN pnpm build
 
 # ─────────────────────────────────────────────
-# Stage 3 : Runner de production minimal (comme Vercel)
+# Stage 3 : Runner de production minimal
 # ─────────────────────────────────────────────
 FROM node:22-alpine AS runner
 RUN corepack enable && corepack prepare pnpm@latest --activate

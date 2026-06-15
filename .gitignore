@@ -40,8 +40,6 @@ dev.sh
 .env.local
 .env.test
 docker-compose.yml
-# Vercel
-.vercel
 
 # TypeScript
 *.tsbuildinfo
@@ -66,7 +64,6 @@ __v0_devtools.tsx
 __v0_jsx-dev-runtime.ts
 .snowflake/
 .v0-trash/
-.vercel
 
 # Agents & AI Cockpit local states
 .claude/
@@ -74,6 +71,3 @@ __v0_jsx-dev-runtime.ts
 
 # Fichiers uploadés localement (servis par VPS, pas versionnés)
 public/uploads/
-
-# Sentry Config File
-.env.sentry-build-plugin
