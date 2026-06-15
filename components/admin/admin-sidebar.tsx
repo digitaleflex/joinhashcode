@@ -20,6 +20,7 @@ import {
   Bell,
   KeyRound,
   ShieldBan,
+  MapPin,
 } from "lucide-react"
 
 import {
@@ -56,6 +57,7 @@ const adminNavItems = [
   { title: "Notifications",  url: "/admin/notifications", icon: Bell },
   { title: "Clés API",       url: "/admin/keys",        icon: KeyRound },
   { title: "Anti-Fraude",    url: "/admin/fraud",       icon: ShieldBan },
+  { title: "Données GPS",    url: "/admin/gps",         icon: MapPin },
   { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
   { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
 ]

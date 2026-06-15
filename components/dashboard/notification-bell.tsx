@@ -18,6 +18,8 @@ import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useState } from "react"
 
+import Link from "next/link"
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const iconMap: Record<string, any> = {
@@ -205,6 +207,14 @@ export function NotificationBell() {
               })
             )}
           </AnimatePresence>
+        </div>
+        <DropdownMenuSeparator className="bg-border/40" />
+        <div className="p-1 text-center">
+          <Button asChild variant="ghost" className="w-full text-[10px] font-bold uppercase tracking-wider text-primary hover:text-primary hover:bg-primary/5 rounded-xl h-8">
+            <Link href="/dashboard/notifications">
+              Voir toutes les notifications
+            </Link>
+          </Button>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

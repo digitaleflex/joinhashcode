@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2 } from "lucide-react"
+import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2, MapPin } from "lucide-react"
+import Link from "next/link"
+import { AdminLiveFeed } from "@/components/admin/AdminLiveFeed"
 
 export default async function AdminPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -38,6 +40,13 @@ export default async function AdminPage() {
     prevUserCount,
     prevSubmissionCount,
     prevActiveCount,
+    // Weekly chart
+    weeklyData,
+    // Active now
+    activeNow,
+    // GPS count
+    gpsCount,
+    gpsConsentCount,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.findMany({
@@ -97,6 +106,27 @@ export default async function AdminPage() {
     prisma.user.count({ where: { createdAt: { lt: sevenDaysAgo } } }),
     prisma.missionSubmission.count({ where: { createdAt: { lt: sevenDaysAgo } } }),
     prisma.user.count({ where: { stats: { lastCheckinAt: { gte: fourteenDaysAgo, lt: sevenDaysAgo } } } }),
+    // Weekly chart data (last 7 days)
+    Promise.all(
+      Array.from({ length: 7 }, (_, i) => {
+        const dayStart = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000)
+        dayStart.setHours(0, 0, 0, 0)
+        const dayEnd = new Date(dayStart)
+        dayEnd.setHours(23, 59, 59, 999)
+        return Promise.all([
+          prisma.dailyCheckin.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
+          prisma.user.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
+          prisma.missionSubmission.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
+        ]).then(([checkins, signups, missions]) => ({ dayStart, checkins, signups, missions }))
+      })
+    ),
+    prisma.session.findMany({
+      where: { expiresAt: { gte: new Date() }, createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) } },
+      select: { userId: true },
+      distinct: ["userId"],
+    }).then(s => s.length),
+    prisma.userLocation.count(),
+    prisma.user.count({ where: { consentLocation: true } }),
   ])
 
   const profileColors: Record<string, string> = {
@@ -145,6 +175,45 @@ export default async function AdminPage() {
             </div>
           )
         })}
+      </div>
+
+      {/* Active Now + Weekly Chart */}
+      <div className="grid md:grid-cols-4 gap-4">
+        <div className="md:col-span-1 rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
+          <div className="flex items-center gap-2 text-emerald-400">
+            <Activity className="h-4 w-4" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Actifs maintenant</span>
+          </div>
+          <div className="text-4xl font-bold text-white tracking-tight">{activeNow}</div>
+          <p className="text-[10px] font-mono text-zinc-600">sessions actives &lt; 15 min</p>
+        </div>
+        <div className="md:col-span-3 rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
+          <div className="flex items-center gap-2 text-primary">
+            <BarChart2 className="h-4 w-4" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Activité hebdomadaire</span>
+          </div>
+          <div className="flex items-end gap-2 h-28 pt-2">
+            {weeklyData.map((day, i) => {
+              const max = Math.max(...weeklyData.map(d => Math.max(d.checkins, d.signups, d.missions)), 1)
+              const dayName = new Intl.DateTimeFormat("fr-FR", { weekday: "short" }).format(day.dayStart)
+              return (
+                <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                  <div className="flex items-end gap-0.5 w-full justify-center">
+                    <div className="w-2 rounded-t-sm bg-amber-500/70 transition-all" style={{ height: `${(day.checkins / max) * 100}%` }} title="Check-ins" />
+                    <div className="w-2 rounded-t-sm bg-primary/70 transition-all" style={{ height: `${(day.signups / max) * 100}%` }} title="Inscriptions" />
+                    <div className="w-2 rounded-t-sm bg-violet-500/70 transition-all" style={{ height: `${(day.missions / max) * 100}%` }} title="Missions" />
+                  </div>
+                  <span className="text-[8px] font-mono text-zinc-600 uppercase mt-auto">{dayName}</span>
+                </div>
+              )
+            })}
+          </div>
+          <div className="flex items-center gap-4 text-[9px] font-mono text-zinc-600">
+            <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-amber-500/70" /> Check-ins</span>
+            <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-primary/70" /> Inscriptions</span>
+            <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-violet-500/70" /> Missions</span>
+          </div>
+        </div>
       </div>
 
       {/* Onboarding Funnel */}
@@ -338,8 +407,8 @@ export default async function AdminPage() {
         </div>
       </div>
 
-      {/* Referral + Anti-Fraud + Passkey */}
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* Referral + Anti-Fraud + Passkey + GPS */}
+      <div className="grid md:grid-cols-4 gap-6">
         {/* Parrainage */}
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
           <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
@@ -402,6 +471,35 @@ export default async function AdminPage() {
             </div>
           </div>
         </div>
+
+        {/* GPS */}
+        <Link href="/admin/gps" className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5 hover:border-white/10 hover:bg-zinc-900/80 transition-all group">
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <MapPin className="h-3 w-3 text-cyan-400" /> Données GPS
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <div className="text-3xl font-bold text-white group-hover:text-primary transition-colors">{gpsCount}</div>
+              <p className="text-[10px] font-mono text-zinc-500">Coordonnées collectées</p>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Consentement</span>
+              <span className="text-white font-bold">{userCount > 0 ? Math.round((gpsConsentCount / userCount) * 100) : 0}%</span>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Dernière</span>
+              <span className="text-white font-bold">{new Date().toLocaleDateString("fr-FR")}</span>
+            </div>
+          </div>
+        </Link>
+      </div>
+
+      {/* Live feed */}
+      <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
+        <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <Activity className="h-3 w-3 text-primary" /> Activité en direct
+        </h2>
+        <AdminLiveFeed />
       </div>
     </div>
   )
