@@ -47,7 +47,7 @@ async function checkAdmin() {
 
 export async function GET() {
   const admin = await checkAdmin();
-  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   try {
     const missions = await prisma.mission.findMany({
@@ -56,13 +56,13 @@ export async function GET() {
     return NextResponse.json(missions);
   } catch (error) {
     console.error("[ADMIN_MISSIONS_GET]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
-  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   try {
     const body = await req.json();
@@ -90,6 +90,6 @@ export async function POST(req: Request) {
       return NextResponse.json(error.errors, { status: 400 });
     }
     console.error("[ADMIN_MISSIONS_POST]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

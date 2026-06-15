@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   // Simple cron token auth (same as other crons)
   const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
   }
 
   try {
@@ -59,6 +59,6 @@ export async function POST(req: Request) {
     });
   } catch (error: unknown) {
     console.error("[CRON_PURGE_DATA_ERROR]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

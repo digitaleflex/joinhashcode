@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution } from "@/lib/evolution-engine";
-import { calculateAndSetLevel } from "@/lib/evolution-utils";
 import { triggerNotification } from "@/lib/qstash";
-import { BehavioralVibrancy } from "@/lib/evolution";
+import { BehavioralVitality } from "@/lib/evolution";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
+import { awardXp } from "@/lib/experience";
 import { z } from "zod";
 
 const UpdateSubmissionSchema = z.object({
@@ -22,11 +22,11 @@ const UpdateSubmissionSchema = z.object({
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
     const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
     if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
-      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+      return NextResponse.json({ message: "Accès refusé" }, { status: 403 });
     }
 
     const json = await req.json();
@@ -72,26 +72,29 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
       const newXp = (submission.user.experience || 0) + xpAwarded;
 
-      const missionWeights: BehavioralVibrancy = {
+      const missionWeights: BehavioralVitality = {
         builder: submission.mission.weightBuilder || 0,
         creator: submission.mission.weightCreator || 0,
         strategist: submission.mission.weightStrategist || 0,
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
+      let updatedUser: any;
       await prisma.$transaction(async (tx) => {
         await tx.missionSubmission.update({
           where: { id },
           data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
         });
         await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
+        
+        updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
+
         await tx.user.update({
           where: { id: submission.userId },
-          data: { experience: newXp, missionsCompletedCount: { increment: 1 } }
+          data: { missionsCompletedCount: { increment: 1 } }
         });
       });
 
-      const updatedUser = await calculateAndSetLevel(submission.userId, newXp, prisma);
       const newLevel = updatedUser?.level ?? submission.user.level;
       const leveledUp = newLevel > (submission.user.level || 1);
 
@@ -219,6 +222,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ message: "Invalid action" }, { status: 400 });
   } catch (error) {
     console.error("[ADMIN_SUBMISSION_PATCH]", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
 }

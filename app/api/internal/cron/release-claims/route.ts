@@ -94,6 +94,6 @@ export async function POST(req: Request) {
     });
   } catch (error: unknown) {
     console.error("[CRON_RELEASE_CLAIMS_ERROR]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

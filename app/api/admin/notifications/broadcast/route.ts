@@ -23,7 +23,7 @@ async function checkAdmin() {
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
-  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   try {
     const { title, message, type = "SYSTEM", link = null } = await req.json();
@@ -58,6 +58,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ count: users.length });
   } catch (error) {
     console.error("[ADMIN_NOTIFICATIONS_BROADCAST]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }

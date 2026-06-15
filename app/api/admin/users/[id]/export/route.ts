@@ -9,22 +9,22 @@ import JSZip from "jszip";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   const admin = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { role: true },
+    select: { role: true, id: true },
   });
-  if (!admin || !["ADMIN", "MODERATOR"].includes(admin.role)) {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-  }
 
+  if (!admin || !["ADMIN", "MODERATOR"].includes(admin.role)) {
+    return NextResponse.json({ message: "Accès refusé" }, { status: 403 });
+  }
   const { id: targetUserId } = await params;
   const targetUser = await prisma.user.findUnique({
     where: { id: targetUserId },
     select: { id: true, name: true, email: true },
   });
-  if (!targetUser) return NextResponse.json({ message: "User not found" }, { status: 404 });
+  if (!targetUser) return NextResponse.json({ message: "Utilisateur non trouvé" }, { status: 404 });
 
   const format = new URL(req.url).searchParams.get("format") ?? "json";
 

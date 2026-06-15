@@ -23,7 +23,7 @@ async function checkAdmin() {
 
 export async function GET(req: Request) {
   const admin = await checkAdmin();
-  if (!admin) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   try {
     const usersData = await prisma.user.findMany({
@@ -114,6 +114,6 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("[ADMIN_USERS_EXPORT_GET]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
   }
 }
