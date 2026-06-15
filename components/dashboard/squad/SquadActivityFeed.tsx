@@ -18,7 +18,8 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
         const data = await response.json();
         setLogs(data);
       } catch (error: unknown) {
-        console.error(err);
+        console.error(error);
+
       } finally {
         setIsLoading(false);
       }

@@ -16,7 +16,8 @@ export function SquadDiscovery() {
         const json = await response.json();
         setSquads(json.data || []); // json.data instead of json
       } catch (error: unknown) {
-        console.error(err);
+        console.error(error);
+
       } finally {
         setIsLoading(false);
       }

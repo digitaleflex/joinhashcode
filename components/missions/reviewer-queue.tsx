@@ -16,7 +16,7 @@ interface QueueItem {
   mission: { id: string; title: string; category: string; xp: number }
 }
 
-export function ReviewerQueue({ _reviewerId }: { _reviewerId: string }) {
+export function ReviewerQueue({ reviewerId }: { reviewerId: string }) {
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [loading, setLoading] = useState(true)
   const [claiming, setClaiming] = useState<string | null>(null)

@@ -8,10 +8,10 @@ import { toast } from "sonner"
 
 interface QuizShareButtonsProps {
     profileType: string
-    _userName: string
+    userName: string
 }
 
-export function QuizShareButtons({ profileType, _userName }: QuizShareButtonsProps) {
+export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProps) {
     const [copied, setCopied] = useState(false)
     
     // Construct the share URL (ideally a public profile page or a dedicated result landing)

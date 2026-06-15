@@ -107,7 +107,7 @@ export async function POST(
               link: `/admin/submissions`,
             });
           } catch (error: unknown) {
-            console.error("[NOTIFICATION_ERROR]", err);
+            console.error("[NOTIFICATION_ERROR]", error);
           }
           emailService.sendAdminCoreMissionPending({
             adminEmail: admin.email,
@@ -126,9 +126,8 @@ export async function POST(
             link: `/missions/${submission.missionId}`,
           });
         } catch (error: unknown) {
-          console.error("[NOTIFICATION_ERROR]", err);
+          console.error("[NOTIFICATION_ERROR]", error);
         }
-
         logActivity({
           userId: session.user.id,
           action: "MISSION_APPROVED",
@@ -206,9 +205,8 @@ export async function POST(
           });
         }
       } catch (error: unknown) {
-        console.error("[NOTIFICATION_ERROR]", err);
+        console.error("[NOTIFICATION_ERROR]", error);
       }
-
       logActivity({
         userId: session.user.id,
         action: "MISSION_APPROVED",
@@ -251,9 +249,8 @@ export async function POST(
         link: `/missions/${submission.missionId}`,
       });
     } catch (error: unknown) {
-      console.error("[NOTIFICATION_ERROR]", err);
+      console.error("[NOTIFICATION_ERROR]", error);
     }
-
     emailService.sendMissionNeedsRevision({
       email: submission.user.email,
       name: submission.user.name,
@@ -278,8 +275,9 @@ export async function POST(
             link: `/admin/submissions`,
           });
         } catch (error: unknown) {
-          console.error("[NOTIFICATION_ERROR]", err);
+          console.error("[NOTIFICATION_ERROR]", error);
         }
+
       }
     }
 

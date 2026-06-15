@@ -22,7 +22,7 @@ interface NextStepsCardProps {
   hasProfile: boolean // pseudo + country filled
 }
 
-export function NextStepsCard({ hasMissions, hasSquad, hasProfile }: Omit<NextStepsCardProps, "hasCheckin">) {
+export function NextStepsCard({ hasMissions, hasSquad, hasProfile, hasCheckin }: NextStepsCardProps) {
   const steps: Step[] = [
     {
       id: "profile",
