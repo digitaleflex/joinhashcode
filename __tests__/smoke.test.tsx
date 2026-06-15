@@ -1,6 +1,20 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect, test } from 'vitest'
+import { describe, it, expect, test, vi } from 'vitest'
 import { SquadJourney } from '@/components/dashboard/squad-journey'
+
+// Mock better-auth client completely
+vi.mock('@/lib/auth-client', () => ({
+  authClient: {
+    useSession: () => ({ data: null, isLoading: false }),
+    signOut: vi.fn(),
+    signIn: {
+      social: vi.fn(),
+    },
+    organization: {
+      useActiveOrganization: () => ({ data: null, isLoading: false }),
+    }
+  }
+}))
 
 // Simple mocks for test
 const mockUser = { id: 'user_1' }
