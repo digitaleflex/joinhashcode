@@ -112,18 +112,18 @@
 
 ### 🗄️ Infrastructure
 
-| Fonctionnalité        | Détail                                                         |
-| --------------------- | -------------------------------------------------------------- |
-| Prisma 7 + PostgreSQL | Supabase + `@prisma/adapter-pg` (PgBouncer compatible)         |
-| Rate Limiting         | Upstash Redis (checkin, claim, squad join, mutation)           |
-| Cache                 | Redis cache pour enrichissement missions, leaderboard          |
-| Cron Jobs             | Release claims (48h), squad decay, onboarding drip, purge data |
-| Webhooks              | Resend email webhook (bounce/complaint, vérification svix)     |
-| Middleware CSP        | Nonce par requête, protection CVE-2025-29927                   |
-| Sentry                | Monitoring d'erreurs                                           |
-| Tests Vitest          | 29 fichiers de test                                            |
-| Tests Playwright      | Configuration E2E                                              |
-| Seed DB               | Missions, weekly challenges, guildes                           |
+| Fonctionnalité        | Détail                                                                |
+| --------------------- | --------------------------------------------------------------------- |
+| Prisma 7 + PostgreSQL | PostgreSQL auto-hébergé + `@prisma/adapter-pg` (PgBouncer compatible) |
+| Rate Limiting         | Upstash Redis (checkin, claim, squad join, mutation)                  |
+| Cache                 | Redis cache pour enrichissement missions, leaderboard                 |
+| Cron Jobs             | Release claims (48h), squad decay, onboarding drip, purge data        |
+| Webhooks              | Resend email webhook (bounce/complaint, vérification svix)            |
+| Middleware CSP        | Nonce par requête, protection CVE-2025-29927                          |
+| Sentry                | Monitoring d'erreurs                                                  |
+| Tests Vitest          | 29 fichiers de test                                                   |
+| Tests Playwright      | Configuration E2E                                                     |
+| Seed DB               | Missions, weekly challenges, guildes                                  |
 
 ---
 
@@ -183,7 +183,7 @@
 
 | Priorité   | Tâche                                                         |
 | ---------- | ------------------------------------------------------------- |
-| 🔴 Haute   | Séparer instances Dev/Prod Supabase                           |
+| 🔴 Haute   | Séparer instances Dev/Prod PostgreSQL                         |
 | 🔴 Haute   | Configurer variables OAuth production (Google + GitHub)       |
 | 🟡 Moyenne | Bascule modération "Concierge" (admin valide les soumissions) |
 | 🟡 Moyenne | Vérifier `.env.production` absent du git                      |
@@ -226,7 +226,7 @@
 
 | #   | Tâche                                            | Effort |
 | --- | ------------------------------------------------ | ------ |
-| 15  | Séparation Dev/Prod Supabase                     | ~2h    |
+| 15  | Séparation Dev/Prod PostgreSQL                   | ~2h    |
 | 16  | Variables OAuth production                       | ~1h    |
 | 17  | Modération Concierge                             | ~1h    |
 | 18  | PERF-018 (ISR missions) + PERF-021 (SSG landing) | ~2h    |
