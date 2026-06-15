@@ -7,6 +7,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { EvolutionRadar } from "@/components/dashboard/evolution-radar"
 
 export function GuideClient() {
   const [activeTab, setActiveTab] = useState("evolution")
@@ -48,6 +49,41 @@ export function GuideClient() {
 
         {/* --- TAB CONTENT: EVOLUTION --- */}
         <TabsContent value="evolution" className="space-y-6 animate-in fade-in duration-300">
+          {/* Annotated Radar HUD Section */}
+          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white">Simulation du Radar de Compétences</CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Voici le simulateur interactif du radar. Survolez ses différents sommets pour en analyser les facettes.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 flex flex-col md:flex-row items-center gap-8 border-b border-white/5 pb-8">
+              <div className="flex-1 w-full flex justify-center bg-zinc-950/30 rounded-2xl p-4 border border-white/3">
+                <EvolutionRadar 
+                  builderScore={80} 
+                  creatorScore={65} 
+                  strategistScore={45} 
+                  catalystScore={30} 
+                  userClass="builder"
+                />
+              </div>
+              <div className="flex-1 space-y-4">
+                <h4 className="text-sm font-mono font-bold text-primary uppercase">Comment lire ton radar ?</h4>
+                <div className="space-y-3.5 text-xs text-zinc-400 font-light leading-relaxed">
+                  <p>
+                    <strong className="text-white">1. Sommets & Axes :</strong> Chaque sommet représente un des quatre rôles comportementaux. Plus ton polygone s&apos;étend vers un sommet, plus ta spécialisation et ton expérience dans cette classe sont élevées.
+                  </p>
+                  <p>
+                    <strong className="text-white">2. Déformation Dynamique :</strong> Ce radar n&apos;est pas figé. À chaque soumission de mission approuvée par les pairs, les scores se recalculent en temps réel, modifiant la forme de ton polygone holographique.
+                  </p>
+                  <p>
+                    <strong className="text-white">3. Force principale :</strong> Ton rôle dominant actuel est marqué d&apos;un badge spécial &quot;Force principale&quot;. Si un second rôle s&apos;approche à moins de 15%, ton badge se transforme en profil hybride.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6">
               <CardHeader className="p-0">
