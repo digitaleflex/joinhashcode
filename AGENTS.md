@@ -14,6 +14,7 @@ npx prisma db push # Push schema changes without migration (dev)
 ```
 
 To run a single test:
+
 ```bash
 npx vitest run __tests__/smoke.test.tsx
 ```
@@ -38,7 +39,7 @@ Better Auth (`lib/auth.ts`) with Prisma adapter, NextCookies session storage. Pr
 
 ### Database
 
-PostgreSQL on Supabase, accessed via Prisma 7 with `@prisma/adapter-pg` (connection pooling). Singleton client is in `lib/db.ts`. Two URLs required: `DATABASE_URL` (pooled, for queries) and `DIRECT_URL` (direct, for migrations).
+PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client in `lib/db.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
 
 The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Guild`, `GuildMember`, `ContactMessage`.
 
@@ -55,6 +56,7 @@ Radix UI primitives + TailwindCSS v4 + shadcn/ui wrappers (New York style, CSS v
 ### API Routes
 
 REST endpoints under `app/api/`:
+
 - `quiz/` — POST quiz results, calculate profile classification
 - `missions/` — GET available missions, POST submission
 - `onboarding/` — POST onboarding data
@@ -65,6 +67,7 @@ REST endpoints under `app/api/`:
 ### Environment Variables
 
 Required:
+
 ```
 BETTER_AUTH_SECRET, BETTER_AUTH_URL
 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
@@ -74,21 +77,22 @@ DIRECT_URL            # direct connection for migrations
 ```
 
 Optional:
+
 ```
 RESEND_API_KEY        # email (mocked if absent)
 NEXT_PUBLIC_APP_URL   # base URL for auth callbacks
 ```
 
-The repo uses `.env.development` and `.env.production` for environment-specific Supabase instances, with `.env.local` for local overrides.
+The repo uses `.env.development` and `.env.production` for environment-specific database instances, with `.env.local` for local overrides.
 
 ### Key Files
 
-| File | Purpose |
-|------|---------|
-| `middleware.ts` | Session guard and onboarding funnel |
-| `lib/auth.ts` | Better Auth configuration |
-| `lib/db.ts` | Prisma singleton client |
-| `lib/missions.ts` | Mission data and scoring logic |
-| `prisma/schema.prisma` | Full data model |
-| `components/ui/` | shadcn/ui base components |
-| `next.config.mjs` | Build error suppression, unoptimized images |
+| File                   | Purpose                                     |
+| ---------------------- | ------------------------------------------- |
+| `middleware.ts`        | Session guard and onboarding funnel         |
+| `lib/auth.ts`          | Better Auth configuration                   |
+| `lib/db.ts`            | Prisma singleton client                     |
+| `lib/missions.ts`      | Mission data and scoring logic              |
+| `prisma/schema.prisma` | Full data model                             |
+| `components/ui/`       | shadcn/ui base components                   |
+| `next.config.mjs`      | Build error suppression, unoptimized images |

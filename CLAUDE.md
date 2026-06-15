@@ -15,6 +15,7 @@ npx prisma db push                           # Appliquer localement sans migrati
 ```
 
 To run a single test:
+
 ```bash
 npx vitest run __tests__/smoke.test.tsx
 ```
@@ -76,38 +77,39 @@ Radix UI primitives + TailwindCSS v4 + shadcn/ui wrappers (New York style, CSS v
 
 REST endpoints under `app/api/`:
 
-| Route | Method | Auth | Purpose |
-|---|---|---|---|
-| `quiz/` | — | — | Quiz uses a Server Action at `app/actions/quiz.ts` (not an API route) |
-| `onboarding/` | PATCH | session | Save step 1 onboarding (situation, country, objective) |
-| `onboarding/post-quiz/` | PATCH | session | Save final onboarding step (dream, focus, blocker) |
-| `missions/` | GET | session | List available missions |
-| `missions/[id]/` | GET | session | Mission detail |
-| `missions/[id]/review/` | POST | session | Peer-review a submission (claim + submit review) |
-| `missions/[id]/claim/` | POST | session | Claim a submission for peer review |
-| `user/update/` | PATCH | session | Update profile fields |
-| `user/checkin/` | POST | session | Daily check-in (XP, streak, squad cohesion) |
-| `user/me/` | GET | session | Current user data |
-| `user/notifications/` | GET | session | Fetch notifications |
-| `user/avatar/` | POST | session | Update avatar |
-| `user/delete/` | DELETE | session | Delete account |
-| `squad/create/` | POST | session | Create a new squad (user becomes LEADER) |
-| `squad/join/` | POST | session | Join squad by slug |
-| `squad/update/` | PATCH | session, LEADER | Update squad name and invite slug |
-| `feed/` | GET | session | Activity feed |
-| `feedback/` | POST | session | Submit beta feedback |
-| `contact/` | POST | — | Contact form |
-| `status/` | GET | — | Health check |
-| `admin/submissions/` | GET | ADMIN/MOD | List all submissions |
-| `admin/submissions/[id]/` | PATCH | ADMIN/MOD | Approve / request revision / reject |
-| `admin/feedback/` | GET/PATCH | ADMIN/MOD | Manage beta feedback |
-| `internal/cron/squad-decay/` | POST | internal | Decay inactive squad cohesion scores |
-| `internal/cron/release-claims/` | POST | internal | Release stale peer-review claims |
-| `internal/cron/check-activity/` | POST | internal | Send daily reminder to inactive users |
+| Route                           | Method    | Auth            | Purpose                                                               |
+| ------------------------------- | --------- | --------------- | --------------------------------------------------------------------- |
+| `quiz/`                         | —         | —               | Quiz uses a Server Action at `app/actions/quiz.ts` (not an API route) |
+| `onboarding/`                   | PATCH     | session         | Save step 1 onboarding (situation, country, objective)                |
+| `onboarding/post-quiz/`         | PATCH     | session         | Save final onboarding step (dream, focus, blocker)                    |
+| `missions/`                     | GET       | session         | List available missions                                               |
+| `missions/[id]/`                | GET       | session         | Mission detail                                                        |
+| `missions/[id]/review/`         | POST      | session         | Peer-review a submission (claim + submit review)                      |
+| `missions/[id]/claim/`          | POST      | session         | Claim a submission for peer review                                    |
+| `user/update/`                  | PATCH     | session         | Update profile fields                                                 |
+| `user/checkin/`                 | POST      | session         | Daily check-in (XP, streak, squad cohesion)                           |
+| `user/me/`                      | GET       | session         | Current user data                                                     |
+| `user/notifications/`           | GET       | session         | Fetch notifications                                                   |
+| `user/avatar/`                  | POST      | session         | Update avatar                                                         |
+| `user/delete/`                  | DELETE    | session         | Delete account                                                        |
+| `squad/create/`                 | POST      | session         | Create a new squad (user becomes LEADER)                              |
+| `squad/join/`                   | POST      | session         | Join squad by slug                                                    |
+| `squad/update/`                 | PATCH     | session, LEADER | Update squad name and invite slug                                     |
+| `feed/`                         | GET       | session         | Activity feed                                                         |
+| `feedback/`                     | POST      | session         | Submit beta feedback                                                  |
+| `contact/`                      | POST      | —               | Contact form                                                          |
+| `status/`                       | GET       | —               | Health check                                                          |
+| `admin/submissions/`            | GET       | ADMIN/MOD       | List all submissions                                                  |
+| `admin/submissions/[id]/`       | PATCH     | ADMIN/MOD       | Approve / request revision / reject                                   |
+| `admin/feedback/`               | GET/PATCH | ADMIN/MOD       | Manage beta feedback                                                  |
+| `internal/cron/squad-decay/`    | POST      | internal        | Decay inactive squad cohesion scores                                  |
+| `internal/cron/release-claims/` | POST      | internal        | Release stale peer-review claims                                      |
+| `internal/cron/check-activity/` | POST      | internal        | Send daily reminder to inactive users                                 |
 
 ### Environment Variables
 
 Required:
+
 ```
 BETTER_AUTH_SECRET, BETTER_AUTH_URL
 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
@@ -117,6 +119,7 @@ DIRECT_URL            # connexion directe pour les migrations
 ```
 
 Optional:
+
 ```
 RESEND_API_KEY        # email (mocked if absent)
 NEXT_PUBLIC_APP_URL   # base URL for auth callbacks
@@ -136,20 +139,20 @@ Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashb
 
 ### Key Files
 
-| File | Purpose |
-|------|---------|
-| `middleware.ts` | Session guard, onboarding funnel, protected route list |
-| `lib/auth.ts` | Better Auth configuration |
-| `lib/activity-log.ts` | Fire-and-forget activity logger — instrument new routes here |
-| `lib/squad-logic.ts` | Cohesion updates, streak logic, member notifications |
-| `lib/db.ts` | Prisma singleton client |
-| `lib/missions.ts` | Mission data and scoring logic |
-| `prisma/schema.prisma` | Full data model |
-| `components/auth/signin-form.tsx` | Sign-in form (reads `?callbackURL` for invite redirects) |
-| `components/dashboard/app-sidebar.tsx` | Main nav — add new routes here |
-| `components/dashboard/squad-journey.tsx` | Gamified squad page |
-| `components/ui/` | shadcn/ui base components |
-| `next.config.mjs` | Build error suppression, unoptimized images |
+| File                                     | Purpose                                                      |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| `middleware.ts`                          | Session guard, onboarding funnel, protected route list       |
+| `lib/auth.ts`                            | Better Auth configuration                                    |
+| `lib/activity-log.ts`                    | Fire-and-forget activity logger — instrument new routes here |
+| `lib/squad-logic.ts`                     | Cohesion updates, streak logic, member notifications         |
+| `lib/db.ts`                              | Prisma singleton client                                      |
+| `lib/missions.ts`                        | Mission data and scoring logic                               |
+| `prisma/schema.prisma`                   | Full data model                                              |
+| `components/auth/signin-form.tsx`        | Sign-in form (reads `?callbackURL` for invite redirects)     |
+| `components/dashboard/app-sidebar.tsx`   | Main nav — add new routes here                               |
+| `components/dashboard/squad-journey.tsx` | Gamified squad page                                          |
+| `components/ui/`                         | shadcn/ui base components                                    |
+| `next.config.mjs`                        | Build error suppression, unoptimized images                  |
 
 ## Working Guidelines
 
@@ -160,7 +163,7 @@ Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashb
    - `npx prisma db push` pour appliquer localement si la DB VPS n'est pas accessible en dev
 2. **ActivityLog** → always fire-and-forget. Never `await logActivity(...)` on the critical path; swallow errors silently.
 3. **Server vs. client components** → pages and layouts are server components by default. Add `"use client"` only when the component needs browser APIs, event handlers, or React hooks.
-4. **DB safety** → never reset, truncate, or delete data without explicit user confirmation. Dev and prod share the same Supabase project — schema changes affect both.
+4. **DB safety** → never reset, truncate, or delete data without explicit user confirmation. Schema changes affect the database directly.
 5. **Scope discipline** → implement only what was asked. Don't refactor surrounding code, extract helpers, or add abstractions unless directly required by the task.
 6. **Auth guard** → every new API route must match the auth pattern in the table above (session / ADMIN+MOD / internal CRON_SECRET). Never skip the guard.
 

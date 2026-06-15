@@ -223,7 +223,7 @@ Cette release marque la complétion du plan de remédiation de sécurité suite 
 
 - **Profils publics** — page `/u/[pseudo]` partageable publiquement avec carte profil, scores, badges
 - **Settings modulaires** — refactoring du monolithe settings en onglets séparés : Profil, Spécialisation, Liens, Coffre-fort, Sécurité
-- **Upload avatar local** — migration Supabase Storage → stockage VPS local (`public/uploads/`)
+- **Upload avatar local** — stockage VPS local (`public/uploads/`)
 - **Sauvegarde langue** — champ `language` correctement persisté
 - **Hardening upload** — protection path traversal dans `saveFile` via `realpath` check
 

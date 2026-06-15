@@ -22,7 +22,7 @@ HASHCODE is an AI-driven tech talent profiling and community matching platform t
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
 - **Styling & UI**: Tailwind CSS v4, [Radix UI](https://www.radix-ui.com/) Primitives, Shadcn/UI (New York style), Lucide React Icons, Framer Motion for premium micro-animations, and Sonner for toasts
-- **Database & ORM**: PostgreSQL (Supabase) + [Prisma ORM 7](https://www.prisma.io/) with PgBouncer connection pooling
+- **Database & ORM**: PostgreSQL + [Prisma ORM 7](https://www.prisma.io/) with PgBouncer connection pooling
 - **Authentication**: [Better Auth](https://www.better-auth.com/) with Prisma adapter and NextCookies session storage (Google, GitHub, Magic Link)
 - **Validation**: [Zod](https://zod.dev/) and React Hook Form
 - **Testing**: [Vitest](https://vitest.dev/)
