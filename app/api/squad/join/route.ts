@@ -8,6 +8,7 @@ import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import crypto from "crypto";
+import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 
 export async function POST(req: Request) {
   try {
@@ -57,8 +58,16 @@ export async function POST(req: Request) {
 
     if (!dbUser || dbUser.level < squad.requiredLevel) {
       return NextResponse.json({ 
-        error: `Niveau d'habilitation insuffisant. Niveau ${squad.requiredLevel} requis.` 
+        error: `Niveau d'habilitation insuffisante. Niveau ${squad.requiredLevel} requis.` 
       }, { status: 403 });
+    }
+
+    // Check Cognitive Balance
+    const balanceValidation = await validateSquadCognitiveBalance(squad.id, userId);
+    if (!balanceValidation.allowed) {
+      return NextResponse.json({ 
+        error: balanceValidation.message 
+      }, { status: 400 });
     }
 
     // Fix SEC-006: Use transaction to prevent race conditions on member count

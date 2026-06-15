@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { vi } from 'vitest'
+import { vi, afterEach } from 'vitest'
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -27,6 +27,12 @@ vi.mock('next/navigation', () => ({
   }),
   usePathname: () => '/',
 }))
+
+// Cleanup after each test
+afterEach(() => {
+  vi.clearAllTimers()
+  vi.useRealTimers()
+})
 
 // Fix ReferenceError: window is not defined for better-auth in Node environment
 if (typeof window === 'undefined') {

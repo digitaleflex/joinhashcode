@@ -1,9 +1,10 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { subMinutes } from "date-fns";
+import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 
 export async function POST(req: Request) {
   try {
@@ -69,6 +70,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ 
         message: `Habilitation insuffisante. Cette unité exige le niveau ${targetSquad.requiredLevel}.` 
       }, { status: 403 });
+    }
+
+    // 4.5. Check Cognitive Balance
+    const balanceValidation = await validateSquadCognitiveBalance(organizationId, session.user.id);
+    if (!balanceValidation.allowed) {
+      return NextResponse.json({ 
+        message: balanceValidation.message 
+      }, { status: 400 });
     }
 
     // 5. Anti-Sybil Check (IP Overlap)
