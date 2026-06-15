@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { checkRateLimit, mutationLimiter } from "@/lib/ratelimit";
 
 const messageSchema = z.object({
   content: z.string().min(1).max(500),
@@ -62,6 +63,13 @@ export async function POST(req: Request) {
     }
 
     const userId = session.user.id;
+
+    // Rate Limit Check (Anti-Spam)
+    const { limited } = await checkRateLimit(mutationLimiter, userId);
+    if (limited) {
+      return NextResponse.json({ error: "Trop de messages. Calme ton clavier, bâtisseur." }, { status: 429 });
+    }
+
     const body = await req.json().catch(() => ({}));
     const validated = messageSchema.safeParse(body);
 
