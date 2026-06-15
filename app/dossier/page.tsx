@@ -34,11 +34,15 @@ export default async function DossierPage({ searchParams }: PageProps) {
   // Let any authenticated user view another user's profile, set isInspecting for Admins/Mods
   let targetUserId = session.user.id;
   let isInspecting = false;
+  let isUnauthorizedDossierAccess = false;
 
   if (params.userId && params.userId !== session.user.id) {
     targetUserId = params.userId;
     if (sessionUser && ["ADMIN", "MODERATOR"].includes(sessionUser.role)) {
       isInspecting = true;
+    } else {
+      // User is trying to access another user's private dossier without being Admin/Modo
+      isUnauthorizedDossierAccess = true;
     }
   }
 
@@ -127,6 +131,11 @@ export default async function DossierPage({ searchParams }: PageProps) {
 
   if (!dbUser) return null;
 
+  // Security Redirect: If not authorized for full dossier, send to public profile
+  if (isUnauthorizedDossierAccess) {
+    redirect(`/u/${dbUser.pseudo || dbUser.id}`);
+  }
+
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
     ...dbUser,
     builderScore: dbUser.psychometrics?.builderScore ?? 0,
@@ -168,7 +177,51 @@ export default async function DossierPage({ searchParams }: PageProps) {
     });
   }
 
-  // Neural Loop Logic: Engagement tips based on stats (MOVED TO DossierView)
+  // Fetch viewer's own organization membership to allow direct invitation
+  let viewerSquad = null;
+  let hasSentInvitation = false;
+  if (session && session.user.id !== targetUserId) {
+    const viewerMember = await prisma.member.findFirst({
+      where: { userId: session.user.id },
+      include: {
+        organization: {
+          include: {
+            members: {
+              include: {
+                user: {
+                  select: {
+                    class: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (viewerMember && ["owner", "admin"].includes(viewerMember.role)) {
+      viewerSquad = {
+        id: viewerMember.organization.id,
+        name: viewerMember.organization.name,
+        role: viewerMember.role,
+        members: viewerMember.organization.members.map((m) => ({
+          userId: m.userId,
+          class: m.user.class
+        }))
+      };
+
+      // Check if invitation has already been sent to this user
+      const existingInvite = await prisma.invitation.findFirst({
+        where: {
+          organizationId: viewerMember.organizationId,
+          email: dbUser.email,
+          status: "pending"
+        }
+      });
+      hasSentInvitation = !!existingInvite;
+    }
+  }
 
   return (
     <SidebarProvider>
@@ -189,6 +242,8 @@ export default async function DossierPage({ searchParams }: PageProps) {
             quizResult={quizResult}
             isInspecting={isInspecting}
             isPublic={targetUserId !== session.user.id}
+            viewerSquad={viewerSquad}
+            hasSentInvitation={hasSentInvitation}
           />
         </main>
       </SidebarInset>
