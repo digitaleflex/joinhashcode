@@ -139,6 +139,36 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
           <SquadChatWidget userId={user.id} />
         )}
 
+        {/* Squad Combo Bonus Indicator */}
+        {(squad?.lastComboAt || (session.data?.session as any)?.activeOrganization?.lastComboAt) && (
+          (() => {
+            const lastCombo = squad?.lastComboAt || (session.data?.session as any)?.activeOrganization?.lastComboAt;
+            const diffHours = (new Date().getTime() - new Date(lastCombo).getTime()) / (1000 * 60 * 60);
+            if (diffHours < 24) {
+              return (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-500 font-mono text-[9px] font-black uppercase tracking-tighter cursor-help"
+                      >
+                        <Zap className="size-3 fill-amber-500 animate-pulse" />
+                        <span>Combo x1.15</span>
+                      </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-[200px]">
+                      Toute l'escouade a fait son check-in hier ! Tu gagnes +15% d'XP sur toutes tes actions aujourd'hui.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            }
+            return null;
+          })()
+        )}
+
         {/* Notifications */}
         <NotificationBell />
 
