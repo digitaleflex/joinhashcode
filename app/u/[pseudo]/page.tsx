@@ -44,7 +44,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     where: { pseudo },
     select: {
       id: true, name: true, pseudo: true, image: true, bio: true,
-      email: true, role: true, language: true,
+      role: true, language: true,
       city: true, country: true,
       class: true, level: true, experience: true,
       behavioralVibrancy: true, technicalLevel: true,
