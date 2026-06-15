@@ -26,7 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { SquadChatWidget } from "./squad-chat-widget"
+// import { SquadChatWidget } from "./squad-chat-widget"
 
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),

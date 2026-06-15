@@ -44,7 +44,7 @@ import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 
-const ActivityFeed = dynamic(() => import("./activity-feed").then((m) => m.ActivityFeed), { ssr: false })
+const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -319,7 +319,8 @@ export function DashboardShell({
 
                   <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
                     <NeuralSyncGauge 
-                      score={user.confidenceScore ? Math.round(user.confidenceScore * 100) : 25} 
+                      score={25}
+                      confidenceScore={user.confidenceScore}
                     />
                   </div>
                 </CardContent>
