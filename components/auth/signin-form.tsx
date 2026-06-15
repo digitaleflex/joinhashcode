@@ -265,23 +265,21 @@ export function SignInForm() {
                             </Button>
                             */}
 
-                            {/* 
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInPasskey}
-                                className="w-full h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer"
+                                className="w-full h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-3"
                                 disabled={!!loadingProvider}
                             >
                                 {loadingProvider === "passkey" ? (
                                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
                                 ) : (
                                     <>
-                                        <Fingerprint className="mr-2 h-4 w-4 text-primary" />
+                                        <Fingerprint className="size-4 text-primary" />
                                         Passkey (Biométrie / Clé)
                                     </>
                                 )}
                             </Button>
-                            */}
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
