@@ -319,8 +319,7 @@ export function DashboardShell({
 
                   <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
                     <NeuralSyncGauge 
-                      confidenceScore={user.confidenceScore ?? 0.25} 
-                      currentStreak={user.currentStreak ?? 0} 
+                      score={user.confidenceScore ? Math.round(user.confidenceScore * 100) : 25} 
                     />
                   </div>
                 </CardContent>

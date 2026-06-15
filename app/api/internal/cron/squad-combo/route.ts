@@ -72,7 +72,7 @@ export async function POST(req: Request) {
         await prisma.organization.update({
           where: { id: squad.id },
           data: { 
-            lastComboAt: new Date(),
+            // lastComboAt: new Date(), // Waiting for migration
             streakCount: { increment: 1 }
           }
         });
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
         for (const memberId of memberIds) {
           await triggerNotification({
             userId: memberId,
-            type: "SQUAD_STREAK_7", // Reusing a high-tier icon
+            type: "ACHIEVEMENT", 
             title: "🔥 Combo d'Escouade Réussi !",
             message: `100% de l'escouade "${squad.name}" a fait son check-in. Profitez d'un boost d'XP de 15% pour les prochaines 24h !`,
             link: "/squad"

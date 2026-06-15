@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
-import { getRecommendedMissions } from "@/lib/recommendation";
+// import { getRecommendedMissions } from "@/lib/recommendation";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 
 export default async function DashboardPage() {
@@ -142,14 +142,6 @@ export default async function DashboardPage() {
     .filter((s) => s.status === "APPROVED" || s.status === "PENDING")
     .map((s) => s.mission?.slug ?? s.missionId);
 
-  const recommendedMissions = getRecommendedMissions(
-    dbUser?.behavioralVibrancy as any,
-    dbUser?.class || quizResult?.profileType || null,
-    dbUser?.level || 1,
-    completedIds,
-    3
-  );
-
   const squad = member?.organization ? {
     ...member.organization,
     members: member.organization.members.map((m: any) => ({
@@ -173,7 +165,7 @@ export default async function DashboardPage() {
       fullSubmissions={submissions}
       squad={squad}
       memberRole={member?.role ?? undefined}
-      recommendedMissions={recommendedMissions}
+      recommendedMissions={[]}
     />
   );
 }
