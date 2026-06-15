@@ -82,7 +82,7 @@ export const TECH_TREE_V2: Record<PrimaryDomain, {
     tools: [
       "Next.js", "React", "Vue.js", "TypeScript", "Tailwind",
       "Node.js", "Express", "NestJS", "FastAPI", "PostgreSQL",
-      "Redis", "Prisma", "Supabase", "Vercel", "tRPC"
+      "Redis", "Prisma", "tRPC", "Bun"
     ]
   },
   Cloud: {

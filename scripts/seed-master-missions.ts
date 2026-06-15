@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-// Bypass TLS for Windows/Supabase
+// Bypass TLS for local Windows dev
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const pool = new Pool({
@@ -23,7 +23,7 @@ async function main() {
     {
       title: "Master: The Real-time AI Engine",
       slug: "master-ai-builder",
-      description: "Construire un moteur SaaS collaboratif complet. Stack: Next.js 15, Better-Auth, Supabase RLS, et intégration d'agents IA pour l'assistance en temps réel. Focus: Sécurité et Performance.",
+      description: "Construire un moteur SaaS collaboratif complet. Stack: Next.js 15, Better-Auth, PostgreSQL RLS, et intégration d'agents IA pour l'assistance en temps réel. Focus: Sécurité et Performance.",
       category: "ai_builder",
       difficulty: 5,
       xp: 2500,
@@ -47,7 +47,7 @@ async function main() {
     {
       title: "Master: The Edge Fortress",
       slug: "master-cloud-foundation",
-      description: "Mise en place d'une infrastructure Zero-Trust sur Vercel/Cloudflare. Configuration de CI/CD avancée, monitoring de latence globale et déploiement serverless optimisé.",
+      description: "Mise en place d'une infrastructure Zero-Trust sur Railway/Cloudflare. Configuration de CI/CD avancée, monitoring de latence globale et déploiement serverless optimisé.",
       category: "cloud_foundation",
       difficulty: 5,
       xp: 2500,

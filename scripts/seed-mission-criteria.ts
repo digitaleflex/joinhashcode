@@ -6,7 +6,7 @@ import * as dotenv from "dotenv"
 
 dotenv.config()
 
-// Bypass TLS for Windows/Supabase
+// Bypass TLS for local Windows dev
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
 const pool = new Pool({
