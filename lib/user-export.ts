@@ -1,56 +1,20 @@
 import { prisma } from "./prisma";
 
-const PROFILE_SELECT = {
-  id: true,
-  name: true,
-  email: true,
-  image: true,
-  createdAt: true,
-  updatedAt: true,
-  level: true,
-  experience: true,
-  class: true,
-  role: true,
-  memberNumber: true,
-  // Psychometric scores
-  builderScore: true,
-  creatorScore: true,
-  strategistScore: true,
-  catalystScore: true,
-  confidenceScore: true,
-  // Profile details
-  city: true,
-  country: true,
-  language: true,
-  bio: true,
-  pseudo: true,
-  githubUrl: true,
-  linkedinUrl: true,
-  twitterUrl: true,
-  portfolioUrl: true,
-  // Career
-  currentSituation: true,
-  mainObjective: true,
-  secondaryObjectives: true,
-  dreamStatement: true,
-  currentFocus: true,
-  mainBlocker: true,
-  technicalLevel: true,
-  domains: true,
-  tools: true,
-  badges: true,
-  // Progression
-  missionsCompletedCount: true,
-  reviewsCompleted: true,
-  currentStreak: true,
-  longestStreak: true,
-  lastCheckinAt: true,
-  lastStreakDate: true,
+const PROFILE_INCLUDE = {
+  psychometrics: {
+    select: { builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true, confidenceScore: true },
+  },
+  socials: {
+    select: { githubUrl: true, linkedinUrl: true, twitterUrl: true, portfolioUrl: true },
+  },
+  stats: {
+    select: { currentStreak: true, longestStreak: true, lastCheckinAt: true, lastStreakDate: true },
+  },
 } as const;
 
 export async function collectUserData(userId: string) {
   const [
-    profile,
+    raw,
     quizResults,
     submissions,
     checkins,
@@ -59,7 +23,7 @@ export async function collectUserData(userId: string) {
     notifications,
     feedbacks,
   ] = await Promise.all([
-    prisma.user.findUnique({ where: { id: userId }, select: PROFILE_SELECT }),
+    prisma.user.findUnique({ where: { id: userId }, include: PROFILE_INCLUDE }),
     prisma.quizResult.findMany({
       where: { userId },
       select: { id: true, profileType: true, score: true, answers: true, createdAt: true, averageResponseTime: true },
@@ -106,6 +70,16 @@ export async function collectUserData(userId: string) {
       orderBy: { createdAt: "desc" },
     }),
   ]);
+
+  const profile = raw ? {
+    ...raw,
+    ...raw.psychometrics,
+    ...raw.socials,
+    ...raw.stats,
+    psychometrics: undefined,
+    socials: undefined,
+    stats: undefined,
+  } : null
 
   return {
     exportedAt: new Date().toISOString(),
