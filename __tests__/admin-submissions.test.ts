@@ -16,6 +16,12 @@ const { mockPrisma } = vi.hoisted(() => {
       update: vi.fn(),
       updateMany: vi.fn(),
     },
+    member: {
+      findFirst: vi.fn(),
+    },
+    xpTransaction: {
+      create: vi.fn(),
+    },
     activityLog: {
       create: vi.fn(),
     },

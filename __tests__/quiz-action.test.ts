@@ -84,7 +84,7 @@ describe("Quiz Server Action", () => {
 
     expect(res).toEqual({
       success: false,
-      error: "Unauthorized",
+      error: "Non autorisé",
       status: 401,
     });
   });
