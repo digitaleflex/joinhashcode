@@ -7,12 +7,13 @@ const SquadJourney = dynamic(
     { ssr: false }
 );
 
-export default function SquadPageClient({ user, squad }: { user: any, squad: any }) {
+export default function SquadPageClient({ user, squad, incomingInvitations }: { user: any, squad: any, incomingInvitations?: any[] }) {
   return (
     <div id="tour-squad-journey" className="h-full w-full">
       <SquadJourney
         user={user}
         squad={squad}
+        incomingInvitations={incomingInvitations}
       />
     </div>
   );

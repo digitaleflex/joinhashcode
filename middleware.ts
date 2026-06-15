@@ -3,10 +3,9 @@ import { getSessionCookie } from "better-auth/cookies";
 
 // Fix SEC-010: Build nonce-based CSP — replaces static `unsafe-inline` for script-src
 function buildCSP(nonce: string): string {
-  const isDev = process.env.NODE_ENV !== "production";
-  const scriptSrc = isDev
-    ? `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`
-    : `script-src 'self' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
+  // Next.js (especially with Turbopack) and React require 'unsafe-eval' in some environments even in prod-like setups.
+  // Including it universally to resolve the "eval() is not supported" error on VPS.
+  const scriptSrc = `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
 
   return [
     "default-src 'self'",

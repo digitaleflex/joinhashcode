@@ -33,11 +33,11 @@ const TABS = [
 ]
 
 const TAB_COLORS: Record<string, { color: string; border: string; glow: string; text: string; label: string }> = {
-  profile: { color: "#10B981", border: "border-emerald-500/30", glow: "rgba(16, 185, 129, 0.2)", text: "text-emerald-400", label: "PROFILE_NODE" },
-  expertise: { color: "#A855F7", border: "border-purple-500/30", glow: "rgba(168, 85, 247, 0.2)", text: "text-purple-400", label: "SPECIALIZATION_NODE" },
-  links: { color: "#06B6D4", border: "border-cyan-500/30", glow: "rgba(6, 182, 212, 0.2)", text: "text-cyan-400", label: "CONNECTIVITY_NODE" },
-  vault: { color: "#B8FF3B", border: "border-[#B8FF3B]/30", glow: "rgba(184, 255, 59, 0.2)", text: "text-[#B8FF3B]", label: "VAULT_NODE" },
-  account: { color: "#EF4444", border: "border-red-500/30", glow: "rgba(239, 68, 68, 0.2)", text: "text-red-400", label: "SECURITY_NODE" },
+  profile: { color: "#10B981", border: "border-emerald-500/30", glow: "rgba(16, 185, 129, 0.2)", text: "text-emerald-400", label: "PROFIL_PERSONNEL" },
+  expertise: { color: "#A855F7", border: "border-purple-500/30", glow: "rgba(168, 85, 247, 0.2)", text: "text-purple-400", label: "SPECIALISATION" },
+  links: { color: "#06B6D4", border: "border-cyan-500/30", glow: "rgba(6, 182, 212, 0.2)", text: "text-cyan-400", label: "RESEAUX_EXTERNES" },
+  vault: { color: "#B8FF3B", border: "border-[#B8FF3B]/30", glow: "rgba(184, 255, 59, 0.2)", text: "text-[#B8FF3B]", label: "CARTE_MEMBRE" },
+  account: { color: "#EF4444", border: "border-red-500/30", glow: "rgba(239, 68, 68, 0.2)", text: "text-red-400", label: "SECURITE_COMPTE" },
 }
 
 export default function SettingsPage() {

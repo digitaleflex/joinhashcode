@@ -245,7 +245,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
               <Input
                 placeholder={
                   submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
-                  submissionMethod === "LIVE_URL" ? "https://ton-projet.vercel.app" :
+                  submissionMethod === "LIVE_URL" ? "https://ton-projet.app" :
                   "https://..."
                 }
                 value={content}

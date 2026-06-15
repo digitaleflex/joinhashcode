@@ -3,9 +3,9 @@
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { toast } from "sonner"
-import { Loader2, Camera, User, AtSign, Languages, Globe } from "lucide-react"
+import { Loader2, Camera, User, AtSign, Languages, Globe, RefreshCw } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CountrySelector } from "@/components/onboarding/country-selector"
@@ -30,6 +30,30 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
   const router = useRouter()
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [quizStatus, setQuizStatus] = useState<{
+    canRetake: boolean
+    isNewAccount: boolean
+    cooldownDaysRemaining: number
+    lastQuizDate: string | null
+    nextAvailableDate: string | null
+  } | null>(null)
+  const [loadingStatus, setLoadingStatus] = useState(true)
+
+  useEffect(() => {
+    fetch("/api/user/quiz-status")
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur de récupération")
+        return res.json()
+      })
+      .then((data) => {
+        setQuizStatus(data)
+        setLoadingStatus(false)
+      })
+      .catch((err) => {
+        console.error(err)
+        setLoadingStatus(false)
+      })
+  }, [])
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -168,6 +192,88 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
             className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60"
             placeholder="Ex: Paris"
           />
+        </div>
+      </div>
+
+      {/* Section Recalibrage de profil */}
+      <div className="border-t border-white/5 pt-12 space-y-6">
+        <div>
+          <h3 className="text-lg font-bold uppercase tracking-tight text-white flex items-center gap-2 font-mono">
+            <RefreshCw className="size-4 text-emerald-500" /> Recalibrage de profil
+          </h3>
+          <p className="text-zinc-500 text-xs font-light mt-1">
+            Repassez le quiz de diagnostic pour recalibrer vos scores comportementaux de départ.
+          </p>
+        </div>
+
+        <div className="p-6 rounded-3xl bg-zinc-950/40 border border-white/5 relative overflow-hidden">
+          <HudCorners className="border-white/10" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
+
+          {loadingStatus ? (
+            <div className="flex items-center justify-center py-6">
+              <Loader2 className="size-6 animate-spin text-emerald-500" />
+            </div>
+          ) : (
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+              <div className="space-y-2 max-w-xl">
+                {quizStatus?.canRetake ? (
+                  <>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                      ÉLIGIBLE AU RECALIBRAGE
+                    </span>
+                    <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                      {quizStatus.isNewAccount
+                        ? "Période de grâce de 24h active. Vous pouvez repasser le quiz immédiatement si vous pensez vous être trompé dans vos réponses."
+                        : "Le délai de carence de 14 jours est écoulé. Vous pouvez effectuer un nouveau recalibrage manuel pour ajuster vos profils de départ."}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500">
+                      RECALIBRAGE VERROUILLÉ
+                    </span>
+                    <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                      Vous avez déjà passé le quiz de diagnostic. Pour stabiliser votre intégration d'escouade et privilégier l'évolution par l'action, vous devez attendre le délai de 14 jours entre chaque quiz.
+                    </p>
+                    {quizStatus?.nextAvailableDate && (
+                      <p className="text-[10px] font-mono text-zinc-500">
+                        Prochain recalibrage disponible le :{" "}
+                        <span className="text-zinc-300">
+                          {new Date(quizStatus.nextAvailableDate).toLocaleDateString("fr-FR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>{" "}
+                        (dans {quizStatus.cooldownDaysRemaining} jour{quizStatus.cooldownDaysRemaining > 1 ? "s" : ""})
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div className="shrink-0 flex items-center">
+                {quizStatus?.canRetake ? (
+                  <button
+                    onClick={() => router.push("/quiz")}
+                    className="relative px-6 py-3 rounded-2xl bg-emerald-500 text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-emerald-400 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(16,185,129,0.25)] cursor-pointer"
+                  >
+                    Repasser le quiz
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className="relative px-6 py-3 rounded-2xl bg-zinc-800/50 text-zinc-500 font-mono text-xs font-bold uppercase tracking-wider cursor-not-allowed border border-white/5"
+                  >
+                    Verrouillé ({quizStatus?.cooldownDaysRemaining}j)
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

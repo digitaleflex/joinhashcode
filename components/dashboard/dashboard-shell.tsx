@@ -40,12 +40,11 @@ import { MissionDeck } from "./mission-deck"
 import { WeeklyChallengeWidget } from "./weekly-challenge-widget"
 import { NeuralSyncGauge } from "./neural-sync-gauge"
 import { BottomNav } from "./bottom-nav"
-import { NextStepsCard } from "./next-steps-card"
 import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 
-const NeuralFeed = dynamic(() => import("./neural-feed").then((m) => m.NeuralFeed), { ssr: false })
+const ActivityFeed = dynamic(() => import("./activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
@@ -233,14 +232,6 @@ export function DashboardShell({
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                {isNewUser && (
-                  <NextStepsCard
-                    hasMissions={(user?.missionsCompletedCount ?? 0) > 0}
-                    hasSquad={!!squad}
-                    hasCheckin={hasCheckinToday}
-                    hasProfile={!!(user?.pseudo && user?.country)}
-                  />
-                )}
                 <div id="tour-checkin">
                   <DailyCheckinWidget />
                 </div>
@@ -254,7 +245,7 @@ export function DashboardShell({
               </div>
 
               <div className="space-y-8" id="tour-feed">
-                <NeuralFeed />
+                <ActivityFeed />
               </div>
             </div>
 

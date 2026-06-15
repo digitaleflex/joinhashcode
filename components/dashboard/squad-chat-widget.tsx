@@ -14,7 +14,7 @@ import { fr } from "date-fns/locale"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { toast } from "sonner"
-import { useMobile } from "@/hooks/use-mobile"
+import { useIsMobile } from "@/hooks/use-mobile"
 import {
   Drawer,
   DrawerContent,
@@ -26,7 +26,7 @@ import {
 const fetchMessages = () => fetch("/api/squad/messages").then((res) => res.json())
 
 export function SquadChatWidget({ userId }: { userId: string }) {
-  const isMobile = useMobile()
+  const isMobile = useIsMobile()
   const queryClient = useQueryClient()
   const [content, setContent] = useState("")
   const [isOpen, setIsOpen] = useState(false)

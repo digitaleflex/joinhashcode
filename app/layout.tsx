@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next"
 import { Syne, Outfit, IBM_Plex_Mono } from "next/font/google"
-import { AnalyticsConsent } from "@/components/ui/analytics-consent"
 import "./globals.css"
 import { Noise } from "@/components/ui/noise"
 import NextTopLoader from 'nextjs-toploader'
@@ -123,7 +122,6 @@ export default function RootLayout({
         <Toaster position="top-center" richColors />
         <AuthErrorToast />
         <CookieBanner />
-        {process.env.NODE_ENV === "production" && <AnalyticsConsent />}
       </body>
     </html>
   )

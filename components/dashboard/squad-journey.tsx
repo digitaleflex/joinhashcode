@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import {
   Shield, UserPlus, Users, Activity, Zap, Trophy,
   Lock, Sparkles, Settings, EyeOff, ShieldCheck, Megaphone,
+  Mail, Check, X
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -19,6 +20,16 @@ import { SquadAuditPanel } from "./squad/SquadAuditPanel"
 import { SquadPersonalizationPanel } from "./squad/SquadPersonalizationPanel"
 import { SquadDisbandPanel } from "./squad/SquadDisbandPanel"
 import { toast } from "sonner"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { authClient } from "@/lib/auth-client"
+import { Card } from "@/components/ui/card"
 
 function buildPhases(squad: any, memberCount: number): Phase[] {
   const cohesion = squad?.cohesionScore ?? 0
@@ -36,12 +47,14 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
   ]
 }
 
-export function SquadJourney({ user, squad }: { user: any; squad: any }) {
+export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: any; squad: any; incomingInvitations?: any[] }) {
   const router = useRouter()
   const [isCopying, setIsCopying] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [localName, setLocalName] = useState<string>(squad?.name ?? "")
   const [localSlug, setLocalSlug] = useState<string>(squad?.slug ?? "")
+  const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false)
+  const [invites, setInvites] = useState<any[]>(incomingInvitations)
 
   const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
   const memberRole = squad?.members?.find((m: any) => m.userId === user.id)?.role
@@ -88,6 +101,35 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
       setIsCreating(false)
     }
   }
+
+  const handleStartInitiation = () => {
+    setIsRulesDialogOpen(true)
+  }
+
+  const handleAcceptOrRejectInvitation = async (invitationId: string, action: "accept" | "reject") => {
+    try {
+      let error;
+      if (action === "accept") {
+        const res = await authClient.organization.acceptInvitation({ invitationId });
+        error = res.error;
+      } else {
+        const res = await authClient.organization.rejectInvitation({ invitationId });
+        error = res.error;
+      }
+
+      if (error) {
+        toast.error(error.message || "Une erreur est survenue.");
+      } else {
+        toast.success(action === "accept" ? "Bienvenue dans l'escouade !" : "Invitation déclinée.");
+        setInvites(prev => prev.filter(inv => inv.id !== invitationId));
+        if (action === "accept") {
+          router.refresh();
+        }
+      }
+    } catch {
+      toast.error("Erreur technique lors de l'action.");
+    }
+  };
 
   return (
     <SidebarProvider>
@@ -154,6 +196,50 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
               </div>
             )}
 
+            {/* Incoming invitations inbox */}
+            {!squad && invites.length > 0 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-primary uppercase">
+                  <Mail className="size-3 text-primary animate-pulse" />
+                  invitations_recues ({invites.length})
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {invites.map((invite) => (
+                    <Card key={invite.id} className="glass-card border-white/5 bg-zinc-900/60 rounded-3xl p-6 flex flex-col justify-between gap-4">
+                      <div className="space-y-2">
+                        <div className="text-[9px] font-mono text-zinc-500 uppercase">Invitation à rejoindre l&apos;unité</div>
+                        <h3 className="text-lg font-black text-white uppercase italic tracking-tight">{invite.organizationName}</h3>
+                        {invite.organizationDescription && (
+                          <p className="text-zinc-500 text-xs line-clamp-2 leading-relaxed">{invite.organizationDescription}</p>
+                        )}
+                        <p className="text-[10px] text-zinc-400 font-mono mt-2">
+                          Envoyée par <span className="text-white font-bold">{invite.inviterName}</span>
+                        </p>
+                      </div>
+                      <div className="flex gap-2.5 pt-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleAcceptOrRejectInvitation(invite.id, "reject")}
+                          className="h-9 w-9 p-0 border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-400 rounded-xl"
+                        >
+                          <X className="size-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleAcceptOrRejectInvitation(invite.id, "accept")}
+                          className="h-9 px-4 bg-primary text-black hover:bg-primary/95 font-black text-[10px] uppercase tracking-wider rounded-xl flex items-center gap-1.5 flex-1"
+                        >
+                          <Check className="size-4" />
+                          Rejoindre l&apos;escouade
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Main 2-col layout */}
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
 
@@ -174,7 +260,7 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
                     isCopying={isCopying}
                     isCreating={isCreating}
                     onCopy={copyInvite}
-                    onCreate={createSquad}
+                    onCreate={handleStartInitiation}
                   />
                 ))}
               </div>
@@ -261,6 +347,67 @@ export function SquadJourney({ user, squad }: { user: any; squad: any }) {
             </div>
           </div>
         </main>
+
+        <Dialog open={isRulesDialogOpen} onOpenChange={setIsRulesDialogOpen}>
+          <DialogContent className="bg-zinc-950 border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md">
+            <DialogHeader className="space-y-3">
+              <DialogTitle className="text-xl font-extrabold uppercase italic tracking-tight text-white flex items-center gap-2">
+                <Shield className="size-5 text-primary" />
+                Règles de Formation d&apos;Escouade
+              </DialogTitle>
+              <DialogDescription className="text-zinc-400 text-sm leading-relaxed">
+                Avant de lancer ton escouade et d&apos;activer le protocole initial, prends connaissance des directives d&apos;alignement collectif :
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4 my-6 text-sm">
+              <div className="p-4 rounded-2xl bg-white/2 border border-white/5 space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="size-5 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary font-mono shrink-0 mt-0.5">1</div>
+                  <div>
+                    <h4 className="font-bold text-white uppercase text-xs">Taille Optimale</h4>
+                    <p className="text-zinc-500 text-xs mt-0.5">Une escouade est constituée de **5 agents maximum**. C&apos;est le format validé pour progresser avec agilité.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="size-5 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary font-mono shrink-0 mt-0.5">2</div>
+                  <div>
+                    <h4 className="font-bold text-white uppercase text-xs">Équilibre Cognitif</h4>
+                    <p className="text-zinc-500 text-xs mt-0.5">Pour une synergie maximale, il est vivement conseillé de ne pas dépasser **2 représentants par classe** (Builder, Creator, Strategist, Catalyst).</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="size-5 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary font-mono shrink-0 mt-0.5">3</div>
+                  <div>
+                    <h4 className="font-bold text-white uppercase text-xs">Recrutement Intelligent</h4>
+                    <p className="text-zinc-500 text-xs mt-0.5">Parcours l&apos;**Annuaire des Talents** pour cibler les profils complémentaires et invite-les directement depuis leur profil.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="flex flex-col sm:flex-row gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setIsRulesDialogOpen(false)}
+                className="h-11 border-white/10 rounded-xl uppercase tracking-wider text-xs text-zinc-400 hover:text-white"
+              >
+                Annuler
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsRulesDialogOpen(false);
+                  createSquad();
+                }}
+                disabled={isCreating}
+                className="h-11 btn-primary-glow font-black uppercase tracking-wider text-xs rounded-xl"
+              >
+                Créer mon escouade
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <BottomNav />
       </SidebarInset>
     </SidebarProvider>

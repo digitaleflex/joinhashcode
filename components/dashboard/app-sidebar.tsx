@@ -128,6 +128,22 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
+              {/* SQUAD DISCOVER (Nouveau lien) */}
+              {!hasSquad && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/squad/discover"}
+                    tooltip="Découvrir des escouades actives"
+                    className="h-9 transition-all hover:bg-white/5 pl-10 text-zinc-500 hover:text-white"
+                  >
+                    <Link href="/squad/discover">
+                      <span className="font-medium text-[12px] uppercase tracking-wider">Découvrir</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+
               {/* MISSIONS */}
               <SidebarMenuItem>
                 <SidebarMenuButton

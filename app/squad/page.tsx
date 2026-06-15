@@ -84,5 +84,44 @@ export default async function SquadPage() {
     })),
   } : dbSquad;
 
-  return <SquadPageClient user={dbUser || (session.user as any)} squad={squad} />;
+  // Load received invitations in case they don't have a squad
+  let incomingInvitations: any[] = [];
+  if (dbUser?.email) {
+    incomingInvitations = await prisma.invitation.findMany({
+      where: {
+        email: dbUser.email,
+        status: "pending"
+      },
+      include: {
+        organization: {
+          select: {
+            name: true,
+            slug: true,
+            description: true
+          }
+        },
+        user: {
+          select: {
+            name: true
+          }
+        }
+      }
+    });
+  }
+
+  return (
+    <SquadPageClient 
+      user={dbUser || (session.user as any)} 
+      squad={squad} 
+      incomingInvitations={incomingInvitations.map(inv => ({
+        id: inv.id,
+        organizationId: inv.organizationId,
+        organizationName: inv.organization.name,
+        organizationDescription: inv.organization.description,
+        inviterName: inv.user.name,
+        role: inv.role,
+        status: inv.status
+      }))}
+    />
+  );
 }

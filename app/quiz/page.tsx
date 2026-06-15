@@ -37,7 +37,25 @@ export default async function QuizPage() {
   })
 
   if (user?.class) {
-    redirect("/missions")
+    const lastQuiz = await prisma.quizResult.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+    })
+
+    if (lastQuiz) {
+      const now = new Date()
+      const quizCreatedAt = new Date(lastQuiz.createdAt)
+      const userCreatedAt = new Date(user.createdAt)
+
+      const isNewAccount = (now.getTime() - userCreatedAt.getTime()) < 24 * 60 * 60 * 1000
+      const COOLDOWN_MS = 14 * 24 * 60 * 60 * 1000
+      const cooldownEnd = new Date(quizCreatedAt.getTime() + COOLDOWN_MS)
+      const isCooldownElapsed = now.getTime() >= cooldownEnd.getTime()
+
+      if (!isNewAccount && !isCooldownElapsed) {
+        redirect("/missions")
+      }
+    }
   }
 
   return (

@@ -29,7 +29,7 @@ interface NeuralEvent {
   timestamp: string
 }
 
-export function NeuralFeed() {
+export function ActivityFeed() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["feed"],
     queryFn: async () => {

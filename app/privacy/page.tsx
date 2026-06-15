@@ -97,7 +97,7 @@ export default function PrivacyPage() {
               </p>
               <ul className="list-disc pl-5 space-y-2">
                 <li><strong className="text-zinc-200">Cookies Essentiels :</strong> Nécessaires à l&apos;authentification (maintien de votre session sécurisée). Ils ne peuvent pas être désactivés.</li>
-                <li><strong className="text-zinc-200">Cookies Analytiques :</strong> Utilisés via Vercel Analytics (ou équivalent auto-hébergé) pour comprendre comment les bâtisseurs utilisent la plateforme et identifier les bugs potentiels.</li>
+                <li><strong className="text-zinc-200">Cookies Analytiques :</strong> Utilisés pour comprendre comment les bâtisseurs utilisent la plateforme et identifier les bugs potentiels.</li>
               </ul>
               <p className="text-sm">
                 Vous pouvez gérer vos préférences de cookies à tout moment via la bannière de consentement présente lors de votre première visite.

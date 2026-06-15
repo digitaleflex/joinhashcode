@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-// import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
@@ -14,7 +13,15 @@ const PROFILES = [
   { label: "Catalyseur", color: "#F97316" },
 ] as const
 
-export function Hero() {
+export function Hero({ 
+  totalMembers = 1240, 
+  realCount,
+  classCounts 
+}: { 
+  totalMembers?: number; 
+  realCount?: number;
+  classCounts?: Record<string, number>;
+}) {
   const [index, setIndex] = useState(0)
   const [isMounted, setIsMounted] = useState(false)
 
@@ -28,10 +35,8 @@ export function Hero() {
 
   const current = PROFILES[index]
 
-  if (!isMounted) return <div className="min-h-screen bg-background" />
-
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-white/5 bg-background">
+    <section className="relative min-h-screen flex flex-col overflow-hidden border-b border-white/5 bg-background pt-16 sm:pt-24 pb-16">
       {/* Clean Ambient Background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
@@ -46,12 +51,12 @@ export function Hero() {
 
       <div className="scanline"></div>
       
-      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-16 sm:py-24 lg:px-8">
+      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-8 sm:py-24 lg:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
 
           {/* Eyebrow — human & welcoming */}
           <div
-            className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-sm mb-12"
+            className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-sm mb-8 sm:mb-12"
           >
             <span className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#B8FF3B]" />
             <span className="font-mono text-[10px] font-black text-primary tracking-tight">
@@ -61,25 +66,26 @@ export function Hero() {
 
           {/* H1 — Refined Avant-Garde */}
           <h1
-            className="text-3xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
+            className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
-            Tu es
+            Ne sois plus un spectateur.
             <br />
-            <span className="inline-flex items-center justify-center min-w-[180px] sm:min-w-[320px] italic">
-                <span
-                  className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl"
-                  style={{ color: current.color, textShadow: `0 0 20px ${current.color}20` }}
-                >
-                  {current.label}
-                </span>
+            Deviens un
+            <span className="mt-2 sm:mt-4 block italic">
+              <span
+                className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]"
+                style={{ color: current.color, textShadow: `0 0 30px ${current.color}40` }}
+              >
+                {current.label}
+              </span>
             </span>
           </h1>
 
           {/* Subtitle */}
           <p
-            className="mt-8 text-lg text-zinc-400 font-medium tracking-tight max-w-lg"
+            className="mt-6 sm:mt-8 text-xl sm:text-lg text-zinc-400 font-medium tracking-tight max-w-xl"
           >
-            Le système décode tes forces en <span className="text-white italic">3 minutes</span> chrono.
+            Rejoins une communauté d'élite où tes compétences sont tes seules limites. <span className="text-white italic">Le futur de l'Afrique se code ici.</span>
           </p>
 
           {/* CTAs */}
@@ -104,6 +110,44 @@ export function Hero() {
             >
               <Link href="/signin">Déjà membre ?</Link>
             </Button>
+          </div>
+
+          {/* Social Proof Counter */}
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-sm">
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-5 w-5 rounded-full border-2 border-zinc-950 bg-zinc-800 flex items-center justify-center overflow-hidden">
+                    <div className="h-full w-full bg-primary/20 animate-pulse" />
+                  </div>
+                ))}
+              </div>
+              <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-zinc-400">
+                <span className="text-primary">{(totalMembers).toLocaleString()}</span> Builders synchronisés
+                {realCount !== undefined && realCount > 0 && (
+                  <span className="ml-2 opacity-30 text-[8px]">
+                    (Total DB: {realCount})
+                  </span>
+                )}
+              </span>
+            </div>
+
+            {/* Class Breakdown (Transparency) */}
+            {classCounts && Object.keys(classCounts).length > 0 && (
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 opacity-50">
+                {PROFILES.map((p) => {
+                  const count = classCounts[p.label.toLowerCase()] || 0
+                  return (
+                    <div key={p.label} className="flex items-center gap-1.5">
+                      <span className="h-1 w-1 rounded-full" style={{ backgroundColor: p.color }} />
+                      <span className="font-mono text-[8px] uppercase font-bold text-zinc-500">
+                        {p.label}s: <span className="text-white">{count}</span>
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
 
           {/* Disclaimer pédagogique */}

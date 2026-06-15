@@ -1,41 +1,52 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-const EVENTS = [
-  { prefix: "PROFIL_DÉTECTÉ", color: "text-[#B8FF3B]", templates: ["[BUILDER] identifié — {city}", "[BUILDER] rejoint la guilde — {city}"] },
-  { prefix: "MISSION_VALIDÉE", color: "text-[#22D3EE]", templates: ["Protocol Connexion complété — {city}", "Ancrage Initial validé — {city}"] },
-  { prefix: "CLASSE_ASSIGNÉE", color: "text-[#A855F7]", templates: ["[CREATOR] activé — {city}", "[STRATEGIST] embarqué — {city}"] },
-  { prefix: "NŒUD_SYNCHRONISÉ", color: "text-[#F97316]", templates: ["[CATALYST] intégré — {city}", "Réseau étendu — {city}"] },
-]
-
-const CITIES = [
-  "Dakar", "Abidjan", "Lagos", "Douala", "Yaoundé",
-  "Casablanca", "Tunis", "Accra", "Nairobi", "Abuja",
-  "Bamako", "Lomé", "Cotonou", "Kinshasa", "Kampala",
-  "Kigali", "Libreville", "Conakry", "Ouagadougou", "Antananarivo"
-]
-
-function randomFrom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)]
+interface Activity {
+  id: string
+  user: {
+    name: string
+    city: string | null
+    class: string | null
+  }
+  action: string
+  createdAt: string
 }
 
-export function ActivityFeed() {
-  const [logs, setLogs] = useState<{ id: number; text: string; prefix: string; color: string }[]>([])
+export function ActivityFeed({ initialActivities }: { initialActivities?: Activity[] }) {
+  const [activities, setActivities] = useState<Activity[]>(initialActivities || [])
 
-  useEffect(() => {
-    const generate = () => {
-      const event = randomFrom(EVENTS)
-      const city = randomFrom(CITIES)
-      const template = randomFrom(event.templates).replace("{city}", city)
-      setLogs(prev => [{ id: Date.now(), text: template, prefix: event.prefix, color: event.color }, ...prev].slice(0, 6))
+  // Mapper les types d'actions vers des libellés lisibles
+  const getActionLabel = (action: string, className: string | null) => {
+    switch (action) {
+      case "USER_SIGNUP": return `[${className || 'TALENT'}] a rejoint l'infrastructure`
+      case "QUIZ_COMPLETED": return `Profil détecté — ${className || 'Analyse...'}`
+      case "MISSION_APPROVED": return `Mission validée avec succès`
+      case "SQUAD_JOINED": return `Escouade synchronisée`
+      default: return `Signal reçu`
     }
+  }
 
-    generate()
-    const interval = setInterval(generate, 2800)
-    return () => clearInterval(interval)
-  }, [])
+  const getPrefix = (action: string) => {
+    switch (action) {
+      case "USER_SIGNUP": return "NOUVEAU_MEMBRE"
+      case "QUIZ_COMPLETED": return "SCAN_TERMINÉ"
+      case "MISSION_APPROVED": return "NODE_VALIDÉ"
+      case "SQUAD_JOINED": return "SQUAD_SYNC"
+      default: return "LOG_SYSTEM"
+    }
+  }
+
+  const getColor = (action: string) => {
+    switch (action) {
+      case "USER_SIGNUP": return "text-[#B8FF3B]"
+      case "QUIZ_COMPLETED": return "text-[#22D3EE]"
+      case "MISSION_APPROVED": return "text-[#A855F7]"
+      case "SQUAD_JOINED": return "text-[#F97316]"
+      default: return "text-zinc-500"
+    }
+  }
 
   return (
     <div className="w-full bg-zinc-950 border-y border-white/5 py-2 sm:py-3 overflow-hidden relative">
@@ -46,42 +57,44 @@ export function ActivityFeed() {
         {/* Status */}
         <div className="hidden sm:flex items-center gap-2 shrink-0">
           <div className="relative">
-            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#B8FF3B] rounded-full" />
-            <div className="absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#B8FF3B] rounded-full animate-ping opacity-50" />
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full" />
+            <div className="absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-ping opacity-50" />
           </div>
-          <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-tight text-[#B8FF3B] font-bold">
-            réseau_live
+          <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-tight text-primary font-black">
+            flux_temporel
           </span>
         </div>
 
         {/* Logs */}
         <div className="flex-1 flex gap-6 sm:gap-10 overflow-hidden items-center">
           <AnimatePresence mode="popLayout">
-            {logs.map((log) => (
-              <motion.div
-                key={log.id}
-                initial={{ opacity: 0, x: 24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -24 }}
-                transition={{ duration: 0.4 }}
-                className="shrink-0 flex items-center gap-2"
-              >
-                <span className={`font-mono text-[9px] sm:text-[10px] font-bold ${log.color}`}>
-                  {log.prefix.toLowerCase()}
-                </span>
-                <span className="font-mono text-[9px] sm:text-[10px] text-zinc-600 font-medium tracking-tight">
-                  {log.text.toLowerCase()}
-                </span>
-              </motion.div>
-            ))}
+            {activities.length > 0 ? (
+              activities.map((log) => (
+                <motion.div
+                  key={log.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="shrink-0 flex items-center gap-2"
+                >
+                  <span className={`font-mono text-[9px] sm:text-[10px] font-black uppercase ${getColor(log.action)}`}>
+                    {getPrefix(log.action)}
+                  </span>
+                  <span className="font-mono text-[9px] sm:text-[10px] text-zinc-500 font-bold tracking-tight">
+                    {getActionLabel(log.action, log.user.class)} — {log.user.city || 'Nexus'}
+                  </span>
+                </motion.div>
+              ))
+            ) : (
+              <span className="font-mono text-[10px] text-zinc-700 italic">Initialisation du flux de données...</span>
+            )}
           </AnimatePresence>
         </div>
 
         {/* Counter */}
         <div className="hidden lg:flex items-center gap-3 shrink-0 border-l border-white/10 pl-6">
           <div className="text-right">
-            <div className="font-mono text-[11px] text-white font-bold tracking-tighter">20_PAYS</div>
-            <div className="font-mono text-[8px] text-zinc-500 uppercase tracking-wider">Afrique & Diaspora</div>
+            <div className="font-mono text-[11px] text-white font-black tracking-tighter uppercase italic">Signal_Stable</div>
+            <div className="font-mono text-[8px] text-zinc-600 uppercase tracking-widest font-bold">Latency: 24ms</div>
           </div>
         </div>
       </div>

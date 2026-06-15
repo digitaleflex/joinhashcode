@@ -1,116 +1,68 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Zap, Flame, Info } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
+import { Activity, Zap, AlertTriangle, ShieldCheck } from "lucide-react"
+import { getSyncStatus } from "@/lib/evolution-utils"
 import { cn } from "@/lib/utils"
-import { 
-  Tooltip, 
-  TooltipContent, 
-  TooltipProvider, 
-  TooltipTrigger 
-} from "@/components/ui/tooltip"
 
 interface NeuralSyncGaugeProps {
-  confidenceScore: number
-  currentStreak: number
+  score: number
+  className?: string
 }
 
-export function NeuralSyncGauge({ confidenceScore, currentStreak }: NeuralSyncGaugeProps) {
-  const syncPercentage = Math.round(confidenceScore * 100)
-  const isMultiplierActive = currentStreak >= 3
-  const multiplierValue = currentStreak >= 7 ? "1.2x" : isMultiplierActive ? "1.1x" : "1.0x"
+export function NeuralSyncGauge({ score, className }: NeuralSyncGaugeProps) {
+  const status = getSyncStatus(score)
+  const Icon = score >= 80 ? ShieldCheck : score >= 50 ? Zap : score >= 30 ? Activity : AlertTriangle
 
   return (
-    <div className="space-y-6 w-full">
-      <div className="flex items-end justify-between gap-4">
-        <div className="space-y-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 cursor-help group/label">
-                  <Zap className={cn("size-3", isMultiplierActive ? "text-primary animate-pulse" : "text-zinc-600")} />
-                  <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight uppercase">Indice de Confiance</span>
-                  <Info className="size-2.5 text-zinc-700 group-hover/label:text-primary transition-colors" />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300 max-w-56">
-                Le système évalue ta précision. Un score haut (80%+) accélère la validation de tes futures missions.
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <h4 className="text-2xl font-bold tracking-tighter text-white">
-            {syncPercentage}% <span className="text-zinc-700 font-light italic text-lg tracking-tight">sync</span>
-          </h4>
+    <div className={cn("space-y-4", className)}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className={cn("size-2 rounded-full animate-pulse", status.color.replace('text-', 'bg-'))} />
+          <span className="text-[10px] font-mono font-black uppercase tracking-widest text-zinc-500">Neural_Sync</span>
         </div>
-
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex flex-col items-end gap-1 cursor-help group/streak">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-lg font-bold font-mono tracking-tight text-white">{currentStreak}</span>
-                  <Flame className={cn("size-4", currentStreak > 0 ? "text-orange-500" : "text-zinc-800")} />
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-[9px] font-mono text-zinc-600 font-bold tracking-tight leading-none uppercase">Régularité</span>
-                  <Info className="size-2 text-zinc-800 group-hover/streak:text-orange-500 transition-colors" />
-                </div>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-300">
-              Enchaîne les jours d'activité pour activer le multiplicateur d'XP (Bonus à partir de 3 jours).
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <div className={cn("px-2 py-0.5 rounded-md border font-mono text-[9px] font-black uppercase tracking-tighter", status.bg, status.color, status.border)}>
+          {status.label}
+        </div>
       </div>
 
-      <div className="space-y-3">
-        <div className="relative">
-          <Progress value={syncPercentage} variant="glow" className="h-2.5 bg-white/5" />
-          {isMultiplierActive && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute -right-2 -top-6"
-            >
-              <Badge className="bg-primary text-black font-black text-[9px] px-2 py-0.5 shadow-[0_0_15px_#B8FF3B]">
-                BOOST {multiplierValue} ACTIVE
-              </Badge>
-            </motion.div>
-          )}
-        </div>
+      <div className="relative h-12 bg-white/5 border border-white/10 rounded-xl overflow-hidden group">
+        {/* Background Grid Pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px]" />
         
-        <div className="flex justify-between items-center px-1">
-          <p className="text-[10px] text-zinc-500 font-mono tracking-tight max-w-[70%]">
-            {syncPercentage < 40
-              ? "Fais ton check-in aujourd'hui pour remonter."
-              : syncPercentage < 75
-              ? "Continue ta streak pour débloquer le bonus XP."
-              : "Signal optimal — tes gains d'XP sont boostés."}
-          </p>
-          {!isMultiplierActive && (
-            <span className="text-[9px] font-mono text-zinc-700 uppercase">
-              {currentStreak}/3 jours pour le boost
-            </span>
+        {/* Progress Fill */}
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${score}%` }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className={cn("absolute inset-y-0 left-0 bg-gradient-to-r transition-colors duration-500", 
+            score >= 80 ? "from-emerald-600 to-emerald-400" : 
+            score >= 50 ? "from-primary/80 to-primary" : 
+            score >= 30 ? "from-amber-600 to-amber-400" : 
+            "from-destructive/80 to-destructive"
           )}
+        >
+          {/* Scanline Effect */}
+          <div className="absolute inset-0 bg-white/10 animate-pulse" />
+        </motion.div>
+
+        {/* Center Text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-3 px-4 w-full justify-between">
+                <Icon className={cn("size-4", score > 50 ? "text-black" : "text-white")} />
+                <span className={cn("text-xl font-black font-mono tracking-tighter", score > 50 ? "text-black" : "text-white")}>
+                    {score}%
+                </span>
+            </div>
         </div>
       </div>
 
-      {isMultiplierActive && (
-        <div className="p-3 rounded-xl bg-primary/5 border border-primary/10 flex items-center gap-3 animate-in fade-in zoom-in duration-500">
-          <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-            <Zap className="size-4 text-primary fill-primary" />
-          </div>
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-bold text-white uppercase tracking-wider">DYNAMIQUE ACTIVE</p>
-            <p className="text-[9px] text-primary/60 font-mono italic">
-              +{multiplierValue === "1.2x" ? "20" : "10"}% XP sur chaque mission et check-in.
-            </p>
-          </div>
-        </div>
-      )}
+      <p className="text-[9px] text-zinc-500 italic leading-relaxed text-center font-mono uppercase tracking-tight">
+        {score >= 80 ? "Alignement neural optimal. Tes actions sont en phase avec ton build." :
+         score >= 50 ? "Synchronisation stable. Tu progresses vers tes objectifs." :
+         score >= 30 ? "Dérive détectée. Tes actions s'écartent de ton profil cible." :
+         "DÉCONNEXION CRITIQUE : Ton activité ne correspond plus à ta classe."}
+      </p>
     </div>
   )
 }

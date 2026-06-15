@@ -420,15 +420,22 @@
   .driver-popover-arrow {
     @apply border-primary/20;
   }
-  /* Ligne cybernétique de décoration dans le popover */
-  .driverjs-theme::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(197,244,65,0.5), transparent);
+  /* Performance: Low Power Mode overrides */
+  .low-power * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    backdrop-filter: none !important;
+  }
+  .low-power .glass-card {
+    @apply bg-zinc-900 border-white/10 shadow-none;
+    backdrop-filter: none !important;
+  }
+  .low-power .holographic-sheen::after {
+    display: none !important;
+  }
+  .low-power .btn-primary-glow {
+    @apply shadow-none scale-100 brightness-100;
   }
 }
 

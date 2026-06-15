@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input"
 import { UserSituation, MainObjective, TechnicalLevel } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
-import { track } from "@vercel/analytics"
 import { authClient } from "@/lib/auth-client"
 
 const ONBOARDING_KEY = "hc_onboarding_v2"
@@ -26,13 +25,13 @@ const ONBOARDING_KEY = "hc_onboarding_v2"
 // ─── Steps ────────────────────────────────────────────────────────────────────
 
 const STEPS = [
-  { id: "welcome",    icon: Sparkles, phase: null },
   { id: "identity",  icon: AtSign,   phase: "Profil" },
   { id: "level",     icon: Zap,      phase: "Profil" },
   { id: "context",   icon: Globe,    phase: "Profil" },
-  { id: "objective", icon: Target,   phase: "Profil" },
-  { id: "bridge",    icon: Brain,    phase: null },
+  { id: "objective", icon: Target,   phase: "Diagnostic" },
 ]
+
+// ... (Meta sections)
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
@@ -151,7 +150,7 @@ export default function OnboardingPage() {
         onConflict?.()
         throw new Error("Conflict")
       }
-      if (!res.ok) throw new Error("Save failed")
+      if (!res.ok) throw new Error("Échec de l'enregistrement")
     } finally {
       setIsSubmitting(false)
     }
@@ -179,7 +178,6 @@ export default function OnboardingPage() {
       } else if (step === 4) {
         // Final save with objective
         await savePartial({ mainObjective: formData.mainObjective })
-        track("onboarding_completed", { situation: formData.currentSituation, objective: formData.mainObjective })
         try { localStorage.removeItem(ONBOARDING_KEY) } catch { /* ignore */ }
         try { await authClient.getSession() } catch { /* ignore */ }
         setStep(5)

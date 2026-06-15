@@ -12,7 +12,6 @@ import {
 import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
-import { track } from "@vercel/analytics"
 
 interface QuizUser {
   id: string;
@@ -161,7 +160,6 @@ export function Quiz({ user }: QuizProps) {
         if (res.success) {
           setAnalysisResult(res.analysis ?? null);
           setQuizResultId(res.quizResultId);
-          track("quiz_completed", { profileType: res.analysis?.primary ?? "unknown" });
           setIsFinished(true); // Mark as finished immediately upon successful sync
         } else if (res.status === 409) {
           toast.info("Protocole déjà enregistré. Redirection vers le dashboard...");

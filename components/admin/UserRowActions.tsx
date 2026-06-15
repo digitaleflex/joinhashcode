@@ -55,7 +55,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         body: JSON.stringify({
           action: "ADMIN_ROLE_UPDATED",
           entityId: user.id,
-          metadata: { targetEmail: user.email, newRole: role }
+          metadata: { targetUserId: user.id, newRole: role }
         })
       });
 
@@ -78,7 +78,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         body: JSON.stringify({
           action: "ADMIN_USER_BANNED",
           entityId: user.id,
-          metadata: { targetEmail: user.email, reason: banReason }
+          metadata: { targetUserId: user.id, reason: banReason }
         })
       });
 
@@ -102,7 +102,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         body: JSON.stringify({
           action: "ADMIN_USER_UNBANNED",
           entityId: user.id,
-          metadata: { targetEmail: user.email }
+          metadata: { targetUserId: user.id }
         })
       });
 
@@ -123,7 +123,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
         body: JSON.stringify({
           action: "ADMIN_USER_IMPERSONATED",
           entityId: user.id,
-          metadata: { targetEmail: user.email }
+          metadata: { targetUserId: user.id }
         })
       });
 

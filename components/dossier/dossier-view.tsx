@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react";
 import {
   Brain,
   Globe,
@@ -12,7 +13,10 @@ import {
   Lightbulb,
   Flame,
   Target,
-  Info
+  Info,
+  Mail,
+  Check,
+  Loader2
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +35,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { toast } from "sonner";
 
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 
@@ -41,6 +46,13 @@ interface DossierViewProps {
   squadMembersLogs: any[];
   isPublic?: boolean;
   isInspecting?: boolean;
+  viewerSquad?: {
+    id: string;
+    name: string;
+    role: string;
+    members: { userId: string; class: string | null }[];
+  } | null;
+  hasSentInvitation?: boolean;
 }
 
 export function DossierView({ 
@@ -48,8 +60,45 @@ export function DossierView({
   activeOrg, 
   quizResult, 
   isPublic = false,
-  isInspecting = false 
+  isInspecting = false,
+  viewerSquad = null,
+  hasSentInvitation = false
 }: Omit<DossierViewProps, "squadMembersLogs">) {
+  const [sendingInvite, setSendingInvite] = useState(false);
+  const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
+
+  const handleInvite = async () => {
+    const targetClass = user.class?.toLowerCase();
+    const classCount = viewerSquad?.members.filter((m) => m.class?.toLowerCase() === targetClass).length ?? 0;
+    
+    if (classCount >= 2) {
+      const confirmInvite = window.confirm(
+        `Attention : ton escouade compte déjà ${classCount} représentant(s) de la classe "${user.class}". La règle d'équilibre cognitif recommande un maximum de 2 agents par classe. Souhaites-tu tout de même envoyer l'invitation ?`
+      );
+      if (!confirmInvite) return;
+    }
+
+    setSendingInvite(true);
+    try {
+      const res = await fetch("/api/squad/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetUserId: user.id }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Erreur lors de l'envoi");
+      }
+
+      toast.success(data.message || "Invitation envoyée !");
+      setAlreadyInvited(true);
+    } catch (err: any) {
+      toast.error(err.message || "Erreur technique");
+    } finally {
+      setSendingInvite(false);
+    }
+  };
   
   // Neural Loop Logic: Engagement tips based on stats (Only for private/admin view)
   const engagementTips = [];
@@ -155,6 +204,36 @@ export function DossierView({
                     <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px]">
                       <Link href="/signin">Rejoindre HASHCODE</Link>
                     </Button>
+                  )}
+
+                  {viewerSquad && (
+                    <div className="pt-2">
+                      {activeOrg ? (
+                        <Button disabled className="w-full bg-zinc-800 border-white/5 text-zinc-500 font-bold uppercase h-12 rounded-xl text-[10px]">
+                          Déjà dans une escouade
+                        </Button>
+                      ) : alreadyInvited ? (
+                        <Button disabled className="w-full bg-primary/10 border border-primary/20 text-primary/60 font-bold uppercase h-12 rounded-xl text-[10px] gap-2">
+                          <Check className="size-4" />
+                          Invitation envoyée
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={handleInvite}
+                          disabled={sendingInvite}
+                          className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px] gap-2"
+                        >
+                          {sendingInvite ? (
+                            <Loader2 className="size-4 animate-spin" />
+                          ) : (
+                            <>
+                              <Mail className="size-4" />
+                              Inviter dans mon escouade
+                            </>
+                          )}
+                        </Button>
+                      )}
+                    </div>
                   )}
               </div>
 
