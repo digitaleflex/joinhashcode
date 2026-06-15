@@ -22,17 +22,36 @@ export async function awardXp(
   customTx?: any
 ) {
   const execute = async (tx: any) => {
-    // 1. Enregistrer la transaction XP
+    // 1. Détecter le bonus de cohésion de squad
+    let finalAmount = amount;
+    const membership = await tx.member.findFirst({
+      where: { userId },
+      include: { organization: true }
+    });
+
+    if (membership?.organization?.lastComboAt) {
+      const now = new Date();
+      const comboDate = new Date(membership.organization.lastComboAt);
+      const diffMs = now.getTime() - comboDate.getTime();
+      const diffHours = diffMs / (1000 * 60 * 60);
+
+      // Si le combo a été réalisé il y a moins de 24h, appliquer le bonus
+      if (diffHours < 24) {
+        finalAmount = Math.round(amount * 1.15); // +15% de bonus
+      }
+    }
+
+    // 2. Enregistrer la transaction XP
     await tx.xpTransaction.create({
       data: {
         userId,
-        amount,
+        amount: finalAmount,
         reason,
         sourceId,
       },
     });
 
-    // 2. Récupérer l'XP et le niveau actuels de l'utilisateur
+    // 3. Récupérer l'XP et le niveau actuels de l'utilisateur
     const user = await tx.user.findUnique({
       where: { id: userId },
       select: { experience: true, level: true },
@@ -44,7 +63,7 @@ export async function awardXp(
 
     const currentXp = user.experience;
     const currentLevel = user.level;
-    const nextXp = currentXp + amount;
+    const nextXp = currentXp + finalAmount;
 
     // Progression basée sur les seuils réels XP_THRESHOLDS
     let targetLevel = 1;
@@ -57,11 +76,11 @@ export async function awardXp(
     }
     const nextLevel = targetLevel > currentLevel ? targetLevel : currentLevel;
 
-    // 3. Mettre à jour l'utilisateur
+    // 4. Mettre à jour l'utilisateur
     const updatedUser = await tx.user.update({
       where: { id: userId },
       data: {
-        experience: { increment: amount },
+        experience: { increment: finalAmount },
         level: nextLevel,
       },
       select: {

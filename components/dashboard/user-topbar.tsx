@@ -1,6 +1,7 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users } from "lucide-react"
+import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users, Zap } from "lucide-react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
