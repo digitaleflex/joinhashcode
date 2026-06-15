@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
@@ -47,7 +47,8 @@ model User {
   banReason                String?
   banExpires               DateTime?
 
-  // Relations spécialisées issues de la scission du God Model
+  // Relations spécialisées
+  impact                   MemberImpact?
   psychometrics            Psychometric?
   socials                  UserSocials?
   stats                    EngagementStats?
@@ -84,6 +85,7 @@ model User {
   twofactors               TwoFactor[]
   passkeys                 Passkey[]
   xpTransactions           XpTransaction[]
+  squadMessages            SquadMessage[]
 
   @@index([level])
   @@index([class])
@@ -115,26 +117,6 @@ model Organization {
   messages      SquadMessage[]
 
   @@map("organization")
-}
-
-model User {
-...
-  dailyCheckins            DailyCheckin[]
-  guildMembers             GuildMember[]
-  missionSubmissions       MissionSubmission[] @relation("SubmissionOwner")
-  submissionsInReview      MissionSubmission[] @relation("SubmissionReviewer")
-  canReviewProfiles        String[]        @default([])
-  reviewsCompleted         Int             @default(0)
-  reviewsGiven             MissionReview[] @relation("ReviewsGiven")
-  notifications            Notification[]
-  betaFeedbacks            BetaFeedback[]
-  activityLogs             ActivityLog[]
-  quizResults              QuizResult[]
-  uxPollResponses          UXPollResponse[]
-  sessions                 Session[]
-  members                  Member[]
-  squadMessages            SquadMessage[]
-...
 }
 
 model SquadMessage {
@@ -586,3 +568,48 @@ model EngagementStats {
   @@map("engagement_stats")
 }
 
+model TeamApplication {
+  id                String   @id @default(cuid())
+  signalId          String   // Nom ou Pseudo
+  whatsapp          String
+  country           String
+  expertiseVector   String   // BUILDER, CREATOR, STRATEGIST, CATALYST
+  proofOfWork       String   // URL Portfolio/GitHub
+  cognitiveTest     String   @db.Text // Réponse à la mise en situation
+  status            String   @default("PENDING") // PENDING, REVIEWING, ACCEPTED, REJECTED
+  createdAt         DateTime @default(now())
+  
+  @@map("team_application")
+}
+
+model MemberImpact {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Impact Scores
+  score7d         Float    @default(0)
+  score30d        Float    @default(0)
+  score90d        Float    @default(0)
+  scoreAllTime    Float    @default(0)
+  
+  // Trust & Integrity
+  trustScore      Float    @default(0.5)
+  integrityScore  Float    @default(1.0)
+  
+  // Metrics
+  missionsCount   Int      @default(0)
+  qualityRate     Float    @default(0)
+  contributionScore Int    @default(0)
+  
+  // Metadata
+  topSpecialties  String[]
+  titleOfGlory    String?
+  talentJourney   Json?    // Format: [{ date: string, event: string, type: string }]
+  
+  updatedAt       DateTime @updatedAt
+
+  @@index([score7d(sort: Desc)])
+  @@index([score30d(sort: Desc)])
+  @@map("member_impact")
+}
