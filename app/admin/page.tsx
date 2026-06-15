@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, BarChart2, FileText, TrendingUp, Filter, Activity, Shield, Crosshair } from "lucide-react"
+import { Users, Zap, BarChart2, FileText, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2 } from "lucide-react"
 
 export default async function AdminPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -23,6 +23,16 @@ export default async function AdminPage() {
     squadCount,
     // Mission drop-off by level
     submissionsByLevel,
+    // Referral
+    referralCount,
+    referrers,
+    // Anti-fraud
+    fraudEventCount,
+    flaggedUsers,
+    visitorIdCount,
+    // Passkey
+    passkeyCount,
+    passkeyUsers,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.findMany({
@@ -68,6 +78,16 @@ export default async function AdminPage() {
       }
       return byLevel
     }),
+    // Referral
+    prisma.user.aggregate({ _sum: { referralCount: true } }).then(r => r._sum.referralCount ?? 0),
+    prisma.user.count({ where: { referralCount: { gt: 0 } } }),
+    // Anti-fraud
+    prisma.fraudEvent.count(),
+    prisma.user.count({ where: { fraudRiskScore: { gte: 30 } } }),
+    prisma.user.count({ where: { visitorId: { not: null } } }),
+    // Passkey
+    prisma.passkey.count(),
+    prisma.passkey.groupBy({ by: ["userId"], _count: { userId: true } }).then(r => r.length),
   ])
 
   const profileColors: Record<string, string> = {
@@ -292,6 +312,72 @@ export default async function AdminPage() {
               </div>
             )
           })}
+        </div>
+      </div>
+
+      {/* Referral + Anti-Fraud + Passkey */}
+      <div className="grid md:grid-cols-3 gap-6">
+        {/* Parrainage */}
+        <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Gift className="h-3 w-3 text-indigo-400" /> Parrainage
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <div className="text-3xl font-bold text-white">{referralCount}</div>
+              <p className="text-[10px] font-mono text-zinc-500">Parrainages réussis</p>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Parrains actifs</span>
+              <span className="text-white font-bold">{referrers}</span>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Conversion</span>
+              <span className="text-white font-bold">{userCount > 0 ? Math.round((referralCount / userCount) * 100) : 0}%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Anti-Fraud */}
+        <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Fingerprint className="h-3 w-3 text-amber-400" /> Anti-Fraude
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <div className="text-3xl font-bold text-white">{fraudEventCount}</div>
+              <p className="text-[10px] font-mono text-zinc-500">Événements de fraude</p>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Utilisateurs signalés</span>
+              <span className="text-amber-400 font-bold">{flaggedUsers}</span>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Empreintes numériques</span>
+              <span className="text-white font-bold">{visitorIdCount}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Passkey */}
+        <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
+          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Share2 className="h-3 w-3 text-emerald-400" /> Passkeys
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <div className="text-3xl font-bold text-white">{passkeyCount}</div>
+              <p className="text-[10px] font-mono text-zinc-500">Passkeys enregistrées</p>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Utilisateurs équipés</span>
+              <span className="text-white font-bold">{passkeyUsers}</span>
+            </div>
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-zinc-400">Adoption</span>
+              <span className="text-emerald-400 font-bold">{userCount > 0 ? Math.round((passkeyUsers / userCount) * 100) : 0}%</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

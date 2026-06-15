@@ -16,6 +16,9 @@ import {
   User as UserIcon,
   Swords,
   ScrollText,
+  Target,
+  Bell,
+  KeyRound,
 } from "lucide-react"
 
 import {
@@ -46,8 +49,11 @@ import { authClient } from "@/lib/auth-client"
 const adminNavItems = [
   { title: "Vue d'ensemble", url: "/admin",             icon: LayoutDashboard },
   { title: "Utilisateurs",   url: "/admin/users",       icon: Users },
+  { title: "Missions",       url: "/admin/missions",    icon: Target },
   { title: "Soumissions",    url: "/admin/submissions", icon: FileCheck },
   { title: "Escouades",      url: "/admin/squads",      icon: Swords },
+  { title: "Notifications",  url: "/admin/notifications", icon: Bell },
+  { title: "Clés API",       url: "/admin/keys",        icon: KeyRound },
   { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
   { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
 ]
