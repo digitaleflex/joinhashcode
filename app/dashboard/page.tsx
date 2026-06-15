@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
-// import { getRecommendedMissions } from "@/lib/recommendation";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 
 export default async function DashboardPage() {

@@ -7,12 +7,14 @@ import { cn } from "@/lib/utils"
 
 interface NeuralSyncGaugeProps {
   score: number
+  confidenceScore?: number
   className?: string
 }
 
-export function NeuralSyncGauge({ score, className }: NeuralSyncGaugeProps) {
-  const status = getSyncStatus(score)
-  const Icon = score >= 80 ? ShieldCheck : score >= 50 ? Zap : score >= 30 ? Activity : AlertTriangle
+export function NeuralSyncGauge({ score, confidenceScore, className }: NeuralSyncGaugeProps) {
+  const finalScore = confidenceScore !== undefined ? Math.round(confidenceScore * 100) : score
+  const status = getSyncStatus(finalScore)
+  const Icon = finalScore >= 80 ? ShieldCheck : finalScore >= 50 ? Zap : finalScore >= 30 ? Activity : AlertTriangle
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -33,12 +35,12 @@ export function NeuralSyncGauge({ score, className }: NeuralSyncGaugeProps) {
         {/* Progress Fill */}
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: `${score}%` }}
+          animate={{ width: `${finalScore}%` }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className={cn("absolute inset-y-0 left-0 bg-gradient-to-r transition-colors duration-500", 
-            score >= 80 ? "from-emerald-600 to-emerald-400" : 
-            score >= 50 ? "from-primary/80 to-primary" : 
-            score >= 30 ? "from-amber-600 to-amber-400" : 
+            finalScore >= 80 ? "from-emerald-600 to-emerald-400" : 
+            finalScore >= 50 ? "from-primary/80 to-primary" : 
+            finalScore >= 30 ? "from-amber-600 to-amber-400" : 
             "from-destructive/80 to-destructive"
           )}
         >
@@ -49,18 +51,18 @@ export function NeuralSyncGauge({ score, className }: NeuralSyncGaugeProps) {
         {/* Center Text */}
         <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center gap-3 px-4 w-full justify-between">
-                <Icon className={cn("size-4", score > 50 ? "text-black" : "text-white")} />
-                <span className={cn("text-xl font-black font-mono tracking-tighter", score > 50 ? "text-black" : "text-white")}>
-                    {score}%
+                <Icon className={cn("size-4", finalScore > 50 ? "text-black" : "text-white")} />
+                <span className={cn("text-xl font-black font-mono tracking-tighter", finalScore > 50 ? "text-black" : "text-white")}>
+                    {finalScore}%
                 </span>
             </div>
         </div>
       </div>
 
       <p className="text-[9px] text-zinc-500 italic leading-relaxed text-center font-mono uppercase tracking-tight">
-        {score >= 80 ? "Alignement neural optimal. Tes actions sont en phase avec ton build." :
-         score >= 50 ? "Synchronisation stable. Tu progresses vers tes objectifs." :
-         score >= 30 ? "Dérive détectée. Tes actions s'écartent de ton profil cible." :
+        {finalScore >= 80 ? "Alignement neural optimal. Tes actions sont en phase avec ton build." :
+         finalScore >= 50 ? "Synchronisation stable. Tu progresses vers tes objectifs." :
+         finalScore >= 30 ? "Dérive détectée. Tes actions s'écartent de ton profil cible." :
          "DÉCONNEXION CRITIQUE : Ton activité ne correspond plus à ta classe."}
       </p>
     </div>

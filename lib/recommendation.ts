@@ -1,3 +1,4 @@
+import { MISSIONS, type Mission } from "./missions";
 
 interface PsychometricProperties {
   comportement: number; // 0-1
@@ -36,4 +37,9 @@ export function calculateTalentScore(
   // Normaliser le score si nécessaire, bien qu'avec les inputs 0-1 et les poids, il devrait rester dans une plage raisonnable.
   // Pour l'instant, on suppose que le score max est 1 (si tous les inputs sont 1).
   return score;
+}
+
+export function getRecommendedMissions(user: any): Mission[] {
+  // Simple implementation: return missions not completed
+  return MISSIONS.slice(0, 3);
 }
