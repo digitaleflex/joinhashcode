@@ -1,13 +1,7 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { useRouter } from "next/navigation"
-import { User, AtSign, Languages, Globe, Camera, Loader2 } from "lucide-react"
-import { toast } from "sonner"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CountrySelector } from "@/components/onboarding/country-selector"
-import { cn } from "@/lib/utils"
+import Image from "next/image"
+// ... (rest of imports)
 
 interface ProfileTabProps {
   userData: any
@@ -73,8 +67,9 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               {uploadingAvatar ? (
                 <Loader2 className="size-10 animate-spin text-emerald-400" />
               ) : userData?.image ? (
-                <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                <Image src={userData.image} alt="Avatar" width={160} height={160} className="w-full h-full object-cover" />
               ) : (
+
                 <div className="w-full h-full flex items-center justify-center text-5xl font-black text-emerald-500/10 uppercase">
                   {userData?.name?.charAt(0)}
                 </div>

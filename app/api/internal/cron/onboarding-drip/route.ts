@@ -75,7 +75,7 @@ export async function POST(req: Request) {
 
           totalSent++;
         } catch (error: unknown) {
-          console.error(`[CRON_ONBOARDING_DRIP] Failed to send Day ${step.day} to ${user.id}:`, err);
+          console.error(`[CRON_ONBOARDING_DRIP] Failed to send Day ${step.day} to ${user.id}:`, error);
         }
       }
     }

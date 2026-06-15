@@ -135,7 +135,8 @@
       "vite": "^6.4.2",
       "esbuild": "0.28.1",
       "postcss": "8.5.10",
-      "@better-fetch/fetch": "^1.2.2"
+      "@better-fetch/fetch": "^1.2.2",
+      "better-auth@<1.6.2": ">=1.6.2"
     }
   }
 }
