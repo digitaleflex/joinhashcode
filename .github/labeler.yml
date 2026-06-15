@@ -51,7 +51,7 @@
 "area: platform":
   - changed-files:
     - any-glob-to-any-file:
-      - "middleware.ts"
+      - "proxy.ts"
       - "next.config.*"
       - "app/layout.tsx"
       - "app/page.tsx"
@@ -87,7 +87,7 @@
   - changed-files:
     - any-glob-to-any-file:
       - "lib/auth.ts"
-      - "middleware.ts"
+      - "proxy.ts"
       - "app/api/auth/**"
       - ".github/workflows/reusable-security.yml"
 

@@ -23,9 +23,9 @@ npx vitest run __tests__/smoke.test.tsx
 
 HASHCODE is a Next.js 15 App Router app for AI-driven tech talent profiling and community matching — targeting African tech communities. Users complete an onboarding flow and psychometric quiz, get classified into one of four profiles (Builder, Creator, Strategist, Catalyst), then join a corresponding community (Guild).
 
-### Routing & Middleware
+### Routing & Proxy
 
-Route groups live under `/app`. The middleware at `middleware.ts` enforces a three-stage funnel:
+Route groups live under `/app`. The proxy at `proxy.ts` enforces a three-stage funnel:
 
 1. No session → redirect to `/signin`
 2. Session but no `currentSituation` → redirect to `/onboarding`
@@ -39,7 +39,7 @@ Better Auth (`lib/auth.ts`) with Prisma adapter, NextCookies session storage. Pr
 
 ### Database
 
-PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client in `lib/db.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
+PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client in `lib/prisma.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
 
 The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Guild`, `GuildMember`, `ContactMessage`.
 
@@ -89,7 +89,7 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 
 | File                   | Purpose                                     |
 | ---------------------- | ------------------------------------------- |
-| `middleware.ts`        | Session guard and onboarding funnel         |
+| `proxy.ts`             | Session guard and onboarding funnel         |
 | `lib/auth.ts`          | Better Auth configuration                   |
 | `lib/db.ts`            | Prisma singleton client                     |
 | `lib/missions.ts`      | Mission data and scoring logic              |

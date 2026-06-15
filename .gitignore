@@ -72,5 +72,8 @@ __v0_jsx-dev-runtime.ts
 # Généré par Prisma (regénéré via prisma generate dans build/dev)
 generated/
 
+# Documentation générée (TypeDoc)
+DOCS/typedoc/
+
 # Fichiers uploadés localement (servis par VPS, pas versionnés)
 public/uploads/
