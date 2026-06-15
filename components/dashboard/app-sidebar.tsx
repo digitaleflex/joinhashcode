@@ -14,6 +14,7 @@ import {
   Activity,
   Users,
   ClipboardCheck,
+  Compass,
 } from "lucide-react"
 
 import {
@@ -152,6 +153,21 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                   <Link href="/dossier">
                     <FileText className="size-4" />
                     <span className="font-medium">Mon Dossier</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* MEMBRES */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/talents"}
+                  tooltip="Consulte l'annuaire de tous les membres de HASHCODE."
+                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  <Link href="/talents">
+                    <Compass className="size-4" />
+                    <span className="font-medium">Membres</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

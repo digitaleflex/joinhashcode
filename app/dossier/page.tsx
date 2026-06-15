@@ -31,13 +31,13 @@ export default async function DossierPage({ searchParams }: PageProps) {
     select: { id: true, role: true }
   });
 
-  // Admin / Moderator bypass for public/private portfolio inspection
+  // Let any authenticated user view another user's profile, set isInspecting for Admins/Mods
   let targetUserId = session.user.id;
   let isInspecting = false;
 
   if (params.userId && params.userId !== session.user.id) {
+    targetUserId = params.userId;
     if (sessionUser && ["ADMIN", "MODERATOR"].includes(sessionUser.role)) {
-      targetUserId = params.userId;
       isInspecting = true;
     }
   }
@@ -188,6 +188,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
             activeOrg={activeOrg}
             quizResult={quizResult}
             isInspecting={isInspecting}
+            isPublic={targetUserId !== session.user.id}
           />
         </main>
       </SidebarInset>

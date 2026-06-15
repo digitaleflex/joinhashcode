@@ -27,3 +27,17 @@ vi.mock('next/navigation', () => ({
   }),
   usePathname: () => '/',
 }))
+
+// Fix ReferenceError: window is not defined for better-auth in Node environment
+if (typeof window === 'undefined') {
+  (global as any).window = global;
+  (global as any).BroadcastChannel = class {
+    postMessage() {}
+    close() {}
+    onmessage = null;
+    onmessageerror = null;
+    addEventListener() {}
+    removeEventListener() {}
+    dispatchEvent() { return true; }
+  };
+}

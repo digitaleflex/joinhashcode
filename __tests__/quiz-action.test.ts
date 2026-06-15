@@ -38,7 +38,8 @@ vi.mock("../lib/auth", () => ({
 // Mock Email Service
 vi.mock("../lib/email", () => ({
   emailService: {
-    sendQuizResults: vi.fn(() => Promise.resolve()),
+    sendQuizResults: vi.fn(() => Promise.resolve({ success: true })),
+    sendWelcomeProfileEmail: vi.fn(() => Promise.resolve({ success: true })),
   },
 }));
 
