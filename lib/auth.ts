@@ -104,6 +104,16 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  session: {
+    expiresIn: 60 * 60 * 24 * 7,
+    updateAge: 60 * 60 * 24,
+    freshAge: 60 * 60,
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 5,
+      strategy: "jwe",
+    },
+  },
   account: {
     storeStateStrategy: "database",
     accountLinking: {
@@ -253,7 +263,6 @@ export const auth = betterAuth({
     },
   },
   plugins: [
-    nextCookies(),
     multiSession(),
     magicLink({
       sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
@@ -316,7 +325,7 @@ export const auth = betterAuth({
     }),
     twoFactor({
       issuer: "HASHCODE",
-      requirePassword: false, // Fix SEC-MFA: Allow OAuth/MagicLink users to enable 2FA without a password
+      requirePassword: false,
       otpOptions: {
         sendOTP: async ({ user, otp }) => {
           await emailService.sendOtpEmail({
@@ -331,6 +340,7 @@ export const auth = betterAuth({
       rpName: "HASHCODE",
       rpID: process.env.NODE_ENV === "production" ? "joinhashcode.com" : "localhost"
     }),
+    nextCookies(),
   ],
 
 });
