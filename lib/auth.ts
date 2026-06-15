@@ -1,7 +1,7 @@
 // @ts-ignore
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
+import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor, multiSession } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
@@ -234,7 +234,7 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
-    // Fix SEC-004: Trust proxy headers in production (Vercel/Docker proxy) to avoid 403 CSRF errors
+    // Fix SEC-004: Trust proxy headers in production (Docker proxy) to avoid 403 CSRF errors
     trustedProxyHeaders: process.env.NODE_ENV === "production" || !!process.env.TRUSTED_PROXIES,
   },
   rateLimit: {
@@ -254,6 +254,7 @@ export const auth = betterAuth({
   },
   plugins: [
     nextCookies(),
+    multiSession(),
     magicLink({
       sendMagicLink: async ({ email, url }: { email: string; url: string }) => {
         await emailService.sendMagicLink({ email, url });
@@ -315,6 +316,7 @@ export const auth = betterAuth({
     }),
     twoFactor({
       issuer: "HASHCODE",
+      requirePassword: false, // Fix SEC-MFA: Allow OAuth/MagicLink users to enable 2FA without a password
       otpOptions: {
         sendOTP: async ({ user, otp }) => {
           await emailService.sendOtpEmail({
@@ -325,7 +327,10 @@ export const auth = betterAuth({
         },
       },
     }),
-    passkey(),
+    passkey({
+      rpName: "HASHCODE",
+      rpID: process.env.NODE_ENV === "production" ? "joinhashcode.com" : "localhost"
+    }),
   ],
 
 });
