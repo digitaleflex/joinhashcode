@@ -1,5 +1,5 @@
-import * as betterAuthModule from "better-auth";
-const { betterAuth } = betterAuthModule;
+// @ts-ignore
+import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";

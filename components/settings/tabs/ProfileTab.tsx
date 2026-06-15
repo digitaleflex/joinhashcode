@@ -1,7 +1,14 @@
 "use client"
 
+import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
-// ... (rest of imports)
+import { useState, useRef } from "react"
+import { toast } from "sonner"
+import { Loader2, Camera, User, AtSign, Languages, Globe } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { CountrySelector } from "@/components/onboarding/country-selector"
 
 interface ProfileTabProps {
   userData: any
@@ -96,7 +103,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               </label>
               <Input
                 value={userData?.name || ""}
-                onChange={e => updateData({ ...userData, name: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateData({ ...userData, name: e.target.value })}
                 className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60"
               />
             </div>
@@ -106,7 +113,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               </label>
               <Input
                 value={userData?.pseudo || ""}
-                onChange={e => updateData({ ...userData, pseudo: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateData({ ...userData, pseudo: e.target.value })}
                 className="input-premium h-14 rounded-2xl text-base px-5 font-medium font-mono focus:border-emerald-500/60"
                 placeholder="votre_pseudo"
               />
@@ -116,7 +123,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
             <label className="text-xs font-semibold text-zinc-400">Présentation / Bio</label>
             <textarea
               value={userData?.bio || ""}
-              onChange={e => updateData({ ...userData, bio: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => updateData({ ...userData, bio: e.target.value })}
               className="w-full input-premium min-h-30 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-emerald-500/60 resize-none text-white leading-relaxed font-light italic"
               placeholder="Présente-toi en quelques mots..."
             />
@@ -131,7 +138,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
           </label>
           <Select
             value={userData?.language || "fr"}
-            onValueChange={val => updateData({ ...userData, language: val })}
+            onValueChange={(val: string) => updateData({ ...userData, language: val })}
           >
             <SelectTrigger className="input-premium h-14 rounded-2xl text-base px-5 font-bold text-white cyber-notch">
               <SelectValue />
@@ -148,7 +155,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
           </label>
           <CountrySelector
             value={userData?.country || ""}
-            onChange={val => updateData({ ...userData, country: val })}
+            onChange={(val: string) => updateData({ ...userData, country: val })}
           />
         </div>
         <div className="space-y-2">
@@ -157,7 +164,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
           </label>
           <Input
             value={userData?.city || ""}
-            onChange={e => updateData({ ...userData, city: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateData({ ...userData, city: e.target.value })}
             className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60"
             placeholder="Ex: Paris"
           />
