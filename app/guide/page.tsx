@@ -7,7 +7,7 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
-import { GuideClient } from "./guide-client"
+import { GuideClient } from "@/app/guide/guide-client"
 import { UserProfile } from "@/lib/types"
 
 export default async function GuidePage() {
