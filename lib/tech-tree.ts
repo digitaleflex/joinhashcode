@@ -4,12 +4,12 @@ export interface TechSynergy {
 }
 
 export const TECH_TREE: Record<string, string[]> = {
-  "Web": ["Next.js", "React", "Tailwind", "TypeScript", "Vercel", "Framer Motion"],
+  "Web": ["Next.js", "React", "Tailwind", "TypeScript", "Framer Motion"],
   "Cybersecurity": ["Kali Linux", "Wireshark", "Metasploit", "Burp Suite", "Docker"],
   "Cloud": ["AWS", "GCP", "Docker", "Kubernetes", "Terraform", "Serverless"],
   "IA": ["OpenAI", "Python", "PyTorch", "TensorFlow", "LangChain", "Hugging Face"],
   "Mobile": ["React Native", "Flutter", "Swift", "Kotlin", "Expo"],
-  "Data": ["PostgreSQL", "Redis", "Supabase", "Prisma", "SQL", "BigQuery"],
+  "Data": ["PostgreSQL", "Redis", "Prisma", "SQL", "BigQuery", "MongoDB"],
   "Automation": ["GitHub Actions", "Python", "Node.js", "Zapier", "n8n"],
   "UI/UX": ["Figma", "Adobe XD", "Tailwind", "Storybook", "Spline"],
   "DevOps": ["Docker", "Kubernetes", "CI/CD", "Linux", "Nginx", "Monitoring"],
@@ -31,7 +31,7 @@ export const SPECIALIZATION_QUIZ = [
     options: [
       { text: "L'esthétique et le pixel perfect", value: "visual", tools: ["Figma", "Tailwind"] },
       { text: "La performance et l'optimisation", value: "perf", tools: ["Prisma", "PostgreSQL", "Docker"] },
-      { text: "La vitesse d'exécution", value: "speed", tools: ["Next.js", "Supabase", "Vercel"] },
+      { text: "La vitesse d'exécution", value: "speed", tools: ["Next.js", "PostgreSQL", "Supabase"] },
       { text: "La sécurité et la robustesse", value: "security", tools: ["TypeScript", "Kali Linux", "CI/CD"] }
     ]
   },

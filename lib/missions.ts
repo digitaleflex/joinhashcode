@@ -343,7 +343,7 @@ Un profil Hashcode n'est rien sans preuve de travail. Ta première mission est d
 Cependant, l'évaluation dépendra de la Guilde que tu as rejointe.
 
 ### Objectifs par Guilde (Choisis celui de ton profil) :
-* 🛠️ **Guilde des Builders :** Le design n'a pas d'importance. Prouve-nous que ton code est propre. Déploie via Vercel/Railway, mets en place ton repo GitHub proprement, et obtiens un score Lighthouse de 90+ en performance.
+* 🛠️ **Guilde des Builders :** Le design n'a pas d'importance. Prouve-nous que ton code est propre. Déploie via GitHub Pages/Railway, mets en place ton repo GitHub proprement, et obtiens un score Lighthouse de 90+ en performance.
 * 🎨 **Guilde des Creators :** La technique passe au second plan. On veut voir une identité visuelle marquante. Un Dark Mode soigné, une typographie parfaite, et au moins une micro-animation (Framer Motion ou CSS pur).
 * 🧠 **Guilde des Strategists :** On veut voir de l'impact. Ton site doit être optimisé pour le SEO (balises meta parfaites) et intégrer un outil d'Analytics (Google Analytics, Plausible) pour traquer tes visiteurs.
 * 🗣️ **Guilde des Catalysts :** Le site n'est qu'un prétexte. Ta mission est de déployer la page, puis d'écrire un post LinkedIn ou Twitter pour annoncer son lancement et d'attirer au moins 20 visiteurs uniques le premier jour.

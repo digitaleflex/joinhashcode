@@ -7,9 +7,15 @@ import { ArrowRight, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
-
 function NavActions() {
+  const [isMounted, setIsMounted] = useState(false)
   const { data: session } = authClient.useSession()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return <div className="h-8 w-20" />
 
   return (
     <div className="flex items-center gap-1.5 sm:gap-3">
@@ -98,11 +104,9 @@ export function Nav() {
           </Link>
 
           {/* Right actions */}
-          {isMounted ? <NavActions /> : <div className="h-8 w-20" />}
+          <NavActions />
         </div>
       </header>
-      {/* Spacer to offset fixed header height (~56px) */}
-      <div className="h-14" aria-hidden="true" />
       {isMounted && session && <BottomNav />}
     </>
   )

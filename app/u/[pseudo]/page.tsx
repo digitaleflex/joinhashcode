@@ -43,7 +43,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const dbUser = await prisma.user.findUnique({
     where: { pseudo },
     select: {
-      id: true, name: true, pseudo: true, image: true, bio: true,
+      id: true, name: true, pseudo: true, email: true, image: true, bio: true,
       role: true, language: true,
       city: true, country: true,
       class: true, level: true, experience: true,
@@ -115,6 +115,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   // Aplatir l'objet user pour la compatibilité avec DossierView
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
     ...dbUser,
+    email: dbUser.email,
     githubUrl: dbUser.socials?.githubUrl ?? null,
     linkedinUrl: dbUser.socials?.linkedinUrl ?? null,
     twitterUrl: dbUser.socials?.twitterUrl ?? null,

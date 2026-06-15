@@ -17,7 +17,7 @@ export enum TechnicalLevel {
 
 export enum UserSituation {
   STUDENT = "Étudiant(e)",
-  EMPLOYEE = "Salarié(e) / Employé(e)",
+  EMPLOYEE = "Salarié(e)",
   SELF_TAUGHT = "Autodidacte",
   RETRAINING = "En reconversion",
   ENTREPRENEUR = "Entrepreneur / Projet perso",
@@ -27,12 +27,12 @@ export enum UserSituation {
 
 export enum MainObjective {
   FIND_JOB = "Trouver un emploi tech",
-  LEARN_CODE = "Apprendre à coder / progresser",
+  LEARN_CODE = "Apprendre à coder",
   CREATE_STARTUP = "Lancer un projet / startup",
-  FREELANCE = "Faire du freelance",
-  MASTER_AI = "Maîtriser l'IA dans mon métier",
-  CYBERSECURITY = "Entrer dans la cybersécurité",
-  CLOUD_DEVOPS = "Le cloud & DevOps",
+  FREELANCE = "Devenir freelance",
+  MASTER_AI = "Maîtriser l'IA",
+  CYBERSECURITY = "Cybersécurité",
+  CLOUD_DEVOPS = "Cloud & DevOps",
   CREATE_PRODUCTS = "Créer des produits digitaux",
 }
 
@@ -56,7 +56,6 @@ export const TECHNICAL_TOOLS = [
   "Figma",
   "Cursor",
   "ChatGPT",
-  "Vercel",
   "Linux",
 ] as const;
 
