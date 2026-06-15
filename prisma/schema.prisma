@@ -47,8 +47,8 @@ model User {
   banReason                String?
   banExpires               DateTime?
 
+
   // Relations spécialisées
-  impact                   MemberImpact?
   psychometrics            Psychometric?
   socials                  UserSocials?
   stats                    EngagementStats?
@@ -104,7 +104,6 @@ model Organization {
   cohesionScore Float        @default(0.1)
   streakCount   Int          @default(0)
   lastStreakAt  DateTime?
-  lastComboAt   DateTime?
   requiredLevel Int          @default(1)
   isPrivate     Boolean      @default(false)
   description   String?
@@ -581,36 +580,4 @@ model TeamApplication {
   createdAt         DateTime @default(now())
   
   @@map("team_application")
-}
-
-model MemberImpact {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // Impact Scores
-  score7d         Float    @default(0)
-  score30d        Float    @default(0)
-  score90d        Float    @default(0)
-  scoreAllTime    Float    @default(0)
-  
-  // Trust & Integrity
-  trustScore      Float    @default(0.5)
-  integrityScore  Float    @default(1.0)
-  
-  // Metrics
-  missionsCount   Int      @default(0)
-  qualityRate     Float    @default(0)
-  contributionScore Int    @default(0)
-  
-  // Metadata
-  topSpecialties  String[]
-  titleOfGlory    String?
-  talentJourney   Json?    // Format: [{ date: string, event: string, type: string }]
-  
-  updatedAt       DateTime @updatedAt
-
-  @@index([score7d(sort: Desc)])
-  @@index([score30d(sort: Desc)])
-  @@map("member_impact")
 }
