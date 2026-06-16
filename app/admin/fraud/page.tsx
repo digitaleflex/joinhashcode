@@ -3,8 +3,6 @@ import { getFraudLevel } from "@/lib/fraud-score"
 import { Shield, ShieldAlert, ShieldBan, Fingerprint, Globe, AlertTriangle, Eye, UserX, ChevronRight } from "lucide-react"
 import Link from "next/link"
 
-export const dynamic = "force-dynamic"
-
 const FRAUD_LEVEL_CONFIG = {
   NORMAL: { label: "Normal", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", icon: Shield },
   SURVEILLANCE: { label: "Surveillance", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", icon: Eye },
