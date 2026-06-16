@@ -25,7 +25,7 @@ export default function TwoFactorPage() {
         toast.success("Authentification réussie");
         window.location.href = "/dashboard";
       }
-    } catch (error: unknown) {
+    } catch {
       toast.error("Erreur technique");
     } finally {
       setIsPending(false);

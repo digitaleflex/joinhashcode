@@ -26,13 +26,7 @@ const ACTION_LABELS: Record<string, string> = {
 }
 
 export default async function AdminFraudPage() {
-  const [
-    fraudEvents,
-    flaggedUsers,
-    byLevel,
-    byAction,
-    summary,
-  ] = await Promise.all([
+  const [fraudEvents, flaggedUsers] = await Promise.all([
     prisma.fraudEvent.findMany({
       include: {
         user: { select: { id: true, name: true, pseudo: true, email: true, image: true, fraudRiskScore: true, banned: true } },
@@ -46,9 +40,6 @@ export default async function AdminFraudPage() {
       orderBy: { fraudRiskScore: "desc" },
       take: 50,
     }),
-    prisma.fraudEvent.groupBy({ by: ["action"], _count: { action: true } }),
-    null as null,
-    null as null,
   ])
 
   const totalScore = flaggedUsers.reduce((a, u) => a + u.fraudRiskScore, 0)
