@@ -72,8 +72,8 @@ jobs:
         run: |
           export HASHCODE_BLUE_IMAGE="${{ env.IMAGE }}"
 
-          # Start web-blue without compose.yaml to avoid Compose trying to manage hashcode-web
-          docker compose --env-file .env.production -f compose.blue.yml up -d web-blue --wait --timeout 120
+          # Start web-blue with distinct project name to avoid orphan-detection conflicts
+          docker compose -p hashcode-blue --env-file .env.production -f compose.blue.yml up -d web-blue --wait --timeout 120
 
           echo "Switching traffic → blue..."
           docker kill hashcode-web 2>/dev/null || true
