@@ -104,6 +104,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
   const dismiss = () => {
     try { localStorage.setItem(storageKey, "1") } catch { /* ignore */ }
     setVisible(false)
+    window.dispatchEvent(new CustomEvent("welcome-modal-dismissed"))
   }
 
   return (

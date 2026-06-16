@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation"
 import { driver } from "driver.js"
 import "driver.js/dist/driver.css"
 import { getStepsForPath } from "@/lib/tours"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export function TourButton({ autoStart = false }: { autoStart?: boolean }) {
   const pathname = usePathname()
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const startTour = (isAuto = false) => {
-    // Prevent auto-start if already done in this session or globally
     if (isAuto && localStorage.getItem(`tour_completed_${pathname}`)) return
 
     const steps = getStepsForPath(pathname)
@@ -37,9 +37,23 @@ export function TourButton({ autoStart = false }: { autoStart?: boolean }) {
   }
 
   useEffect(() => {
-    if (autoStart) {
-      const timer = setTimeout(() => startTour(true), 1500) // Delay to ensure page is settled
-      return () => clearTimeout(timer)
+    if (!autoStart) return
+
+    const onWelcomeDismissed = () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => startTour(true), 500)
+    }
+
+    window.addEventListener("welcome-modal-dismissed", onWelcomeDismissed)
+
+    timerRef.current = setTimeout(() => {
+      const hasModal = !!document.querySelector(".fixed.inset-0.z-50")
+      if (!hasModal) startTour(true)
+    }, 1500)
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+      window.removeEventListener("welcome-modal-dismissed", onWelcomeDismissed)
     }
   }, [autoStart, pathname])
 

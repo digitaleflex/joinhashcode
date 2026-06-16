@@ -110,7 +110,7 @@ export function DashboardShell({
   return (
     <SidebarProvider>
       {/* First-visit welcome modal — shown once after quiz completion */}
-      {user?.class && (
+      {user?.class && typeof window !== "undefined" && !localStorage.getItem(`hc_welcomed_${user.id}`) && (
         <WelcomeModal
           userId={user.id}
           userName={user.name}

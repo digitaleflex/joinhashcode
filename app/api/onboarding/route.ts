@@ -67,28 +67,29 @@ export async function PATCH(req: Request) {
       throw err;
     });
 
+    const isComplete = !!parsed.data.mainObjective
+
     logActivity({
       userId: session.user.id,
-      action: "ONBOARDING_PARTIAL_SAVE",
+      action: isComplete ? "ONBOARDING_COMPLETED" : "ONBOARDING_PARTIAL_SAVE",
       entity: "user",
       entityId: session.user.id,
       metadata: { 
         ...parsed.data,
-        isComplete: !!parsed.data.mainObjective 
+        isComplete 
       },
       request: req,
-    });
-
-    await trackEvent(session.user.id, EVENTS.ONBOARDING_STARTED, {
-        country: parsed.data.country,
-        situation: parsed.data.currentSituation
     });
 
     const cookieStore = await cookies();
     cookieStore.delete("hc_mw");
 
-    // Send guidance email if onboarding is "complete" (mainObjective provided)
-    if (parsed.data.mainObjective) {
+    if (isComplete) {
+      await trackEvent(session.user.id, EVENTS.ONBOARDING_COMPLETED, {
+        country: parsed.data.country,
+        situation: parsed.data.currentSituation
+      });
+
       emailService.sendOnboardingCompletedEmail({
         email: updatedUser.email,
         name: updatedUser.name,

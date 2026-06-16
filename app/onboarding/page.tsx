@@ -115,7 +115,6 @@ export default function OnboardingPage() {
           else if (user.currentSituation) setStep(4)
           else if (user.technicalLevel) setStep(3)
           else if (user.pseudo) setStep(2)
-          else if (user.currentSituation) setStep(3)
         }
       } catch (error: unknown) {
         console.error("Session sync failed:", error)
