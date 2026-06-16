@@ -42,9 +42,6 @@ jobs:
 
       - name: "[2/5] Ensure DB is running"
         run: |
-          docker network prune -f 2>/dev/null || true
-          docker rm -f hashcode-db 2>/dev/null || true
-          echo "Starting hashcode-db..."
           docker compose --env-file .env.production up -d db --wait
 
       - name: "[3/5] Backup DB + migrate"
