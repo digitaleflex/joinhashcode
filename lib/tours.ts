@@ -166,6 +166,28 @@ export function getStepsForPath(pathname: string): DriveStep[] {
           side: "top",
           align: "center"
         }
+      },
+      {
+        element: "#tour-squad-chat",
+        popover: {
+          title: "Chat d'Escouade",
+          description: "Le canal privé de ton unité. Échange en temps réel avec tes coéquipiers, partage tes avancées et coordonnez-vous sur les missions coop.",
+          side: "top",
+          align: "center"
+        }
+      }
+    ];
+  }
+
+  if (pathname.startsWith("/talents")) {
+    return [
+      {
+        popover: {
+          title: "Annuaire des Talents",
+          description: "Explore les profils de la communauté. Trouve des collaborateurs avec des compétences complémentaires aux tiennes.",
+          side: "over",
+          align: "center"
+        }
       }
     ];
   }

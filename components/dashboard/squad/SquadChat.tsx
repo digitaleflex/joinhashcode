@@ -115,7 +115,7 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
   }
 
   return (
-    <div className="rounded-3xl border border-white/5 bg-zinc-900/60 flex flex-col overflow-hidden">
+    <div id="tour-squad-chat" className="rounded-3xl border border-white/5 bg-zinc-900/60 flex flex-col overflow-hidden">
       <div className="flex items-center gap-2 px-6 py-4 border-b border-white/5">
         <MessageSquare className="size-4 text-primary" />
         <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">Chat Escouade</span>

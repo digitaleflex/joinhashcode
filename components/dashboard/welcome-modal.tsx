@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { X, Zap, Users, Target, ChevronRight, Sparkles } from "lucide-react"
+import { X, Zap, Users, Target, ChevronRight, Sparkles, BookOpen } from "lucide-react"
 import Link from "next/link"
 
 // ─── Config par classe ─────────────────────────────────────────────────────────
@@ -250,10 +250,14 @@ export function WelcomeModal({ userId, userName, userClass }: {
                   <div className="flex gap-3">
                     <Button
                       variant="outline"
+                      asChild
                       onClick={dismiss}
                       className="flex-1 h-11 rounded-xl border-white/10 text-zinc-400 hover:text-white text-xs font-bold uppercase"
                     >
-                      Explorer seul
+                      <Link href="/guide">
+                        <BookOpen className="size-3.5 mr-1.5" />
+                        Guide complet
+                      </Link>
                     </Button>
                     <Button
                       asChild
