@@ -84,6 +84,10 @@ export async function PATCH(req: Request) {
     const cookieStore = await cookies();
     cookieStore.delete("hc_mw");
 
+    await trackEvent(session.user.id, EVENTS.ONBOARDING_STARTED, {
+      fields: Object.keys(parsed.data),
+    });
+
     if (isComplete) {
       await trackEvent(session.user.id, EVENTS.ONBOARDING_COMPLETED, {
         country: parsed.data.country,

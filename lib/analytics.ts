@@ -1,4 +1,4 @@
-﻿/**
+/**
  * HASHCODE Analytics Engine.
  * Supports server-side event tracking.
  * Can be easily connected to PostHog, Umami, or Google Analytics.
@@ -46,5 +46,7 @@ export async function trackEvent(
  */
 export const EVENTS = {
   ONBOARDING_STARTED: "onboarding_started",
+  ONBOARDING_COMPLETED: "onboarding_completed",
   FIRST_MISSION_STARTED: "first_mission_started",
 };
+
