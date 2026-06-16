@@ -3,8 +3,6 @@ import { prisma } from "@/lib/prisma"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { MessageSquare, AlertTriangle, Lightbulb, User, Clock, Paperclip } from "lucide-react"
-
-export const dynamic = "force-dynamic"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Badge } from "@/components/ui/badge"
