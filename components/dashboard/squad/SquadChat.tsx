@@ -57,7 +57,7 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
   }, [fetchMessages])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+    bottomRef.current?.scrollIntoView?.({ behavior: "smooth" })
   }, [messages])
 
   const sendMessage = async () => {
