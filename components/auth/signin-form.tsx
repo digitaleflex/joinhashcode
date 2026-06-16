@@ -280,6 +280,9 @@ export function SignInForm() {
                                     </>
                                 )}
                             </Button>
+                            <p className="text-[9px] text-zinc-600 text-center -mt-1">
+                                À configurer dans <Link href="/settings" className="text-zinc-500 hover:text-primary underline">Paramètres</Link> après connexion
+                            </p>
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
