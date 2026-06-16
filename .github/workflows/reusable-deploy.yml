@@ -7,9 +7,6 @@ on:
         required: true
         type: string
     secrets:
-      SSH_HOST: { required: true }
-      SSH_USER: { required: true }
-      SSH_PRIVATE_KEY: { required: true }
       SSH_PATH: { required: true }
       GH_PAT: { required: true }
 
@@ -20,106 +17,82 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ${{ env.APP_DIR }}
     steps:
-      - name: "SSH: Blue-Green Deploy (zero-downtime)"
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          command_timeout: 15m
-          script: |
-            set -euo pipefail
-            cd "${{ env.APP_DIR }}"
-            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+      - name: "[1/5] Pulling code & image"
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-            # ── Load env vars for DB ops ──────────────────────────────────────
-            set -a
-            . .env.production
-            set +a
+          [ -f ".env.production" ] && cp .env.production "/tmp/env_${TIMESTAMP}"
 
-            # ══════════════════════════════════════════════════════════════════
-            # [1/5] Code + Image
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [1/5] Pulling code & image ==="
+          if [ ! -d ".git" ]; then
+            git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
+          else
+            git fetch --depth 1 origin main
+            git reset --hard origin/main
+          fi
 
-            [ -f ".env.production" ] && cp .env.production "/tmp/env_${TIMESTAMP}"
+          [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
 
-            if [ ! -d ".git" ]; then
-              git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
-            else
-              git fetch --depth 1 origin main
-              git reset --hard origin/main
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker pull "${{ env.IMAGE }}"
+
+      - name: "[2/5] Backup DB + migrate"
+        run: |
+          set -a
+          . .env.production
+          set +a
+
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          mkdir -p "${{ env.BACKUP_DIR }}"
+          docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
+            -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
+          docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
+            "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
+
+          HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
+            -e DATABASE_URL \
+            -e DIRECT_URL \
+            -e CI=true \
+            web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
+
+      - name: "[3/5] Blue-Green swap"
+        run: |
+          export HASHCODE_IMAGE="${{ env.IMAGE }}"
+          docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
+
+          echo "Switching traffic → blue..."
+          docker stop hashcode-web 2>/dev/null || true
+          docker rm hashcode-web 2>/dev/null || true
+          docker rename hashcode-web-blue hashcode-web
+
+          echo "✅ Blue-Green swap complete. Zero downtime."
+
+      - name: "[4/5] Health check"
+        run: |
+          MAX_RETRIES=8
+          RETRY_COUNT=0
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            RESPONSE=$(docker exec hashcode-web node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(t=>{console.log(t);process.exit(0)}).catch(()=>process.exit(1))" 2>/dev/null || echo "offline")
+            if echo "$RESPONSE" | grep -q "online"; then
+              echo "✅ App healthy: $RESPONSE"
+              break
             fi
+            echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES — retrying in 3s..."
+            sleep 3
+          done
+          if ! echo "$RESPONSE" | grep -q "online"; then
+            echo "::error::App not responding after swap ($MAX_RETRIES attempts)"
+            docker compose --env-file .env.production logs --tail=50 web || true
+            exit 1
+          fi
 
-            [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
-
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-            docker pull "${{ env.IMAGE }}"
-
-            # ══════════════════════════════════════════════════════════════════
-            # [2/5] Backup DB + migrate
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [2/5] Backup + migrate ==="
-            mkdir -p "${{ env.BACKUP_DIR }}"
-            docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
-              -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
-            docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
-              "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
-
-            HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
-              -e DATABASE_URL \
-              -e DIRECT_URL \
-              -e CI=true \
-              web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
-
-            # ══════════════════════════════════════════════════════════════════
-            # [3/5] Blue-Green swap
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [3/5] Blue-Green swap ==="
-
-            export HASHCODE_IMAGE="${{ env.IMAGE }}"
-            docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
-
-            echo "Switching traffic → blue..."
-            docker stop hashcode-web 2>/dev/null || true
-            docker rm hashcode-web 2>/dev/null || true
-            docker rename hashcode-web-blue hashcode-web
-
-            echo "✅ Blue-Green swap complete. Zero downtime."
-
-            # ══════════════════════════════════════════════════════════════════
-            # [4/5] Health check (with retries)
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [4/5] Health check ==="
-            # Note: web-blue a ports:[] pour éviter le conflit avec l'ancien
-            # conteneur. On utilise docker exec pour checker depuis l'intérieur
-            # du conteneur où localhost:3000 fonctionne.
-            MAX_RETRIES=8
-            RETRY_COUNT=0
-            while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-              RETRY_COUNT=$((RETRY_COUNT + 1))
-              RESPONSE=$(docker exec hashcode-web node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(t=>{console.log(t);process.exit(0)}).catch(()=>process.exit(1))" 2>/dev/null || echo "offline")
-              if echo "$RESPONSE" | grep -q "online"; then
-                echo "✅ App healthy: $RESPONSE"
-                break
-              fi
-              echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES — retrying in 3s..."
-              sleep 3
-            done
-            if ! echo "$RESPONSE" | grep -q "online"; then
-              echo "::error::App not responding after swap ($MAX_RETRIES attempts)"
-              docker compose --env-file .env.production logs --tail=50 web || true
-              exit 1
-            fi
-
-            # ══════════════════════════════════════════════════════════════════
-            # [5/5] Cleanup
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [5/5] Cleanup ==="
-            ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
-            docker image prune -f --filter "until=24h"
-
-            echo "✅ Deploy complete: ${{ inputs.image_tag }}"
+      - name: "[5/5] Cleanup"
+        run: |
+          ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
+          docker image prune -f --filter "until=24h"
+          echo "✅ Deploy complete: ${{ inputs.image_tag }}"

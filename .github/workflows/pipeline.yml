@@ -46,8 +46,5 @@ jobs:
     with:
       image_tag: ${{ needs.build.outputs.image-tag }}
     secrets:
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_PATH: ${{ secrets.SSH_PATH }}
       GH_PAT: ${{ secrets.GH_PAT }}
