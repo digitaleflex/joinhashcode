@@ -38,7 +38,7 @@ jobs:
           [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
 
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker pull "${{ env.IMAGE }}"
+          docker image inspect "${{ env.IMAGE }}" >/dev/null 2>&1 || docker pull "${{ env.IMAGE }}"
 
       - name: "[2/5] Ensure DB is running"
         run: |
