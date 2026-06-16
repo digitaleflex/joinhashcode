@@ -6,6 +6,9 @@ on:
       image_tag:
         required: true
         type: string
+    secrets:
+      ENV_PRODUCTION:
+        required: true
 
 env:
   IMAGE: "ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}"
@@ -20,12 +23,17 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Write .env.production from secret
+        run: |
+          sudo mkdir -p /opt/hashcode
+          echo '${{ secrets.ENV_PRODUCTION }}' | sudo tee /opt/hashcode/.env.production > /dev/null
+
       - name: Blue-Green Deploy (zero-downtime)
         run: |
           set -euo pipefail
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-          # ── Load env vars from persistent location ──
+          # ── Load env vars ──
           set -a
           . /opt/hashcode/.env.production
           set +a
