@@ -29,9 +29,6 @@ services:
       start_period: 20s
     volumes:
       - uploads_data:/app/public/uploads
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - db-network
       - proxy
@@ -42,3 +39,16 @@ services:
       - "traefik.http.routers.hashcode-web.tls=true"
       - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+
+networks:
+  db-network:
+    external: true
+    name: hashcode-db-network
+  proxy:
+    external: true
+    name: proxy
+
+volumes:
+  uploads_data:
+    external: true
+    name: hashcode-uploads-data
