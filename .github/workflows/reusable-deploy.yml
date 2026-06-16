@@ -43,6 +43,8 @@ jobs:
       - name: "[2/5] Ensure DB is running"
         run: |
           docker network prune -f 2>/dev/null || true
+          # Free up port 5434 if anything is holding it
+          lsof -ti :5434 | xargs -r kill -9 2>/dev/null || true
           if ! docker ps -q --filter "name=hashcode-db" | grep -q .; then
             echo "⚠️ hashcode-db not running — starting it..."
             docker compose --env-file .env.production up -d db --wait
