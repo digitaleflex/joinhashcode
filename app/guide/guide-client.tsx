@@ -23,8 +23,54 @@ function HudCorners({ className }: { className?: string }) {
   )
 }
 
+const TAB_SECTIONS: Record<string, { id: string; label: string }[]> = {
+  fondations: [
+    { id: "benefits", label: "Bénéfices" },
+    { id: "premier-jour", label: "Premier Jour" },
+    { id: "profils", label: "Profils" },
+    { id: "quiz", label: "Quiz" },
+    { id: "glossaire", label: "Glossaire" },
+    { id: "mobile", label: "Mobile" },
+  ],
+  evolution: [
+    { id: "radar", label: "Radar" },
+    { id: "moteur", label: "Moteur Évolution" },
+    { id: "impact", label: "Impact" },
+    { id: "rangs", label: "Rangs" },
+  ],
+  squads: [
+    { id: "matching", label: "Matching" },
+    { id: "health", label: "Health Score" },
+    { id: "synergie", label: "Synergie" },
+  ],
+  missions: [
+    { id: "types", label: "Types" },
+    { id: "reviewer", label: "Reviewer" },
+    { id: "criteres", label: "Critères" },
+  ],
+  cohesion: [
+    { id: "groupe", label: "Cohésion" },
+    { id: "badges", label: "Badges" },
+    { id: "reputation", label: "Réputation" },
+    { id: "xp", label: "Barème XP" },
+  ],
+  entraide: [
+    { id: "bloque", label: "Bloqué" },
+    { id: "ambassadeur", label: "Ambassadeur" },
+    { id: "reussite", label: "Réussite" },
+    { id: "faq", label: "FAQ" },
+  ],
+}
+
 export function GuideClient() {
   const [activeTab, setActiveTab] = useState("fondations")
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+  }
 
   return (
     <div className="space-y-10">
@@ -84,10 +130,25 @@ export function GuideClient() {
           </TabsTrigger>
         </TabsList>
 
+        {/* Sticky Section Navigation */}
+        <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 py-2 bg-zinc-950/90 backdrop-blur-xl border-b border-white/5 overflow-x-auto scrollbar-none">
+          <div className="flex gap-2 whitespace-nowrap">
+            {TAB_SECTIONS[activeTab]?.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="h-7 px-3 rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider border border-white/10 bg-zinc-900/80 text-zinc-400 hover:text-white hover:border-white/20 transition-all shrink-0"
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* --- TAB CONTENT: FONDATIONS (DEBUTER) --- */}
         <TabsContent value="fondations" className="space-y-8 animate-in fade-in duration-300">
           {/* Ce que JoinHashcode peut vous apporter */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="benefits" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
                 <Trophy className="size-5 text-[#C5F441]" /> Ce que JoinHashcode peut vous apporter
@@ -133,10 +194,10 @@ export function GuideClient() {
           </Card>
 
           {/* Mon premier jour sur JoinHashcode */}
-          <div className="space-y-4">
+          <div id="premier-jour" className="space-y-4 scroll-mt-24">
             <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase flex items-center gap-3">
               <span className="h-px w-8 bg-zinc-800" />
-              Mon premier jour (Parcours d&apos;Ancrage & Focus Flow)
+              Mon premier jour (Parcours d'Ancrage & Focus Flow)
             </div>
             
             {/* Focus Flow Alert */}
@@ -232,7 +293,7 @@ export function GuideClient() {
           </div>
 
           {/* Les profils expliqués simplement */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="profils" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
                 <Users className="size-5 text-emerald-500" /> Les Profils expliqués simplement
@@ -294,7 +355,7 @@ export function GuideClient() {
           </Card>
 
           {/* Fonctionnement du Quiz */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="quiz" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
                 <Activity className="size-5 text-primary" /> Fonctionnement du Quiz Psychométrique
@@ -367,7 +428,7 @@ export function GuideClient() {
           </Card>
 
           {/* Glossaire Tactique */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="glossaire" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <BookOpen className="size-5 text-primary" /> Glossaire Tactique des Concepts
@@ -439,7 +500,7 @@ export function GuideClient() {
           </Card>
 
           {/* Conseils pour les Agents Nomades (Mobile) */}
-          <div className="p-5 rounded-2xl bg-blue-500/5 border border-blue-500/10 space-y-3">
+          <div id="mobile" className="p-5 rounded-2xl bg-blue-500/5 border border-blue-500/10 space-y-3 scroll-mt-24">
             <h4 className="text-[11px] font-black text-blue-400 uppercase font-mono flex items-center gap-1.5">
               <Compass className="size-3.5" /> Guide de l&apos;Agent Nomade (Optimisation Mobile)
             </h4>
@@ -457,7 +518,7 @@ export function GuideClient() {
         {/* --- TAB CONTENT: EVOLUTION --- */}
         <TabsContent value="evolution" className="space-y-6 animate-in fade-in duration-300">
           {/* Annotated Radar HUD Section */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="radar" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white">Simulation du Radar de Compétences</CardTitle>
               <CardDescription className="text-xs text-zinc-500 font-light">
@@ -527,7 +588,7 @@ export function GuideClient() {
           </Card>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6">
+            <Card id="moteur" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white">Le Moteur d&apos;Évolution</CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
@@ -554,7 +615,7 @@ export function GuideClient() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6">
+            <Card id="impact" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-primary uppercase">Science de l&apos;Impact (Impact Engine)</CardTitle>
               </CardHeader>
@@ -607,7 +668,7 @@ export function GuideClient() {
           </div>
 
           {/* Échelle des Rangs et Progression */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="rangs" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <Award className="size-5 text-[#C5F441]" /> L&apos;Échelle des Rangs & Titres Honorifiques
@@ -655,7 +716,7 @@ export function GuideClient() {
         {/* --- TAB CONTENT: SQUADS --- */}
         <TabsContent value="squads" className="space-y-6 animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6">
+            <Card id="matching" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
                   <Users className="size-5 text-primary" /> Talent Matching Engine
@@ -732,7 +793,7 @@ export function GuideClient() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6">
+            <Card id="health" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-primary uppercase">Squad Health Score</CardTitle>
               </CardHeader>
@@ -761,7 +822,7 @@ export function GuideClient() {
           </div>
 
           {/* Protocole de Communication et Synergies Cognitives */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="synergie" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <MessageSquare className="size-5 text-emerald-500" /> Protocole de Synergie & Frictions
@@ -810,7 +871,7 @@ export function GuideClient() {
         {/* --- TAB CONTENT: MISSIONS --- */}
         <TabsContent value="missions" className="space-y-6 animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6">
+            <Card id="types" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white">Types de Missions & Soumission</CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
@@ -859,7 +920,7 @@ export function GuideClient() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6">
+            <Card id="reviewer" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-primary uppercase">Devenir Reviewer</CardTitle>
               </CardHeader>
@@ -882,7 +943,7 @@ export function GuideClient() {
           </div>
 
           {/* Critères de Qualité des Livrables */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="criteres" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <Sparkles className="size-5 text-emerald-500" /> Critères de Validation par Profil
@@ -936,7 +997,7 @@ export function GuideClient() {
         {/* --- TAB CONTENT: COHESION --- */}
         <TabsContent value="cohesion" className="space-y-6 animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6">
+            <Card id="groupe" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white">Cohésion de Groupe & Streaks</CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
@@ -978,7 +1039,7 @@ export function GuideClient() {
               </CardContent>
             </Card>
 
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6">
+            <Card id="badges" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-primary uppercase">Badges Consécutifs</CardTitle>
               </CardHeader>
@@ -1007,7 +1068,7 @@ export function GuideClient() {
           </div>
 
           {/* Votre réputation compte */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="reputation" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <TrendingUp className="size-5 text-[#C5F441]" /> Votre réputation compte (Indice de Confiance)
@@ -1039,7 +1100,7 @@ export function GuideClient() {
           </Card>
 
           {/* Tableau de gains d'XP */}
-          <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+          <Card id="xp" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                 <Zap className="size-5 text-[#C5F441]" /> Barème des Récompenses d&apos;XP
@@ -1093,7 +1154,7 @@ export function GuideClient() {
         <TabsContent value="entraide" className="space-y-8 animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Je suis bloqué ? */}
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-7 p-6 space-y-6">
+            <Card id="bloque" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-7 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
                   <LifeBuoy className="size-5 text-emerald-500" /> Je suis bloqué : Que faire ?
@@ -1131,7 +1192,7 @@ export function GuideClient() {
             </Card>
 
             {/* Programme Ambassadeur / Parrainage */}
-            <Card className="glass-card bg-indigo-950/20 border-indigo-500/10 rounded-3xl lg:col-span-5 p-6 space-y-6">
+            <Card id="ambassadeur" className="glass-card bg-indigo-950/20 border-indigo-500/10 rounded-3xl lg:col-span-5 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-indigo-400 uppercase flex items-center gap-1.5">
                   <Award className="size-4" /> Programme Ambassadeur
@@ -1174,7 +1235,7 @@ export function GuideClient() {
             </Card>
 
             {/* Histoires de réussite */}
-            <Card className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-5 p-6 space-y-6">
+            <Card id="reussite" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-5 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-sm font-mono font-bold text-[#C5F441] uppercase flex items-center gap-1.5">
                   <Sparkles className="size-4" /> Success Stories (Parcours Membre)
@@ -1247,7 +1308,7 @@ export function GuideClient() {
           </Card>
 
           {/* FAQ Section */}
-          <div className="border-t border-white/5 pt-10 space-y-6">
+          <div id="faq" className="border-t border-white/5 pt-10 space-y-6 scroll-mt-24">
             <div className="space-y-1">
               <h2 className="text-2xl font-bold uppercase text-white flex items-center gap-2">
                 <HelpCircle className="size-5 text-primary" /> Questions Fréquentes

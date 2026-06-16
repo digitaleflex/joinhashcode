@@ -94,11 +94,15 @@ jobs:
             # [4/5] Health check (with retries)
             # ══════════════════════════════════════════════════════════════════
             echo "=== [4/5] Health check ==="
+            # Note: web-blue a ports:[] pour éviter le conflit avec l'ancien
+            # conteneur. On curl via l'IP Docker interne au lieu de localhost.
+            WEB_IP=$(docker inspect hashcode-web --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null || echo "")
+            HEALTH_URL="http://${WEB_IP:-127.0.0.1}:3000/api/status"
             MAX_RETRIES=8
             RETRY_COUNT=0
             while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
               RETRY_COUNT=$((RETRY_COUNT + 1))
-              RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
+              RESPONSE=$(curl -sSf "$HEALTH_URL" 2>/dev/null || echo "offline")
               if echo "$RESPONSE" | grep -q "online"; then
                 echo "✅ App healthy: $RESPONSE"
                 break

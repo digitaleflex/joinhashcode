@@ -5,7 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import {
   Search, Globe, ChevronRight, Sparkles, TrendingUp, Trophy,
-  Cpu, Palette, BarChart3, Users,
+  Cpu, Palette, BarChart3, Users, LayoutGrid, List,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -231,9 +231,69 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
   )
 }
 
+function TalentRow({ talent }: { talent: Talent }) {
+  const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
+  const Icon = cfg.icon
+  const psychometrics = talent.psychometrics || { builderScore: 0, creatorScore: 0, strategistScore: 0, catalystScore: 0 }
+
+  const sortedScores = PROFILE_SCORES.map((p) => ({
+    ...p,
+    score: psychometrics[p.key],
+  })).sort((a, b) => b.score - a.score)
+
+  const isHybrid = sortedScores[0].score - sortedScores[1].score < 15 && sortedScores[0].score > 0
+  const displayLabel = isHybrid ? `${sortedScores[0].label} × ${sortedScores[1].label}` : cfg.label
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Link href={`/dossier?userId=${talent.id}`} className="group block">
+        <div className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${cfg.border} ${cfg.bg}`}>
+          <Avatar className="h-10 w-10 rounded-lg border border-white/10 shadow shrink-0">
+            <AvatarImage src={talent.image || ""} alt={talent.name} />
+            <AvatarFallback className="rounded-lg bg-zinc-900 text-white font-extrabold text-xs">
+              {talent.name.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0 flex items-center gap-4">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-extrabold text-sm text-white uppercase italic truncate">{talent.name}</h3>
+                <span className="font-mono text-[9px] text-zinc-500 hidden sm:inline">@{talent.pseudo || "talent"}</span>
+              </div>
+              <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600">
+                <span className="flex items-center gap-1"><Icon className="size-3" />{displayLabel}</span>
+                <span>LV.{talent.level}</span>
+                <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                {(talent.city || talent.country) && (
+                  <span className="hidden md:flex items-center gap-1">
+                    <Globe className="size-2.5" />{[talent.city, talent.country].filter(Boolean).join(", ")}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center gap-2">
+              {talent.tools.slice(0, 3).map((tool) => (
+                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+          <ChevronRight className="size-4 text-zinc-600 group-hover:text-white transition-colors shrink-0" />
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
 export function TalentsClient({ talents }: { talents: Talent[] }) {
   const [search, setSearch] = useState("")
   const [selectedClass, setSelectedClass] = useState<string>("all")
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [visibleCount, setVisibleCount] = useState(12)
   const STEP = 12
 
@@ -366,8 +426,8 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
       )}
 
       {/* Filters */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-        <div className="lg:col-span-4 relative">
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <div className="relative flex-1 w-full sm:max-w-xs">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
           <Input
             value={search}
@@ -376,7 +436,7 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
             className="input-premium pl-11 h-12 rounded-2xl text-sm placeholder:text-zinc-600 border-white/10"
           />
         </div>
-        <div className="lg:col-span-8 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
           <button
             onClick={() => setSelectedClass("all")}
             className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
@@ -407,17 +467,50 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
               </button>
             )
           })}
+          <div className="h-8 w-px bg-white/10 mx-1 hidden sm:block" />
+          <div className="flex rounded-xl border border-white/10 overflow-hidden">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`h-10 px-3 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                viewMode === "grid"
+                  ? "bg-primary text-black"
+                  : "bg-transparent text-zinc-400 hover:text-white"
+              }`}
+              title="Vue grille"
+            >
+              <LayoutGrid className="size-3.5" />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`h-10 px-3 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                viewMode === "list"
+                  ? "bg-primary text-black"
+                  : "bg-transparent text-zinc-400 hover:text-white"
+              }`}
+              title="Vue liste"
+            >
+              <List className="size-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Talents Grid */}
+      {/* Talents Grid / List */}
       {filteredTalents.length > 0 ? (
         <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {paginatedTalents.map((talent, idx) => (
-            <TalentCard key={talent.id} talent={talent} index={idx} />
-          ))}
-        </div>
+        {viewMode === "grid" ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {paginatedTalents.map((talent, idx) => (
+              <TalentCard key={talent.id} talent={talent} index={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {paginatedTalents.map((talent) => (
+              <TalentRow key={talent.id} talent={talent} />
+            ))}
+          </div>
+        )}
         {visibleCount < filteredTalents.length && (
           <div className="flex justify-center pt-4">
             <Button
