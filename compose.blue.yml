@@ -1,12 +1,13 @@
 # ────────────────────────────────────────────────────────────────
-# Blue-Green Deploy Override
-# Utilisé lors du déploiement pour démarrer le conteneur "blue"
-# à côté de l'ancien "green", puis swap via Traefik.
+# DÉPRÉCIÉ — Utilisez compose.app.yml à la place.
 #
-# Usage :
-#   docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait
-#   docker stop hashcode-web && docker rm hashcode-web
-#   docker rename hashcode-web-blue hashcode-web
+# Le déploiement Blue-Green utilise désormais les services
+# web-a / web-b définis dans compose.app.yml.  Aucun rename
+# ni fichier d'override séparé n'est nécessaire.
+#
+# Migration :
+#   docker compose -f compose.app.yml --env-file /path/to/.env.production up -d web-b --wait
+#   docker compose -f compose.app.yml stop web-a
 # ────────────────────────────────────────────────────────────────
 
 services:
@@ -14,7 +15,7 @@ services:
     image: ${HASHCODE_BLUE_IMAGE}
     container_name: hashcode-web-blue
     restart: always
-    ports: []  # Pas de binding host (évite conflit avec web)
+    ports: []
     env_file:
       - .env.production
     environment:

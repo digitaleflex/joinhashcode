@@ -14,6 +14,7 @@ env:
   APP_DIR: ${{ secrets.SSH_PATH }}
   IMAGE: "ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}"
   BACKUP_DIR: "${{ secrets.SSH_PATH }}/backups"
+  PROD_ENV: "/home/actions-runner/secrets/.env.production"
 
 jobs:
   deploy:
@@ -24,10 +25,6 @@ jobs:
     steps:
       - name: "[1/5] Pulling code & image"
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-
-          [ -f ".env.production" ] && cp .env.production "/tmp/env_${TIMESTAMP}"
-
           if [ ! -d ".git" ]; then
             git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
           else
@@ -35,19 +32,17 @@ jobs:
             git reset --hard origin/main
           fi
 
-          [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
-
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker image inspect "${{ env.IMAGE }}" >/dev/null 2>&1 || docker pull "${{ env.IMAGE }}"
 
       - name: "[2/5] Ensure DB is running"
         run: |
-          docker compose --env-file .env.production up -d db --wait
+          docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db --wait
 
       - name: "[3/5] Backup DB + migrate"
         run: |
           set -a
-          . .env.production
+          source ${{ env.PROD_ENV }}
           set +a
 
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -57,28 +52,53 @@ jobs:
           docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
             "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
 
-          # Use existing web container for migrations to avoid OOM on small VPS
-          if docker ps -q --filter name=hashcode-web | grep -q .; then
-            docker exec hashcode-web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
-          else
-            docker compose --env-file .env.production run --rm \
-              -e DATABASE_URL \
-              -e DIRECT_URL \
-              -e CI=true \
-              web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
-          fi
+          DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public"
+          docker run --rm --network hashcode-db-network \
+            -e DATABASE_URL="${DB_URL}" \
+            -e DIRECT_URL="${DB_URL}" \
+            -e NODE_ENV=production \
+            "${{ env.IMAGE }}" \
+            sh -c "npx prisma migrate deploy && npx tsx scripts/check-auth-limits.ts || true"
 
       - name: "[4/5] Blue-Green swap"
         run: |
-          export HASHCODE_BLUE_IMAGE="${{ env.IMAGE }}"
+          # Determine active / inactive container
+          A_RUNNING=$(docker ps -q --filter name=hashcode-web-a | grep -q . && echo "yes" || echo "no")
+          B_RUNNING=$(docker ps -q --filter name=hashcode-web-b | grep -q . && echo "yes" || echo "no")
 
-          # Start web-blue with distinct project name to avoid orphan-detection conflicts
-          docker compose -p hashcode-blue --env-file .env.production -f compose.blue.yml up -d web-blue --wait --timeout 120
+          if [ "$A_RUNNING" = "yes" ] && [ "$B_RUNNING" = "no" ]; then
+            ACTIVE="a"; INACTIVE="b"
+          elif [ "$B_RUNNING" = "yes" ] && [ "$A_RUNNING" = "no" ]; then
+            ACTIVE="b"; INACTIVE="a"
+          elif [ "$A_RUNNING" = "yes" ] && [ "$B_RUNNING" = "yes" ]; then
+            echo "Both running — cleaning B, deploying to B"
+            docker compose -f compose.app.yml stop web-b
+            docker compose -f compose.app.yml rm -f web-b
+            ACTIVE="a"; INACTIVE="b"
+          else
+            echo "No containers running — first deploy to A"
+            ACTIVE=""; INACTIVE="a"
+          fi
 
-          echo "Switching traffic → blue..."
-          docker kill hashcode-web 2>/dev/null || true
-          docker rm hashcode-web 2>/dev/null || true
-          docker rename hashcode-web-blue hashcode-web
+          echo "Active: web-${ACTIVE:-none}, Deploying to: web-${INACTIVE}"
+
+          if [ "$INACTIVE" = "a" ]; then
+            export HASHCODE_WEB_A_IMAGE="${{ env.IMAGE }}"
+          else
+            export HASHCODE_WEB_B_IMAGE="${{ env.IMAGE }}"
+          fi
+
+          docker compose -f compose.app.yml \
+            --env-file ${{ env.PROD_ENV }} \
+            up -d "web-${INACTIVE}" --wait --timeout 120
+
+          sleep 2
+
+          if [ -n "$ACTIVE" ]; then
+            echo "Switching traffic → web-${INACTIVE}..."
+            docker compose -f compose.app.yml stop "web-${ACTIVE}"
+            docker compose -f compose.app.yml rm -f "web-${ACTIVE}"
+          fi
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 
@@ -86,9 +106,19 @@ jobs:
         run: |
           MAX_RETRIES=8
           RETRY_COUNT=0
+
+          if docker ps -q --filter name=hashcode-web-a | grep -q .; then
+            CONTAINER="hashcode-web-a"
+          elif docker ps -q --filter name=hashcode-web-b | grep -q .; then
+            CONTAINER="hashcode-web-b"
+          else
+            echo "::error::No web container running after swap"
+            exit 1
+          fi
+
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
             RETRY_COUNT=$((RETRY_COUNT + 1))
-            RESPONSE=$(docker exec hashcode-web node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(t=>{console.log(t);process.exit(0)}).catch(()=>process.exit(1))" 2>/dev/null || echo "offline")
+            RESPONSE=$(docker exec "$CONTAINER" node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(t=>{console.log(t);process.exit(0)}).catch(()=>process.exit(1))" 2>/dev/null || echo "offline")
             if echo "$RESPONSE" | grep -q "online"; then
               echo "✅ App healthy: $RESPONSE"
               break
@@ -96,9 +126,10 @@ jobs:
             echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES — retrying in 3s..."
             sleep 3
           done
+
           if ! echo "$RESPONSE" | grep -q "online"; then
             echo "::error::App not responding after swap ($MAX_RETRIES attempts)"
-            docker compose --env-file .env.production logs --tail=50 web || true
+            docker logs "$CONTAINER" --tail 50 2>/dev/null || true
             exit 1
           fi
 

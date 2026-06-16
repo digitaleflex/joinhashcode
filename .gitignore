@@ -29,6 +29,9 @@ yarn-error.log*
 compose.local.yaml
 dev.sh
 
+# DB backups
+backups/
+
 # Local env files
 .env
 .env.local

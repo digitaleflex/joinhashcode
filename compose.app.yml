@@ -1,0 +1,85 @@
+# ────────────────────────────────────────────────────────────────
+# Application web (stack indépendante de la base de données)
+# Deux services fixes web-a / web-b pour déploiement Blue-Green
+# sans docker rename — Traefik aiguille le trafic automatiquement.
+#
+# Lancement (production) :
+#   docker compose -f compose.app.yml \
+#     --env-file /home/actions-runner/secrets/.env.production \
+#     up -d web-b --wait
+#
+# Variables Docker (DB_USER, DB_PASSWORD, APP_DOMAIN…) injectées
+# via --env-file.  Secrets applicatifs chargés via env_file absolu.
+# ────────────────────────────────────────────────────────────────
+
+services:
+  web-a:
+    image: ${HASHCODE_WEB_A_IMAGE:-hashcode-web:latest}
+    container_name: hashcode-web-a
+    restart: always
+    env_file:
+      - /home/actions-runner/secrets/.env.production
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
+      DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
+      NODE_ENV: production
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - uploads_data:/app/public/uploads
+    networks:
+      - db-network
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hashcode-web.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
+      - "traefik.http.routers.hashcode-web.entrypoints=websecure"
+      - "traefik.http.routers.hashcode-web.tls=true"
+      - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+
+  web-b:
+    image: ${HASHCODE_WEB_B_IMAGE:-hashcode-web:latest}
+    container_name: hashcode-web-b
+    restart: always
+    env_file:
+      - /home/actions-runner/secrets/.env.production
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
+      DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
+      NODE_ENV: production
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - uploads_data:/app/public/uploads
+    networks:
+      - db-network
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hashcode-web.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
+      - "traefik.http.routers.hashcode-web.entrypoints=websecure"
+      - "traefik.http.routers.hashcode-web.tls=true"
+      - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+
+volumes:
+  uploads_data:
+    external: true
+    name: hashcode-uploads-data
+
+networks:
+  db-network:
+    external: true
+    name: hashcode-db-network
+  proxy:
+    external: true
+    name: proxy
