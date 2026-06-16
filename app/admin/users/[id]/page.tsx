@@ -6,6 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { UserRowActions } from "@/components/admin/UserRowActions"
+
+export const dynamic = "force-dynamic"
+
 import { 
   ChevronLeft, 
   BrainCircuit, 

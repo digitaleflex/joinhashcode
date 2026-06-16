@@ -3,6 +3,8 @@ import { ScrollText, User, Clock, Filter } from "lucide-react"
 import { formatDistanceToNow, format } from "date-fns"
 import { fr } from "date-fns/locale"
 
+export const dynamic = "force-dynamic"
+
 const ACTION_COLORS: Record<string, { bg: string; color: string; hex: string }> = {
   USER_SIGNIN:                { bg: "bg-zinc-700/40 border-zinc-600/30",       color: "text-zinc-300",   hex: "#a1a1aa" },
   USER_SIGNUP:                { bg: "bg-emerald-400/10 border-emerald-400/20", color: "text-emerald-400", hex: "#34d399" },

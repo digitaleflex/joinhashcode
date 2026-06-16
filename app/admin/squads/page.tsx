@@ -4,6 +4,8 @@ import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { SquadRowActions } from "@/components/admin/squads/SquadRowActions"
 
+export const dynamic = "force-dynamic"
+
 function healthLabel(cohesion: number, memberCount: number): { label: string; color: string; bg: string } {
   if (memberCount < 3 || cohesion < 0.2)
     return { label: "Critique", color: "text-red-400", bg: "bg-red-400/10 border-red-400/20" }

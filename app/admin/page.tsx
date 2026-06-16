@@ -3,6 +3,8 @@ import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair,
 import Link from "next/link"
 import { AdminLiveFeed } from "@/components/admin/AdminLiveFeed"
 
+export const dynamic = "force-dynamic"
+
 export default async function AdminPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
   const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
