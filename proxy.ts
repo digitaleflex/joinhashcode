@@ -5,7 +5,7 @@ import { getSessionCookie } from "better-auth/cookies";
 function buildCSP(nonce: string): string {
   // Next.js (especially with Turbopack) and React require 'unsafe-eval' in some environments even in prod-like setups.
   // Including it universally to resolve the "eval() is not supported" error on VPS.
-  const scriptSrc = `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
+  const scriptSrc = `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
 
   return [
     "default-src 'self'",
@@ -50,6 +50,7 @@ export async function proxy(request: NextRequest) {
     requestHeaders.set("x-nonce", nonce);
     const response = NextResponse.next({ request: { headers: requestHeaders } });
     response.headers.set("Content-Security-Policy", buildCSP(nonce));
+    response.headers.set("x-nonce", nonce);
     return response;
   }
 
@@ -129,6 +130,7 @@ export async function proxy(request: NextRequest) {
   requestHeaders.set("x-nonce", nonce);
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", buildCSP(nonce));
+  response.headers.set("x-nonce", nonce);
   return response;
 }
 
