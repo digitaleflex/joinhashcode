@@ -21,7 +21,7 @@ const pool =
       connectionString: process.env.DATABASE_URL,
       max: 10,                       // Limit concurrent connections to avoid overwhelming remote DB
       idleTimeoutMillis: 60000,      // Keep idle connections alive longer for reuse
-      connectionTimeoutMillis: 5000, // 5s timeout — loading.tsx gère l'attente utilisateur
+      connectionTimeoutMillis: 15000, // 15s timeout for remote VPS latency
       ssl: isLocalDb
         ? false
         : {
