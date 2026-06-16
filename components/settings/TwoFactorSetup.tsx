@@ -28,7 +28,9 @@ export function TwoFactorSetup({ user }: { user: any }) {
   const handleStartSetup = async () => {
     setIsPending(true);
     try {
-      const { data, error } = await authClient.twoFactor.enable({});
+      const { data, error } = await authClient.twoFactor.enable({
+        password: "",
+      });
 
       if (error) {
         toast.error(error.message || "Erreur d'authentification");
@@ -70,7 +72,7 @@ export function TwoFactorSetup({ user }: { user: any }) {
 
     setIsPending(true);
     try {
-      const { error } = await authClient.twoFactor.disable({});
+      const { error } = await authClient.twoFactor.disable({ password: "" });
 
       if (error) {
         toast.error(error.message);
