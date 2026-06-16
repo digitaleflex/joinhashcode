@@ -13,11 +13,16 @@ on:
       SSH_PATH: { required: true }
       GH_PAT: { required: true }
 
+env:
+  APP_DIR: ${{ secrets.SSH_PATH }}
+  IMAGE: "ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}"
+  BACKUP_DIR: "${{ secrets.SSH_PATH }}/backups"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: "SSH: Deploy, Verify and Maintain"
+      - name: "SSH: Smart Deploy with Rollback Safety"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -27,88 +32,116 @@ jobs:
           command_timeout: 15m
           script: |
             set -euo pipefail
-            APP_DIR="${{ secrets.SSH_PATH }}"
-            IMAGE="ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}"
+            cd "${{ env.APP_DIR }}"
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-            cd "$APP_DIR"
+            # ── Load env vars for DB ops ──────────────────────────────────────
+            export $(grep -v '^\s*#' .env.production | grep -v '^\s*$' | xargs)
 
-            # ── [1/5] Pull new image ──────────────────────────────────────────
-            echo "--- [1/5] Pulling ${IMAGE} ---"
-            [ -f ".env.production" ] && cp .env.production /tmp/.env.prod.bak
+            # ══════════════════════════════════════════════════════════════════
+            # [1/6] Pull source & image
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [1/6] Pulling source ($TIMESTAMP) ==="
 
+            # Preserve .env before git reset
+            [ -f ".env.production" ] && cp .env.production "/tmp/env_${TIMESTAMP}"
+
+            # Shallow fetch: 1 commit suffit pour un déploiement
             if [ ! -d ".git" ]; then
-              git clone -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
+              git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
             else
-              git reset --hard && git pull origin main
+              git fetch --depth 1 origin main
+              git reset --hard origin/main
             fi
 
-            [ -f "/tmp/.env.prod.bak" ] && mv /tmp/.env.prod.bak .env.production
+            # Restore .env.production (ne pas versionner les secrets)
+            [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
+
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-            HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production pull
+            HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production pull web
 
-            # ── [2/5] Migrate BEFORE starting the app ────────────────────────
-            echo "--- [2/5] Running database migrations ---"
-            HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
-              -e DATABASE_URL \
-              -e DIRECT_URL \
-              web sh -c "npx prisma migrate deploy"
+            # ══════════════════════════════════════════════════════════════════
+            # [2/6] Backup DB (pg_dump) avant toute migration
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [2/6] Backing up DB ==="
+            mkdir -p "${{ env.BACKUP_DIR }}"
+            docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
+              -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
+            docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
+              "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
+            echo "Saved: backups/pre_migrate_${TIMESTAMP}.dump"
 
-            # ── [2.5/5] Audit Better Auth limits (warn only, never blocks) ───
-            echo "--- [2.5/5] Checking org/member limits ---"
-            HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
+            # ══════════════════════════════════════════════════════════════════
+            # [3/6] DB ops: migrate + audit + seed (1 seul container = +rapide)
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [3/6] Running DB operations ==="
+            HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
               -e DATABASE_URL \
               -e DIRECT_URL \
               -e CI=true \
-              web sh -c "npx tsx scripts/check-auth-limits.ts" || true
+              web sh << 'DB_OPS'
+                set -e
+                echo "--- prisma migrate deploy ---"
+                npx prisma migrate deploy
 
-            # ── [3/5] Seed (idempotent upserts only) ─────────────────────────
-            echo "--- [3/5] Running seed ---"
-            HASHCODE_IMAGE="$IMAGE" docker compose --env-file .env.production run --rm \
-              -e DATABASE_URL \
-              -e DIRECT_URL \
-              web sh -c "npx prisma db seed"
+                echo "--- check auth limits ---"
+                npx tsx scripts/check-auth-limits.ts || true
 
-            # ── [4/5] Start / restart the application ────────────────────────
-            echo "--- [4/5] Starting application ---"
-            export HASHCODE_IMAGE="$IMAGE"
-            docker compose --env-file .env.production up -d
+                echo "--- prisma db seed (upsert safe) ---"
+                npx prisma db seed
+              DB_OPS
 
-            # ── [5/5] Verify Health & Rollback if failure ───────────────────
-            echo "--- [5/5] Running health check ---"
+            # ══════════════════════════════════════════════════════════════════
+            # [4/6] Start app (--wait = attend le healthcheck Docker)
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [4/6] Starting application ==="
+            export HASHCODE_IMAGE="${{ env.IMAGE }}"
+            docker compose --env-file .env.production up -d --wait --timeout 120
+
+            # ══════════════════════════════════════════════════════════════════
+            # [5/6] Health check + Rollback si échec
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [5/6] Health check ==="
             HEALTHY=false
-            # Phase 1: wait for container to be running (up to 60s)
             for i in $(seq 1 12); do
-              if docker inspect -f '{{.State.Status}}' hashcode-web 2>/dev/null | grep -q "running"; then
-                echo "Container is running after $((i * 5))s"
-                break
-              fi
-              echo "Waiting for container to start... ($i/12)"
               sleep 5
-            done
-
-            # Phase 2: check HTTP health endpoint (up to 90s)
-            for i in $(seq 1 18); do
-              RESPONSE=$(docker compose --env-file .env.production exec -T web node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(console.log).catch(()=>console.log('offline'))" 2>/dev/null || node -e "console.log('offline')")
+              RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
               if echo "$RESPONSE" | grep -q "online"; then
-                echo "App healthy: $RESPONSE"
+                echo "✅ Healthy after $((i * 5))s: $RESPONSE"
                 HEALTHY=true
                 break
               fi
-              echo "Waiting for app to respond... ($i/18)"
-              sleep 5
+              echo "Waiting... ($i/12)"
             done
 
             if [ "$HEALTHY" = "false" ]; then
-              echo "::error::Health check timed out. Initiating rollback..."
+              echo "::error::Health check failed. Rolling back..."
+
+              # 1. Logs pour debug
               docker compose --env-file .env.production logs --tail=100 web || true
-              
-              echo "Rolling back to :latest image..."
+
+              # 2. Rollback app → latest image
               LATEST_IMAGE="ghcr.io/${{ github.repository }}:latest"
               export HASHCODE_IMAGE="$LATEST_IMAGE"
-              docker compose --env-file .env.production up -d web
-              echo "Rollback complete."
+              docker compose --env-file .env.production up -d
+
+              # 3. Rollback DB → restore backup
+              echo "Restoring DB from backup..."
+              BACKUP_FILE=$(ls -t "${{ env.BACKUP_DIR }}" | head -1)
+              if [ -n "$BACKUP_FILE" ]; then
+                docker exec -i hashcode-db pg_restore -U "${DB_USER}" -d "${DB_NAME}" \
+                  --clean --if-exists < "${{ env.BACKUP_DIR }}/${BACKUP_FILE}" 2>&1 || true
+                echo "DB restored from: $BACKUP_FILE"
+              fi
+
               exit 1
             fi
 
-            docker image prune -f
-            echo "Deployment and verification completed successfully."
+            # ══════════════════════════════════════════════════════════════════
+            # [6/6] Cleanup: garder les 10 derniers backups
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [6/6] Cleanup ==="
+            ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
+            docker image prune -f --filter "until=24h"
+
+            echo "✅ Deploy complete: ${{ inputs.image_tag }}"
