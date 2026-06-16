@@ -60,7 +60,7 @@ jobs:
           docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
             "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
 
-          HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
+          docker compose --env-file .env.production run --rm \
             -e DATABASE_URL \
             -e DIRECT_URL \
             -e CI=true \
@@ -68,13 +68,13 @@ jobs:
 
       - name: "[4/5] Blue-Green swap"
         run: |
-          export HASHCODE_IMAGE="${{ env.IMAGE }}"
-          sudo docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
+          export HASHCODE_BLUE_IMAGE="${{ env.IMAGE }}"
+          docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
 
           echo "Switching traffic → blue..."
-          sudo docker stop hashcode-web 2>/dev/null || true
-          sudo docker rm hashcode-web 2>/dev/null || true
-          sudo docker rename hashcode-web-blue hashcode-web
+          docker stop hashcode-web 2>/dev/null || true
+          docker rm hashcode-web 2>/dev/null || true
+          docker rename hashcode-web-blue hashcode-web
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 

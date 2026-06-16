@@ -11,7 +11,7 @@
 
 services:
   web-blue:
-    image: ${HASHCODE_IMAGE}
+    image: ${HASHCODE_BLUE_IMAGE}
     container_name: hashcode-web-blue
     restart: always
     ports: []  # Pas de binding host (évite conflit avec web)
