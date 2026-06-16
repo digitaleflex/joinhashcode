@@ -71,11 +71,14 @@ jobs:
       - name: "[4/5] Blue-Green swap"
         run: |
           export HASHCODE_BLUE_IMAGE="${{ env.IMAGE }}"
+
+          # Kill + remove old container first to avoid compose trying to stop it (permission denied)
+          docker kill hashcode-web 2>/dev/null || true
+          docker rm hashcode-web 2>/dev/null || true
+
           docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
 
           echo "Switching traffic → blue..."
-          docker stop hashcode-web 2>/dev/null || true
-          docker rm hashcode-web 2>/dev/null || true
           docker rename hashcode-web-blue hashcode-web
 
           echo "✅ Blue-Green swap complete. Zero downtime."
