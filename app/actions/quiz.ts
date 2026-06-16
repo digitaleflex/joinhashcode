@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "../../generated/prisma/client";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
 import { logActivity } from "@/lib/activity-log";
@@ -229,6 +229,9 @@ export async function submitQuiz(rawData: unknown) {
       },
       request: mockRequest,
     });
+
+    // Clear middleware cookie so the redirect funnel picks up the new class
+    try { (await cookies()).delete("hc_mw"); } catch { /* ignore */ }
 
     return {
       success: true,

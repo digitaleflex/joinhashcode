@@ -64,20 +64,28 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(signinUrl);
   }
 
-  // We could fetch session here, but to avoid 503 timeouts, we rely on the destination page 
-  // to perform the heavy validation. For onboarding/quiz redirects, we only check 
-  // if the session cookie is present.
-  
-  // NOTE: If we REALLY need user data (banned check, onboarding step) in middleware, 
-  // we must ensure the fetch doesn't stall.
-  if (sessionCookie) {
+  // Read lightweight middleware cookie to avoid DB hit on every request
+  const mwCookie = request.cookies.get("hc_mw")?.value;
+  let mwUser: Record<string, unknown> | null = null;
+  if (mwCookie) {
+    try {
+      mwUser = JSON.parse(mwCookie);
+    } catch {
+      // corrupted cookie — ignore
+    }
+  }
+
+  if (sessionCookie && mwUser) {
+    sessionData = { user: mwUser };
+  } else if (sessionCookie) {
+    // Cold start or expired cookie: fetch from API (sets the cookie for next time)
     try {
       const requestHeaders = new Headers(request.headers);
       const baseUrl = request.nextUrl.origin;
       const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
         headers: requestHeaders,
         cache: 'no-store',
-        signal: AbortSignal.timeout(5000) // Relaxed 5s timeout to prevent 503 hang under latency
+        signal: AbortSignal.timeout(10000), // generous 10s for cold start
       });
 
       if (response.ok) {

@@ -31,10 +31,26 @@ export async function GET() {
       role: user.role,
     };
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       session,
       user: safeUser,
     });
+
+    // Set middleware cookie for subsequent requests (avoids DB hit on every page)
+    response.cookies.set("hc_mw", JSON.stringify({
+      banned: safeUser.banned,
+      currentSituation: safeUser.currentSituation,
+      class: safeUser.class,
+      role: safeUser.role,
+    }), {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 300, // 5min — short enough to avoid stale redirects
+    });
+
+    return response;
   } catch (error: unknown) {
     console.error("🟢 [Middleware Session API] Error getting unified session/user:", error);
     return NextResponse.json({ session: null, user: null, error: "Erreur interne du serveur" }, { status: 500 });

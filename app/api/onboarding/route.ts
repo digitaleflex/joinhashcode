@@ -84,6 +84,9 @@ export async function PATCH(req: Request) {
         situation: parsed.data.currentSituation
     });
 
+    const cookieStore = await cookies();
+    cookieStore.delete("hc_mw");
+
     // Send guidance email if onboarding is "complete" (mainObjective provided)
     if (parsed.data.mainObjective) {
       emailService.sendOnboardingCompletedEmail({
@@ -91,8 +94,7 @@ export async function PATCH(req: Request) {
         name: updatedUser.name,
       }).catch(err => console.error("[EMAIL_ERROR] sendOnboardingCompletedEmail", err));
 
-      // Referral attribution — only on first completion (referrerId not yet set)
-      const cookieStore = await cookies();
+        // Referral attribution — only on first completion (referrerId not yet set)
       const refCode = cookieStore.get("hashcode_ref")?.value;
       if (refCode) {
         const currentUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { referrerId: true } });
