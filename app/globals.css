@@ -437,6 +437,17 @@
   .low-power .btn-primary-glow {
     @apply shadow-none scale-100 brightness-100;
   }
+
+  /* OS-level reduced motion — disable decorative animations */
+  @media (prefers-reduced-motion: reduce) {
+    .holographic-sheen::after,
+    .animate-hud-pulse,
+    .animate-laser-sweep,
+    .animate-grid-drift,
+    .animate-hazard-sweep {
+      animation: none !important;
+    }
+  }
 }
 
 
