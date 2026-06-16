@@ -1,22 +1,19 @@
-"use client";
+"use client"
 
-import NextError from "next/error";
-import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs"
+import NextError from "next/error"
+import { useEffect } from "react"
 
-export default function GlobalError({
-  error,
-}: {
-  error: Error & { digest?: string };
-}) {
+export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
-    console.error(error);
-  }, [error]);
+    Sentry.captureException(error)
+  }, [error])
 
   return (
-    <html lang="fr">
+    <html>
       <body>
-        <NextError statusCode={0} />
+        <NextError statusCode={500} title="Une erreur inattendue s'est produite" />
       </body>
     </html>
-  );
+  )
 }

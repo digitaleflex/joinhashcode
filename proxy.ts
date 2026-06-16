@@ -6,6 +6,10 @@ export async function proxy(request: NextRequest) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
+  if (process.env.MAINTENANCE_MODE === "true" && request.nextUrl.pathname !== "/maintenance") {
+    return NextResponse.redirect(new URL("/maintenance", request.url))
+  }
+
   const isProtectedPath =
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/missions') ||
@@ -74,6 +78,9 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isProtectedPath && !request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.includes('.')) {
+      if (!user.betaKeyId && !isBetaAccessPath) {
+        return NextResponse.redirect(new URL("/beta-access", request.url));
+      }
       if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
         return NextResponse.redirect(new URL("/onboarding", request.url));
       }
