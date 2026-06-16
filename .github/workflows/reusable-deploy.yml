@@ -105,12 +105,20 @@ jobs:
             # [4/5] Final health check
             # ══════════════════════════════════════════════════════════════════
             echo "=== [4/5] Final health check ==="
-            sleep 3
-            RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
-            if echo "$RESPONSE" | grep -q "online"; then
-              echo "✅ App healthy: $RESPONSE"
-            else
-              echo "::error::App not responding after swap"
+            MAX_RETRIES=8
+            RETRY_COUNT=0
+            while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
+              if echo "$RESPONSE" | grep -q "online"; then
+                echo "✅ App healthy: $RESPONSE"
+                break
+              fi
+              echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES — retrying in 3s..."
+              sleep 3
+            done
+            if ! echo "$RESPONSE" | grep -q "online"; then
+              echo "::error::App not responding after swap ($MAX_RETRIES attempts)"
               docker compose --env-file .env.production logs --tail=50 web || true
               exit 1
             fi
