@@ -1,0 +1,33 @@
+# ────────────────────────────────────────────────────────────────
+# Docker Registry Mirror (pull-through cache)
+# Cache local des images Docker pour accélérer les déploiements.
+#
+# Setup (one-time on VPS) :
+#   1. Lancer le registry : docker compose -f compose.registry.yml up -d
+#   2. Configurer Docker :
+#      echo '{"registry-mirrors":["http://127.0.0.1:5000"]}' > /etc/docker/daemon.json
+#      systemctl restart docker
+#   3. Vérifier : docker pull ghcr.io/digitaleflex/joinhashcode:latest
+#      → Les layers sont cachés localement après le 1er pull
+#
+# Performance :
+#   - 1er pull : normale (depuis ghcr.io)
+#   - Pulls suivants : INSTANTANÉS (depuis le cache local)
+# ────────────────────────────────────────────────────────────────
+
+services:
+  registry-cache:
+    image: registry:2
+    container_name: hashcode-registry
+    restart: always
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      REGISTRY_PROXY_REMOTEURL: https://ghcr.io
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+    volumes:
+      - registry_cache:/var/lib/registry
+
+volumes:
+  registry_cache:
+    name: hashcode-registry-cache

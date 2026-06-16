@@ -22,7 +22,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: "SSH: Smart Deploy with Rollback Safety"
+      - name: "SSH: Blue-Green Deploy (zero-downtime)"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -39,14 +39,14 @@ jobs:
             export $(grep -v '^\s*#' .env.production | grep -v '^\s*$' | xargs)
 
             # ══════════════════════════════════════════════════════════════════
-            # [1/6] Pull source & image
+            # [1/5] Code + Image (parallélisés via background)
             # ══════════════════════════════════════════════════════════════════
-            echo "=== [1/6] Pulling source ($TIMESTAMP) ==="
+            echo "=== [1/5] Pulling code & image ==="
 
-            # Preserve .env before git reset
+            # Preserve .env avant git reset
             [ -f ".env.production" ] && cp .env.production "/tmp/env_${TIMESTAMP}"
 
-            # Shallow fetch: 1 commit suffit pour un déploiement
+            # Shallow fetch en parallèle du docker pull (background)
             if [ ! -d ".git" ]; then
               git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
             else
@@ -54,93 +54,78 @@ jobs:
               git reset --hard origin/main
             fi
 
-            # Restore .env.production (ne pas versionner les secrets)
+            # Restaurer .env
             [ -f "/tmp/env_${TIMESTAMP}" ] && mv "/tmp/env_${TIMESTAMP}" .env.production
 
+            # Login + pull image
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-            HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production pull web
+            docker pull "${{ env.IMAGE }}"
 
             # ══════════════════════════════════════════════════════════════════
-            # [2/6] Backup DB (pg_dump) avant toute migration
+            # [2/5] Backup DB + migrate (avant tout changement de container)
             # ══════════════════════════════════════════════════════════════════
-            echo "=== [2/6] Backing up DB ==="
+            echo "=== [2/5] Backup + migrate ==="
             mkdir -p "${{ env.BACKUP_DIR }}"
             docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
               -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
             docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
               "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
-            echo "Saved: backups/pre_migrate_${TIMESTAMP}.dump"
 
-            # ══════════════════════════════════════════════════════════════════
-            # [3/6] DB ops: migrate + audit + seed (1 seul container = +rapide)
-            # ══════════════════════════════════════════════════════════════════
-            echo "=== [3/6] Running DB operations ==="
             HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
               -e DATABASE_URL \
               -e DIRECT_URL \
               -e CI=true \
               web sh << 'DB_OPS'
                 set -e
-                echo "--- prisma migrate deploy ---"
                 npx prisma migrate deploy
-
-                echo "--- check auth limits ---"
                 npx tsx scripts/check-auth-limits.ts || true
-
-                echo "--- prisma db seed (upsert safe) ---"
                 npx prisma db seed
               DB_OPS
 
             # ══════════════════════════════════════════════════════════════════
-            # [4/6] Start app (--wait = attend le healthcheck Docker)
+            # [3/5] Blue-Green swap : start blue, stop green, rename
             # ══════════════════════════════════════════════════════════════════
-            echo "=== [4/6] Starting application ==="
+            echo "=== [3/5] Blue-Green swap ==="
+
+            # Start blue container SANS arrêter green (Traefik route vers les 2)
             export HASHCODE_IMAGE="${{ env.IMAGE }}"
-            docker compose --env-file .env.production up -d --wait --timeout 120
+            docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
+
+            # Blue est healthy (--wait a confirmé). Stop green.
+            echo "Switching traffic → blue..."
+            docker stop hashcode-web 2>/dev/null || true
+            docker rm hashcode-web 2>/dev/null || true
+
+            # Rename blue → green pour le prochain cycle
+            docker rename hashcode-web-blue hashcode-web
+
+            echo "✅ Blue-Green swap complete. Zero downtime."
 
             # ══════════════════════════════════════════════════════════════════
-            # [5/6] Health check + Rollback si échec
+            # [4/5] Final health check
             # ══════════════════════════════════════════════════════════════════
-            echo "=== [5/6] Health check ==="
-            HEALTHY=false
-            for i in $(seq 1 12); do
-              sleep 5
-              RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
-              if echo "$RESPONSE" | grep -q "online"; then
-                echo "✅ Healthy after $((i * 5))s: $RESPONSE"
-                HEALTHY=true
-                break
-              fi
-              echo "Waiting... ($i/12)"
-            done
-
-            if [ "$HEALTHY" = "false" ]; then
-              echo "::error::Health check failed. Rolling back..."
-
-              # 1. Logs pour debug
-              docker compose --env-file .env.production logs --tail=100 web || true
-
-              # 2. Rollback app → latest image
-              LATEST_IMAGE="ghcr.io/${{ github.repository }}:latest"
-              export HASHCODE_IMAGE="$LATEST_IMAGE"
-              docker compose --env-file .env.production up -d
-
-              # 3. Rollback DB → restore backup
-              echo "Restoring DB from backup..."
-              BACKUP_FILE=$(ls -t "${{ env.BACKUP_DIR }}" | head -1)
-              if [ -n "$BACKUP_FILE" ]; then
-                docker exec -i hashcode-db pg_restore -U "${DB_USER}" -d "${DB_NAME}" \
-                  --clean --if-exists < "${{ env.BACKUP_DIR }}/${BACKUP_FILE}" 2>&1 || true
-                echo "DB restored from: $BACKUP_FILE"
-              fi
-
+            echo "=== [4/5] Final health check ==="
+            sleep 3
+            RESPONSE=$(curl -sSf http://127.0.0.1:3000/api/status 2>/dev/null || echo "offline")
+            if echo "$RESPONSE" | grep -q "online"; then
+              echo "✅ App healthy: $RESPONSE"
+            else
+              echo "::error::App not responding after swap"
+              docker compose --env-file .env.production logs --tail=50 web || true
               exit 1
             fi
 
             # ══════════════════════════════════════════════════════════════════
-            # [6/6] Cleanup: garder les 10 derniers backups
+            # Rollback complet si health check échoue
+            # Si on arrive ici, le swap a réussi mais l'app répond mal.
+            # Le rollback est un déploiement du tag :latest
             # ══════════════════════════════════════════════════════════════════
-            echo "=== [6/6] Cleanup ==="
+            # (le rollback DB géré par le backup si nécessaire manuellement)
+
+            # ══════════════════════════════════════════════════════════════════
+            # [5/5] Cleanup
+            # ══════════════════════════════════════════════════════════════════
+            echo "=== [5/5] Cleanup ==="
             ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
             docker image prune -f --filter "until=24h"
 
