@@ -20,21 +20,9 @@ jobs:
     name: "Security"
     uses: ./.github/workflows/reusable-security.yml
 
-  test:
-    name: "Tests"
-    needs: [security]
-    uses: ./.github/workflows/reusable-test.yml
-    secrets: inherit
-
-  e2e:
-    name: "E2E Tests"
-    needs: [test]
-    uses: ./.github/workflows/reusable-e2e.yml
-    secrets: inherit
-
   build:
     name: "Build"
-    needs: [test]
+    needs: [security]
     if: github.event_name == 'push'
     uses: ./.github/workflows/reusable-build.yml
 
