@@ -73,12 +73,7 @@ jobs:
               -e DATABASE_URL \
               -e DIRECT_URL \
               -e CI=true \
-              web sh << 'DB_OPS'
-                set -e
-                npx prisma migrate deploy
-                npx tsx scripts/check-auth-limits.ts || true
-                npx prisma db seed
-              DB_OPS
+              web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
 
             # ══════════════════════════════════════════════════════════════════
             # [3/5] Blue-Green swap
