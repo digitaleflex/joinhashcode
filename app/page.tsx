@@ -1,9 +1,7 @@
 import dynamic from "next/dynamic"
 import { Suspense } from "react"
 import { Nav } from "@/components/landing/nav"
-import { Hero } from "@/components/landing/hero"
-import { ActivityFeed } from "@/components/landing/activity-feed"
-import { getLandingStats } from "@/lib/actions/landing-stats"
+import { HeroSection } from "@/components/landing/hero-section"
 
 export const revalidate = 3600 // Re-calculer les stats toutes les heures
 
@@ -25,26 +23,13 @@ const Faq = dynamic(() => import("@/components/landing/faq").then(m => ({ defaul
 const FinalCta = dynamic(() => import("@/components/landing/final-cta").then(m => ({ default: m.FinalCta })))
 const Footer = dynamic(() => import("@/components/landing/footer").then(m => ({ default: m.Footer })))
 
-export default async function HomePage() {
-  const stats = await getLandingStats()
-
-  // Conversion des dates en string pour le client
-  const serializedActivities = stats.recentActivities.map(a => ({
-    ...a,
-    createdAt: a.createdAt.toISOString()
-  }))
-
+export default function HomePage() {
   return (
     <main className="min-h-screen bg-background">
       <Nav />
-      <Suspense fallback={<div className="h-96 w-full" />}>
-        <Hero 
-          totalMembers={stats.totalMembers} 
-          realCount={stats.realUserCount} 
-          classCounts={stats.classCounts} 
-        />
+      <Suspense fallback={<div className="min-h-screen w-full" />}>
+        <HeroSection />
       </Suspense>
-      <ActivityFeed initialActivities={serializedActivities} />
       <Suspense fallback={<div className="h-96 w-full" />}>
         <HowItWorks />
       </Suspense>
@@ -53,6 +38,9 @@ export default async function HomePage() {
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <SquadDiscoverySection />
+      </Suspense>
+      <Suspense fallback={<div className="h-96 w-full" />}>
+        <Vision />
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <Faq />
