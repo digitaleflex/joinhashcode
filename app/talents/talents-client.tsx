@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import {
@@ -234,6 +234,8 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
 export function TalentsClient({ talents }: { talents: Talent[] }) {
   const [search, setSearch] = useState("")
   const [selectedClass, setSelectedClass] = useState<string>("all")
+  const [visibleCount, setVisibleCount] = useState(12)
+  const STEP = 12
 
   const filteredTalents = useMemo(() => {
     return talents.filter((t) => {
@@ -248,6 +250,12 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
       return matchesSearch && matchesClass
     })
   }, [talents, search, selectedClass])
+
+  const paginatedTalents = useMemo(() => filteredTalents.slice(0, visibleCount), [filteredTalents, visibleCount])
+
+  useEffect(() => {
+    setVisibleCount(12)
+  }, [search, selectedClass])
 
   const classCounts = useMemo(() => {
     const counts: Record<string, number> = { builder: 0, creator: 0, strategist: 0, catalyst: 0, unknown: 0 }
@@ -404,11 +412,25 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
 
       {/* Talents Grid */}
       {filteredTalents.length > 0 ? (
+        <>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredTalents.map((talent, idx) => (
+          {paginatedTalents.map((talent, idx) => (
             <TalentCard key={talent.id} talent={talent} index={idx} />
           ))}
         </div>
+        {visibleCount < filteredTalents.length && (
+          <div className="flex justify-center pt-4">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => setVisibleCount((c) => c + STEP)}
+              className="h-12 px-8 rounded-2xl text-[11px] font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5 hover:border-white/20"
+            >
+              Afficher plus ({filteredTalents.length - visibleCount} restant{filteredTalents.length - visibleCount > 1 ? "s" : ""})
+            </Button>
+          </div>
+        )}
+        </>
       ) : (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
