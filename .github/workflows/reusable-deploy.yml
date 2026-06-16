@@ -57,11 +57,16 @@ jobs:
           docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
             "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
 
-          docker compose --env-file .env.production run --rm \
-            -e DATABASE_URL \
-            -e DIRECT_URL \
-            -e CI=true \
-            web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
+          # Use existing web container for migrations to avoid OOM on small VPS
+          if docker ps -q --filter name=hashcode-web | grep -q .; then
+            docker exec hashcode-web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
+          else
+            docker compose --env-file .env.production run --rm \
+              -e DATABASE_URL \
+              -e DIRECT_URL \
+              -e CI=true \
+              web sh -c "set -e; npx prisma migrate deploy; npx tsx scripts/check-auth-limits.ts || true; npx prisma db seed"
+          fi
 
       - name: "[4/5] Blue-Green swap"
         run: |
