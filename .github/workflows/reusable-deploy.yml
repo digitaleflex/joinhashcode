@@ -35,8 +35,10 @@ jobs:
             cd "${{ env.APP_DIR }}"
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-            # ── Load env vars for DB ops ──────────────────────────────────────
-            export $(grep -v '^\s*#' .env.production | grep -v '^\s*$' | xargs)
+            # ── Load env vars for DB ops (set -a + source handles values with <, spaces, etc.) ──
+            set -a
+            . .env.production
+            set +a
 
             # ══════════════════════════════════════════════════════════════════
             # [1/5] Code + Image (parallélisés via background)
