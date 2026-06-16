@@ -76,11 +76,11 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
           {sortedSubmissions.map((s) => (
             <div 
               key={s.id} 
-              className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors"
+              className="flex flex-wrap items-center gap-2 p-4 rounded-2xl bg-white/2 border border-white/5 group/item hover:bg-white/4 transition-colors"
             >
-              <div className="flex items-center gap-4 min-w-0">
-                <div className="p-2.5 rounded-lg bg-zinc-900 border border-white/5 text-primary">
-                  <CheckCircle2 className="h-4 w-4" />
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="p-2 rounded-lg bg-zinc-900 border border-white/5 text-primary shrink-0">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-white truncate">
@@ -102,7 +102,7 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
               <Badge 
                 variant="outline" 
                 className={cn(
-                  "font-mono text-[9px] font-bold px-2 py-0.5 border-white/10 bg-white/2",
+                  "font-mono text-[9px] font-bold px-2 py-0.5 border-white/10 bg-white/2 shrink-0",
                   s.mission.missionLevel === "INIT" && "text-blue-400 border-blue-400/20 bg-blue-400/5",
                   s.mission.missionLevel === "CORE" && "text-emerald-400 border-emerald-400/20 bg-emerald-400/5",
                   s.mission.missionLevel === "PRO" && "text-purple-400 border-purple-400/20 bg-purple-400/5"
