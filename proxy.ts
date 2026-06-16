@@ -1,11 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
-// Fix SEC-010: Build nonce-based CSP — replaces static `unsafe-inline` for script-src
-function buildCSP(nonce: string): string {
-  // Next.js (especially with Turbopack) and React require 'unsafe-eval' in some environments even in prod-like setups.
-  // Including it universally to resolve the "eval() is not supported" error on VPS.
-  const scriptSrc = `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' blob: https://static.cloudflareinsights.com`;
+function buildCSP(): string {
+  const scriptSrc = `script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://static.cloudflareinsights.com`;
 
   return [
     "default-src 'self'",
@@ -27,9 +24,6 @@ export async function proxy(request: NextRequest) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
-  // Fix SEC-010: generate per-request nonce for CSP
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-
   const isProtectedPath =
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/missions') ||
@@ -46,11 +40,8 @@ export async function proxy(request: NextRequest) {
 
   // Public routes: inject CSP nonce and return immediately — no session fetch
   if (!isProtectedPath && !isBetaAccessPath) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-nonce", nonce);
-    const response = NextResponse.next({ request: { headers: requestHeaders } });
-    response.headers.set("Content-Security-Policy", buildCSP(nonce));
-    response.headers.set("x-nonce", nonce);
+    const response = NextResponse.next();
+    response.headers.set("Content-Security-Policy", buildCSP());
     return response;
   }
 
@@ -124,13 +115,8 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Fix SEC-010: inject nonce into request headers (readable by server components via headers())
-  // and set nonce-based CSP on the response (overrides next.config.mjs for matched routes)
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-  const response = NextResponse.next({ request: { headers: requestHeaders } });
-  response.headers.set("Content-Security-Policy", buildCSP(nonce));
-  response.headers.set("x-nonce", nonce);
+  const response = NextResponse.next();
+  response.headers.set("Content-Security-Policy", buildCSP());
   return response;
 }
 
