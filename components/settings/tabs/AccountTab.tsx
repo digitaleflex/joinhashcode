@@ -1,10 +1,8 @@
 "use client"
 
-import { Fingerprint, Shield, Lock, AlertTriangle, Key, MonitorSmartphone } from "lucide-react"
+import { Fingerprint, Shield, AlertTriangle, MonitorSmartphone } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { TwoFactorSetup } from "@/components/settings/TwoFactorSetup"
-import { PasskeySetup } from "@/components/settings/PasskeySetup"
 import { ActiveSessions } from "@/components/settings/ActiveSessions"
 import { authClient } from "@/lib/auth-client"
 
@@ -50,27 +48,6 @@ export function AccountTab({ userData }: AccountTabProps) {
               </div>
               <div className="text-[9px] font-mono text-zinc-500">STATUT : VÉRIFIÉ</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 2FA Section */}
-      <div className="pt-4 border-t border-white/5 space-y-6">
-        <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
-          <Lock className="size-4 text-primary" /> Protection du compte (2FA)
-        </label>
-        <TwoFactorSetup user={userData} />
-      </div>
-
-      {/* Passkey Section */}
-      <div className="pt-4 border-t border-white/5 space-y-6">
-        <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400">
-          <Key className="size-4 text-primary" /> Clés d&apos;accès biométriques
-        </label>
-        <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-primary/20 via-primary/5 to-transparent">
-          <div className="p-8 bg-black/85 cyber-notch relative overflow-hidden group/passkey">
-             <div className="absolute inset-0 cyber-grid-primary pointer-events-none opacity-20" aria-hidden="true" />
-             <PasskeySetup />
           </div>
         </div>
       </div>

@@ -1,8 +1,7 @@
 // @ts-ignore
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin, createAccessControl, organization, twoFactor, multiSession } from "better-auth/plugins";
-import { passkey } from "@better-auth/passkey";
+import { magicLink, emailOTP, admin, createAccessControl, organization, multiSession } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
 import { emailService } from "./email";
@@ -322,23 +321,6 @@ export const auth = betterAuth({
           },
         },
       },
-    }),
-    twoFactor({
-      issuer: "HASHCODE",
-      requirePassword: false,
-      otpOptions: {
-        sendOTP: async ({ user, otp }) => {
-          await emailService.sendOtpEmail({
-            email: user.email,
-            otp,
-            type: "sign-in"
-          });
-        },
-      },
-    }),
-    passkey({
-      rpName: "HASHCODE",
-      rpID: process.env.NODE_ENV === "production" ? "joinhashcode.com" : "localhost"
     }),
     nextCookies(),
   ],
