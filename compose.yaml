@@ -95,6 +95,9 @@ networks:
   db-network:
     driver: bridge
     name: hashcode-db-network
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
   proxy:
     external: true
     name: proxy
