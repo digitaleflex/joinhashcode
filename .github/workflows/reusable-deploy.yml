@@ -6,9 +6,6 @@ on:
       image_tag:
         required: true
         type: string
-    secrets:
-      ENV_PRODUCTION:
-        required: true
 
 env:
   IMAGE: "ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}"
@@ -18,15 +15,11 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Checkout code
+      - name: Checkout code (preserve .env.production)
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Write .env.production from secret
-        run: |
-          sudo mkdir -p /opt/hashcode
-          echo '${{ secrets.ENV_PRODUCTION }}' | sudo tee /opt/hashcode/.env.production > /dev/null
+          clean: false
 
       - name: Blue-Green Deploy (zero-downtime)
         run: |
@@ -35,7 +28,7 @@ jobs:
 
           # ── Load env vars ──
           set -a
-          . /opt/hashcode/.env.production
+          . .env.production
           set +a
 
           # ════════════════════════════════════════════════════

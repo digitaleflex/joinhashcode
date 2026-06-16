@@ -45,4 +45,3 @@ jobs:
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       image_tag: ${{ needs.build.outputs.image-tag }}
-    secrets: inherit
