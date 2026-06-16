@@ -30,7 +30,7 @@ export function validateEnv() {
     }
     console.error("🔴 [ENV] Le processus va s'arrêter.")
     console.error("")
-    process.exit(1)
+    throw new Error(`Variables d'environnement manquantes : ${missing.join(", ")}`)
   }
 
   console.log("🟢 [ENV] Toutes les variables critiques sont présentes.")
