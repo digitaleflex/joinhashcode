@@ -62,6 +62,7 @@ vi.mock("next/headers", () => ({
       return undefined;
     }),
     getAll: vi.fn(() => []),
+    delete: vi.fn(),
   })),
 }));
 
