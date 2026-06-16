@@ -48,10 +48,14 @@ jobs:
 
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           mkdir -p "${{ env.BACKUP_DIR }}"
-          docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
-            -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
-          docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
-            "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
+          if docker ps -q --filter "name=hashcode-db" | grep -q .; then
+            docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
+              -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
+            docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
+              "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
+          else
+            echo "⚠️ hashcode-db not running — skipping backup"
+          fi
 
           HASHCODE_IMAGE="${{ env.IMAGE }}" docker compose --env-file .env.production run --rm \
             -e DATABASE_URL \
