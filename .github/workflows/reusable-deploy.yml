@@ -69,12 +69,12 @@ jobs:
       - name: "[4/5] Blue-Green swap"
         run: |
           export HASHCODE_IMAGE="${{ env.IMAGE }}"
-          docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
+          sudo docker compose -f compose.yaml -f compose.blue.yml up -d web-blue --wait --timeout 120
 
           echo "Switching traffic → blue..."
-          docker stop hashcode-web 2>/dev/null || true
-          docker rm hashcode-web 2>/dev/null || true
-          docker rename hashcode-web-blue hashcode-web
+          sudo docker stop hashcode-web 2>/dev/null || true
+          sudo docker rm hashcode-web 2>/dev/null || true
+          sudo docker rename hashcode-web-blue hashcode-web
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 
