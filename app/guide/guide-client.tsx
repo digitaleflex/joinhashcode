@@ -4,7 +4,7 @@ import { useState } from "react"
 import { 
   BookOpen, Activity, Users, Target, Zap, HelpCircle, CheckCircle2, AlertCircle, 
   Award, Sparkles, TrendingUp, MessageSquare, ShieldAlert, LifeBuoy, Rocket, Trophy,
-  Compass
+  Compass, UserPlus, Megaphone, Bell
 } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -42,6 +42,7 @@ const TAB_SECTIONS: Record<string, { id: string; label: string }[]> = {
     { id: "matching", label: "Matching" },
     { id: "health", label: "Health Score" },
     { id: "synergie", label: "Synergie" },
+    { id: "recruitment", label: "Recrutement" },
   ],
   missions: [
     { id: "types", label: "Types" },
@@ -863,6 +864,104 @@ export function GuideClient() {
                 <p>
                   En cas de désaccord sur un livrable, appliquez la règle de l&apos;arbitrage par le rôle : le <strong className="text-white">Stratège</strong> tranche sur l&apos;opportunité marché, le <strong className="text-white">Builder</strong> sur la complexité et faisabilité technique, le <strong className="text-white">Créateur</strong> sur la fidélité de l&apos;expérience utilisateur, et le <strong className="text-white">Catalyseur</strong> sur la coordination de la livraison.
                 </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Guide Pratique : Recrutement & Communication */}
+          <Card id="recruitment" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
+                <UserPlus className="size-5 text-amber-400" /> Recrutement & Communication
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Comment recruter des agents dans ton escouade et comment les membres communiquent entre eux.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 space-y-6">
+              <div className="space-y-4">
+                <h4 className="text-sm font-bold text-white uppercase font-mono">Inviter un Membre dans Ton Escouade</h4>
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                  Il existe <strong className="text-white">trois méthodes</strong> pour recruter un agent dans ton escouade :
+                </p>
+
+                <div className="space-y-3">
+                  <div className="flex gap-3 p-4 rounded-2xl bg-zinc-950/60 border border-white/5">
+                    <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">1</div>
+                    <div className="space-y-1">
+                      <h5 className="text-xs font-bold text-white">Lien d&apos;Invitation Partageable</h5>
+                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                        Depuis le salon de ton escouade ou la bannière, copie ton lien unique et envoie-le à n&apos;importe qui (Discord, WhatsApp, email). Le destinataire clique, accepte et rejoint directement.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 p-4 rounded-2xl bg-zinc-950/60 border border-white/5">
+                    <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">2</div>
+                    <div className="space-y-1">
+                      <h5 className="text-xs font-bold text-white">Invitation par Email</h5>
+                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                        Dans la page <strong className="text-zinc-300">Gérer l&apos;escouade</strong> → onglet "Inviter", saisis l&apos;email du futur membre. Un email lui est envoyé avec un lien sécurisé pour accepter l&apos;invitation.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 p-4 rounded-2xl bg-zinc-950/60 border border-white/5">
+                    <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">3</div>
+                    <div className="space-y-1">
+                      <h5 className="text-xs font-bold text-white">Invitation depuis le Dossier d&apos;un Membre</h5>
+                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                        Depuis la page <strong className="text-zinc-300">Talents</strong>, explore les profils des agents. Quand tu trouves un candidat, clique sur <strong className="text-zinc-300">"Voir le Dossier"</strong>. Si tu es Chef ou Admin d&apos;une escouade, un bouton <strong className="text-zinc-300">"Inviter dans mon escouade"</strong> apparaît. L&apos;agent reçoit une notification in-app avec un lien pour accepter ou refuser.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 text-[11px] text-zinc-400 leading-relaxed space-y-1">
+                  <span className="text-amber-400 font-mono font-bold text-[10px] uppercase block">Équilibre Cognitif</span>
+                  <p>Le système vérifie automatiquement que ta n&apos;escouade n&apos;atteint pas plus de <strong className="text-white">2 représentants d&apos;une même classe</strong> avant d&apos;envoyer l&apos;invitation. Si la limite est atteinte, une confirmation supplémentaire te sera demandée.</p>
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 pt-6 space-y-4">
+                <h4 className="text-sm font-bold text-white uppercase font-mono">Communiquer avec ton Escouade</h4>
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                  La communication au sein d&apos;une escouade se fait via plusieurs canaux :
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Megaphone className="size-3.5 text-primary" /> Annonce du Chef
+                    </h5>
+                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      Le Chef peut rédiger une annonce épinglée dans les paramètres de l&apos;escouade. Elle est visible par tous les membres sur la page principale.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Activity className="size-3.5 text-emerald-400" /> Journal d&apos;Activité
+                    </h5>
+                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      Toutes les actions importantes (mission soumise, check-in, nouveau membre) sont visibles dans le flux d&apos;activité de l&apos;escouade.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                    <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Bell className="size-3.5 text-blue-400" /> Notifications
+                    </h5>
+                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      Les membres reçoivent des notifications in-app pour les événements clés : invitation reçue, candidature acceptée, nouveau membre.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-xs text-zinc-400 leading-relaxed">
+                  <span className="text-emerald-400 font-mono font-bold text-[10px] uppercase block mb-1">✓ Disponible</span>
+                  <p>Le chat d&apos;escouade est actif ! Tous les membres peuvent discuter en temps réel directement depuis la page de l&apos;escouade. Rafraîchissement automatique toutes les 15 secondes.</p>
+                </div>
               </div>
             </CardContent>
           </Card>

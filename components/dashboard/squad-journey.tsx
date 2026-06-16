@@ -19,6 +19,7 @@ import { SquadJoinRequestsPanel } from "./squad/SquadJoinRequestsPanel"
 import { SquadAuditPanel } from "./squad/SquadAuditPanel"
 import { SquadPersonalizationPanel } from "./squad/SquadPersonalizationPanel"
 import { SquadDisbandPanel } from "./squad/SquadDisbandPanel"
+import { SquadChat } from "./squad/SquadChat"
 import { toast } from "sonner"
 import {
   Dialog,
@@ -345,6 +346,17 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                 </div>
               </div>
             </div>
+
+            {/* Squad Chat */}
+            {squad && (
+              <div className="pt-4">
+                <SquadChat
+                  organizationId={squad.id}
+                  userId={user.id}
+                  userRole={memberRole}
+                />
+              </div>
+            )}
           </div>
         </main>
 

@@ -18,11 +18,16 @@ Bienvenue dans l"écosystème HASHCODE. Ce document récapitule tout ce que tu p
 
 ## 🤝 Escouades & Collaboration (Squads)
 *   **Création d"Escouade** : Devient Chef (Owner) et fonde ta propre unité de 5 agents.
-*   **Recrutement Sécurisé** : Invite tes contacts par email via des liens chiffrés.
+*   **Recrutement par Email** : Invite des membres par email depuis la page Gérer l"escouade — l"invitation arrive par email avec un lien sécurisé.
+*   **Invitation depuis un Profil Membre** : Depuis le dossier public d"un agent (page Talents → Voir le Dossier), clique sur "Inviter dans mon escouade". L"agent reçoit une notification in-app et peut accepter/réfuser.
+*   **Lien d"Invitation Partageable** : Copie le lien unique de ton escouade depuis le salon ou la bannière et envoie-le à n"importe qui via Discord, WhatsApp, etc.
+*   **Candidatures Publiques** : Les agents peuvent postuler aux escouades publiques depuis la page Découverte. Le Chef examine et accepte/refuse les candidatures.
 *   **Gestion Autonome** : Le Chef peut nommer des Admins, exclure des membres inactifs ou transférer la propriété du groupe.
-*   **Découverte Publique** : Postule directement aux escouades qui recrutent depuis la page d"accueil.
-*   **Journal d"Activité** : Un flux en temps réel des exploits de ton équipe pour rester synchronisé.
-*   **Cohésion d"Unité** : Un score collectif qui augmente avec l"activité du groupe.
+*   **Annonce du Chef** : Le Chef peut publier une annonce épinglée visible par tous les membres de l"escouade.
+*   **Chat d"Escouade** : Canal de discussion privé où tous les membres échangent en temps réel. Rafraîchissement automatique toutes les 15s. Les admins peuvent modérer les messages.
+*   **Journal d"Activité** : Un flux en temps réel des exploits de ton équipe pour rester synchronisé (missions soumises, check-ins, nouveaux membres).
+*   **Cohésion d"Unité** : Un score collectif qui augmente avec l"activité du groupe. Plus la cohésion est haute, plus les bonus d"XP sont importants.
+*   **Équilibre Cognitif** : Maximum 2 représentants par classe cognitive (Builder, Creator, Strategist, Catalyst) par escouade — garantit la diversité des profils.
 
 ## 🛡️ Sécurité & Confidentialité
 *   **Double Authentification (2FA)** : Sécurise ton compte avec Google Authenticator ou Authy.
