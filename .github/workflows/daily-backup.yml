@@ -13,6 +13,8 @@ env:
 jobs:
   backup:
     runs-on: self-hosted
+    permissions:
+      issues: write
     steps:
       - name: "Dump database"
         run: |
@@ -51,3 +53,28 @@ jobs:
         run: |
           ls -t "${{ env.BACKUP_DIR }}/daily_"* | tail -n +31 | xargs -r rm -f
           echo "✅ Daily backup complete"
+
+      - name: "Create issue on failure"
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Backup failed — ${date}`,
+              body: [
+                `## Backup Failure`,
+                ``,
+                `| | |`,
+                `|---|---|`,
+                `| **Workflow** | ${{ github.workflow }} |`,
+                `| **Run** | [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |`,
+                `| **Trigger** | ${{ github.event_name }} |`,
+                `| **Date** | ${date} |`,
+                ``,
+                `The daily database backup failed. Check the workflow logs for details.`,
+              ].join('\n'),
+              labels: ['backup', 'automated', 'critical'],
+            });

@@ -158,3 +158,28 @@ jobs:
           ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
           docker image prune -f --filter "until=24h"
           echo "✅ Deploy complete: ${{ inputs.image_tag }}"
+
+      - name: "Create issue on failure"
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = '${{ inputs.image_tag }}';
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Deploy failed — ${tag}`,
+              body: [
+                `## Deploy Failure`,
+                ``,
+                `| | |`,
+                `|---|---|`,
+                `| **Image** | ${tag} |`,
+                `| **Run** | [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |`,
+                `| **Trigger** | ${{ github.event_name }} |`,
+                `| **Branch** | ${{ github.ref_name }} |`,
+                ``,
+                `The deployment pipeline failed. Check the workflow logs for details.`,
+              ].join('\n'),
+              labels: ['deploy', 'automated', 'critical'],
+            });
