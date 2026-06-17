@@ -58,7 +58,7 @@ jobs:
             -e DIRECT_URL="${DB_URL}" \
             -e NODE_ENV=production \
             "${{ env.IMAGE }}" \
-            sh -c "npx prisma migrate deploy && npx tsx scripts/check-auth-limits.ts || true"
+            sh -c "npx prisma migrate deploy && (npx tsx scripts/check-auth-limits.ts || true)"
 
       - name: "[4/5] Blue-Green swap"
         run: |
