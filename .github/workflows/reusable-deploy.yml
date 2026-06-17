@@ -9,6 +9,7 @@ on:
     secrets:
       SSH_PATH: { required: true }
       GH_PAT: { required: true }
+      B2_BUCKET: { required: false }
 
 env:
   APP_DIR: ${{ secrets.SSH_PATH }}
@@ -141,7 +142,18 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: "[6b/6b] Cleanup"
+      - name: "[7/7] Sync to Backblaze B2"
+        run: |
+          if [ -n "${B2_BUCKET}" ]; then
+            rclone copy "${{ env.BACKUP_DIR }}/" "b2:${B2_BUCKET}/deploy/"
+            echo "✅ Synced to Backblaze B2"
+          else
+            echo "⚠️  B2_BUCKET not set — skipping"
+          fi
+        env:
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+
+      - name: "[8/8] Cleanup"
         run: |
           ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
           docker image prune -f --filter "until=24h"

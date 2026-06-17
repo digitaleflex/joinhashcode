@@ -36,3 +36,4 @@ jobs:
     secrets:
       SSH_PATH: ${{ secrets.SSH_PATH }}
       GH_PAT: ${{ secrets.GH_PAT }}
+      B2_BUCKET: ${{ secrets.B2_BUCKET }}

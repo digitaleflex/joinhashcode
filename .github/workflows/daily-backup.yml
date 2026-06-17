@@ -8,6 +8,7 @@ on:
 env:
   BACKUP_DIR: "/home/audest/hashcode-community/backups"
   PROD_ENV: "/home/actions-runner/secrets/.env.production"
+  B2_BUCKET: ${{ secrets.B2_BUCKET }}
 
 jobs:
   backup:
@@ -36,6 +37,15 @@ jobs:
           path: ${{ env.BACKUP_DIR }}/${{ env.BACKUP_FILE }}
           if-no-files-found: error
           retention-days: 30
+
+      - name: "Sync to Backblaze B2"
+        run: |
+          if [ -n "${B2_BUCKET}" ]; then
+            rclone copy "${{ env.BACKUP_DIR }}/${BACKUP_FILE}" "b2:${B2_BUCKET}/daily/"
+            echo "✅ Synced to Backblaze B2"
+          else
+            echo "⚠️  B2_BUCKET not set — skipping"
+          fi
 
       - name: "Keep last 30 daily backups locally"
         run: |
