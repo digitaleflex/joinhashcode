@@ -1,0 +1,43 @@
+name: "Daily Database Backup"
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+env:
+  BACKUP_DIR: "/home/audest/hashcode-community/backups"
+  PROD_ENV: "/home/actions-runner/secrets/.env.production"
+
+jobs:
+  backup:
+    runs-on: self-hosted
+    steps:
+      - name: "Dump database"
+        run: |
+          set -a
+          source ${{ env.PROD_ENV }}
+          set +a
+
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          mkdir -p "${{ env.BACKUP_DIR }}"
+          docker exec hashcode-db pg_dump -U "${DB_USER}" -d "${DB_NAME}" -F c \
+            -f "/tmp/daily_${TIMESTAMP}.dump"
+          docker cp "hashcode-db:/tmp/daily_${TIMESTAMP}.dump" \
+            "${{ env.BACKUP_DIR }}/daily_${TIMESTAMP}.dump"
+          docker exec hashcode-db rm -f "/tmp/daily_${TIMESTAMP}.dump"
+
+          echo "BACKUP_FILE=daily_${TIMESTAMP}.dump" >> $GITHUB_ENV
+
+      - name: "Upload to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-backup-${{ env.BACKUP_FILE }}
+          path: ${{ env.BACKUP_DIR }}/${{ env.BACKUP_FILE }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: "Keep last 30 daily backups locally"
+        run: |
+          ls -t "${{ env.BACKUP_DIR }}/daily_"* | tail -n +31 | xargs -r rm -f
+          echo "✅ Daily backup complete"

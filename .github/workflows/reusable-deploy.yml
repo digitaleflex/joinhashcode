@@ -133,7 +133,15 @@ jobs:
             exit 1
           fi
 
-      - name: "[6/6] Cleanup"
+      - name: "[6/6] Upload backup to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ inputs.image_tag }}
+          path: ${{ env.BACKUP_DIR }}/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: "[6b/6b] Cleanup"
         run: |
           ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
           docker image prune -f --filter "until=24h"
