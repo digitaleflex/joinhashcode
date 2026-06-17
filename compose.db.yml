@@ -51,6 +51,7 @@ services:
 
 volumes:
   postgres_data:
+    external: true
     name: hashcode-postgres-data
 
 networks:

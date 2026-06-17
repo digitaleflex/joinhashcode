@@ -24,7 +24,7 @@ jobs:
       run:
         working-directory: ${{ env.APP_DIR }}
     steps:
-      - name: "[1/5] Pulling code & image"
+      - name: "[1/9] Pulling code & image"
         run: |
           if [ ! -d ".git" ]; then
             git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
@@ -36,11 +36,15 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker image inspect "${{ env.IMAGE }}" >/dev/null 2>&1 || docker pull "${{ env.IMAGE }}"
 
-      - name: "[2/5] Ensure DB is running"
+      - name: "[2/6] Ensure volume exists"
+        run: |
+          docker volume inspect hashcode-postgres-data >/dev/null 2>&1 || docker volume create hashcode-postgres-data
+
+      - name: "[3/6] Ensure DB is running"
         run: |
           docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db --wait
 
-      - name: "[3/5] Backup DB + migrate"
+      - name: "[4/9] Backup DB + migrate"
         run: |
           set -a
           source ${{ env.PROD_ENV }}
@@ -61,7 +65,7 @@ jobs:
             "${{ env.IMAGE }}" \
             sh -c "npx prisma migrate deploy && (npx tsx scripts/check-auth-limits.ts || true)"
 
-      - name: "[4/5] Blue-Green swap"
+      - name: "[5/9] Blue-Green swap"
         run: |
           # Determine active / inactive container
           A_RUNNING=$(docker ps -q --filter name=hashcode-web-a | grep -q . && echo "yes" || echo "no")
@@ -103,7 +107,7 @@ jobs:
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 
-      - name: "[5/5] Health check"
+      - name: "[6/9] Health check"
         run: |
           MAX_RETRIES=8
           RETRY_COUNT=0
@@ -134,7 +138,7 @@ jobs:
             exit 1
           fi
 
-      - name: "[6/6] Upload backup to artifacts"
+      - name: "[7/9] Upload backup to artifacts"
         uses: actions/upload-artifact@v4
         with:
           name: db-backup-${{ inputs.image_tag }}
@@ -142,7 +146,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: "[7/7] Sync to Backblaze B2"
+      - name: "[8/9] Sync to Backblaze B2"
         run: |
           if [ -n "${B2_BUCKET}" ]; then
             rclone copy "${{ env.BACKUP_DIR }}/" "b2:${B2_BUCKET}/deploy/"
@@ -153,13 +157,13 @@ jobs:
         env:
           B2_BUCKET: ${{ secrets.B2_BUCKET }}
 
-      - name: "[8/8] Cleanup"
+      - name: "[9/9] Cleanup"
         run: |
           ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
           docker image prune -f --filter "until=24h"
           echo "✅ Deploy complete: ${{ inputs.image_tag }}"
 
-      - name: "Create issue on failure"
+      - name: "[10/9] Create issue on failure"
         if: failure()
         uses: actions/github-script@v7
         with:
