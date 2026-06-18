@@ -10,10 +10,9 @@ const configured = !!restUrl && !!restToken
 export const redis = configured ? new Redis({ url: restUrl!, token: restToken! }) : null
 
 // Fix SEC-005: Fail closed in production if rate limiting is not configured
-if (!configured && process.env.NODE_ENV === "production") {
+// Skip during Next.js build phase (no runtime env vars available)
+if (!configured && process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== "phase-production-build") {
   console.error("❌ [CRITICAL] UPSTASH_REDIS_REST_URL or TOKEN missing in production. Rate limiting is REQUIRED.");
-  // We don't throw here to avoid crashing the whole process if it's a transient env issue during build,
-  // but the checkRateLimit function will block requests.
 }
 
 function makeRatelimit(tokens: number, window: `${number} s` | `${number} m` | `${number} h`) {

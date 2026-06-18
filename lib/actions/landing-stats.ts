@@ -96,11 +96,14 @@ export async function getLandingStats(): Promise<LandingStats> {
       recentActivities
     }
   } catch (error: any) {
-    console.error("[GET_LANDING_STATS_ERROR]", {
-      message: error.message,
-      code: error.code,
-      stack: error.stack
-    })
+    // Silent during Next.js build phase (no DB available)
+    if (process.env.NEXT_PHASE !== "phase-production-build") {
+      console.error("[GET_LANDING_STATS_ERROR]", {
+        message: error.message,
+        code: error.code,
+        stack: error.stack
+      })
+    }
     return {
       totalMembers: 0,
       realUserCount: 0,
