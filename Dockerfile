@@ -60,6 +60,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Prisma CLI installé localement dans /app/node_modules/.bin
 ENV PATH="/app/node_modules/.bin:${PATH}"
 
+# @prisma/config doit être résoluble depuis /app/ car prisma.config.ts l'importe.
+# Le resolve de modules Node.js part de /app/node_modules/ — le global install ne suffit pas.
+COPY --from=builder /app/node_modules/@prisma/config ./node_modules/@prisma/config
+
 # Utilisateur non-root pour la sécurité
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
