@@ -42,7 +42,23 @@ jobs:
 
       - name: "[3/6] Ensure DB is running"
         run: |
-          docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db --no-recreate --wait
+          if docker ps -q --filter name=hashcode-db --filter status=running | grep -q .; then
+            echo "hashcode-db already running"
+          else
+            echo "Starting hashcode-db..."
+            docker start hashcode-db || docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db
+          fi
+          # Wait for DB to be healthy
+          for i in $(seq 1 30); do
+            if docker exec hashcode-db pg_isready -q 2>/dev/null; then
+              echo "DB is ready"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::DB not ready after 60s"
+          docker logs hashcode-db --tail 30
+          exit 1
 
       - name: "[4/9] Backup DB + migrate"
         run: |
