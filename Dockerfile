@@ -58,9 +58,10 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Prisma CLI installé globalement pour les migrations dans le conteneur éphémère.
+# Prisma CLI + dotenv installés globalement pour les migrations dans le conteneur éphémère.
 # Cela évite de copier tout node_modules (~500 Mo - 1 Go) dans l'image finale.
-RUN npm install -g prisma@${PRISMA_VERSION}
+# dotenv est requis car prisma.config.ts importe "dotenv/config".
+RUN npm install -g prisma@${PRISMA_VERSION} dotenv
 
 # Utilisateur non-root pour la sécurité
 RUN addgroup --system --gid 1001 nodejs
@@ -73,9 +74,10 @@ COPY --from=builder /app/public ./public
 # Doit être APRÈS le COPY pour ne pas être écrasé
 RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
 
-# Prisma client (généré) + schema/migrations pour le runtime et les migrations
+# Prisma client (généré) + schema/migrations + config pour le runtime et les migrations
 COPY --from=builder /app/generated ./generated
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./
 
 # Fichiers standalone Next.js (contient le serveur + les chunks + node_modules minimal bundlé)
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
