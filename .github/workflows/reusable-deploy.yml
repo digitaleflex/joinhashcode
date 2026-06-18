@@ -77,7 +77,7 @@ jobs:
             -e DIRECT_URL="${DB_URL}" \
             -e NODE_ENV=production \
             "${{ env.IMAGE }}" \
-            sh -c "prisma migrate deploy"
+            sh -c "/app/node_modules/.bin/prisma migrate deploy"
 
       - name: "[4/7] Blue-Green swap with rollback"
         run: |
