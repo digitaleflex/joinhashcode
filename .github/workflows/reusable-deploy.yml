@@ -83,7 +83,7 @@ jobs:
           docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
             "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
 
-          DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public"
+          DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@hashcode-db:5432/${DB_NAME}?schema=public"
           docker run --rm --network hashcode-db-network \
             -e DATABASE_URL="${DB_URL}" \
             -e DIRECT_URL="${DB_URL}" \
