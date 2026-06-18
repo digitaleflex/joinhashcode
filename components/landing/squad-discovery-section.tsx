@@ -27,7 +27,7 @@ export function SquadDiscoverySection() {
     fetchSquads();
   }, []);
 
-  if (isLoading || squads.length === 0) return null;
+  if (isLoading) return <div className="h-96 w-full" />;
 
   return (
     <section className="py-24 relative overflow-hidden bg-black/40">
