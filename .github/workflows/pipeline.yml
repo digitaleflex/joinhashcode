@@ -21,6 +21,19 @@ jobs:
     name: "Security"
     uses: ./.github/workflows/reusable-security.yml
 
+  test:
+    name: "Tests"
+    needs: [security]
+    uses: ./.github/workflows/reusable-test.yml
+
+  e2e:
+    name: "E2E Tests"
+    needs: [security]
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-e2e.yml
+
+  # Build et tests tournent en parallèle pour réduire le temps total de pipeline.
+  # Le build n'a besoin que du code source, pas des résultats de test.
   build:
     name: "Build"
     needs: [security]

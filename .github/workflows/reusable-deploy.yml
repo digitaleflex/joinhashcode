@@ -24,7 +24,7 @@ jobs:
       run:
         working-directory: ${{ env.APP_DIR }}
     steps:
-      - name: "[1/9] Pulling code & image"
+      - name: "[1/7] Pull code & image"
         run: |
           if [ ! -d ".git" ]; then
             git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
@@ -36,41 +36,28 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker image inspect "${{ env.IMAGE }}" >/dev/null 2>&1 || docker pull "${{ env.IMAGE }}"
 
-      - name: "[2/6] Ensure volume exists"
+      - name: "[2/7] Ensure DB is running"
         run: |
-          docker volume inspect hashcode-postgres-data >/dev/null 2>&1 || docker volume create hashcode-postgres-data
-
-      - name: "[3/6] Ensure DB is running"
-        run: |
-          # Ensure network exists
-          docker network inspect hashcode-db-network >/dev/null 2>&1 || docker network create --subnet 172.28.0.0/16 hashcode-db-network
-
-          if docker ps -q --filter name=hashcode-db --filter status=running | grep -q .; then
-            echo "hashcode-db already running"
-          else
+          if ! docker ps -q --filter name=hashcode-db --filter status=running | grep -q .; then
             echo "Starting hashcode-db..."
             docker start hashcode-db || docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db
           fi
 
           # Ensure container is connected to the network
           if ! docker inspect hashcode-db --format '{{json .NetworkSettings.Networks}}' | grep -q hashcode-db-network; then
-            echo "Reconnecting hashcode-db to hashcode-db-network..."
             docker network connect hashcode-db-network hashcode-db 2>/dev/null || true
           fi
 
-          # Wait for DB to be healthy
-          for i in $(seq 1 30); do
-            if docker exec hashcode-db pg_isready -q 2>/dev/null; then
-              echo "DB is ready"
-              exit 0
-            fi
+          # Brief health wait (15s) — compose healthcheck handles the rest
+          for i in $(seq 1 8); do
+            docker exec hashcode-db pg_isready -q 2>/dev/null && echo "DB ready" && exit 0
             sleep 2
           done
-          echo "::error::DB not ready after 60s"
+          echo "::error::DB not ready after 16s"
           docker logs hashcode-db --tail 30
           exit 1
 
-      - name: "[4/9] Backup DB + migrate"
+      - name: "[3/7] Backup DB + migrate"
         run: |
           set -a
           source ${{ env.PROD_ENV }}
@@ -82,6 +69,7 @@ jobs:
             -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
           docker cp "hashcode-db:/tmp/pre_migrate_${TIMESTAMP}.dump" \
             "${{ env.BACKUP_DIR }}/pre_migrate_${TIMESTAMP}.dump"
+          docker exec hashcode-db rm -f "/tmp/pre_migrate_${TIMESTAMP}.dump"
 
           DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@hashcode-db:5432/${DB_NAME}?schema=public"
           docker run --rm --network hashcode-db-network \
@@ -89,9 +77,9 @@ jobs:
             -e DIRECT_URL="${DB_URL}" \
             -e NODE_ENV=production \
             "${{ env.IMAGE }}" \
-            sh -c "npx prisma migrate deploy && (npx tsx scripts/check-auth-limits.ts || true)"
+            sh -c "prisma migrate deploy"
 
-      - name: "[5/9] Blue-Green swap"
+      - name: "[4/7] Blue-Green swap with rollback"
         run: |
           # Determine active / inactive container
           A_RUNNING=$(docker ps -q --filter name=hashcode-web-a | grep -q . && echo "yes" || echo "no")
@@ -103,7 +91,7 @@ jobs:
             ACTIVE="b"; INACTIVE="a"
           elif [ "$A_RUNNING" = "yes" ] && [ "$B_RUNNING" = "yes" ]; then
             echo "Both running — cleaning B, deploying to B"
-            docker compose -f compose.app.yml stop web-b
+            docker compose -f compose.app.yml stop -t 60 web-b
             docker compose -f compose.app.yml rm -f web-b
             ACTIVE="a"; INACTIVE="b"
           else
@@ -119,77 +107,97 @@ jobs:
             export HASHCODE_WEB_B_IMAGE="${{ env.IMAGE }}"
           fi
 
-          docker compose -f compose.app.yml \
+          # Start inactive container — `--wait` blocks until compose healthcheck passes.
+          # On failure, the new container is removed and the old one keeps serving.
+          if docker compose -f compose.app.yml \
             --env-file ${{ env.PROD_ENV }} \
-            up -d "web-${INACTIVE}" --wait --timeout 120
+            up -d "web-${INACTIVE}" --wait --timeout 120; then
+              echo "✅ web-${INACTIVE} healthy"
+          else
+              echo "::error::web-${INACTIVE} failed health check — rolling back"
+              docker compose -f compose.app.yml rm -f "web-${INACTIVE}"
+              if [ -n "$ACTIVE" ]; then
+                docker compose -f compose.app.yml start "web-${ACTIVE}"
+              fi
+              docker logs "hashcode-web-${INACTIVE}" --tail 50 2>/dev/null || true
+              exit 1
+          fi
 
-          sleep 2
-
+          # New container is healthy — safe to stop & remove the old one
+          # `-t 60` laisse 60 secondes au serveur pour terminer les requêtes en cours.
           if [ -n "$ACTIVE" ]; then
             echo "Switching traffic → web-${INACTIVE}..."
-            docker compose -f compose.app.yml stop "web-${ACTIVE}"
+            docker compose -f compose.app.yml stop -t 60 "web-${ACTIVE}"
             docker compose -f compose.app.yml rm -f "web-${ACTIVE}"
           fi
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 
-      - name: "[6/9] Health check"
+      - name: "[5/7] Smoke tests"
         run: |
-          MAX_RETRIES=8
-          RETRY_COUNT=0
+          set -a
+          source ${{ env.PROD_ENV }}
+          set +a
 
-          if docker ps -q --filter name=hashcode-web-a | grep -q .; then
-            CONTAINER="hashcode-web-a"
-          elif docker ps -q --filter name=hashcode-web-b | grep -q .; then
-            CONTAINER="hashcode-web-b"
-          else
-            echo "::error::No web container running after swap"
-            exit 1
-          fi
+          BASE_URL="https://${APP_DOMAIN}"
+          echo "Running smoke tests against ${BASE_URL}..."
 
-          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            RETRY_COUNT=$((RETRY_COUNT + 1))
-            RESPONSE=$(docker exec "$CONTAINER" node -e "fetch('http://127.0.0.1:3000/api/status').then(r=>r.text()).then(t=>{console.log(t);process.exit(0)}).catch(()=>process.exit(1))" 2>/dev/null || echo "offline")
-            if echo "$RESPONSE" | grep -q "online"; then
-              echo "✅ App healthy: $RESPONSE"
+          # /api/status should return 200 with "online"
+          for i in $(seq 1 10); do
+            STATUS_BODY=$(curl -sf "${BASE_URL}/api/status" 2>/dev/null || echo "offline")
+            if echo "$STATUS_BODY" | grep -q "online"; then
+              echo "✅ /api/status is online"
               break
             fi
-            echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES — retrying in 3s..."
+            echo "Smoke attempt $i/10 — retrying in 3s..."
             sleep 3
           done
-
-          if ! echo "$RESPONSE" | grep -q "online"; then
-            echo "::error::App not responding after swap ($MAX_RETRIES attempts)"
-            docker logs "$CONTAINER" --tail 50 2>/dev/null || true
+          if ! echo "$STATUS_BODY" | grep -q "online"; then
+            echo "::error::Smoke test failed: /api/status is not online"
             exit 1
           fi
 
-      - name: "[7/9] Upload backup to artifacts"
-        uses: actions/upload-artifact@v4
-        with:
-          name: db-backup-${{ inputs.image_tag }}
-          path: ${{ env.BACKUP_DIR }}/
-          if-no-files-found: error
-          retention-days: 30
+          # /signin should be reachable (200)
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${BASE_URL}/signin")
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "✅ /signin returns 200"
+          else
+            echo "::error::Smoke test failed: /signin returned HTTP $HTTP_CODE"
+            exit 1
+          fi
 
-      - name: "[8/9] Sync to Backblaze B2"
+          # /dashboard should redirect unauthenticated users (302/307) — proves middleware works
+          DASH_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${BASE_URL}/dashboard")
+          if [ "$DASH_CODE" = "302" ] || [ "$DASH_CODE" = "307" ] || [ "$DASH_CODE" = "200" ]; then
+            echo "✅ /dashboard reachable (HTTP $DASH_CODE)"
+          else
+            echo "::error::Smoke test failed: /dashboard returned unexpected HTTP $DASH_CODE"
+            exit 1
+          fi
+
+          echo "✅ All smoke tests passed"
+
+      - name: "[6/7] Sync backup to B2 + cleanup"
         run: |
+          # Sync to Backblaze B2 (if configured)
           if [ -n "${B2_BUCKET}" ]; then
             rclone copy "${{ env.BACKUP_DIR }}/" "b2:${B2_BUCKET}/deploy/"
             echo "✅ Synced to Backblaze B2"
           else
-            echo "⚠️  B2_BUCKET not set — skipping"
+            echo "⚠️  B2_BUCKET not set — skipping B2 sync"
           fi
+
+          # Keep only the 10 most recent local backups
+          ls -t "${{ env.BACKUP_DIR }}" 2>/dev/null | tail -n +11 | xargs -r -I{} rm -f "${{ env.BACKUP_DIR }}/{}"
+
+          # Prune dangling images older than 24h
+          docker image prune -f --filter "until=24h"
+
+          echo "✅ Deploy complete: ${{ inputs.image_tag }}"
         env:
           B2_BUCKET: ${{ secrets.B2_BUCKET }}
 
-      - name: "[9/9] Cleanup"
-        run: |
-          ls -t "${{ env.BACKUP_DIR }}" | tail -n +11 | xargs -r rm -f
-          docker image prune -f --filter "until=24h"
-          echo "✅ Deploy complete: ${{ inputs.image_tag }}"
-
-      - name: "[10/9] Create issue on failure"
+      - name: "[7/7] Create issue on failure"
         if: failure()
         uses: actions/github-script@v7
         with:

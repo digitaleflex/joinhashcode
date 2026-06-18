@@ -2,18 +2,25 @@
 # Stage 1 : Dépendances (layer mis en cache par Docker si lockfile inchangé)
 # ─────────────────────────────────────────────
 FROM node:22-alpine AS deps
-RUN corepack enable && corepack prepare pnpm@latest --activate
+ARG PNPM_VERSION=10.33.0
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /app
 
 # Copier UNIQUEMENT les fichiers de lockfile d'abord (exploite le cache Docker)
 COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile
+
+# Cache pnpm persistant entre les builds via BuildKit (type=cache).
+# Cela évite de re-télécharger tous les packages quand le lockfile change peu.
+RUN --mount=type=cache,id=pnpm,target=/pnpm-store \
+    pnpm config set store-dir /pnpm-store && \
+    pnpm install --frozen-lockfile
 
 # ─────────────────────────────────────────────
 # Stage 2 : Build (compilé une seule fois, mis en cache)
 # ─────────────────────────────────────────────
 FROM node:22-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@latest --activate
+ARG PNPM_VERSION=10.33.0
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -41,13 +48,19 @@ RUN pnpm build
 # Stage 3 : Runner de production minimal
 # ─────────────────────────────────────────────
 FROM node:22-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@latest --activate
+ARG PNPM_VERSION=10.33.0
+ARG PRISMA_VERSION=7.8.0
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# Prisma CLI installé globalement pour les migrations dans le conteneur éphémère.
+# Cela évite de copier tout node_modules (~500 Mo - 1 Go) dans l'image finale.
+RUN npm install -g prisma@${PRISMA_VERSION}
 
 # Utilisateur non-root pour la sécurité
 RUN addgroup --system --gid 1001 nodejs
@@ -59,17 +72,12 @@ COPY --from=builder /app/public ./public
 # Répertoire uploads persistant — monté comme volume Docker en production
 # Doit être APRÈS le COPY pour ne pas être écrasé
 RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
+
+# Prisma client (généré) + schema/migrations pour le runtime et les migrations
 COPY --from=builder /app/generated ./generated
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/scripts ./scripts
-COPY --from=builder /app/lib ./lib
-COPY --from=builder /app/prisma.config.ts ./
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/pnpm-lock.yaml ./
-COPY --from=builder /app/.npmrc ./
-COPY --from=builder /app/node_modules ./node_modules
 
-# Fichiers standalone Next.js (contient le serveur + les chunks)
+# Fichiers standalone Next.js (contient le serveur + les chunks + node_modules minimal bundlé)
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 

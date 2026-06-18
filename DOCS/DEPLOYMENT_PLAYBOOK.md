@@ -9,7 +9,6 @@
 | `compose.db.yml` | PostgreSQL + Adminer | Independent — never touched by deploy |
 | `compose.app.yml` | Web app (web-a / web-b) | Pipeline — blue-green deploy |
 | `compose.yaml` | Combined file for local dev only | Developers |
-| `compose.blue.yml` | **Deprecated** — kept for reference | N/A |
 
 The database and application are **fully separated** to prevent accidental data loss.
 
@@ -22,16 +21,18 @@ Two fixed services run side-by-side with **identical Traefik labels**:
 
 **How it works:**
 1. Pipeline detects which container is currently active
-2. Starts the inactive one with the new image
-3. Waits for health check (`--wait` flag)
-4. Stops the old container
-5. Traefik auto-routes to the running container
+2. Starts the inactive one with the new image (`docker compose up --wait`)
+3. `--wait` blocks until the compose healthcheck (`/api/status`) passes
+4. On success → stops & removes the old container (zero downtime)
+5. On failure → removes the failed new container, keeps the old one serving (**automatic rollback**)
 
-No `docker rename`, no port conflicts, no downtime.
+No `docker rename`, no port conflicts, no downtime, automatic rollback on unhealthy deploy.
 
 ---
 
 ## Secrets Management
+
+> **WARNING**: Never keep `.env.production` in the project root. It must live only in `/home/actions-runner/secrets/.env.production` on the VPS. If it was ever present in the repo directory, consider the secrets compromised and rotate them.
 
 ### Production secrets are stored outside the project directory:
 
@@ -42,7 +43,20 @@ No `docker rename`, no port conflicts, no downtime.
 - **Never copied or renamed** during deployment
 - Referenced by **absolute path** in `compose.app.yml` and pipeline
 - File permissions: `600` (owner only)
-- Local `.env.production` in project root is for development only
+- Local development must use `.env.development` or `.env.local`, never `.env.production`
+
+### Rotation checklist (if `.env.production` was exposed locally):
+
+1. **Better Auth**: regenerate `BETTER_AUTH_SECRET` (all active sessions will be invalidated)
+2. **Database**: rotate PostgreSQL password and update `DATABASE_URL` / `DIRECT_URL`
+3. **OAuth**: regenerate Google & GitHub client secrets
+4. **Resend**: rotate `RESEND_API_KEY`
+5. **QStash**: rotate signing keys and token
+6. **Sentry**: regenerate `SENTRY_AUTH_TOKEN`
+7. **CRON_SECRET**: regenerate
+8. **Backblaze B2**: rotate application key
+9. **GitHub PAT (`GH_PAT`)**: regenerate with repo scope
+10. Update `/home/actions-runner/secrets/.env.production` and restart containers
 
 ### GitHub Secrets required:
 
@@ -77,8 +91,8 @@ Three-layer backup strategy:
 
 | Layer | When | Target | Retention |
 |---|---|---|---|
-| 1. **Pre-migration** | Every deploy | Local (VPS) + GitHub Artifacts + B2 | 10 local / 30 days |
-| 2. **Daily scheduled** | Every night at 00:00 UTC | Local (VPS) + GitHub Artifacts + B2 | 30 local / 30 days |
+| 1. **Pre-migration** | Every deploy | Local (VPS) + Backblaze B2 | 10 local / indefinite B2 |
+| 2. **Daily scheduled** | Every night at 00:00 UTC | Local (VPS) + GitHub Artifacts + B2 | 30 local / 30 days artifacts / indefinite B2 |
 | 3. **Backblaze B2** | Both events above | `b2:hashcode-backups/deploy/` or `/daily/` | Indefinite (B2) |
 
 ### Backup files naming:
@@ -130,16 +144,12 @@ Issues include a link to the failed run and context (branch, image, date).
 ## Pipeline Steps (reusable-deploy.yml)
 
 ```
-[1/9] Pulling code & image         → git pull, docker login, pull new image
-[2/9] Ensure volume exists         → create hashcode-postgres-data if missing
-[3/9] Ensure DB is running         → docker compose -f compose.db.yml up -d db
-[4/9] Backup DB + migrate          → pg_dump → prisma migrate deploy
-[5/9] Blue-Green swap              → start inactive web, stop old one
-[6/9] Health check                 → verify /api/status inside container
-[7/9] Upload backup to artifacts   → GitHub Actions (30 days)
-[8/9] Sync to Backblaze B2         → rclone copy (if B2 configured)
-[9/9] Cleanup                      → keep last 10 backups, prune images
-[10/9] Create issue on failure     → if any step failed
+[1/6] Pull code & image         → git pull, docker login, pull new image
+[2/6] Ensure DB is running      → start hashcode-db if missing, brief health wait
+[3/6] Backup DB + migrate       → pg_dump → prisma migrate deploy (temp container)
+[4/6] Blue-Green swap           → up --wait on inactive; stop+rm old on success, rollback on failure
+[5/6] Sync to B2 + cleanup      → rclone to B2, keep last 10 backups, prune images
+[6/6] Create issue on failure   → if any step failed
 ```
 
 ---
@@ -220,3 +230,16 @@ rclone ls b2:hashcode-backups/
 - **Bug fix**: Migration failures no longer silently swallowed (operator precedence fix)
 - **DB healthcheck**: `start_period: 30s` added for slow-start scenarios
 - **Adminer**: Host port removed (Traefik-only access)
+
+### v2.8.0 — Pipeline Optimization (2026-06-18)
+
+- **Tests branchés** : `reusable-test.yml` (unit) et `reusable-e2e.yml` (PR only) désormais appelés par `pipeline.yml` — un push cassant les tests ne part plus en prod
+- **Rollback automatique** : `docker compose up --wait` remplace le health check manuel ; en cas d'échec le nouveau conteneur est supprimé et l'ancien continue de servir
+- **Étapes supprimées** : `Ensure volume exists`, double health check DB (60s→16s), upload artifact GitHub (B2 suffit), `check-auth-limits.ts` hors chemin critique
+- **Dockerfile allégé** : `scripts/`, `lib/`, `prisma.config.ts`, `pnpm-lock.yaml`, `.npmrc` retirés du runner ; Prisma CLI installé globalement ; image 3-5x plus petite
+- **Builds plus rapides** : `build` et `tests` parallèles ; cache pnpm persistant via `RUN --mount=type=cache` ; pnpm épinglé à `10.33.0`
+- **Shutdown gracieux** : `docker compose stop -t 60` laisse 60s aux requêtes en cours
+- **Smoke tests** : vérification post-deploy de `/api/status`, `/signin`, `/dashboard`
+- **Nettoyage repo** : `compose.blue.yml` (déprécié) et dump IPs GitHub (126 KB) supprimés ; `.env.production` retiré du repo local
+- **Fix B2_BUCKET** : secret désormais transmis au workflow de deploy
+- **Numérotation** : steps renumérotés proprement [1/7]…[7/7]
