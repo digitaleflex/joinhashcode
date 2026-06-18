@@ -1,5 +1,3 @@
-import { withSentryConfig } from "@sentry/nextjs"
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",   // Génère un serveur Node.js autonome (image Docker légère)
@@ -68,13 +66,4 @@ const nextConfig = {
   },
 }
 
-export default withSentryConfig(nextConfig, {
-  org: process.env.SENTRY_ORG || "hashcode",
-  project: process.env.SENTRY_PROJECT || "hashcode-app",
-  silent: !process.env.CI,
-  widenClientFileUpload: true,
-  reactComponentAnnotation: { enabled: true },
-  hideSourceMaps: true,
-  disableLogger: true,
-  automaticVercelMonitors: false,
-})
+export default nextConfig
