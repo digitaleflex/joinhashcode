@@ -169,6 +169,8 @@ export interface AuthClient {
     };
     passkey: {
         addPasskey: () => Promise<{ error: any }>;
+        deletePasskey: (args: { id: string }) => Promise<{ error: any }>;
+        useListPasskeys: () => { data: any[] | null; isPending: boolean };
     };
     emailOtp: {
         sendVerificationOtp: (args: { email: string, type: string }) => Promise<{ error: any }>;

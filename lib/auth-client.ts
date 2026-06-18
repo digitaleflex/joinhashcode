@@ -1,7 +1,7 @@
 "use client"
 
 import { createAuthClient } from "better-auth/react"
-import { magicLinkClient, emailOTPClient, adminClient, organizationClient, multiSessionClient } from "better-auth/client/plugins"
+import { magicLinkClient, emailOTPClient, adminClient, organizationClient, multiSessionClient, passkeyClient } from "better-auth/client/plugins"
 
 import { AuthClient } from "./types"
 
@@ -11,7 +11,8 @@ const client = createAuthClient({
         emailOTPClient(),
         adminClient(),
         organizationClient() as any,
-        multiSessionClient()
+        multiSessionClient(),
+        passkeyClient()
     ]
 })
 

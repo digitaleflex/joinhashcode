@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckCircle2, User, Users, Target, Sparkles, ChevronRight, BookOpen } from "lucide-react"
+import { CheckCircle2, User, Users, Target, Sparkles, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -54,7 +54,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
   ]
 
   const allCompleted = steps.every(s => s.completed)
-  if (allCompleted) return <NextStepCard />
+  if (allCompleted) return null
 
   return (
     <motion.div 
@@ -135,31 +135,4 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
   )
 }
 
-function NextStepCard() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-8"
-    >
-      <div className="flex items-center gap-2 mb-4 px-2">
-        <div className="size-2 rounded-full bg-primary animate-pulse" />
-        <h3 className="text-[10px] font-mono font-black uppercase text-zinc-500 tracking-widest">Prochaine_étape</h3>
-      </div>
-      <Link href="/guide">
-        <div className="group p-5 rounded-3xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors flex items-center gap-5">
-          <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 shrink-0">
-            <BookOpen className="size-6 text-primary" />
-          </div>
-          <div className="flex-1">
-            <h4 className="text-sm font-black text-white uppercase tracking-tight italic">Guide de l&apos;Agent</h4>
-            <p className="text-xs text-zinc-400 mt-0.5">
-              Maîtrise toutes les fonctionnalités — missions, escouade, chat, progression. Deviens un agent complet.
-            </p>
-          </div>
-          <ChevronRight className="size-5 text-primary group-hover:translate-x-1 transition-transform shrink-0" />
-        </div>
-      </Link>
-    </motion.div>
-  )
-}
+
