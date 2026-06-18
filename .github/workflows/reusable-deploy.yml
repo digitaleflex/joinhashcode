@@ -42,7 +42,7 @@ jobs:
 
       - name: "[3/6] Ensure DB is running"
         run: |
-          docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db --wait
+          docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db --no-recreate --wait
 
       - name: "[4/9] Backup DB + migrate"
         run: |
