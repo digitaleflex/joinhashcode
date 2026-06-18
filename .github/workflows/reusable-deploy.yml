@@ -42,12 +42,22 @@ jobs:
 
       - name: "[3/6] Ensure DB is running"
         run: |
+          # Ensure network exists
+          docker network inspect hashcode-db-network >/dev/null 2>&1 || docker network create --subnet 172.28.0.0/16 hashcode-db-network
+
           if docker ps -q --filter name=hashcode-db --filter status=running | grep -q .; then
             echo "hashcode-db already running"
           else
             echo "Starting hashcode-db..."
             docker start hashcode-db || docker compose -f compose.db.yml --env-file ${{ env.PROD_ENV }} up -d db
           fi
+
+          # Ensure container is connected to the network
+          if ! docker inspect hashcode-db --format '{{json .NetworkSettings.Networks}}' | grep -q hashcode-db-network; then
+            echo "Reconnecting hashcode-db to hashcode-db-network..."
+            docker network connect hashcode-db-network hashcode-db 2>/dev/null || true
+          fi
+
           # Wait for DB to be healthy
           for i in $(seq 1 30); do
             if docker exec hashcode-db pg_isready -q 2>/dev/null; then
