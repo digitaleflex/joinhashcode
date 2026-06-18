@@ -57,6 +57,8 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NEXT_TELEMETRY_DISABLED=1
+# Prisma CLI installé localement dans /app/node_modules/.bin
+ENV PATH="/app/node_modules/.bin:${PATH}"
 
 # Utilisateur non-root pour la sécurité
 RUN addgroup --system --gid 1001 nodejs
