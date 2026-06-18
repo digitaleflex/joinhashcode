@@ -115,11 +115,14 @@ jobs:
               echo "✅ web-${INACTIVE} healthy"
           else
               echo "::error::web-${INACTIVE} failed health check — rolling back"
+              echo "=== Logs from failed container hashcode-web-${INACTIVE} ==="
+              docker logs "hashcode-web-${INACTIVE}" --tail 80 2>&1 || true
+              echo "=== Container inspect ==="
+              docker inspect "hashcode-web-${INACTIVE}" --format='{{json .State}}' 2>&1 || true
               docker compose -f compose.app.yml rm -f "web-${INACTIVE}"
               if [ -n "$ACTIVE" ]; then
                 docker compose -f compose.app.yml start "web-${ACTIVE}"
               fi
-              docker logs "hashcode-web-${INACTIVE}" --tail 50 2>/dev/null || true
               exit 1
           fi
 
