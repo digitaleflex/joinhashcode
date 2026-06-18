@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig, env } from "@prisma/config";
 
 // Charge les fichiers .env en développement local.
 // En production (conteneur de migration), les variables sont injectées et dotenv

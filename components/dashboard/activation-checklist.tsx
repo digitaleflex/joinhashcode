@@ -73,7 +73,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           const Icon = step.icon
           return (
             <Card 
