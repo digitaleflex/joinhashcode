@@ -6,7 +6,6 @@ const CRITICAL_ENV_VARS = [
 
 const CRITICAL_IF_PRODUCTION = [
   "RESEND_API_KEY",
-  "SENTRY_DSN",
 ] as const
 
 export function validateEnv() {
