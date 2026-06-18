@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Mail, Fingerprint } from "lucide-react"
+import { Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
 import Link from "next/link"
@@ -25,7 +25,7 @@ function getSafeCallbackUrl(fallback = "/quiz"): string {
 }
 
 export function SignInForm() {
-    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | "passkey" | "google" | "github" | null>(null)
+    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | "google" | "github" | null>(null)
     const [step, setStep] = useState<"initial" | "otp">("initial")
     const [email, setEmail] = useState("")
     const [otp, setOtp] = useState("")
@@ -122,6 +122,8 @@ export function SignInForm() {
         }
     }
 
+    // TODO: Réactiver les passkeys quand le plugin sera stable
+    /*
     const handleSignInPasskey = async () => {
         setLoadingProvider("passkey")
         try {
@@ -146,6 +148,7 @@ export function SignInForm() {
             setLoadingProvider(null)
         }
     }
+    */
 
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
@@ -265,6 +268,7 @@ export function SignInForm() {
                             </Button>
                             */}
 
+                            {/* TODO: Réactiver les passkeys quand le plugin sera stable
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInPasskey}
@@ -283,6 +287,7 @@ export function SignInForm() {
                             <p className="text-[9px] text-zinc-600 text-center -mt-1">
                                 À configurer dans <Link href="/settings" className="text-zinc-500 hover:text-primary underline">Paramètres</Link> après connexion
                             </p>
+                            */}
 
                                 <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
