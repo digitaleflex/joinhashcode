@@ -86,7 +86,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER root
 RUN mkdir -p /tmp/prisma-cli && cd /tmp/prisma-cli && \
     npm install prisma@${PRISMA_VERSION} --no-save --no-package-lock && \
-    cp -r /tmp/prisma-cli/node_modules/* /app/node_modules/
+    cp -r /tmp/prisma-cli/node_modules/. /app/node_modules/
 USER nextjs
 
 EXPOSE 3000
