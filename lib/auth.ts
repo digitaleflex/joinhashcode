@@ -1,7 +1,7 @@
 // @ts-ignore
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { magicLink, emailOTP, admin, createAccessControl, organization, multiSession } from "better-auth/plugins";
+import { magicLink, emailOTP, admin, createAccessControl, organization, multiSession, twoFactor } from "better-auth/plugins";
 import { passkey } from "@better-auth/passkey";
 import { prisma } from "./prisma";
 import { nextCookies } from "better-auth/next-js";
@@ -324,6 +324,7 @@ export const auth = betterAuth({
       },
     }),
     passkey(),
+    twoFactor(),
     nextCookies(),
   ],
 
