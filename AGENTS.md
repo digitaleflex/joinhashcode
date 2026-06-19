@@ -96,3 +96,10 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 | `prisma/schema.prisma` | Full data model                             |
 | `components/ui/`       | shadcn/ui base components                   |
 | `next.config.mjs`      | Build error suppression, unoptimized images |
+
+## Deployment Notes
+
+- Docker images are tagged `ghcr.io/digitaleflex/joinhashcode:sha-<short-sha>`.
+- Pushing to GHCR requires a GitHub token with the `write:packages` scope. The current repository remote token only has `repo` scope, so `docker push ghcr.io/...` fails with `denied`. Build directly on the VPS or use a dedicated GHCR token.
+- Blue/green deployment uses `compose.app.yml` (`web-a` and `web-b`). Both containers should always run the same image digest to avoid stale static-chunk 404s.
+- Adminer is intentionally restricted to `127.0.0.1:8080` (no public Traefik route). Access it via SSH tunnel: `ssh -L 8080:localhost:8080 user@<vps>`.

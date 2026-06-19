@@ -36,18 +36,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    # Sécurité : Adminer n'est PAS exposé sur Internet. Accès uniquement via
+    # tunnel SSH : ssh -L 8080:localhost:8080 user@<vps>
+    ports:
+      - "127.0.0.1:8080:8080"
     networks:
       - db-network
-      - proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.hashcode-adminer.rule=Host(`db.${APP_DOMAIN}`)"
-      - "traefik.http.routers.hashcode-adminer.entrypoints=websecure"
-      - "traefik.http.routers.hashcode-adminer.tls=true"
-      - "traefik.http.routers.hashcode-adminer.tls.certresolver=letsencrypt"
-      - "traefik.http.services.hashcode-adminer.loadbalancer.server.port=8080"
-      - "traefik.http.middlewares.adminer-auth.basicauth.users=${ADMINER_AUTH}"
-      - "traefik.http.routers.hashcode-adminer.middlewares=adminer-auth"
 
 volumes:
   postgres_data:
