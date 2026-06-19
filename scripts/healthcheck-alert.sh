@@ -67,12 +67,19 @@ if ! docker exec "$DB_CONTAINER" pg_isready -U "$DB_USER" -d "$DB_NAME" >/dev/nu
   ERRORS+="- PostgreSQL ($DB_CONTAINER / $DB_NAME) ne répond pas.\n"
 fi
 
-# 2. Vérification conteneurs web
+# 2. Vérification conteneurs web (blue/green — au moins un doit être healthy)
+HEALTHY_WEB=0
 for container in "${WEB_CONTAINERS[@]}"; do
-  if ! docker inspect --format='{{.State.Health.Status}}' "$container" 2>/dev/null | grep -q "healthy"; then
-    ERRORS+="- Conteneur $container n'est pas healthy.\n"
+  status=$(docker inspect --format='{{.State.Health.Status}}' "$container" 2>/dev/null || echo "notfound")
+  if [[ "$status" == "healthy" ]]; then
+    HEALTHY_WEB=$((HEALTHY_WEB + 1))
+  elif [[ "$status" != "notfound" ]]; then
+    ERRORS+="- Conteneur $container est $status.\n"
   fi
 done
+if [[ $HEALTHY_WEB -eq 0 ]]; then
+  ERRORS+="- Aucun conteneur web healthy.\n"
+fi
 
 # 3. Vérification endpoint public critique
 if ! curl -fsS -m 10 "https://www.joinhashcode.com/api/status" >/dev/null 2>&1; then
