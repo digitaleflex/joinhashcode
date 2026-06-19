@@ -65,10 +65,10 @@ export async function POST(req: Request) {
 
     const dbUser = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { level: true }
+      include: { progress: { select: { level: true } } },
     });
 
-    if (!dbUser || dbUser.level < targetSquad.requiredLevel) {
+    if (!dbUser || (dbUser.progress?.level ?? 1) < targetSquad.requiredLevel) {
       return NextResponse.json({ 
         message: `Habilitation insuffisante. Cette unité exige le niveau ${targetSquad.requiredLevel}.` 
       }, { status: 403 });

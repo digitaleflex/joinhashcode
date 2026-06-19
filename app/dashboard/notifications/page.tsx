@@ -29,6 +29,12 @@ export default async function NotificationsPage() {
         stats: {
           select: { lastCheckinAt: true, currentStreak: true },
         },
+        progress: {
+          select: { level: true, experience: true, missionsCompletedCount: true },
+        },
+        referral: {
+          select: { referralCode: true, referralCount: true },
+        },
         members: {
           take: 1,
           include: {
@@ -56,14 +62,14 @@ export default async function NotificationsPage() {
       name: userData.name,
       email: userData.email,
       image: userData.image,
-      level: userData.level,
-      experience: userData.experience,
+      level: userData.progress?.level ?? 1,
+      experience: userData.progress?.experience ?? 0,
       class: userData.class,
-      missionsCompletedCount: userData.missionsCompletedCount,
+      missionsCompletedCount: userData.progress?.missionsCompletedCount ?? 0,
       behavioralVibrancy: userData.behavioralVibrancy,
       pseudo: userData.pseudo,
-      referralCode: userData.referralCode,
-      referralCount: userData.referralCount,
+      referralCode: userData.referral?.referralCode ?? null,
+      referralCount: userData.referral?.referralCount ?? 0,
       role: userData.role,
       language: userData.language,
       memberNumber: userData.memberNumber,

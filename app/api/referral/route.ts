@@ -11,26 +11,37 @@ export async function GET() {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
-    let user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { referralCode: true, referralCount: true, referrals: { select: { id: true, name: true, pseudo: true, image: true, class: true, level: true, createdAt: true } } },
+    let userReferral = await prisma.userReferral.findUnique({
+      where: { userId: session.user.id },
+      select: { referralCode: true, referralCount: true },
     });
 
-    if (!user) return NextResponse.json({ message: "Not found" }, { status: 404 });
-
-    // Generate referral code on first access
-    if (!user.referralCode) {
-      user = await prisma.user.update({
-        where: { id: session.user.id },
-        data: { referralCode: nanoid(8).toLowerCase() },
-        select: { referralCode: true, referralCount: true, referrals: { select: { id: true, name: true, pseudo: true, image: true, class: true, level: true, createdAt: true } } },
+    if (!userReferral) {
+      userReferral = await prisma.userReferral.create({
+        data: {
+          userId: session.user.id,
+          referralCode: nanoid(8).toLowerCase(),
+          referralCount: 0,
+        },
+        select: { referralCode: true, referralCount: true },
       });
     }
 
+    // Fetch referred users via the referral table
+    const referredUserRecords = await prisma.userReferral.findMany({
+      where: { referrerId: session.user.id },
+      select: {
+        user: {
+          select: { id: true, name: true, pseudo: true, image: true, class: true, progress: { select: { level: true } }, createdAt: true },
+        },
+      },
+    });
+    const referrals = referredUserRecords.map(r => r.user);
+
     return NextResponse.json({
-      referralCode: user!.referralCode,
-      referralCount: user!.referralCount,
-      referrals: user!.referrals,
+      referralCode: userReferral.referralCode,
+      referralCount: userReferral.referralCount,
+      referrals,
     }, { headers: { "Cache-Control": "private, no-cache" } });
   } catch (error: unknown) {
     return handleApiError(error, "REFERRAL_GET");

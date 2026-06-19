@@ -103,24 +103,35 @@ export async function PATCH(req: Request) {
       const refCode = cookieStore.get("hashcode_ref")?.value;
       if (refCode) {
         try {
-          const currentUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { referrerId: true } });
-          if (!currentUser?.referrerId) {
-            const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true, name: true } });
-            if (referrer && referrer.id !== session.user.id) {
-              await prisma.user.update({ where: { id: session.user.id }, data: { referrerId: referrer.id } });
-              await prisma.user.update({ where: { id: referrer.id }, data: { referralCount: { increment: 1 } } });
-              awardXp(referrer.id, 50, "REFERRAL_COMPLETED", session.user.id).catch(err => console.error("[XP_ERROR]", err));
+          const currentReferral = await prisma.userReferral.findUnique({ where: { userId: session.user.id }, select: { referrerId: true } });
+          if (!currentReferral?.referrerId) {
+            const referrerReferral = await prisma.userReferral.findUnique({ where: { referralCode: refCode }, select: { userId: true } });
+            if (referrerReferral && referrerReferral.userId !== session.user.id) {
+              const referrer = await prisma.user.findUnique({ where: { id: referrerReferral.userId }, select: { id: true, name: true } });
+              if (referrer) {
+                await prisma.userReferral.upsert({
+                  where: { userId: session.user.id },
+                  create: { userId: session.user.id, referrerId: referrer.id, referralCode: "", referralCount: 0 },
+                  update: { referrerId: referrer.id },
+                });
+                await prisma.userReferral.upsert({
+                  where: { userId: referrer.id },
+                  create: { userId: referrer.id, referralCode: "", referralCount: 1 },
+                  update: { referralCount: { increment: 1 } },
+                });
+                awardXp(referrer.id, 50, "REFERRAL_COMPLETED", session.user.id).catch(err => console.error("[XP_ERROR]", err));
 
-              // Notify referrer via notification (non-blocking)
-              prisma.notification.create({
-                data: {
-                  userId: referrer.id,
-                  type: "REFERRAL_SUCCESS",
-                  title: "Récompense de parrainage ! 💎",
-                  message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
-                  link: "/dashboard",
-                }
-              }).catch(err => console.error("[NOTIFICATION_ERROR]", err));
+                // Notify referrer via notification (non-blocking)
+                prisma.notification.create({
+                  data: {
+                    userId: referrer.id,
+                    type: "REFERRAL_SUCCESS",
+                    title: "Récompense de parrainage ! 💎",
+                    message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
+                    link: "/dashboard",
+                  }
+                }).catch(err => console.error("[NOTIFICATION_ERROR]", err));
+              }
             }
           }
           cookieStore.delete("hashcode_ref");

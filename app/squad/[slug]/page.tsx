@@ -26,7 +26,9 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
               pseudo: true,
               image: true,
               class: true,
-              level: true,
+            },
+            include: {
+              progress: { select: { level: true } },
             },
           },
         },
@@ -152,7 +154,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
                           {m.role === "owner" && <span className="ml-2 text-[8px] font-mono text-primary uppercase">Chef</span>}
                         </p>
                         <p className="text-[9px] font-mono" style={{ color }}>
-                          {(m.user.class || "Builder").toUpperCase()} · LVL {m.user.level}
+                          {(m.user.class || "Builder").toUpperCase()} · LVL {m.user.progress?.level ?? 1}
                         </p>
                       </div>
                     </div>

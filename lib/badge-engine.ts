@@ -234,11 +234,12 @@ export async function checkAndAwardBadges(userId: string) {
       where: { id: userId },
       select: {
         id: true,
-        level: true,
-        missionsCompletedCount: true,
         badges: true,
-        referralCount: true,
         behavioralVibrancy: true,
+      },
+      include: {
+        progress: { select: { level: true, missionsCompletedCount: true } },
+        referral: { select: { referralCount: true } },
       },
     });
 
@@ -250,11 +251,11 @@ export async function checkAndAwardBadges(userId: string) {
     // Adapter user pour les critères
     const userWithStats: ExtendedUserForBadges = {
       id: user.id,
-      level: user.level,
-      missionsCompletedCount: user.missionsCompletedCount,
+      level: user.progress?.level ?? 1,
+      missionsCompletedCount: user.progress?.missionsCompletedCount ?? 0,
       badges: user.badges,
       currentStreak: 0, // Sera implémenté avec engagementStats
-      referralCount: user.referralCount,
+      referralCount: user.referral?.referralCount ?? 0,
       vibrancy: (user.behavioralVibrancy as unknown as BehavioralVibrancy) || {
         builder: 0,
         creator: 0,

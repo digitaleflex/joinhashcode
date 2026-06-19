@@ -40,6 +40,10 @@ export default async function UserDossierPage({ params }: PageProps) {
     where: { id },
     include: {
       psychometrics: true,
+      progress: true,
+      security: true,
+      referral: true,
+      beta: true,
       quizResults: {
         orderBy: { createdAt: 'desc' },
         take: 1
@@ -61,8 +65,10 @@ export default async function UserDossierPage({ params }: PageProps) {
                       pseudo: true,
                       image: true,
                       class: true,
-                      level: true,
-                    }
+                    },
+                    include: {
+                      progress: { select: { level: true } },
+                    },
                   }
                 }
               }
@@ -191,7 +197,7 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
               <CardTitle className="text-lg font-bold text-white tracking-tight">{user.name}</CardTitle>
               <CardDescription className="font-mono text-xs uppercase tracking-wider text-zinc-500 flex items-center justify-center gap-2 mt-1">
-                {user.pseudo ? `@${user.pseudo}` : "ID NEURONAL"} · LVL {user.level}
+                {user.pseudo ? `@${user.pseudo}` : "ID NEURONAL"} · LVL {user.progress?.level ?? 1}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
@@ -209,7 +215,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                     <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Rôle Système</p>
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-zinc-300">{user.role}</p>
-                      {user.banned && <Badge variant="destructive" className="text-[9px] h-4">BANNI</Badge>}
+                      {user.security?.banned && <Badge variant="destructive" className="text-[9px] h-4">BANNI</Badge>}
                     </div>
                   </div>
                 </div>
@@ -218,10 +224,10 @@ export default async function UserDossierPage({ params }: PageProps) {
                   <div className="flex-1">
                     <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Score Anti-Fraude</p>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-zinc-300">{user.fraudRiskScore ?? 0}</p>
-                      {(user.fraudRiskScore ?? 0) >= 61 ? (
-                        <Badge variant="destructive" className="text-[9px] h-4">BLOQUÉ</Badge>
-                      ) : (user.fraudRiskScore ?? 0) >= 31 ? (
+                      <p className="text-sm text-zinc-300">{user.security?.fraudRiskScore ?? 0}</p>
+                      {(user.security?.fraudRiskScore ?? 0) >= 61 ? (
+                        <p className="text-[9px] text-red-400 font-mono">Élevé</p>
+                      ) : (user.security?.fraudRiskScore ?? 0) >= 31 ? (
                         <Badge className="text-[9px] h-4 bg-amber-500/10 text-amber-500 border-amber-500/20">SURVEILLANCE</Badge>
                       ) : null}
                     </div>
@@ -293,11 +299,11 @@ export default async function UserDossierPage({ params }: PageProps) {
               <div className="pt-4 border-t border-white/5 grid grid-cols-2 gap-4">
                 <div className="text-center p-3 rounded-xl bg-white/[0.02]">
                   <p className="text-[10px] font-mono text-zinc-600 uppercase mb-1">Missions</p>
-                  <p className="text-xl font-bold text-white">{user.missionsCompletedCount}</p>
+                  <p className="text-xl font-bold text-white">{user.progress?.missionsCompletedCount ?? 0}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-white/[0.02]">
                   <p className="text-[10px] font-mono text-zinc-600 uppercase mb-1">XP Total</p>
-                  <p className="text-xl font-bold text-primary">{user.experience}</p>
+                  <p className="text-xl font-bold text-primary">{user.progress?.experience ?? 0}</p>
                 </div>
               </div>
             </CardContent>
@@ -515,7 +521,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                             </div>
                             
                             <div className="flex items-center gap-3">
-                              <span className="text-[9px] font-mono text-zinc-500 uppercase">Niveau {member.user.level || 1}</span>
+                              <span className="text-[9px] font-mono text-zinc-500 uppercase">Niveau {member.user.progress?.level || 1}</span>
                               <span className={cn(
                                 "inline-flex items-center px-2 py-0.5 rounded-md border text-[8px] font-mono font-bold uppercase tracking-wider",
                                 member.role === "owner" || member.role === "LEADER" ? "text-primary bg-primary/10 border-primary/20" : "text-zinc-400 bg-white/5 border-white/5"

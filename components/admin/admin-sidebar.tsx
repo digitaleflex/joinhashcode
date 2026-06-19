@@ -21,6 +21,7 @@ import {
   KeyRound,
   ShieldBan,
   MapPin,
+  BarChart3,
 } from "lucide-react"
 
 import {
@@ -60,6 +61,7 @@ const adminNavItems = [
   { title: "Données GPS",    url: "/admin/gps",         icon: MapPin },
   { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
   { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
+  { title: "Sondage UX",     url: "/admin/ux-poll",     icon: BarChart3 },
 ]
 
 export function AdminSidebar({ user }: { user: any }) {

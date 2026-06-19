@@ -115,6 +115,8 @@ export interface UserProfile {
   createdAt: Date;
   referralCode?: string | null;
   referralCount: number;
+  betaKeyId?: string | null;
+  twoFactorEnabled?: boolean;
   badges: string[];
   bio?: string | null;
 }

@@ -17,8 +17,6 @@ model User {
   image                    String?
   createdAt                DateTime
   updatedAt                DateTime
-  level                    Int                 @default(1)
-  experience               Int                 @default(0)
   class                    String?             @map("profile_class")
   role                     String              @default("MEMBER")
   badges                   String[]
@@ -33,7 +31,6 @@ model User {
   language                 String              @default("fr")
   lastHypothesisUpdate     DateTime?
   mainObjective            String?
-  missionsCompletedCount   Int                 @default(0)
   pseudo                   String?             @unique
   technicalLevel           String?
   tools                    String[]
@@ -43,11 +40,9 @@ model User {
   currentFocus             String[]
   dreamStatement           String?
   mainBlocker              String?
-  banned                   Boolean?            @default(false)
   banReason                String?
   banExpires               DateTime?
   visitorId                String?
-  fraudRiskScore           Int                 @default(0)
   consentLocation          Boolean             @default(false)
   consentLocationAt        DateTime?
   latitude                 Float?
@@ -61,6 +56,10 @@ model User {
   psychometrics            Psychometric?
   socials                  UserSocials?
   stats                    EngagementStats?
+  security                 UserSecurity?
+  referral                 UserReferral?
+  progress                 UserProgress?
+  beta                     UserBeta?
   accounts                 Account[]
   dailyCheckins            DailyCheckin[]
   guildMembers             GuildMember[]
@@ -76,21 +75,9 @@ model User {
   uxPollResponses          UXPollResponse[]
   sessions                 Session[]
   members                  Member[]
-  twoFactorEnabled         Boolean             @default(false)
-  twoFactorSecret          String?
   twoFactorBackupCodes     String?
   invitations              Invitation[]
   joinRequests             JoinRequest[]
-  betaKeyId                String?             @unique
-  betaKey                  BetaKey?            @relation("UserBetaKey", fields: [betaKeyId], references: [id])
-  
-  // Referral System
-  referralCode             String?             @unique
-  referrerId               String?
-  referrer                 User?               @relation("UserReferrals", fields: [referrerId], references: [id])
-  referrals                User[]              @relation("UserReferrals")
-  referralCount            Int                 @default(0)
-
   twofactors               TwoFactor[]
   passkeys                 Passkey[]
   xpTransactions           XpTransaction[]
@@ -98,11 +85,61 @@ model User {
   fraudEvents              FraudEvent[]
   locations                UserLocation[]
 
-  @@index([level])
   @@index([class])
   @@index([role])
   @@index([createdAt])
   @@map("user")
+}
+
+model UserSecurity {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
+  fraudRiskScore  Int      @default(0)
+  banned          Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("user_security")
+}
+
+model UserReferral {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referralCode   String   @unique
+  referrerId     String?
+  referralCount  Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("user_referral")
+}
+
+model UserProgress {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level                Int      @default(1)
+  experience           Int      @default(0)
+  missionsCompletedCount Int    @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("user_progress")
+}
+
+model UserBeta {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  betaKeyId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_beta")
 }
 
 model Organization {
@@ -498,7 +535,6 @@ model BetaKey {
   expiresAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  user      User?     @relation("UserBetaKey")
 
   @@map("beta_key")
 }

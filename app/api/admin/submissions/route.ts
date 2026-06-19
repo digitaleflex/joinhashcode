@@ -40,8 +40,10 @@ export async function GET(req: Request) {
           id: true,
           name: true,
           email: true,
-          level: true,
-        }
+        },
+        include: {
+          progress: { select: { level: true } },
+        },
       },
       mission: {
         select: {
@@ -56,7 +58,7 @@ export async function GET(req: Request) {
       }
     }
 
-    const [submissions, total] = await Promise.all([
+    const [rawSubmissions, total] = await Promise.all([
       prisma.missionSubmission.findMany({
         where: { status: { in: statuses } },
         select: submissionSelect,
@@ -68,6 +70,16 @@ export async function GET(req: Request) {
         where: { status: { in: statuses } },
       }),
     ]);
+
+    const submissions = rawSubmissions.map((s) => ({
+      ...s,
+      user: {
+        id: s.user.id,
+        name: s.user.name,
+        email: s.user.email,
+        level: s.user.progress?.level ?? 1,
+      },
+    }));
 
     return NextResponse.json({ submissions, total, page, limit });
   } catch (error) {

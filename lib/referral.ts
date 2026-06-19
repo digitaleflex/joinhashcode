@@ -8,15 +8,16 @@ export async function processReferralReward(newUserId: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: newUserId },
-      select: { id: true, referrerId: true, name: true, createdAt: true }
+      select: { id: true, name: true, createdAt: true },
+      include: { referral: { select: { referrerId: true } } },
     });
 
-    if (!user || !user.referrerId) return;
-    if (user.referrerId === newUserId) return;
+    if (!user || !user.referral?.referrerId) return;
+    if (user.referral.referrerId === newUserId) return;
 
     const existingReward = await prisma.activityLog.findFirst({
       where: {
-        userId: user.referrerId,
+        userId: user.referral.referrerId,
         action: "REFERRAL_REWARD_GRANTED",
         entityId: newUserId,
       },
@@ -42,16 +43,17 @@ export async function processReferralReward(newUserId: string) {
     const rewardXp = 50;
 
     await prisma.$transaction(async (tx) => {
-      await awardXp(user.referrerId!, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
+      await awardXp(user.referral!.referrerId!, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
 
-      await tx.user.update({
-        where: { id: user.referrerId! },
-        data: { referralCount: { increment: 1 } }
+      await tx.userReferral.upsert({
+        where: { userId: user.referral!.referrerId! },
+        create: { userId: user.referral!.referrerId!, referralCount: 1, referralCode: "" },
+        update: { referralCount: { increment: 1 } },
       });
 
       await tx.notification.create({
         data: {
-          userId: user.referrerId!,
+          userId: user.referral!.referrerId!,
           type: "REFERRAL_SUCCESS",
           title: "Récompense de parrainage ! 💎",
           message: `Ton ami ${user.name} a rejoint HASHCODE. Tu as reçu +${rewardXp} XP.`,
@@ -61,7 +63,7 @@ export async function processReferralReward(newUserId: string) {
 
       await tx.activityLog.create({
         data: {
-          userId: user.referrerId!,
+          userId: user.referral!.referrerId!,
           action: "REFERRAL_REWARD_GRANTED",
           entity: "user",
           entityId: newUserId,
@@ -70,7 +72,7 @@ export async function processReferralReward(newUserId: string) {
       });
     });
 
-    console.log(`[REFERRAL] Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
+    console.log(`[REFERRAL] Reward of ${rewardXp} XP granted to ${user.referral.referrerId} for referring ${newUserId}`);
   } catch (error: unknown) {
     console.error("[REFERRAL_REWARD_ERROR]", error);
   }

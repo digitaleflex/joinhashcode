@@ -111,8 +111,6 @@ export async function PATCH(req: Request) {
         name: true,
         email: true,
         image: true,
-        level: true,
-        experience: true,
         class: true,
         role: true,
         pseudo: true,
@@ -126,6 +124,9 @@ export async function PATCH(req: Request) {
         secondaryObjectives: true,
         updatedAt: true,
         socials: true,
+      },
+      include: {
+        progress: { select: { level: true, experience: true } },
       }
     });
 
@@ -136,8 +137,8 @@ export async function PATCH(req: Request) {
       name: updatedUser.name,
       email: updatedUser.email,
       image: updatedUser.image,
-      level: updatedUser.level,
-      experience: updatedUser.experience,
+      level: updatedUser.progress?.level ?? 1,
+      experience: updatedUser.progress?.experience ?? 0,
       class: updatedUser.class,
       role: updatedUser.role,
       pseudo: updatedUser.pseudo,

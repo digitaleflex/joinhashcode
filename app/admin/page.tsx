@@ -52,7 +52,8 @@ export default async function AdminPage() {
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 10,
-      select: { id: true, name: true, email: true, class: true, level: true, createdAt: true, country: true },
+      select: { id: true, name: true, email: true, class: true, createdAt: true, country: true },
+      include: { progress: { select: { level: true } } },
     }),
     prisma.quizResult.groupBy({ by: ["profileType"], _count: { profileType: true } }),
     prisma.mission.findMany({ select: { id: true, title: true, missionLevel: true, targetProfiles: true, _count: { select: { submissions: true } } }, orderBy: { createdAt: "desc" }, take: 20 }),
@@ -93,11 +94,11 @@ export default async function AdminPage() {
       return byLevel
     }),
     // Referral
-    prisma.user.aggregate({ _sum: { referralCount: true } }).then(r => r._sum.referralCount ?? 0),
-    prisma.user.count({ where: { referralCount: { gt: 0 } } }),
+    prisma.userReferral.aggregate({ _sum: { referralCount: true } }).then(r => r._sum.referralCount ?? 0),
+    prisma.userReferral.count({ where: { referralCount: { gt: 0 } } }),
     // Anti-fraud
     prisma.fraudEvent.count(),
-    prisma.user.count({ where: { fraudRiskScore: { gte: 30 } } }),
+    prisma.user.count({ where: { security: { fraudRiskScore: { gte: 30 } } } }),
     prisma.user.count({ where: { visitorId: { not: null } } }),
     // Passkey
     prisma.passkey.count(),
@@ -324,7 +325,7 @@ export default async function AdminPage() {
                   ) : (
                     <span className="text-[10px] font-mono text-muted-foreground">—</span>
                   )}
-                  <p className="text-[9px] text-muted-foreground/60 font-mono mt-0.5">LVL {u.level}</p>
+                  <p className="text-[9px] text-muted-foreground/60 font-mono mt-0.5">LVL {u.progress?.level ?? 1}</p>
                 </div>
               </div>
             ))}

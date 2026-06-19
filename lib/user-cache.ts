@@ -13,6 +13,10 @@ export async function getCachedUser(userId: string) {
         psychometrics: true,
         socials: true,
         stats: true,
+        progress: true,
+        security: true,
+        referral: true,
+        beta: true,
       }
     });
   }
@@ -35,6 +39,10 @@ export async function getCachedUser(userId: string) {
       psychometrics: true,
       socials: true,
       stats: true,
+      progress: true,
+      security: true,
+      referral: true,
+      beta: true,
     }
   });
 

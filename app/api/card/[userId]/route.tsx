@@ -23,9 +23,10 @@ export async function GET(
       pseudo: true,
       name: true,
       class: true,
-      level: true,
-      experience: true,
       createdAt: true,
+    },
+    include: {
+      progress: { select: { level: true, experience: true } },
     },
   });
 
@@ -34,9 +35,11 @@ export async function GET(
   }
 
   const accent = CLASS_COLORS[user.class ?? "builder"] ?? "#B8FF3B";
-  const levelName = LEVEL_NAMES[user.level] ?? "INIT";
-  const xpMax = XP_MAX[user.level] ?? 100;
-  const xpPct = Math.min(100, Math.round((user.experience / xpMax) * 100));
+  const userLevel = user.progress?.level ?? 1;
+  const userXp = user.progress?.experience ?? 0;
+  const levelName = LEVEL_NAMES[userLevel] ?? "INIT";
+  const xpMax = XP_MAX[userLevel] ?? 100;
+  const xpPct = Math.min(100, Math.round((userXp / xpMax) * 100));
   const pseudo = user.pseudo ?? user.name ?? "MEMBRE";
   const memberNum = user.memberNumber
     ? String(user.memberNumber).padStart(4, "0")
@@ -123,7 +126,7 @@ export async function GET(
             </div>
             <span style={{ color: "#52525b", fontSize: 13, letterSpacing: "0.15em" }}>·</span>
             <span style={{ color: "#71717a", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-              NIV. {user.level} — {levelName}
+              NIV. {userLevel} — {levelName}
             </span>
           </div>
 
@@ -138,7 +141,7 @@ export async function GET(
                 Expérience
               </span>
               <span style={{ color: "#71717a", fontSize: 11, fontFamily: "monospace" }}>
-                {user.experience} / {xpMax} XP
+                {userXp} / {xpMax} XP
               </span>
             </div>
             <div style={{ width: "100%", height: 6, background: "#27272a", borderRadius: 999, display: "flex" }}>

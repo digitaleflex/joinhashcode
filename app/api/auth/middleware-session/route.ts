@@ -24,8 +24,9 @@ export async function GET() {
     // Retourne uniquement les champs nécessaires au middleware pour rester léger et type-safe
     const safeUser: Record<string, unknown> = {
       id: user.id,
-      banned: user.banned,
+      banned: user.security?.banned ?? false,
       banExpires: user.banExpires,
+      betaKeyId: user.beta?.betaKeyId ?? null,
       currentSituation: user.currentSituation,
       class: user.class,
       role: user.role,
@@ -39,6 +40,7 @@ export async function GET() {
     // Set middleware cookie for subsequent requests (avoids DB hit on every page)
     response.cookies.set("hc_mw", JSON.stringify({
       banned: safeUser.banned,
+      betaKeyId: safeUser.betaKeyId,
       currentSituation: safeUser.currentSituation,
       class: safeUser.class,
       role: safeUser.role,
