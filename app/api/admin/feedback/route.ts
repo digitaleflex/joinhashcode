@@ -60,17 +60,19 @@ export const PATCH = async (req: NextRequest) => {
               id: true,
               email: true,
               name: true,
-              experience: true,
-              level: true,
-            }
+            },
+            include: {
+              progress: { select: { experience: true, level: true } },
+            },
           }
         }
       });
 
       // Gamification: Reward XP if moving to RESOLVED and wasn't already RESOLVED
       if (result.data.status === "RESOLVED" && currentFeedback.status !== "RESOLVED") {
-        const newXp = (feedback.user.experience || 0) + FEEDBACK_XP_REWARD;
-        let newLevel = feedback.user.level || 1;
+        const currentXp = feedback.user.progress?.experience ?? 0;
+        const newXp = currentXp + FEEDBACK_XP_REWARD;
+        let newLevel = feedback.user.progress?.level ?? 1;
         
         for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
           const levelNum = parseInt(levelStr);
@@ -85,9 +87,10 @@ export const PATCH = async (req: NextRequest) => {
           catalyst: 0.1,
         };
 
-        await tx.user.update({
-          where: { id: feedback.userId },
-          data: { experience: newXp, level: newLevel },
+        await tx.userProgress.upsert({
+          where: { userId: feedback.userId },
+          create: { userId: feedback.userId, experience: newXp, level: newLevel },
+          update: { experience: newXp, level: newLevel },
         });
 
         await updateUserEvolution(feedback.userId, contributionWeights, 0.02, tx);

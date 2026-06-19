@@ -54,15 +54,15 @@ export async function awardXp(
     // 3. Récupérer l'XP et le niveau actuels de l'utilisateur
     const user = await tx.user.findUnique({
       where: { id: userId },
-      select: { experience: true, level: true },
+      include: { progress: { select: { experience: true, level: true } } },
     });
 
     if (!user) {
       throw new Error(`Utilisateur introuvable : ${userId}`);
     }
 
-    const currentXp = user.experience;
-    const currentLevel = user.level;
+    const currentXp = user.progress?.experience ?? 0;
+    const currentLevel = user.progress?.level ?? 1;
     const nextXp = currentXp + finalAmount;
 
     // Progression basée sur les seuils réels XP_THRESHOLDS
@@ -76,19 +76,31 @@ export async function awardXp(
     }
     const nextLevel = targetLevel > currentLevel ? targetLevel : currentLevel;
 
-    // 4. Mettre à jour l'utilisateur
+    // 4. Mettre à jour le progrès de l'utilisateur
     const updatedUser = await tx.user.update({
       where: { id: userId },
       data: {
-        experience: { increment: finalAmount },
-        level: nextLevel,
+        progress: {
+          upsert: {
+            create: {
+              experience: finalAmount,
+              level: nextLevel,
+            },
+            update: {
+              experience: { increment: finalAmount },
+              level: nextLevel,
+            },
+          },
+        },
       },
       select: {
         id: true,
         name: true,
         email: true,
-        level: true,
-      }
+      },
+      include: {
+        progress: { select: { level: true } },
+      },
     });
 
     // Send Level 5 celebration email

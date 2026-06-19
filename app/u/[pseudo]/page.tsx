@@ -46,11 +46,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
       id: true, name: true, pseudo: true, email: true, image: true, bio: true,
       role: true, language: true,
       city: true, country: true,
-      class: true, level: true, experience: true,
+      class: true,
       behavioralVibrancy: true, technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
-      memberNumber: true, missionsCompletedCount: true, createdAt: true, banned: true,
-      referralCount: true,
+      memberNumber: true, createdAt: true,
       psychometrics: {
         select: {
           builderScore: true,
@@ -98,7 +97,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
               members: {
                 select: {
                   role: true,
-                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true, level: true } },
+                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true }, include: { progress: { select: { level: true } } } },
                 },
               },
             },
@@ -106,15 +105,24 @@ export default async function PublicProfilePage({ params }: PageProps) {
         },
       },
     },
+    include: {
+      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+      security: { select: { banned: true } },
+      referral: { select: { referralCount: true } },
+    },
   });
 
-  if (!dbUser || dbUser.banned) {
+  if (!dbUser || dbUser.security?.banned) {
     notFound();
   }
 
   // Aplatir l'objet user pour la compatibilité avec DossierView
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
     ...dbUser,
+    level: dbUser.progress?.level ?? 1,
+    experience: dbUser.progress?.experience ?? 0,
+    missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,
+    referralCount: dbUser.referral?.referralCount ?? 0,
     email: dbUser.email,
     githubUrl: dbUser.socials?.githubUrl ?? null,
     linkedinUrl: dbUser.socials?.linkedinUrl ?? null,

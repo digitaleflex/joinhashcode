@@ -146,12 +146,12 @@ export class MissionsService {
 
     const finalUser = await prisma.user.findUnique({
       where: { id: userId },
-      select: { experience: true, missionsCompletedCount: true }
+      include: { progress: { select: { experience: true, missionsCompletedCount: true } } }
     });
     
     if (finalUser) {
       // Track Analytics
-      if (finalUser.missionsCompletedCount === 1) {
+      if ((finalUser.progress?.missionsCompletedCount ?? 0) === 1) {
           await trackEvent(userId, EVENTS.FIRST_MISSION_STARTED, { 
               missionId: mission.id,
               title: mission.title

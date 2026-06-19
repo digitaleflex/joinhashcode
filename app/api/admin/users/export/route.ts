@@ -34,9 +34,6 @@ export async function GET(req: Request) {
         pseudo: true,
         role: true,
         class: true,
-        level: true,
-        experience: true,
-        missionsCompletedCount: true,
         createdAt: true,
         city: true,
         country: true,
@@ -54,7 +51,10 @@ export async function GET(req: Request) {
           select: {
             currentStreak: true,
           }
-        }
+        },
+      },
+      include: {
+        progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -66,14 +66,14 @@ export async function GET(req: Request) {
       pseudo: u.pseudo,
       role: u.role,
       class: u.class,
-      level: u.level,
-      experience: u.experience,
+      level: u.progress?.level ?? 1,
+      experience: u.progress?.experience ?? 0,
       builderScore: u.psychometrics?.builderScore ?? 0,
       creatorScore: u.psychometrics?.creatorScore ?? 0,
       strategistScore: u.psychometrics?.strategistScore ?? 0,
       catalystScore: u.psychometrics?.catalystScore ?? 0,
       confidenceScore: u.psychometrics?.confidenceScore ?? 0.25,
-      missionsCompletedCount: u.missionsCompletedCount,
+      missionsCompletedCount: u.progress?.missionsCompletedCount ?? 0,
       currentStreak: u.stats?.currentStreak ?? 0,
       createdAt: u.createdAt,
       city: u.city,

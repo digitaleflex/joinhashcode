@@ -53,10 +53,10 @@ export async function POST(req: Request) {
     // Check level authorization
     const dbUser = await prisma.user.findUnique({
       where: { id: userId },
-      select: { level: true }
+      include: { progress: { select: { level: true } } }
     });
 
-    if (!dbUser || dbUser.level < squad.requiredLevel) {
+    if (!dbUser || (dbUser.progress?.level ?? 1) < squad.requiredLevel) {
       return NextResponse.json({ 
         error: `Niveau d'habilitation insuffisante. Niveau ${squad.requiredLevel} requis.` 
       }, { status: 403 });

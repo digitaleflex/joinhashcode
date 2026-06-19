@@ -21,7 +21,6 @@ export async function GET(req: Request) {
         name: true,
         pseudo: true,
         class: true,
-        level: true,
         psychometrics: {
           select: {
             builderScore: true,
@@ -30,7 +29,10 @@ export async function GET(req: Request) {
             catalystScore: true,
           }
         }
-      }
+      },
+      include: {
+        progress: { select: { level: true } },
+      },
     });
 
     if (!user) {
@@ -97,7 +99,7 @@ export async function GET(req: Request) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ backgroundColor: '#C5F441', padding: '6px 12px', borderRadius: '8px', color: 'black', fontSize: '14px', fontWeight: '900' }}>
-                        LVL_{user.level}
+                        LVL_{user.progress?.level ?? 1}
                     </div>
                     <div style={{ color: '#C5F441', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic' }}>
                         {profileLabel}

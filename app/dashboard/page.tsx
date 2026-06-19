@@ -30,6 +30,12 @@ export default async function DashboardPage() {
         stats: {
           select: { lastCheckinAt: true, currentStreak: true },
         },
+        progress: {
+          select: { level: true, experience: true, missionsCompletedCount: true },
+        },
+        referral: {
+          select: { referralCode: true, referralCount: true },
+        },
         quizResults: {
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -66,14 +72,14 @@ export default async function DashboardPage() {
       name: userData.name,
       email: userData.email,
       image: userData.image,
-      level: userData.level,
-      experience: userData.experience,
+      level: userData.progress?.level ?? 1,
+      experience: userData.progress?.experience ?? 0,
       class: userData.class,
-      missionsCompletedCount: userData.missionsCompletedCount,
+      missionsCompletedCount: userData.progress?.missionsCompletedCount ?? 0,
       behavioralVibrancy: userData.behavioralVibrancy,
       pseudo: userData.pseudo,
-      referralCode: userData.referralCode,
-      referralCount: userData.referralCount,
+      referralCode: userData.referral?.referralCode ?? null,
+      referralCount: userData.referral?.referralCount ?? 0,
       role: userData.role,
       language: userData.language,
       memberNumber: userData.memberNumber,

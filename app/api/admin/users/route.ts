@@ -41,22 +41,22 @@ export async function GET(req: Request) {
     }
 
     if (status === "BANNED") {
-      where.banned = true
+      where.security = { banned: true }
     } else if (status === "ACTIVE") {
-      where.banned = { not: true }
+      where.security = { banned: { not: true } }
     }
 
     if (fraudLevel === "NORMAL") {
-      where.fraudRiskScore = { lte: 30 }
+      where.security = { ...(where.security as object || {}), fraudRiskScore: { lte: 30 } }
     } else if (fraudLevel === "SURVEILLANCE") {
-      where.fraudRiskScore = { gte: 31, lte: 60 }
+      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 31, lte: 60 } }
     } else if (fraudLevel === "MANUAL_REVIEW") {
-      where.fraudRiskScore = { gte: 61, lte: 80 }
+      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 61, lte: 80 } }
     } else if (fraudLevel === "BLOCKED") {
-      where.fraudRiskScore = { gte: 81 }
+      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 81 } }
     }
 
-    const [users, total] = await Promise.all([
+    const [rawUsers, total] = await Promise.all([
       prisma.user.findMany({
         where,
         select: {
@@ -65,13 +65,13 @@ export async function GET(req: Request) {
           email: true,
           pseudo: true,
           role: true,
-          level: true,
-          banned: true,
           createdAt: true,
-          fraudRiskScore: true,
-          experience: true,
           image: true,
           class: true,
+        },
+        include: {
+          progress: { select: { level: true, experience: true } },
+          security: { select: { banned: true, fraudRiskScore: true } },
         },
         orderBy: { createdAt: "desc" },
         take: limit,
@@ -79,6 +79,21 @@ export async function GET(req: Request) {
       }),
       prisma.user.count({ where }),
     ])
+
+    const users = rawUsers.map((u) => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      pseudo: u.pseudo,
+      role: u.role,
+      createdAt: u.createdAt,
+      image: u.image,
+      class: u.class,
+      level: u.progress?.level ?? 1,
+      experience: u.progress?.experience ?? 0,
+      banned: u.security?.banned ?? false,
+      fraudRiskScore: u.security?.fraudRiskScore ?? 0,
+    }))
 
     return NextResponse.json({ users, total, page, limit })
   } catch (error: unknown) {

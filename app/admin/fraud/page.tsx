@@ -29,23 +29,24 @@ export default async function AdminFraudPage() {
   const [fraudEvents, flaggedUsers] = await Promise.all([
     prisma.fraudEvent.findMany({
       include: {
-        user: { select: { id: true, name: true, pseudo: true, email: true, image: true, fraudRiskScore: true, banned: true } },
+        user: { select: { id: true, name: true, pseudo: true, email: true, image: true }, include: { security: { select: { fraudRiskScore: true, banned: true } } } },
       },
       orderBy: { createdAt: "desc" },
       take: 100,
     }),
     prisma.user.findMany({
-      where: { fraudRiskScore: { gte: 1 } },
-      select: { id: true, name: true, pseudo: true, email: true, image: true, fraudRiskScore: true, banned: true, visitorId: true },
-      orderBy: { fraudRiskScore: "desc" },
+      where: { security: { fraudRiskScore: { gte: 1 } } },
+      select: { id: true, name: true, pseudo: true, email: true, image: true, visitorId: true },
+      include: { security: { select: { fraudRiskScore: true, banned: true } } },
+      orderBy: { security: { fraudRiskScore: "desc" } },
       take: 50,
     }),
   ])
 
-  const totalScore = flaggedUsers.reduce((a, u) => a + u.fraudRiskScore, 0)
-  const blockedCount = flaggedUsers.filter(u => getFraudLevel(u.fraudRiskScore) === "BLOCKED").length
-  const manualReviewCount = flaggedUsers.filter(u => getFraudLevel(u.fraudRiskScore) === "MANUAL_REVIEW").length
-  const surveillanceCount = flaggedUsers.filter(u => getFraudLevel(u.fraudRiskScore) === "SURVEILLANCE").length
+  const totalScore = flaggedUsers.reduce((a, u) => a + (u.security?.fraudRiskScore ?? 0), 0)
+  const blockedCount = flaggedUsers.filter(u => getFraudLevel(u.security?.fraudRiskScore ?? 0) === "BLOCKED").length
+  const manualReviewCount = flaggedUsers.filter(u => getFraudLevel(u.security?.fraudRiskScore ?? 0) === "MANUAL_REVIEW").length
+  const surveillanceCount = flaggedUsers.filter(u => getFraudLevel(u.security?.fraudRiskScore ?? 0) === "SURVEILLANCE").length
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
@@ -84,7 +85,7 @@ export default async function AdminFraudPage() {
             const cfg = FRAUD_LEVEL_CONFIG[level]
             const Icon = cfg.icon
             const count = level === "NORMAL"
-              ? flaggedUsers.filter(u => getFraudLevel(u.fraudRiskScore) === "NORMAL").length
+              ? flaggedUsers.filter(u => getFraudLevel(u.security?.fraudRiskScore ?? 0) === "NORMAL").length
               : level === "SURVEILLANCE" ? surveillanceCount
               : level === "MANUAL_REVIEW" ? manualReviewCount
               : blockedCount
@@ -108,7 +109,7 @@ export default async function AdminFraudPage() {
         </h2>
         <div className="space-y-2">
           {flaggedUsers.map((u) => {
-            const level = getFraudLevel(u.fraudRiskScore)
+            const level = getFraudLevel(u.security?.fraudRiskScore ?? 0)
             const cfg = FRAUD_LEVEL_CONFIG[level]
             return (
               <Link
@@ -128,8 +129,8 @@ export default async function AdminFraudPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  {u.banned && <span className="text-[9px] font-mono text-red-400 uppercase font-bold">Banni</span>}
-                  <span className={`text-sm font-bold font-mono ${cfg.color}`}>{u.fraudRiskScore}</span>
+                  {u.security?.banned && <span className="text-[9px] font-mono text-red-400 uppercase font-bold">Banni</span>}
+                  <span className={`text-sm font-bold font-mono ${cfg.color}`}>{u.security?.fraudRiskScore ?? 0}</span>
                   <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase ${cfg.bg} ${cfg.color} ${cfg.border}`}>
                     {cfg.label}
                   </span>

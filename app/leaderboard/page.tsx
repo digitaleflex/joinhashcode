@@ -17,16 +17,23 @@ async function getLeaderboard() {
       pseudo: true,
       image: true,
       class: true,
-      level: true,
-      experience: true,
-      missionsCompletedCount: true,
     },
-    orderBy: [{ experience: "desc" }, { level: "desc" }],
+    include: {
+      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+    },
+    orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
     take: 50,
   });
 
   return users.map((u, i) => ({
-    ...u,
+    id: u.id,
+    name: u.name,
+    pseudo: u.pseudo,
+    image: u.image,
+    class: u.class,
+    level: u.progress?.level ?? 1,
+    experience: u.progress?.experience ?? 0,
+    missionsCompletedCount: u.progress?.missionsCompletedCount ?? 0,
     rank: i + 1,
   }));
 }

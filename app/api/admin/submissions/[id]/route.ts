@@ -45,7 +45,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         mission: true,
         user: {
           include: {
-            stats: true
+            stats: true,
+            progress: true,
           }
         }
       }
@@ -70,7 +71,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       
       xpAwarded = Math.round(xpAwarded * multiplier);
 
-      const newXp = (submission.user.experience || 0) + xpAwarded;
+      const newXp = (submission.user.progress?.experience ?? 0) + xpAwarded;
 
       const missionWeights: BehavioralVitality = {
         builder: submission.mission.weightBuilder || 0,
@@ -89,14 +90,16 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         
         updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
 
-        await tx.user.update({
-          where: { id: submission.userId },
-          data: { missionsCompletedCount: { increment: 1 } }
+        await tx.userProgress.upsert({
+          where: { userId: submission.userId },
+          create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
+          update: { missionsCompletedCount: { increment: 1 } },
         });
       });
 
-      const newLevel = updatedUser?.level ?? submission.user.level;
-      const leveledUp = newLevel > (submission.user.level || 1);
+      const submitterLevel = submission.user.progress?.level ?? 1;
+      const newLevel = updatedUser?.progress?.level ?? submitterLevel;
+      const leveledUp = newLevel > submitterLevel;
 
       try {
         const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";
