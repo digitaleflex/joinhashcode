@@ -226,6 +226,7 @@ export function SignInForm() {
                                 </div>
                             </div>
 
+                            {/* Google temporairement désactivé pour isolation
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInGoogle}
@@ -246,6 +247,7 @@ export function SignInForm() {
                                     </>
                                 )}
                             </Button>
+                            */}
 
 
                             {/* 
