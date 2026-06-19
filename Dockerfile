@@ -41,8 +41,12 @@ ENV QSTASH_TOKEN=build_placeholder_token
 ENV NODE_ENV=production
 
 RUN pnpm prisma generate
+# Nettoyer tout build précédent pour éviter les artefacts stale/corrompus
+RUN rm -rf .next
 # Mode standalone = image finale ultra-légère (pas de node_modules dans le runner)
 RUN pnpm build
+# Vérifier que les fichiers critiques du standalone existent
+RUN test -f .next/standalone/server.js && test -d .next/static/chunks && echo "✓ Standalone build OK"
 
 # ─────────────────────────────────────────────
 # Stage 3 : Runner de production minimal
