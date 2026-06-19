@@ -149,6 +149,23 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 | `components/ui/`                         | shadcn/ui base components                                    |
 | `next.config.mjs`                        | Build error suppression, unoptimized images                  |
 
+### Security - VPS Hardening (June 2026)
+
+| Measure             | Detail                                                                                          |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| **iptables**        | INPUT DROP, only SSH 22 / HTTP 80 / HTTPS 443 allowed                                           |
+| **Docker**          | DOCKER-USER chain blocks Jaeger 16686, PG 5434, Luna 8001, OTel ports                           |
+| **ICMP**            | Ping blocked via `net.ipv4.icmp_echo_ignore_all=1`                                              |
+| **SSH**             | Passwords disabled (keys only), `PermitRootLogin prohibit-password`, `X11Forwarding no`         |
+| **Fail2ban**        | Ban 1h after 5 failed SSH attempts in 10min                                                     |
+| **Dependencies**    | `pnpm audit` → 0 vulnerabilities (overrides in `package.json`)                                  |
+| **Cron killswitch** | `/etc/cron.d/iptables-killswitch` restores iptables every 5min                                  |
+| **phpMyAdmin**      | `cap_drop: ALL`, `no-new-privileges`, `read_only: true` (digi-innova, channel-market)           |
+| **Traefik**         | `cap_drop: ALL`, `no-new-privileges`, only `CAP_NET_BIND_SERVICE` + `CAP_DAC_OVERRIDE`          |
+| **Uptime Kuma**     | `cap_drop: ALL`, `no-new-privileges`, only `CAP_NET_BIND_SERVICE` + `CAP_SETUID` + `CAP_SETGID` |
+
+Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
+
 ## Working Guidelines
 
 ### Rules (always follow)
