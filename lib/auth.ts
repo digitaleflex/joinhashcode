@@ -270,7 +270,12 @@ export const auth = betterAuth({
     }),
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        await emailService.sendOtpEmail({ email, otp, type });
+        try {
+          await emailService.sendOtpEmail({ email, otp, type });
+        } catch (err: any) {
+          console.error("[AUTH][emailOTP] Failed to send OTP:", err);
+          throw err;
+        }
       },
       otpLength: 8,
       expiresIn: 300,
