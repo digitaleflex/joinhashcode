@@ -1,6 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ActivationChecklist } from '@/components/dashboard/activation-checklist';
+
+vi.mock('@/lib/features', () => ({
+  isFeatureEnabled: (name: string) => name === 'squads' ? true : false,
+}));
 
 describe('ActivationChecklist Component', () => {
   const mockUser = {

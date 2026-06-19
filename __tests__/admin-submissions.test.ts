@@ -25,6 +25,9 @@ const { mockPrisma } = vi.hoisted(() => {
     activityLog: {
       create: vi.fn(),
     },
+    userProgress: {
+      upsert: vi.fn(),
+    },
     $transaction: vi.fn(),
   };
   m.$transaction.mockImplementation((cb) => cb(m));
@@ -90,7 +93,7 @@ describe("Admin Submissions API [id]", () => {
       userId: "user1",
       status: "PENDING",
       mission: { id: "m1", title: "Mission 1", xp: 100, weightBuilder: 1, weightCreator: 0, weightStrategist: 0, weightCatalyst: 0 },
-      user: { id: "user1", experience: 0, level: 1 }
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1, stats: null, progress: null }
     };
     (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
 
@@ -155,7 +158,7 @@ describe("Admin Submissions API [id]", () => {
       userId: "user1",
       status: "PENDING",
       mission: { id: "m1", title: "Mission 1", xp: 200, category: "CODE", weightBuilder: 1, weightCreator: 0, weightStrategist: 0, weightCatalyst: 0 },
-      user: { id: "user1", experience: 0, level: 1 }
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1, stats: null, progress: null }
     };
     (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
 

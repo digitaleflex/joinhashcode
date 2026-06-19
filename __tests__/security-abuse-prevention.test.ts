@@ -36,6 +36,10 @@ vi.mock("../lib/auth", () => ({
   },
 }));
 
+vi.mock("../lib/features", () => ({
+  isFeatureEnabled: (name: string) => name === "streaks" || name === "squads",
+}));
+
 vi.mock("../lib/ratelimit", () => ({
   checkRateLimit: vi.fn(() => Promise.resolve({ limited: false })),
   checkinLimiter: {},
@@ -151,6 +155,7 @@ describe("Security & Abuse Prevention", () => {
           bio: "I am a cool person ...",
         }),
         select: expect.any(Object),
+        include: expect.any(Object),
       });
     });
   });
