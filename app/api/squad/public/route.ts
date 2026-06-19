@@ -1,10 +1,12 @@
 ﻿import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { NextResponse } from "next/server";
 import { getCache, setCache } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const { searchParams } = new URL(req.url);
     const limit = parseInt(searchParams.get("limit") || "12");

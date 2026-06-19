@@ -6,6 +6,7 @@ import { Users, Copy, Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { isFeatureEnabled } from "@/lib/features"
 import {
   Tooltip,
   TooltipContent,
@@ -19,6 +20,7 @@ interface SquadBannerProps {
 }
 
 export function SquadBanner({ user, squad }: SquadBannerProps) {
+  if (!isFeatureEnabled("squads")) return null
   const router = useRouter()
   const [copied, setCopied] = useState(false)
   const [isCreating, setIsCreating] = useState(false)

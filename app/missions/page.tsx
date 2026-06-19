@@ -7,6 +7,7 @@ import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
 import { MissionsList } from "@/components/missions/missions-list"
+import { isFeatureEnabled } from "@/lib/features"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
@@ -197,7 +198,7 @@ export default async function MissionsPage() {
               </p>
             </div>
 
-            {weeklyMission && (
+            {weeklyMission && isFeatureEnabled("weeklyChallenges") && (
               <div className="max-w-3xl" id="tour-weekly-challenge">
                 <WeeklyChallengeBanner 
                   mission={weeklyMission} 

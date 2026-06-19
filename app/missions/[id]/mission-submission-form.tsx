@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { isFeatureEnabled } from "@/lib/features";
 
 interface MissionSubmissionFormProps {
   missionId: string;
@@ -168,34 +169,43 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
           </div>
         </div>
 
-        <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="size-3.5 text-primary shrink-0" />
-            <p className="text-[10px] font-mono font-bold text-primary uppercase tracking-wider">
-              Partage ton expérience — optionnel
+        {isFeatureEnabled("retrospectives") ? (
+          <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="size-3.5 text-primary shrink-0" />
+              <p className="text-[10px] font-mono font-bold text-primary uppercase tracking-wider">
+                Partage ton expérience — optionnel
+              </p>
+            </div>
+            <p className="text-[9px] text-zinc-500 leading-relaxed">
+              Tes retours aident à améliorer les missions pour tous les membres.
+              Ça prend 30 secondes.
             </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowRetroForm(true)}
+                className="flex-1 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
+              >
+                Donner mon avis
+              </button>
+              <button
+                onClick={() => {
+                  setShowScanner(true);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/5 text-zinc-400 text-[10px] font-bold hover:text-white transition-all"
+              >
+                Plus tard
+              </button>
+            </div>
           </div>
-          <p className="text-[9px] text-zinc-500 leading-relaxed">
-            Tes retours aident à améliorer les missions pour tous les membres.
-            Ça prend 30 secondes.
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setShowRetroForm(true)}
-              className="flex-1 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
-            >
-              Donner mon avis
-            </button>
-            <button
-              onClick={() => {
-                setShowScanner(true);
-              }}
-              className="px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/5 text-zinc-400 text-[10px] font-bold hover:text-white transition-all"
-            >
-              Plus tard
-            </button>
-          </div>
-        </div>
+        ) : (
+          <button
+            onClick={() => setShowScanner(true)}
+            className="w-full py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
+          >
+            Continuer
+          </button>
+        )}
       </div>
     );
   }

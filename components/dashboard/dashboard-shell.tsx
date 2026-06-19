@@ -43,6 +43,7 @@ import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
+import { isFeatureEnabled } from "@/lib/features"
 
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
@@ -203,27 +204,31 @@ export function DashboardShell({
                     </Tooltip>
                   </TooltipProvider>
 
-                  <div className="h-px w-full bg-white/5 hidden md:block"></div>
-                  
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-right cursor-help group/hub">
-                          <div className="flex items-center justify-end gap-1.5 mb-0.5">
-                            <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
-                            <Info className="size-2.5 text-zinc-700 group-hover/hub:text-orange-500 transition-colors" />
-                          </div>
-                          <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
-                            <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
-                            <span>{user.currentStreak ?? 0} {user.currentStreak > 1 ? 'jours' : 'jour'}</span>
-                          </div>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                        Maintiens ta série en effectuant un check-in chaque jour pour booster tes gains d'XP.
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  {isFeatureEnabled("streaks") && (
+                    <>
+                      <div className="h-px w-full bg-white/5 hidden md:block"></div>
+
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="text-right cursor-help group/hub">
+                              <div className="flex items-center justify-end gap-1.5 mb-0.5">
+                                <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
+                                <Info className="size-2.5 text-zinc-700 group-hover/hub:text-orange-500 transition-colors" />
+                              </div>
+                              <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
+                                <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
+                                <span>{user.currentStreak ?? 0} {user.currentStreak > 1 ? 'jours' : 'jour'}</span>
+                              </div>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                            Maintiens ta série en effectuant un check-in chaque jour pour booster tes gains d'XP.
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </>
+                  )}
                 </div>
               </div>
               <Zap className={`absolute -bottom-10 -right-10 h-32 sm:h-56 w-32 sm:w-56 ${config.color} opacity-[0.03] -rotate-12 group-hover:scale-110 transition-transform duration-1000`} />
@@ -232,12 +237,16 @@ export function DashboardShell({
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                <div id="tour-checkin">
-                  <DailyCheckinWidget />
-                </div>
-                <div id="tour-weekly">
-                  <WeeklyChallengeWidget />
-                </div>
+                {isFeatureEnabled("streaks") && (
+                  <div id="tour-checkin">
+                    <DailyCheckinWidget />
+                  </div>
+                )}
+                {isFeatureEnabled("weeklyChallenges") && (
+                  <div id="tour-weekly">
+                    <WeeklyChallengeWidget />
+                  </div>
+                )}
                 <div id="tour-missions">
                   <MissionDeck recommendedMissions={recommendedMissions} />
                 </div>

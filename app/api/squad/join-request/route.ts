@@ -1,12 +1,14 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { subMinutes } from "date-fns";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 
 export async function POST(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
@@ -116,6 +118,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });

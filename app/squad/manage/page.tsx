@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
@@ -24,6 +25,7 @@ import { OrgSettingsForm } from "@/components/dashboard/squad/OrgSettingsForm";
 import { PendingInvitations } from "@/components/dashboard/squad/PendingInvitations";
 
 export default async function SquadManagePage() {
+  if (!isFeatureEnabled("squads")) redirect("/dashboard");
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/signin");
 

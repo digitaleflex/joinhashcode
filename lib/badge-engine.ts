@@ -1,6 +1,7 @@
 ﻿import { prisma } from "./prisma";
 import { triggerNotification } from "./qstash";
 import { BehavioralVibrancy } from "./types";
+import { isFeatureEnabled } from "./features";
 
 export interface ExtendedUserForBadges {
   id: string;
@@ -227,6 +228,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
 ];
 
 export async function checkAndAwardBadges(userId: string) {
+  if (!isFeatureEnabled("badges")) return [];
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },

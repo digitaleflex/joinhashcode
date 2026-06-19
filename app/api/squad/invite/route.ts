@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
+import { isFeatureEnabled } from "@/lib/features";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
@@ -7,6 +8,7 @@ import { triggerNotification } from "@/lib/qstash";
 import { logActivity } from "@/lib/activity-log";
 
 export async function POST(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ error: "Fonctionnalité désactivée." }, { status: 404 });
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
