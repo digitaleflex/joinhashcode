@@ -35,7 +35,7 @@ HASHCODE is an AI-driven tech talent profiling and community matching platform t
 - `components/` — UI components and shadcn/ui base wrappers (`components/ui/`)
 - `lib/` — Shared business logic, database client, evolution engine, missions scoring, and authentication configuration
 - `prisma/` — Database schema (`schema.prisma`) and seed configurations
-- `proxy.ts` — Handles user session validation and onboarding funnel enforcement
+- `middleware.ts` — Handles user session validation and onboarding funnel enforcement
 
 ### Onboarding Funnel Routing
 
