@@ -28,7 +28,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  let sessionData = null;
   const sessionCookie = getSessionCookie(request);
 
   if (isProtectedPath && !sessionCookie) {
@@ -38,17 +37,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(signinUrl);
   }
 
-  const mwCookie = request.cookies.get("hc_mw")?.value;
-  let mwUser: Record<string, unknown> | null = null;
-  if (mwCookie) {
-    try {
-      mwUser = JSON.parse(mwCookie);
-    } catch {}
-  }
-
-  if (sessionCookie && mwUser) {
-    sessionData = { user: mwUser };
-  } else if (sessionCookie) {
+  let sessionData = null;
+  if (sessionCookie) {
     try {
       const requestHeaders = new Headers(request.headers);
       const baseUrl = request.nextUrl.origin;
@@ -62,12 +52,12 @@ export async function proxy(request: NextRequest) {
         sessionData = await response.json();
       }
     } catch (error) {
-      console.error("🟢 [Middleware] Unified session fetch failed or timed out:", error);
+      console.error("🟢 [Middleware] Session fetch failed:", error);
     }
   }
 
   const session = sessionData?.session;
-  let user = sessionData?.user;
+  const user = sessionData?.user;
 
   if (session && user) {
     if (isBetaAccessPath) {
