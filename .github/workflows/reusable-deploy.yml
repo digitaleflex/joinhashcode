@@ -24,7 +24,7 @@ jobs:
       run:
         working-directory: ${{ env.APP_DIR }}
     steps:
-      - name: "[1/7] Pull code & image"
+      - name: "[1/6] Pull code & image"
         run: |
           if [ ! -d ".git" ]; then
             git clone --depth 1 -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
@@ -36,7 +36,7 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker image inspect "${{ env.IMAGE }}" >/dev/null 2>&1 || docker pull "${{ env.IMAGE }}"
 
-      - name: "[2/7] Ensure DB is running"
+      - name: "[2/6] Ensure DB is running"
         run: |
           if ! docker ps -q --filter name=hashcode-db --filter status=running | grep -q .; then
             echo "Starting hashcode-db..."
@@ -57,7 +57,7 @@ jobs:
           docker logs hashcode-db --tail 30
           exit 1
 
-      - name: "[3/7] Backup DB + migrate"
+      - name: "[3/6] Backup DB + migrate"
         run: |
           set -a
           source ${{ env.PROD_ENV }}
@@ -79,7 +79,7 @@ jobs:
             "${{ env.IMAGE }}" \
             sh -c "prisma migrate deploy && prisma migrate status"
 
-      - name: "[4/7] Blue-Green swap with rollback"
+      - name: "[4/6] Blue-Green swap with rollback"
         run: |
           # Determine active / inactive container
           A_RUNNING=$(docker ps -q --filter name=hashcode-web-a | grep -q . && echo "yes" || echo "no")
@@ -136,7 +136,7 @@ jobs:
 
           echo "✅ Blue-Green swap complete. Zero downtime."
 
-      - name: "[5/7] Smoke tests"
+      - name: "[5/6] Smoke tests"
         run: |
           set -a
           source ${{ env.PROD_ENV }}
@@ -180,7 +180,7 @@ jobs:
 
           echo "✅ All smoke tests passed"
 
-      - name: "[6/7] Sync backup to B2 + cleanup"
+      - name: "[6/6] Sync backup to B2 + cleanup"
         run: |
           # Sync to Backblaze B2 (if configured)
           if [ -n "${B2_BUCKET}" ]; then
@@ -199,28 +199,3 @@ jobs:
           echo "✅ Deploy complete: ${{ inputs.image_tag }}"
         env:
           B2_BUCKET: ${{ secrets.B2_BUCKET }}
-
-      - name: "[7/7] Create issue on failure"
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const tag = '${{ inputs.image_tag }}';
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `🚨 Deploy failed — ${tag}`,
-              body: [
-                `## Deploy Failure`,
-                ``,
-                `| | |`,
-                `|---|---|`,
-                `| **Image** | ${tag} |`,
-                `| **Run** | [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |`,
-                `| **Trigger** | ${{ github.event_name }} |`,
-                `| **Branch** | ${{ github.ref_name }} |`,
-                ``,
-                `The deployment pipeline failed. Check the workflow logs for details.`,
-              ].join('\n'),
-              labels: ['deploy', 'automated', 'critical'],
-            });
