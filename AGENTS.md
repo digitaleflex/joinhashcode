@@ -166,6 +166,12 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 
 Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 
+### To-Do (sécurité)
+
+- Replace Traefik dashboard basic-auth with OAuth2 (Google) via oauth2-proxy
+- Implement Cloudflare Tunnel for zero-trust networking
+- Clean up remaining `.env` files (permissions already fixed → 600)
+
 ## Working Guidelines
 
 ### Rules (always follow)
