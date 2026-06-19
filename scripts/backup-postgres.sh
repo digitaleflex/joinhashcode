@@ -50,10 +50,12 @@ find "$BACKUP_DIR" -type f -name "${PROJECT_NAME}_*.sql.gz" -mtime +$RETENTION_D
 BACKUP_COUNT=$(find "$BACKUP_DIR" -type f -name "${PROJECT_NAME}_*.sql.gz" | wc -l)
 echo "[BACKUP] $BACKUP_COUNT backup(s) conservé(s) (rétention ${RETENTION_DAYS} jours)."
 
-# Optionnel : upload vers un stockage externe si configuré
-if [[ -n "${BACKUP_S3_BUCKET:-}" && -n "${AWS_ACCESS_KEY_ID:-}" && -n "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
-  echo "[BACKUP] Upload vers S3 : $BACKUP_S3_BUCKET"
-  aws s3 cp "$BACKUP_FILE" "s3://${BACKUP_S3_BUCKET}/${PROJECT_NAME}/$(basename "$BACKUP_FILE")" --storage-class STANDARD_IA
+# Optionnel : upload vers Backblaze B2 si configuré
+if [[ -n "${RCLONE_B2_ACCOUNT:-}" && -n "${RCLONE_B2_KEY:-}" && -n "${BACKUP_B2_BUCKET:-}" ]]; then
+  echo "[BACKUP] Upload vers Backblaze B2 : $BACKUP_B2_BUCKET"
+  export RCLONE_B2_ACCOUNT
+  export RCLONE_B2_KEY
+  rclone copy "$BACKUP_FILE" "b2:${BACKUP_B2_BUCKET}/${PROJECT_NAME}/" --progress=false
 fi
 
 echo "[BACKUP] Terminé avec succès."
