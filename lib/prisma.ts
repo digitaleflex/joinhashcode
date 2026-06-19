@@ -11,18 +11,22 @@ const globalForPrisma = globalThis as unknown as {
 const pool =
   globalForPrisma.pool ||
   (() => {
+    const url = process.env.DATABASE_URL;
     const isLocalDb =
-      !process.env.DATABASE_URL ||
-      process.env.DATABASE_URL.includes("localhost") ||
-      process.env.DATABASE_URL.includes("127.0.0.1") ||
-      process.env.DATABASE_URL.includes("@db:");
+      !url ||
+      url.includes("localhost") ||
+      url.includes("127.0.0.1") ||
+      url.includes("@db:") ||
+      url.includes("@hashcode-db:");
+    // Explicit override for containerized/on-prem Postgres that doesn't use TLS
+    const sslDisabled = process.env.DATABASE_SSL === "false";
 
     return new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: url,
       max: 10,                       // Limit concurrent connections to avoid overwhelming remote DB
       idleTimeoutMillis: 60000,      // Keep idle connections alive longer for reuse
       connectionTimeoutMillis: 5000, // 5s timeout — loading.tsx gère l'attente utilisateur
-      ssl: isLocalDb
+      ssl: isLocalDb || sslDisabled
         ? false
         : {
             rejectUnauthorized: false,
