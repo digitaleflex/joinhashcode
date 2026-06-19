@@ -35,10 +35,10 @@ export async function POST(req: Request) {
     const d7 = getWindow(7);
 
     const steps = [
-      { day: 1, window: d1, action: "ONBOARDING_EMAIL_D1", method: "sendMissionProtocolEmail" },
-      { day: 3, window: d3, action: "ONBOARDING_EMAIL_D3", method: "sendSquadPowerEmail" },
-      { day: 7, window: d7, action: "ONBOARDING_EMAIL_D7", method: "sendDigitalIdentityEmail" },
-    ];
+      { day: 1, window: d1, action: "ONBOARDING_EMAIL_D1" },
+      { day: 3, window: d3, action: "ONBOARDING_EMAIL_D3" },
+      { day: 7, window: d7, action: "ONBOARDING_EMAIL_D7" },
+    ] as const;
 
     let totalSent = 0;
 
@@ -58,12 +58,18 @@ export async function POST(req: Request) {
 
       for (const user of users) {
         try {
-          const method = step.method as keyof typeof emailService;
-          const payload: any = { email: user.email, name: user.name };
-          if (step.day === 1) payload.userClass = user.class || "Bâtisseur";
+          const basePayload = { email: user.email, name: user.name };
 
-          // @ts-ignore - dynamic method call
-          await emailService[method](payload);
+          if (step.day === 1) {
+            await emailService.sendMissionProtocolEmail({
+              ...basePayload,
+              userClass: user.class || "Bâtisseur",
+            });
+          } else if (step.day === 3) {
+            await emailService.sendSquadPowerEmail(basePayload);
+          } else if (step.day === 7) {
+            await emailService.sendDigitalIdentityEmail(basePayload);
+          }
 
           // Log to prevent double-send and track performance
           await logActivity({

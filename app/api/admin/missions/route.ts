@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import type { Prisma } from "../generated/prisma/client";
 
 const missionSchema = z.object({
   title: z.string().min(1),
@@ -71,7 +72,7 @@ export async function POST(req: Request) {
     const mission = await prisma.mission.create({
       data: {
         ...validatedData,
-        acceptanceCriteria: validatedData.acceptanceCriteria as any,
+        acceptanceCriteria: validatedData.acceptanceCriteria as Prisma.InputJsonValue,
       },
     });
 

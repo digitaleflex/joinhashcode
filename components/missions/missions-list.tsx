@@ -94,7 +94,7 @@ export function MissionsList({
     const comingSoon: MissionWithStats[] = [];
 
     for (const m of missions) {
-      const classMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (lowerClass && m.targetProfiles.includes(lowerClass as any));
+      const classMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (lowerClass && m.targetProfiles.includes(lowerClass));
       if (!classMatch) continue;
 
       if (m.comingSoon) {

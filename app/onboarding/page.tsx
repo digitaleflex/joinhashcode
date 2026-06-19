@@ -99,7 +99,13 @@ export default function OnboardingPage() {
     async function syncSession() {
       try {
         const res = await authClient.getSession()
-        const user = (res.data?.user as any)
+        type SessionUser = {
+          id: string; name: string; email: string; image?: string | null;
+          pseudo?: string | null; technicalLevel?: string | null;
+          country?: string | null; currentSituation?: string | null;
+          mainObjective?: string | null;
+        }
+        const user = res.data?.user as SessionUser | undefined
         if (user) {
           setUserName(user.name?.split(" ")[0] || "")
           setFormData(prev => ({

@@ -85,7 +85,7 @@ export default async function SquadPage() {
   } : dbSquad;
 
   // Load received invitations in case they don't have a squad
-  let incomingInvitations: any[] = [];
+  let incomingInvitations: Array<{ id: string; organizationId: string; organization: { name: string; slug: string; description: string | null }; user: { name: string }; role: string; status: string }> = [];
   if (dbUser?.email) {
     incomingInvitations = await prisma.invitation.findMany({
       where: {
@@ -111,7 +111,7 @@ export default async function SquadPage() {
 
   return (
     <SquadPageClient 
-      user={dbUser || (session.user as any)} 
+      user={dbUser ?? session.user} 
       squad={squad} 
       incomingInvitations={incomingInvitations.map(inv => ({
         id: inv.id,

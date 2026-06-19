@@ -113,7 +113,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   }
 
   // Aplatir l'objet user pour la compatibilité avec DossierView
-  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
+  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
     email: dbUser.email,
     githubUrl: dbUser.socials?.githubUrl ?? null,
@@ -127,7 +127,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     catalystScore: dbUser.psychometrics?.catalystScore ?? 0,
     confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
     lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
-    missionSubmissions: dbUser.missionSubmissions as any,
+    missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,
   };
 
@@ -135,7 +135,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const quizResult = dbUser.quizResults?.[0];
 
   // Fetch squad activity logs for the public view (limited)
-  let squadMembersLogs: any[] = [];
+  let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];
   if (activeOrg) {
     const squadMemberIds = activeOrg.members.map((m) => m.user.id);
     squadMembersLogs = await prisma.activityLog.findMany({

@@ -96,7 +96,7 @@ export default async function DashboardPage() {
       currentStreak: userData.stats?.currentStreak ?? 0,
     } as UserProfile
     quizResult = userData.quizResults[0] ?? null
-    submissions = userData.missionSubmissions as any
+    submissions = userData.missionSubmissions as DetailedMissionSubmission[]
     member = userData.members[0] ?? null
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error)

@@ -12,7 +12,7 @@ export async function POST() {
     const session = await auth.api.getSession({ headers: await headers() })
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 })
 
-    const ip = getClientIp({ headers: await headers() } as any)
+    const ip = getClientIp(await headers())
     if (!ip) return NextResponse.json({ checked: false, reason: "IP non identifiable" })
 
     const result = await checkIpReputation(ip)

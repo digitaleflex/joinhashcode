@@ -25,11 +25,11 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
   }
 
   // 3. Gestion des erreurs de base de données Prisma connues
-  const errorObj = error as any;
-  if (errorObj && typeof errorObj === "object") {
+  if (error && typeof error === "object") {
+    const prismaError = error as { code?: string; meta?: { target?: unknown } };
     // Code d'erreur unique violé (ex: pseudo ou email dupliqué)
-    if (errorObj.code === "P2002") {
-      const target = errorObj.meta?.target;
+    if (prismaError.code === "P2002") {
+      const target = prismaError.meta?.target;
       const field = Array.isArray(target) ? target[0] : typeof target === "string" ? target : "champ";
       return NextResponse.json(
         { message: `Cette valeur pour le champ '${field}' est déjà utilisée.` },
@@ -38,7 +38,7 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
     }
     
     // Enregistrement non trouvé
-    if (errorObj.code === "P2025") {
+    if (prismaError.code === "P2025") {
       return NextResponse.json(
         { message: "La ressource demandée est introuvable." },
         { status: 404 }

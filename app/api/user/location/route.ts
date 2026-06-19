@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     }
 
     const requestHeaders = await nextHeaders()
-    const ip = getClientIp({ headers: requestHeaders } as any)
+    const ip = getClientIp(requestHeaders)
     await saveUserLocation(session.user.id, { latitude, longitude, accuracy: accuracy ?? 0 }, ip)
 
     return NextResponse.json({ saved: true })

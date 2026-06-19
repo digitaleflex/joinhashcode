@@ -47,7 +47,7 @@ export function UserRowActions({ user }: UserRowActionsProps) {
     try {
       await authClient.admin.setRole({
         userId: user.id,
-        role: role as any,
+        role: role as "ADMIN" | "MODERATOR" | "MEMBER",
       })
       
       await fetch("/api/admin/log", {

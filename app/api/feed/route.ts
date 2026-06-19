@@ -60,10 +60,10 @@ export async function GET() {
 
       if (log.action === "MISSION_APPROVED") {
         type = "MISSION_SUBMISSION"
-        meta = (log.metadata as any)?.missionId || "une mission"
+        meta = (log.metadata as Record<string, unknown>)?.missionId as string || "une mission"
       } else if (log.action === "SQUAD_CREATED") {
         type = "SQUAD_CREATED"
-        meta = (log.metadata as any)?.name || "une nouvelle unité"
+        meta = (log.metadata as Record<string, unknown>)?.name as string || "une nouvelle unité"
       }
 
       return {

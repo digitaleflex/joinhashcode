@@ -29,6 +29,10 @@ interface Submission {
   adminFeedback: string | null
   revisionNotes: string | null
   revisionCount: number
+  userFeedback: string | null
+  userDifficulty: number | null
+  userRating: number | null
+  improvementSuggestions: string | null
   user: {
     id: string
     name: string
@@ -426,18 +430,18 @@ export default function AdminSubmissionsPage() {
                         </p>
                       </div>
                     )}
-                    {(activeSubmission as any).userFeedback && (
+                    {activeSubmission.userFeedback && (
                       <div className="p-4 rounded-xl bg-white/3 border border-white/5 space-y-2">
                         <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Feedback membre</p>
                         <p className="text-sm text-zinc-300 leading-relaxed italic">
-                          &ldquo;{(activeSubmission as any).userFeedback}&rdquo;
+                          &ldquo;{activeSubmission.userFeedback}&rdquo;
                         </p>
                         <div className="flex items-center gap-3 pt-1">
-                          {(activeSubmission as any).userDifficulty && (
-                            <span className="text-[10px] font-mono text-amber-400">DIFF: {(activeSubmission as any).userDifficulty}/5</span>
+                          {activeSubmission.userDifficulty && (
+                            <span className="text-[10px] font-mono text-amber-400">DIFF: {activeSubmission.userDifficulty}/5</span>
                           )}
-                          {(activeSubmission as any).userRating && (
-                            <span className="text-[10px] font-mono text-primary">RATING: {(activeSubmission as any).userRating}/5</span>
+                          {activeSubmission.userRating && (
+                            <span className="text-[10px] font-mono text-primary">RATING: {activeSubmission.userRating}/5</span>
                           )}
                         </div>
                       </div>
@@ -455,11 +459,11 @@ export default function AdminSubmissionsPage() {
                     />
                   </div>
 
-                  {(activeSubmission as any).improvementSuggestions && (
+                  {activeSubmission.improvementSuggestions && (
                     <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 space-y-2">
                       <p className="text-[9px] font-mono uppercase tracking-wider text-blue-400/60">Suggestions d&apos;amélioration système</p>
                       <p className="text-xs text-zinc-400 leading-relaxed italic">
-                        &ldquo;{(activeSubmission as any).improvementSuggestions}&rdquo;
+                        &ldquo;{activeSubmission.improvementSuggestions}&rdquo;
                       </p>
                     </div>
                   )}

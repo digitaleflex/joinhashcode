@@ -42,7 +42,7 @@ export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
     
     logs.forEach(log => {
       const dateKey = format(new Date(log.createdAt), 'yyyy-MM-dd')
-      const xpGained = (log.metadata as any)?.xpGained || (log.action === 'MISSION_APPROVED' ? 100 : log.action === 'CHECKIN_COMPLETED' ? 20 : 0)
+      const xpGained = (log.metadata as Record<string, number>)?.xpGained || (log.action === 'MISSION_APPROVED' ? 100 : log.action === 'CHECKIN_COMPLETED' ? 20 : 0)
       dailyGains.set(dateKey, (dailyGains.get(dateKey) || 0) + xpGained)
     })
 
