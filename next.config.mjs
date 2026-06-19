@@ -14,6 +14,10 @@ const nextConfig = {
   async headers() {
     const headers = [
       {
+        key: "Cache-Control",
+        value: "public, max-age=0, must-revalidate, no-cache",
+      },
+      {
         key: "X-Frame-Options",
         value: "DENY",
       },
