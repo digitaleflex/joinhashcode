@@ -2,6 +2,7 @@ import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
 import { XP_THRESHOLDS } from "./missions";
 import { checkAndAwardBadges } from "./badge-engine";
+import { isFeatureEnabled } from "./features";
 import { emailService } from "./email";
 
 /**
@@ -119,9 +120,11 @@ export async function awardXp(
   }
 
   // 5. Déclencher la vérification des badges après la transaction
-  await checkAndAwardBadges(userId).catch((err) =>
-    console.error(`🟢 [XP_SERVICE] Échec du badge check pour ${userId} :`, err)
-  );
+  if (isFeatureEnabled("badges")) {
+    await checkAndAwardBadges(userId).catch((err) =>
+      console.error(`🟢 [XP_SERVICE] Échec du badge check pour ${userId} :`, err)
+    );
+  }
 
   return resultUser;
 }

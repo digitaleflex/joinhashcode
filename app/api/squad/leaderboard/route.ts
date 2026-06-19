@@ -1,9 +1,11 @@
 export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { NextResponse } from "next/server";
 import { getCache, setCache } from "@/lib/cache";
 
 export async function GET() {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const cacheKey = "squad_leaderboard";
     const cached = await getCache(cacheKey);

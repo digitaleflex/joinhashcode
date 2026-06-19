@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { isFeatureEnabled } from "@/lib/features"
 
 interface ActivationChecklistProps {
   user: any
@@ -33,15 +34,15 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       href: "/settings",
       xp: 50
     },
-    {
-      id: "squad",
+    ...(isFeatureEnabled("squads") ? [{
+      id: "squad" as const,
       title: "Unité active",
       description: "Rejoins ou crée ta première Squad.",
       icon: Users,
       completed: hasSquad,
       href: "/squad",
       xp: 50
-    },
+    }] : []),
     {
       id: "mission",
       title: "Premier Build",

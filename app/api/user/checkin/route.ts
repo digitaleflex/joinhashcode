@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
@@ -18,6 +19,7 @@ const checkinSchema = z.object({
 const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
 export async function POST(req: Request) {
+  if (!isFeatureEnabled("streaks")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
@@ -115,9 +117,11 @@ export async function POST(req: Request) {
     });
 
     // 4. Update squad cohesion if member
-    const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
-    if (membership) {
-        await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+    if (isFeatureEnabled("squads")) {
+      const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
+      if (membership) {
+          await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+      }
     }
 
     return NextResponse.json(result);

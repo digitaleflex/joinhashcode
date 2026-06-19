@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { isFeatureEnabled } from "@/lib/features";
 import Link from "next/link";
 import Image from "next/image";
 import { Trophy, Users, Zap, Target, ArrowLeft, Star, TrendingUp } from "lucide-react";
@@ -44,6 +45,7 @@ const RANK_STYLES: Record<number, { border: string; glow: string; badge: string;
 };
 
 export default async function LeaderboardPage() {
+  if (!isFeatureEnabled("squads")) redirect("/dashboard");
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/signin");
 

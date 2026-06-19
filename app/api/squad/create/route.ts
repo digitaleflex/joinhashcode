@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { checkRateLimit, strictMutationLimiter } from "@/lib/ratelimit";
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { awardXp } from "@/lib/experience";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -39,6 +40,7 @@ function generateSquadName(): { name: string; slug: string } {
 }
 
 export async function POST(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });

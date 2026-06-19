@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { isFeatureEnabled } from "@/lib/features";
 
 const retrospectiveSchema = z.object({
   projectDescription: z.string().optional(),
@@ -17,6 +18,10 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!isFeatureEnabled("retrospectives")) {
+    return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
+  }
+
   try {
     const session = await auth.api.getSession({
       headers: await headers(),

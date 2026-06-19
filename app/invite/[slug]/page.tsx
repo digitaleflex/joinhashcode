@@ -1,9 +1,12 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
+import { notFound } from "next/navigation";
+import { isFeatureEnabled } from "@/lib/features";
 import { InviteClient } from "./invite-client";
 
 export default async function InvitePage({ params }: { params: Promise<{ slug: string }> }) {
+  if (!isFeatureEnabled("squads")) notFound();
   const { slug } = await params;
   const session = await auth.api.getSession({ headers: await headers() });
 

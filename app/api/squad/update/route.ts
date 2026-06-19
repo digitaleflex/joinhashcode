@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/features";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
@@ -9,6 +10,7 @@ import { containsProfanity } from "@/lib/security";
 const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/;
 
 export async function PATCH(req: Request) {
+  if (!isFeatureEnabled("squads")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });

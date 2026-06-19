@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { isFeatureEnabled } from "@/lib/features"
 import { AcceptInvitationClient } from "./accept-client"
 
 export default async function AcceptInvitationPage({
@@ -11,6 +12,7 @@ export default async function AcceptInvitationPage({
 }) {
   const { id } = await searchParams
 
+  if (!isFeatureEnabled("squads")) redirect("/dashboard")
   if (!id) redirect("/squad")
 
   const session = await auth.api.getSession({ headers: await headers() })

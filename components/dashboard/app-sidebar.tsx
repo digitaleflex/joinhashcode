@@ -43,6 +43,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 import { getLevelProgress } from "@/lib/level-utils"
+import { isFeatureEnabled } from "@/lib/features"
 import { DailyCheckinDialog } from "./daily-checkin-dialog"
 import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 
@@ -85,9 +86,11 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
       </SidebarHeader>
 
       <SidebarContent id="tour-sidebar">
-        <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
-          <DailyCheckinDialog />
-        </div>
+        {isFeatureEnabled("streaks") && (
+          <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
+            <DailyCheckinDialog />
+          </div>
+        )}
 
         <SidebarGroup>
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
@@ -109,39 +112,43 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
               </SidebarMenuItem>
 
               {/* SQUAD / MON ESCOUADE */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/squad"}
-                  tooltip={hasSquad ? "Gère ton équipe de 5 et progresse ensemble." : "Rejoins une escouade de développeurs complémentaires."}
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/squad" className="flex items-center gap-2">
-                    <Users className="size-4 shrink-0" />
-                    <span className="font-medium flex-1">
-                      {hasSquad ? "Mon Escouade" : "Escouade"}
-                    </span>
-                    {hasSquad && (
-                      <span className="size-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_6px_rgba(197,244,65,0.8)] group-data-[collapsible=icon]:hidden" />
-                    )}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {isFeatureEnabled("squads") && (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === "/squad"}
+                      tooltip={hasSquad ? "Gère ton équipe de 5 et progresse ensemble." : "Rejoins une escouade de développeurs complémentaires."}
+                      className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    >
+                      <Link href="/squad" className="flex items-center gap-2">
+                        <Users className="size-4 shrink-0" />
+                        <span className="font-medium flex-1">
+                          {hasSquad ? "Mon Escouade" : "Escouade"}
+                        </span>
+                        {hasSquad && (
+                          <span className="size-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_6px_rgba(197,244,65,0.8)] group-data-[collapsible=icon]:hidden" />
+                        )}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
 
-              {/* SQUAD DISCOVER (Nouveau lien) */}
-              {!hasSquad && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === "/squad/discover"}
-                    tooltip="Découvrir des escouades actives"
-                    className="h-9 transition-all hover:bg-white/5 pl-10 text-zinc-500 hover:text-white"
-                  >
-                    <Link href="/squad/discover">
-                      <span className="font-medium text-[12px] uppercase tracking-wider">Découvrir</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  {/* SQUAD DISCOVER (Nouveau lien) */}
+                  {!hasSquad && (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === "/squad/discover"}
+                        tooltip="Découvrir des escouades actives"
+                        className="h-9 transition-all hover:bg-white/5 pl-10 text-zinc-500 hover:text-white"
+                      >
+                        <Link href="/squad/discover">
+                          <span className="font-medium text-[12px] uppercase tracking-wider">Découvrir</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
+                </>
               )}
 
               {/* MISSIONS */}
