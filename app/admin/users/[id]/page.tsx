@@ -5,7 +5,7 @@ import { questions } from "@/lib/questions"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { UserRowActions } from "@/components/admin/UserRowActions"
+import { UserRowActions, type UserRowActionsProps } from "@/components/admin/UserRowActions"
 import { 
   ChevronLeft, 
   BrainCircuit, 
@@ -85,9 +85,9 @@ export default async function UserDossierPage({ params }: PageProps) {
   })
 
   // Fetch squad activity logs if in a squad
-  let squadMembersLogs: any[] = [];
+  let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];
   if (activeOrg) {
-    const squadMemberIds = (activeOrg as any).members.map((m: any) => m.userId);
+    const squadMemberIds = activeOrg.members.map((m: { userId: string }) => m.userId);
     squadMembersLogs = await prisma.activityLog.findMany({
       where: {
         userId: { in: squadMemberIds },
@@ -169,7 +169,7 @@ export default async function UserDossierPage({ params }: PageProps) {
           >
             Export ZIP
           </a>
-          <UserRowActions user={user as any} />
+          <UserRowActions user={user as UserRowActionsProps["user"]} />
         </div>
       </div>
 
@@ -493,7 +493,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                     </div>
                     
                     <div className="grid gap-3">
-                      {(activeOrg as any).members.map((member: any) => {
+                      {activeOrg.members.map((member: { id: string; user: { class?: string | null; image?: string | null; name: string; pseudo?: string | null } }) => {
                         const cl = (member.user.class || "builder").toLowerCase();
                         return (
                           <div key={member.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">

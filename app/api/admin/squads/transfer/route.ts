@@ -46,7 +46,7 @@ export async function POST(req: Request) {
         data: {
           action: "ADMIN_SQUAD_TRANSFER",
           userId: session.user.id,
-          metadata: { targetMemberId, targetUserEmail: targetMember.user.email } as any
+          metadata: { targetMemberId, targetUserEmail: targetMember.user.email }
         }
       })
     ]);

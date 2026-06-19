@@ -192,7 +192,7 @@ export default async function AdminActivityPage({
           </div>
 
           { }
-          {(logs as any[]).map((log) => (
+          {logs.map((log) => (
             <div
               key={log.id}
               className="grid grid-cols-[120px_1fr_160px_1fr_120px] gap-0 px-6 py-3.5 border-b border-white/5 last:border-0 hover:bg-white/[0.015] transition-colors items-start"

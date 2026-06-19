@@ -10,9 +10,9 @@ const client = createAuthClient({
         magicLinkClient(),
         emailOTPClient(),
         adminClient(),
-        organizationClient() as any,
+        organizationClient(),
         multiSessionClient(),
-    ]
+    ],
 })
 
 export const authClient = client as unknown as AuthClient

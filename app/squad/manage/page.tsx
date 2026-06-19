@@ -116,10 +116,10 @@ export default async function SquadManagePage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser || (session.user as any)} hasSquad={!!squad} />
+      <AppSidebar user={dbUser ?? session.user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline" />
-        <UserTopBar user={dbUser || (session.user as any)} squad={squad} memberRole={memberRole} />
+        <UserTopBar user={dbUser ?? session.user} squad={squad} memberRole={memberRole} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-10">

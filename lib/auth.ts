@@ -1,4 +1,3 @@
-// @ts-ignore
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, multiSession } from "better-auth/plugins";
@@ -155,25 +154,31 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        after: async (user: any) => {
-          if ((user as any).class) {
+        after: async (user: Record<string, unknown>) => {
+          const userClass = user.class as string | undefined;
+          const userPseudo = user.pseudo as string | undefined;
+          const userName = user.name as string;
+          const userEmail = user.email as string;
+          const userId = user.id as string;
+
+          if (userClass) {
             await emailService.sendWelcomeProfileEmail({
-              email: user.email,
-              name: user.name,
-              profileType: (user as any).class,
+              email: userEmail,
+              name: userName,
+              profileType: userClass,
             });
           } else {
             await emailService.sendWelcomePendingQuiz({
-              email: user.email,
-              name: user.name,
+              email: userEmail,
+              name: userName,
             });
           }
 
-          const referralCode = (user as any).pseudo?.toLowerCase() ||
-            `${user.name.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
+          const referralCode = userPseudo?.toLowerCase() ||
+            `${userName.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
 
           await prisma.user.update({
-            where: { id: user.id },
+            where: { id: userId },
             data: {
               referralCode,
               psychometrics: {
@@ -204,15 +209,16 @@ export const auth = betterAuth({
             },
           });
 
-          await invalidateUserCache(user.id).catch((err) =>
-            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${user.id} lors de la création :`, err)
+          await invalidateUserCache(userId).catch((err) =>
+            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${userId} lors de la création :`, err)
           );
         },
       },
       update: {
-        after: async (user: any) => {
-          await invalidateUserCache(user.id).catch((err) =>
-            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${user.id} lors de la modification :`, err)
+        after: async (user: Record<string, unknown>) => {
+          const userId = user.id as string;
+          await invalidateUserCache(userId).catch((err) =>
+            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${userId} lors de la modification :`, err)
           );
         },
       },
@@ -322,7 +328,7 @@ export const auth = betterAuth({
           member: ["list"],
           invitation: ["list"],
         },
-      } as any,
+      } satisfies Record<string, { organization: string[]; member: string[]; invitation: string[] }>,
       schema: {
         organization: {
           additionalFields: {

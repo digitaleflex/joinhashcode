@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import { Check, AlertTriangle, Eye, RefreshCw } from "lucide-react"
 
-interface TimelineProps {
+export interface TimelineProps {
   submission: {
     createdAt: Date | string
     updatedAt: Date | string

@@ -136,7 +136,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
     redirect(`/u/${dbUser.pseudo || dbUser.id}`);
   }
 
-  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] } = {
+  const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
     builderScore: dbUser.psychometrics?.builderScore ?? 0,
     creatorScore: dbUser.psychometrics?.creatorScore ?? 0,
@@ -145,7 +145,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
     confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
     lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
     currentStreak: dbUser.stats?.currentStreak ?? 0,
-    missionSubmissions: dbUser.missionSubmissions as any,
+    missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,
   };
 
@@ -153,7 +153,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
   const quizResult = dbUser.quizResults?.[0];
 
   // Fetch squad activity logs if in a squad
-  let squadMembersLogs: any[] = [];
+  let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];
   if (activeOrg) {
     const squadMemberIds = activeOrg.members.map((m) => m.userId);
     squadMembersLogs = await prisma.activityLog.findMany({
@@ -173,7 +173,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
         },
       },
       orderBy: { createdAt: "desc" },
-      take: 5,
+      take: 50,
     });
   }
 

@@ -73,7 +73,7 @@ export async function logActivity(opts: LogOptions): Promise<void> {
         action,
         entity: entity ?? null,
         entityId: entityId ?? null,
-        metadata: metadata ? (sanitizeMetadata(metadata) as any) : undefined,
+        metadata: metadata ? sanitizeMetadata(metadata) : undefined,
         ip: request ? getClientIp(request) : null,
         userAgent: request?.headers.get("user-agent") ?? null,
       },

@@ -14,7 +14,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { MissionSubmissionForm } from "./mission-submission-form"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
-import { SubmissionTimeline } from "@/components/missions/submission-timeline"
+import { SubmissionTimeline, type TimelineProps } from "@/components/missions/submission-timeline"
 import { SuggestedPartners } from "@/components/missions/suggested-partners"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
 import {
@@ -383,7 +383,7 @@ export default async function MissionBriefingPage({
                       </div>
                     ) : (isInReview || isPending) ? (
                       <div className="py-2">
-                        <SubmissionTimeline submission={submission as any} />
+                        <SubmissionTimeline submission={submission as TimelineProps["submission"]} />
                       </div>
                     ) : (
                       <MissionSubmissionForm

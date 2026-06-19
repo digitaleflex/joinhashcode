@@ -45,7 +45,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
 
   const handleStopImpersonation = async () => {
     try {
-      await (authClient.admin as any).stopImpersonating();
+      await authClient.admin.stopImpersonating();
       toast.success("Retour au compte administrateur");
       window.location.href = "/admin/users";
     } catch (error: unknown) {
@@ -134,9 +134,9 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
         </TooltipProvider>
 
         {/* Squad Combo Bonus Indicator */}
-        {(squad?.lastComboAt || (session.data?.session as any)?.activeOrganization?.lastComboAt) && (
+        {(squad?.lastComboAt || (session.data?.session as Record<string, unknown>)?.activeOrganization?.lastComboAt) && (
           (() => {
-            const lastCombo = squad?.lastComboAt || (session.data?.session as any)?.activeOrganization?.lastComboAt;
+            const lastCombo = squad?.lastComboAt || (session.data?.session as Record<string, unknown>)?.activeOrganization?.lastComboAt;
             const diffHours = (new Date().getTime() - new Date(lastCombo).getTime()) / (1000 * 60 * 60);
             if (diffHours < 24) {
               return (

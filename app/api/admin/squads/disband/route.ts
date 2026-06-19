@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         data: {
           action: "ADMIN_SQUAD_DISBAND",
           userId: session.user.id,
-          metadata: { squadName: organization.name } as any
+          metadata: { squadName: organization.name }
         }
       })
     ]);
