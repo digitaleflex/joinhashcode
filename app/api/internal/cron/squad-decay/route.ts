@@ -22,25 +22,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Accès non autorisé. Token de cron invalide." }, { status: 401 });
     }
 
-    // 2. Fix SEC-007: Use updateMany instead of per-squad loop — O(1) vs O(n) queries
-    // Step A: decrement all scores (clamped to 0 via max check below)
-    await prisma.organization.updateMany({
-      data: { cohesionScore: { decrement: 0.1 } },
-    });
-
-    // Step B: clamp negative scores to 0
-    await prisma.organization.updateMany({
-      where: { cohesionScore: { lt: 0 } },
-      data: { cohesionScore: 0 },
-    });
-
-    // Step C: reset streak for squads whose score dropped below 0.9
-    await prisma.organization.updateMany({
-      where: { cohesionScore: { lt: 0.9 } },
-      data: { streakCount: 0 },
-    });
-
-    const result = await prisma.organization.count();
+    // 2. Fix SEC-007 & optimize: Execute a single atomic PostgreSQL update instead of 3 sequential writes
+    const result = await prisma.$executeRaw`
+      UPDATE "organization"
+      SET 
+        "cohesionScore" = GREATEST(0.0, "cohesionScore" - 0.1),
+        "streakCount" = CASE 
+          WHEN GREATEST(0.0, "cohesionScore" - 0.1) < 0.9 THEN 0 
+          ELSE "streakCount" 
+        END
+    `;
 
     logActivity({
       action: "SQUAD_DECAY",

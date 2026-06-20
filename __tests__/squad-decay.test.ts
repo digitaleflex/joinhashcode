@@ -7,6 +7,7 @@ import { logActivity } from '../lib/activity-log';
 vi.mock('../lib/prisma', () => ({
   prisma: {
     $transaction: vi.fn(),
+    $executeRaw: vi.fn(),
     organization: {
       findMany: vi.fn(),
       update: vi.fn(),
@@ -39,7 +40,7 @@ describe('Squad Cohesion Decay Cron', () => {
   });
 
   it('should decay cohesion and reset streaks if below 0.9', async () => {
-    (prisma.organization.count as any).mockResolvedValue(3);
+    (prisma.$executeRaw as any).mockResolvedValue(3);
 
     const req = new Request('http://localhost:3000/api/internal/cron/squad-decay', {
       method: 'POST',
@@ -56,19 +57,7 @@ describe('Squad Cohesion Decay Cron', () => {
     expect(data.message).toContain('3 escouades');
 
     // Verify updates
-    expect(prisma.organization.updateMany).toHaveBeenCalledTimes(3);
-
-    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(1, {
-      data: { cohesionScore: { decrement: 0.1 } },
-    });
-    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(2, {
-      where: { cohesionScore: { lt: 0 } },
-      data: { cohesionScore: 0 },
-    });
-    expect(prisma.organization.updateMany).toHaveBeenNthCalledWith(3, {
-      where: { cohesionScore: { lt: 0.9 } },
-      data: { streakCount: 0 },
-    });
+    expect(prisma.$executeRaw).toHaveBeenCalledTimes(1);
 
     // Verify logging
     expect(logActivity).toHaveBeenCalledWith(expect.objectContaining({
