@@ -27,10 +27,7 @@ export default async function GuidePage() {
       name: true,
       email: true,
       image: true,
-      level: true,
-      experience: true,
       class: true,
-      missionsCompletedCount: true,
       pseudo: true,
       role: true,
       createdAt: true,
@@ -41,7 +38,6 @@ export default async function GuidePage() {
       country: true,
       city: true,
       language: true,
-      referralCount: true,
       badges: true,
       psychometrics: {
         select: {
@@ -58,6 +54,12 @@ export default async function GuidePage() {
           currentStreak: true,
         },
       },
+      progress: {
+        select: { level: true, experience: true, missionsCompletedCount: true },
+      },
+      referral: {
+        select: { referralCount: true },
+      },
       members: {
         include: {
           organization: true,
@@ -70,6 +72,10 @@ export default async function GuidePage() {
 
   const sessionUser: UserProfile = {
     ...dbSessionUser,
+    level: dbSessionUser.progress?.level ?? 1,
+    experience: dbSessionUser.progress?.experience ?? 0,
+    missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
+    referralCount: dbSessionUser.referral?.referralCount ?? 0,
     builderScore: dbSessionUser.psychometrics?.builderScore ?? 0,
     creatorScore: dbSessionUser.psychometrics?.creatorScore ?? 0,
     strategistScore: dbSessionUser.psychometrics?.strategistScore ?? 0,

@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-interface UserRowActionsProps {
+export interface UserRowActionsProps {
   user: {
     id: string
     name: string

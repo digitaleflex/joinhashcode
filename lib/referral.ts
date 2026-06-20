@@ -8,8 +8,7 @@ export async function processReferralReward(newUserId: string) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: newUserId },
-      select: { id: true, name: true, createdAt: true },
-      include: { referral: { select: { referrerId: true } } },
+      select: { id: true, name: true, createdAt: true, referral: { select: { referrerId: true } } },
     });
 
     if (!user || !user.referral?.referrerId) return;

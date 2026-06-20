@@ -27,8 +27,7 @@ export async function POST(
       }),
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { id: true, class: true, role: true },
-        include: { progress: { select: { level: true, missionsCompletedCount: true } } },
+        select: { id: true, class: true, role: true, progress: { select: { level: true, missionsCompletedCount: true } } },
       }),
     ]);
 

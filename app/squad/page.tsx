@@ -13,7 +13,7 @@ export default async function SquadPage() {
   const headers_ = await headers();
   const userId = session.user.id;
 
-  const [org, dbUser] = await Promise.all([
+  const [org, dbUser, incomingInvitations] = await Promise.all([
     auth.api.getFullOrganization({ headers: headers_ }),
     prisma.user.findUnique({
       where: { id: userId },
@@ -24,12 +24,31 @@ export default async function SquadPage() {
         image: true,
         pseudo: true,
         class: true,
-        level: true,
-        experience: true,
         badges: true,
         role: true,
+        progress: { select: { level: true, experience: true } },
       },
     }),
+    prisma.invitation.findMany({
+      where: {
+        email: session.user.email,
+        status: "pending"
+      },
+      include: {
+        organization: {
+          select: {
+            name: true,
+            slug: true,
+            description: true
+          }
+        },
+        user: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
   ]);
 
   // Fallback to database lookup if BA active organization cookie is missing
@@ -49,7 +68,7 @@ export default async function SquadPage() {
                     pseudo: true,
                     image: true,
                     class: true,
-                    level: true,
+                    progress: { select: { level: true } },
                   },
                 },
               },
@@ -87,35 +106,13 @@ export default async function SquadPage() {
   } : dbSquad;
 
   // Load received invitations in case they don't have a squad
-  let incomingInvitations: Array<{ id: string; organizationId: string; organization: { name: string; slug: string; description: string | null }; user: { name: string }; role: string; status: string }> = [];
-  if (dbUser?.email) {
-    incomingInvitations = await prisma.invitation.findMany({
-      where: {
-        email: dbUser.email,
-        status: "pending"
-      },
-      include: {
-        organization: {
-          select: {
-            name: true,
-            slug: true,
-            description: true
-          }
-        },
-        user: {
-          select: {
-            name: true
-          }
-        }
-      }
-    });
-  }
+  // (already fetched in parallel)
 
   return (
     <SquadPageClient 
       user={dbUser ?? session.user} 
       squad={squad} 
-      incomingInvitations={incomingInvitations.map(inv => ({
+      incomingInvitations={incomingInvitations.map((inv: any) => ({
         id: inv.id,
         organizationId: inv.organizationId,
         organizationName: inv.organization.name,

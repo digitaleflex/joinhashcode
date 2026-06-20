@@ -44,12 +44,16 @@ export class MissionsService {
         id: true,
         email: true,
         name: true,
-        level: true,
-        experience: true,
-        missionsCompletedCount: true,
         stats: {
           select: {
             currentStreak: true,
+          }
+        },
+        progress: {
+          select: {
+            level: true,
+            experience: true,
+            missionsCompletedCount: true,
           }
         },
       }
@@ -60,7 +64,7 @@ export class MissionsService {
     }
 
     const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
-    if (dbUser.level < requiredLevel) {
+    if ((dbUser.progress?.level ?? 1) < requiredLevel) {
       throw new Error("LEVEL_TOO_LOW");
     }
 
@@ -134,12 +138,13 @@ export class MissionsService {
         await awardXp(userId, experienceToIncrement, isAutoApproved ? "MISSION_COMPLETED" : "MISSION_SUBMISSION_SYNC_BONUS", mission.id, tx);
       }
 
-      await tx.user.update({
-        where: { id: userId },
-        data: {
-          missionsCompletedCount: isAutoApproved ? { increment: 1 } : undefined
-        }
-      });
+      if (isAutoApproved) {
+        await tx.userProgress.upsert({
+          where: { userId },
+          create: { userId, missionsCompletedCount: 1 },
+          update: { missionsCompletedCount: { increment: 1 } },
+        });
+      }
 
       return submission;
     });

@@ -68,8 +68,6 @@ export async function GET(req: Request) {
           createdAt: true,
           image: true,
           class: true,
-        },
-        include: {
           progress: { select: { level: true, experience: true } },
           security: { select: { banned: true, fraudRiskScore: true } },
         },

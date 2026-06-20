@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { logActivity } from "@/lib/activity-log";
-import type { Prisma } from "../generated/prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 
 const missionSchema = z.object({
   title: z.string().min(1),

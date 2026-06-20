@@ -25,10 +25,9 @@ export default async function FeedbackPage() {
         name: true,
         email: true,
         image: true,
-        level: true,
-        experience: true,
         class: true,
         role: true,
+        progress: { select: { level: true, experience: true } },
       }
     }),
     prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, emailOTP, admin, createAccessControl, organization, multiSession } from "better-auth/plugins";
@@ -63,6 +64,9 @@ const ac = createAccessControl({
     "update",
   ],
   session: ["list", "revoke", "delete"],
+  organization: ["update", "delete", "list"],
+  member: ["create", "delete", "update", "list"],
+  invitation: ["create", "delete", "update", "list"],
 });
 
 // Create roles based on the Access Control
@@ -94,6 +98,24 @@ const moderatorRole = ac.newRole({
 const memberRole = ac.newRole({
   user: [],
   session: [],
+});
+
+const orgOwnerRole = ac.newRole({
+  organization: ["update", "delete", "list"],
+  member: ["create", "delete", "update"],
+  invitation: ["create", "delete", "update"],
+});
+
+const orgAdminRole = ac.newRole({
+  organization: ["update"],
+  member: ["create", "delete"],
+  invitation: ["create", "delete"],
+});
+
+const orgMemberRole = ac.newRole({
+  organization: ["list"],
+  member: ["list"],
+  invitation: ["list"],
 });
 
 export const auth = betterAuth({
@@ -180,7 +202,12 @@ export const auth = betterAuth({
           await prisma.user.update({
             where: { id: userId },
             data: {
-              referralCode,
+              referral: {
+                upsert: {
+                  create: { referralCode },
+                  update: { referralCode },
+                }
+              },
               psychometrics: {
                 create: {
                   builderScore: 0,
@@ -313,22 +340,10 @@ export const auth = betterAuth({
       membershipLimit: 5,
       creatorRole: "owner",
       roles: {
-        owner: {
-          organization: ["update", "delete", "list"],
-          member: ["create", "delete", "update"],
-          invitation: ["create", "delete", "update"],
-        },
-        admin: {
-          organization: ["update"],
-          member: ["create", "delete"],
-          invitation: ["create", "delete"],
-        },
-        member: {
-          organization: ["list"],
-          member: ["list"],
-          invitation: ["list"],
-        },
-      } satisfies Record<string, { organization: string[]; member: string[]; invitation: string[] }>,
+        owner: orgOwnerRole,
+        admin: orgAdminRole,
+        member: orgMemberRole,
+      },
       schema: {
         organization: {
           additionalFields: {

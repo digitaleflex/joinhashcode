@@ -12,8 +12,7 @@ export async function DELETE(req: Request) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { email: true, name: true, memberNumber: true },
-    include: { progress: { select: { level: true, missionsCompletedCount: true } } },
+    select: { email: true, name: true, memberNumber: true, progress: { select: { level: true, missionsCompletedCount: true } } },
   });
 
   // Log before deletion — no PII in metadata (userId becomes null after delete via SetNull)

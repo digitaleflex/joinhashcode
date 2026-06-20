@@ -28,14 +28,6 @@ export async function GET() {
 
   try {
     const keys = await prisma.betaKey.findMany({
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          }
-        }
-      },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(keys);

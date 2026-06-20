@@ -65,8 +65,6 @@ export default async function UserDossierPage({ params }: PageProps) {
                       pseudo: true,
                       image: true,
                       class: true,
-                    },
-                    include: {
                       progress: { select: { level: true } },
                     },
                   }
@@ -499,7 +497,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                     </div>
                     
                     <div className="grid gap-3">
-                      {activeOrg.members.map((member: { id: string; user: { class?: string | null; image?: string | null; name: string; pseudo?: string | null } }) => {
+                      {activeOrg.members.map((member: { id: string; role: string; user: { class?: string | null; image?: string | null; name: string; pseudo?: string | null; progress?: { level?: number | null } | null } }) => {
                         const cl = (member.user.class || "builder").toLowerCase();
                         return (
                           <div key={member.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">

@@ -44,9 +44,10 @@ export async function addFraudSignal(
   const { name, points, details } = signal
 
   await prisma.$transaction(async (tx) => {
-    await tx.user.update({
-      where: { id: userId },
-      data: { fraudRiskScore: { increment: points } },
+    await tx.userSecurity.upsert({
+      where: { userId },
+      create: { userId, fraudRiskScore: points },
+      update: { fraudRiskScore: { increment: points } },
     })
 
     await tx.fraudEvent.create({

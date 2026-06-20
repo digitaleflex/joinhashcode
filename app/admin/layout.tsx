@@ -19,7 +19,8 @@ export default async function AdminLayout({
     where: { id: session.user.id },
     select: {
       id: true, name: true, email: true, image: true, role: true, pseudo: true,
-      level: true, class: true,
+      class: true,
+      progress: { select: { level: true } },
     },
   })
 

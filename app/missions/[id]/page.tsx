@@ -101,7 +101,7 @@ export default async function MissionBriefingPage({
     where: {
       id: { not: dbUser.id },
       class: { in: targets },
-      banned: { not: true },
+      security: { banned: { not: true } },
     },
     select: {
       id: true,

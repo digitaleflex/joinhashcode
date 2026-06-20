@@ -30,9 +30,8 @@ export default async function QuizPage() {
       name: true,
       memberNumber: true,
       class: true,
-      level: true,
-      experience: true,
       createdAt: true,
+      progress: { select: { level: true, experience: true } },
     },
   })
 
@@ -79,7 +78,7 @@ export default async function QuizPage() {
               Réponds instinctivement — il n&apos;y a pas de bonne ou mauvaise réponse.
             </p>
           </div>
-          <Quiz user={user ?? undefined} />
+          <Quiz user={user ? { ...user, level: user.progress?.level ?? 1, experience: user.progress?.experience ?? 0 } : undefined} />
         </div>
       </div>
       <Footer />

@@ -124,8 +124,6 @@ export async function PATCH(req: Request) {
         secondaryObjectives: true,
         updatedAt: true,
         socials: true,
-      },
-      include: {
         progress: { select: { level: true, experience: true } },
       }
     });

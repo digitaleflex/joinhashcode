@@ -73,6 +73,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
           lastCheckinAt: true,
         }
       },
+      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+      security: { select: { banned: true } },
+      referral: { select: { referralCount: true } },
       quizResults: {
         select: { id: true, profileType: true, createdAt: true },
         orderBy: { createdAt: 'desc' },
@@ -97,18 +100,13 @@ export default async function PublicProfilePage({ params }: PageProps) {
               members: {
                 select: {
                   role: true,
-                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true }, include: { progress: { select: { level: true } } } },
+                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true, progress: { select: { level: true } } } },
                 },
               },
             },
           },
         },
       },
-    },
-    include: {
-      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
-      security: { select: { banned: true } },
-      referral: { select: { referralCount: true } },
     },
   });
 

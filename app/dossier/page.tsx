@@ -53,14 +53,9 @@ export default async function DossierPage({ searchParams }: PageProps) {
       name: true,
       email: true,
       image: true,
-      level: true,
-      experience: true,
       class: true,
-      missionsCompletedCount: true,
       behavioralVibrancy: true,
       pseudo: true,
-      referralCode: true,
-      referralCount: true,
       role: true,
       language: true,
       memberNumber: true,
@@ -87,6 +82,19 @@ export default async function DossierPage({ searchParams }: PageProps) {
         select: {
           lastCheckinAt: true,
           currentStreak: true,
+        }
+      },
+      progress: {
+        select: {
+          level: true,
+          experience: true,
+          missionsCompletedCount: true,
+        }
+      },
+      referral: {
+        select: {
+          referralCode: true,
+          referralCount: true,
         }
       },
       quizResults: {
@@ -117,7 +125,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
                       pseudo: true,
                       image: true,
                       class: true,
-                      level: true,
+                      progress: { select: { level: true } },
                     }
                   }
                 }
@@ -138,6 +146,11 @@ export default async function DossierPage({ searchParams }: PageProps) {
 
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
+    level: dbUser.progress?.level ?? 1,
+    experience: dbUser.progress?.experience ?? 0,
+    missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,
+    referralCode: dbUser.referral?.referralCode ?? null,
+    referralCount: dbUser.referral?.referralCount ?? 0,
     builderScore: dbUser.psychometrics?.builderScore ?? 0,
     creatorScore: dbUser.psychometrics?.creatorScore ?? 0,
     strategistScore: dbUser.psychometrics?.strategistScore ?? 0,

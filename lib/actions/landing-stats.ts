@@ -27,7 +27,7 @@ export async function getLandingStats(): Promise<LandingStats> {
     // 1. Compteurs d'utilisateurs
     const [memberCount, totalCount] = await Promise.all([
       prisma.user.count({
-        where: { role: "MEMBER", banned: { not: true } }
+        where: { role: "MEMBER", security: { banned: { not: true } } }
       }),
       prisma.user.count()
     ])
@@ -43,13 +43,13 @@ export async function getLandingStats(): Promise<LandingStats> {
     // 3.5 Décompte par classe
     const classGroups = await prisma.user.groupBy({
       by: ['class'],
-      where: { banned: { not: true } },
-      _count: { class: true }
+      where: { security: { banned: { not: true } } },
+      _count: { class: true },
     })
 
     const classCounts: Record<string, number> = {}
     classGroups.forEach(group => {
-      if (group.class) {
+      if (group.class && group._count?.class) {
         classCounts[group.class.toLowerCase()] = group._count.class
       }
     })

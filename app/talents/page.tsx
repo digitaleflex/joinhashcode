@@ -27,10 +27,7 @@ export default async function TalentsPage() {
       name: true,
       email: true,
       image: true,
-      level: true,
-      experience: true,
       class: true,
-      missionsCompletedCount: true,
       pseudo: true,
       role: true,
       createdAt: true,
@@ -41,7 +38,6 @@ export default async function TalentsPage() {
       country: true,
       city: true,
       language: true,
-      referralCount: true,
       badges: true,
       psychometrics: {
         select: {
@@ -58,6 +54,12 @@ export default async function TalentsPage() {
           currentStreak: true,
         },
       },
+      progress: {
+        select: { level: true, experience: true, missionsCompletedCount: true },
+      },
+      referral: {
+        select: { referralCount: true },
+      },
       members: {
         include: {
           organization: true,
@@ -70,6 +72,10 @@ export default async function TalentsPage() {
 
   const sessionUser: UserProfile = {
     ...dbSessionUser,
+    level: dbSessionUser.progress?.level ?? 1,
+    experience: dbSessionUser.progress?.experience ?? 0,
+    missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
+    referralCount: dbSessionUser.referral?.referralCount ?? 0,
     builderScore: dbSessionUser.psychometrics?.builderScore ?? 0,
     creatorScore: dbSessionUser.psychometrics?.creatorScore ?? 0,
     strategistScore: dbSessionUser.psychometrics?.strategistScore ?? 0,
@@ -82,9 +88,9 @@ export default async function TalentsPage() {
   const activeOrg = dbSessionUser.members[0]?.organization ?? null
 
   // Fetch all active, non-banned users in the directory
-  const talents = await prisma.user.findMany({
+  const talentsRaw = await prisma.user.findMany({
     where: {
-      banned: { not: true },
+      security: { banned: { not: true } },
     },
     select: {
       id: true,
@@ -92,8 +98,6 @@ export default async function TalentsPage() {
       pseudo: true,
       image: true,
       class: true,
-      level: true,
-      experience: true,
       city: true,
       country: true,
       bio: true,
@@ -106,9 +110,16 @@ export default async function TalentsPage() {
           catalystScore: true,
         },
       },
+      progress: { select: { level: true, experience: true } },
     },
-    orderBy: [{ experience: "desc" }, { level: "desc" }],
+    orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
   })
+
+  const talents = talentsRaw.map((t) => ({
+    ...t,
+    level: t.progress?.level ?? 1,
+    experience: t.progress?.experience ?? 0,
+  }))
 
   return (
     <SidebarProvider>

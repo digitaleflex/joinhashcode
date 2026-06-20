@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Trophy, ArrowLeft } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,21 +10,27 @@ import { Badge } from "@/components/ui/badge";
 
 export const revalidate = 120;
 
+const getCachedLeaderboardData = unstable_cache(
+  async () => {
+    return prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        pseudo: true,
+        image: true,
+        class: true,
+        progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+      },
+      orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
+      take: 50,
+    });
+  },
+  ["global-leaderboard"],
+  { revalidate: 120 }
+);
+
 async function getLeaderboard() {
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      pseudo: true,
-      image: true,
-      class: true,
-    },
-    include: {
-      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
-    },
-    orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
-    take: 50,
-  });
+  const users = await getCachedLeaderboardData();
 
   return users.map((u, i) => ({
     id: u.id,

@@ -28,9 +28,7 @@ export async function GET(req: Request) {
             strategistScore: true,
             catalystScore: true,
           }
-        }
-      },
-      include: {
+        },
         progress: { select: { level: true } },
       },
     });

@@ -52,8 +52,6 @@ export async function GET(req: Request) {
             currentStreak: true,
           }
         },
-      },
-      include: {
         progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
       },
       orderBy: { createdAt: "desc" },

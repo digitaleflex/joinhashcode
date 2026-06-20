@@ -52,8 +52,7 @@ export default async function AdminPage() {
     prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 10,
-      select: { id: true, name: true, email: true, class: true, createdAt: true, country: true },
-      include: { progress: { select: { level: true } } },
+      select: { id: true, name: true, email: true, class: true, createdAt: true, country: true, progress: { select: { level: true } } },
     }),
     prisma.quizResult.groupBy({ by: ["profileType"], _count: { profileType: true } }),
     prisma.mission.findMany({ select: { id: true, title: true, missionLevel: true, targetProfiles: true, _count: { select: { submissions: true } } }, orderBy: { createdAt: "desc" }, take: 20 }),
@@ -61,11 +60,8 @@ export default async function AdminPage() {
     // Funnel steps
     prisma.user.count({ where: { currentSituation: { not: null } } }),
     prisma.user.count({ where: { class: { not: null } } }),
-    prisma.member.count().then(async () => {
-      const distinct = await prisma.member.findMany({ select: { userId: true }, distinct: ["userId"] })
-      return distinct.length
-    }),
-    prisma.missionSubmission.findMany({ select: { userId: true }, distinct: ["userId"] }).then(r => r.length),
+    prisma.member.count(),
+    prisma.missionSubmission.groupBy({ by: ["userId"] }).then(r => r.length),
     // Retention
     prisma.user.count({ where: { stats: { lastCheckinAt: { gte: sevenDaysAgo } } } }),
     prisma.user.count({ where: { stats: { lastCheckinAt: { not: null } } } }),
@@ -108,19 +104,33 @@ export default async function AdminPage() {
     prisma.missionSubmission.count({ where: { createdAt: { lt: sevenDaysAgo } } }),
     prisma.user.count({ where: { stats: { lastCheckinAt: { gte: fourteenDaysAgo, lt: sevenDaysAgo } } } }),
     // Weekly chart data (last 7 days)
-    Promise.all(
-      Array.from({ length: 7 }, (_, i) => {
+    Promise.all([
+      prisma.dailyCheckin.findMany({
+        where: { createdAt: { gte: sevenDaysAgo } },
+        select: { createdAt: true },
+      }),
+      prisma.user.findMany({
+        where: { createdAt: { gte: sevenDaysAgo } },
+        select: { createdAt: true },
+      }),
+      prisma.missionSubmission.findMany({
+        where: { createdAt: { gte: sevenDaysAgo } },
+        select: { createdAt: true },
+      }),
+    ]).then(([checkinsRaw, usersRaw, submissionsRaw]) => {
+      return Array.from({ length: 7 }, (_, i) => {
         const dayStart = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000)
         dayStart.setHours(0, 0, 0, 0)
         const dayEnd = new Date(dayStart)
         dayEnd.setHours(23, 59, 59, 999)
-        return Promise.all([
-          prisma.dailyCheckin.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
-          prisma.user.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
-          prisma.missionSubmission.count({ where: { createdAt: { gte: dayStart, lte: dayEnd } } }),
-        ]).then(([checkins, signups, missions]) => ({ dayStart, checkins, signups, missions }))
+
+        const checkins = checkinsRaw.filter(c => c.createdAt >= dayStart && c.createdAt <= dayEnd).length
+        const signups = usersRaw.filter(u => u.createdAt >= dayStart && u.createdAt <= dayEnd).length
+        const missions = submissionsRaw.filter(s => s.createdAt >= dayStart && s.createdAt <= dayEnd).length
+
+        return { dayStart, checkins, signups, missions }
       })
-    ),
+    }),
     prisma.session.findMany({
       where: { expiresAt: { gte: new Date() }, createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) } },
       select: { userId: true },

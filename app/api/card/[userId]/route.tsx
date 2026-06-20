@@ -24,8 +24,6 @@ export async function GET(
       name: true,
       class: true,
       createdAt: true,
-    },
-    include: {
       progress: { select: { level: true, experience: true } },
     },
   });

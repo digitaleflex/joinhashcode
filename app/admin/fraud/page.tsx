@@ -29,15 +29,14 @@ export default async function AdminFraudPage() {
   const [fraudEvents, flaggedUsers] = await Promise.all([
     prisma.fraudEvent.findMany({
       include: {
-        user: { select: { id: true, name: true, pseudo: true, email: true, image: true }, include: { security: { select: { fraudRiskScore: true, banned: true } } } },
+        user: { select: { id: true, name: true, pseudo: true, email: true, image: true, security: { select: { fraudRiskScore: true, banned: true } } } },
       },
       orderBy: { createdAt: "desc" },
       take: 100,
     }),
     prisma.user.findMany({
       where: { security: { fraudRiskScore: { gte: 1 } } },
-      select: { id: true, name: true, pseudo: true, email: true, image: true, visitorId: true },
-      include: { security: { select: { fraudRiskScore: true, banned: true } } },
+      select: { id: true, name: true, pseudo: true, email: true, image: true, visitorId: true, security: { select: { fraudRiskScore: true, banned: true } } },
       orderBy: { security: { fraudRiskScore: "desc" } },
       take: 50,
     }),

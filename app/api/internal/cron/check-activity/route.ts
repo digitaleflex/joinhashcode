@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { triggerNotification } from "@/lib/qstash";
 import { logActivity } from "@/lib/activity-log";
+import { emailService } from "@/lib/email";
 import { NextResponse } from "next/server";
 
 /**
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     let lastId: string | undefined = undefined;
 
     while (true) {
-      const inactiveUsers: { id: string }[] = await prisma.user.findMany({
+      const inactiveUsers: Array<{ id: string; email: string; name: string }> = await prisma.user.findMany({
         where: {
           class: { not: null },
           stats: {
@@ -37,26 +37,35 @@ export async function POST(req: Request) {
           },
           id: lastId ? { gt: lastId } : undefined,
         },
-        select: { id: true },
+        select: { id: true, email: true, name: true },
         take: BATCH_SIZE,
         orderBy: { id: 'asc' },
       });
 
       if (inactiveUsers.length === 0) break;
 
-      for (const user of inactiveUsers) {
-        try {
-          await triggerNotification({
+      // Bulk create in-app notifications
+      try {
+        await prisma.notification.createMany({
+          data: inactiveUsers.map(user => ({
             userId: user.id,
             type: "DAILY_REMINDER",
             title: "Check-in quotidien",
             message: "Tu n'as pas encore fait ton check-in aujourd'hui. Maintiens ton streak !",
             link: "/dashboard",
-          });
-          notifiedCount++;
-        } catch (notifyErr) {
-          console.error(`[CRON_CHECK_ACTIVITY] Failed to notify user ${user.id}:`, notifyErr);
-        }
+          }))
+        });
+        notifiedCount += inactiveUsers.length;
+      } catch (dbErr) {
+        console.error("[CRON_CHECK_ACTIVITY] Failed to bulk create notifications:", dbErr);
+      }
+
+      // Fire-and-forget email dispatch
+      for (const user of inactiveUsers) {
+        emailService.sendDailyReminder({
+          email: user.email,
+          name: user.name,
+        }).catch(err => console.error(`[CRON_CHECK_ACTIVITY] Failed to send email to ${user.id}:`, err));
       }
 
       lastId = inactiveUsers[inactiveUsers.length - 1].id;

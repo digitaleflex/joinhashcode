@@ -53,9 +53,8 @@ export default async function SquadManagePage() {
                     pseudo: true,
                     image: true,
                     class: true,
-                    level: true,
-                    missionsCompletedCount: true,
                     role: true,
+                    progress: { select: { level: true, missionsCompletedCount: true } },
                   },
                 },
               },
@@ -108,11 +107,9 @@ export default async function SquadManagePage() {
       image: true,
       pseudo: true,
       class: true,
-      level: true,
-      experience: true,
       badges: true,
       role: true,
-      missionsCompletedCount: true,
+      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
     },
   });
 

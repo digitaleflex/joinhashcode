@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { isFeatureEnabled } from "@/lib/features";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import Image from "next/image";
 import { Trophy, Users, Zap, Target, ArrowLeft, Star, TrendingUp } from "lucide-react";
@@ -11,22 +12,30 @@ import { Badge } from "@/components/ui/badge";
 
 export const revalidate = 120;
 
-async function getLeaderboard() {
-  const squads = await prisma.organization.findMany({
-    where: { isPrivate: false },
-    select: {
-      id: true, name: true, slug: true, logo: true,
-      cohesionScore: true, streakCount: true, description: true,
-      members: {
-        select: {
-          id: true, role: true,
-          user: { select: { id: true, name: true, pseudo: true, image: true, class: true }, include: { progress: { select: { level: true, missionsCompletedCount: true } } } },
+const getCachedSquadLeaderboardData = unstable_cache(
+  async () => {
+    return prisma.organization.findMany({
+      where: { isPrivate: false },
+      select: {
+        id: true, name: true, slug: true, logo: true,
+        cohesionScore: true, streakCount: true, description: true,
+        members: {
+          select: {
+            id: true, role: true,
+            user: { select: { id: true, name: true, pseudo: true, image: true, class: true }, include: { progress: { select: { level: true, missionsCompletedCount: true } } } },
+          },
         },
       },
-    },
-    orderBy: [{ cohesionScore: "desc" }, { streakCount: "desc" }],
-    take: 20,
-  });
+      orderBy: [{ cohesionScore: "desc" }, { streakCount: "desc" }],
+      take: 20,
+    });
+  },
+  ["squad-leaderboard"],
+  { revalidate: 120 }
+);
+
+async function getLeaderboard() {
+  const squads = await getCachedSquadLeaderboardData();
 
   return squads.map((s, i) => ({
     ...s,

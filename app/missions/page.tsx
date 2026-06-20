@@ -112,9 +112,7 @@ export default async function MissionsPage() {
               status: true,
               mission: { select: { slug: true } },
             },
-          }
-        },
-        include: {
+          },
           progress: { select: { level: true, experience: true } },
         }
       }),

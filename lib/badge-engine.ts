@@ -236,8 +236,6 @@ export async function checkAndAwardBadges(userId: string) {
         id: true,
         badges: true,
         behavioralVibrancy: true,
-      },
-      include: {
         progress: { select: { level: true, missionsCompletedCount: true } },
         referral: { select: { referralCount: true } },
       },

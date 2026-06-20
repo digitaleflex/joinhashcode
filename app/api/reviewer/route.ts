@@ -12,8 +12,7 @@ export async function GET() {
 
     const reviewer = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, class: true },
-      include: { progress: { select: { level: true, missionsCompletedCount: true } } },
+      select: { id: true, class: true, progress: { select: { level: true, missionsCompletedCount: true } } },
     });
 
     if (!reviewer) return NextResponse.json({ message: "Utilisateur non trouvé" }, { status: 404 });
@@ -22,7 +21,7 @@ export async function GET() {
       where: { status: "PENDING" },
       include: {
         mission: { select: { id: true, title: true, category: true, xp: true, missionLevel: true, targetProfiles: true } },
-        user: { select: { id: true, name: true, pseudo: true }, include: { progress: { select: { level: true } } } },
+        user: { select: { id: true, name: true, pseudo: true, progress: { select: { level: true } } } },
       },
       orderBy: { createdAt: "asc" },
     });

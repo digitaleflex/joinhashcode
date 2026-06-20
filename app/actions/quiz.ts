@@ -139,7 +139,6 @@ export async function submitQuiz(rawData: unknown) {
         where: { id: session.user.id },
         data: {
           class: analysis.primary,
-          level: analysis.level,
           behavioralVibrancy: analysis.scores as Prisma.InputJsonValue,
           lastHypothesisUpdate: new Date(),
           psychometrics: {
@@ -158,6 +157,12 @@ export async function submitQuiz(rawData: unknown) {
                 catalystScore: analysis.scores.catalyst,
                 confidenceScore: 0.25,
               }
+            }
+          },
+          progress: {
+            upsert: {
+              create: { level: analysis.level, experience: 0 },
+              update: { level: analysis.level },
             }
           }
         },
