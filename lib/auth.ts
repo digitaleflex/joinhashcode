@@ -100,6 +100,7 @@ const memberRole = ac.newRole({
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   trustedOrigins: buildTrustedOrigins(),
+  trustedProxyHeaders: true,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
