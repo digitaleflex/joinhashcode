@@ -64,9 +64,6 @@ const ac = createAccessControl({
     "update",
   ],
   session: ["list", "revoke", "delete"],
-  organization: ["update", "delete", "list"],
-  member: ["create", "delete", "update", "list"],
-  invitation: ["create", "delete", "update", "list"],
 });
 
 // Create roles based on the Access Control
@@ -337,7 +334,7 @@ export const auth = betterAuth({
           member: ["list"],
           invitation: ["list"],
         },
-      } satisfies Record<string, { organization: string[]; member: string[]; invitation: string[] }>,
+      } as any,
       schema: {
         organization: {
           additionalFields: {
