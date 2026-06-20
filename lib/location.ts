@@ -48,10 +48,27 @@ export async function getAllLocationsSince(since: Date) {
 
 export async function purgeOldLocations() {
   const cutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
+  let totalDeleted = 0
 
-  const purged = await prisma.userLocation.deleteMany({
-    where: { createdAt: { lt: cutoff } },
-  })
+  while (true) {
+    const records = await prisma.userLocation.findMany({
+      where: { createdAt: { lt: cutoff } },
+      select: { id: true },
+      take: 5000,
+    })
 
-  return purged.count
+    if (records.length === 0) break
+
+    const ids = records.map((r) => r.id)
+    const purged = await prisma.userLocation.deleteMany({
+      where: { id: { in: ids } },
+    })
+
+    totalDeleted += purged.count
+
+    // Petite pause de 50ms pour libérer les ressources CPU/IO et les verrous de table
+    await new Promise((resolve) => setTimeout(resolve, 50))
+  }
+
+  return totalDeleted
 }

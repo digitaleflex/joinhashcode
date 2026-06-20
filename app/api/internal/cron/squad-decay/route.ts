@@ -31,6 +31,7 @@ export async function POST(req: Request) {
           WHEN GREATEST(0.0, "cohesionScore" - 0.1) < 0.9 THEN 0 
           ELSE "streakCount" 
         END
+      WHERE "cohesionScore" > 0.0 OR "streakCount" > 0
     `;
 
     logActivity({

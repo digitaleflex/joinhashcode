@@ -1,18 +1,33 @@
 import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
 
-// Supports both Upstash standard names and Vercel KV aliased names
+/**
+ * ⚡ Perf: Priorité au Redis local (Valkey/Redis OSS) via REDIS_URL.
+ * Latence: Redis local < 1ms vs Upstash réseau 50–100ms.
+ * Bascule sur Upstash si REDIS_URL n'est pas défini (env cloud).
+ * Compatible avec le SDK @upstash/redis dans les deux cas.
+ */
+const localRedisUrl = process.env.REDIS_URL  // http://redis-proxy:80 (local REST proxy)
+const localRedisToken = process.env.REDIS_TOKEN // local-dev-token
+const isLocalHttpRedis = !!(localRedisUrl && (localRedisUrl.startsWith("http://") || localRedisUrl.startsWith("https://")))
+
 const restUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
 const restToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
-const configured = !!restUrl && !!restToken
+
+// Redis local HTTP disponible ou Upstash REST disponible
+const configured = isLocalHttpRedis || !!(restUrl && restToken)
 
 // Shared Redis client — exported for auth.ts secondaryStorage (SEC-011)
-export const redis = configured ? new Redis({ url: restUrl!, token: restToken! }) : null
+export const redis = configured
+  ? isLocalHttpRedis
+    ? new Redis({ url: localRedisUrl!, token: localRedisToken || "local-dev-token" })
+    : new Redis({ url: restUrl!, token: restToken! })
+  : null
 
 // Fix SEC-005: Fail closed in production if rate limiting is not configured
 // Skip during Next.js build phase (no runtime env vars available)
 if (!configured && process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== "phase-production-build") {
-  console.error("❌ [CRITICAL] UPSTASH_REDIS_REST_URL or TOKEN missing in production. Rate limiting is REQUIRED.");
+  console.error("❌ [CRITICAL] Aucun Redis configuré en production (REDIS_URL ou UPSTASH_REDIS_REST_URL). Rate limiting REQUIS.");
 }
 
 function makeRatelimit(tokens: number, window: `${number} s` | `${number} m` | `${number} h`) {

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { POST } from "@/app/api/internal/cron/release-claims/route";
 import { prisma } from "@/lib/prisma";
-import { triggerNotification } from "@/lib/qstash";
 
 const { mockPrisma } = vi.hoisted(() => {
   const m = {
@@ -10,6 +9,9 @@ const { mockPrisma } = vi.hoisted(() => {
       updateMany: vi.fn(),
     },
     activityLog: {
+      createMany: vi.fn(),
+    },
+    notification: {
       createMany: vi.fn(),
     },
     $transaction: vi.fn(),
@@ -146,23 +148,20 @@ describe("POST /api/internal/cron/release-claims", () => {
       ],
     });
 
-    // Verify notification dispatches
-    expect(triggerNotification).toHaveBeenCalledTimes(2);
-    expect(triggerNotification).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        userId: "user_1",
-        type: "MISSION_REVIEW_RELEASED",
-        title: "Soumission remise en file d'attente",
-      })
-    );
-    expect(triggerNotification).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        userId: "user_2",
-        type: "MISSION_REVIEW_RELEASED",
-        title: "Soumission remise en file d'attente",
-      })
-    );
+    // Verify notification dispatches in bulk
+    expect(prisma.notification.createMany).toHaveBeenCalledWith({
+      data: [
+        expect.objectContaining({
+          userId: "user_1",
+          type: "MISSION_REVIEW_RELEASED",
+          title: "Soumission remise en file d'attente",
+        }),
+        expect.objectContaining({
+          userId: "user_2",
+          type: "MISSION_REVIEW_RELEASED",
+          title: "Soumission remise en file d'attente",
+        }),
+      ],
+    });
   });
 });

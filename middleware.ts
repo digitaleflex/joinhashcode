@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getSessionCookie } from "better-auth/cookies";
+import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
@@ -51,6 +51,21 @@ export async function proxy(request: NextRequest) {
       }
     }
 
+    // ⚡ Perf: Essayer de décoder localement le JWE via getCookieCache (évite l'appel HTTP)
+    if (!sessionData) {
+      try {
+        const decoded = await getCookieCache(request, {
+          secret: process.env.BETTER_AUTH_SECRET,
+        });
+        if (decoded) {
+          sessionData = decoded;
+        }
+      } catch (error) {
+        console.error("🟢 [Middleware] local getCookieCache decryption failed:", error);
+      }
+    }
+
+    // Fallback de sécurité : appel HTTP si getCookieCache a échoué ou est expiré
     if (!sessionData) {
       try {
         const requestHeaders = new Headers(request.headers);

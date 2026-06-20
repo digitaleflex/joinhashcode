@@ -29,6 +29,61 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    # ⚡ Perf: Limiter la RAM PostgreSQL pour protéger le VPS des OOM
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  # ⚡ Perf: Redis/Valkey local — remplace Upstash pour le rate-limiting et le cache.
+  # Latence réduite de 50–100ms (Upstash réseau) à <1ms (local).
+  # Compatible avec le SDK @upstash/redis via REDIS_URL env var.
+  redis:
+    image: valkey/valkey:8-alpine
+    container_name: hashcode-redis
+    restart: always
+    # Limite mémoire à 256MB avec éviction LRU automatique
+    command: valkey-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly no --save ""
+    ports:
+      - "127.0.0.1:6379:6379"   # Exposé uniquement en local (pas sur Internet)
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+        reservations:
+          memory: 64M
+
+  # ⚡ Perf: Serverless Redis HTTP (SRH) — Proxy REST pour Valkey local.
+  # Permet à @upstash/redis de se connecter à Valkey local en HTTP/REST sans latence réseau.
+  redis-proxy:
+    image: hiett/serverless-redis-http:latest
+    container_name: hashcode-redis-proxy
+    restart: always
+    environment:
+      SRH_MODE: env
+      SRH_CONNECTION_STRING: redis://redis:6379
+      SRH_TOKEN: local-dev-token
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 32M
 
   adminer:
     image: adminer:latest
@@ -50,7 +105,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: hashcode-web-a
-    restart: always
+    restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
@@ -59,6 +114,10 @@ services:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
       DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
       NODE_ENV: production
+      # ⚡ Perf: Pointer vers le proxy Redis/SRH local pour le rate-limiting et le cache.
+      # Remplace UPSTASH_REDIS_REST_URL pour les appels réseau locaux (<1ms).
+      REDIS_URL: http://redis-proxy:80
+      REDIS_TOKEN: local-dev-token
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
       interval: 15s
@@ -70,9 +129,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-proxy:
+        condition: service_healthy
     networks:
       - db-network
       - proxy
+    # ⚡ Perf: Limites mémoire/CPU pour protéger le VPS des OOM
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 1.5G
+        reservations:
+          memory: 512M
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hashcode-web.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
@@ -80,6 +151,8 @@ services:
       - "traefik.http.routers.hashcode-web.tls=true"
       - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.compress.compress=true"
+      - "traefik.http.routers.hashcode-web.middlewares=compress"
 
   web-b:
     image: ${HASHCODE_WEB_B_IMAGE:-hashcode-web:latest}
@@ -87,7 +160,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: hashcode-web-b
-    restart: always
+    restart: unless-stopped
     ports: []
     env_file:
       - .env.production
@@ -95,6 +168,8 @@ services:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
       DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
       NODE_ENV: production
+      REDIS_URL: http://redis-proxy:80
+      REDIS_TOKEN: local-dev-token
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
       interval: 15s
@@ -106,9 +181,20 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-proxy:
+        condition: service_healthy
     networks:
       - db-network
       - proxy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 1.5G
+        reservations:
+          memory: 512M
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hashcode-web.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
@@ -116,12 +202,51 @@ services:
       - "traefik.http.routers.hashcode-web.tls=true"
       - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.compress.compress=true"
+      - "traefik.http.routers.hashcode-web.middlewares=compress"
+
+  # 📊 Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: hashcode-prometheus
+    restart: always
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "127.0.0.1:9090:9090"   # Expose localement uniquement pour tunnel SSH
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: hashcode-grafana
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3002:3000"   # Expose localement uniquement pour tunnel SSH
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
 
 volumes:
   postgres_data:
     name: hashcode-postgres-data
   uploads_data:
     name: hashcode-uploads-data
+  grafana_data:
+    name: hashcode-grafana-data
 
 networks:
   db-network:

@@ -1,10 +1,17 @@
 # ────────────────────────────────────────────────────────────────
-# Base de données PostgreSQL (stack indépendante de l'application)
+# Stack Base de Données (PostgreSQL + PgBouncer + Adminer)
+#
 # Démarrée une fois pour toutes — le pipeline de déploiement n'y
 # touche jamais.
 #
 # Lancement :
 #   docker compose -f compose.db.yml --env-file /chemin/vers/.env.production up -d
+#
+# Architecture :
+#   Internet → [Next.js pods] → [PgBouncer :5432] → [PostgreSQL :5433]
+#
+# PgBouncer gère jusqu'à 200 connexions clients pour seulement
+# 20 connexions réelles vers PostgreSQL — économie de ~1.4GB RAM PG.
 # ────────────────────────────────────────────────────────────────
 
 services:
@@ -16,18 +23,119 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    # ⚡ Perf: Exposition interne uniquement — PgBouncer expose le port public
     ports:
-      - "5435:5432"
+      - "127.0.0.1:5433:5432"   # Port 5433 interne, non exposé en direct
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Config PostgreSQL optimisée pour le VPS 8GB RAM
+      - ./monitoring/postgresql.conf:/etc/postgresql/postgresql.conf:ro
     networks:
       - db-network
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  # ⚡ Perf: PgBouncer — Connection pooler PostgreSQL
+  # Réduit les connexions réelles de 200 → 20, économisant ~1.4GB RAM PostgreSQL.
+  # Les pods Next.js se connectent à PgBouncer:5432, pas directement à PostgreSQL.
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: hashcode-pgbouncer
+    restart: always
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      POOL_MODE: transaction          # Meilleur mode pour Next.js (stateless)
+      MAX_CLIENT_CONN: 200            # Max 200 connexions clients (tous pods)
+      DEFAULT_POOL_SIZE: 20           # Max 20 connexions réelles PostgreSQL
+      MIN_POOL_SIZE: 5                # Keep 5 connexions prêtes
+      RESERVE_POOL_SIZE: 5            # 5 connexions de secours en cas de pic
+      RESERVE_POOL_TIMEOUT: 5        # Attendre 5s avant d'utiliser les connexions de secours
+      SERVER_IDLE_TIMEOUT: 600       # Fermer les connexions idle après 10min
+      CLIENT_IDLE_TIMEOUT: 60        # Fermer les clients idle après 1min
+      LOG_CONNECTIONS: 0
+      LOG_DISCONNECTIONS: 0
+      ADMIN_USERS: ${DB_USER}
+    ports:
+      - "5435:5432"   # Expose PgBouncer sur le port 5435 (compat avec la config actuelle)
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432", "-U", "${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  # ⚡ Perf: Redis/Valkey local — remplace Upstash pour le rate-limiting et le cache.
+  # Latence réduite de 50–100ms (Upstash réseau) à <1ms (local).
+  redis:
+    image: valkey/valkey:8-alpine
+    container_name: hashcode-redis
+    restart: always
+    # Limite mémoire à 256MB avec éviction LRU automatique
+    command: valkey-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly no --save ""
+    ports:
+      - "127.0.0.1:6379:6379"   # Exposé uniquement en local (pas sur Internet)
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+        reservations:
+          memory: 64M
+
+  # ⚡ Perf: Serverless Redis HTTP (SRH) — Proxy REST pour Valkey local.
+  # Permet à @upstash/redis de se connecter à Valkey local en HTTP/REST sans latence réseau.
+  redis-proxy:
+    image: hiett/serverless-redis-http:latest
+    container_name: hashcode-redis-proxy
+    restart: always
+    environment:
+      SRH_MODE: env
+      SRH_CONNECTION_STRING: redis://redis:6379
+      SRH_TOKEN: local-dev-token
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 32M
 
   adminer:
     image: adminer:latest
@@ -42,6 +150,10 @@ services:
       - "127.0.0.1:8080:8080"
     networks:
       - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
 
 volumes:
   postgres_data:

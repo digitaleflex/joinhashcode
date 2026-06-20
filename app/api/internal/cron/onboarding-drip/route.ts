@@ -2,13 +2,28 @@ import { prisma } from "@/lib/prisma";
 import { emailService } from "@/lib/email";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
+import { safeAfter } from "@/lib/after";
 
-/**
- * Onboarding Drip Campaign Cron
- * 
- * Sends automated guide emails at Day 1, Day 3, and Day 7 after registration.
- * Should run once per day (e.g., at 09:00 UTC).
- */
+async function runWithConcurrencyLimit<T>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<any>
+) {
+  const results = [];
+  const executing = new Set<Promise<any>>();
+  for (const item of items) {
+    const p = Promise.resolve().then(() => fn(item));
+    results.push(p);
+    executing.add(p);
+    const clean = () => executing.delete(p);
+    p.then(clean, clean);
+    if (executing.size >= limit) {
+      await Promise.race(executing);
+    }
+  }
+  return Promise.all(results);
+}
+
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
@@ -20,7 +35,6 @@ export async function POST(req: Request) {
 
     const now = new Date();
     
-    // Define windows for D1, D3, D7
     const getWindow = (days: number) => {
       const start = new Date(now);
       start.setDate(start.getDate() - days);
@@ -40,15 +54,21 @@ export async function POST(req: Request) {
       { day: 7, window: d7, action: "ONBOARDING_EMAIL_D7" },
     ] as const;
 
-    let totalSent = 0;
+    const emailTasks: Array<{
+      userId: string;
+      email: string;
+      name: string;
+      day: number;
+      action: string;
+      class: string | null;
+    }> = [];
 
+    // 1. Recherche rapide des utilisateurs qualifiés en base de données
     for (const step of steps) {
-      // Find users registered in this window
       const users = await prisma.user.findMany({
         where: {
           createdAt: { gte: step.window.start, lte: step.window.end },
           security: { banned: { not: true } },
-          // Optimization: check if we already logged this activity for this user
           activityLogs: {
             none: { action: step.action }
           }
@@ -57,39 +77,54 @@ export async function POST(req: Request) {
       });
 
       for (const user of users) {
-        try {
-          const basePayload = { email: user.email, name: user.name };
-
-          if (step.day === 1) {
-            await emailService.sendMissionProtocolEmail({
-              ...basePayload,
-              userClass: user.class || "Bâtisseur",
-            });
-          } else if (step.day === 3) {
-            await emailService.sendSquadPowerEmail(basePayload);
-          } else if (step.day === 7) {
-            await emailService.sendDigitalIdentityEmail(basePayload);
-          }
-
-          // Log to prevent double-send and track performance
-          await logActivity({
-            userId: user.id,
-            action: step.action,
-            entity: "Email",
-            metadata: { day: step.day, email: user.email }
-          });
-
-          totalSent++;
-        } catch (error: unknown) {
-          console.error(`[CRON_ONBOARDING_DRIP] Failed to send Day ${step.day} to ${user.id}:`, error);
-        }
+        emailTasks.push({
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          day: step.day,
+          action: step.action,
+          class: user.class
+        });
       }
     }
 
+    if (emailTasks.length === 0) {
+      return NextResponse.json({ success: true, message: "Aucun e-mail à envoyer." });
+    }
+
+    // 2. Découplage de l'envoi réseau et de la création de logs d'activité via safeAfter
+    safeAfter(async () => {
+      await runWithConcurrencyLimit(emailTasks, 5, async (task) => {
+        try {
+          const basePayload = { email: task.email, name: task.name };
+
+          if (task.day === 1) {
+            await emailService.sendMissionProtocolEmail({
+              ...basePayload,
+              userClass: task.class || "Bâtisseur",
+            });
+          } else if (task.day === 3) {
+            await emailService.sendSquadPowerEmail(basePayload);
+          } else if (task.day === 7) {
+            await emailService.sendDigitalIdentityEmail(basePayload);
+          }
+
+          // Écriture du log d'activité en tâche de fond (sans await bloquant pour le reste du script)
+          logActivity({
+            userId: task.userId,
+            action: task.action,
+            entity: "Email",
+            metadata: { day: task.day, email: task.email }
+          });
+        } catch (error: unknown) {
+          console.error(`[CRON_ONBOARDING_DRIP] Failed to send Day ${task.day} to ${task.userId}:`, error);
+        }
+      });
+    });
+
     return NextResponse.json({
       success: true,
-      message: `Campagne Drip : ${totalSent} e-mails envoyés.`,
-      details: { d1: d1.start, d3: d3.start, d7: d7.start }
+      message: `Campagne Drip : ${emailTasks.length} e-mails planifiés pour envoi en arrière-plan.`,
     });
 
   } catch (error: unknown) {

@@ -445,6 +445,8 @@ model MissionSubmission {
   @@index([createdAt])
   @@index([status, missionId])
   @@index([status, updatedAt(sort: Desc)])
+  @@index([userId, status])                        // ⚡ Dashboard: WHERE userId + status filter
+  @@index([userId, createdAt(sort: Desc)])         // ⚡ Dashboard: ORDER BY createdAt DESC par user
   @@map("mission_submission")
 }
 
