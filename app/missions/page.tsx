@@ -86,17 +86,23 @@ export default async function MissionsPage() {
   const currentWeeklyChallenge = getCurrentWeeklyChallenge();
   const weekStart = getWeekStart();
 
-  // Fetch user data, weekly mission, and cached enrichment in parallel
+  // Fetch user data, weekly mission, weekly submission and cached enrichment in parallel
   let finalDbUser: any = null
   let weeklyMission: any = null
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
   let avgDelayMap: Record<string, number> = {}
-
   let userSquad: { id: string } | null = null
+  let weeklySubmission: any = null
 
   try {
-    ;[finalDbUser, weeklyMission, { completionsMap, ratingsMap, avgDelayMap }, userSquad] = await Promise.all([
+    ;[
+      finalDbUser,
+      weeklyMission,
+      { completionsMap, ratingsMap, avgDelayMap },
+      userSquad,
+      weeklySubmission
+    ] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
@@ -122,6 +128,13 @@ export default async function MissionsPage() {
         where: { userId: session.user.id },
         select: { id: true },
       }),
+      prisma.missionSubmission.findFirst({
+        where: {
+          userId: session.user.id,
+          mission: { slug: currentWeeklyChallenge.id },
+          createdAt: { gte: weekStart },
+        }
+      }),
     ])
   } catch (error: unknown) {
     console.error("[MISSIONS_PAGE] DB fetch failed:", error)
@@ -143,14 +156,6 @@ export default async function MissionsPage() {
   if (userSquad && !submissionsMap["squad-genesis"]) {
     submissionsMap["squad-genesis"] = "APPROVED";
   }
-
-  const weeklySubmission = weeklyMission ? await prisma.missionSubmission.findFirst({
-    where: {
-      userId: session.user.id,
-      missionId: weeklyMission.id,
-      createdAt: { gte: weekStart },
-    }
-  }) : null;
 
   // Enrich MISSIONS
   const enrichedMissions = MISSIONS.map(m => ({
