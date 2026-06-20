@@ -21,6 +21,15 @@ vi.mock("../lib/prisma", () => {
     guildMember: {
       findFirst: vi.fn(),
     },
+    engagementStats: {
+      upsert: vi.fn(),
+    },
+    xpTransaction: {
+      create: vi.fn(),
+    },
+    psychometric: {
+      upsert: vi.fn(),
+    },
     $transaction: vi.fn((callback) => callback(mockPrisma)),
   };
   return {

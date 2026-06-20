@@ -7,6 +7,7 @@ import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
 
 const checkinSchema = z.object({
@@ -75,9 +76,9 @@ export async function POST(req: Request) {
         ? rareMessages[Math.floor(Math.random() * rareMessages.length)]
         : successMessages[Math.floor(Math.random() * successMessages.length)];
 
-    // 3. Process check-in transaction
-    const result = await prisma.$transaction(async (tx) => {
-      const checkin = await tx.dailyCheckin.create({
+    // 3. Process check-in transaction (ultra-courte)
+    const checkin = await prisma.$transaction(async (tx) => {
+      const created = await tx.dailyCheckin.create({
         data: {
           userId: session.user.id,
           note,
@@ -87,42 +88,49 @@ export async function POST(req: Request) {
         },
       });
 
-      // Update user streak
-      await tx.user.update({
-        where: { id: session.user.id },
-        data: {
-          stats: {
-            upsert: {
-              create: {
-                lastCheckinAt: new Date(),
-                currentStreak: 1,
-              },
-              update: {
-                lastCheckinAt: new Date(),
-                currentStreak: { increment: 1 },
-              }
-            }
-          }
+      // Update user streak directement sur engagementStats (évite lock User)
+      await tx.engagementStats.upsert({
+        where: { userId: session.user.id },
+        create: {
+          userId: session.user.id,
+          lastCheckinAt: new Date(),
+          currentStreak: 1,
         },
+        update: {
+          lastCheckinAt: new Date(),
+          currentStreak: { increment: 1 },
+        }
       });
 
-      // Award XP with variable reward
-      await awardXp(session.user.id, totalXP, "DAILY_CHECKIN", checkin.id, tx);
-
-      // Update Vibrancy and Confidence
-      const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
-      await updateUserEvolution(session.user.id, weights, 0.05, tx);
-
-      return { ...checkin, finalMessage, totalXP, isCriticalHit };
+      return created;
     });
 
-    // 4. Update squad cohesion if member
-    if (isFeatureEnabled("squads")) {
-      const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
-      if (membership) {
-          await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+    // 4. Traitements post-réponse asynchrones via Next.js 'after'
+    await after(async () => {
+      try {
+        // Award XP with variable reward
+        await awardXp(session.user.id, totalXP, "DAILY_CHECKIN", checkin.id);
+
+        // Update Vibrancy and Confidence
+        const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
+        await updateUserEvolution(session.user.id, weights, 0.05);
+
+        // Update squad cohesion if member
+        if (isFeatureEnabled("squads")) {
+          const membership = await prisma.member.findUnique({
+            where: { userId: session.user.id },
+            select: { organizationId: true }
+          });
+          if (membership) {
+            await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+          }
+        }
+      } catch (error) {
+        console.error("🔴 [Checkin API Post-Tasks Error]", error);
       }
-    }
+    });
+
+    const result = { ...checkin, finalMessage, totalXP, isCriticalHit };
 
     return NextResponse.json(result);
   } catch (error: unknown) {
