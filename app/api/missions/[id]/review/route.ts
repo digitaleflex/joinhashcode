@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
 import {
   getCriteriaForMission,
@@ -97,24 +98,31 @@ export async function POST(
           where: { role: { in: ["ADMIN", "MODERATOR"] } },
           select: { id: true, email: true, name: true },
         });
-        for (const admin of admins) {
+
+        if (admins.length > 0) {
           try {
-            await triggerNotification({
-              userId: admin.id,
-              type: "SYSTEM",
-              title: `Confirmation requise : ${submission.mission.title}`,
-              message: `Mission CORE validée par pair (${submission.user.name}). Confirmation admin nécessaire.`,
-              link: `/admin/submissions`,
+            await prisma.notification.createMany({
+              data: admins.map((admin) => ({
+                userId: admin.id,
+                type: "SYSTEM",
+                title: `Confirmation requise : ${submission.mission.title}`,
+                message: `Mission CORE validée par pair (${submission.user.name}). Confirmation admin nécessaire.`,
+                link: `/admin/submissions`,
+              })),
+              skipDuplicates: true,
             });
-          } catch (error: unknown) {
-            console.error("[NOTIFICATION_ERROR]", error);
+          } catch (dbErr) {
+            console.error("🔴 [Review API] Failed to bulk write admin notifications:", dbErr);
           }
-          emailService.sendAdminCoreMissionPending({
-            adminEmail: admin.email,
-            adminName: admin.name,
-            submitterName: submission.user.name,
-            missionTitle: submission.mission.title,
-          }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendAdminCoreMissionPending", err));
+
+          admins.forEach((admin) => {
+            emailService.sendAdminCoreMissionPending({
+              adminEmail: admin.email,
+              adminName: admin.name,
+              submitterName: submission.user.name,
+              missionTitle: submission.mission.title,
+            }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendAdminCoreMissionPending", err));
+          });
         }
 
         try {
@@ -147,7 +155,7 @@ export async function POST(
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      let updatedSubmitterUser: any;
+      // 1. Transaction ultra-rapide (les verrous sont libérés immédiatement)
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
           data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
@@ -156,59 +164,68 @@ export async function POST(
           where: { id: submissionId },
           data: { status: "APPROVED", xpAwarded, qualityLevel },
         });
-        await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
-        
-        updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId, tx);
-        
-        await tx.userProgress.upsert({
-          where: { userId: submission.userId },
-          create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
-          update: { missionsCompletedCount: { increment: 1 } },
-        });
-        
-        await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
-        
         await tx.user.update({
           where: { id: session.user.id },
           data: { reviewsCompleted: { increment: 1 } },
         });
+      });
 
-        const userMember = await tx.member.findFirst({
-          where: { userId: submission.userId },
-          select: { organizationId: true }
-        });
-        if (userMember?.organizationId) {
-          await updateSquadCohesion(userMember.organizationId, 0.1);
+      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      await after(async () => {
+        try {
+          // Attribution XP & progression pour le submitter
+          const updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId);
+          
+          await prisma.userProgress.upsert({
+            where: { userId: submission.userId },
+            create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
+            update: { missionsCompletedCount: { increment: 1 } },
+          });
+
+          // Attribution XP pour le reviewer
+          await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId);
+
+          // Évolution du profil comportemental
+          await updateUserEvolution(submission.userId, missionWeights, 0.05);
+
+          // Cohésion d'escouade
+          const userMember = await prisma.member.findFirst({
+            where: { userId: submission.userId },
+            select: { organizationId: true }
+          });
+          if (userMember?.organizationId) {
+            await updateSquadCohesion(userMember.organizationId, 0.1);
+          }
+
+          // Notifications
+          const submitterLevel = submission.user.progress?.level ?? 1;
+          const newLevel = updatedSubmitterUser?.progress?.level ?? updatedSubmitterUser?.level ?? submitterLevel;
+          const didLevelUp = newLevel > submitterLevel;
+
+          await triggerNotification({
+            userId: submission.userId,
+            type: "MISSION_APPROVED",
+            title: `Mission validée : ${submission.mission.title}`,
+            message: `Félicitations ! +${xpAwarded} XP. Niveau : ${qualityLevel}.`,
+            link: `/missions/${submission.missionId}`,
+            xp: xpAwarded,
+          });
+
+          if (didLevelUp) {
+            await triggerNotification({
+              userId: submission.userId,
+              type: "LEVEL_UP",
+              title: `Niveau ${newLevel} atteint !`,
+              message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
+              link: "/dashboard",
+              newLevel,
+            });
+          }
+        } catch (error) {
+          console.error("🔴 [Review API Post-Tasks Error]", error);
         }
       });
 
-      const submitterLevel = submission.user.progress?.level ?? 1;
-      const newLevel = updatedSubmitterUser?.level ?? submitterLevel;
-      const didLevelUp = newLevel > submitterLevel;
-
-      try {
-        await triggerNotification({
-          userId: submission.userId,
-          type: "MISSION_APPROVED",
-          title: `Mission validée : ${submission.mission.title}`,
-          message: `Félicitations ! +${xpAwarded} XP. Niveau : ${qualityLevel}.`,
-          link: `/missions/${submission.missionId}`,
-          xp: xpAwarded,
-        });
-
-        if (didLevelUp) {
-          await triggerNotification({
-            userId: submission.userId,
-            type: "LEVEL_UP",
-            title: `Niveau ${newLevel} atteint !`,
-            message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
-            link: "/dashboard",
-            newLevel,
-          });
-        }
-      } catch (error: unknown) {
-        console.error("[NOTIFICATION_ERROR]", error);
-      }
       logActivity({
         userId: session.user.id,
         action: "MISSION_APPROVED",
