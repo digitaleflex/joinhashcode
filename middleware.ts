@@ -38,49 +38,78 @@ export async function proxy(request: NextRequest) {
   }
 
   let sessionData = null;
-  if (sessionCookie) {
-    try {
-      const requestHeaders = new Headers(request.headers);
-      const baseUrl = request.nextUrl.origin;
-      const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
-        headers: requestHeaders,
-        cache: 'no-store',
-        signal: AbortSignal.timeout(10000),
-      });
+  let fromCache = false;
 
-      if (response.ok) {
-        sessionData = await response.json();
+  if (sessionCookie) {
+    const cacheCookie = request.cookies.get("hc_mw")?.value;
+    if (cacheCookie) {
+      try {
+        sessionData = JSON.parse(atob(cacheCookie));
+        fromCache = true;
+      } catch {
+        // ignore and fetch
       }
-    } catch (error) {
-      console.error("🟢 [Middleware] Session fetch failed:", error);
+    }
+
+    if (!sessionData) {
+      try {
+        const requestHeaders = new Headers(request.headers);
+        const baseUrl = request.nextUrl.origin;
+        const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
+          headers: requestHeaders,
+          cache: 'no-store',
+          signal: AbortSignal.timeout(5000),
+        });
+
+        if (response.ok) {
+          sessionData = await response.json();
+        }
+      } catch (error) {
+        console.error("🟢 [Middleware] Session fetch failed:", error);
+      }
     }
   }
 
   const session = sessionData?.session;
   const user = sessionData?.user;
 
+  let nextResponse = NextResponse.next();
+
   if (session && user) {
     if (isBetaAccessPath) {
       const dest = !user.currentSituation ? "/onboarding"
         : !user.class ? "/quiz"
         : "/dashboard";
-      return NextResponse.redirect(new URL(dest, request.url));
+      nextResponse = NextResponse.redirect(new URL(dest, request.url));
     }
 
     if (isProtectedPath && !request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.includes('.')) {
       if (!user.betaKeyId && !isBetaAccessPath) {
-        return NextResponse.redirect(new URL("/beta-access", request.url));
-      }
-      if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
-        return NextResponse.redirect(new URL("/onboarding", request.url));
-      }
-      if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
-        return NextResponse.redirect(new URL("/quiz", request.url));
+        nextResponse = NextResponse.redirect(new URL("/beta-access", request.url));
+      } else if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
+        nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
+      } else if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
+        nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       }
     }
   }
 
-  return NextResponse.next();
+  // Cache session data in cookie if fetched from API
+  if (sessionData && !fromCache) {
+    try {
+      const encoded = btoa(JSON.stringify(sessionData));
+      nextResponse.cookies.set("hc_mw", encoded, {
+        maxAge: 300, // 5 minutes
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
+    } catch (e) {
+      console.error("🟢 [Middleware] Failed to set session cache cookie:", e);
+    }
+  }
+
+  return nextResponse;
 }
 
 export const config = {

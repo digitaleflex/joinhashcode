@@ -16,9 +16,9 @@ if (!configured && process.env.NODE_ENV === "production" && process.env.NEXT_PHA
 }
 
 function makeRatelimit(tokens: number, window: `${number} s` | `${number} m` | `${number} h`) {
-  if (!configured) return null
+  if (!configured || !redis) return null
   return new Ratelimit({
-    redis: new Redis({ url: restUrl!, token: restToken! }),
+    redis: redis,
     limiter: Ratelimit.slidingWindow(tokens, window),
     analytics: false,
   })

@@ -164,16 +164,16 @@ export const auth = betterAuth({
           const userId = user.id as string;
 
           if (userClass) {
-            await emailService.sendWelcomeProfileEmail({
+            emailService.sendWelcomeProfileEmail({
               email: userEmail,
               name: userName,
               profileType: userClass,
-            });
+            }).catch((err) => console.error("🔴 [Welcome Email Error] sendWelcomeProfileEmail:", err));
           } else {
-            await emailService.sendWelcomePendingQuiz({
+            emailService.sendWelcomePendingQuiz({
               email: userEmail,
               name: userName,
-            });
+            }).catch((err) => console.error("🔴 [Welcome Email Error] sendWelcomePendingQuiz:", err));
           }
 
           const referralCode = userPseudo?.toLowerCase() ||
