@@ -166,6 +166,8 @@ model Organization {
   joinRequests             JoinRequest[]
   messages      SquadMessage[]
 
+  @@index([isPrivate, cohesionScore(sort: Desc), streakCount(sort: Desc)])
+  @@index([isPrivate, createdAt(sort: Desc)])
   @@map("organization")
 }
 
@@ -230,6 +232,7 @@ model ActivityLog {
   @@index([action])
   @@index([createdAt])
   @@index([entity, entityId])
+  @@index([action, createdAt(sort: Desc)])
   @@map("activity_log")
 }
 
@@ -245,6 +248,7 @@ model DailyCheckin {
 
   @@index([userId])
   @@index([createdAt])
+  @@index([userId, createdAt(sort: Desc)])
   @@map("daily_checkin")
 }
 
@@ -329,6 +333,7 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([expiresAt, token])
   @@map("session")
 }
 
@@ -439,6 +444,7 @@ model MissionSubmission {
   @@index([missionId])
   @@index([createdAt])
   @@index([status, missionId])
+  @@index([status, updatedAt(sort: Desc)])
   @@map("mission_submission")
 }
 
@@ -495,6 +501,7 @@ model Notification {
   @@index([createdAt])
   @@index([isSaved])
   @@index([isArchived])
+  @@index([userId, isRead, createdAt(sort: Desc)])
   @@map("notification")
 }
 
