@@ -100,24 +100,6 @@ const memberRole = ac.newRole({
   session: [],
 });
 
-const orgOwnerRole = ac.newRole({
-  organization: ["update", "delete", "list"],
-  member: ["create", "delete", "update"],
-  invitation: ["create", "delete", "update"],
-});
-
-const orgAdminRole = ac.newRole({
-  organization: ["update"],
-  member: ["create", "delete"],
-  invitation: ["create", "delete"],
-});
-
-const orgMemberRole = ac.newRole({
-  organization: ["list"],
-  member: ["list"],
-  invitation: ["list"],
-});
-
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   trustedOrigins: buildTrustedOrigins(),
@@ -340,10 +322,22 @@ export const auth = betterAuth({
       membershipLimit: 5,
       creatorRole: "owner",
       roles: {
-        owner: orgOwnerRole,
-        admin: orgAdminRole,
-        member: orgMemberRole,
-      },
+        owner: {
+          organization: ["update", "delete", "list"],
+          member: ["create", "delete", "update"],
+          invitation: ["create", "delete", "update"],
+        },
+        admin: {
+          organization: ["update"],
+          member: ["create", "delete"],
+          invitation: ["create", "delete"],
+        },
+        member: {
+          organization: ["list"],
+          member: ["list"],
+          invitation: ["list"],
+        },
+      } satisfies Record<string, { organization: string[]; member: string[]; invitation: string[] }>,
       schema: {
         organization: {
           additionalFields: {

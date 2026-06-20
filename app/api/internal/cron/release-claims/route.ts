@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
+import { triggerNotification } from "@/lib/qstash";
 import { NextResponse } from "next/server";
 
 // Time cutoff for review claims (48 hours)
@@ -71,16 +72,16 @@ export async function POST(req: Request) {
         })),
       });
 
-      // In-app notifications to authors (in bulk)
-      await tx.notification.createMany({
-        data: staleSubmissions.map((s) => ({
+      // In-app notifications to authors
+      for (const s of staleSubmissions) {
+        await triggerNotification({
           userId: s.userId,
           type: "MISSION_REVIEW_RELEASED",
           title: "Soumission remise en file d'attente",
           message: `Ta soumission pour la mission "${s.mission.title}" a été remise dans la file d'attente générale suite à l'inactivité du reviewer assigné. Un autre membre va la prendre en charge sous peu !`,
           link: "/missions",
-        })),
-      });
+        });
+      }
 
       return updateResult;
     });

@@ -155,7 +155,6 @@ describe("Security & Abuse Prevention", () => {
           bio: "I am a cool person ...",
         }),
         select: expect.any(Object),
-        include: expect.any(Object),
       });
     });
   });

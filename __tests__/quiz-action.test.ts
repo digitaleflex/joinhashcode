@@ -235,7 +235,12 @@ describe("Quiz Server Action", () => {
       where: { id: "user-1" },
       data: expect.objectContaining({
         class: "builder",
-        level: 1,
+        progress: {
+          upsert: {
+            create: { level: 1, experience: 0 },
+            update: { level: 1 },
+          }
+        },
         psychometrics: {
           upsert: {
             create: {
