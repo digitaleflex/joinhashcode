@@ -46,16 +46,7 @@ export async function GET(req: Request) {
       where.security = { banned: { not: true } }
     }
 
-    if (fraudLevel === "NORMAL") {
-      where.security = { ...(where.security as object || {}), fraudRiskScore: { lte: 30 } }
-    } else if (fraudLevel === "SURVEILLANCE") {
-      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 31, lte: 60 } }
-    } else if (fraudLevel === "MANUAL_REVIEW") {
-      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 61, lte: 80 } }
-    } else if (fraudLevel === "BLOCKED") {
-      where.security = { ...(where.security as object || {}), fraudRiskScore: { gte: 81 } }
-    }
-
+    // Removed fraudLevel filters as fraudRiskScore is deleted
     const [rawUsers, total] = await Promise.all([
       prisma.user.findMany({
         where,
@@ -69,7 +60,7 @@ export async function GET(req: Request) {
           image: true,
           class: true,
           progress: { select: { level: true, experience: true } },
-          security: { select: { banned: true, fraudRiskScore: true } },
+          security: { select: { banned: true } },
         },
         orderBy: { createdAt: "desc" },
         take: limit,
@@ -90,7 +81,6 @@ export async function GET(req: Request) {
       level: u.progress?.level ?? 1,
       experience: u.progress?.experience ?? 0,
       banned: u.security?.banned ?? false,
-      fraudRiskScore: u.security?.fraudRiskScore ?? 0,
     }))
 
     return NextResponse.json({ users, total, page, limit })

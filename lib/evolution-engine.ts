@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { BehavioralVitality, updateVitalityWithDecay } from './evolution';
+import { BehavioralVitality, updateVitality } from './evolution';
 import { Prisma } from '../generated/prisma/client';
 
 export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
@@ -15,10 +15,9 @@ export { LEVEL_THRESHOLDS, getLevelProgress } from './level-utils';
 
 export function calculateNewVitality(
   currentVitality: BehavioralVitality,
-  actionWeights: BehavioralVitality,
-  lastUpdate: Date | null = null
+  actionWeights: BehavioralVitality
 ) {
-  return updateVitalityWithDecay(currentVitality, actionWeights, lastUpdate).vitality;
+  return updateVitality(currentVitality, actionWeights);
 }
 
 export async function updateUserEvolution(
@@ -51,7 +50,7 @@ export async function updateUserEvolution(
     catalyst: 0,
   };
 
-  const newVitality = calculateNewVitality(currentVitality, actionWeights, user.lastHypothesisUpdate);
+  const newVitality = calculateNewVitality(currentVitality, actionWeights);
   const currentConfidence = user.psychometrics?.confidenceScore ?? 0.25;
   const newConfidence = Math.min(currentConfidence + confidenceGain, 1.0);
 

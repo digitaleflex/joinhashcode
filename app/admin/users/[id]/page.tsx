@@ -218,20 +218,6 @@ export default async function UserDossierPage({ params }: PageProps) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                  <Shield className="h-4 w-4 text-zinc-500" />
-                  <div className="flex-1">
-                    <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Score Anti-Fraude</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-zinc-300">{user.security?.fraudRiskScore ?? 0}</p>
-                      {(user.security?.fraudRiskScore ?? 0) >= 61 ? (
-                        <p className="text-[9px] text-red-400 font-mono">Élevé</p>
-                      ) : (user.security?.fraudRiskScore ?? 0) >= 31 ? (
-                        <Badge className="text-[9px] h-4 bg-amber-500/10 text-amber-500 border-amber-500/20">SURVEILLANCE</Badge>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
                   <Globe className="h-4 w-4 text-zinc-500" />
                   <div className="flex-1">
                     <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Origine</p>
