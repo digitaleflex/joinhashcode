@@ -131,15 +131,13 @@ Bienvenue dans la communauté HASHCODE. Avant toute chose, présente-toi. Qui es
     fullBriefing: `
 # Mission : Protocole de Connexion Globale
 
-La force de HASHCODE réside dans son intelligence collective. Pour ne rien manquer et commencer à collaborer, tu dois intégrer nos canaux de communication.
+La force de HASHCODE réside dans son intelligence collective. Pour ne rien manquer et commencer à collaborer, intègre notre canal de communication.
 
 ### Instructions
-1. Rejoins le canal Telegram **@innovcode** pour les annonces officielles.
-2. Intègre le serveur **Discord officiel** pour les échanges techniques et créatifs.
-3. Rejoins le **groupe WhatsApp** de ta cohorte ou communauté locale.
+1. Rejoins le serveur **Discord officiel** (ou le canal Telegram **@innovcode**) pour les annonces et échanges.
 
 ### Critères de validation
-- Confirmation de ton identifiant sur ces plateformes.
+- Confirmation de ton identifiant sur la plateforme choisie.
     `
   },
 
@@ -187,8 +185,8 @@ Ton profil HASHCODE est ta carte d'identité dans la communauté. Sans lui, tu e
     shortDesc: "Rejoins ou crée ton premier squad pour ne pas avancer seul.",
     description: "Sur HASHCODE, on ne build pas en solo. Crée ton squad ou rejoins celui d'un membre via son lien d'invitation. Ensemble, votre cohésion monte plus vite.",
     xpReward: 100,
-    requiredLevel: 1,
-    targetLevel: 1,
+    requiredLevel: 2,
+    targetLevel: 2,
     requirements: [
       "Créer un squad via la page Squad, ou rejoindre un squad existant via un lien d'invitation.",
     ],
@@ -323,12 +321,12 @@ Produire un premier livrable concret, public et personnel, selon les critères d
     shortDesc: "Prouve ta valeur en publiant ton espace personnel en ligne.",
     description: "Le monde doit savoir qui tu es. Déploie un site web personnel (portfolio, blog, ou landing page) et prouve ton expertise selon les standards de ta Guilde.",
     xpReward: 250,
-    requiredLevel: 2,
-    targetLevel: 2,
+    requiredLevel: 3,
+    targetLevel: 3,
     requirements: ["URL publique et fonctionnelle.", "Validation de l'objectif spécifique à ta Guilde."],
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-    missionLevel: "INIT",
+    missionLevel: "CORE",
     duration: "4h",
     weightBuilder: 0.25,
     weightCreator: 0.25,
@@ -575,7 +573,7 @@ Mappe les acteurs clés d'un écosystème (communauté, secteur, réseau) : qui 
     title: "Hackathon 48h",
     shortDesc: "Construis, crée, stratégie — ensemble.",
     description: "Forme une équipe de 2-4 profils différents et construis un prototype fonctionnel en 48h. Pitch le résultat à la communauté.",
-    xpReward: 600,
+    xpReward: 300,
     requiredLevel: 4,
     targetLevel: 4,
     requirements: [
@@ -586,7 +584,7 @@ Mappe les acteurs clés d'un écosystème (communauté, secteur, réseau) : qui 
     type: "GENERAL",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     missionLevel: "PRO",
-    duration: "48h",
+    duration: "24h",
     weightBuilder: 0.3,
     weightCreator: 0.25,
     weightStrategist: 0.25,

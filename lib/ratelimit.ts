@@ -68,7 +68,9 @@ export const strictMutationLimiter = makeLimiter(5, "1 h")
 
 // Redis client exporté pour compatibilité ascendante (auth.ts secondaryStorage)
 // Peut être supprimé quand auth.ts n'en a plus besoin
-export const redis = null
+// Typed as `any` so auth.ts conditional secondaryStorage compiles
+// when redis is unavailable (null). Never called at runtime.
+export const redis: any = null
 
 export async function checkRateLimit(
   limiter: RateLimiter | null,
