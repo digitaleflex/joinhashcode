@@ -50,15 +50,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
       behavioralVibrancy: true, technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
       memberNumber: true, createdAt: true,
-      psychometrics: {
-        select: {
-          builderScore: true,
-          creatorScore: true,
-          strategistScore: true,
-          catalystScore: true,
-          confidenceScore: true,
-        }
-      },
+      builderScore: true,
+      creatorScore: true,
+      strategistScore: true,
+      catalystScore: true,
+      confidenceScore: true,
       socials: {
         select: {
           githubUrl: true,
@@ -127,11 +123,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
     twitterUrl: dbUser.socials?.twitterUrl ?? null,
     portfolioUrl: dbUser.socials?.portfolioUrl ?? null,
     currentStreak: dbUser.stats?.currentStreak ?? 0,
-    builderScore: dbUser.psychometrics?.builderScore ?? 0,
-    creatorScore: dbUser.psychometrics?.creatorScore ?? 0,
-    strategistScore: dbUser.psychometrics?.strategistScore ?? 0,
-    catalystScore: dbUser.psychometrics?.catalystScore ?? 0,
-    confidenceScore: dbUser.psychometrics?.confidenceScore ?? 0.25,
+    builderScore: dbUser.builderScore ?? 0,
+    creatorScore: dbUser.creatorScore ?? 0,
+    strategistScore: dbUser.strategistScore ?? 0,
+    catalystScore: dbUser.catalystScore ?? 0,
+    confidenceScore: dbUser.confidenceScore ?? 0.25,
     lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
     missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,

@@ -19,8 +19,6 @@ import { UserSituation, MainObjective, TechnicalLevel } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { authClient } from "@/lib/auth-client"
-import { getFingerprint } from "@/lib/fingerprint"
-import { hasLocationConsent } from "@/lib/geolocation"
 
 const ONBOARDING_KEY = "hc_onboarding_v2"
 
@@ -170,36 +168,6 @@ export default function OnboardingPage() {
     try {
       if (step === 0) {
         setStep(1)
-        // Anti-fraud: capture fingerprint + check IP reputation (non-blocking)
-        getFingerprint().then((visitorId) => {
-          if (visitorId) {
-            fetch("/api/user/fingerprint", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ visitorId }),
-            }).catch(() => {})
-          }
-        })
-        fetch("/api/user/ip-reputation", { method: "POST" }).catch(() => {})
-
-        // Geolocation: only if user consented via cookie banner
-        if (hasLocationConsent()) {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              fetch("/api/user/location", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  latitude: pos.coords.latitude,
-                  longitude: pos.coords.longitude,
-                  accuracy: pos.coords.accuracy,
-                }),
-              }).catch(() => {})
-            },
-            () => {},
-            { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
-          )
-        }
       } else if (step === 1) {
         // Save pseudo
         await savePartial({ pseudo: formData.pseudo }, () => setPseudoError("Ce pseudo est déjà pris."))

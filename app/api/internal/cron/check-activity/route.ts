@@ -2,13 +2,29 @@ import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { NextResponse } from "next/server";
+import { safeAfter } from "@/lib/after";
 
-/**
- * Daily Activity Check Cron
- *
- * Finds users inactive for more than 24h and sends a DAILY_REMINDER notification.
- * Should run once per day via QStash.
- */
+// Limiteur de concurrence simple pour réguler les appels réseau d'envoi d'e-mails
+async function runWithConcurrencyLimit<T>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<any>
+) {
+  const results = [];
+  const executing = new Set<Promise<any>>();
+  for (const item of items) {
+    const p = Promise.resolve().then(() => fn(item));
+    results.push(p);
+    executing.add(p);
+    const clean = () => executing.delete(p);
+    p.then(clean, clean);
+    if (executing.size >= limit) {
+      await Promise.race(executing);
+    }
+  }
+  return Promise.all(results);
+}
+
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get("authorization");
@@ -19,12 +35,12 @@ export async function POST(req: Request) {
     }
 
     const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
-    // Fix SEC-007: Process in batches to avoid DoS/Timeout
-    const BATCH_SIZE = 50;
+    const BATCH_SIZE = 100;
     let notifiedCount = 0;
     let lastId: string | undefined = undefined;
+    const allUsersToEmail: Array<{ email: string; name: string }> = [];
 
+    // 1. Phase synchrone : Mise à jour en base de données (In-app notifications)
     while (true) {
       const inactiveUsers: Array<{ id: string; email: string; name: string }> = await prisma.user.findMany({
         where: {
@@ -44,7 +60,6 @@ export async function POST(req: Request) {
 
       if (inactiveUsers.length === 0) break;
 
-      // Bulk create in-app notifications
       try {
         await prisma.notification.createMany({
           data: inactiveUsers.map(user => ({
@@ -56,36 +71,36 @@ export async function POST(req: Request) {
           }))
         });
         notifiedCount += inactiveUsers.length;
+        allUsersToEmail.push(...inactiveUsers.map(u => ({ email: u.email, name: u.name })));
       } catch (dbErr) {
         console.error("[CRON_CHECK_ACTIVITY] Failed to bulk create notifications:", dbErr);
       }
 
-      // Fire-and-forget email dispatch
-      for (const user of inactiveUsers) {
+      lastId = inactiveUsers[inactiveUsers.length - 1].id;
+      if (notifiedCount > 10000) break;
+    }
+
+    // 2. Phase asynchrone : Découplage de l'envoi d'e-mails via safeAfter
+    safeAfter(async () => {
+      // Limitation à 10 envois d'e-mails simultanés pour préserver les sockets et le rate limit
+      await runWithConcurrencyLimit(allUsersToEmail, 10, (user) => 
         emailService.sendDailyReminder({
           email: user.email,
           name: user.name,
-        }).catch(err => console.error(`[CRON_CHECK_ACTIVITY] Failed to send email to ${user.id}:`, err));
-      }
+        }).catch(err => console.error(`[CRON_CHECK_ACTIVITY] Failed to send email to ${user.email}:`, err))
+      );
 
-      lastId = inactiveUsers[inactiveUsers.length - 1].id;
-      
-      // Safety break to prevent infinite loop if somehow data doesn't change
-      if (notifiedCount > 10000) {
-        console.warn("[CRON_CHECK_ACTIVITY] Reached safety limit of 10k notifications.");
-        break;
-      }
-    }
-
-    logActivity({
-      action: "CRON_CHECK_ACTIVITY",
-      entity: "System",
-      metadata: { usersNotified: notifiedCount },
+      // Audit de l'activité après la fin
+      logActivity({
+        action: "CRON_CHECK_ACTIVITY",
+        entity: "System",
+        metadata: { usersNotified: notifiedCount },
+      });
     });
 
     return NextResponse.json({
       success: true,
-      message: `${notifiedCount} utilisateurs notifiés.`,
+      message: `${notifiedCount} utilisateurs notifiés et planification des e-mails en cours.`,
     });
   } catch (error: unknown) {
     console.error("[CRON_CHECK_ACTIVITY_ERROR]", error);

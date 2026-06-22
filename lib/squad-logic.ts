@@ -1,5 +1,6 @@
 import { prisma } from "./prisma";
 import { awardXp } from "./experience";
+import { safeAfter } from "./after";
 
 async function notifySquadMembers(
   organizationId: string,
@@ -147,16 +148,25 @@ async function rewardSquadMembers(
     select: { userId: true },
   });
 
-  for (const member of members) {
-    if (xp > 0) {
-      await awardXp(member.userId, xp, `SQUAD_REWARD_${badgeName}`, organizationId);
+  if (members.length === 0) return;
+
+  // Déplacement dans safeAfter pour libérer immédiatement le thread HTTP principal
+  safeAfter(async () => {
+    for (const member of members) {
+      try {
+        if (xp > 0) {
+          await awardXp(member.userId, xp, `SQUAD_REWARD_${badgeName}`, organizationId);
+        }
+        await prisma.user.update({
+          where: { id: member.userId },
+          data: {
+            badges: { push: badgeName },
+          },
+        });
+      } catch (err) {
+        console.error(`[SQUAD_LOGIC] Failed to reward user ${member.userId}:`, err);
+      }
     }
-    await prisma.user.update({
-      where: { id: member.userId },
-      data: {
-        badges: { push: badgeName },
-      },
-    });
-  }
+  });
 }
 

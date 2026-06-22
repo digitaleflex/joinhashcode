@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { safeAfter as after } from "@/lib/after";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
 import { BehavioralVitality } from "@/lib/evolution";
@@ -80,51 +81,64 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      let updatedUser: any;
-      await prisma.$transaction(async (tx) => {
-        await tx.missionSubmission.update({
-          where: { id },
-          data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
-        });
-        await updateUserEvolution(submission.userId, missionWeights, 0.05, tx);
-        
-        updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
-
-        await tx.userProgress.upsert({
-          where: { userId: submission.userId },
-          create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
-          update: { missionsCompletedCount: { increment: 1 } },
-        });
+      // 1. Mise à jour de statut synchrone ultra-rapide
+      await prisma.missionSubmission.update({
+        where: { id },
+        data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
       });
 
-      const submitterLevel = submission.user.progress?.level ?? 1;
-      const newLevel = updatedUser?.progress?.level ?? submitterLevel;
-      const leveledUp = newLevel > submitterLevel;
+      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      await after(async () => {
+        try {
+          // Évolution du profil comportemental
+          await updateUserEvolution(submission.userId, missionWeights, 0.05);
 
-      try {
-        const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";
-        await triggerNotification({
-          userId: submission.userId,
-          type: "MISSION_APPROVED",
-          title: `Mission validée : ${submission.mission.title}`,
-          message: `Félicitations ! Tu as gagné +${xpAwarded} XP.${qualityMsg}`,
-          link: "/missions",
-          xp: xpAwarded,
-        });
+          // Attribution XP & progression pour le submitter
+          const updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId);
 
-        if (leveledUp) {
+          await prisma.userProgress.upsert({
+            where: { userId: submission.userId },
+            create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
+            update: { missionsCompletedCount: { increment: 1 } },
+          });
+
+          // Validation du passage de niveau
+          const submitterLevel = submission.user.progress?.level ?? 1;
+          const newLevel = updatedUser?.progress?.level ?? updatedUser?.level ?? submitterLevel;
+          const leveledUp = newLevel > submitterLevel;
+
+          // Notifications
+          const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";
           await triggerNotification({
             userId: submission.userId,
-            type: "LEVEL_UP",
-            title: `Niveau ${newLevel} atteint !`,
-            message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
-            link: "/dashboard",
-            newLevel,
+            type: "MISSION_APPROVED",
+            title: `Mission validée : ${submission.mission.title}`,
+            message: `Félicitations ! Tu as gagné +${xpAwarded} XP.${qualityMsg}`,
+            link: "/missions",
+            xp: xpAwarded,
           });
+
+          if (leveledUp) {
+            await triggerNotification({
+              userId: submission.userId,
+              type: "LEVEL_UP",
+              title: `Niveau ${newLevel} atteint !`,
+              message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
+              link: "/dashboard",
+              newLevel,
+            });
+
+            // Envoi d'e-mail de montée de niveau
+            emailService.sendLevelUp({
+              email: submission.user.email,
+              name: submission.user.name,
+              newLevel
+            }).catch(err => console.error("🔴 [Admin API Email Error] sendLevelUp:", err));
+          }
+        } catch (error) {
+          console.error("🔴 [Admin Approve Post-Tasks Error]", error);
         }
-      } catch (error) {
-        console.error("[NOTIFICATION_ERROR]", error);
-      }
+      });
 
       logActivity({
         userId: session.user.id,
@@ -135,11 +149,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         request: req,
       });
 
-      if (leveledUp) {
-        emailService.sendLevelUp({ email: submission.user.email, name: submission.user.name, newLevel });
-      }
+      // Le client n'attend plus la résolution d'awardXp/emails pour obtenir la réponse
+      const submitterLevel = submission.user.progress?.level ?? 1;
+      const expectedNewXp = (submission.user.progress?.experience ?? 0) + xpAwarded;
+      // Approximation simple pour la réponse immédiate (le background effectue le calcul exact et persistant)
+      const leveledUpApprox = expectedNewXp >= 100; 
 
-      return NextResponse.json({ success: true, newLevel, leveledUp, xpAwarded });
+      return NextResponse.json({ success: true, newLevel: submitterLevel, leveledUp: leveledUpApprox, xpAwarded });
     }
 
     if (action === "NEEDS_REVISION") {
@@ -153,27 +169,29 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         }
       });
 
-      try {
-        await triggerNotification({
-          userId: submission.userId,
-          type: "SYSTEM",
-          title: `Révision requise : ${submission.mission.title}`,
-          message: feedback || "Ta soumission nécessite des améliorations. Consulte le feedback.",
-          link: `/missions/${submission.missionId}`
-        });
-      } catch (error) {
-        console.error("[NOTIFICATION_ERROR]", error);
-      }
+      await after(async () => {
+        try {
+          await triggerNotification({
+            userId: submission.userId,
+            type: "SYSTEM",
+            title: `Révision requise : ${submission.mission.title}`,
+            message: feedback || "Ta soumission nécessite des améliorations. Consulte le feedback.",
+            link: `/missions/${submission.missionId}`
+          });
 
-      emailService.sendMissionNeedsRevision({
-        email: submission.user.email,
-        name: submission.user.name,
-        missionTitle: submission.mission.title,
-        feedback: feedback || "Ta soumission nécessite des améliorations.",
-        revisionCount: (submission.revisionCount ?? 0) + 1,
+          await emailService.sendMissionNeedsRevision({
+            email: submission.user.email,
+            name: submission.user.name,
+            missionTitle: submission.mission.title,
+            feedback: feedback || "Ta soumission nécessite des améliorations.",
+            revisionCount: (submission.revisionCount ?? 0) + 1,
+          });
+        } catch (error) {
+          console.error("🔴 [Admin NeedsRevision Post-Tasks Error]", error);
+        }
       });
 
-      await logActivity({
+      logActivity({
         userId: session.user.id,
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",
@@ -191,26 +209,28 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         data: { status: "REJECTED", adminFeedback: feedback }
       });
 
-      try {
-        await triggerNotification({
-          userId: submission.userId,
-          type: "SYSTEM",
-          title: `Mission refusée : ${submission.mission.title}`,
-          message: feedback || "Ta soumission n'a pas été retenue.",
-          link: "/missions"
-        });
-      } catch (error) {
-        console.error("[NOTIFICATION_ERROR]", error);
-      }
+      await after(async () => {
+        try {
+          await triggerNotification({
+            userId: submission.userId,
+            type: "SYSTEM",
+            title: `Mission refusée : ${submission.mission.title}`,
+            message: feedback || "Ta soumission n'a pas été retenue.",
+            link: "/missions"
+          });
 
-      emailService.sendMissionRejected({
-        email: submission.user.email,
-        name: submission.user.name,
-        missionTitle: submission.mission.title,
-        feedback: feedback,
+          await emailService.sendMissionRejected({
+            email: submission.user.email,
+            name: submission.user.name,
+            missionTitle: submission.mission.title,
+            feedback: feedback,
+          });
+        } catch (error) {
+          console.error("🔴 [Admin Reject Post-Tasks Error]", error);
+        }
       });
 
-      await logActivity({
+      logActivity({
         userId: session.user.id,
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",

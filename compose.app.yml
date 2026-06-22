@@ -19,9 +19,12 @@ services:
     env_file:
       - /home/actions-runner/secrets/.env.production
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@hashcode-db:5432/${DB_NAME}?schema=public
-      DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@hashcode-db:5432/${DB_NAME}?schema=public
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@pgbouncer:5432/${DB_NAME}?schema=public
+      DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
       NODE_ENV: production
+      # ⚡ Perf: Pointer vers le proxy Redis/SRH local sur le VPS (latence <1ms)
+      REDIS_URL: http://redis-proxy:80
+      REDIS_TOKEN: local-dev-token
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
       interval: 15s
@@ -40,6 +43,15 @@ services:
       - "traefik.http.routers.hashcode-web.tls=true"
       - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.compress.compress=true"
+      - "traefik.http.routers.hashcode-web.middlewares=compress"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 1.5G
+        reservations:
+          memory: 512M
 
 volumes:
   uploads_data:

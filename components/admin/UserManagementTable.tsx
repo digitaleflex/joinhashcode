@@ -15,7 +15,6 @@ import Link from "next/link"
 
 const ROLES = ["ALL", "ADMIN", "MODERATOR", "MEMBER"]
 const STATUSES = ["ALL", "ACTIVE", "BANNED"]
-const FRAUD_LEVELS = ["ALL", "NORMAL", "SURVEILLANCE", "MANUAL_REVIEW", "BLOCKED"]
 
 interface User {
   id: string
@@ -29,7 +28,6 @@ interface User {
   experience: number
   banned: boolean | null
   createdAt: string
-  fraudRiskScore?: number
 }
 
 export function UserManagementTable() {
@@ -41,7 +39,6 @@ export function UserManagementTable() {
   const [search, setSearch] = useState("")
   const [roleFilter, setRoleFilter] = useState("ALL")
   const [statusFilter, setStatusFilter] = useState("ALL")
-  const [fraudFilter, setFraudFilter] = useState("ALL")
   const [loading, setLoading] = useState(true)
 
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -56,7 +53,7 @@ export function UserManagementTable() {
     return () => { if (searchTimer.current) clearTimeout(searchTimer.current) }
   }, [search])
 
-  useEffect(() => { setPage(1) }, [roleFilter, statusFilter, fraudFilter])
+  useEffect(() => { setPage(1) }, [roleFilter, statusFilter])
 
   const fetchUsers = useCallback(async () => {
     setLoading(true)
@@ -67,7 +64,6 @@ export function UserManagementTable() {
         search: debouncedSearch,
         role: roleFilter,
         status: statusFilter,
-        fraudLevel: fraudFilter,
       })
       const res = await fetch(`/api/admin/users?${params}`)
       if (res.ok) {
@@ -156,25 +152,6 @@ export function UserManagementTable() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-1">
-          <span className="text-[9px] font-mono text-zinc-600 uppercase mr-2">Risque</span>
-          {FRAUD_LEVELS.map(f => (
-            <button
-              key={f}
-              onClick={() => setFraudFilter(f)}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold uppercase transition-all ${
-                fraudFilter === f
-                  ? "bg-primary text-primary-foreground"
-                  : "text-zinc-500 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              {f === "ALL" ? "Tous" :
-               f === "NORMAL" ? "Normal" :
-               f === "SURVEILLANCE" ? "Veille" :
-               f === "MANUAL_REVIEW" ? "Revue" : "Bloqué"}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Table */}
@@ -186,7 +163,6 @@ export function UserManagementTable() {
               <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Rôle</TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Classe</TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Niv. / XP</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Risque</TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Inscription</TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Statut</TableHead>
               <TableHead className="text-right text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Actions</TableHead>
@@ -260,20 +236,7 @@ export function UserManagementTable() {
                         <span className="text-[9px] text-zinc-500 font-mono">{user.experience.toLocaleString()} XP</span>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      {user.fraudRiskScore ? (
-                        <span className={`text-[10px] font-mono font-bold ${
-                          user.fraudRiskScore >= 81 ? "text-red-400" :
-                          user.fraudRiskScore >= 61 ? "text-orange-400" :
-                          user.fraudRiskScore >= 31 ? "text-amber-400" :
-                          "text-zinc-600"
-                        }`}>
-                          {user.fraudRiskScore}
-                        </span>
-                      ) : (
-                        <span className="text-[10px] font-mono text-zinc-700">—</span>
-                      )}
-                    </TableCell>
+
                     <TableCell>
                       <span className="text-[10px] font-mono text-zinc-500">
                         {new Date(user.createdAt).toLocaleDateString("fr-FR")}

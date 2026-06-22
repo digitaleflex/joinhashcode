@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Fingerprint, Share2, MapPin } from "lucide-react"
+import { Users, Zap, BarChart2, TrendingUp, Filter, Activity, Shield, Crosshair, Gift, Share2, MapPin } from "lucide-react"
 import Link from "next/link"
 import { AdminLiveFeed } from "@/components/admin/AdminLiveFeed"
 
@@ -15,7 +15,6 @@ export default async function AdminPage() {
     squadStats,
     missionStatsData,
     referralStats,
-    fraudStats,
     passkeyStats,
     prevPeriodStats,
     weeklyData,
@@ -82,13 +81,6 @@ export default async function AdminPage() {
       prisma.userReferral.aggregate({ _sum: { referralCount: true } }).then(r => r._sum.referralCount ?? 0),
       prisma.userReferral.count({ where: { referralCount: { gt: 0 } } }),
     ]).then(([count, referrers]) => ({ count, referrers })),
-
-    // 7. Sécurité & Fraude
-    Promise.all([
-      prisma.fraudEvent.count(),
-      prisma.user.count({ where: { security: { fraudRiskScore: { gte: 30 } } } }),
-      prisma.user.count({ where: { visitorId: { not: null } } }),
-    ]).then(([fraudEventCount, flaggedUsers, visitorIdCount]) => ({ fraudEventCount, flaggedUsers, visitorIdCount })),
 
     // 8. Passkeys
     Promise.all([
@@ -165,7 +157,6 @@ export default async function AdminPage() {
   const { cohesion: squadCohesion, count: squadCount } = squadStats
   const { stats: missionStats, submissions: submissionStats, byLevel: submissionsByLevel } = missionStatsData
   const { count: referralCount, referrers } = referralStats
-  const { fraudEventCount, flaggedUsers, visitorIdCount } = fraudStats
   const { count: passkeyCount, users: passkeyUsers } = passkeyStats
   const { prevUserCount, prevSubmissionCount, prevActiveCount } = prevPeriodStats
   const { gpsCount, gpsConsentCount } = gpsStats
@@ -467,27 +458,6 @@ export default async function AdminPage() {
             <div className="flex items-center justify-between text-[10px] font-mono">
               <span className="text-zinc-400">Conversion</span>
               <span className="text-white font-bold">{userCount > 0 ? Math.round((referralCount / userCount) * 100) : 0}%</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Anti-Fraud */}
-        <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Fingerprint className="h-3 w-3 text-amber-400" /> Anti-Fraude
-          </h2>
-          <div className="space-y-4">
-            <div>
-              <div className="text-3xl font-bold text-white">{fraudEventCount}</div>
-              <p className="text-[10px] font-mono text-zinc-500">Événements de fraude</p>
-            </div>
-            <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-zinc-400">Utilisateurs signalés</span>
-              <span className="text-amber-400 font-bold">{flaggedUsers}</span>
-            </div>
-            <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-zinc-400">Empreintes numériques</span>
-              <span className="text-white font-bold">{visitorIdCount}</span>
             </div>
           </div>
         </div>

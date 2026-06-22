@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { unstable_cache } from "next/cache"
 
 export interface LandingStats {
   totalMembers: number        // Avec l'offset symbolique
@@ -19,72 +20,61 @@ export interface LandingStats {
 }
 
 /**
- * Récupère les statistiques réelles pour la landing page.
- * Utilise la mise en cache de Next.js (revalidate) pour ne pas surcharger la DB.
+ * Récupère toutes les statistiques en parallèle (Promise.all).
+ * Cachée par Next.js via unstable_cache (revalidation toutes les 5 minutes).
+ * ⚡ Perf: 6 requêtes DB séquentielles → 1 appel cache / 5 min en production.
  */
-export async function getLandingStats(): Promise<LandingStats> {
+const fetchLandingStats = async (): Promise<LandingStats> => {
   try {
-    // 1. Compteurs d'utilisateurs
-    const [memberCount, totalCount] = await Promise.all([
+    // Toutes les requêtes en parallèle — pas de waterfall
+    const [
+      memberCount,
+      totalCount,
+      activeSquads,
+      missionsCompleted,
+      classGroups,
+      logs,
+    ] = await Promise.all([
       prisma.user.count({
-        where: { role: "MEMBER", security: { banned: { not: true } } }
+        where: { role: "MEMBER", security: { banned: { not: true } } },
       }),
-      prisma.user.count()
+      prisma.user.count(),
+      prisma.organization.count(),
+      prisma.missionSubmission.count({ where: { status: "APPROVED" } }),
+      prisma.user.groupBy({
+        by: ["class"],
+        where: { security: { banned: { not: true } } },
+        _count: { class: true },
+      }),
+      prisma.activityLog.findMany({
+        where: {
+          action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED", "SQUAD_JOINED"] },
+          userId: { not: null },
+        },
+        take: 10,
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: { select: { name: true, city: true, class: true } },
+        },
+      }),
     ])
 
-    // 2. Escouades actives (au moins 1 membre)
-    const activeSquads = await prisma.organization.count()
-
-    // 3. Missions validées
-    const missionsCompleted = await prisma.missionSubmission.count({
-      where: { status: "APPROVED" }
-    })
-
-    // 3.5 Décompte par classe
-    const classGroups = await prisma.user.groupBy({
-      by: ['class'],
-      where: { security: { banned: { not: true } } },
-      _count: { class: true },
-    })
-
     const classCounts: Record<string, number> = {}
-    classGroups.forEach(group => {
+    classGroups.forEach((group) => {
       if (group.class && group._count?.class) {
         classCounts[group.class.toLowerCase()] = group._count.class
       }
     })
 
-    // 4. Activités récentes (pour le feed live)
-    // On prend les 10 dernières actions significatives
-    const logs = await prisma.activityLog.findMany({
-      where: {
-        action: {
-          in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED", "SQUAD_JOINED"]
-        },
-        userId: { not: null }
-      },
-      take: 10,
-      orderBy: { createdAt: "desc" },
-      include: {
-        user: {
-          select: {
-            name: true,
-            city: true,
-            class: true
-          }
-        }
-      }
-    })
-
-    const recentActivities = logs.map(log => ({
+    const recentActivities = logs.map((log) => ({
       id: log.id,
       user: {
         name: log.user?.name || "Anonyme",
         city: log.user?.city || "Afrique",
-        class: log.user?.class || "Builder"
+        class: log.user?.class || "Builder",
       },
       action: log.action,
-      createdAt: log.createdAt
+      createdAt: log.createdAt,
     }))
 
     return {
@@ -93,7 +83,7 @@ export async function getLandingStats(): Promise<LandingStats> {
       activeSquads,
       missionsCompleted,
       classCounts,
-      recentActivities
+      recentActivities,
     }
   } catch (error: any) {
     // Silent during Next.js build phase (no DB available)
@@ -101,7 +91,7 @@ export async function getLandingStats(): Promise<LandingStats> {
       console.error("[GET_LANDING_STATS_ERROR]", {
         message: error.message,
         code: error.code,
-        stack: error.stack
+        stack: error.stack,
       })
     }
     return {
@@ -110,7 +100,17 @@ export async function getLandingStats(): Promise<LandingStats> {
       activeSquads: 0,
       missionsCompleted: 0,
       classCounts: {},
-      recentActivities: []
+      recentActivities: [],
     }
   }
 }
+
+/**
+ * Export cachée — un seul hit DB toutes les 5 minutes quelle que soit la charge.
+ * Tag "landing-stats" pour invalidation manuelle via revalidateTag().
+ */
+export const getLandingStats = unstable_cache(
+  fetchLandingStats,
+  ["landing-stats"],
+  { revalidate: 300, tags: ["landing-stats"] }
+)

@@ -64,21 +64,28 @@ export async function POST(
       return NextResponse.json({ message: "Tu n'es pas éligible pour reviewer cette mission." }, { status: 403 });
     }
 
-    const updated = await prisma.missionSubmission.update({
-      where: { id: submissionId },
-      data: { status: "IN_REVIEW", reviewerId: reviewer.id, reviewerType: "PEER" },
-    });
+    try {
+      const updated = await prisma.missionSubmission.update({
+        where: { id: submissionId, status: "PENDING" },
+        data: { status: "IN_REVIEW", reviewerId: reviewer.id, reviewerType: "PEER" },
+      });
 
-    logActivity({
-      userId: reviewer.id,
-      action: "MISSION_CLAIMED",
-      entity: "mission_submission",
-      entityId: submissionId,
-      metadata: { missionId: submission.missionId, missionTitle: submission.mission.title },
-      request: _req,
-    });
+      logActivity({
+        userId: reviewer.id,
+        action: "MISSION_CLAIMED",
+        entity: "mission_submission",
+        entityId: submissionId,
+        metadata: { missionId: submission.missionId, missionTitle: submission.mission.title },
+        request: _req,
+      });
 
-    return NextResponse.json({ success: true, submission: updated });
+      return NextResponse.json({ success: true, submission: updated });
+    } catch (error: any) {
+      if (error.code === "P2025") {
+        return NextResponse.json({ message: "Cette soumission a déjà été réclamée ou n'est plus disponible." }, { status: 409 });
+      }
+      throw error;
+    }
   } catch (error: unknown) {
     console.error("[CLAIM_REVIEW]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });

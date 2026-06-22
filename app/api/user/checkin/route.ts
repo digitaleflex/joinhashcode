@@ -7,6 +7,7 @@ import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
 
 const checkinSchema = z.object({
@@ -37,22 +38,7 @@ export async function POST(req: Request) {
 
     const { note, domain, energy, duration } = validated.data;
 
-    // 1. Cooldown check (20h)
-    const lastCheckin = await prisma.dailyCheckin.findFirst({
-      where: { userId: session.user.id },
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (lastCheckin) {
-      const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
-      if (hoursSince < 20) {
-        return NextResponse.json({ 
-            message: "Tu as déjà signé ton check-in aujourd'hui. Reviens dans quelques heures pour la suite de ton build !" 
-        }, { status: 429 });
-      }
-    }
-
-    // 2. Variable Reward Logic (Neuro-Engagement)
+    // 1. Variable Reward Logic (Neuro-Engagement) computed outside the transaction
     const isCriticalHit = Math.random() < 0.15; // 15% chance
     const baseXP = 10;
     const bonusXP = isCriticalHit ? 15 : 0;
@@ -75,9 +61,30 @@ export async function POST(req: Request) {
         ? rareMessages[Math.floor(Math.random() * rareMessages.length)]
         : successMessages[Math.floor(Math.random() * successMessages.length)];
 
-    // 3. Process check-in transaction
-    const result = await prisma.$transaction(async (tx) => {
-      const checkin = await tx.dailyCheckin.create({
+    // 2. Process check-in transaction (ultra-courte + thread-safe)
+    const checkin = await prisma.$transaction(async (tx) => {
+      // A. Lock user's engagement stats to serialize concurrent check-ins
+      await tx.$queryRaw`
+        SELECT "lastCheckinAt" FROM "engagement_stats" 
+        WHERE "userId" = ${session.user.id} 
+        FOR UPDATE
+      `;
+
+      // B. Verify cooldown inside the locked transaction context
+      const lastCheckin = await tx.dailyCheckin.findFirst({
+        where: { userId: session.user.id },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (lastCheckin) {
+        const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
+        if (hoursSince < 20) {
+          throw new Error("COOLDOWN_ACTIVE");
+        }
+      }
+
+      // C. Create check-in record
+      const created = await tx.dailyCheckin.create({
         data: {
           userId: session.user.id,
           note,
@@ -87,45 +94,57 @@ export async function POST(req: Request) {
         },
       });
 
-      // Update user streak
-      await tx.user.update({
-        where: { id: session.user.id },
-        data: {
-          stats: {
-            upsert: {
-              create: {
-                lastCheckinAt: new Date(),
-                currentStreak: 1,
-              },
-              update: {
-                lastCheckinAt: new Date(),
-                currentStreak: { increment: 1 },
-              }
-            }
-          }
+      // D. Update user streak directement sur engagementStats (évite lock User)
+      await tx.engagementStats.upsert({
+        where: { userId: session.user.id },
+        create: {
+          userId: session.user.id,
+          lastCheckinAt: new Date(),
+          currentStreak: 1,
         },
+        update: {
+          lastCheckinAt: new Date(),
+          currentStreak: { increment: 1 },
+        }
       });
 
-      // Award XP with variable reward
-      await awardXp(session.user.id, totalXP, "DAILY_CHECKIN", checkin.id, tx);
-
-      // Update Vibrancy and Confidence
-      const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
-      await updateUserEvolution(session.user.id, weights, 0.05, tx);
-
-      return { ...checkin, finalMessage, totalXP, isCriticalHit };
+      return created;
     });
 
-    // 4. Update squad cohesion if member
-    if (isFeatureEnabled("squads")) {
-      const membership = await prisma.member.findFirst({ where: { userId: session.user.id } });
-      if (membership) {
-          await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+    // 3. Traitements post-réponse asynchrones via Next.js 'after'
+    await after(async () => {
+      try {
+        // Award XP with variable reward
+        await awardXp(session.user.id, totalXP, "DAILY_CHECKIN", checkin.id);
+
+        // Update Vibrancy and Confidence
+        const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
+        await updateUserEvolution(session.user.id, weights, 0.05);
+
+        // Update squad cohesion if member
+        if (isFeatureEnabled("squads")) {
+          const membership = await prisma.member.findUnique({
+            where: { userId: session.user.id },
+            select: { organizationId: true }
+          });
+          if (membership) {
+            await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+          }
+        }
+      } catch (error) {
+        console.error("🔴 [Checkin API Post-Tasks Error]", error);
       }
-    }
+    });
+
+    const result = { ...checkin, finalMessage, totalXP, isCriticalHit };
 
     return NextResponse.json(result);
-  } catch (error: unknown) {
+  } catch (error: any) {
+    if (error instanceof Error && error.message === "COOLDOWN_ACTIVE") {
+      return NextResponse.json({ 
+          message: "Tu as déjà signé ton check-in aujourd'hui. Reviens dans quelques heures pour la suite de ton build !" 
+      }, { status: 429 });
+    }
     console.error("[CHECKIN_POST]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

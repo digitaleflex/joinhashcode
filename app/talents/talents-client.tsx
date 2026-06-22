@@ -26,12 +26,10 @@ interface Talent {
   country: string | null
   bio: string | null
   tools: string[]
-  psychometrics: {
-    builderScore: number
-    creatorScore: number
-    strategistScore: number
-    catalystScore: number
-  } | null
+  builderScore: number
+  creatorScore: number
+  strategistScore: number
+  catalystScore: number
 }
 
 const CLASS_CONFIGS: Record<string, { label: string; icon: typeof Cpu; color: string; bg: string; border: string; gradient: string }> = {
@@ -111,11 +109,11 @@ function MiniPsychoBars({ scores }: { scores: { builderScore: number; creatorSco
 
 function TalentCard({ talent, index }: { talent: Talent; index: number }) {
   const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
-  const psychometrics = talent.psychometrics || { builderScore: 0, creatorScore: 0, strategistScore: 0, catalystScore: 0 }
 
+  const scores = { builderScore: talent.builderScore, creatorScore: talent.creatorScore, strategistScore: talent.strategistScore, catalystScore: talent.catalystScore }
   const sortedScores = PROFILE_SCORES.map((p) => ({
     ...p,
-    score: psychometrics[p.key],
+    score: talent[p.key],
   })).sort((a, b) => b.score - a.score)
 
   const isHybrid = sortedScores[0].score - sortedScores[1].score < 15 && sortedScores[0].score > 0
@@ -161,7 +159,7 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
                 </Badge>
               </div>
 
-              <MiniPsychoBars scores={psychometrics} />
+              <MiniPsychoBars scores={scores} />
 
               <div className="flex items-center justify-between pt-1">
                 <div className="flex items-center gap-3 text-[10px] font-mono">
@@ -234,11 +232,10 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
 function TalentRow({ talent }: { talent: Talent }) {
   const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
   const Icon = cfg.icon
-  const psychometrics = talent.psychometrics || { builderScore: 0, creatorScore: 0, strategistScore: 0, catalystScore: 0 }
 
   const sortedScores = PROFILE_SCORES.map((p) => ({
     ...p,
-    score: psychometrics[p.key],
+    score: talent[p.key],
   })).sort((a, b) => b.score - a.score)
 
   const isHybrid = sortedScores[0].score - sortedScores[1].score < 15 && sortedScores[0].score > 0

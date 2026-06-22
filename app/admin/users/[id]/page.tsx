@@ -39,7 +39,6 @@ export default async function UserDossierPage({ params }: PageProps) {
   const user = await prisma.user.findUnique({
     where: { id },
     include: {
-      psychometrics: true,
       progress: true,
       security: true,
       referral: true,
@@ -218,20 +217,6 @@ export default async function UserDossierPage({ params }: PageProps) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                  <Shield className="h-4 w-4 text-zinc-500" />
-                  <div className="flex-1">
-                    <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Score Anti-Fraude</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-zinc-300">{user.security?.fraudRiskScore ?? 0}</p>
-                      {(user.security?.fraudRiskScore ?? 0) >= 61 ? (
-                        <p className="text-[9px] text-red-400 font-mono">Élevé</p>
-                      ) : (user.security?.fraudRiskScore ?? 0) >= 31 ? (
-                        <Badge className="text-[9px] h-4 bg-amber-500/10 text-amber-500 border-amber-500/20">SURVEILLANCE</Badge>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
                   <Globe className="h-4 w-4 text-zinc-500" />
                   <div className="flex-1">
                     <p className="text-[10px] font-mono uppercase text-zinc-600 leading-none mb-1">Origine</p>
@@ -275,10 +260,10 @@ export default async function UserDossierPage({ params }: PageProps) {
             </CardHeader>
             <CardContent className="space-y-6">
               {[
-                { label: "Builder", value: user.psychometrics?.builderScore ?? 0, color: profileColors.builder },
-                { label: "Creator", value: user.psychometrics?.creatorScore ?? 0, color: profileColors.creator },
-                { label: "Strategist", value: user.psychometrics?.strategistScore ?? 0, color: profileColors.strategist },
-                { label: "Catalyst", value: user.psychometrics?.catalystScore ?? 0, color: profileColors.catalyst },
+                { label: "Builder", value: user.builderScore ?? 0, color: profileColors.builder },
+                { label: "Creator", value: user.creatorScore ?? 0, color: profileColors.creator },
+                { label: "Strategist", value: user.strategistScore ?? 0, color: profileColors.strategist },
+                { label: "Catalyst", value: user.catalystScore ?? 0, color: profileColors.catalyst },
               ].map((stat) => (
                 <div key={stat.label} className="space-y-2">
                   <div className="flex justify-between items-end text-[10px] font-mono">

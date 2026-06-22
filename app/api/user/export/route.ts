@@ -4,10 +4,16 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { collectUserData } from "@/lib/user-export";
 import JSZip from "jszip";
+import { strictMutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function GET(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+
+  const { limited } = await checkRateLimit(strictMutationLimiter, `export:${session.user.id}`);
+  if (limited) {
+    return NextResponse.json({ message: "Trop de requêtes d'exportation. Réessaie dans une heure." }, { status: 429 });
+  }
 
   const format = new URL(req.url).searchParams.get("format") ?? "json";
   const data = await collectUserData(session.user.id);

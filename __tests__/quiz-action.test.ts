@@ -241,24 +241,11 @@ describe("Quiz Server Action", () => {
             update: { level: 1 },
           }
         },
-        psychometrics: {
-          upsert: {
-            create: {
-              builderScore: 100,
-              creatorScore: 0,
-              strategistScore: 0,
-              catalystScore: 0,
-              confidenceScore: 0.25,
-            },
-            update: {
-              builderScore: 100,
-              creatorScore: 0,
-              strategistScore: 0,
-              catalystScore: 0,
-              confidenceScore: 0.25,
-            },
-          },
-        },
+        builderScore: 100,
+        creatorScore: 0,
+        strategistScore: 0,
+        catalystScore: 0,
+        confidenceScore: 0.25,
       }),
     });
 

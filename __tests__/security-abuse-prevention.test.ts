@@ -17,11 +17,22 @@ vi.mock("../lib/prisma", () => {
     },
     member: {
       findFirst: vi.fn(),
+      findUnique: vi.fn(),
     },
     guildMember: {
       findFirst: vi.fn(),
     },
+    engagementStats: {
+      upsert: vi.fn(),
+    },
+    xpTransaction: {
+      create: vi.fn(),
+    },
+    psychometric: {
+      upsert: vi.fn(),
+    },
     $transaction: vi.fn((callback) => callback(mockPrisma)),
+    $queryRaw: vi.fn().mockResolvedValue([]),
   };
   return {
     prisma: mockPrisma,

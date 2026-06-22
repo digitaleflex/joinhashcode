@@ -38,15 +38,11 @@ export async function GET(req: Request) {
         city: true,
         country: true,
         technicalLevel: true,
-        psychometrics: {
-          select: {
-            builderScore: true,
-            creatorScore: true,
-            strategistScore: true,
-            catalystScore: true,
-            confidenceScore: true,
-          }
-        },
+        builderScore: true,
+        creatorScore: true,
+        strategistScore: true,
+        catalystScore: true,
+        confidenceScore: true,
         stats: {
           select: {
             currentStreak: true,
@@ -66,11 +62,11 @@ export async function GET(req: Request) {
       class: u.class,
       level: u.progress?.level ?? 1,
       experience: u.progress?.experience ?? 0,
-      builderScore: u.psychometrics?.builderScore ?? 0,
-      creatorScore: u.psychometrics?.creatorScore ?? 0,
-      strategistScore: u.psychometrics?.strategistScore ?? 0,
-      catalystScore: u.psychometrics?.catalystScore ?? 0,
-      confidenceScore: u.psychometrics?.confidenceScore ?? 0.25,
+      builderScore: u.builderScore ?? 0,
+      creatorScore: u.creatorScore ?? 0,
+      strategistScore: u.strategistScore ?? 0,
+      catalystScore: u.catalystScore ?? 0,
+      confidenceScore: u.confidenceScore ?? 0.25,
       missionsCompletedCount: u.progress?.missionsCompletedCount ?? 0,
       currentStreak: u.stats?.currentStreak ?? 0,
       createdAt: u.createdAt,

@@ -92,23 +92,19 @@ export async function DELETE(req: Request) {
 
   const msg = await prisma.squadMessage.findUnique({
     where: { id: messageId },
-    include: {
-      organization: {
-        select: {
-          members: {
-            where: { userId: session.user.id },
-            select: { role: true },
-          },
-        },
-      },
-    },
+    select: { userId: true, organizationId: true },
   })
 
   if (!msg) return NextResponse.json({ error: "Message introuvable" }, { status: 404 })
 
-  const viewerRole = msg.organization.members[0]?.role
+  const membership = await prisma.member.findUnique({
+    where: { userId: session.user.id },
+    select: { role: true, organizationId: true },
+  })
+
   const isAuthor = msg.userId === session.user.id
-  const isModerator = viewerRole === "owner" || viewerRole === "admin"
+  const isModerator = membership?.organizationId === msg.organizationId &&
+                       (membership.role === "owner" || membership.role === "admin");
 
   if (!isAuthor && !isModerator) {
     return NextResponse.json({ error: "Seul l'auteur ou un admin peut supprimer ce message" }, { status: 403 })
