@@ -1,8 +1,16 @@
 import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
-import { XP_THRESHOLDS } from "./missions";
 import { checkAndAwardBadges } from "./badge-engine";
 import { emailService } from "./email";
+
+export const XP_THRESHOLDS = {
+  1: 0,
+  2: 100,
+  3: 400,
+  4: 1400,
+} as const;
+
+export const LEVEL_THRESHOLDS = [0, 100, 400, 1400] as const;
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique

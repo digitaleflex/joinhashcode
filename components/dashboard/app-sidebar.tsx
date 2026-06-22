@@ -4,24 +4,14 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  Layout,
-  FileText,
-  Target,
-  Settings,
-  MoreHorizontal,
-  LogOut,
   ShieldAlert,
-  Activity,
-  Users,
   ClipboardCheck,
-  Compass,
-  BookOpen,
+  Activity,
 } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -32,31 +22,17 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
-import { getLevelProgress } from "@/lib/level-utils"
 import { DailyCheckinDialog } from "./daily-checkin-dialog"
 import { BetaFeedbackDialog } from "./beta-feedback-dialog"
+import { mainNavItems } from "./sidebar-nav-config"
+import { SidebarSquad } from "./sidebar-squad"
+import { SidebarUser } from "./sidebar-user"
 
 export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = user || session?.user
-
-  const progress = getLevelProgress(currentUser?.experience || 0)
-
-  const handleLogout = async () => {
-    await authClient.signOut()
-    window.location.href = "/"
-  }
 
   // User is eligible for reviewer role if Level >= 2 AND completed missions >= 3, or has admin role.
   const isReviewerEligible = currentUser && (
@@ -67,8 +43,8 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-zinc-950">
       <SidebarHeader className="h-16 border-b border-white/5 flex flex-row items-center justify-between px-4">
-        <Link 
-          href="/dashboard" 
+        <Link
+          href="/dashboard"
           className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden hover:opacity-80 transition-opacity"
         >
           <div className="size-10 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
@@ -86,125 +62,30 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
 
       <SidebarContent id="tour-sidebar">
         <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
-            <DailyCheckinDialog />
-          </div>
+          <DailyCheckinDialog />
+        </div>
 
         <SidebarGroup>
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* CONSOLE (Ex-Accueil) */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/dashboard"}
-                  tooltip="Accède à ton centre de commande et ton résumé d'activité."
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/dashboard">
-                    <Layout className="size-4" />
-                    <span className="font-medium">Console</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {mainNavItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                    tooltip={item.tooltip}
+                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  >
+                    <Link href={item.href}>
+                      <item.icon className="size-4" />
+                      <span className="font-medium">{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
 
-              {/* SQUAD / MON ESCOUADE */}
-                <>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={pathname === "/squad"}
-                      tooltip={hasSquad ? "Gère ton équipe de 5 et progresse ensemble." : "Rejoins une escouade de développeurs complémentaires."}
-                      className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                    >
-                      <Link href="/squad" className="flex items-center gap-2">
-                        <Users className="size-4 shrink-0" />
-                        <span className="font-medium flex-1">
-                          {hasSquad ? "Mon Escouade" : "Escouade"}
-                        </span>
-                        {hasSquad && (
-                          <span className="size-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_6px_rgba(197,244,65,0.8)] group-data-[collapsible=icon]:hidden" />
-                        )}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-
-                  {/* SQUAD DISCOVER (Nouveau lien) */}
-                  {!hasSquad && (
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={pathname === "/squad/discover"}
-                        tooltip="Découvrir des escouades actives"
-                        className="h-9 transition-all hover:bg-white/5 pl-10 text-zinc-500 hover:text-white"
-                      >
-                        <Link href="/squad/discover">
-                          <span className="font-medium text-[12px] uppercase tracking-wider">Découvrir</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )}
-                </>
-
-              {/* MISSIONS */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/missions"}
-                  tooltip="Relève des défis techniques réels pour booster ton XP."
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/missions">
-                    <Target className="size-4" />
-                    <span className="font-medium">Missions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* MON DOSSIER */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/dossier"}
-                  tooltip="Consulte ton portfolio, tes badges et ton radar de compétences."
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/dossier">
-                    <FileText className="size-4" />
-                    <span className="font-medium">Mon Dossier</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* MEMBRES */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/talents"}
-                  tooltip="Consulte l'annuaire de tous les membres de HASHCODE."
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/talents">
-                    <Compass className="size-4" />
-                    <span className="font-medium">Membres</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* GUIDE */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/guide"}
-                  tooltip="Consulte les règles, le radar psychométrique et le fonctionnement de HASHCODE."
-                  className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                >
-                  <Link href="/guide">
-                    <BookOpen className="size-4" />
-                    <span className="font-medium">Guide de l&apos;Agent</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <SidebarSquad hasSquad={hasSquad} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -257,7 +138,6 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* FEEDBACK */}
               <SidebarMenuItem>
                 <BetaFeedbackDialog />
               </SidebarMenuItem>
@@ -266,90 +146,7 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-white/5 p-4">
-        <div className="px-2 pb-4 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-mono text-primary uppercase tracking-wider font-bold">
-              Niveau {progress.level}
-            </span>
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">
-              {currentUser?.experience} / {progress.nextLevelXp || progress.xpInLevel} XP
-            </span>
-          </div>
-          <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5">
-            <div 
-              className="h-full bg-primary shadow-[0_0_10px_rgba(197,244,65,0.4)] transition-all duration-500" 
-              style={{ width: `${progress.percent}%` }}
-            />
-          </div>
-        </div>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-white/5 h-12"
-                >
-                  <Avatar className="h-8 w-8 rounded-lg border border-white/10">
-                    <AvatarImage src={currentUser?.image || ""} alt={currentUser?.name || ""} />
-                    <AvatarFallback className="rounded-lg bg-primary/20 text-primary font-bold">
-                      {currentUser?.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden ml-2">
-                    <span className="truncate font-semibold text-white">{currentUser?.name || "Utilisateur"}</span>
-                    <span className="truncate text-xs text-muted-foreground">{currentUser?.email}</span>
-                  </div>
-                  <MoreHorizontal className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-zinc-900 border-white/5 text-white"
-                side="bottom"
-                align="end"
-                sideOffset={4}
-              >
-                <DropdownMenuLabel className="p-0 font-normal">
-                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={currentUser?.image || ""} alt={currentUser?.name || ""} />
-                      <AvatarFallback className="rounded-lg bg-primary/20 text-primary">
-                        {currentUser?.name?.charAt(0) || "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold text-white">{currentUser?.name}</span>
-                      <span className="truncate text-xs text-muted-foreground">{currentUser?.email}</span>
-                    </div>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-white/5" />
-                <DropdownMenuItem asChild className="cursor-pointer focus:bg-white/5 focus:text-white">
-                  <Link href="/settings" className="flex items-center gap-2 w-full">
-                    <Settings className="size-4" />
-                    <span>Paramètres</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer focus:bg-white/5 focus:text-white">
-                  <Link href="/dossier" className="flex items-center gap-2 w-full">
-                    <FileText className="size-4" />
-                    <span>Mon Dossier</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-white/5" />
-                <DropdownMenuItem 
-                  onClick={handleLogout}
-                  className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-400/10"
-                >
-                  <LogOut className="size-4 mr-2" />
-                  Déconnexion
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      <SidebarUser user={user} />
       <SidebarRail />
     </Sidebar>
   )
