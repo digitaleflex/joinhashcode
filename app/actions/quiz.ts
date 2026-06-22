@@ -141,24 +141,11 @@ export async function submitQuiz(rawData: unknown) {
           class: analysis.primary,
           behavioralVibrancy: analysis.scores as Prisma.InputJsonValue,
           lastHypothesisUpdate: new Date(),
-          psychometrics: {
-            upsert: {
-              create: {
-                builderScore: analysis.scores.builder,
-                creatorScore: analysis.scores.creator,
-                strategistScore: analysis.scores.strategist,
-                catalystScore: analysis.scores.catalyst,
-                confidenceScore: 0.25,
-              },
-              update: {
-                builderScore: analysis.scores.builder,
-                creatorScore: analysis.scores.creator,
-                strategistScore: analysis.scores.strategist,
-                catalystScore: analysis.scores.catalyst,
-                confidenceScore: 0.25,
-              }
-            }
-          },
+          builderScore: analysis.scores.builder,
+          creatorScore: analysis.scores.creator,
+          strategistScore: analysis.scores.strategist,
+          catalystScore: analysis.scores.catalyst,
+          confidenceScore: 0.25,
           progress: {
             upsert: {
               create: { level: analysis.level, experience: 0 },

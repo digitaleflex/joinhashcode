@@ -48,7 +48,7 @@ vi.mock("../lib/auth", () => ({
 }));
 
 vi.mock("../lib/features", () => ({
-  isFeatureEnabled: (name: string) => name === "streaks" || name === "squads",
+  isFeatureEnabled: () => true,
 }));
 
 vi.mock("../lib/ratelimit", () => ({

@@ -3,14 +3,12 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, Zap, FileText } from "lucide-react"
-import { isFeatureEnabled } from "@/lib/features"
-
 export function BottomNav() {
   const pathname = usePathname()
 
   const navItems = [
     { name: "Home", href: "/dashboard", icon: LayoutDashboard },
-    ...(isFeatureEnabled("squads") ? [{ name: "Escouade", href: "/squad", icon: Users }] : []),
+    { name: "Escouade", href: "/squad", icon: Users },
     { name: "Missions", href: "/missions", icon: Zap },
     { name: "Dossier", href: "/dossier", icon: FileText },
   ]
