@@ -4,8 +4,6 @@ import { motion } from "framer-motion"
 import { Check, Zap, Users, Target, UserCircle, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { isFeatureEnabled } from "@/lib/features"
-
 interface Step {
   id: string
   icon: React.ElementType
@@ -34,7 +32,7 @@ export function NextStepsCard({ hasMissions, hasSquad, hasProfile, hasCheckin }:
       done: hasProfile,
       xp: 50,
     },
-    ...(isFeatureEnabled("squads") ? [{
+    {
       id: "squad" as const,
       icon: Users,
       title: "Rejoindre une unité",
@@ -42,7 +40,7 @@ export function NextStepsCard({ hasMissions, hasSquad, hasProfile, hasCheckin }:
       href: "/squad",
       done: hasSquad,
       xp: 100,
-    }] : []),
+    },
     {
       id: "mission",
       icon: Target,

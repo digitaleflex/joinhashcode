@@ -10,8 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { isFeatureEnabled } from "@/lib/features";
-
 interface MissionSubmissionFormProps {
   missionId: string;
   submissionMethod: string;
@@ -74,26 +72,7 @@ export function MissionSubmissionForm({
   };
 const handleSubmitRetro = async (e: React.FormEvent) => {
   e.preventDefault();
-  setIsSubmitting(true);
-  try {
-    const res = await fetch(`/api/missions/${missionId}/retrospective`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        projectDescription,
-        userDifficulty,
-        userRating,
-        userFeedback,
-      })
-    });
-
-    if (!res.ok) throw new Error(await res.text());
-
-    setShowScanner(true);
-  } catch (error: any) {
-    toast.error(error.message || "Erreur lors de la rétrospective");
-    setIsSubmitting(false);
-  }
+  setShowScanner(true);
 };
 
 
@@ -169,8 +148,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
           </div>
         </div>
 
-        {isFeatureEnabled("retrospectives") ? (
-          <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
+        <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
             <div className="flex items-center gap-2">
               <MessageSquare className="size-3.5 text-primary shrink-0" />
               <p className="text-[10px] font-mono font-bold text-primary uppercase tracking-wider">
@@ -198,14 +176,6 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
               </button>
             </div>
           </div>
-        ) : (
-          <button
-            onClick={() => setShowScanner(true)}
-            className="w-full py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
-          >
-            Continuer
-          </button>
-        )}
       </div>
     );
   }
