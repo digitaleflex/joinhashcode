@@ -1,84 +1,86 @@
-import { Ratelimit } from "@upstash/ratelimit"
-import { Redis } from "@upstash/redis"
-
 /**
- * ⚡ Perf: Priorité au Redis local (Valkey/Redis OSS) via REDIS_URL.
- * Latence: Redis local < 1ms vs Upstash réseau 50–100ms.
- * Bascule sur Upstash si REDIS_URL n'est pas défini (env cloud).
- * Compatible avec le SDK @upstash/redis dans les deux cas.
+ * Rate Limiter — in-process memory implementation.
+ * Suffisant jusqu'à plusieurs milliers d'utilisateurs.
+ * Remplace l'ancien système Upstash/Redis (fail-closed problématique).
  */
-const localRedisUrl = process.env.REDIS_URL  // http://redis-proxy:80 (local REST proxy)
-const localRedisToken = process.env.REDIS_TOKEN // local-dev-token
-const isLocalHttpRedis = !!(localRedisUrl && (localRedisUrl.startsWith("http://") || localRedisUrl.startsWith("https://")))
 
-const restUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
-const restToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
-
-// Redis local HTTP disponible ou Upstash REST disponible
-const configured = isLocalHttpRedis || !!(restUrl && restToken)
-
-// Shared Redis client — exported for auth.ts secondaryStorage (SEC-011)
-export const redis = configured
-  ? isLocalHttpRedis
-    ? new Redis({ url: localRedisUrl!, token: localRedisToken || "local-dev-token" })
-    : new Redis({ url: restUrl!, token: restToken! })
-  : null
-
-// Fix SEC-005: Fail closed in production if rate limiting is not configured
-// Skip during Next.js build phase (no runtime env vars available)
-if (!configured && process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== "phase-production-build") {
-  console.error("❌ [CRITICAL] Aucun Redis configuré en production (REDIS_URL ou UPSTASH_REDIS_REST_URL). Rate limiting REQUIS.");
+interface RateLimiter {
+  check(identifier: string): Promise<{ success: boolean; reset: number }>
 }
 
-function makeRatelimit(tokens: number, window: `${number} s` | `${number} m` | `${number} h`) {
-  if (!configured || !redis) return null
-  return new Ratelimit({
-    redis: redis,
-    limiter: Ratelimit.slidingWindow(tokens, window),
-    analytics: false,
-  })
+class MemoryLimiter implements RateLimiter {
+  private store = new Map<string, { count: number; resetAt: number }>()
+  private readonly maxTokens: number
+  private readonly windowMs: number
+
+  constructor(maxTokens: number, windowMs: number) {
+    this.maxTokens = maxTokens
+    this.windowMs = windowMs
+  }
+
+  async check(identifier: string): Promise<{ success: boolean; reset: number }> {
+    const now = Date.now()
+    const entry = this.store.get(identifier)
+
+    if (!entry || now > entry.resetAt) {
+      this.store.set(identifier, { count: 1, resetAt: now + this.windowMs })
+      return { success: true, reset: now + this.windowMs }
+    }
+
+    if (entry.count >= this.maxTokens) {
+      return { success: false, reset: entry.resetAt }
+    }
+
+    entry.count++
+    return { success: true, reset: entry.resetAt }
+  }
 }
 
-/**
- * Standard limiters
- */
+function windowMs(value: `${number} s` | `${number} m` | `${number} h`): number {
+  const [num, unit] = value.split(" ") as [string, string]
+  const n = parseInt(num, 10)
+  if (unit === "s") return n * 1000
+  if (unit === "m") return n * 60 * 1000
+  if (unit === "h") return n * 60 * 60 * 1000
+  return n * 1000
+}
+
+function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${number} h`): MemoryLimiter {
+  return new MemoryLimiter(tokens, windowMs(window))
+}
 
 // 5 check-ins per user per 24h (game mechanic: once per day anyway)
-export const checkinLimiter = makeRatelimit(5, "24 h")
+export const checkinLimiter = makeLimiter(5, "24 h")
 
 // 10 claims per user per hour
-export const claimLimiter = makeRatelimit(10, "1 h")
+export const claimLimiter = makeLimiter(10, "1 h")
 
 // 5 squad joins per user per hour
-export const squadJoinLimiter = makeRatelimit(5, "1 h")
+export const squadJoinLimiter = makeLimiter(5, "1 h")
 
 // Default limiter for generic mutations (POST/PATCH/DELETE)
 // 30 requests per minute per user/IP
-export const mutationLimiter = makeRatelimit(30, "1 m")
+export const mutationLimiter = makeLimiter(30, "1 m")
 
 // Strict limiter for sensitive operations (squad creation, etc.)
 // 5 requests per hour
-export const strictMutationLimiter = makeRatelimit(5, "1 h")
+export const strictMutationLimiter = makeLimiter(5, "1 h")
+
+// Redis client exporté pour compatibilité ascendante (auth.ts secondaryStorage)
+// Peut être supprimé quand auth.ts n'en a plus besoin
+export const redis = null
 
 export async function checkRateLimit(
-  limiter: Ratelimit | null,
+  limiter: RateLimiter | null,
   identifier: string
 ): Promise<{ limited: boolean; reset?: number }> {
-  if (!limiter) {
-    // Fix SEC-005: If limiter is null (not configured), block in production, allow in dev.
-    if (process.env.NODE_ENV === "production") {
-      console.warn(`[SECURITY] Blocking request for ${identifier} because rate limiter is not configured.`);
-      return { limited: true };
-    }
-    return { limited: false };
-  }
-  
+  if (!limiter) return { limited: false }
+
   try {
-    const { success, reset } = await limiter.limit(identifier)
+    const { success, reset } = await limiter.check(identifier)
     return { limited: !success, reset }
-  } catch (error: unknown) {
-    console.error("[RATELIMIT_ERROR]", error);
-    // Fail closed on Redis error in production
-    return { limited: process.env.NODE_ENV === "production" };
+  } catch {
+    // Fail open: si le rate limiter plante, on laisse passer
+    return { limited: false }
   }
 }
