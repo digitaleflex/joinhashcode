@@ -1,4 +1,4 @@
-import { BehavioralVitality } from "./evolution";
+import { BehavioralVitality } from "./types";
 
 /**
  * Mapping des classes vers les clés de vitalité comportementale.

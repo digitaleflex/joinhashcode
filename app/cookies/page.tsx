@@ -3,23 +3,20 @@
 import { useState, useEffect } from "react"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
-import { Shield, Cookie, MapPin, Save } from "lucide-react"
+import { Shield, Cookie, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import Link from "next/link"
 
 export default function CookiesPage() {
   const [analyticsConsent, setAnalyticsConsent] = useState(false)
-  const [gpsConsent, setGpsConsent] = useState(false)
 
   useEffect(() => {
     setAnalyticsConsent(localStorage.getItem("hc_cookie_consent") === "accepted")
-    setGpsConsent(localStorage.getItem("hc_gps_consent") === "accepted")
   }, [])
 
   const handleSave = () => {
     localStorage.setItem("hc_cookie_consent", analyticsConsent ? "accepted" : "declined")
-    localStorage.setItem("hc_gps_consent", gpsConsent ? "accepted" : "declined")
     toast.success("Préférences enregistrées")
   }
 
@@ -79,25 +76,7 @@ export default function CookiesPage() {
               </div>
             </label>
 
-            <label className="flex items-start gap-4 p-5 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-primary/20 transition-colors cursor-pointer">
-              <input
-                type="checkbox"
-                checked={gpsConsent}
-                onChange={(e) => setGpsConsent(e.target.checked)}
-                className="mt-1 h-5 w-5 rounded border-white/20 bg-zinc-800 text-primary focus:ring-primary"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <MapPin className="size-4 text-primary" />
-                  <span className="text-sm font-bold text-white">Géolocalisation anti-fraude</span>
-                  <span className="text-[9px] font-mono uppercase text-amber-500 px-2 py-0.5 rounded-full bg-amber-500/10">Optionnel</span>
-                </div>
-                <p className="text-xs text-zinc-500 mt-1">
-                  Utilisée uniquement pour détecter les activités suspectes (ex : connexion depuis deux pays en 30min). 
-                  <strong className="text-white"> Jamais partagée, jamais revendue.</strong> Données purgées après 90 jours.
-                </p>
-              </div>
-            </label>
+
           </div>
 
           <Button onClick={handleSave} className="btn-primary-glow h-12 px-10 rounded-xl text-xs font-bold uppercase tracking-wider">

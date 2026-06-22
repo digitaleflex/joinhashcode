@@ -62,6 +62,13 @@ export const TECHNICAL_TOOLS = [
 export type TechnicalDomain = typeof TECHNICAL_DOMAINS[number];
 export type TechnicalTool = typeof TECHNICAL_TOOLS[number];
 
+export interface BehavioralVitality {
+  builder: number;
+  creator: number;
+  strategist: number;
+  catalyst: number;
+}
+
 export interface BehavioralVibrancy {
   builder: number;
   creator: number;

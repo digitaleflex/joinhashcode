@@ -188,15 +188,7 @@ export const auth = betterAuth({
                   update: { referralCode },
                 }
               },
-              psychometrics: {
-                create: {
-                  builderScore: 0,
-                  creatorScore: 0,
-                  strategistScore: 0,
-                  catalystScore: 0,
-                  confidenceScore: 0.25,
-                }
-              },
+
               socials: {
                 create: {
                   githubUrl: null,

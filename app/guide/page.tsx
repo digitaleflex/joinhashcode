@@ -39,15 +39,11 @@ export default async function GuidePage() {
       city: true,
       language: true,
       badges: true,
-      psychometrics: {
-        select: {
-          builderScore: true,
-          creatorScore: true,
-          strategistScore: true,
-          catalystScore: true,
-          confidenceScore: true,
-        },
-      },
+      builderScore: true,
+      creatorScore: true,
+      strategistScore: true,
+      catalystScore: true,
+      confidenceScore: true,
       stats: {
         select: {
           lastCheckinAt: true,
@@ -76,11 +72,11 @@ export default async function GuidePage() {
     experience: dbSessionUser.progress?.experience ?? 0,
     missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
     referralCount: dbSessionUser.referral?.referralCount ?? 0,
-    builderScore: dbSessionUser.psychometrics?.builderScore ?? 0,
-    creatorScore: dbSessionUser.psychometrics?.creatorScore ?? 0,
-    strategistScore: dbSessionUser.psychometrics?.strategistScore ?? 0,
-    catalystScore: dbSessionUser.psychometrics?.catalystScore ?? 0,
-    confidenceScore: dbSessionUser.psychometrics?.confidenceScore ?? 0.25,
+    builderScore: dbSessionUser.builderScore ?? 0,
+    creatorScore: dbSessionUser.creatorScore ?? 0,
+    strategistScore: dbSessionUser.strategistScore ?? 0,
+    catalystScore: dbSessionUser.catalystScore ?? 0,
+    confidenceScore: dbSessionUser.confidenceScore ?? 0.25,
     lastCheckin: dbSessionUser.stats?.lastCheckinAt ?? null,
     currentStreak: dbSessionUser.stats?.currentStreak ?? 0,
   }

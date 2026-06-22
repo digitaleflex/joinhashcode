@@ -19,7 +19,6 @@ import { UserSituation, MainObjective, TechnicalLevel } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { authClient } from "@/lib/auth-client"
-import { hasLocationConsent } from "@/lib/geolocation"
 
 const ONBOARDING_KEY = "hc_onboarding_v2"
 
@@ -168,23 +167,6 @@ export default function OnboardingPage() {
     setPseudoError("")
     try {
       if (step === 0) {
-        if (hasLocationConsent()) {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              fetch("/api/user/location", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  latitude: pos.coords.latitude,
-                  longitude: pos.coords.longitude,
-                  accuracy: pos.coords.accuracy,
-                }),
-              }).catch(() => {})
-            },
-            () => {},
-            { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
-          )
-        }
         setStep(1)
       } else if (step === 1) {
         // Save pseudo

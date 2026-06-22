@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { BehavioralVitality, updateVitality } from './evolution';
+import { BehavioralVitality } from './types';
 import { Prisma } from '../generated/prisma/client';
 
 export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
@@ -13,13 +13,6 @@ export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
 
 export { LEVEL_THRESHOLDS, getLevelProgress } from './level-utils';
 
-export function calculateNewVitality(
-  currentVitality: BehavioralVitality,
-  actionWeights: BehavioralVitality
-) {
-  return updateVitality(currentVitality, actionWeights);
-}
-
 export async function updateUserEvolution(
   userId: string,
   actionWeights: BehavioralVitality,
@@ -32,12 +25,11 @@ export async function updateUserEvolution(
     where: { id: userId },
     select: {
       behavioralVibrancy: true,
-      lastHypothesisUpdate: true,
-      psychometrics: {
-        select: {
-          confidenceScore: true,
-        }
-      }
+      builderScore: true,
+      creatorScore: true,
+      strategistScore: true,
+      catalystScore: true,
+      confidenceScore: true,
     }
   });
 
@@ -50,26 +42,22 @@ export async function updateUserEvolution(
     catalyst: 0,
   };
 
-  const newVitality = calculateNewVitality(currentVitality, actionWeights);
-  const currentConfidence = user.psychometrics?.confidenceScore ?? 0.25;
-  const newConfidence = Math.min(currentConfidence + confidenceGain, 1.0);
+  const newVitality = {
+    builder: currentVitality.builder + (actionWeights.builder || 0),
+    creator: currentVitality.creator + (actionWeights.creator || 0),
+    strategist: currentVitality.strategist + (actionWeights.strategist || 0),
+    catalyst: currentVitality.catalyst + (actionWeights.catalyst || 0),
+  };
+  const newConfidence = Math.min((user.confidenceScore ?? 0.25) + confidenceGain, 1.0);
 
-  // Update both User (vibrancy) and Psychometric (confidence)
   await client.user.update({
     where: { id: userId },
     data: {
       behavioralVibrancy: newVitality as unknown as Prisma.InputJsonValue,
-      lastHypothesisUpdate: new Date(),
-    }
-  });
-
-  return await client.psychometric.upsert({
-    where: { userId },
-    create: {
-      userId,
-      confidenceScore: newConfidence,
-    },
-    update: {
+      builderScore: { increment: actionWeights.builder || 0 },
+      creatorScore: { increment: actionWeights.creator || 0 },
+      strategistScore: { increment: actionWeights.strategist || 0 },
+      catalystScore: { increment: actionWeights.catalyst || 0 },
       confidenceScore: newConfidence,
     }
   });

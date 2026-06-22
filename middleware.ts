@@ -16,7 +16,6 @@ export async function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/settings') ||
     request.nextUrl.pathname.startsWith('/squad') ||
     request.nextUrl.pathname.startsWith('/dossier') ||
-    request.nextUrl.pathname.startsWith('/reviewer') ||
     request.nextUrl.pathname.startsWith('/feedback') ||
     request.nextUrl.pathname.startsWith('/onboarding') ||
     request.nextUrl.pathname.startsWith('/quiz');

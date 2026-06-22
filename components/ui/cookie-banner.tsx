@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Cookie, X, MapPin } from "lucide-react"
+import { Cookie, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -12,8 +12,7 @@ export function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem("hc_cookie_consent")
-    const gpsConsent = localStorage.getItem("hc_gps_consent")
-    if (!consent && gpsConsent === null) {
+    if (!consent) {
       const timer = setTimeout(() => setIsVisible(true), 2000)
       return () => clearTimeout(timer)
     }
@@ -21,19 +20,16 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     localStorage.setItem("hc_cookie_consent", "accepted")
-    localStorage.setItem("hc_gps_consent", "accepted")
     setIsVisible(false)
   }
 
   const handleAcceptEssential = () => {
     localStorage.setItem("hc_cookie_consent", "accepted")
-    localStorage.setItem("hc_gps_consent", "declined")
     setIsVisible(false)
   }
 
   const handleDecline = () => {
     localStorage.setItem("hc_cookie_consent", "declined")
-    localStorage.setItem("hc_gps_consent", "declined")
     setIsVisible(false)
   }
 
@@ -57,7 +53,7 @@ export function CookieBanner() {
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Respect de ta vie numérique</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    Nous utilisons des cookies essentiels pour ta sécurité. Avec ton accord, nous collectons aussi des données de localisation pour la protection anti-fraude.
+                    Nous utilisons des cookies essentiels pour ta sécurité et ton confort de navigation.
                   </p>
                 </div>
               </div>
@@ -68,28 +64,9 @@ export function CookieBanner() {
                   animate={{ height: "auto", opacity: 1 }}
                   className="space-y-3 border-t border-white/5 pt-4"
                 >
-                  <label className="flex items-start gap-3 p-3 rounded-xl bg-white/3 border border-white/5">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      id="consent-gps"
-                      className="mt-1 h-4 w-4 rounded border-white/20 bg-zinc-800 text-primary focus:ring-primary"
-                      onChange={(e) => {
-                        if (!e.target.checked) {
-                          localStorage.setItem("hc_gps_consent", "declined")
-                        }
-                      }}
-                    />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="size-3.5 text-primary" />
-                        <span className="text-xs font-bold text-white">Géolocalisation anti-fraude</span>
-                      </div>
-                      <p className="text-[10px] text-zinc-500 mt-1">
-                        Utilisée uniquement pour détecter les activités suspectes. Jamais partagée ni revendue. Données purgées après 90 jours.
-                      </p>
-                    </div>
-                  </label>
+                  <p className="text-[10px] text-zinc-500">
+                    Les cookies essentiels sont toujours actifs. Aucune donnée de localisation n'est collectée.
+                  </p>
                 </motion.div>
               )}
 

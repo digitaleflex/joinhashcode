@@ -1,9 +1,6 @@
 import { prisma } from "./prisma";
 
 const PROFILE_INCLUDE = {
-  psychometrics: {
-    select: { builderScore: true, creatorScore: true, strategistScore: true, catalystScore: true, confidenceScore: true },
-  },
   socials: {
     select: { githubUrl: true, linkedinUrl: true, twitterUrl: true, portfolioUrl: true },
   },
@@ -73,10 +70,8 @@ export async function collectUserData(userId: string) {
 
   const profile = raw ? {
     ...raw,
-    ...raw.psychometrics,
     ...raw.socials,
     ...raw.stats,
-    psychometrics: undefined,
     socials: undefined,
     stats: undefined,
   } : null

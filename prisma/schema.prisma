@@ -51,8 +51,14 @@ model User {
   locationUpdatedAt    DateTime?
   ipCountry            String?
 
+  // Scores psychométriques calculés par analysis.ts
+  builderScore        Int     @default(0)
+  creatorScore        Int     @default(0)
+  strategistScore     Int     @default(0)
+  catalystScore       Int     @default(0)
+  confidenceScore     Float   @default(0.25)
+
   // Relations spécialisées
-  psychometrics        Psychometric?
   socials              UserSocials?
   stats                EngagementStats?
   security             UserSecurity?
@@ -593,19 +599,6 @@ model XpTransaction {
   @@index([userId])
   @@index([createdAt])
   @@map("xp_transaction")
-}
-
-model Psychometric {
-  id              String @id @default(cuid())
-  userId          String @unique
-  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  builderScore    Int    @default(0)
-  creatorScore    Int    @default(0)
-  strategistScore Int    @default(0)
-  catalystScore   Int    @default(0)
-  confidenceScore Float  @default(0.25)
-
-  @@map("psychometric")
 }
 
 model UserSocials {

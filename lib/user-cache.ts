@@ -10,7 +10,6 @@ export async function getCachedUser(userId: string) {
     return prisma.user.findUnique({
       where: { id: userId },
       include: {
-        psychometrics: true,
         socials: true,
         stats: true,
         progress: true,
@@ -36,7 +35,6 @@ export async function getCachedUser(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: {
-      psychometrics: true,
       socials: true,
       stats: true,
       progress: true,
