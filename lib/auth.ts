@@ -229,7 +229,7 @@ export const auth = betterAuth({
     return {
       secondaryStorage: {
         get: async (key: string) => {
-          const val = await r.get<string>(key);
+          const val = await r.get(key);
           return val ?? null;
         },
         set: async (key: string, value: string, ttl?: number) => {
