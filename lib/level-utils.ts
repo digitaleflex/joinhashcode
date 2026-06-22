@@ -1,15 +1,14 @@
-export const LEVEL_THRESHOLDS = [0, 100, 400, 1400]
-
 export function getLevelProgress(xp: number) {
+  const thresholds = [0, 100, 400, 1400]
   let level = 1
   let currentLevelXp = 0
   let nextLevelXp: number | null = null
 
-  for (let i = LEVEL_THRESHOLDS.length - 1; i >= 0; i--) {
-    if (xp >= LEVEL_THRESHOLDS[i]) {
+  for (let i = thresholds.length - 1; i >= 0; i--) {
+    if (xp >= thresholds[i]) {
       level = i + 1
-      currentLevelXp = LEVEL_THRESHOLDS[i]
-      nextLevelXp = LEVEL_THRESHOLDS[i + 1] ?? null
+      currentLevelXp = thresholds[i]
+      nextLevelXp = thresholds[i + 1] ?? null
       break
     }
   }
