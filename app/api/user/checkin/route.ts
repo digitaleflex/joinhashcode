@@ -1,6 +1,5 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { isFeatureEnabled } from "@/lib/features";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
@@ -20,7 +19,6 @@ const checkinSchema = z.object({
 const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
 export async function POST(req: Request) {
-  if (!isFeatureEnabled("streaks")) return NextResponse.json({ message: "Fonctionnalité désactivée." }, { status: 404 });
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
@@ -122,14 +120,12 @@ export async function POST(req: Request) {
         await updateUserEvolution(session.user.id, weights, 0.05);
 
         // Update squad cohesion if member
-        if (isFeatureEnabled("squads")) {
-          const membership = await prisma.member.findUnique({
-            where: { userId: session.user.id },
-            select: { organizationId: true }
-          });
-          if (membership) {
-            await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
-          }
+        const membership = await prisma.member.findUnique({
+          where: { userId: session.user.id },
+          select: { organizationId: true }
+        });
+        if (membership) {
+          await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
         }
       } catch (error) {
         console.error("🔴 [Checkin API Post-Tasks Error]", error);

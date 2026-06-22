@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { ActivationChecklist } from '@/components/dashboard/activation-checklist';
 
 vi.mock('@/lib/features', () => ({
-  isFeatureEnabled: (name: string) => name === 'squads' ? true : false,
+  isFeatureEnabled: () => true,
 }));
 
 describe('ActivationChecklist Component', () => {

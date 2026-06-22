@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { isFeatureEnabled } from "@/lib/features";
 import Image from "next/image";
 import Link from "next/link";
 import { Users, Shield, Lock, Zap, ArrowRight, Star } from "lucide-react";
@@ -11,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 export default async function PublicSquadPage({ params }: { params: Promise<{ slug: string }> }) {
-  if (!isFeatureEnabled("squads")) notFound();
   const { slug } = await params;
 
   const squad = await prisma.organization.findUnique({

@@ -43,8 +43,6 @@ import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import { isFeatureEnabled } from "@/lib/features"
-
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
@@ -204,7 +202,6 @@ export function DashboardShell({
                     </Tooltip>
                   </TooltipProvider>
 
-                  {isFeatureEnabled("streaks") && (
                     <>
                       <div className="h-px w-full bg-white/5 hidden md:block"></div>
 
@@ -228,7 +225,6 @@ export function DashboardShell({
                         </Tooltip>
                       </TooltipProvider>
                     </>
-                  )}
                 </div>
               </div>
               <Zap className={`absolute -bottom-10 -right-10 h-32 sm:h-56 w-32 sm:w-56 ${config.color} opacity-[0.03] -rotate-12 group-hover:scale-110 transition-transform duration-1000`} />
@@ -237,16 +233,12 @@ export function DashboardShell({
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                {isFeatureEnabled("streaks") && (
-                  <div id="tour-checkin">
+                <div id="tour-checkin">
                     <DailyCheckinWidget />
                   </div>
-                )}
-                {isFeatureEnabled("weeklyChallenges") && (
-                  <div id="tour-weekly">
+                <div id="tour-weekly">
                     <WeeklyChallengeWidget />
                   </div>
-                )}
                 <div id="tour-missions">
                   <MissionDeck recommendedMissions={recommendedMissions} />
                 </div>

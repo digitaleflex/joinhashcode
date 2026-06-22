@@ -43,7 +43,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 import { getLevelProgress } from "@/lib/level-utils"
-import { isFeatureEnabled } from "@/lib/features"
 import { DailyCheckinDialog } from "./daily-checkin-dialog"
 import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 
@@ -86,11 +85,9 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
       </SidebarHeader>
 
       <SidebarContent id="tour-sidebar">
-        {isFeatureEnabled("streaks") && (
-          <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
+        <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
             <DailyCheckinDialog />
           </div>
-        )}
 
         <SidebarGroup>
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
@@ -112,7 +109,6 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
               </SidebarMenuItem>
 
               {/* SQUAD / MON ESCOUADE */}
-              {isFeatureEnabled("squads") && (
                 <>
                   <SidebarMenuItem>
                     <SidebarMenuButton
@@ -149,7 +145,6 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
                     </SidebarMenuItem>
                   )}
                 </>
-              )}
 
               {/* MISSIONS */}
               <SidebarMenuItem>
