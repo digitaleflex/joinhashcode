@@ -7,6 +7,12 @@ export async function proxy(request: NextRequest) {
   }
 
   if (process.env.MAINTENANCE_MODE === "true" && request.nextUrl.pathname !== "/maintenance") {
+    if (request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/feedback") {
+      return NextResponse.json(
+        { error: "Service temporairement indisponible pour maintenance" },
+        { status: 503 }
+      );
+    }
     return NextResponse.redirect(new URL("/maintenance", request.url))
   }
 

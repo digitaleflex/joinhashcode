@@ -57,11 +57,30 @@ export async function POST(req: NextRequest) {
       data: { type, email, subject, content, github, portfolio, skills },
     })
 
-    await emailService.sendContactNotification({ type, email, subject, content })
+    try {
+      await emailService.sendContactNotification({ type, email, subject, content });
+    } catch (emailError: unknown) {
+      console.error("[CONTACT_EMAIL_ERROR]", emailError);
+      return NextResponse.json(
+        { error: "Message enregistré mais notification email échouée" },
+        { status: 207 }
+      );
+    }
 
     return NextResponse.json({ success: true, messageId: message.id })
   } catch (error: unknown) {
-    console.error("[CONTACT_API_ERROR]", error)
+    console.error("[CONTACT_API_ERROR]", error);
+    
+    if (error && typeof error === 'object' && 'code' in error) {
+      const prismaError = error as { code: string };
+      if (prismaError.code === 'P2002') {
+        return NextResponse.json(
+          { error: "Un message similaire existe déjà" },
+          { status: 409 }
+        );
+      }
+    }
+
     return NextResponse.json(
       { error: "Une erreur est survenue lors de la transmission" },
       { status: 500 }
