@@ -6,16 +6,6 @@ export async function proxy(request: NextRequest) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
-  if (process.env.MAINTENANCE_MODE === "true" && request.nextUrl.pathname !== "/maintenance") {
-    if (request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/feedback") {
-      return NextResponse.json(
-        { error: "Service temporairement indisponible pour maintenance" },
-        { status: 503 }
-      );
-    }
-    return NextResponse.redirect(new URL("/maintenance", request.url))
-  }
-
   const isProtectedPath =
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/missions') ||
