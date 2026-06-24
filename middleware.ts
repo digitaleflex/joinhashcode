@@ -14,7 +14,8 @@ export async function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/dossier') ||
     request.nextUrl.pathname.startsWith('/feedback') ||
     request.nextUrl.pathname.startsWith('/onboarding') ||
-    request.nextUrl.pathname.startsWith('/quiz');
+    request.nextUrl.pathname.startsWith('/quiz') ||
+    request.nextUrl.pathname.startsWith('/reviewer');
   const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
@@ -55,17 +56,16 @@ export async function proxy(request: NextRequest) {
         if (decoded) {
           sessionData = decoded;
         }
-      } catch (error) {
-        console.error("🟢 [Middleware] local getCookieCache decryption failed:", error);
+      } catch {
+        // Fallthrough to HTTP fallback — normal si le cookie JWE n'est pas décodable
       }
     }
 
-    // Fallback de sécurité : appel HTTP si getCookieCache a échoué ou est expiré
+    // Fallback de sécurité : appel HTTP local (évite Traefik → plus fiable)
     if (!sessionData) {
       try {
         const requestHeaders = new Headers(request.headers);
-        const baseUrl = request.nextUrl.origin;
-        const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
+        const response = await fetch(`http://127.0.0.1:3000/api/auth/middleware-session`, {
           headers: requestHeaders,
           cache: 'no-store',
           signal: AbortSignal.timeout(5000),

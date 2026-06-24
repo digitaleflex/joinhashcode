@@ -109,6 +109,7 @@ export default async function TalentsPage() {
 
   const talents = talentsRaw.map((t) => ({
     ...t,
+    tools: t.tools ?? [],
     level: t.progress?.level ?? 1,
     experience: t.progress?.experience ?? 0,
   }))

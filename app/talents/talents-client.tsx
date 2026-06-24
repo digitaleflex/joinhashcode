@@ -211,14 +211,14 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
               &ldquo;{talent.bio}&rdquo;
             </p>
           )}
-          {talent.tools.length > 0 && (
+          {(talent.tools?.length ?? 0) > 0 && (
             <div className="flex flex-wrap gap-1">
-              {talent.tools.slice(0, 4).map((tool) => (
+              {(talent.tools ?? []).slice(0, 4).map((tool) => (
                 <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
                   {tool}
                 </span>
               ))}
-              {talent.tools.length > 4 && (
+              {(talent.tools?.length ?? 0) > 4 && (
                 <span className="text-[9px] font-mono text-zinc-600">+{talent.tools.length - 4}</span>
               )}
             </div>
@@ -273,7 +273,7 @@ function TalentRow({ talent }: { talent: Talent }) {
               </div>
             </div>
             <div className="hidden sm:flex items-center gap-2">
-              {talent.tools.slice(0, 3).map((tool) => (
+              {(talent.tools ?? []).slice(0, 3).map((tool) => (
                 <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
                   {tool}
                 </span>
