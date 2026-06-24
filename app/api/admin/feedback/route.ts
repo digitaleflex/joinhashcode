@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { emailService } from "@/lib/email";
-import { XP_THRESHOLDS } from "@/lib/experience";
+import { XP_THRESHOLDS } from "@/lib/member-card-constants";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 

@@ -25,13 +25,6 @@ export interface ProfileContent {
 
 import { APP_URL } from "./config";
 
-export const PROFILE_COLORS: Record<ProfileType, string> = {
-  builder: '#B8FF3B',
-  creator: '#A855F7',
-  strategist: '#22D3EE',
-  catalyst: '#F97316',
-}
-
 export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
   builder: {
     name: 'Builder',

@@ -1,5 +1,6 @@
 import { prisma } from "./prisma"
 import { sanitizeMetadata } from "./logger"
+import { getClientIp } from "./utils"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
@@ -52,14 +53,6 @@ interface LogOptions {
   request?: Request
 }
 
-function getClientIp(request: Request): string | null {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip") ??
-    null
-  )
-}
-
 /**
  * Fire-and-forget activity logger. Never throws — failures are silent
  * so a logging error never breaks the actual request.
@@ -74,7 +67,7 @@ export async function logActivity(opts: LogOptions): Promise<void> {
         entity: entity ?? null,
         entityId: entityId ?? null,
         metadata: metadata ? sanitizeMetadata(metadata) : undefined,
-        ip: request ? getClientIp(request) : null,
+        ip: request ? getClientIp(request.headers) : null,
         userAgent: request?.headers.get("user-agent") ?? null,
       },
     })

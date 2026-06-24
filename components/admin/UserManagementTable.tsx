@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserRowActions } from "./UserRowActions"
 import { Search, Loader2, Download, ChevronLeft, ChevronRight } from "lucide-react"
-import { CLASS_COLORS } from "@/lib/member-card-constants"
+import { CLASS_COLORS, type ProfileType } from "@/lib/member-card-constants"
 import Link from "next/link"
 
 const ROLES = ["ALL", "ADMIN", "MODERATOR", "MEMBER"]
@@ -84,7 +84,7 @@ export function UserManagementTable() {
 
   const getColorForClass = (cls: string | null) => {
     if (!cls) return undefined
-    return CLASS_COLORS[cls.toLowerCase()]
+    return CLASS_COLORS[cls.toLowerCase() as ProfileType]
   }
 
   return (

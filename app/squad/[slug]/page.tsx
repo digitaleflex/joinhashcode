@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
+import { CLASS_COLORS, type ProfileType } from "@/lib/member-card-constants";
 import Link from "next/link";
 import { Users, Shield, Lock, Zap, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -42,13 +43,6 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
     : false;
   const isFull = squad.members.length >= 5;
   const cohesionPct = Math.round((squad.cohesionScore || 0.1) * 100);
-
-  const CLASS_COLORS: Record<string, string> = {
-    builder: "#B8FF3B",
-    creator: "#A855F7",
-    strategist: "#22D3EE",
-    catalyst: "#F97316",
-  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
@@ -139,7 +133,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
               <div className="grid grid-cols-1 gap-2">
                 {squad.members.map((m) => {
                   const cl = (m.user.class || "builder").toLowerCase();
-                  const color = CLASS_COLORS[cl] || "#B8FF3B";
+                  const color = CLASS_COLORS[cl as ProfileType] || "#B8FF3B";
                   return (
                     <div key={m.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/2 border border-white/5">
                       <Avatar className="size-8 border border-white/10">

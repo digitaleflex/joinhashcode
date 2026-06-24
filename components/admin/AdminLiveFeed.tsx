@@ -24,7 +24,10 @@ export function AdminLiveFeed() {
     const fetchFeed = async () => {
       try {
         const res = await fetch("/api/feed")
-        if (res.ok) setEvents(await res.json())
+        if (res.ok) {
+          const data = await res.json()
+          setEvents(data.events ?? [])
+        }
       } catch {}
     }
     fetchFeed()

@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { safeAfter as after } from "@/lib/after";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
-import { BehavioralVitality } from "@/lib/evolution";
+import { BehavioralVitality } from "@/lib/types";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";

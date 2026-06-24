@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn, generatePassportId } from "@/lib/utils";
-import { CLASS_COLORS, LEVEL_NAMES, XP_MAX } from "@/lib/member-card-constants";
+import { CLASS_COLORS, LEVEL_NAMES, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
 
 interface MemberCardProps {
   userId: string;
@@ -40,7 +40,7 @@ export function MemberCard({
 }: MemberCardProps) {
   const [copied, setCopied] = useState(false);
 
-  const accent = CLASS_COLORS[userClass ?? "builder"] ?? "#B8FF3B";
+  const accent = CLASS_COLORS[(userClass ?? "builder") as ProfileType] ?? "#B8FF3B";
   const levelName = LEVEL_NAMES[level] ?? "INIT";
   const xpMax = XP_MAX[level] ?? 100;
   const xpPct = Math.min(100, Math.round((experience / xpMax) * 100));

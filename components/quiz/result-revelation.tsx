@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { type AnalysisResult } from '@/lib/analysis'
+import { CLASS_COLORS as PROFILE_COLORS } from '@/lib/member-card-constants'
 import {
-  PROFILE_COLORS,
   getProfileContent,
   getHybridContent,
   type ProfileType,

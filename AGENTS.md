@@ -201,3 +201,39 @@ type(scope): short description
 # examples: feat(missions): add XP multiplier for streaks
 #           fix(auth): handle expired magic-link tokens
 ```
+
+## Master Prompt Quality Checklist
+
+Cette section définit le standard de qualité pour tout prompt structuré (master prompt, skill, commande IA) rédigé dans ce dépôt. Appliquer cette checklist à chaque nouveau prompt.
+
+### Sections requises
+
+| Section           | Obligatoire | Description                                                                   |
+| ----------------- | ----------- | ----------------------------------------------------------------------------- |
+| **ROLE**          | oui         | Rôle exact et niveau d'expertise de l'IA.                                     |
+| **CONTEXTE**      | oui         | Description claire du projet, utilisateurs, contraintes techniques et métier. |
+| **OBJECTIVE**     | oui         | Objectif principal mesurable et orienté résultat.                             |
+| **INPUTS**        | oui         | Données fournies à l'IA (args, fichiers, conventions).                        |
+| **TASKS**         | oui         | Liste d'actions détaillées couvrant toutes les dimensions importantes.        |
+| **METHODOLOGY**   | oui         | Méthode de raisonnement et démarche à suivre par l'IA.                        |
+| **DELIVERABLES**  | oui         | Résultats attendus — livrables actionnables et bien décrits.                  |
+| **FORMAT**        | oui         | Structure de sortie demandée (tableaux, listes, code, diagrammes).            |
+| **QUALITY GATES** | oui         | Critères de qualité et niveau d'exigence (seuils, règles à respecter).        |
+| **VERIFICATION**  | oui         | Checklist d'auto-vérification que l'IA doit cocher avant livraison.           |
+
+### Critères d'évaluation
+
+- [ ] Le prompt est-il utilisable sans information externe ?
+- [ ] Le rôle est-il professionnel et adapté au périmètre ?
+- [ ] Le contexte inclut-il les contraintes techniques et métier ?
+- [ ] L'objectif est-il clair, complet et orienté résultat ?
+- [ ] Les tâches couvrent-elles toutes les dimensions importantes ?
+- [ ] La méthodologie guide-t-elle le raisonnement de l'IA ?
+- [ ] Les livrables sont-ils actionnables et bien décrits ?
+- [ ] Le format de sortie est-il explicite ?
+- [ ] Les critères de qualité sont-ils applicables ?
+- [ ] La vérification finale permet-elle d'identifier les oublis ?
+
+### Exemple
+
+Voir `.gemini/commands/ui/audit.toml` pour un exemple de prompt structuré selon ce standard.
