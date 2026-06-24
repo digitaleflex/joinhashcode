@@ -11,13 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - run: npm install --legacy-peer-deps
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Build with env
         run: |
           set -a
           source /home/actions-runner/secrets/.env.production
           set +a
-          npm run build
+          pnpm run build
       - run: docker build -t hashcode-web:latest .
       - name: Restart web container
         run: |
