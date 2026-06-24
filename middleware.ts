@@ -20,6 +20,16 @@ export async function proxy(request: NextRequest) {
   const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
   const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
 
+  if (process.env.MAINTENANCE_MODE === "true" && request.nextUrl.pathname !== "/maintenance") {
+    if (request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/feedback") {
+      return NextResponse.json(
+        { error: "Service temporairement indisponible pour maintenance" },
+        { status: 503 }
+      );
+    }
+    return NextResponse.redirect(new URL("/maintenance", request.url));
+  }
+
   if (!isProtectedPath && !isBetaAccessPath) {
     return NextResponse.next();
   }
@@ -124,8 +134,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
+    "/((?!_next/static|_next/image|favicon\.ico|.*\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
   ],
 };
 
-export { proxy as middleware };
+export { proxy as middleware }

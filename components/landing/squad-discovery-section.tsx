@@ -15,7 +15,7 @@ export function SquadDiscoverySection() {
         const response = await fetch("/api/squad/public?limit=3");
         if (!response.ok) throw new Error("Échec");
         const json = await response.json();
-        setSquads(json.data || []); // json.data instead of json
+        setSquads(json || []);
       } catch (error: unknown) {
         console.error(error);
 

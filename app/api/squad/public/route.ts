@@ -9,22 +9,15 @@ export async function GET(req: NextRequest) {
     const session = await auth.api.getSession({ headers: await headers() });
 
     const { searchParams } = new URL(req.url);
-    const limit = searchParams.get('limit');
-
-    const whereClause: any = {
-      members: {
-        some: {}
-      }
-    };
-
-    if (limit && !isNaN(parseInt(limit))) {
-      whereClause.members = {
-        some: {}
-      };
-    }
+    const limitParam = searchParams.get('limit');
+    const limit = limitParam && !isNaN(parseInt(limitParam)) ? parseInt(limitParam) : undefined;
 
     const squads = await prisma.organization.findMany({
-      where: whereClause,
+      where: {
+        members: {
+          some: {}
+        }
+      },
       select: {
         id: true,
         name: true,
@@ -48,7 +41,7 @@ export async function GET(req: NextRequest) {
       orderBy: {
         createdAt: 'desc',
       },
-      take: limit ? parseInt(limit) : undefined,
+      take: limit,
     });
 
     const publicSquads = squads.map(squad => ({

@@ -248,8 +248,6 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
-    // Fix SEC-004: Trust proxy headers in production (Docker proxy) to avoid 403 CSRF errors
-    trustedProxyHeaders: process.env.NODE_ENV === "production" || !!process.env.TRUSTED_PROXIES,
   },
   rateLimit: {
     enabled: true,
