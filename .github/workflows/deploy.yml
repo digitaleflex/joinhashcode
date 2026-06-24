@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - run: npm install
+      - run: npm install --legacy-peer-deps
       - run: npm run build
       - run: docker build -t hashcode-web:latest .
       - name: Restart web container
