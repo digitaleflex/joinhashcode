@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useMemo } from "react"
-import { Link as LinkIcon, Pencil, X, Check, Loader2, Megaphone } from "lucide-react"
+import { Link as LinkIcon, Pencil, X, Check, Loader2, Megaphone, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 
@@ -20,6 +20,7 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
   const [editSlug, setEditSlug] = useState("")
   const [editDescription, setEditDescription] = useState("")
   const [editAnnouncement, setEditAnnouncement] = useState("")
+  const [editDiscordUrl, setEditDiscordUrl] = useState("")
   const [isSaving, setIsSaving] = useState(false)
 
   const sanitizeSlug = useCallback((value: string) =>
@@ -37,6 +38,7 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
     setEditSlug(localSlug)
     setEditDescription(squad?.description ?? "")
     setEditAnnouncement(squad?.announcement ?? "")
+    setEditDiscordUrl(squad?.discordInviteUrl ?? "")
     setIsEditing(true)
   }
 
@@ -53,6 +55,7 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
           slug: editSlug,
           description: editDescription.trim(),
           announcement: editAnnouncement.trim(),
+          discordInviteUrl: editDiscordUrl.trim() || null,
           isPrivate: squad?.isPrivate ?? false,
           requiredLevel: squad?.requiredLevel ?? 1,
         }),
@@ -106,6 +109,12 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
               <p className="text-xs text-zinc-400 leading-relaxed">{squad.description}</p>
             </div>
           )}
+          {squad?.discordInviteUrl && (
+            <div>
+              <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-wider mb-1">Discord</div>
+              <a href={squad.discordInviteUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline">{squad.discordInviteUrl}</a>
+            </div>
+          )}
         </div>
       ) : (
         <div className="space-y-4">
@@ -152,6 +161,20 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
               rows={3}
               placeholder="Décris l'objectif et l'ambiance de ton escouade..."
               className="w-full bg-zinc-950 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-primary/40 transition-colors resize-none"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="flex items-center gap-1.5 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+              <MessageCircle className="size-3" />
+              Lien Discord <span className="text-zinc-700 normal-case">(optionnel)</span>
+            </label>
+            <input
+              type="url"
+              value={editDiscordUrl}
+              onChange={(e) => setEditDiscordUrl(e.target.value)}
+              placeholder="https://discord.gg/..."
+              className="w-full bg-zinc-950 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-primary/40 transition-colors"
             />
           </div>
 

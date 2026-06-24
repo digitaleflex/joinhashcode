@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
-    const { name, slug, isPrivate, requiredLevel, description, announcement } = await req.json();
+    const { name, slug, isPrivate, requiredLevel, description, announcement, discordInviteUrl } = await req.json();
 
     if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 40) {
       return NextResponse.json({ error: "Nom invalide (2–40 caractères)." }, { status: 400 });
@@ -69,6 +69,7 @@ export async function PATCH(req: Request) {
         requiredLevel: levelNum,
         description: typeof description === "string" ? description.slice(0, 300) : undefined,
         announcement: typeof announcement === "string" ? announcement.slice(0, 200) : undefined,
+        discordInviteUrl: typeof discordInviteUrl === "string" ? discordInviteUrl.slice(0, 500) || null : null,
       },
     });
 
@@ -77,7 +78,7 @@ export async function PATCH(req: Request) {
       action: "SQUAD_UPDATED",
       entity: "squad",
       entityId: membership.organizationId,
-      metadata: { name: updated.name, slug: updated.slug, isPrivate: updated.isPrivate, requiredLevel: updated.requiredLevel },
+      metadata: { name: updated.name, slug: updated.slug, isPrivate: updated.isPrivate, requiredLevel: updated.requiredLevel, hasDiscord: !!updated.discordInviteUrl },
       request: req,
     });
 

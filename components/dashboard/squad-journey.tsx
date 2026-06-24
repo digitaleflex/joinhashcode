@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import {
   Shield, UserPlus, Users, Activity, Zap, Trophy,
   Lock, Sparkles, Settings, EyeOff, ShieldCheck, Megaphone,
-  Mail, Check, X
+  Mail, Check, X, MessageCircle
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -290,6 +290,25 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                     {cohesion < 0.5 ? "Complète l'escouade pour booster la cohésion" : cohesion < 0.9 ? "Restez actifs pour maintenir la dynamique" : "Synchronisation quasi-parfaite !"}
                   </p>
                 </div>
+
+                {/* Discord link */}
+                {squad?.discordInviteUrl && (
+                  <a
+                    href={squad.discordInviteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-5 flex items-center gap-4 hover:bg-indigo-500/10 hover:border-indigo-500/40 transition-all group"
+                  >
+                    <div className="size-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center shrink-0">
+                      <MessageCircle className="size-5 text-indigo-400" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Rejoindre le Discord</div>
+                      <div className="text-[10px] font-mono text-zinc-500">Canal privé de l&apos;escouade</div>
+                    </div>
+                    <svg className="size-4 text-indigo-400/60 group-hover:text-indigo-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                  </a>
+                )}
 
                 {/* Streak counter */}
                 <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 flex items-center gap-5">

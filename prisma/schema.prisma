@@ -161,6 +161,7 @@ model Organization {
   isPrivate            Boolean        @default(false)
   description          String?
   announcement         String?
+  discordInviteUrl     String?
   members              Member[]
   twoFactorEnabled     Boolean        @default(false)
   twoFactorSecret      String?
