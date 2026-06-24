@@ -11,8 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Setup pnpm
+        run: |
+          npm install -g pnpm --force
+          pnpm --version
       - run: pnpm install --frozen-lockfile
       - name: Build with env
         run: |
