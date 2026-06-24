@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - run: npm ci
       - run: npm run build
       - run: docker build -t hashcode-web:latest .
       - name: Restart web container
