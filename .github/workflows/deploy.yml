@@ -27,4 +27,7 @@ jobs:
         run: |
           docker compose -f compose.app.yml \
             --env-file /home/actions-runner/secrets/.env.production \
+            down web 2>/dev/null || true
+          docker compose -f compose.app.yml \
+            --env-file /home/actions-runner/secrets/.env.production \
             up -d web --force-recreate
