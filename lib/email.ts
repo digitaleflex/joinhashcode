@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getWelcomeEmailContent } from "./email-templates/welcome";
+import { getWelcomeProfileEmailContent } from "./email-templates/welcome-profile";
 import { getMissionProtocolEmailContent } from "./email-templates/mission-protocol";
 import { getSquadPowerEmailContent } from "./email-templates/squad-power";
 import { getDigitalIdentityEmailContent } from "./email-templates/digital-identity";
@@ -58,7 +59,8 @@ export const emailService = {
       warnEmailMissing("sendWelcomeProfileEmail");
       return { success: true, mocked: true };
     }
-    return this.sendWelcomeEmail({ email, name });
+    const { subject, html, text } = getWelcomeProfileEmailContent({ name, profileType });
+    return this._send({ to: email, subject, html, text });
   },
 
   async sendWelcomePendingQuiz({ email, name }: { email: string; name: string }) {

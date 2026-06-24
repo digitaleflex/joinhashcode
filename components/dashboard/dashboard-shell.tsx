@@ -80,7 +80,8 @@ export function DashboardShell({
   squad = null,
   memberRole,
   recommendedMissions = [],
-  fullSubmissions = []
+  fullSubmissions = [],
+  feedActivities = []
 }: {
   user: UserProfile,
   quizResult: any,
@@ -88,7 +89,8 @@ export function DashboardShell({
   fullSubmissions?: DetailedMissionSubmission[],
   squad?: any,
   memberRole?: string,
-  recommendedMissions?: Mission[]
+  recommendedMissions?: Mission[],
+  feedActivities?: any[]
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
@@ -246,7 +248,7 @@ export function DashboardShell({
               </div>
 
               <div className="space-y-8" id="tour-feed">
-                <ActivityFeed />
+                <ActivityFeed initialActivities={feedActivities} />
               </div>
             </div>
 

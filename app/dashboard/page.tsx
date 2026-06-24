@@ -20,9 +20,10 @@ export default async function DashboardPage() {
   let quizResult: any = null;
   let submissions: DetailedMissionSubmission[] = [];
   let member: any = null;
+  let feedActivities: any[] = [];
 
   try {
-    const [userData, submissionsData, memberData] = await Promise.all([
+    const [userData, submissionsData, memberData, feedData] = await Promise.all([
       // Requête 1 : Profil utilisateur (champs stricts uniquement)
       prisma.user.findUnique({
         where: { id: session.user.id },
@@ -106,6 +107,16 @@ export default async function DashboardPage() {
           },
         },
       }),
+      // Requête 4 : Activity feed (10 derniers événements publics)
+      prisma.activityLog.findMany({
+        where: {
+          action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED", "SQUAD_JOINED"] },
+          userId: { not: null },
+        },
+        take: 10,
+        orderBy: { createdAt: "desc" },
+        include: { user: { select: { name: true, city: true, class: true } } },
+      }),
     ]);
 
     if (!userData) {
@@ -150,6 +161,7 @@ export default async function DashboardPage() {
     quizResult = userData.quizResults[0] ?? null;
     submissions = submissionsData as DetailedMissionSubmission[];
     member = memberData ?? null;
+    feedActivities = feedData ?? [];
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error);
     throw error;
@@ -187,6 +199,7 @@ export default async function DashboardPage() {
       squad={squad}
       memberRole={member?.role ?? undefined}
       recommendedMissions={[]}
+      feedActivities={feedActivities}
     />
   );
 }

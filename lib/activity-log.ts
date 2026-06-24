@@ -7,6 +7,9 @@ export type ActivityAction =
   // Auth lifecycle
   | "USER_SIGNIN"
   | "USER_SIGNUP"
+  // Referral
+  | "REFERRAL_REWARD_GRANTED"
+  | "REFERRAL_COMPLETED"
   // Onboarding funnel
   | "ONBOARDING_COMPLETED"
   | "QUIZ_COMPLETED"
