@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -190,6 +191,8 @@ export default async function DashboardPage() {
     redirect("/signin");
   }
 
+  const featureFlags = getFeatureFlags()
+
   return (
     <DashboardShell
       user={dbUser}
@@ -200,6 +203,7 @@ export default async function DashboardPage() {
       memberRole={member?.role ?? undefined}
       recommendedMissions={[]}
       feedActivities={feedActivities}
+      featureFlags={featureFlags}
     />
   );
 }

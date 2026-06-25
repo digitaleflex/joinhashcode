@@ -81,7 +81,8 @@ export function DashboardShell({
   memberRole,
   recommendedMissions = [],
   fullSubmissions = [],
-  feedActivities = []
+  feedActivities = [],
+  featureFlags = {}
 }: {
   user: UserProfile,
   quizResult: any,
@@ -90,7 +91,8 @@ export function DashboardShell({
   squad?: any,
   memberRole?: string,
   recommendedMissions?: Mission[],
-  feedActivities?: any[]
+  feedActivities?: any[],
+  featureFlags?: Record<string, boolean>
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
@@ -122,7 +124,7 @@ export function DashboardShell({
       <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
+        <UserTopBar user={user} squad={squad} memberRole={memberRole} featureFlags={featureFlags} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
           <div className="max-w-6xl mx-auto space-y-10">
@@ -140,7 +142,7 @@ export function DashboardShell({
             )}
 
             {/* Referral / Invitation System (Growth Engine) */}
-            {user?.referralCode && (
+            {featureFlags.referrals !== false && user?.referralCode && (
               <div className="space-y-6" id="referral-card">
                 <AmbassadorGoal referralCount={user.referralCount || 0} />
                 <ReferralCard referralCode={user.referralCode} referralCount={user.referralCount || 0} />
@@ -238,9 +240,11 @@ export function DashboardShell({
                 <div id="tour-checkin">
                     <DailyCheckinWidget />
                   </div>
-                <div id="tour-weekly">
+                {featureFlags.weekly_challenges !== false && (
+                  <div id="tour-weekly">
                     <WeeklyChallengeWidget />
                   </div>
+                )}
                 <div id="tour-missions">
                   <MissionDeck recommendedMissions={recommendedMissions} />
                 </div>
@@ -320,12 +324,14 @@ export function DashboardShell({
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
-                    <NeuralSyncGauge 
-                      score={25}
-                      confidenceScore={user.confidenceScore}
-                    />
-                  </div>
+                  {featureFlags.neural_sync_gauge !== false && (
+                    <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
+                      <NeuralSyncGauge 
+                        score={25}
+                        confidenceScore={user.confidenceScore}
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 

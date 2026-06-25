@@ -64,8 +64,9 @@ export function DossierView({
   isPublic = false,
   isInspecting = false,
   viewerSquad = null,
-  hasSentInvitation = false
-}: Omit<DossierViewProps, "squadMembersLogs">) {
+  hasSentInvitation = false,
+  featureFlags = {}
+}: Omit<DossierViewProps, "squadMembersLogs"> & { featureFlags?: Record<string, boolean> }) {
   const [sendingInvite, setSendingInvite] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
 
@@ -618,7 +619,7 @@ export function DossierView({
               {/* Referral widget — own profile only */}
               {!isPublic && <ReferralWidget />}
 
-              {/* Badges */}
+              {featureFlags.badges !== false && (
               <div className="space-y-4">
                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
                       Badges & Distinctions
@@ -636,6 +637,7 @@ export function DossierView({
                       )}
                   </div>
               </div>
+              )}
           </div>
       </div>
     </div>

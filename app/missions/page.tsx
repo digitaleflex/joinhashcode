@@ -6,6 +6,7 @@ import { redirect } from "next/navigation"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
+import { getFeatureFlags } from "@/lib/feature-flags"
 import { MissionsList } from "@/components/missions/missions-list"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
@@ -144,6 +145,8 @@ export default async function MissionsPage() {
     redirect("/signin");
   }
 
+  const featureFlags = getFeatureFlags();
+
   // Key by slug so MissionsList can look up by MISSIONS[n].id (which equals the slug)
   const submissionsMap: Record<string, string> = {};
   finalDbUser.missionSubmissions.forEach((sub: any) => {
@@ -201,7 +204,7 @@ export default async function MissionsPage() {
               </p>
             </div>
 
-            {weeklyMission && (
+            {featureFlags.weekly_challenges !== false && weeklyMission && (
               <div className="max-w-3xl" id="tour-weekly-challenge">
                 <WeeklyChallengeBanner 
                   mission={weeklyMission} 

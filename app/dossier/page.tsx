@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
 import { DossierView } from "@/components/dossier/dossier-view";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 interface PageProps {
   searchParams: Promise<{ userId?: string }>
@@ -232,6 +233,8 @@ export default async function DossierPage({ searchParams }: PageProps) {
     }
   }
 
+  const featureFlags = getFeatureFlags();
+
   return (
     <SidebarProvider>
       <AppSidebar user={user} hasSquad={!!activeOrg} />
@@ -253,6 +256,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
             isPublic={targetUserId !== session.user.id}
             viewerSquad={viewerSquad}
             hasSentInvitation={hasSentInvitation}
+            featureFlags={featureFlags}
           />
         </main>
       </SidebarInset>
