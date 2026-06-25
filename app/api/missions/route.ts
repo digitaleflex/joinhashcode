@@ -12,8 +12,8 @@ import { emailService } from "@/lib/email";
 
 const submissionSchema = z.object({
   missionId: z.string().min(1),
-  content: z.string().url("Le lien de soumission doit être une URL valide (http/https).").startsWith("http", "Seuls les liens HTTP/HTTPS sont acceptés."),
-  projectDescription: z.string().optional(),
+  content: z.string().url("Le lien de soumission doit être une URL valide (http/https).").startsWith("http", "Seuls les liens HTTP/HTTPS sont acceptés.").max(2048),
+  projectDescription: z.string().max(5000).optional(),
   userDifficulty: z.number().min(1).max(5).optional(),
   userRating: z.number().min(1).max(5).optional(),
   userFeedback: z.string().optional(),

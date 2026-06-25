@@ -157,6 +157,7 @@ model Organization {
   cohesionScore        Float          @default(0.1)
   streakCount          Int            @default(0)
   lastStreakAt         DateTime?
+  lastComboAt          DateTime?
   requiredLevel        Int            @default(1)
   isPrivate            Boolean        @default(false)
   description          String?

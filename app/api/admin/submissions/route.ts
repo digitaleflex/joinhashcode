@@ -1,24 +1,17 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { withAdminAuth } from "@/lib/admin-auth";
+import { parsePagination } from "@/lib/schemas/pagination";
 
 const PENDING_STATUSES = ["PENDING", "PENDING_ADMIN", "IN_REVIEW"]
 const HISTORY_STATUSES = ["APPROVED", "REJECTED", "NEEDS_REVISION"]
 
-export async function GET(req: Request) {
+export const GET = withAdminAuth(async (req: Request) => {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
-
-    const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) return NextResponse.json({ message: "Accès refusé" }, { status: 403 });
-
     const { searchParams } = new URL(req.url);
     const tab = searchParams.get("tab") === "history" ? "history" : "pending";
-    const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
-    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "50", 10)));
+    const { page, limit } = parsePagination(searchParams);
     const skip = (page - 1) * limit;
 
     const statuses = tab === "history" ? HISTORY_STATUSES : PENDING_STATUSES;
@@ -86,4 +79,4 @@ export async function GET(req: Request) {
     console.error("[ADMIN_SUBMISSIONS_GET]", error);
     return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
-}
+});

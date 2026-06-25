@@ -1,8 +1,7 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { withAdminAuth } from "@/lib/admin-auth";
 import { safeAfter as after } from "@/lib/after";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
@@ -20,15 +19,8 @@ const UpdateSubmissionSchema = z.object({
   revisionNotes: z.string().max(2000).optional(),
 });
 
-export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: string }) => {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
-
-    const dbUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
-      return NextResponse.json({ message: "Accès refusé" }, { status: 403 });
-    }
 
     const json = await req.json();
     const result = UpdateSubmissionSchema.safeParse(json);
@@ -38,7 +30,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     const { action, feedback, qualityLevel, revisionNotes } = result.data;
-    const { id } = await params;
+    const id = new URL(req.url).pathname.split("/").pop()!;
 
     const submission = await prisma.missionSubmission.findUnique({
       where: { id },
@@ -104,7 +96,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
           // Validation du passage de niveau
           const submitterLevel = submission.user.progress?.level ?? 1;
-          const newLevel = updatedUser?.progress?.level ?? updatedUser?.level ?? submitterLevel;
+          const newLevel = updatedUser?.progress?.level ?? submitterLevel;
           const leveledUp = newLevel > submitterLevel;
 
           // Notifications
@@ -141,7 +133,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       });
 
       logActivity({
-        userId: session.user.id,
+        userId: userId,
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",
         entityId: id,
@@ -192,7 +184,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       });
 
       logActivity({
-        userId: session.user.id,
+        userId: userId,
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",
         entityId: id,
@@ -231,7 +223,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       });
 
       logActivity({
-        userId: session.user.id,
+        userId: userId,
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",
         entityId: id,
@@ -247,4 +239,4 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     console.error("[ADMIN_SUBMISSION_PATCH]", error);
     return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }
-}
+});

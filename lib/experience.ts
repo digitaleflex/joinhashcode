@@ -1,3 +1,4 @@
+import { Prisma } from "@/generated/prisma/client"
 import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
 import { checkAndAwardBadges } from "./badge-engine";
@@ -21,7 +22,7 @@ export async function awardXp(
   sourceId?: string,
   customTx?: any
 ) {
-  const execute = async (tx: any) => {
+  const execute = async (tx: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">) => {
     // 1. Détecter le bonus de cohésion de squad
     let finalAmount = amount;
     const membership = await tx.member.findFirst({
@@ -97,8 +98,6 @@ export async function awardXp(
         id: true,
         name: true,
         email: true,
-      },
-      include: {
         progress: { select: { level: true } },
       },
     });

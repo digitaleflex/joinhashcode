@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { withAdminAuth } from "@/lib/admin-auth";
 import { z } from "zod";
 import { emailService } from "@/lib/email";
 import { XP_THRESHOLDS } from "@/lib/member-card-constants";
@@ -15,25 +15,8 @@ const statusSchema = z.object({
 
 const FEEDBACK_XP_REWARD = 50;
 
-export const PATCH = async (req: NextRequest) => {
+export const PATCH = withAdminAuth(async (req: Request) => {
   try {
-    const session = await auth.api.getSession({
-      headers: req.headers,
-    });
-
-    if (!session) {
-      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
-    }
-
-    const dbUser = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { role: true },
-    });
-
-    if (!dbUser || !["ADMIN", "MODERATOR"].includes(dbUser.role)) {
-      return NextResponse.json({ error: "Interdit" }, { status: 403 });
-    }
-
     const body = await req.json();
     const result = statusSchema.safeParse(body);
 
@@ -125,5 +108,5 @@ export const PATCH = async (req: NextRequest) => {
     console.error("Admin Feedback API Error:", e);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
-  };
+});
 

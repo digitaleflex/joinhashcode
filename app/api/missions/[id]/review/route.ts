@@ -199,7 +199,7 @@ export async function POST(
 
           // Notifications
           const submitterLevel = submission.user.progress?.level ?? 1;
-          const newLevel = updatedSubmitterUser?.progress?.level ?? updatedSubmitterUser?.level ?? submitterLevel;
+          const newLevel = updatedSubmitterUser?.progress?.level ?? submitterLevel;
           const didLevelUp = newLevel > submitterLevel;
 
           await triggerNotification({
