@@ -28,6 +28,7 @@ import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 import { mainNavItems } from "./sidebar-nav-config"
 import { SidebarSquad } from "./sidebar-squad"
 import { SidebarUser } from "./sidebar-user"
+import { ThemeToggle } from "./theme-toggle"
 
 export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
   const pathname = usePathname()
@@ -140,6 +141,9 @@ export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }
             <SidebarMenu>
               <SidebarMenuItem>
                 <BetaFeedbackDialog />
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <ThemeToggle />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
