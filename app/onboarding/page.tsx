@@ -37,12 +37,12 @@ const STEPS = [
 
 const SITUATION_META: Record<UserSituation, { icon: any; label: string }> = {
   [UserSituation.STUDENT]:       { icon: GraduationCap, label: "Étudiant(e)" },
-  [UserSituation.EMPLOYEE]:      { icon: Building2,     label: "Salarié(e)" },
-  [UserSituation.SELF_TAUGHT]:   { icon: Brain,         label: "Autodidacte" },
-  [UserSituation.RETRAINING]:    { icon: RefreshCw,     label: "En reconversion" },
-  [UserSituation.ENTREPRENEUR]:  { icon: Rocket,        label: "Entrepreneur" },
-  [UserSituation.FREELANCE]:     { icon: Laptop,        label: "Freelance" },
-  [UserSituation.BEGINNER]:      { icon: Sprout,        label: "Je commence" },
+  [UserSituation.EMPLOYEE]:      { icon: Building2,     label: "Salarié(e) du secteur tech" },
+  [UserSituation.SELF_TAUGHT]:   { icon: Brain,         label: "Autodidacte / en apprentissage" },
+  [UserSituation.RETRAINING]:    { icon: RefreshCw,     label: "En reconversion professionnelle" },
+  [UserSituation.ENTREPRENEUR]:  { icon: Rocket,        label: "Fondateur / Co-fondateur" },
+  [UserSituation.FREELANCE]:     { icon: Laptop,        label: "Freelance / Consultant(e)" },
+  [UserSituation.UNEMPLOYED]:    { icon: Sprout,        label: "À la recherche d'un emploi" },
 }
 
 const OBJECTIVE_META: Record<MainObjective, { icon: any }> = {
@@ -214,9 +214,13 @@ export default function OnboardingPage() {
 
   // ─── Progress ───────────────────────────────────────────────────────────────
 
-  const profileSteps = [1, 2, 3, 4]
-  const profileProgress = profileSteps.filter(s => s < step).length
-  const profileTotal = profileSteps.length
+  const PHASES = [
+    { id: "Profil", steps: [1, 2, 3] },
+    { id: "Diagnostic", steps: [4] },
+    { id: "Quiz", steps: [5] },
+  ]
+  const totalInteractiveSteps = 5
+  const currentPhaseIndex = PHASES.findIndex(p => p.steps.includes(step))
 
   // ─── Render ─────────────────────────────────────────────────────────────────
 
@@ -232,28 +236,31 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,244,65,0.05),transparent_50%)] pointer-events-none" />
 
-      {/* Phase progress bar (only during profile steps 1-4) */}
-      {step >= 1 && step <= 4 && (
+      {/* Progress bar (visible during interactive steps 1-5) */}
+      {step >= 1 && step <= 5 && (
         <div className="absolute top-0 left-0 w-full">
           <div className="h-0.5 bg-border/30">
             <motion.div
               className="h-full bg-primary"
               initial={{ width: "0%" }}
-              animate={{ width: `${(profileProgress / profileTotal) * 100}%` }}
+              animate={{ width: `${((step - 1) / totalInteractiveSteps) * 100}%` }}
               transition={{ duration: 0.4 }}
             />
           </div>
           <div className="flex justify-center gap-6 py-3">
-            {["Profil", "Diagnostic", "Finalisation"].map((phase, i) => (
+            {PHASES.map((phase, i) => (
               <span
-                key={phase}
+                key={phase.id}
                 className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${
-                  i === 0 ? "text-primary" : "text-muted-foreground/40"
+                  i === currentPhaseIndex ? "text-primary" : "text-muted-foreground/40"
                 }`}
               >
-                {i === 0 ? `${phase} ${profileProgress}/${profileTotal}` : phase}
+                {phase.id}
               </span>
             ))}
+            <span className="text-[9px] font-mono text-muted-foreground/60">
+              {step}/{totalInteractiveSteps}
+            </span>
           </div>
         </div>
       )}
