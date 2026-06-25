@@ -37,6 +37,7 @@ export function Footer() {
                 <li><Link href="/quiz" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Lancer le quiz</Link></li>
                 <li><Link href="/signin" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Accès membre</Link></li>
                 <li><Link href="/missions" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Catalogue missions</Link></li>
+                <li><Link href="/talent" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Talents</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
