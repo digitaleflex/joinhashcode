@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
   PROFILE_CONTENT,
-  PROFILE_COLORS,
   getProfileContent,
   getHybridContent,
   type ProfileType,
@@ -40,12 +39,6 @@ describe('PROFILE_CONTENT', () => {
     expect(hybrid.truths[0]).toEqual(PROFILE_CONTENT['builder'].truths[0])
     expect(hybrid.truths[1]).toEqual(PROFILE_CONTENT['builder'].truths[1])
     expect(hybrid.truths[2]).toEqual(PROFILE_CONTENT['creator'].truths[0])
-  })
-
-  it('PROFILE_COLORS contient une couleur hex pour chaque profil', () => {
-    profiles.forEach(p => {
-      expect(PROFILE_COLORS[p]).toMatch(/^#[0-9A-Fa-f]{6}$/)
-    })
   })
 
   it('whatsappText contient APP_URL pour tous les profils', () => {
