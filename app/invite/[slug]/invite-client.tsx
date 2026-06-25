@@ -109,12 +109,12 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                             {squad.members.map((m: any, i: number) => (
                                 <div key={i} className="relative group/avatar">
                                     <div className="size-14 rounded-2xl border-2 border-zinc-950 bg-zinc-800 overflow-hidden shadow-xl transition-transform hover:-translate-y-1 hover:z-10 cursor-pointer">
-                                        <Avatar className="h-full w-full">
-                                            <AvatarImage src={m.user.image} />
-                                            <AvatarFallback className="bg-zinc-700 text-xs font-bold">
-                                                {m.user.pseudo?.slice(0, 2) || m.user.name.slice(0, 2)}
-                                            </AvatarFallback>
-                                        </Avatar>
+                                            <Avatar className="h-full w-full">
+                                                <AvatarImage src={m.user.image || ""} />
+                                                <AvatarFallback className="bg-zinc-700 text-xs font-bold">
+                                                    {m.user.pseudo?.slice(0, 2) || m.user.name.slice(0, 2)}
+                                                </AvatarFallback>
+                                            </Avatar>
                                     </div>
                                     {m.role === "owner" && (
                                         <div className="absolute -top-1 -right-1 size-4 bg-primary rounded-full flex items-center justify-center border-2 border-zinc-950">
