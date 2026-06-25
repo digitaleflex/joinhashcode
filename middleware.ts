@@ -10,9 +10,12 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
-  const isBetaAccessPath = pathname.startsWith("/beta-access");
   const isOnboardingPath = pathname.startsWith("/onboarding");
   const isQuizPath = pathname.startsWith("/quiz");
+
+  if (pathname.startsWith("/beta-access")) {
+    return NextResponse.redirect(new URL("/onboarding", request.url));
+  }
 
   if (process.env.MAINTENANCE_MODE === "true" && pathname !== "/maintenance") {
     if (pathname === "/signin" || pathname === "/feedback") {
@@ -24,7 +27,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/maintenance", request.url));
   }
 
-  if (!isProtectedPath && !isBetaAccessPath) {
+  if (!isProtectedPath) {
     return NextResponse.next();
   }
 
@@ -73,26 +76,11 @@ export async function proxy(request: NextRequest) {
   let nextResponse = NextResponse.next();
 
   if (session && user) {
-    const missingBetaKey = !user.betaKeyId;
     const needsOnboarding = !user.currentSituation;
     const needsQuiz = user.currentSituation && !user.class;
 
-    if (isBetaAccessPath) {
-      if (missingBetaKey) {
-        // Stay on /beta-access until they enter a valid key
-      } else {
-        const dest =
-          needsOnboarding ? "/onboarding"
-          : needsQuiz ? "/quiz"
-          : "/dashboard";
-        nextResponse = NextResponse.redirect(new URL(dest, request.url));
-      }
-    }
-
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
-      if (missingBetaKey) {
-        nextResponse = NextResponse.redirect(new URL("/beta-access", request.url));
-      } else if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
+      if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
       } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
