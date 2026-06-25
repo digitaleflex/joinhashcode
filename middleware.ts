@@ -73,19 +73,28 @@ export async function proxy(request: NextRequest) {
   let nextResponse = NextResponse.next();
 
   if (session && user) {
+    const missingBetaKey = !user.betaKeyId;
+    const needsOnboarding = !user.currentSituation;
+    const needsQuiz = user.currentSituation && !user.class;
+
     if (isBetaAccessPath) {
-      const dest = !user.currentSituation ? "/onboarding"
-        : !user.class ? "/quiz"
-        : "/dashboard";
-      nextResponse = NextResponse.redirect(new URL(dest, request.url));
+      if (missingBetaKey) {
+        // Stay on /beta-access until they enter a valid key
+      } else {
+        const dest =
+          needsOnboarding ? "/onboarding"
+          : needsQuiz ? "/quiz"
+          : "/dashboard";
+        nextResponse = NextResponse.redirect(new URL(dest, request.url));
+      }
     }
 
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
-      if (!user.betaKeyId && !isBetaAccessPath) {
+      if (missingBetaKey) {
         nextResponse = NextResponse.redirect(new URL("/beta-access", request.url));
-      } else if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
+      } else if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
-      } else if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
+      } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       }
     }
