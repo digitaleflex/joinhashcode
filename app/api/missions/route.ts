@@ -23,19 +23,20 @@ const submissionSchema = z.object({
 const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
 
 async function submitMission(userId: string, input: z.infer<typeof submissionSchema>) {
-  const mission = await prisma.mission.findFirst({
-    where: { OR: [{ id: input.missionId }, { slug: input.missionId }] },
-  });
+  const [mission, dbUser] = await Promise.all([
+    prisma.mission.findFirst({
+      where: { OR: [{ id: input.missionId }, { slug: input.missionId }] },
+    }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true, email: true, name: true,
+        stats: { select: { currentStreak: true } },
+        progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+      }
+    }),
+  ]);
   if (!mission) throw new Error("MISSION_NOT_FOUND");
-
-  const dbUser = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true, email: true, name: true,
-      stats: { select: { currentStreak: true } },
-      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
-    }
-  });
   if (!dbUser) throw new Error("USER_NOT_FOUND");
 
   const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
@@ -149,7 +150,9 @@ export async function POST(req: Request) {
     }
 
     try {
+      const perfStart = performance.now();
       const result = await submitMission(session.user.id, validatedData.data);
+      if (process.env.NODE_ENV === "development") console.log("[PERF] missions POST:", (performance.now() - perfStart).toFixed(0), "ms");
       return NextResponse.json(result);
     } catch (serviceError: any) {
       const errorMap: Record<string, { message: string, status: number }> = {
