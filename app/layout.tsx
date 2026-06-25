@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "HASHCODE",
   },
   openGraph: {
@@ -74,14 +74,16 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#c5f441",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 }
 
 import { Toaster } from "@/components/ui/sonner"
 import { CookieBanner } from "@/components/ui/cookie-banner"
 import { AuthErrorToast } from "@/components/ui/auth-error-toast"
+import { ServiceWorkerRegister } from "@/components/service-worker-register"
 import { Providers } from "@/components/providers"
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner"
 import { FloatingFeedbackButton } from "@/components/ui/floating-feedback-button"
@@ -120,6 +122,7 @@ export default function RootLayout({
         <Toaster position="top-center" richColors />
         <AuthErrorToast />
         <CookieBanner />
+        <ServiceWorkerRegister />
       </body>
     </html>
   )
