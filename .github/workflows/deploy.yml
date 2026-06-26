@@ -16,12 +16,6 @@ jobs:
           npm install -g pnpm --force
           pnpm --version
       - run: pnpm install --frozen-lockfile
-      - name: Run database migrations (prisma migrate deploy)
-        run: |
-          set -a
-          source /home/actions-runner/secrets/.env.production
-          set +a
-          npx prisma migrate deploy
       - name: Build with env
         run: |
           set -a
