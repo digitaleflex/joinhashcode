@@ -280,21 +280,15 @@ export const auth = betterAuth({
     }),
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        try {
-          const result = await emailService.sendOtpEmail({ email, otp, type });
-          if (!result.success) {
-            const error = (result as { error?: any }).error;
-            throw new Error(
-              error?.message
-                ? String(error.message)
-                : typeof error === "string"
-                  ? error
-                  : "Failed to send OTP email"
-            );
-          }
-        } catch (err: any) {
-          console.error("[AUTH][emailOTP] Failed to send OTP:", err);
-          throw err;
+        const result = await emailService.sendOtpEmail({ email, otp, type });
+        if (!result.success) {
+          const error = (result as { error?: any }).error;
+          const errorMessage = error?.message
+            ? String(error.message)
+            : typeof error === "string"
+              ? error
+              : "Failed to send OTP email";
+          console.error("[AUTH][emailOTP] Failed to send OTP:", errorMessage);
         }
       },
       otpLength: 8,
