@@ -1,11 +1,12 @@
 import { auth } from "@/lib/auth";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import SquadPageClient from "./squad-page-client";
 
 export default async function SquadPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionSafe();
   if (!session) redirect("/signin");
 
   const headers_ = await headers();

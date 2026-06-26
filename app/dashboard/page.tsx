@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
@@ -7,9 +6,7 @@ import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 import { getFeatureFlags } from "@/lib/feature-flags";
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSessionSafe();
 
   if (!session) {
     redirect("/signin");

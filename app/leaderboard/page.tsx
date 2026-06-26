@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
@@ -52,7 +51,7 @@ const RANK_STYLES: Record<number, { border: string; glow: string; badge: string;
 };
 
 export default async function LeaderboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionSafe();
   if (!session) redirect("/signin");
 
   const users = await getLeaderboard();

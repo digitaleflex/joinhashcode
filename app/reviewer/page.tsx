@@ -1,5 +1,4 @@
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria"
@@ -10,7 +9,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { ReviewerQueue, type Submission } from "./reviewer-queue"
 
 export default async function ReviewerPage() {
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getSessionSafe()
   if (!session) redirect("/signin")
 
   const dbUser = await prisma.user.findUnique({

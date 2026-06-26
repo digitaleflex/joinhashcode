@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 
@@ -18,9 +17,7 @@ interface PageProps {
 
 export default async function DossierPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSessionSafe();
 
   if (!session) {
     redirect("/signin");

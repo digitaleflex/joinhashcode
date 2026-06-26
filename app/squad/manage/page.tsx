@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -24,7 +25,7 @@ import { OrgSettingsForm } from "@/components/dashboard/squad/OrgSettingsForm";
 import { PendingInvitations } from "@/components/dashboard/squad/PendingInvitations";
 
 export default async function SquadManagePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionSafe();
   if (!session) redirect("/signin");
 
   // Fetch full organization using Better Auth API

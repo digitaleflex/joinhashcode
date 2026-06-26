@@ -1,7 +1,6 @@
 import { Zap, ChevronLeft, TrendingUp } from "lucide-react"
 import Link from "next/link"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
@@ -77,7 +76,7 @@ function getWeekStart(): Date {
 }
 
 export default async function MissionsPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionSafe();
 
   if (!session) {
     redirect("/signin");

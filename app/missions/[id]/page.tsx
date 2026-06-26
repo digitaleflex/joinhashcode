@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { prisma } from "@/lib/prisma"
-import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 import {
   ChevronLeft, CheckCircle2, Award, Shield, Rocket,
@@ -30,7 +29,7 @@ export default async function MissionBriefingPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getSessionSafe()
 
   if (!session) redirect("/signin")
 
