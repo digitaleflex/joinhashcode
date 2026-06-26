@@ -204,6 +204,13 @@ export const auth = betterAuth({
                   lastCheckinAt: null,
                   lastStreakDate: null,
                 }
+              },
+              progress: {
+                create: {
+                  level: 1,
+                  experience: 0,
+                  missionsCompletedCount: 0,
+                }
               }
             },
           });
