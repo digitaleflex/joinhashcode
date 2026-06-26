@@ -1,7 +1,6 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
@@ -9,14 +8,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav";
 import FeedbackForm from "./feedback-form";
 
 export default async function FeedbackPage() {
-  let session;
-  try {
-    session = await auth.api.getSession({
-      headers: await headers(),
-    });
-  } catch {
-    redirect("/signin?reason=auth_error");
-  }
+  const session = await getSessionSafe();
 
   if (!session) {
     redirect("/signin");

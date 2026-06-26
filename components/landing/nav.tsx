@@ -36,7 +36,7 @@ function NavActions() {
             <LayoutDashboard className="h-4 w-4 text-primary" />
           </Link>
           <div className="h-8 w-8 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center overflow-hidden ring-2 ring-primary/5">
-            {session.user.image ? (
+            {session?.user?.image ? (
               <Image
                 src={session.user.image}
                 alt={session.user.name}
@@ -46,7 +46,7 @@ function NavActions() {
               />
             ) : (
               <span className="text-[10px] font-mono text-primary font-bold">
-                {session.user.name.charAt(0).toUpperCase()}
+                {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
               </span>
             )}
           </div>

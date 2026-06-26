@@ -141,11 +141,11 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
                 className={cn("flex gap-3 group", isOwn && "flex-row-reverse")}
               >
                 <div className="size-7 rounded-full bg-zinc-800 border border-white/5 overflow-hidden shrink-0 mt-0.5">
-                  {msg.user.image ? (
+                  {msg.user?.image ? (
                     <img src={msg.user.image} alt="" className="size-full object-cover" />
                   ) : (
                     <div className="size-full flex items-center justify-center text-[10px] font-bold text-zinc-500 uppercase">
-                      {msg.user.name?.charAt(0) || "?"}
+                      {msg.user?.name?.charAt(0) || "?"}
                     </div>
                   )}
                 </div>

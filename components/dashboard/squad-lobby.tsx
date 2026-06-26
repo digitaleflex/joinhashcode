@@ -176,9 +176,9 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                         <div className="relative">
                                             <div className="size-20 md:size-28 rounded-3xl bg-zinc-900 border-2 border-primary/60 overflow-hidden rotate-2 group-hover:rotate-0 transition-transform duration-700">
                                                 <Avatar className="w-full h-full rounded-none">
-                                                    <AvatarImage src={member.user.image || ""} />
+                                                    <AvatarImage src={member.user?.image || ""} />
                                                     <AvatarFallback className="bg-primary/20 text-primary font-bold text-3xl">
-                                                        {member.user.pseudo?.charAt(0) || member.user.name.charAt(0)}
+                                                        {member.user?.pseudo?.charAt(0) || member.user?.name?.charAt(0) || "?"}
                                                     </AvatarFallback>
                                                 </Avatar>
                                             </div>

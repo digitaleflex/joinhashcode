@@ -89,8 +89,8 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
             <div className="flex flex-wrap gap-2">
               {squad.members.slice(0, 3).map((m: any) => (
                 <Avatar key={m.id} className="size-6 border border-zinc-900">
-                  <AvatarImage src={m.user.image} />
-                  <AvatarFallback className="text-[8px]">{m.user.name?.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={m.user?.image ?? ""} />
+                  <AvatarFallback className="text-[8px]">{m.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
                 </Avatar>
               ))}
               {squad.members.length > 3 && (
