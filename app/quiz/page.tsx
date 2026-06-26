@@ -3,8 +3,7 @@ import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 
@@ -14,9 +13,7 @@ export const metadata = {
 }
 
 export default async function QuizPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
+  const session = await getSessionSafe()
 
   if (!session) {
     redirect("/signin")

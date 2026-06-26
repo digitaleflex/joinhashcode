@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { prisma } from "@/lib/prisma"
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { AcceptInvitationClient } from "./accept-client"
 
@@ -13,7 +12,7 @@ export default async function AcceptInvitationPage({
 
   if (!id) redirect("/squad")
 
-  const session = await auth.api.getSession({ headers: await headers() })
+  const session = await getSessionSafe()
   if (!session) redirect(`/signin?callbackURL=/invite/accept?id=${id}`)
 
   // Load invitation details for the UI
