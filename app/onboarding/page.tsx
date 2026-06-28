@@ -187,8 +187,8 @@ export default function OnboardingPage() {
         try { await authClient.getSession() } catch { /* ignore */ }
         setStep(5)
       } else if (step === 5) {
-        // Bridge → quiz
-        window.location.href = "/quiz"
+        // Bridge → dashboard (middleware redirects to /quiz if class is missing)
+        window.location.href = "/dashboard"
       }
     } catch (err: any) {
       if (err.message !== "Unauthorized" && err.message !== "Conflict") {
