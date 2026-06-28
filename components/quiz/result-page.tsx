@@ -20,9 +20,10 @@ interface Props {
   analysis: AnalysisResult
   user: UserData
   quizResultId?: string
+  pendingSquad?: string | null
 }
 
-export function ResultPage({ analysis, user, quizResultId }: Props) {
+export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props) {
   const scoresRef = useRef<HTMLDivElement>(null)
 
   function scrollToScores() {
@@ -63,7 +64,7 @@ export function ResultPage({ analysis, user, quizResultId }: Props) {
         <div className="flex-1 h-px bg-zinc-800" />
       </div>
 
-      <ResultLocked analysis={analysis} />
+      <ResultLocked analysis={analysis} pendingSquad={pendingSquad} />
     </div>
   )
 }

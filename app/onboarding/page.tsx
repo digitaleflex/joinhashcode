@@ -15,7 +15,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { UserSituation, MainObjective, TechnicalLevel } from "@/lib/types"
+import { UserSituation, MainObjective, TechnicalLevel, OnboardingStep, type OnboardingSessionUser } from "@/lib/types"
 import { toast } from "sonner"
 import { CountrySelector } from "@/components/onboarding/country-selector"
 import { authClient } from "@/lib/auth-client"
@@ -67,7 +67,8 @@ const CLASSES = [
 
 export default function OnboardingPage() {
   const router = useRouter()
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState<OnboardingStep>(OnboardingStep.WELCOME)
+  const [userClass, setUserClass] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncing, setIsSyncing] = useState(true)
   const [userName, setUserName] = useState("")
@@ -97,15 +98,10 @@ export default function OnboardingPage() {
     async function syncSession() {
       try {
         const res = await authClient.getSession()
-        type SessionUser = {
-          id: string; name: string; email: string; image?: string | null;
-          pseudo?: string | null; technicalLevel?: string | null;
-          country?: string | null; currentSituation?: string | null;
-          mainObjective?: string | null;
-        }
-        const user = res.data?.user as SessionUser | undefined
+        const user = res.data?.user as OnboardingSessionUser | undefined
         if (user) {
           setUserName(user.name?.split(" ")[0] || "")
+          setUserClass(user.class ?? null)
           setFormData(prev => ({
             ...prev,
             pseudo: user.pseudo || prev.pseudo,
@@ -115,10 +111,10 @@ export default function OnboardingPage() {
             mainObjective: (user.mainObjective as MainObjective) || prev.mainObjective,
           }))
           // Resume at right step
-          if (user.mainObjective) setStep(5)
-          else if (user.currentSituation) setStep(4)
-          else if (user.technicalLevel) setStep(3)
-          else if (user.pseudo) setStep(2)
+          if (user.mainObjective) setStep(OnboardingStep.BRIDGE)
+          else if (user.currentSituation) setStep(OnboardingStep.OBJECTIVE)
+          else if (user.technicalLevel) setStep(OnboardingStep.CONTEXT)
+          else if (user.pseudo) setStep(OnboardingStep.LEVEL)
         }
       } catch (error: unknown) {
         console.error("Session sync failed:", error)
@@ -166,29 +162,25 @@ export default function OnboardingPage() {
   const next = async () => {
     setPseudoError("")
     try {
-      if (step === 0) {
-        setStep(1)
-      } else if (step === 1) {
-        // Save pseudo
+      if (step === OnboardingStep.WELCOME) {
+        setStep(OnboardingStep.PSEUDO)
+      } else if (step === OnboardingStep.PSEUDO) {
         await savePartial({ pseudo: formData.pseudo }, () => setPseudoError("Ce pseudo est déjà pris."))
-        setStep(2)
-      } else if (step === 2) {
-        // Save technicalLevel
+        setStep(OnboardingStep.LEVEL)
+      } else if (step === OnboardingStep.LEVEL) {
         await savePartial({ technicalLevel: formData.technicalLevel })
-        setStep(3)
-      } else if (step === 3) {
-        // Save country + situation
+        setStep(OnboardingStep.CONTEXT)
+      } else if (step === OnboardingStep.CONTEXT) {
         await savePartial({ country: formData.country, currentSituation: formData.currentSituation })
-        setStep(4)
-      } else if (step === 4) {
-        // Final save with objective
+        setStep(OnboardingStep.OBJECTIVE)
+      } else if (step === OnboardingStep.OBJECTIVE) {
         await savePartial({ mainObjective: formData.mainObjective })
         try { localStorage.removeItem(ONBOARDING_KEY) } catch { /* ignore */ }
         try { await authClient.getSession() } catch { /* ignore */ }
-        setStep(5)
-      } else if (step === 5) {
-        // Bridge → dashboard (middleware redirects to /quiz if class is missing)
-        window.location.href = "/dashboard"
+        setStep(OnboardingStep.BRIDGE)
+      } else if (step === OnboardingStep.BRIDGE) {
+        // Bridge → dashboard si déjà quizé, /quiz sinon
+        window.location.href = userClass ? "/dashboard" : "/quiz"
       }
     } catch (err: any) {
       if (err.message !== "Unauthorized" && err.message !== "Conflict") {
@@ -198,28 +190,28 @@ export default function OnboardingPage() {
   }
 
   const prev = () => {
-    if (step > 0) setStep(step - 1)
+    if (step > OnboardingStep.WELCOME) setStep(step - 1)
   }
 
   // ─── Validation ─────────────────────────────────────────────────────────────
 
   const isNextDisabled = () => {
     if (isSubmitting) return true
-    if (step === 1) return !formData.pseudo || !/^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo)
-    if (step === 2) return !formData.technicalLevel
-    if (step === 3) return !formData.country || !formData.currentSituation
-    if (step === 4) return !formData.mainObjective
+    if (step === OnboardingStep.PSEUDO) return !formData.pseudo || !/^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo)
+    if (step === OnboardingStep.LEVEL) return !formData.technicalLevel
+    if (step === OnboardingStep.CONTEXT) return !formData.country || !formData.currentSituation
+    if (step === OnboardingStep.OBJECTIVE) return !formData.mainObjective
     return false
   }
 
   // ─── Progress ───────────────────────────────────────────────────────────────
 
   const PHASES = [
-    { id: "Profil", steps: [1, 2, 3] },
-    { id: "Diagnostic", steps: [4] },
-    { id: "Quiz", steps: [5] },
+    { id: "Profil", steps: [OnboardingStep.PSEUDO, OnboardingStep.LEVEL, OnboardingStep.CONTEXT] },
+    { id: "Diagnostic", steps: [OnboardingStep.OBJECTIVE] },
+    { id: "Quiz", steps: [OnboardingStep.BRIDGE] },
   ]
-  const totalInteractiveSteps = 5
+  const totalInteractiveSteps = OnboardingStep.BRIDGE
   const currentPhaseIndex = PHASES.findIndex(p => p.steps.includes(step))
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -237,7 +229,7 @@ export default function OnboardingPage() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,244,65,0.05),transparent_50%)] pointer-events-none" />
 
       {/* Progress bar (visible during interactive steps 1-5) */}
-      {step >= 1 && step <= 5 && (
+      {step >= OnboardingStep.PSEUDO && step <= OnboardingStep.BRIDGE && (
         <div className="absolute top-0 left-0 w-full">
           <div className="h-0.5 bg-border/30">
             <motion.div
@@ -277,7 +269,7 @@ export default function OnboardingPage() {
           >
 
             {/* ── Step 0: Welcome ─────────────────────────────────────────── */}
-            {step === 0 && (
+            {step === OnboardingStep.WELCOME && (
               <div className="text-center space-y-8">
                 <div className="space-y-2">
                   <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.08)] mb-4">
@@ -321,7 +313,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Step 1: Pseudo ──────────────────────────────────────────── */}
-            {step === 1 && (
+            {step === OnboardingStep.PSEUDO && (
               <div className="space-y-8">
                 <div className="text-center space-y-3">
                   <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
@@ -371,7 +363,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Step 2: Technical Level ─────────────────────────────────── */}
-            {step === 2 && (
+            {step === OnboardingStep.LEVEL && (
               <div className="space-y-8">
                 <div className="text-center space-y-3">
                   <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
@@ -429,7 +421,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Step 3: Context ─────────────────────────────────────────── */}
-            {step === 3 && (
+            {step === OnboardingStep.CONTEXT && (
               <div className="space-y-6">
                 <div className="text-center space-y-3">
                   <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
@@ -482,7 +474,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Step 4: Objective ───────────────────────────────────────── */}
-            {step === 4 && (
+            {step === OnboardingStep.OBJECTIVE && (
               <div className="space-y-6">
                 <div className="text-center space-y-3">
                   <div className="inline-flex p-3 rounded-2xl bg-primary/5 text-primary border border-primary/10">
@@ -522,7 +514,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Step 5: Bridge ──────────────────────────────────────────── */}
-            {step === 5 && (
+            {step === OnboardingStep.BRIDGE && (
               <div className="text-center space-y-8">
                 <div className="space-y-3">
                   <div className="inline-flex p-4 rounded-3xl bg-primary/5 text-primary border border-primary/10 shadow-[0_0_30px_rgba(197,244,65,0.08)]">
@@ -568,7 +560,7 @@ export default function OnboardingPage() {
             )}
 
             {/* ── Navigation (steps 1-4) ───────────────────────────────────── */}
-            {step >= 1 && step <= 4 && (
+            {step >= OnboardingStep.PSEUDO && step <= OnboardingStep.OBJECTIVE && (
               <div className="flex items-center justify-between pt-6 border-t border-border/30">
                 <Button
                   variant="ghost"
@@ -587,7 +579,7 @@ export default function OnboardingPage() {
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      {step === 4 ? "Terminer le profil" : "Suivant"}
+                      {step === OnboardingStep.OBJECTIVE ? "Terminer le profil" : "Suivant"}
                       <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
@@ -599,7 +591,7 @@ export default function OnboardingPage() {
         </AnimatePresence>
 
         {/* Privacy note */}
-        {step >= 1 && step <= 4 && (
+        {step >= OnboardingStep.PSEUDO && step <= OnboardingStep.OBJECTIVE && (
           <p className="mt-8 text-[9px] text-center text-muted-foreground/40 leading-relaxed max-w-sm mx-auto">
             Tes réponses sont utilisées pour personnaliser ton expérience.{" "}
             <a href="/privacy" className="underline hover:text-primary transition-colors">Politique de confidentialité</a>

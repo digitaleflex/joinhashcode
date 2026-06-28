@@ -95,9 +95,10 @@ function AnalyzingScreen() {
 
 interface QuizProps {
   user?: QuizUser
+  pendingSquad?: string | null
 }
 
-export function Quiz({ user }: QuizProps) {
+export function Quiz({ user, pendingSquad }: QuizProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -295,6 +296,7 @@ export function Quiz({ user }: QuizProps) {
       <ResultPage
         analysis={analysisResult}
         quizResultId={quizResultId}
+        pendingSquad={pendingSquad}
         user={{
           pseudo: user?.pseudo,
           name: user?.name,

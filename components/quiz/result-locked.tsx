@@ -11,24 +11,18 @@ import { Loader2 } from 'lucide-react'
 
 interface Props {
   analysis: AnalysisResult
+  pendingSquad?: string | null
 }
 
-export function ResultLocked({ analysis }: Props) {
+export function ResultLocked({ analysis, pendingSquad }: Props) {
   const [isRedirecting, setIsRedirecting] = useState(false)
   const primary = analysis.primary as ProfileType
   const color = PROFILE_COLORS[primary]
   const content = getProfileContent(primary)
 
-  // Check for a pending squad invite set before the user went through sign-up
-  let destination = "/dashboard"
-  if (typeof document !== "undefined") {
-    const pendingCookie = document.cookie.split(";").find(c => c.trim().startsWith("pending-squad="))
-    const rawSlug = pendingCookie?.split("=")[1]?.trim()
-    const safeSlug = rawSlug && /^[a-z0-9-]{3,30}$/.test(rawSlug) ? rawSlug : null
-    if (safeSlug) {
-      destination = `/invite/${safeSlug}`
-    }
-  }
+  // pending-squad is read server-side and passed as a prop (set by invite flow)
+  const safeSlug = pendingSquad && /^[a-z0-9-]{3,30}$/.test(pendingSquad) ? pendingSquad : null
+  const destination = safeSlug ? `/invite/${safeSlug}` : "/dashboard"
 
   return (
     <section className="px-6 py-16 max-w-2xl mx-auto">

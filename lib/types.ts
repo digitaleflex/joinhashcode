@@ -146,6 +146,29 @@ export interface DetailedMissionSubmission {
   };
 }
 
+// Onboarding flow
+export enum OnboardingStep {
+  WELCOME = 0,
+  PSEUDO = 1,
+  LEVEL = 2,
+  CONTEXT = 3,
+  OBJECTIVE = 4,
+  BRIDGE = 5,
+}
+
+export interface OnboardingSessionUser {
+  id: string
+  name: string
+  email: string
+  image?: string | null
+  pseudo?: string | null
+  technicalLevel?: string | null
+  country?: string | null
+  currentSituation?: string | null
+  mainObjective?: string | null
+  class?: string | null
+}
+
 export interface AuthClient {
     signIn: any;
     signUp: any;

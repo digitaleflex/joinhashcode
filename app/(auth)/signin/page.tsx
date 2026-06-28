@@ -6,13 +6,6 @@ export default async function SignInPage() {
     const session = await getSessionSafe()
 
     if (session) {
-        const { user } = session;
-        if (!user.currentSituation) {
-            redirect("/onboarding");
-        }
-        if (!user.class) {
-            redirect("/quiz");
-        }
         redirect("/dashboard");
     }
 
