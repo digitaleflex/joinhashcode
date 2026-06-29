@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { submitQuiz } from "@/app/actions/quiz"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,7 @@ import type { AnalysisResult } from "@/lib/analysis"
 import {
   ChevronRight, ChevronLeft, Sparkles
 } from "lucide-react"
-import { useEffect } from "react"
+
 import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
 

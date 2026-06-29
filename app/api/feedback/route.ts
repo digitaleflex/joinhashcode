@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
 import { NextRequest, NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { emailService } from "@/lib/email";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
@@ -64,7 +65,7 @@ export const POST = async (req: NextRequest) => {
         "image/webp": "webp", "application/pdf": "pdf",
       };
       const fileExt = extByMime[file.type];
-      const fileName = `feedback-${session.user.id}-${Date.now()}-${crypto.randomUUID()}.${fileExt}`;
+      const fileName = `feedback-${session.user.id}-${Date.now()}-${randomUUID()}.${fileExt}`;
       const buffer = await file.arrayBuffer();
 
       try {

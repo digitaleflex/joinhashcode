@@ -83,7 +83,7 @@ export default async function TalentsPage() {
   // Fetch all active, non-banned users in the directory
   const talentsRaw = await prisma.user.findMany({
     where: {
-      security: { banned: { not: true } },
+      OR: [{ security: null }, { security: { banned: { not: true } } }],
     },
     select: {
       id: true,

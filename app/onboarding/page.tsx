@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, type ComponentType } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -35,7 +35,7 @@ const STEPS = [
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
-const SITUATION_META: Record<UserSituation, { icon: any; label: string }> = {
+const SITUATION_META: Record<UserSituation, { icon: ComponentType<{ className?: string }>; label: string }> = {
   [UserSituation.STUDENT]:       { icon: GraduationCap, label: "Étudiant(e)" },
   [UserSituation.EMPLOYEE]:      { icon: Building2,     label: "Salarié(e) du secteur tech" },
   [UserSituation.SELF_TAUGHT]:   { icon: Brain,         label: "Autodidacte / en apprentissage" },
@@ -45,7 +45,7 @@ const SITUATION_META: Record<UserSituation, { icon: any; label: string }> = {
   [UserSituation.UNEMPLOYED]:    { icon: Sprout,        label: "À la recherche d'un emploi" },
 }
 
-const OBJECTIVE_META: Record<MainObjective, { icon: any }> = {
+const OBJECTIVE_META: Record<MainObjective, { icon: ComponentType<{ className?: string }> }> = {
   [MainObjective.FIND_JOB]:       { icon: Briefcase },
   [MainObjective.LEARN_CODE]:     { icon: Code2 },
   [MainObjective.CREATE_STARTUP]: { icon: Rocket },
