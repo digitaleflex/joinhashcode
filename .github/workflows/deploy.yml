@@ -22,7 +22,7 @@ jobs:
           source /home/actions-runner/secrets/.env.production
           set +a
           pnpm run build
-      - run: docker build -t hashcode-web:latest .
+      - run: docker build --no-cache -t hashcode-web:latest .
       - name: Restart web container
         run: |
           docker rm -f hashcode-web 2>/dev/null || true
