@@ -8,6 +8,15 @@ export async function proxy(request: NextRequest) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
+  // Normalise www → non-www pour éviter les erreurs state_mismatch OAuth
+  // (le cookie d'état est lié au domaine de la requête initiale)
+  const host = request.headers.get("host") || "";
+  if (host.startsWith("www.")) {
+    const url = new URL(request.url);
+    url.host = host.replace("www.", "");
+    return NextResponse.redirect(url, 308);
+  }
+
   const pathname = request.nextUrl.pathname;
   const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
   const isOnboardingPath = pathname.startsWith("/onboarding");
