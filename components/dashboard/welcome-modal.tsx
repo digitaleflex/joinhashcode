@@ -126,7 +126,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
             {/* Close */}
             <button
               onClick={dismiss}
-              className="absolute top-4 right-4 z-10 p-2 rounded-xl text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-colors"
+              className="absolute top-4 right-4 z-20 p-2 rounded-xl text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
