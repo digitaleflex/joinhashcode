@@ -1,6 +1,4 @@
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { updateUserEvolution, CHECKIN_WEIGHTS } from "@/lib/evolution-engine";
 import { updateSquadCohesion } from "@/lib/squad-logic";
@@ -8,6 +6,7 @@ import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
+import { requireSession } from "@/lib/auth-guard";
 
 const checkinSchema = z.object({
   note: z.string().min(20, "Ta note doit faire au moins 20 caractères pour être validée par le protocole."),
@@ -20,8 +19,7 @@ const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
 export async function POST(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
+    const session = await requireSession();
 
     const { limited } = await checkRateLimit(checkinLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de check-ins. Réessaie demain." }, { status: 429 });

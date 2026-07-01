@@ -1,20 +1,13 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
+import { requireSession } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour uploader ton avatar." }, { status: 401 });
-    }
+    const session = await requireSession();
 
     const formData = await req.formData();
     const file = formData.get("file") as File;

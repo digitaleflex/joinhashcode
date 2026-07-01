@@ -1,19 +1,17 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { awardXp } from "@/lib/experience";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
+import { requireSession } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    const session = await requireSession();
 
     const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie dans une heure." }, { status: 429 });
@@ -22,14 +20,6 @@ export async function POST(req: Request) {
     if (!slug) return NextResponse.json({ message: "Slug missing" }, { status: 400 });
 
     const userId = session.user.id;
-
-    // Refuse access for banned users
-    if (session.user.banned) {
-      const banExpires = session.user.banExpires ? new Date(session.user.banExpires) : null;
-      if (!banExpires || banExpires > new Date()) {
-        return NextResponse.json({ message: "Ton compte est suspendu." }, { status: 403 });
-      }
-    }
 
     // Find the squad with leader info
     const squad = await prisma.organization.findUnique({

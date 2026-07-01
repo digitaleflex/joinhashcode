@@ -1,13 +1,11 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET() {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    const session = await requireSession();
 
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
@@ -30,7 +28,10 @@ export async function GET() {
       completedAt: user.quizResults[0]?.createdAt ?? null,
     });
   } catch (error) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[QUIZ_STATUS]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
 }

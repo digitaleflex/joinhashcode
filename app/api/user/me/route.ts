@@ -1,13 +1,11 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { getCachedUser } from "@/lib/user-cache";
+import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET() {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    const session = await requireSession();
 
     const user = await getCachedUser(session.user.id);
     if (!user) return NextResponse.json({ message: "Non trouvé" }, { status: 404 });
@@ -61,7 +59,10 @@ export async function GET() {
 
     return NextResponse.json(safeUser, { headers: { "Cache-Control": "private, no-cache" } });
   } catch (error) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[USER_ME]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
 }

@@ -1,15 +1,13 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { collectUserData } from "@/lib/user-export";
 import JSZip from "jszip";
 import { strictMutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    const session = await requireSession();
 
     const { limited } = await checkRateLimit(strictMutationLimiter, `export:${session.user.id}`);
     if (limited) {
@@ -72,7 +70,10 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[USER_EXPORT]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
 }

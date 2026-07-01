@@ -1,18 +1,15 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 import { emailService } from "@/lib/email";
+import { requireSession } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
-
+    const session = await requireSession();
     const { targetUserId } = await req.json();
     if (!targetUserId) {
       return NextResponse.json({ error: "ID de la cible requis" }, { status: 400 });

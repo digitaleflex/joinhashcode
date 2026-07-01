@@ -29,7 +29,7 @@ const pool =
       ssl: isLocalDb || sslDisabled
         ? false
         : {
-            rejectUnauthorized: false,
+            rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== "false",
           },
     });
   })();

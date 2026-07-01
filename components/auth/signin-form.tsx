@@ -81,12 +81,12 @@ export function SignInForm() {
                 throw new Error(error.message)
             }
             
-            toast.success("Code de sécurité envoyé !")
+            toast.success("Un code de sécurité a été envoyé sur ta boîte mail. Vérifie aussi tes spams si tu ne le trouves pas.")
             setStep("otp")
             setResendCooldown(60) // Start 60s cooldown
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Erreur lors de l'envoi du code")
+            toast.error("Le code n'a pas pu être envoyé. Vérifie ton adresse ou réessaie.")
         } finally {
             setLoadingProvider(null)
         }
@@ -112,7 +112,7 @@ export function SignInForm() {
             window.location.href = getSafeCallbackUrl()
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Code invalide ou expiré")
+            toast.error("Le code saisi est incorrect ou a expiré. Vérifie le code reçu ou demande un nouvel envoi.")
         } finally {
             setLoadingProvider(null)
         }

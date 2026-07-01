@@ -1,14 +1,12 @@
 export const dynamic = "force-dynamic";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { requireSession } from "@/lib/auth-guard";
 
 export async function DELETE(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    const session = await requireSession();
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Action trop fréquente. Réessaie dans une minute." }, { status: 429 });

@@ -1,14 +1,11 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: req.headers });
-    if (!session) {
-      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
-    }
+    const session = await requireSession();
 
     const { searchParams } = new URL(req.url);
     const all = searchParams.get("all") === "true";
@@ -68,18 +65,17 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ notifications, unreadCount }, { headers: { "Cache-Control": "private, no-cache" } });
   } catch (error) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[USER_NOTIFICATIONS]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: req.headers });
-  if (!session) {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
-  }
-
   try {
+    const session = await requireSession();
     const body = await req.json().catch(() => ({}));
     const { ids, isRead, isSaved, isArchived, readAll, archiveAll } = body;
 
@@ -126,6 +122,9 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Erreur interne" }, { status: 500 });
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }
 }
