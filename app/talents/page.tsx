@@ -149,6 +149,7 @@ export default async function TalentsPage() {
       strategistScore: true,
       catalystScore: true,
       progress: { select: { level: true, experience: true } },
+      members: { select: { id: true } },
     },
     orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
   })
@@ -158,6 +159,7 @@ export default async function TalentsPage() {
     tools: t.tools ?? [],
     level: t.progress?.level ?? 1,
     experience: t.progress?.experience ?? 0,
+    inSquad: t.members.length > 0,
   }))
 
   return (

@@ -54,6 +54,7 @@ interface Talent {
   creatorScore: number
   strategistScore: number
   catalystScore: number
+  inSquad: boolean
 }
 
 const CLASS_CONFIGS: Record<string, { label: string; icon: typeof Cpu; color: string; bg: string; border: string; gradient: string }> = {
@@ -535,14 +536,25 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                     </p>
                   </div>
                 </div>
-                <Badge
-                  variant="outline"
-                  className={`font-mono text-[8px] uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
-                    isHybrid ? "text-[#C5F441] border-[#C5F441]/30" : cfg.color
-                  }`}
-                >
-                  {displayLabel}
-                </Badge>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {!talent.inSquad && (
+                    <Badge
+                      variant="outline"
+                      className="font-mono text-[8px] uppercase tracking-wider py-1 px-2 rounded-lg border-emerald-500/20 text-emerald-400 bg-emerald-500/5"
+                    >
+                      <Users className="size-2.5 mr-0.5" />
+                      Free
+                    </Badge>
+                  )}
+                  <Badge
+                    variant="outline"
+                    className={`font-mono text-[8px] uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
+                      isHybrid ? "text-[#C5F441] border-[#C5F441]/30" : cfg.color
+                    }`}
+                  >
+                    {displayLabel}
+                  </Badge>
+                </div>
               </div>
 
               <MiniPsychoBars scores={scores} />
@@ -719,7 +731,8 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
         t.tools.some((tool) => tool.toLowerCase().includes(search.toLowerCase()))
 
       const itemClass = (t.class || "unknown").toLowerCase()
-      const matchesClass = selectedClass === "all" || itemClass === selectedClass
+      const matchesClass =
+        selectedClass === "all" || (selectedClass === "free" ? !t.inSquad : itemClass === selectedClass)
 
       return matchesSearch && matchesClass
     })
@@ -859,7 +872,18 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
                 : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
             }`}
           >
-            Tous
+              Tous
+            </button>
+          <button
+            onClick={() => setSelectedClass("free")}
+            className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+              selectedClass === "free"
+                ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+                : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
+            }`}
+          >
+            <Users className="size-3.5" />
+            Free Agent
           </button>
           {Object.entries(CLASS_CONFIGS).map(([key, cfg]) => {
             const Icon = cfg.icon
