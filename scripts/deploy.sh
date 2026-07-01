@@ -56,6 +56,11 @@ if [ "$SKIP_GIT" = false ]; then
   fi
 fi
 
+# ── Build Next.js ──────────────────────────────────────────────
+echo ""
+echo "▸ Building Next.js application…"
+npm run build 2>&1
+
 # ── Docker build ───────────────────────────────────────────────
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 IMAGE_TAG="hashcode-web:${TIMESTAMP}"
