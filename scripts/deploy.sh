@@ -87,6 +87,9 @@ fi
 echo ""
 echo "▸ Deploying with compose.app.yml…"
 
+# Remove old container if it still exists (avoids name conflict)
+docker rm -f hashcode-web 2>/dev/null || true
+
 docker compose -f compose.app.yml \
   --env-file "$ENV_FILE" \
   up -d web --wait --pull missing
