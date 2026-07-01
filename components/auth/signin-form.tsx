@@ -86,7 +86,7 @@ export function SignInForm() {
             setResendCooldown(60) // Start 60s cooldown
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Le code n'a pas pu être envoyé. Vérifie ton adresse ou réessaie.")
+            toast.error("Le code n'a pas pu être envoyé. Réessaie dans quelques instants.")
         } finally {
             setLoadingProvider(null)
         }

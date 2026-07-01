@@ -29,7 +29,9 @@ const pool =
       ssl: isLocalDb || sslDisabled
         ? false
         : {
-            rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== "false",
+            // Par défaut on ne valide pas le certificat (la plupart des VPS Docker n'en ont pas).
+            // Active DATABASE_SSL_VERIFY=true quand tu as un CA valide configuré.
+            rejectUnauthorized: process.env.DATABASE_SSL_VERIFY === "true",
           },
     });
   })();
