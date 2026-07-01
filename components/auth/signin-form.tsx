@@ -68,7 +68,18 @@ export function SignInForm() {
                 type: "sign-in"
             })
             
-            if (error) throw new Error(error.message)
+            if (error) {
+                const isRateLimit = (error as Record<string, unknown>)?.status === 429 || 
+                    error.message?.toLowerCase().includes("too many") ||
+                    error.message?.toLowerCase().includes("429")
+                if (isRateLimit) {
+                    toast.error("Trop de tentatives. Réessaie dans 60 secondes.", { duration: 5000 })
+                    setResendCooldown(60)
+                    setLoadingProvider(null)
+                    return
+                }
+                throw new Error(error.message)
+            }
             
             toast.success("Code de sécurité envoyé !")
             setStep("otp")
