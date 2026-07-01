@@ -53,6 +53,7 @@ const updateSchema = z.object({
   tools: z.array(z.string().max(50)).max(20).optional().nullable().transform(v => v || undefined),
   mainObjective: z.string().max(300).optional().nullable().transform(v => v || undefined),
   secondaryObjectives: z.array(z.string().max(200)).max(5).optional().nullable().transform(v => v || undefined),
+  talentVisible: z.boolean().optional(),
 });
 
 export async function PATCH(req: Request) {

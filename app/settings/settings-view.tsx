@@ -56,7 +56,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
       const ALLOWED_FIELDS = [
         "name", "pseudo", "bio", "image", "country", "city", "language", "currentSituation",
         "githubUrl", "portfolioUrl", "twitterUrl", "linkedinUrl", "domains",
-        "tools", "mainObjective", "secondaryObjectives"
+        "tools", "mainObjective", "secondaryObjectives", "talentVisible"
       ]
 
       const payload = Object.fromEntries(
