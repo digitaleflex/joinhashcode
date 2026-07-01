@@ -31,6 +31,8 @@ export type ActivityAction =
   // Profile / settings
   | "PROFILE_UPDATED"
   | "CHECKIN_COMPLETED"
+  | "ACCOUNT_DEACTIVATED"
+  | "ACCOUNT_REACTIVATED"
   | "ACCOUNT_DELETED"
   // Admin
   | "ADMIN_SUBMISSION_REVIEWED"

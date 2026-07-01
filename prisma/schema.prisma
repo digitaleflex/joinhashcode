@@ -42,6 +42,7 @@ model User {
   mainBlocker          String?
   banReason            String?
   banExpires           DateTime?
+  deactivatedAt        DateTime?
   talentVisible        Boolean   @default(false)
   visitorId            String?
   consentLocation      Boolean   @default(false)

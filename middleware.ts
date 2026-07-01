@@ -85,6 +85,18 @@ export async function proxy(request: NextRequest) {
   let nextResponse = NextResponse.next();
 
   if (session && user) {
+    const isDeactivated = user.deactivatedAt && new Date(user.deactivatedAt as string) <= new Date();
+    const isBanned = (user as Record<string, unknown>).banned === true;
+
+    if (isDeactivated || isBanned) {
+      if (pathname === "/reactivate") return nextResponse;
+      if (pathname.startsWith("/signin")) return nextResponse;
+      if (!pathname.startsWith("/api")) {
+        return NextResponse.redirect(new URL("/reactivate", request.url));
+      }
+      return NextResponse.json({ error: "Compte désactivé" }, { status: 403 });
+    }
+
     const needsOnboarding = !user.currentSituation;
     const needsQuiz = user.currentSituation && !user.class;
 

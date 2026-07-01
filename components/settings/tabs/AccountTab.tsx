@@ -1,6 +1,6 @@
 "use client"
 
-import { Fingerprint, Shield, AlertTriangle, MonitorSmartphone } from "lucide-react"
+import { Fingerprint, Shield, AlertTriangle, MonitorSmartphone, Power, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { ActiveSessions } from "@/components/settings/ActiveSessions"
@@ -99,7 +99,49 @@ export function AccountTab({ userData }: AccountTabProps) {
         </div>
       </div>
 
-      {/* Delete account */}
+      {/* Deactivate account (soft, reversible) */}
+      <div className="pt-4 border-t border-white/5 space-y-6">
+        <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-amber-500/30 to-amber-950/10 overflow-hidden">
+          <div className="p-8 md:p-10 bg-zinc-950/90 cyber-notch flex flex-col sm:flex-row items-center justify-between gap-8 relative overflow-hidden">
+            <div className="absolute top-3 left-3 size-3 border-t border-l border-amber-500/50 pointer-events-none" aria-hidden="true" />
+            <div className="absolute top-3 right-3 size-3 border-t border-r border-amber-500/50 pointer-events-none" aria-hidden="true" />
+            <div className="absolute bottom-3 left-3 size-3 border-b border-l border-amber-500/50 pointer-events-none" aria-hidden="true" />
+            <div className="absolute bottom-3 right-3 size-3 border-b border-r border-amber-500/50 pointer-events-none" aria-hidden="true" />
+
+            <div className="space-y-4 text-center sm:text-left relative z-10 flex-1">
+              <div className="flex items-center gap-2 justify-center sm:justify-start">
+                <div className="size-1.5 rounded-full bg-amber-500" aria-hidden="true" />
+                <h3 className="text-base font-bold text-amber-500 uppercase tracking-wider">Désactiver le profil</h3>
+              </div>
+              <p className="text-xs text-zinc-400 max-w-sm font-light leading-relaxed">
+                Désactive temporairement ton compte. Tes données sont préservées et tu peux réactiver à tout moment en te reconnectant.
+              </p>
+            </div>
+
+            <div className="relative shrink-0 z-10">
+              <Button
+                variant="outline"
+                className="h-14 font-mono font-black px-8 text-[10px] uppercase cyber-notch-sm border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:border-amber-500 cursor-pointer"
+                onClick={async () => {
+                  if (!confirm("Désactiver ton profil HASHCODE ? Tu pourras le réactiver à tout moment.")) return
+                  const res = await fetch("/api/user/deactivate", { method: "PATCH" })
+                  if (res.ok) {
+                    await authClient.signOut()
+                    window.location.href = "/"
+                  } else {
+                    toast.error("Erreur lors de la désactivation")
+                  }
+                }}
+              >
+                <Power className="size-4 mr-2" />
+                DÉSACTIVER
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Delete account (hard, irreversible) */}
       <div className="pt-4 border-t border-white/5 space-y-6">
         <div className="relative p-[1.5px] cyber-notch bg-linear-to-r from-red-500/30 to-red-950/10 overflow-hidden">
           <div className="absolute inset-x-0 h-[1.5px] bg-red-500 opacity-30 shadow-[0_0_12px_#ef4444] animate-laser-sweep z-10 pointer-events-none" style={{ '--laser-color': '#ef4444' } as React.CSSProperties} aria-hidden="true" />
@@ -114,7 +156,7 @@ export function AccountTab({ userData }: AccountTabProps) {
             <div className="space-y-4 text-center sm:text-left relative z-10 flex-1">
               <div className="flex items-center gap-2 justify-center sm:justify-start">
                 <div className="size-1.5 rounded-full bg-red-500 animate-ping" aria-hidden="true" />
-                <h3 className="text-base font-bold text-red-500 uppercase tracking-wider">Suppression du profil</h3>
+                <h3 className="text-base font-bold text-red-500 uppercase tracking-wider">Suppression définitive</h3>
               </div>
               <p className="text-xs text-zinc-400 max-w-sm font-light leading-relaxed">
                 Supprime définitivement ton dossier, tes habilitations et toute ta progression. Cette action est irréversible.
@@ -124,7 +166,7 @@ export function AccountTab({ userData }: AccountTabProps) {
                 <div className="space-y-1 font-mono text-[9px] text-left">
                   <div className="text-red-400 font-black uppercase tracking-wider">ACTION IRRÉVERSIBLE</div>
                   <div className="text-zinc-500 leading-normal">
-                    Ton profil, score d&apos;évolution et permissions communautaires seront définitivement effacés.
+                    Profil, missions, XP, squad — tout sera définitivement effacé.
                   </div>
                 </div>
               </div>
@@ -135,17 +177,18 @@ export function AccountTab({ userData }: AccountTabProps) {
                 variant="destructive"
                 className="h-14 font-mono font-black px-8 text-[10px] uppercase cyber-notch-sm bg-red-950/80 border border-red-500 text-red-400 hover:bg-red-500 hover:text-black shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)] cursor-pointer"
                 onClick={async () => {
-                  if (!confirm("Supprimer ton profil HASHCODE ? Toutes tes données seront effacées.")) return
+                  if (!confirm("Supprimer définitivement ton profil HASHCODE ? Cette action est IRREVERSIBLE.")) return
                   const res = await fetch("/api/user/delete", { method: "DELETE" })
                   if (res.ok) {
                     await authClient.signOut()
                     window.location.href = "/"
                   } else {
-                    toast.error("Erreur lors de la désactivation")
+                    toast.error("Erreur lors de la suppression")
                   }
                 }}
               >
-                DÉSACTIVER_PROFIL
+                <Trash2 className="size-4 mr-2" />
+                SUPPRIMER
               </Button>
             </div>
           </div>

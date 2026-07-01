@@ -16,6 +16,15 @@
 - **Free Agent filter**: new button in talent directory to show only users not in any squad
 - **Free Agent badge**: green "Free" badge on cards for unaffiliated users
 
+## Done
+
+- **Account deactivation**: soft-delete (`deactivatedAt` field) — reversible, preserves all data
+- **Account reactivation**: users redirected to `/reactivate` page after sign-in, one-click reactivation
+- **Middleware**: blocks deactivated/banned users from accessing protected routes
+- **Settings UI**: separate "Désactiver" (soft, amber) and "Supprimer" (hard, red) sections
+- **New API routes**: `PATCH /api/user/deactivate` + `PATCH /api/user/reactivate`
+- **ActivityLog**: new actions `ACCOUNT_DEACTIVATED` + `ACCOUNT_REACTIVATED`
+
 ## In Progress
 
 _(none)_
