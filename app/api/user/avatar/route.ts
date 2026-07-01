@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const formData = await req.formData();

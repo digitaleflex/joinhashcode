@@ -7,7 +7,7 @@ import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
 import { emailService } from "@/lib/email";
 import crypto from "crypto";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 // ── Curated name generator ────────────────────────────────────────────────────
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
@@ -39,6 +39,7 @@ function generateSquadName(): { name: string; slug: string } {
 
 export async function POST(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
     const userId = session.user.id;
 

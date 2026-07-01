@@ -6,7 +6,7 @@ import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 const checkinSchema = z.object({
   note: z.string().min(20, "Ta note doit faire au moins 20 caractères pour être validée par le protocole."),
@@ -19,6 +19,7 @@ const stripHtml = (str: string) => str.replace(/<[^>]*>?/gm, "");
 
 export async function POST(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const { limited } = await checkRateLimit(checkinLimiter, session.user.id);

@@ -5,10 +5,11 @@ import { logActivity } from "@/lib/activity-log";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 import { emailService } from "@/lib/email";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
     const { targetUserId } = await req.json();
     if (!targetUserId) {

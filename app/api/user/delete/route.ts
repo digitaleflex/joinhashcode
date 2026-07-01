@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
 import { logActivity } from "@/lib/activity-log";
-import { requireSession, AuthError } from "@/lib/auth-guard";
+import { requireSession, AuthError, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function DELETE(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const user = await prisma.user.findUnique({

@@ -8,7 +8,7 @@ export class AuthError extends Error {
   }
 }
 
-export async function requireSession(req?: Request) {
+export async function requireSession() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) throw new AuthError("Non autorisé", 401);
 
@@ -29,4 +29,34 @@ export async function requireSession(req?: Request) {
   }
 
   return session;
+}
+
+export function checkCsrfOrigin(req: Request): void {
+  const method = req.method.toUpperCase();
+  if (method === "GET" || method === "HEAD" || method === "OPTIONS") return;
+
+  const origin = req.headers.get("origin");
+  const host = req.headers.get("host");
+
+  if (!origin) return;
+
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host;
+  } catch {
+    throw new AuthError("Origine invalide", 403);
+  }
+
+  if (originHost === host) return;
+
+  const trusted = [
+    process.env.BETTER_AUTH_URL,
+    process.env.NEXT_PUBLIC_APP_URL,
+  ].filter(Boolean).map((url) => {
+    try { return new URL(url!).host; } catch { return null; }
+  }).filter(Boolean) as string[];
+
+  if (trusted.includes(originHost)) return;
+
+  throw new AuthError("Origine non autorisée", 403);
 }

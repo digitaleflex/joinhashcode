@@ -4,8 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
+import { checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function PATCH(req: Request) {
+  checkCsrfOrigin(req);
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 

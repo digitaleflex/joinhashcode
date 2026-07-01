@@ -7,10 +7,11 @@ import { emailService } from "@/lib/email";
 import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);

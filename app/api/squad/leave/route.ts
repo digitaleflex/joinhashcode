@@ -2,10 +2,11 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function DELETE(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);

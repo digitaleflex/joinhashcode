@@ -3,12 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/;
 
 export async function PATCH(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     const { name, slug, isPrivate, requiredLevel, description, announcement, discordInviteUrl } = await req.json();

@@ -5,7 +5,7 @@ import { containsProfanity } from "@/lib/security";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { invalidateUserCache } from "@/lib/user-cache";
-import { requireSession } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
@@ -57,6 +57,7 @@ const updateSchema = z.object({
 
 export async function PATCH(req: Request) {
   try {
+    checkCsrfOrigin(req);
     const session = await requireSession();
 
     // Basic rate limit (60 seconds)
