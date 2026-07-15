@@ -66,7 +66,8 @@ export async function proxy(request: NextRequest) {
     if (!sessionData) {
       try {
         const requestHeaders = new Headers(request.headers);
-        const response = await fetch(`http://127.0.0.1:3000/api/auth/middleware-session`, {
+        const baseUrl = `${request.nextUrl.protocol}//${request.headers.get("host") || "127.0.0.1:3000"}`;
+        const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
           headers: requestHeaders,
           cache: "no-store",
           signal: AbortSignal.timeout(5000),

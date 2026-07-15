@@ -1,3 +1,6 @@
+import { questions } from "./questions";
+import { PROFILE_CONTENT } from "./profile-content";
+
 export type ProfileType = "builder" | "creator" | "strategist" | "catalyst";
 
 export interface RecommendedSpecialization {
@@ -21,26 +24,25 @@ export interface RecommendedSpecialization {
   }
 }
 
+export interface Channel {
+  name: string
+  description: string
+  url: string
+  icon: string
+}
+
 export interface AnalysisResult {
   scores: Record<ProfileType, number>;
   percentages: Record<ProfileType, number>;
   primary: ProfileType;
   secondary: ProfileType;
-  isHybrid: boolean;          // true when primary/secondary gap < 15%
-  hybridLabel: string;        // e.g. "Builder × Stratège"
+  isHybrid: boolean;
+  hybridLabel: string;
   level: number;
-  consistencyScore: number;   // 0–1, how polarized the profile is
-  suggestedChannels: {
-    name: string;
-    description: string;
-    url: string;
-    icon: string;
-  }[];
+  consistencyScore: number;
+  suggestedChannels: Channel[];
   recommendedSpecializations: RecommendedSpecialization[];
 }
-
-import { questions } from "./questions";
-import { PROFILE_CONTENT } from "./profile-content";
 
 // Class display labels
 const CLASS_LABELS: Record<ProfileType, string> = {
@@ -63,6 +65,43 @@ function getSpecializationsForProfile(primary: ProfileType): RecommendedSpeciali
     steps: s.steps,
     firstAction: s.firstAction,
   }))
+}
+
+const channelMap: Record<ProfileType, [Channel, Channel]> = {
+  builder: [
+    { name: "#dev-lab", description: "Le coeur technique de HASHCODE. Défis d'architecture et revue de code.", url: "/channels/dev-lab", icon: "terminal" },
+    { name: "Open Source Collective", description: "Contribue à des projets qui changent le monde.", url: "/channels/os", icon: "git-branch" }
+  ],
+  creator: [
+    { name: "#pixel-perfect", description: "Design, UI, UX et direction artistique.", url: "/channels/design", icon: "palette" },
+    { name: "Content Factory", description: "Crée du contenu qui marque les esprits.", url: "/channels/content", icon: "video" }
+  ],
+  strategist: [
+    { name: "#growth-mindset", description: "Business, scaling et optimisation de revenus.", url: "/channels/business", icon: "trending-up" },
+    { name: "Product Masters", description: "Définit la vision et roadmap des produits.", url: "/channels/product", icon: "map" }
+  ],
+  catalyst: [
+    { name: "#connect-hub", description: "Networking, partenariats et gestion de communauté.", url: "/channels/network", icon: "users" },
+    { name: "Mentorship Circle", description: "Transmet ton savoir et apprends des meilleurs.", url: "/channels/mentors", icon: "award" }
+  ]
+};
+
+const SPECIALIZATION_MATCH: Record<string, string[]> = {
+  CYBERSECURITY: ["cybersecurite", "cloud-devops", "architecture"],
+  CLOUD_DEVOPS: ["cloud-devops", "architecture", "fullstack"],
+  CREATE_STARTUP: ["fullstack", "ux-design", "product-strategy"],
+  FREELANCE: ["fullstack", "digital-design", "consulting"],
+  MASTER_AI: ["fullstack", "architecture", "business-analytics"],
+  CREATE_PRODUCTS: ["ux-design", "digital-design", "product-strategy"],
+  FIND_JOB: ["fullstack", "cloud-devops", "community-management"],
+  LEARN_CODE: ["fullstack", "ux-design", "content-creation"],
+};
+
+function scoreSpecializationMatch(specId: string, mainObjective: string): number {
+  const preferred = SPECIALIZATION_MATCH[mainObjective]
+  if (!preferred) return 0
+  const idx = preferred.indexOf(specId)
+  return idx >= 0 ? preferred.length - idx : 0
 }
 
 export const analyzeQuizResults = (answers: string[], responseTimes: number[] = [], mainObjective?: string): AnalysisResult => {
@@ -138,10 +177,7 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     ? `${CLASS_LABELS[primary]} × ${CLASS_LABELS[secondary]}`
     : CLASS_LABELS[primary];
 
-  // Polarization score — fixed formula (population std dev, normalized)
-  // Max std dev occurs when one profile captures all weight, others = 0
-  // mean = totalWeight / 4
-  // maxVariance = ((totalWeight - mean)^2 + 3 * (0 - mean)^2) / 4
+  // Polarization score
   const mean = totalWeight / 4;
   const variance =
     Object.values(counts).reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / 4;
@@ -152,34 +188,22 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
 
   const level = 1;
 
-  const channelMap: Record<ProfileType, any[]> = {
-    builder: [
-      { name: "#dev-lab", description: "Le coeur technique de HASHCODE. Défis d'architecture et revue de code.", url: "/channels/dev-lab", icon: "terminal" },
-      { name: "Open Source Collective", description: "Contribue à des projets qui changent le monde.", url: "/channels/os", icon: "git-branch" }
-    ],
-    creator: [
-      { name: "#pixel-perfect", description: "Design, UI, UX et direction artistique.", url: "/channels/design", icon: "palette" },
-      { name: "Content Factory", description: "Crée du contenu qui marque les esprits.", url: "/channels/content", icon: "video" }
-    ],
-    strategist: [
-      { name: "#growth-mindset", description: "Business, scaling et optimisation de revenus.", url: "/channels/business", icon: "trending-up" },
-      { name: "Product Masters", description: "Définit la vision et roadmap des produits.", url: "/channels/product", icon: "map" }
-    ],
-    catalyst: [
-      { name: "#connect-hub", description: "Networking, partenariats et gestion de communauté.", url: "/channels/network", icon: "users" },
-      { name: "Mentorship Circle", description: "Transmet ton savoir et apprends des meilleurs.", url: "/channels/mentors", icon: "award" }
-    ]
-  };
-
   // For hybrids, surface one channel from each dominant profile
   const channels = isHybrid
     ? [channelMap[primary][0], channelMap[secondary][0], channelMap[primary][1]]
     : [...channelMap[primary], channelMap[secondary][0]];
 
-  const allSpecializations = getSpecializationsForProfile(primary)
-  const recommendedSpecializations = allSpecializations.length > 0
-    ? allSpecializations
-    : getSpecializationsForProfile(secondary)
+  const allSpecializations = getSpecializationsForProfile(primary);
+  const fallback = allSpecializations.length > 0 ? allSpecializations : getSpecializationsForProfile(secondary);
+
+  // Sort by mainObjective match if provided
+  const recommendedSpecializations = mainObjective
+    ? [...fallback].sort((a, b) => {
+        const scoreA = scoreSpecializationMatch(a.id, mainObjective);
+        const scoreB = scoreSpecializationMatch(b.id, mainObjective);
+        return scoreB - scoreA;
+      })
+    : fallback;
 
   return {
     scores: counts,

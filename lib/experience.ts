@@ -66,14 +66,13 @@ export async function awardXp(
     const currentLevel = user.progress?.level ?? 1;
     const nextXp = currentXp + finalAmount;
 
-    // Progression basée sur les seuils réels XP_THRESHOLDS
+    const sortedLevels = Object.keys(XP_THRESHOLDS).map(Number).sort((a, b) => b - a);
     let targetLevel = 1;
-    if (nextXp >= XP_THRESHOLDS[4]) {
-      targetLevel = 4;
-    } else if (nextXp >= XP_THRESHOLDS[3]) {
-      targetLevel = 3;
-    } else if (nextXp >= XP_THRESHOLDS[2]) {
-      targetLevel = 2;
+    for (const level of sortedLevels) {
+      if (nextXp >= XP_THRESHOLDS[level]) {
+        targetLevel = level;
+        break;
+      }
     }
     const nextLevel = targetLevel > currentLevel ? targetLevel : currentLevel;
 
@@ -102,8 +101,7 @@ export async function awardXp(
       },
     });
 
-    // Send Level 5 celebration email
-    if (nextLevel === 5 && currentLevel < 5) {
+    if (nextLevel >= 5 && currentLevel < 5) {
       emailService.sendLevel5ReachedEmail({
         email: updatedUser.email,
         name: updatedUser.name,

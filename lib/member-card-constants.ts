@@ -1,12 +1,7 @@
-import type { ProfileType as _ProfileType } from "./profile-content"
-export type ProfileType = _ProfileType
+import { PROFILE_COLORS } from "./profile-content"
+export type { ProfileType } from "./profile-content"
 
-export const CLASS_COLORS: Record<ProfileType, string> = {
-  builder:    "#B8FF3B",
-  creator:    "#A855F7",
-  strategist: "#22D3EE",
-  catalyst:   "#F97316",
-};
+export const CLASS_COLORS = PROFILE_COLORS;
 
 export const LEVEL_NAMES: Record<number, string> = {
   1: "INIT",
