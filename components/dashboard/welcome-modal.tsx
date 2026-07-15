@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { X, Zap, Users, Target, ChevronRight, Sparkles, BookOpen } from "lucide-react"
+import { X, Zap, ChevronRight, Sparkles, BookOpen } from "lucide-react"
 import Link from "next/link"
 
 // ─── Config par classe ─────────────────────────────────────────────────────────
@@ -54,30 +54,6 @@ const CLASS_CONFIG: Record<string, {
     desc: "Tu fédères. Leadership, communauté, impact — partout où tu passes, les idées deviennent réalité.",
   },
 }
-
-const PLATFORM_CONCEPTS = [
-  {
-    icon: Target,
-    title: "Missions",
-    desc: "Des défis concrets classés par niveau. Complète-les pour gagner de l'XP et monter en grade.",
-    href: "/missions",
-    cta: "Voir les missions",
-  },
-  {
-    icon: Users,
-    title: "Escouade (Squad)",
-    desc: "Ton équipe de 5 personnes max. Plus votre cohésion est haute, plus vous progressez vite ensemble.",
-    href: "/squad",
-    cta: "Rejoindre une squad",
-  },
-  {
-    icon: Zap,
-    title: "XP & Grades",
-    desc: "Chaque mission approuvée = XP. INIT → CORE → PRO → ELITE. Ton grade débloque des missions avancées.",
-    href: "/dossier",
-    cta: "Voir mon dossier",
-  },
-]
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -209,7 +185,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                 </motion.div>
               )}
 
-              {/* ── Phase 2: Platform guide ───────────────────────────────── */}
+              {/* ── Phase 2: Feuille de route ──────────────────────────────── */}
               {phase === "guide" && (
                 <motion.div
                   key="guide"
@@ -220,56 +196,66 @@ export function WelcomeModal({ userId, userName, userClass }: {
                   className="p-8 space-y-6 relative z-10"
                 >
                   <div className="text-center space-y-1">
-                    <h3 className="text-lg font-black uppercase tracking-tighter text-white">Comment ça marche ?</h3>
-                    <p className="text-[11px] text-zinc-500 font-mono">3 concepts à connaître</p>
+                    <h3 className="text-lg font-black uppercase tracking-tighter text-white">Voici ta feuille de route</h3>
+                    <p className="text-[11px] text-zinc-500 font-mono">Les 90 prochains jours</p>
                   </div>
 
                   <div className="space-y-3">
-                    {PLATFORM_CONCEPTS.map((concept, i) => {
-                      const Icon = concept.icon
-                      return (
-                        <motion.div
-                          key={concept.title}
-                          initial={{ opacity: 0, x: 16 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.08 }}
-                          className="flex items-start gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 hover:border-white/10 transition-colors"
-                        >
-                          <div className={`p-2.5 rounded-xl ${cfg.bg} border ${cfg.border} shrink-0`}>
-                            <Icon className={`w-4 h-4 ${cfg.color}`} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-white mb-0.5">{concept.title}</p>
-                            <p className="text-[11px] text-zinc-500 leading-relaxed">{concept.desc}</p>
-                          </div>
-                        </motion.div>
-                      )
-                    })}
+                    <motion.div
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.08 }}
+                      className="p-4 rounded-2xl border border-primary/20 bg-primary/5"
+                    >
+                      <p className="text-[9px] font-mono text-primary uppercase tracking-widest font-bold mb-1">
+                        Objectif 90 jours
+                      </p>
+                      <p className="text-sm font-bold text-white">
+                        Développer une expertise concrète
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.16 }}
+                      className="flex items-start gap-4 p-4 rounded-2xl bg-white/2 border border-white/5"
+                    >
+                      <div className={`p-2 rounded-lg ${cfg.bg} border ${cfg.border} shrink-0`}>
+                        <BookOpen className={`w-4 h-4 ${cfg.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Cette semaine</p>
+                        <p className="text-sm font-bold text-white">Premier atelier de spécialisation (45 min)</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.24 }}
+                      className="flex items-start gap-4 p-4 rounded-2xl bg-white/2 border border-white/5"
+                    >
+                      <div className={`p-2 rounded-lg ${cfg.bg} border ${cfg.border} shrink-0`}>
+                        <Zap className={`w-4 h-4 ${cfg.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Aujourd&apos;hui</p>
+                        <p className="text-sm font-bold text-white">Première mission d&apos;ancrage</p>
+                      </div>
+                    </motion.div>
                   </div>
 
-                  <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      asChild
-                      onClick={dismiss}
-                      className="flex-1 h-11 rounded-xl border-white/10 text-zinc-400 hover:text-white text-xs font-bold uppercase"
-                    >
-                      <Link href="/guide">
-                        <BookOpen className="size-3.5 mr-1.5" />
-                        Guide complet
-                      </Link>
-                    </Button>
-                    <Button
-                      asChild
-                      onClick={dismiss}
-                      className="flex-1 h-11 rounded-xl btn-primary-glow text-xs font-bold uppercase tracking-wider group"
-                    >
-                      <Link href="/missions">
-                        Première mission
-                        <ChevronRight className="ml-1 w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                      </Link>
-                    </Button>
-                  </div>
+                  <Button
+                    asChild
+                    onClick={dismiss}
+                    className="w-full h-12 rounded-2xl btn-primary-glow text-xs font-bold uppercase tracking-wider group"
+                  >
+                    <Link href="/missions">
+                      Commencer maintenant
+                      <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
                 </motion.div>
               )}
 
