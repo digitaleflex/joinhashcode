@@ -20,8 +20,6 @@ import {
 } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { ScrambleText } from "@/components/ui/scramble-text"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"

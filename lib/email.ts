@@ -20,6 +20,7 @@ import { getMissionRejectedEmailContent } from "./email-templates/mission-reject
 import { getLevelUpEmailContent } from "./email-templates/level-up";
 import { getLevel5ReachedEmailContent } from "./email-templates/level-5-reached";
 import { getSquadCreatedEmailContent } from "./email-templates/squad-created";
+import { getSquadInvitationEmailContent } from "./email-templates/squad-invitation";
 import { getSquadMemberJoinedEmailContent } from "./email-templates/squad-member-joined";
 import { getAdminAccountDeletedEmailContent } from "./email-templates/admin-account-deleted";
 import { getAccountDeletedEmailContent } from "./email-templates/account-deleted";
@@ -235,6 +236,15 @@ export const emailService = {
       return { success: true, mocked: true };
     }
     const { subject, html, text } = getSquadCreatedEmailContent({ name, squadName });
+    return this._send({ to: email, subject, html, text });
+  },
+
+  async sendSquadInvitationEmail({ email, name, leaderName, squadName, invitationLink }: { email: string; name: string; leaderName: string; squadName: string; invitationLink: string }) {
+    if (!resend) {
+      warnEmailMissing("sendSquadInvitationEmail");
+      return { success: true, mocked: true };
+    }
+    const { subject, html, text } = getSquadInvitationEmailContent({ name, leaderName, squadName, invitationLink });
     return this._send({ to: email, subject, html, text });
   },
 
