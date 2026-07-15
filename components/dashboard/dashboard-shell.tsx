@@ -142,96 +142,92 @@ export function DashboardShell({
             )}
 
             {/* Referral / Invitation System (Growth Engine) */}
-            {featureFlags.referrals !== false && user?.referralCode && (
+            {!isNewUser && featureFlags.referrals !== false && user?.referralCode && (
               <div className="space-y-6" id="referral-card">
                 <AmbassadorGoal referralCount={user.referralCount || 0} />
                 <ReferralCard referralCode={user.referralCode} referralCount={user.referralCount || 0} />
               </div>
             )}
 
-            {/* TIER 1: COMMAND DECK (Full-Width Welcome Header) */}
-            <div className="p-6 sm:p-10 rounded-4xl glass-card relative overflow-hidden group border-white/5">
-              <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} via-transparent to-transparent opacity-20`} />
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className={cn("h-2 w-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]", config.color.replace('text-', 'bg-'))}></div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="text-[10px] font-mono font-bold tracking-tight text-zinc-500 cursor-help">{profile.toLowerCase()}_connecté_</span>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                          Ta classe actuelle est basée sur tes missions validées.
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.04em] leading-tight text-white">
-                    Bienvenue, <span className={config.color}><ScrambleText text={user.name.split(' ')[0]} duration={1000} /></span>.
+            {/* TIER 1: HEADER ORIENTÉ OBJECTIF */}
+            <div className="p-6 sm:p-8 rounded-3xl glass-card relative overflow-hidden border-white/5">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 mb-1">Mon Parcours</p>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">
+                    Bienvenue sur ton Parcours, <span className={config.color}>{user.name.split(' ')[0]}</span>.
                   </h2>
-                  <p className="text-zinc-400 max-w-2xl text-sm sm:text-base leading-relaxed">
+                  <p className="text-sm text-zinc-400 mt-1">
                     {(() => {
-                      if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Ton signal est fort.`
-                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}. Quelle est la prochaine ?`
-                      return config.message
+                      if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Continue comme ça.`
+                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}.`
+                      return "Choisis ta spécialisation pour définir ton plan d'action."
                     })()}
                   </p>
-                  {user.bio && (
-                    <p className="text-xs text-primary/60 font-mono italic border-l-2 border-primary/20 pl-4 max-w-lg">
-                      "{user.bio}"
-                    </p>
-                  )}
                 </div>
 
-                {/* Cyber HUD Right Panel */}
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 p-4 rounded-2xl bg-white/2 border border-white/5 w-full md:min-w-55 md:w-auto">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-left md:text-right cursor-help group/hub">
-                          <div className="flex items-center md:justify-end gap-1.5 mb-0.5">
-                            <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Niveau Actuel</div>
-                            <Info className="size-2.5 text-zinc-700 group-hover/hub:text-primary transition-colors" />
-                          </div>
-                          <div className="text-2xl font-black text-white tracking-tighter">{levelName}</div>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                        {levelName === "INIT" && "Niveau de départ. Valide des missions pour monter CORE."}
-                        {levelName === "CORE" && "Niveau intermédiaire. Accès aux missions techniques."}
-                        {levelName === "PRO" && "Expertise confirmée. Tu peux encadrer des recrues."}
-                        {levelName === "ELITE" && "L'élite de HASHCODE. Tes actions influencent le réseau."}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                    <>
-                      <div className="h-px w-full bg-white/5 hidden md:block"></div>
-
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="text-right cursor-help group/hub">
-                              <div className="flex items-center justify-end gap-1.5 mb-0.5">
-                                <div className="text-[9px] text-zinc-500 font-mono tracking-wider uppercase">Série quotidienne</div>
-                                <Info className="size-2.5 text-zinc-700 group-hover/hub:text-orange-500 transition-colors" />
-                              </div>
-                              <div className="text-sm font-bold text-primary flex items-center gap-1.5 justify-end">
-                                <Zap className="h-3.5 w-3.5 fill-current animate-pulse" />
-                                <span>{user.currentStreak ?? 0} {user.currentStreak > 1 ? 'jours' : 'jour'}</span>
-                              </div>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                            Maintiens ta série en effectuant un check-in chaque jour pour booster tes gains d'XP.
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </>
+                <div className="flex items-center gap-4 shrink-0">
+                  <div className="text-right">
+                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
+                    <p className="text-lg font-bold text-white">{user.experience} XP</p>
+                  </div>
+                  <div className="h-8 w-px bg-white/10" />
+                  <div className="text-right">
+                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">Série</p>
+                    <p className="text-sm font-bold text-primary flex items-center gap-1">
+                      <Zap className="h-3 w-3 fill-current" />
+                      {user.currentStreak ?? 0}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <Zap className={`absolute -bottom-10 -right-10 h-32 sm:h-56 w-32 sm:w-56 ${config.color} opacity-[0.03] -rotate-12 group-hover:scale-110 transition-transform duration-1000`} />
+            </div>
+
+            {/* OBJECTIF 90 JOURS + BOUCLE DE PROGRESSION */}
+            <div className="space-y-5">
+              <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
+                <p className="text-[9px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
+                  Objectif 90 jours
+                </p>
+                <p className="text-lg font-bold text-white">
+                  {user.mainObjective
+                    ? `${user.mainObjective} — développer une expertise concrète`
+                    : "Choisis ta spécialisation et fixe-toi un objectif"
+                  }
+                </p>
+                <p className="text-sm text-zinc-400 mt-1">
+                  {user.mainObjective
+                    ? "Chaque atelier, projet et mission te rapproche de cette cible."
+                    : "Passe le quiz pour obtenir une recommandation personnalisée."
+                  }
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500">
+                <span className="text-primary font-bold">Apprendre</span>
+                <span className="text-zinc-700">→</span>
+                <span className={user.missionsCompletedCount > 0 ? "text-primary font-bold" : "text-zinc-600"}>Pratiquer</span>
+                <span className="text-zinc-700">→</span>
+                <span className={user.missionsCompletedCount >= 3 ? "text-primary font-bold" : "text-zinc-600"}>Valider</span>
+              </div>
+
+              <div className="p-4 rounded-2xl border border-white/10 bg-white/5">
+                <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Prochaine étape</p>
+                <p className="text-base font-bold text-white mt-1">
+                  {user.mainObjective
+                    ? `Premier atelier — ${user.mainObjective.toLowerCase()}`
+                    : "Complète ton diagnostic"
+                  }
+                </p>
+                <p className="text-xs text-zinc-400 mt-0.5">
+                  {user.mainObjective ? "45 min · Première étape de ton parcours" : "Découvre ton profil et ta spécialisation"}
+                </p>
+                <Button className="mt-3 btn-primary-glow" asChild>
+                  <Link href={user.mainObjective ? "/missions" : "/quiz"}>
+                    {user.mainObjective ? "Commencer" : "Faire le quiz →"}
+                  </Link>
+                </Button>
+              </div>
             </div>
 
             {/* TIER 2: ACTION & LIVE SYNC AREA (2/3 vs 1/3 Split Grid) */}
@@ -251,16 +247,15 @@ export function DashboardShell({
                 <MissionHistory submissions={fullSubmissions.filter((s) => s.status === "APPROVED")} />
               </div>
 
-              <div className="space-y-8" id="tour-feed">
-                <ActivityFeed initialActivities={feedActivities} />
-              </div>
+              {!isNewUser && (
+                <div className="space-y-8" id="tour-feed">
+                  <ActivityFeed initialActivities={feedActivities} />
+                </div>
+              )}
             </div>
 
             {/* TIER 3: ASYMMETRIC CYBER BENTO GRID */}
-            <div className={cn(
-              "grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-700",
-              isNewUser && "opacity-40 grayscale-[0.5] pointer-events-none md:pointer-events-auto hover:opacity-100 hover:grayscale-0"
-            )}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               
               {/* Bento Box 1: core_evolution_ (spans 2 cols on md) */}
               <Card variant="premium" className="md:col-span-2 overflow-hidden group" id="tour-progression">
@@ -336,6 +331,7 @@ export function DashboardShell({
               </Card>
 
               {/* Bento Box 2: connectivité_ (spans 1 col) */}
+              {!isNewUser && (
               <Card variant="premium" className="md:col-span-1 overflow-hidden group">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-4">
@@ -428,6 +424,7 @@ export function DashboardShell({
                   </div>
                 </CardContent>
               </Card>
+              )}
 
               {/* Bento Box 3: status_ (spans 1 col) */}
               <Card variant="premium" className="md:col-span-1 overflow-hidden group">
