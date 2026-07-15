@@ -1,5 +1,26 @@
 export type ProfileType = "builder" | "creator" | "strategist" | "catalyst";
 
+export interface RecommendedSpecialization {
+  id: string
+  label: string
+  reason: string
+  goal90days: string
+  goal90daysWhy: string
+  goal90daysOutcomes: string[]
+  steps: Array<{
+    weekRange: string
+    title: string
+    type: "atelier" | "projet" | "validation"
+  }>
+  firstAction: {
+    type: "atelier" | "projet" | "mentor"
+    title: string
+    slug: string
+    duration: string
+    pourquoi: string
+  }
+}
+
 export interface AnalysisResult {
   scores: Record<ProfileType, number>;
   percentages: Record<ProfileType, number>;
@@ -15,9 +36,11 @@ export interface AnalysisResult {
     url: string;
     icon: string;
   }[];
+  recommendedSpecializations: RecommendedSpecialization[];
 }
 
 import { questions } from "./questions";
+import { PROFILE_CONTENT } from "./profile-content";
 
 // Class display labels
 const CLASS_LABELS: Record<ProfileType, string> = {
@@ -27,7 +50,22 @@ const CLASS_LABELS: Record<ProfileType, string> = {
   catalyst:   "Catalyseur",
 };
 
-export const analyzeQuizResults = (answers: string[], responseTimes: number[] = []): AnalysisResult => {
+function getSpecializationsForProfile(primary: ProfileType): RecommendedSpecialization[] {
+  const content = PROFILE_CONTENT[primary]
+  if (!content?.possibleSpecializations?.length) return []
+  return content.possibleSpecializations.map(s => ({
+    id: s.id,
+    label: s.label,
+    reason: s.reason,
+    goal90days: s.goal90days,
+    goal90daysWhy: s.goal90daysWhy,
+    goal90daysOutcomes: s.goal90daysOutcomes,
+    steps: s.steps,
+    firstAction: s.firstAction,
+  }))
+}
+
+export const analyzeQuizResults = (answers: string[], responseTimes: number[] = [], mainObjective?: string): AnalysisResult => {
   const counts: Record<ProfileType, number> = {
     builder: 0,
     creator: 0,
@@ -71,6 +109,7 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
       level: 1,
       consistencyScore: 0,
       suggestedChannels: [],
+      recommendedSpecializations: [],
     };
   }
 
@@ -137,6 +176,11 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     ? [channelMap[primary][0], channelMap[secondary][0], channelMap[primary][1]]
     : [...channelMap[primary], channelMap[secondary][0]];
 
+  const allSpecializations = getSpecializationsForProfile(primary)
+  const recommendedSpecializations = allSpecializations.length > 0
+    ? allSpecializations
+    : getSpecializationsForProfile(secondary)
+
   return {
     scores: counts,
     percentages,
@@ -147,5 +191,6 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     level,
     consistencyScore,
     suggestedChannels: channels,
+    recommendedSpecializations,
   };
 };

@@ -187,12 +187,38 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
                         </motion.div>
                       ))}
                     </div>
-                    
+
+                    {analysis.recommendedSpecializations.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2 }}
+                        className="mt-6 p-4 rounded-xl border"
+                        style={{ borderColor: `${color}33`, background: `${color}08` }}
+                      >
+                        <p className="text-[9px] font-mono uppercase tracking-widest mb-1" style={{ color }}>
+                          Spécialisation recommandée
+                        </p>
+                        <p className="text-sm font-bold text-white mb-1">
+                          {analysis.recommendedSpecializations[0].label}
+                        </p>
+                        <p className="text-xs text-zinc-400 leading-relaxed">
+                          {analysis.recommendedSpecializations[0].reason}
+                        </p>
+                        <p className="text-xs text-zinc-500 mt-2">
+                          Objectif 90 jours : <span className="text-white">{analysis.recommendedSpecializations[0].goal90days}</span>
+                        </p>
+                        <p className="text-xs text-zinc-500 mt-1">
+                          Première étape : <span className="text-white">{analysis.recommendedSpecializations[0].firstAction.title}</span> · {analysis.recommendedSpecializations[0].firstAction.duration}
+                        </p>
+                      </motion.div>
+                    )}
+
                     <Button 
                       onClick={onScrollToScores}
                       className="btn-primary-glow w-full lg:w-auto px-8 h-12 rounded-xl font-black uppercase italic tracking-wider"
                     >
-                      Accéder au Dossier Tactique
+                      Choisir ma spécialisation →
                     </Button>
                   </motion.div>
                 )}
