@@ -5,26 +5,21 @@ export interface DigitalIdentityEmailParams {
 }
 
 export function getDigitalIdentityEmailContent({ name }: DigitalIdentityEmailParams) {
-  const firstName = (name || "Builder").split(" ")[0];
+  const firstName = (name || "").split(" ")[0];
   const content = `
-      <h1>Fais briller ton signal auprès du monde, <span class="accent">${escHtml(firstName)}</span>.</h1>
-      <p>Après une semaine d'activité, ton <strong>Dossier Tactique</strong> commence à devenir impressionnant. Ton Radar d'Évolution montre tes véritables forces.</p>
-      <p>Il est temps de transformer ta réputation interne en une autorité externe incontestable.</p>
-      <div class="card">
-        <div class="card-label">Statut Actuel</div>
-        <div class="card-value">AGENT VALIDÉ</div>
-      </div>
-      <p>Partage ta <strong>Carte de Membre holographique</strong> sur LinkedIn et X. Elle contient tes preuves réelles, pas de simples mots. Utilise ton profil HASHCODE comme ton nouveau portfolio interactif.</p>
+      <h1>Bonne nouvelle, <span class="accent">${escHtml(firstName)}</span> : ton portfolio commence à prendre forme.</h1>
+      <p>Après une semaine d'activité, tu commences à accumuler des réalisations concrètes. Chaque projet validé par un mentor devient une <strong>preuve de compétence</strong> (Evidence).</p>
+      <p>Bientôt, tu pourras partager ton portfolio avec des recruteurs et partenaires. Ce ne sera pas une simple liste de cours — ce seront des compétences prouvées.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/settings" class="btn">Lier mes comptes sociaux →</a>
+        <a href="${APP_URL}/dossier" class="btn">Voir mon portfolio →</a>
       </div>
       <hr class="divider">
-      <p class="note">Ton travail parle pour toi. Montre-leur ta valeur réelle.</p>
+      <p class="note">Continue comme ça. Chaque projet te rend plus visible.</p>
     `;
 
-  const html = generateEmailTemplate(content, "Transforme ton XP en réputation. Partage ton Dossier Tactique.");
+  const html = generateEmailTemplate(content, "Ton portfolio se construit. Chaque projet compte.");
   return {
-    subject: `[RÉPUTATION] Ta carte de membre est prête à être déployée 🚀`,
+    subject: `${escHtml(firstName)}, ton portfolio commence à prendre forme`,
     html,
     text: stripHtml(content),
   };

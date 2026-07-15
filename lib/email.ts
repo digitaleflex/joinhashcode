@@ -19,12 +19,11 @@ import { getMissionRejectedEmailContent } from "./email-templates/mission-reject
 import { getLevelUpEmailContent } from "./email-templates/level-up";
 import { getLevel5ReachedEmailContent } from "./email-templates/level-5-reached";
 import { getSquadCreatedEmailContent } from "./email-templates/squad-created";
-import { getSquadInvitationEmailContent } from "./email-templates/squad-invitation";
 import { getSquadMemberJoinedEmailContent } from "./email-templates/squad-member-joined";
 import { getAdminAccountDeletedEmailContent } from "./email-templates/admin-account-deleted";
 import { getAccountDeletedEmailContent } from "./email-templates/account-deleted";
 import { getAdminCoreMissionPendingEmailContent } from "./email-templates/admin-core-mission-pending";
-import { getSquadCohesionAlertEmailContent } from "./email-templates/squad-cohesion-alert";
+import { getOrientationEmailContent } from "./email-templates/orientation";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -237,15 +236,6 @@ export const emailService = {
     return this._send({ to: email, subject, html, text });
   },
 
-  async sendSquadInvitationEmail({ email, name, leaderName, squadName, invitationLink }: { email: string; name: string; leaderName: string; squadName: string; invitationLink: string }) {
-    if (!resend) {
-      warnEmailMissing("sendSquadInvitationEmail");
-      return { success: true, mocked: true };
-    }
-    const { subject, html, text } = getSquadInvitationEmailContent({ name, leaderName, squadName, invitationLink });
-    return this._send({ to: email, subject, html, text });
-  },
-
   async sendSquadMemberJoined({ leaderEmail, leaderName, newMemberName, squadName, memberCount }: { leaderEmail: string; leaderName: string; newMemberName: string; squadName: string; memberCount: number }) {
     if (!resend) {
       warnEmailMissing("sendSquadMemberJoined");
@@ -264,6 +254,20 @@ export const emailService = {
     return this._send({ to: adminEmail, subject, html, text });
   },
 
+  async sendOrientationEmail({
+    email, name, specialization, goal90days, outcomes, atelierTitle, atelierDuration, atelierDescription
+  }: {
+    email: string; name: string; specialization: string;
+    goal90days: string; outcomes: string[];
+    atelierTitle: string; atelierDuration: string; atelierDescription: string;
+  }) {
+    if (!resend) return { success: true, mocked: true };
+    const { subject, html, text } = getOrientationEmailContent({
+      name, specialization, goal90days, outcomes, atelierTitle, atelierDuration, atelierDescription,
+    });
+    return this._send({ to: email, subject, html, text });
+  },
+
   async sendAccountDeleted({ email, name }: { email: string; name: string }) {
     if (!resend) {
       warnEmailMissing("sendAccountDeleted");
@@ -280,20 +284,6 @@ export const emailService = {
     }
     const { subject, html, text } = getAdminCoreMissionPendingEmailContent({ adminName, submitterName, missionTitle });
     return this._send({ to: adminEmail, subject, html, text });
-  },
-
-  async sendSquadCohesionAlert({ leaderEmail, leaderName, squadName, cohesionScore, level }: { leaderEmail: string; leaderName: string; squadName: string; cohesionScore: number; level: "low" | "critical" }) {
-    if (!resend) {
-      warnEmailMissing("sendSquadCohesionAlert");
-      return { success: true, mocked: true };
-    }
-    const { subject, html, text } = getSquadCohesionAlertEmailContent({ leaderName, squadName, cohesionScore, level });
-    return this._send({
-      to: leaderEmail,
-      subject,
-      html,
-      text,
-    });
   },
 
   async sendEmail({ to, subject, html, text }: { to: string; subject: string; html: string; text?: string }) {

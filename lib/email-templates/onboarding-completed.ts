@@ -5,26 +5,21 @@ export interface OnboardingCompletedEmailParams {
 }
 
 export function getOnboardingCompletedEmailContent({ name }: OnboardingCompletedEmailParams) {
-  const firstName = (name || "Builder").split(" ")[0];
+  const firstName = (name || "").split(" ")[0];
   const content = `
-      <h1>Profil initial complété, <span class="accent">${escHtml(firstName)}</span>.</h1>
-      <p>Excellent travail. Tes objectifs et ton contexte sont désormais synchronisés avec la plateforme.</p>
-      <p><strong>Mais ce n'est que le début.</strong> Pour que le système puisse t'assigner les bonnes missions, nous devons identifier ton "archétype de bâtisseur".</p>
-      <div class="card">
-        <div class="card-label">Étape Suivante</div>
-        <div class="card-value">LE QUIZ</div>
-      </div>
-      <p>Le test de profilage HASHCODE n'est pas un questionnaire classique. Il analyse ta manière de réagir face aux défis réels.</p>
+      <h1>Génial, <span class="accent">${escHtml(firstName)}</span>. Ton profil est créé.</h1>
+      <p>Merci pour ces informations. Elles vont nous permettre de personnaliser ton expérience.</p>
+      <p><strong>Place à la découverte.</strong> Un quiz de 3 minutes va révéler ton profil de bâtisseur parmi 4 classes. Ce n'est pas un test — c'est un miroir.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/quiz" class="btn">Passer mon test de profilage →</a>
+        <a href="${APP_URL}/quiz" class="btn">Découvrir mon profil →</a>
       </div>
       <hr class="divider">
-      <p class="note">Prépare-toi, c'est l'étape qui définit ton parcours.</p>
+      <p class="note">Réponds instinctivement. Il n'y a pas de bonne ou de mauvaise réponse.</p>
     `;
 
-  const html = generateEmailTemplate(content, "Onboarding terminé. Passe ton test de profilage pour découvrir ta classe.");
+  const html = generateEmailTemplate(content, "Profil créé ! Prêt à découvrir ton profil de bâtisseur ?");
   return {
-    subject: "Onboarding validé — Découvre ta classe de bâtisseur 🎯",
+    subject: `Ton profil est créé — prêt à découvrir qui tu es ?`,
     html,
     text: stripHtml(content),
   };

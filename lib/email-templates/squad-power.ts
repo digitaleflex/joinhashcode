@@ -5,26 +5,21 @@ export interface SquadPowerEmailParams {
 }
 
 export function getSquadPowerEmailContent({ name }: SquadPowerEmailParams) {
-  const firstName = (name || "Builder").split(" ")[0];
+  const firstName = (name || "").split(" ")[0];
   const content = `
-      <h1>On ne build pas un empire seul, <span class="accent">${escHtml(firstName)}</span>.</h1>
-      <p>Tu as commencé à accumuler de l'XP, mais ton évolution plafonnera si tu restes isolé. HASHCODE est conçu pour la <strong>Symbiose Cognitive</strong>.</p>
-      <p>Une <strong>Squad complète (5 membres)</strong> progresse 3x plus vite. C'est le point d'équilibre parfait pour une cohésion totale sans surcharge d'information.</p>
-      <div class="card">
-        <div class="card-label">Accélérateur</div>
-        <div class="card-value">SQUAD SYNC</div>
-      </div>
-      <p>Rejoins des profils complémentaires (Builder, Creator, Strategist, Catalyst). Le score de cohésion boostera tes gains d'XP sur chaque action.</p>
+      <h1>Tu avances bien. Une équipe peut t'aider à aller plus loin, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Sur HASHCODE, tu peux rejoindre ou créer une <strong>Squad</strong> : une équipe de 5 personnes maximum qui progressent ensemble.</p>
+      <p>Les membres d'une même squad échangent, travaillent sur des projets communs et valident mutuellement leurs compétences. C'est plus motivant et plus efficace.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/squad" class="btn">Trouver ma Squad →</a>
+        <a href="${APP_URL}/squad" class="btn">Découvrir les Squads →</a>
       </div>
       <hr class="divider">
-      <p class="note">L'union fait la force du build. Ne reste pas seul(e).</p>
+      <p class="note">Pas d'obligation — tu peux continuer seul aussi longtemps que tu veux.</p>
     `;
 
-  const html = generateEmailTemplate(content, "Multiplie ton impact. Découvre la puissance des Squads.");
+  const html = generateEmailTemplate(content, "Progresse plus vite avec une Squad.");
   return {
-    subject: `[SYNERGIE] Ne build pas seul(e) — Active ta Squad 🤝`,
+    subject: `${escHtml(firstName)}, qui pourrait t'aider à progresser ?`,
     html,
     text: stripHtml(content),
   };

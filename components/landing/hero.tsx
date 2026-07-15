@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 
 const PROFILES = [
@@ -64,28 +63,22 @@ export function Hero({
             </span>
           </div>
 
-          {/* H1 — Refined Avant-Garde */}
+          {/* H1 — Transformation promise */}
           <h1
             className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
-            Ne sois plus un spectateur.
+            Découvre ton potentiel.
             <br />
-            Deviens un
-            <span className="mt-2 sm:mt-4 block italic">
-              <span
-                className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem]"
-                style={{ color: current.color, textShadow: `0 0 30px ${current.color}40` }}
-              >
-                {current.label}
-              </span>
-            </span>
+            <span className="text-primary">Développe tes compétences.</span>
+            <br />
+            Construis ton avenir.
           </h1>
 
           {/* Subtitle */}
           <p
-            className="mt-6 sm:mt-8 text-xl sm:text-lg text-zinc-400 font-medium tracking-tight max-w-xl"
+            className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
           >
-            Rejoins une communauté d'élite où tes compétences sont tes seules limites. <span className="text-white italic">Le futur de l'Afrique se code ici.</span>
+            HashCode identifie tes forces, t'oriente vers la spécialisation qui te correspond et t'accompagne avec des ateliers, du mentorat et des projets concrets.
           </p>
 
           {/* CTAs */}
@@ -98,7 +91,7 @@ export function Hero({
               className="btn-primary-glow group h-14 rounded-2xl px-10 text-[11px] font-black uppercase"
             >
               <Link href="/quiz">
-                Révéler mon potentiel
+                Découvrir ma voie
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
@@ -169,71 +162,7 @@ export function Hero({
           </div>
         </div>
 
-        {/* Profile result card — Premium UI */}
-        <div
-          className="mx-auto mt-24 max-w-2xl"
-        >
-          <div className="relative rounded-[2.5rem] border border-white/10 glass-card p-1 shadow-2xl shadow-black/80 overflow-hidden">
-            {/* Browser bar */}
-            <div className="relative flex items-center gap-2 border-b border-white/5 px-6 py-4 bg-white/[0.02]">
-              <div className="flex gap-2">
-                <span className="h-2 w-2 rounded-full bg-zinc-800" />
-                <span className="h-2 w-2 rounded-full bg-zinc-800" />
-                <span className="h-2 w-2 rounded-full bg-zinc-800" />
-              </div>
-              <span className="ml-4 font-mono text-[9px] font-bold text-zinc-600 tracking-tight">
-                exemple de résultat
-              </span>
-            </div>
-            
-            {/* Result Content */}
-            <div className="relative p-6 sm:p-10 space-y-6 sm:space-y-8">
-              <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-                <div className="space-y-1">
-                  <p className="font-mono text-[9px] font-bold text-zinc-500 tracking-tight uppercase">ton profil est prêt</p>
-                  <p className="text-2xl sm:text-4xl font-black tracking-tighter text-[#22D3EE] uppercase italic">
-                    Stratège
-                  </p>
-                </div>
-                <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] font-black border-[#22D3EE]/30 text-[#22D3EE] px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-[#22D3EE]/5 tracking-wide">
-                  PROFIL DOMINANT
-                </Badge>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  { label: "Stratège",   pct: 68, color: "#22D3EE" },
-                  { label: "Builder",    pct: 22, color: "#B8FF3B" },
-                  { label: "Catalyseur", pct:  7, color: "#F97316" },
-                  { label: "Créateur",   pct:  3, color: "#A855F7" },
-                ].map((bar, i) => (
-                  <div
-                    key={bar.label}
-                    className="space-y-1.5"
-                  >
-                    <div className="flex justify-between items-end">
-                      <span className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-tight">
-                        {bar.label}
-                      </span>
-                      <span className="font-mono text-[9px] font-bold" style={{ color: bar.color }}>{bar.pct}%</span>
-                    </div>
-                    <div className="h-1 w-full rounded-full bg-white/5 overflow-hidden">
-                      <div
-                        className="h-full rounded-full shadow-[0_0_10px_currentColor]"
-                        style={{ background: bar.color, width: `${bar.pct}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="pt-6 border-t border-white/5 flex items-center justify-between">
-                <span className="font-mono text-[9px] font-bold text-zinc-700 uppercase tracking-tight">cohérence du profil</span>
-                <span className="font-mono text-[11px] font-black" style={{ color: "#22D3EE" }}>élevée</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Social Proof — nombre de membres */}
       </div>
     </section>
   )

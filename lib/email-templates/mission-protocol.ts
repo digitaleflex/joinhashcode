@@ -6,26 +6,21 @@ export interface MissionProtocolEmailParams {
 }
 
 export function getMissionProtocolEmailContent({ name, userClass }: MissionProtocolEmailParams) {
-  const firstName = (name || "Builder").split(" ")[0];
+  const firstName = (name || "").split(" ")[0];
   const content = `
-      <h1>Ta première preuve de maîtrise t'attend, <span class="accent">${escHtml(firstName)}</span>.</h1>
-      <p>Le réseau t'a identifié comme un <strong>${escHtml(userClass)}</strong>. Mais ton Dashboard ne montre pour l'instant que ton potentiel. Pour monter en grade, tu dois fournir des <strong>Preuves de Travail</strong>.</p>
-      <p>Ici, on ne croit pas aux CV, on croit aux livrables fonctionnels.</p>
-      <div class="card">
-        <div class="card-label">Étape Suivante</div>
-        <div class="card-value">PREMIÈRE MISSION</div>
-      </div>
-      <p>Choisis une mission <strong>INIT</strong> adaptée à ton vecteur. Soumets ton lien GitHub ou ton URL de projet. Vise le niveau 'Exemplaire' pour booster ton Score de Confiance.</p>
+      <h1>Tu connais ton profil. Maintenant, passons à l'action, <span class="accent">${escHtml(firstName)}</span>.</h1>
+      <p>Notre analyse montre que tu as un profil <strong>${escHtml(userClass)}</strong>. C'est un bon point de départ, mais ce n'est que le début.</p>
+      <p>Voici la première étape recommandée pour ton parcours : un atelier conçu pour te mettre en situation réelle. Pas de théorie inutile — du concret.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/missions" class="btn">Accéder à l'Arsenal →</a>
+        <a href="${APP_URL}/missions" class="btn">Voir ma première étape →</a>
       </div>
       <hr class="divider">
-      <p class="note">À toi de build. Montre au réseau ce que tu sais faire.</p>
+      <p class="note">Chaque atelier te rapproche de ton objectif 90 jours.</p>
     `;
 
-  const html = generateEmailTemplate(content, "Passe du potentiel à l'action. Ta première mission t'attend.");
+  const html = generateEmailTemplate(content, "Passe à l'action. Ta première étape t'attend.");
   return {
-    subject: `[PROTOCOLE] Ta première mission HASHCODE — Prêt(e) ? 🎯`,
+    subject: `${escHtml(firstName)}, ta première étape t'attend`,
     html,
     text: stripHtml(content),
   };
