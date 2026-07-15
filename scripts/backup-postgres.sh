@@ -28,7 +28,7 @@ fi
 DB_USER="${DB_USER:-postgres}"
 DB_PASSWORD="${DB_PASSWORD:-}"
 DB_NAME="${DB_NAME:-hashcode}"
-CONTAINER_NAME="hashcode-db"
+CONTAINER_NAME="db"
 
 mkdir -p "$BACKUP_DIR"
 

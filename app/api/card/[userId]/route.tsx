@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { CLASS_COLORS, LEVEL_NAMES, XP_MAX } from "@/lib/member-card-constants";
+import { CLASS_COLORS, LEVEL_NAMES, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
 
 export const runtime = "nodejs";
 
@@ -32,7 +32,7 @@ export async function GET(
     return new Response("Non trouvé", { status: 404 });
   }
 
-  const accent = CLASS_COLORS[user.class ?? "builder"] ?? "#B8FF3B";
+  const accent = CLASS_COLORS[(user.class ?? "builder") as ProfileType] ?? "#B8FF3B";
   const userLevel = user.progress?.level ?? 1;
   const userXp = user.progress?.experience ?? 0;
   const levelName = LEVEL_NAMES[userLevel] ?? "INIT";

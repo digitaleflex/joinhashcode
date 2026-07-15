@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useState, useRef, useEffect } from "react"
 import { toast } from "sonner"
-import { Loader2, Camera, User, AtSign, Languages, Globe, RefreshCw } from "lucide-react"
+import { Loader2, Camera, User, AtSign, Languages, Globe, RefreshCw, Eye, EyeOff } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CountrySelector } from "@/components/onboarding/country-selector"
@@ -192,6 +192,55 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
             className="input-premium h-14 rounded-2xl text-base px-5 font-medium focus:border-emerald-500/60"
             placeholder="Ex: Paris"
           />
+        </div>
+      </div>
+
+      {/* Section Visibilité recruteur */}
+      <div className="border-t border-white/5 pt-12 space-y-6">
+        <div>
+          <h3 className="text-lg font-bold uppercase tracking-tight text-white flex items-center gap-2 font-mono">
+            <Eye className="size-4 text-emerald-500" /> Visibilité recruteur
+          </h3>
+          <p className="text-zinc-500 text-xs font-light mt-1">
+            Apparais dans l&apos;annuaire public des talents HASHCODE — visible par les recruteurs sans inscription.
+          </p>
+        </div>
+
+        <div className="p-6 rounded-3xl bg-zinc-950/40 border border-white/5 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
+          <div className="flex items-center justify-between relative z-10">
+            <div className="flex items-center gap-3">
+              {userData?.talentVisible ? (
+                <Eye className="size-5 text-emerald-500" />
+              ) : (
+                <EyeOff className="size-5 text-zinc-500" />
+              )}
+              <div>
+                <p className="text-sm font-medium text-white">
+                  {userData?.talentVisible ? "Visible dans l'annuaire" : "Masqué de l'annuaire"}
+                </p>
+                <p className="text-[11px] text-zinc-500">
+                  {userData?.talentVisible
+                    ? "Les recruteurs peuvent découvrir ton profil"
+                    : "Ton profil n'apparaît pas dans les recherches"}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => updateData({ ...userData, talentVisible: !userData?.talentVisible })}
+              className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                userData?.talentVisible ? "bg-emerald-500" : "bg-zinc-700"
+              }`}
+              role="switch"
+              aria-checked={userData?.talentVisible ?? true}
+            >
+              <span
+                className={`pointer-events-none inline-block size-6 rounded-full bg-white shadow-lg ring-0 transition-transform ${
+                  userData?.talentVisible ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </div>
 

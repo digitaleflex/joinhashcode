@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, createElement } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   Zap, 
@@ -64,7 +64,7 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
               exit={{ opacity: 0, scale: 1.2 }}
               className="relative z-10 text-primary"
             >
-              {React.createElement(steps[step]?.icon || Cpu, { className: "size-10" })}
+              {createElement(steps[step]?.icon || Cpu, { className: "size-10" })}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -127,4 +127,3 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
   )
 }
 
-import * as React from "react"

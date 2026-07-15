@@ -1,27 +1,33 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
+const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer"];
+
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
-  const isProtectedPath =
-    request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/missions') ||
-    request.nextUrl.pathname.startsWith('/settings') ||
-    request.nextUrl.pathname.startsWith('/squad') ||
-    request.nextUrl.pathname.startsWith('/dossier') ||
-    request.nextUrl.pathname.startsWith('/feedback') ||
-    request.nextUrl.pathname.startsWith('/onboarding') ||
-    request.nextUrl.pathname.startsWith('/quiz') ||
-    request.nextUrl.pathname.startsWith('/reviewer');
-  const isBetaAccessPath = request.nextUrl.pathname.startsWith('/beta-access');
-  const isOnboardingPath = request.nextUrl.pathname.startsWith('/onboarding');
-  const isQuizPath = request.nextUrl.pathname.startsWith('/quiz');
+  // Normalise www → non-www pour éviter les erreurs state_mismatch OAuth
+  // (le cookie d'état est lié au domaine de la requête initiale)
+  const host = request.headers.get("host") || "";
+  if (host.startsWith("www.")) {
+    const url = new URL(request.url);
+    url.host = host.replace("www.", "");
+    return NextResponse.redirect(url, 308);
+  }
 
-  if (process.env.MAINTENANCE_MODE === "true" && request.nextUrl.pathname !== "/maintenance") {
-    if (request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/feedback") {
+  const pathname = request.nextUrl.pathname;
+  const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
+  const isOnboardingPath = pathname.startsWith("/onboarding");
+  const isQuizPath = pathname.startsWith("/quiz");
+
+  if (pathname.startsWith("/beta-access")) {
+    return NextResponse.redirect(new URL("/onboarding", request.url));
+  }
+
+  if (process.env.MAINTENANCE_MODE === "true" && pathname !== "/maintenance") {
+    if (pathname === "/signin" || pathname === "/feedback") {
       return NextResponse.json(
         { error: "Service temporairement indisponible pour maintenance" },
         { status: 503 }
@@ -30,7 +36,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/maintenance", request.url));
   }
 
-  if (!isProtectedPath && !isBetaAccessPath) {
+  if (!isProtectedPath) {
     return NextResponse.next();
   }
 
@@ -39,93 +45,67 @@ export async function proxy(request: NextRequest) {
   if (isProtectedPath && !sessionCookie) {
     const signinUrl = new URL("/signin", request.url);
     signinUrl.searchParams.set("reason", "auth_required");
-    signinUrl.searchParams.set("callbackURL", request.nextUrl.pathname);
+    signinUrl.searchParams.set("callbackURL", pathname);
     return NextResponse.redirect(signinUrl);
   }
 
-  let sessionData = null;
-  let fromCache = false;
+  let sessionData: { session?: unknown; user?: Record<string, unknown> } | null = null;
 
   if (sessionCookie) {
-    const cacheCookie = request.cookies.get("hc_mw")?.value;
-    if (cacheCookie) {
-      try {
-        sessionData = JSON.parse(atob(cacheCookie));
-        fromCache = true;
-      } catch {
-        // ignore and fetch
+    try {
+      const decoded = await getCookieCache(request, {
+        secret: process.env.BETTER_AUTH_SECRET,
+      });
+      if (decoded) {
+        sessionData = decoded;
       }
+    } catch {
+      // Fallback HTTP si le décodage JWE échoue
     }
 
-    // ⚡ Perf: Essayer de décoder localement le JWE via getCookieCache (évite l'appel HTTP)
-    if (!sessionData) {
-      try {
-        const decoded = await getCookieCache(request, {
-          secret: process.env.BETTER_AUTH_SECRET,
-        });
-        if (decoded) {
-          sessionData = decoded;
-        }
-      } catch {
-        // Fallthrough to HTTP fallback — normal si le cookie JWE n'est pas décodable
-      }
-    }
-
-    // Fallback de sécurité : appel HTTP local (évite Traefik → plus fiable)
     if (!sessionData) {
       try {
         const requestHeaders = new Headers(request.headers);
         const response = await fetch(`http://127.0.0.1:3000/api/auth/middleware-session`, {
           headers: requestHeaders,
-          cache: 'no-store',
+          cache: "no-store",
           signal: AbortSignal.timeout(5000),
         });
-
         if (response.ok) {
           sessionData = await response.json();
         }
-      } catch (error) {
-        console.error("🟢 [Middleware] Session fetch failed:", error);
+      } catch {
+        // Session indisponible — la route gérera l'auth elle-même
       }
     }
   }
 
   const session = sessionData?.session;
   const user = sessionData?.user;
-
   let nextResponse = NextResponse.next();
 
   if (session && user) {
-    if (isBetaAccessPath) {
-      const dest = !user.currentSituation ? "/onboarding"
-        : !user.class ? "/quiz"
-        : "/dashboard";
-      nextResponse = NextResponse.redirect(new URL(dest, request.url));
+    const isDeactivated = user.deactivatedAt && new Date(user.deactivatedAt as string) <= new Date();
+    const isBanned = (user as Record<string, unknown>).banned === true;
+
+    if (isDeactivated || isBanned) {
+      if (pathname === "/reactivate") return nextResponse;
+      if (pathname.startsWith("/signin")) return nextResponse;
+      if (!pathname.startsWith("/api")) {
+        return NextResponse.redirect(new URL("/reactivate", request.url));
+      }
+      return NextResponse.json({ error: "Compte désactivé" }, { status: 403 });
     }
 
-    if (isProtectedPath && !request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.includes('.')) {
-      if (!user.betaKeyId && !isBetaAccessPath) {
-        nextResponse = NextResponse.redirect(new URL("/beta-access", request.url));
-      } else if (!user.currentSituation && !isOnboardingPath && !isQuizPath) {
+    const needsOnboarding = !user.currentSituation;
+    const needsQuiz = user.currentSituation && !user.class;
+
+    if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
+      if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
-      } else if (user.currentSituation && !user.class && !isQuizPath && !isOnboardingPath) {
+      } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       }
-    }
-  }
-
-  // Cache session data in cookie if fetched from API
-  if (sessionData && !fromCache) {
-    try {
-      const encoded = btoa(JSON.stringify(sessionData));
-      nextResponse.cookies.set("hc_mw", encoded, {
-        maxAge: 300, // 5 minutes
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-      });
-    } catch (e) {
-      console.error("🟢 [Middleware] Failed to set session cache cookie:", e);
     }
   }
 

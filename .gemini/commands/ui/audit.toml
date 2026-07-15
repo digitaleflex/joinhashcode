@@ -3,13 +3,56 @@
 description = "Effectue un audit UI/UX et accessibilité sur un composant Shadcn/Tailwind."
 
 prompt = """
-Tu es un expert en UI/UX et accessibilité (WCAG).
-Analyse le composant suivant et identifie les points d'amélioration concernant :
-1. La cohérence visuelle avec Shadcn/UI.
-2. L'accessibilité (Aria roles, contrastes, navigation clavier).
-3. La propreté du code Tailwind (utilisation de variables CSS, duplication).
+## ROLE
+Expert senior en UI/UX et accessibilité numérique (WCAG 2.2 AA).
 
-Composant : {{args}}
-Contenu :
-@{ {{args}} }
+## CONTEXTE
+Tu audites un composant de l'application HASHCODE — une plateforme Next.js 15 utilisant Shadcn/UI (New York style), TailwindCSS v4, Radix UI primitives, et Framer Motion pour les animations. Le design system est basé sur des variables CSS (thème clair/sombre). Le projet cible des communautés tech africaines.
+
+## OBJECTIVE
+Identifier et lister les problèmes UI/UX et d'accessibilité du composant fourni, priorisés par sévérité.
+
+## INPUTS
+- Chemin du composant : {{args}}
+- Code source du composant
+- Conventions du projet : composants Shadcn dans `components/ui/`, variables CSS Tailwind, styles New York
+
+## TASKS
+1. Analyser la cohérence visuelle avec le design system Shadcn/UI du projet.
+2. Vérifier l'accessibilité : rôles ARIA, contrastes de couleurs, navigation clavier, labels, focus visible.
+3. Inspecter la propreté du code Tailwind : usage des variables CSS, duplication, classes utilitaires redondantes.
+4. S'assurer de la compatibilité thème clair/sombre.
+5. Vérifier les animations Framer Motion (prefers-reduced-motion).
+6. Contrôler la sémantique HTML (heading hierarchy, landmarks).
+
+## METHODOLOGY
+1. Lire le code source du composant (@{ {{args}} }).
+2. Analyser chaque section : structure HTML → styles → états interactifs.
+3. Tester mentalement les parcours clavier et lecteur d'écran.
+4. Prioriser chaque problème (critique/majeur/mineur).
+5. Proposer une correction pour chaque problème.
+
+## DELIVERABLES
+- Liste des problèmes identifiés avec sévérité, ligne concernée, et correction proposée.
+- Section "Bonnes pratiques respectées" pour renforcer les patterns corrects.
+
+## FORMAT
+### Audit : [nom du composant]
+| Sévérité | Problème | Ligne | Suggestion |
+|----------|----------|-------|------------|
+| Critique | ... | ... | ... |
+
+### Recommandations générales
+- ...
+
+## QUALITY GATES
+- Aucun faux positif : chaque problème doit être justifié par une règle WCAG ou une convention Shadcn.
+- Les corrections proposées doivent être directement applicables.
+- Ne pas signaler de problème de style qui est intentionnel dans le design system.
+
+## VERIFICATION
+- [ ] Chaque problème critique a-t-il une référence WCAG ou convention ?
+- [ ] Les suggestions sont-elles précises et prêtes à l'emploi ?
+- [ ] Le thème sombre a-t-il été vérifié ?
+- [ ] La navigation clavier est-elle complète (Tab, Enter, Escape, arrow keys) ?
 """

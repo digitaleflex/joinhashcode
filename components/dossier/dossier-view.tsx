@@ -47,6 +47,7 @@ interface DossierViewProps {
   quizResult: any;
   squadMembersLogs: any[];
   isPublic?: boolean;
+  isPrivate?: boolean;
   isInspecting?: boolean;
   viewerSquad?: {
     id: string;
@@ -62,10 +63,12 @@ export function DossierView({
   activeOrg, 
   quizResult, 
   isPublic = false,
+  isPrivate = false,
   isInspecting = false,
   viewerSquad = null,
-  hasSentInvitation = false
-}: Omit<DossierViewProps, "squadMembersLogs">) {
+  hasSentInvitation = false,
+  featureFlags = {}
+}: Omit<DossierViewProps, "squadMembersLogs"> & { featureFlags?: Record<string, boolean> }) {
   const [sendingInvite, setSendingInvite] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
 
@@ -133,6 +136,29 @@ export function DossierView({
           <Badge variant="outline" className="border-amber-500/30 text-amber-500 font-mono text-[9px] uppercase tracking-widest bg-amber-500/5">
             ADMIN_PREVIEW
           </Badge>
+        </div>
+      )}
+
+      {isPrivate && isPublic && (
+        <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-700/30 text-center space-y-3">
+          <div className="size-12 rounded-2xl bg-zinc-800 border border-white/5 flex items-center justify-center mx-auto">
+            <ShieldCheck className="size-6 text-zinc-500" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-sm font-black uppercase tracking-wider text-zinc-400">Profil Privé</h3>
+            <p className="text-[11px] text-zinc-600 max-w-md mx-auto">
+              {user.name} a choisi de rendre son profil invisible. Seuls les administrateurs peuvent consulter les dossiers complets.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {isPublic && !isPrivate && !isInspecting && (
+        <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 text-primary flex items-center gap-3">
+          <Info className="size-4 shrink-0" />
+          <p className="text-[10px] font-mono font-bold uppercase tracking-wider">
+            Profil public — certaines données sensibles sont masquées.
+          </p>
         </div>
       )}
 
@@ -246,18 +272,19 @@ export function DossierView({
                   )}
               </div>
 
-              {/* Neural Sync Gauge */}
-              <div className="space-y-4">
-                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                      Alignement Neural
-                      <div className="h-px bg-white/5 flex-1" />
-                  </p>
-                  <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8">
-                      <NeuralSyncGauge score={syncScore} />
-                  </Card>
-              </div>
+              {!isPublic && (
+                <div className="space-y-4">
+                    <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                        Alignement Neural
+                        <div className="h-px bg-white/5 flex-1" />
+                    </p>
+                    <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8">
+                        <NeuralSyncGauge score={syncScore} />
+                    </Card>
+                </div>
+              )}
 
-              {/* Evolution Engine Metrics (Only if NOT public or optionally public) */}
+              {!isPublic && (
               <div className="space-y-4" id="tour-dossier-tips">
                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
                       Indices de Performance
@@ -347,6 +374,7 @@ export function DossierView({
                       )}
                   </Card>
               </div>
+              )}
 
               {/* Squad Intel Area */}
               <div className="space-y-4">
@@ -442,7 +470,7 @@ export function DossierView({
           {/* Main Content Area */}
           <div className="lg:col-span-8 space-y-8 sm:space-y-12 lg:order-1">
               
-              {/* Neuro-Mapping */}
+              {!isPublic && (
               <div className="space-y-6">
                   <div className="flex items-center gap-3">
                       <Brain className="size-5 text-primary" />
@@ -501,8 +529,9 @@ export function DossierView({
                       </CardContent>
                   </Card>
               </div>
+              )}
 
-              {/* Interactive Radar Chart */}
+              {!isPublic && (
               <div className="space-y-6" id="tour-dossier-radar">
                   <div className="flex items-center gap-3">
                       <Activity className="size-5 text-primary" />
@@ -523,8 +552,9 @@ export function DossierView({
                       </CardContent>
                   </Card>
               </div>
+              )}
 
-              {/* Growth Timeline Chart */}
+              {!isPublic && (
               <div className="space-y-6" id="tour-dossier-xp">
                   <div className="flex items-center gap-3">
                       <TrendingUp className="size-5 text-primary" />
@@ -539,8 +569,9 @@ export function DossierView({
                       <XPGrowthChart logs={user.activityLogs} currentXP={user.experience} />
                   </Card>
               </div>
+              )}
 
-              {/* Missions Récentes */}
+              {!isPublic && (
               <div className="space-y-6" id="tour-dossier-missions">
                   <div className="flex items-center gap-3">
                       <Target className="size-5 text-primary" />
@@ -570,6 +601,7 @@ export function DossierView({
                       )}
                   </div>
               </div>
+              )}
 
               {/* Spécialisations & Outils */}
               <div className="space-y-6">
@@ -618,7 +650,7 @@ export function DossierView({
               {/* Referral widget — own profile only */}
               {!isPublic && <ReferralWidget />}
 
-              {/* Badges */}
+              {featureFlags.badges !== false && (
               <div className="space-y-4">
                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
                       Badges & Distinctions
@@ -636,6 +668,7 @@ export function DossierView({
                       )}
                   </div>
               </div>
+              )}
           </div>
       </div>
     </div>

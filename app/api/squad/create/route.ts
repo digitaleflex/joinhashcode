@@ -1,14 +1,13 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { checkRateLimit, strictMutationLimiter } from "@/lib/ratelimit";
 import { prisma } from "@/lib/prisma";
 import { awardXp } from "@/lib/experience";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
 import { emailService } from "@/lib/email";
 import crypto from "crypto";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 // ── Curated name generator ────────────────────────────────────────────────────
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
@@ -40,9 +39,8 @@ function generateSquadName(): { name: string; slug: string } {
 
 export async function POST(req: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
-
+    checkCsrfOrigin(req);
+    const session = await requireSession();
     const userId = session.user.id;
 
     const { limited } = await checkRateLimit(strictMutationLimiter, userId);

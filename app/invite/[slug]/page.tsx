@@ -1,11 +1,10 @@
-import { auth } from "@/lib/auth";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { InviteClient } from "./invite-client";
 
 export default async function InvitePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionSafe();
 
   // Fetch squad details
   const squad = await prisma.organization.findUnique({
@@ -34,7 +33,7 @@ export default async function InvitePage({ params }: { params: Promise<{ slug: s
     );
   }
 
-  const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")?.user || squad.members[0].user;
+  const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")?.user ?? squad.members[0]?.user ?? null;
 
   return (
     <InviteClient 

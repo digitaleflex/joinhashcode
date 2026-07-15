@@ -26,7 +26,7 @@ export interface Mission {
   // Extra DB fields
   deliverables?: string[];
   fullBriefing?: string;
-  submissionMethod?: "ANY_LINK" | "TEXT_RESPONSE" | "LIVE_URL" | "DOCUMENT_LINK" | "GITHUB_REPO";
+  submissionMethod?: "ANY_LINK" | "TEXT_RESPONSE" | "LIVE_URL" | "DOCUMENT_LINK" | "GITHUB_LINK";
 }
 
 export const MISSIONS: Mission[] = [
@@ -307,7 +307,7 @@ export const WEEKLY_CHALLENGES: WeeklyChallenge[] = [
     shortDesc: "Partage le lien d'un projet ou commit récent. Peu importe la taille.",
     xp: 35,
     type: "CODE",
-    submissionMethod: "GITHUB_REPO",
+    submissionMethod: "GITHUB_LINK",
     targetProfiles: ["builder", "creator"],
     weeklySlot: null,
   },

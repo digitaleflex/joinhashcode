@@ -68,14 +68,25 @@ export function SignInForm() {
                 type: "sign-in"
             })
             
-            if (error) throw new Error(error.message)
+            if (error) {
+                const isRateLimit = (error as Record<string, unknown>)?.status === 429 || 
+                    error.message?.toLowerCase().includes("too many") ||
+                    error.message?.toLowerCase().includes("429")
+                if (isRateLimit) {
+                    toast.error("Trop de tentatives. Réessaie dans 60 secondes.", { duration: 5000 })
+                    setResendCooldown(60)
+                    setLoadingProvider(null)
+                    return
+                }
+                throw new Error(error.message)
+            }
             
-            toast.success("Code de sécurité envoyé !")
+            toast.success("Un code de sécurité a été envoyé sur ta boîte mail. Vérifie aussi tes spams si tu ne le trouves pas.")
             setStep("otp")
             setResendCooldown(60) // Start 60s cooldown
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Erreur lors de l'envoi du code")
+            toast.error("Le code n'a pas pu être envoyé. Réessaie dans quelques instants.")
         } finally {
             setLoadingProvider(null)
         }
@@ -101,7 +112,7 @@ export function SignInForm() {
             window.location.href = getSafeCallbackUrl()
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Code invalide ou expiré")
+            toast.error("Le code saisi est incorrect ou a expiré. Vérifie le code reçu ou demande un nouvel envoi.")
         } finally {
             setLoadingProvider(null)
         }

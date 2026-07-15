@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { type AnalysisResult } from '@/lib/analysis'
-import { PROFILE_COLORS, getProfileContent, type ProfileType } from '@/lib/profile-content'
+import { CLASS_COLORS as PROFILE_COLORS } from '@/lib/member-card-constants'
+import { getProfileContent, type ProfileType } from '@/lib/profile-content'
 import { type UserData } from './result-page'
 import {
   Tooltip,

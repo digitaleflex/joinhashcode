@@ -21,8 +21,8 @@ fi
 DB_USER="${DB_USER:-postgres}"
 DB_PASSWORD="${DB_PASSWORD:-}"
 DB_NAME="${DB_NAME:-hashcode}"
-DB_CONTAINER="hashcode-db"
-WEB_CONTAINERS=("hashcode-web-a" "hashcode-web-b")
+DB_CONTAINER="db"
+WEB_CONTAINERS=("hashcode-web" "hashcode-web-a" "hashcode-web-b")
 DISCORD_WEBHOOK="${DISCORD_WEBHOOK_URL:-}"
 ADMIN_EMAIL="${ADMIN_EMAIL:-}"
 

@@ -1,12 +1,11 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { stripHtml } from "@/lib/utils";
 import { containsProfanity } from "@/lib/security";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { invalidateUserCache } from "@/lib/user-cache";
+import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
@@ -53,17 +52,13 @@ const updateSchema = z.object({
   tools: z.array(z.string().max(50)).max(20).optional().nullable().transform(v => v || undefined),
   mainObjective: z.string().max(300).optional().nullable().transform(v => v || undefined),
   secondaryObjectives: z.array(z.string().max(200)).max(5).optional().nullable().transform(v => v || undefined),
+  talentVisible: z.boolean().optional(),
 });
 
 export async function PATCH(req: Request) {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      return NextResponse.json({ message: "Accès non autorisé. Connecte-toi pour modifier ton profil." }, { status: 401 });
-    }
+    checkCsrfOrigin(req);
+    const session = await requireSession();
 
     // Basic rate limit (60 seconds)
     const user = await prisma.user.findUnique({

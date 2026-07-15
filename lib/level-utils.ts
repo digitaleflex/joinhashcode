@@ -1,5 +1,7 @@
+import { LEVEL_THRESHOLDS } from "./member-card-constants"
+
 export function getLevelProgress(xp: number) {
-  const thresholds = [0, 100, 400, 1400]
+  const thresholds = LEVEL_THRESHOLDS
   let level = 1
   let currentLevelXp = 0
   let nextLevelXp: number | null = null

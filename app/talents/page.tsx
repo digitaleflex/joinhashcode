@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { prisma } from "@/lib/prisma"
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
@@ -11,9 +10,7 @@ import { TalentsClient } from "./talents-client"
 import { UserProfile } from "@/lib/types"
 
 export default async function TalentsPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
+  const session = await getSessionSafe()
 
   if (!session) {
     redirect("/signin")
@@ -83,10 +80,59 @@ export default async function TalentsPage() {
 
   const activeOrg = dbSessionUser.members[0]?.organization ?? null
 
+  // Fetch viewer's squad membership for invite capabilities
+  const viewerMember = await prisma.member.findFirst({
+    where: { userId: session.user.id },
+    include: {
+      organization: {
+        include: {
+          members: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  class: true,
+                  tools: true,
+                  builderScore: true,
+                  creatorScore: true,
+                  strategistScore: true,
+                  catalystScore: true,
+                  progress: { select: { level: true, experience: true } },
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const viewerSquad = viewerMember && ["owner", "admin"].includes(viewerMember.role) ? {
+    id: viewerMember.organization.id,
+    name: viewerMember.organization.name,
+    role: viewerMember.role,
+    cohesionScore: viewerMember.organization.cohesionScore,
+    memberCount: viewerMember.organization.members.length,
+    members: viewerMember.organization.members.map((m) => ({
+      userId: m.userId,
+      name: m.user.name,
+      class: m.user.class,
+      tools: m.user.tools ?? [],
+      level: m.user.progress?.level ?? 1,
+      scores: {
+        builderScore: m.user.builderScore,
+        creatorScore: m.user.creatorScore,
+        strategistScore: m.user.strategistScore,
+        catalystScore: m.user.catalystScore,
+      }
+    }))
+  } : null;
+
   // Fetch all active, non-banned users in the directory
   const talentsRaw = await prisma.user.findMany({
     where: {
-      security: { banned: { not: true } },
+      OR: [{ security: null }, { security: { banned: { not: true } } }],
     },
     select: {
       id: true,
@@ -103,6 +149,7 @@ export default async function TalentsPage() {
       strategistScore: true,
       catalystScore: true,
       progress: { select: { level: true, experience: true } },
+      members: { select: { id: true } },
     },
     orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
   })
@@ -112,6 +159,7 @@ export default async function TalentsPage() {
     tools: t.tools ?? [],
     level: t.progress?.level ?? 1,
     experience: t.progress?.experience ?? 0,
+    inSquad: t.members.length > 0,
   }))
 
   return (
@@ -127,7 +175,7 @@ export default async function TalentsPage() {
         <UserTopBar user={sessionUser} />
 
         <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
-          <TalentsClient talents={talents} />
+          <TalentsClient talents={talents} viewerSquad={viewerSquad} />
         </main>
       </SidebarInset>
     </SidebarProvider>

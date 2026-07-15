@@ -1,16 +1,9 @@
+import { Prisma } from "@/generated/prisma/client"
 import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
 import { checkAndAwardBadges } from "./badge-engine";
 import { emailService } from "./email";
-
-export const XP_THRESHOLDS = {
-  1: 0,
-  2: 100,
-  3: 400,
-  4: 1400,
-} as const;
-
-export const LEVEL_THRESHOLDS = [0, 100, 400, 1400] as const;
+import { XP_THRESHOLDS } from "./member-card-constants";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -29,7 +22,7 @@ export async function awardXp(
   sourceId?: string,
   customTx?: any
 ) {
-  const execute = async (tx: any) => {
+  const execute = async (tx: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">) => {
     // 1. Détecter le bonus de cohésion de squad
     let finalAmount = amount;
     const membership = await tx.member.findFirst({
@@ -105,8 +98,6 @@ export async function awardXp(
         id: true,
         name: true,
         email: true,
-      },
-      include: {
         progress: { select: { level: true } },
       },
     });

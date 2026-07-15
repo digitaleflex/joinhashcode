@@ -58,24 +58,27 @@ vi.mock("next/headers", () => ({
   headers: vi.fn(() => Promise.resolve(new Headers())),
 }));
 
+vi.mock("@/lib/after", () => ({
+  safeAfter: vi.fn((fn: () => unknown) => fn()),
+}));
+
 describe("Admin Submissions API [id]", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should return 401 if not authenticated", async () => {
+  it("should return 403 if not authenticated", async () => {
     (auth.api.getSession as any).mockResolvedValue(null);
     const req = new Request("http://localhost/api/admin/submissions/1", {
       method: "PATCH",
       body: JSON.stringify({ action: "APPROVE" }),
     });
     const res = await PATCH(req, { params: Promise.resolve({ id: "1" }) });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(403);
   });
 
   it("should return 403 if user is not admin", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "user1", role: "MEMBER" });
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1", role: "MEMBER" } });
     const req = new Request("http://localhost/api/admin/submissions/1", {
       method: "PATCH",
       body: JSON.stringify({ action: "APPROVE" }),
@@ -85,9 +88,15 @@ describe("Admin Submissions API [id]", () => {
   });
 
   it("should approve submission and update evolution and notify", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
     
+    const mockUser = { id: "user1", progress: { experience: 0, level: 1 } };
+    (prisma.user.findUnique as any).mockResolvedValue(mockUser);
+    (prisma.user.update as any).mockResolvedValue(mockUser);
+    (prisma.userProgress.upsert as any).mockResolvedValue({ missionsCompletedCount: 1 });
+    (prisma.xpTransaction.create as any).mockResolvedValue({});
+    (prisma.activityLog.create as any).mockResolvedValue({});
+
     const mockSubmission = {
       id: "sub1",
       userId: "user1",
@@ -117,8 +126,7 @@ describe("Admin Submissions API [id]", () => {
   });
 
   it("should reject submission and notify", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
 
     const mockSubmission = {
       id: "sub1",
@@ -150,8 +158,7 @@ describe("Admin Submissions API [id]", () => {
   });
 
   it("should approve with GOOD quality level and award 125% XP", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
 
     const mockSubmission = {
       id: "sub1",
@@ -175,8 +182,7 @@ describe("Admin Submissions API [id]", () => {
   });
 
   it("should set NEEDS_REVISION with revisionNotes", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "admin1", role: "ADMIN" });
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
 
     const mockSubmission = {
       id: "sub1",

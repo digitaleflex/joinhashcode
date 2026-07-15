@@ -11,7 +11,7 @@ export const CHECKIN_WEIGHTS: Record<string, Partial<BehavioralVitality>> = {
   'Product': { strategist: 0.5, builder: 0.5 },
 };
 
-export { LEVEL_THRESHOLDS } from './experience';
+
 export { getLevelProgress } from './level-utils';
 
 export async function updateUserEvolution(

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { submitQuiz } from "@/app/actions/quiz"
 import { questions } from "@/lib/questions"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,7 @@ import type { AnalysisResult } from "@/lib/analysis"
 import {
   ChevronRight, ChevronLeft, Sparkles
 } from "lucide-react"
-import { useEffect } from "react"
+
 import { motion } from "framer-motion"
 import { ResultPage } from "./result-page"
 
@@ -95,9 +95,10 @@ function AnalyzingScreen() {
 
 interface QuizProps {
   user?: QuizUser
+  pendingSquad?: string | null
 }
 
-export function Quiz({ user }: QuizProps) {
+export function Quiz({ user, pendingSquad }: QuizProps) {
   const [isStarted, setIsStarted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -295,6 +296,7 @@ export function Quiz({ user }: QuizProps) {
       <ResultPage
         analysis={analysisResult}
         quizResultId={quizResultId}
+        pendingSquad={pendingSquad}
         user={{
           pseudo: user?.pseudo,
           name: user?.name,

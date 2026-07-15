@@ -43,18 +43,14 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const dbUser = await prisma.user.findUnique({
     where: { pseudo },
     select: {
-      id: true, name: true, pseudo: true, email: true, image: true, bio: true,
+      id: true, name: true, pseudo: true, image: true, bio: true,
       role: true, language: true,
       city: true, country: true,
       class: true,
-      behavioralVibrancy: true, technicalLevel: true,
+      talentVisible: true,
+      technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
       memberNumber: true, createdAt: true,
-      builderScore: true,
-      creatorScore: true,
-      strategistScore: true,
-      catalystScore: true,
-      confidenceScore: true,
       socials: {
         select: {
           githubUrl: true,
@@ -63,46 +59,8 @@ export default async function PublicProfilePage({ params }: PageProps) {
           portfolioUrl: true,
         }
       },
-      stats: {
-        select: {
-          currentStreak: true,
-          lastCheckinAt: true,
-        }
-      },
       progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
       security: { select: { banned: true } },
-      referral: { select: { referralCount: true } },
-      quizResults: {
-        select: { id: true, profileType: true, createdAt: true },
-        orderBy: { createdAt: 'desc' },
-        take: 1,
-      },
-      missionSubmissions: {
-        where: { status: "APPROVED" },
-        select: { id: true, status: true, createdAt: true, mission: { select: { title: true, category: true } } },
-        orderBy: { createdAt: 'desc' },
-        take: 10,
-      },
-      activityLogs: {
-        select: { id: true, action: true, createdAt: true },
-        orderBy: { createdAt: 'desc' },
-        take: 20,
-      },
-      members: {
-        select: {
-          organization: {
-            select: {
-              name: true, cohesionScore: true, streakCount: true,
-              members: {
-                select: {
-                  role: true,
-                  user: { select: { id: true, name: true, pseudo: true, image: true, class: true, progress: { select: { level: true } } } },
-                },
-              },
-            },
-          },
-        },
-      },
     },
   });
 
@@ -110,56 +68,48 @@ export default async function PublicProfilePage({ params }: PageProps) {
     notFound();
   }
 
+  const isPrivate = !dbUser.talentVisible;
+
   // Aplatir l'objet user pour la compatibilité avec DossierView
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
-    ...dbUser,
+    id: dbUser.id,
+    name: dbUser.name,
+    pseudo: dbUser.pseudo,
+    image: dbUser.image,
+    bio: dbUser.bio,
+    role: dbUser.role,
+    language: dbUser.language,
+    city: dbUser.city,
+    country: dbUser.country,
+    class: dbUser.class,
+    technicalLevel: dbUser.technicalLevel,
+    mainObjective: dbUser.mainObjective,
+    domains: dbUser.domains ?? [],
+    tools: dbUser.tools ?? [],
+    badges: dbUser.badges ?? [],
+    memberNumber: dbUser.memberNumber,
+    createdAt: dbUser.createdAt,
     level: dbUser.progress?.level ?? 1,
     experience: dbUser.progress?.experience ?? 0,
     missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,
-    referralCount: dbUser.referral?.referralCount ?? 0,
-    email: dbUser.email,
     githubUrl: dbUser.socials?.githubUrl ?? null,
     linkedinUrl: dbUser.socials?.linkedinUrl ?? null,
     twitterUrl: dbUser.socials?.twitterUrl ?? null,
     portfolioUrl: dbUser.socials?.portfolioUrl ?? null,
-    currentStreak: dbUser.stats?.currentStreak ?? 0,
-    builderScore: dbUser.builderScore ?? 0,
-    creatorScore: dbUser.creatorScore ?? 0,
-    strategistScore: dbUser.strategistScore ?? 0,
-    catalystScore: dbUser.catalystScore ?? 0,
-    confidenceScore: dbUser.confidenceScore ?? 0.25,
-    lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
-    missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
-    activityLogs: dbUser.activityLogs,
+    // Sécurité : champs sensibles jamais exposés publiquement
+    email: "",
+    builderScore: 0,
+    creatorScore: 0,
+    strategistScore: 0,
+    catalystScore: 0,
+    confidenceScore: 0,
+    behavioralVibrancy: null,
+    currentStreak: 0,
+    lastCheckin: null,
+    referralCount: 0,
+    missionSubmissions: [],
+    activityLogs: [],
   };
-
-  const activeOrg = dbUser.members[0]?.organization ?? null;
-  const quizResult = dbUser.quizResults?.[0];
-
-  // Fetch squad activity logs for the public view (limited)
-  let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];
-  if (activeOrg) {
-    const squadMemberIds = activeOrg.members.map((m) => m.user.id);
-    squadMembersLogs = await prisma.activityLog.findMany({
-      where: {
-        userId: { in: squadMemberIds },
-        action: {
-          in: ["MISSION_APPROVED", "SQUAD_CREATED", "LEVEL_UP"],
-        },
-      },
-      include: {
-        user: {
-          select: {
-            name: true,
-            image: true,
-            pseudo: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-    });
-  }
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
@@ -172,9 +122,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
       <main className="flex-1 p-4 md:p-10 pt-24 md:pt-32 relative z-10">
         <DossierView 
           user={user}
-          activeOrg={activeOrg}
-          quizResult={quizResult}
+          activeOrg={null}
+          quizResult={null}
           isPublic={true}
+          isPrivate={isPrivate}
         />
       </main>
 

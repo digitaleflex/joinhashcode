@@ -23,11 +23,11 @@ interface Props {
   analysis: AnalysisResult
   user: UserData
   quizResultId?: string
+  pendingSquad?: string | null
 }
 
-export function ResultPage({ analysis, user, quizResultId }: Props) {
+export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props) {
   const [selectedSpec, setSelectedSpec] = useState<RecommendedSpecialization | null>(null)
-  const [showOrientation, setShowOrientation] = useState(false)
 
   const choiceRef = useRef<HTMLDivElement>(null)
   const orientationRef = useRef<HTMLDivElement>(null)
@@ -43,7 +43,6 @@ export function ResultPage({ analysis, user, quizResultId }: Props) {
 
   function handleChoose(spec: RecommendedSpecialization) {
     setSelectedSpec(spec)
-    setShowOrientation(true)
     setTimeout(() => {
       orientationRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
@@ -208,7 +207,7 @@ export function ResultPage({ analysis, user, quizResultId }: Props) {
         <div className="flex-1 h-px bg-zinc-800" />
       </div>
 
-      <ResultLocked analysis={analysis} />
+      <ResultLocked analysis={analysis} pendingSquad={pendingSquad} />
     </div>
   )
 }

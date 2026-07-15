@@ -106,7 +106,7 @@ export const auth = betterAuth({
   }),
   session: {
     expiresIn: 60 * 60 * 24 * 7,
-    updateAge: 60 * 60 * 24,
+    updateAge: 60 * 60,
     freshAge: 60 * 60,
     cookieCache: {
       enabled: true,
@@ -204,6 +204,13 @@ export const auth = betterAuth({
                   lastCheckinAt: null,
                   lastStreakDate: null,
                 }
+              },
+              progress: {
+                create: {
+                  level: 1,
+                  experience: 0,
+                  missionsCompletedCount: 0,
+                }
               }
             },
           });
@@ -229,15 +236,28 @@ export const auth = betterAuth({
     return {
       secondaryStorage: {
         get: async (key: string) => {
-          const val = await r.get(key);
-          return val ?? null;
+          try {
+            const val = await r.get(key);
+            return val ?? null;
+          } catch (err) {
+            console.error("[AUTH][redis] get failed:", err);
+            return null;
+          }
         },
         set: async (key: string, value: string, ttl?: number) => {
-          if (ttl) await r.set(key, value, { ex: ttl });
-          else await r.set(key, value);
+          try {
+            if (ttl) await r.set(key, value, { ex: ttl });
+            else await r.set(key, value);
+          } catch (err) {
+            console.error("[AUTH][redis] set failed:", err);
+          }
         },
         delete: async (key: string) => {
-          await r.del(key);
+          try {
+            await r.del(key);
+          } catch (err) {
+            console.error("[AUTH][redis] del failed:", err);
+          }
         },
       },
     };
@@ -273,21 +293,15 @@ export const auth = betterAuth({
     }),
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        try {
-          const result = await emailService.sendOtpEmail({ email, otp, type });
-          if (!result.success) {
-            const error = (result as { error?: any }).error;
-            throw new Error(
-              error?.message
-                ? String(error.message)
-                : typeof error === "string"
-                  ? error
-                  : "Failed to send OTP email"
-            );
-          }
-        } catch (err: any) {
-          console.error("[AUTH][emailOTP] Failed to send OTP:", err);
-          throw err;
+        const result = await emailService.sendOtpEmail({ email, otp, type });
+        if (!result.success) {
+          const error = (result as { error?: any }).error;
+          const errorMessage = error?.message
+            ? String(error.message)
+            : typeof error === "string"
+              ? error
+              : "Failed to send OTP email";
+          console.error("[AUTH][emailOTP] Failed to send OTP:", errorMessage);
         }
       },
       otpLength: 8,

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { 
   BookOpen, Activity, Users, Target, Zap, HelpCircle, CheckCircle2, AlertCircle, 
   Award, Sparkles, TrendingUp, MessageSquare, ShieldAlert, LifeBuoy, Rocket, Trophy,
-  Compass, UserPlus, Megaphone, Bell
+  Compass, UserPlus, Megaphone, Bell, LogOut, Trash2
 } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -39,10 +39,15 @@ const TAB_SECTIONS: Record<string, { id: string; label: string }[]> = {
     { id: "rangs", label: "Rangs" },
   ],
   squads: [
+    { id: "creation", label: "Création" },
+    { id: "roles", label: "Rôles & Permissions" },
     { id: "matching", label: "Matching" },
     { id: "health", label: "Health Score" },
     { id: "synergie", label: "Synergie" },
+    { id: "invites", label: "Invitations" },
     { id: "recruitment", label: "Recrutement" },
+    { id: "gestion", label: "Gestion" },
+    { id: "parcours", label: "Parcours" },
   ],
   missions: [
     { id: "types", label: "Types" },
@@ -961,6 +966,270 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-xs text-zinc-400 leading-relaxed">
                   <span className="text-emerald-400 font-mono font-bold text-[10px] uppercase block mb-1">✓ Disponible</span>
                   <p>Le chat d&apos;escouade est actif ! Tous les membres peuvent discuter en temps réel directement depuis la page de l&apos;escouade. Rafraîchissement automatique toutes les 15 secondes.</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Création d'une escouade */}
+          <Card id="creation" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <Users className="size-5 text-emerald-500" /> Création d&apos;une Escouade
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Lance ta propre unité et deviens Leader d&apos;une squad HASHCODE.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 space-y-6">
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-mono font-bold text-emerald-400 shrink-0">1</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Accès à la création</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Rendez-vous sur la page <strong className="text-white">Escouade</strong> depuis le menu latéral. Si tu n&apos;es dans aucune escouade, un panneau de création s&apos;affiche. Clique sur <strong className="text-zinc-300">"Créer mon Escouade"</strong> pour débuter.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-mono font-bold text-emerald-400 shrink-0">2</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Configurer l&apos;identité</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Choisis un <strong className="text-white">nom</strong> pour ton escouade et un <strong className="text-white">slug</strong> (identifiant unique) qui servira pour le lien d&apos;invitation. Le slug doit comporter 3 à 30 caractères (minuscules, chiffres, tirets).
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-mono font-bold text-emerald-400 shrink-0">3</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Lien d&apos;invitation</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Une fois créée, un lien unique <strong className="text-zinc-300"><code>/invite/&lt;slug&gt;</code></strong> est généré. Partage-le avec les agents que tu souhaites recruter. Tu peux modifier le nom et le slug depuis la page <strong className="text-zinc-300">Gérer l&apos;escouade</strong>.
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-[11px] text-zinc-400 leading-relaxed">
+                <span className="text-emerald-400 font-mono font-bold text-[10px] uppercase block mb-1">Limite de taille</span>
+                <p>Une escouade peut compter jusqu&apos;à <strong className="text-white">5 membres</strong> maximum. Cette limite garantit une agilité de communication optimale et une dynamique d&apos;équipe efficace, inspirée des recherches de Google sur les team sizes idéales.</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Rôles et permissions */}
+          <Card id="roles" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <ShieldAlert className="size-5 text-amber-400" /> Rôles & Permissions
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Chaque escouade fonctionne avec une hiérarchie claire pour garantir une coordination efficace.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-left font-mono text-xs">
+                  <thead>
+                    <tr className="border-b border-white/5 text-zinc-500">
+                      <th className="pb-3 font-semibold uppercase pr-4">Rôle</th>
+                      <th className="pb-3 font-semibold uppercase pr-4">Attribué à</th>
+                      <th className="pb-3 font-semibold uppercase">Permissions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    <tr className="hover:bg-white/2 transition-colors">
+                      <td className="py-4 font-bold text-emerald-400 pr-4">LEADER</td>
+                      <td className="py-4 text-zinc-400 pr-4">Créateur de l&apos;escouade</td>
+                      <td className="py-4 text-zinc-500 font-light">Inviter/expulser des membres, modifier le nom et le slug, transférer le leadership, dissoudre l&apos;escouade, gérer les paramètres.</td>
+                    </tr>
+                    <tr className="hover:bg-white/2 transition-colors">
+                      <td className="py-4 font-bold text-blue-400 pr-4">ADMIN</td>
+                      <td className="py-4 text-zinc-400 pr-4">Membre promu par le LEADER</td>
+                      <td className="py-4 text-zinc-500 font-light">Inviter des membres, gérer les demandes d&apos;adhésion, modifier certaines informations. Ne peut pas dissoudre ni transférer le leadership.</td>
+                    </tr>
+                    <tr className="hover:bg-white/2 transition-colors">
+                      <td className="py-4 font-bold text-zinc-300 pr-4">MEMBER</td>
+                      <td className="py-4 text-zinc-400 pr-4">Membre standard</td>
+                      <td className="py-4 text-zinc-500 font-light">Participer aux missions, utiliser le chat, effectuer son check-in quotidien, consulter le tableau de bord de l&apos;escouade. Ne peut pas inviter de nouveaux membres.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Système d'invitations avec analyse */}
+          <Card id="invites" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <Sparkles className="size-5 text-primary" /> Système d&apos;Invitation Intelligent
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Avant d&apos;inviter un talent, un diagnostic de compatibilité est automatiquement généré pour maximiser la réussite collective.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <TrendingUp className="size-3.5 text-primary" /> Score de Synergie
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Un score de 0 à 100% est calculé en comparant les scores psychométriques du candidat avec la composition actuelle de l&apos;escouade. Plus le score est élevé, meilleure est la complémentarité.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <Zap className="size-3.5 text-blue-400" /> Chevauchement d&apos;Outils
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Les outils techniques du candidat sont comparés à ceux de l&apos;escouade. Les outils déjà maîtrisés par l&apos;équipe sont affichés, ainsi que les nouveaux outils que le candidat apporte (surlignés en vert).
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <MessageSquare className="size-3.5 text-emerald-400" /> Conseil Coach
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Un conseil contextuel est affiché : <strong className="text-emerald-400">Recommandé</strong> (synergie &ge; 70%), <strong className="text-amber-400">Prudence</strong> (45–69%), ou <strong className="text-red-400">Déconseillé</strong> (&lt; 45%).
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-mono font-bold text-primary shrink-0">1</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Accès depuis la page Talents</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Depuis la page <strong className="text-white">Talents</strong>, explore les profils des agents. Si tu es <strong className="text-zinc-300">LEADER</strong> ou <strong className="text-zinc-300">ADMIN</strong> d&apos;une escouade, le bouton <strong className="text-primary">"Inviter dans mon escouade"</strong> apparaît à la place de "Voir le Dossier" pour les autres utilisateurs.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-mono font-bold text-primary shrink-0">2</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Analyse avant envoi</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Un dialogue d&apos;analyse s&apos;ouvre avec le score de synergie, la composition des classes de l&apos;escouade, les outils partagés et le conseil coach. Tu peux visualiser l&apos;impact potentiel sur l&apos;équilibre de l&apos;escouade avant de confirmer l&apos;invitation.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-mono font-bold text-primary shrink-0">3</div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-white">Confirmation et notification</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    Une fois l&apos;invitation confirmée, le talent reçoit une <strong className="text-white">notification in-app</strong> et un <strong className="text-white">email</strong> avec un lien pour accepter ou refuser. Tu peux suivre l&apos;état de l&apos;invitation depuis ton tableau de bord.
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 text-[11px] text-zinc-400 leading-relaxed">
+                <span className="text-amber-400 font-mono font-bold text-[10px] uppercase block mb-1">Équilibre Cognitif — Hard Cap</span>
+                <p>Le système vérifie automatiquement que l&apos;escouade ne dépasse pas <strong className="text-white">2 représentants de la même classe</strong> avant d&apos;envoyer l&apos;invitation. Si la limite est atteinte, l&apos;invitation est bloquée. Cette règle garantit la diversité cognitive nécessaire aux performances optimales.</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Gestion de l'escouade */}
+          <Card id="gestion" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <Activity className="size-5 text-blue-400" /> Gestion de l&apos;Escouade
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Les actions disponibles pour le LEADER et les ADMIN pour gérer la vie de l&apos;escouade.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <Users className="size-3.5 text-emerald-400" /> Modifier le nom et le slug
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Le LEADER peut modifier le nom et le slug de l&apos;escouade depuis la page <strong className="text-zinc-300">Gérer l&apos;escouade</strong>. Le lien d&apos;invitation existant reste valide après le changement.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <LogOut className="size-3.5 text-red-400" /> Quitter l&apos;escouade
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Tout membre peut quitter l&apos;escouade. Le départ réduit temporairement la cohésion. Si le LEADER quitte, le leadership est transféré automatiquement à un ADMIN ou au membre le plus ancien.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <ShieldAlert className="size-3.5 text-amber-400" /> Transférer le leadership
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Le LEADER peut transférer son rôle à un autre membre de l&apos;escouade. Le nouveau LEADER hérite de toutes les permissions de gestion.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-2">
+                  <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <Trash2 className="size-3.5 text-red-500" /> Dissoudre l&apos;escouade
+                  </h5>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Seul le LEADER peut dissoudre l&apos;escouade. Cette action est irréversible : tous les membres sont libérés, les données de cohésion sont perdues.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Parcours Squad Journey */}
+          <Card id="parcours" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
+            <CardHeader className="p-0">
+              <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
+                <Rocket className="size-5 text-primary" /> Parcours de l&apos;Escouade (Squad Journey)
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-500 font-light">
+                Les 6 phases de progression qui jalonnent la vie de ton unité, visibles depuis la page Escouade.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-light">
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 1</h4>
+                    <span className="text-[9px] font-mono text-zinc-600">FORMATION</span>
+                  </div>
+                  <p className="text-zinc-500">L&apos;escouade est créée. Les premiers membres rejoignent et commencent à interagir.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 2</h4>
+                    <span className="text-[9px] font-mono text-zinc-600">STABILISATION</span>
+                  </div>
+                  <p className="text-zinc-500">L&apos;équipe atteint 5 membres. Les check-ins réguliers construisent la cohésion.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 3</h4>
+                    <span className="text-[9px] font-mono text-zinc-600">COHÉSION</span>
+                  </div>
+                  <p className="text-zinc-500">La cohésion dépasse 70%. Les bonus collectifs commencent à s&apos;activer.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 4</h4>
+                    <span className="text-[9px] font-mono text-zinc-600">SYNCHRONISATION</span>
+                  </div>
+                  <p className="text-zinc-500">Streak de cohésion activé. L&apos;équipe débloque les badges Sync Master.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 5</h4>
+                    <span className="text-[9px] font-mono text-zinc-600">MAÎTRISE</span>
+                  </div>
+                  <p className="text-zinc-500">L&apos;escouade valide des missions Co-op. La réputation collective augmente.</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-mono font-bold text-emerald-400 uppercase">Phase 6</h4>
+                    <span className="text-[9px] font-mono text-emerald-400">LÉGENDE</span>
+                  </div>
+                  <p className="text-zinc-500">Escouade d&apos;élite. Cohésion maximale, streaks records, impact visible sur le leaderboard.</p>
                 </div>
               </div>
             </CardContent>

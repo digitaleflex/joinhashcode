@@ -60,8 +60,8 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
           <div className="flex flex-col items-center">
             <div className="size-8 rounded-full border border-white/5 bg-zinc-900 flex items-center justify-center overflow-hidden shrink-0">
                <Avatar className="size-full">
-                  <AvatarImage src={log.user.image} />
-                  <AvatarFallback className="text-[10px]">{log.user.name.charAt(0)}</AvatarFallback>
+                   <AvatarImage src={log.user?.image ?? ""} />
+                   <AvatarFallback className="text-[10px]">{log.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
                </Avatar>
             </div>
             <div className="w-px flex-1 bg-white/5 my-1 group-last:hidden" />

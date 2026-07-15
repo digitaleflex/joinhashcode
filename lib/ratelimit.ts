@@ -1,13 +1,24 @@
 /**
- * Rate Limiter — in-process memory implementation.
- * Suffisant jusqu'à plusieurs milliers d'utilisateurs.
- * Remplace l'ancien système Upstash/Redis (fail-closed problématique).
+ * Rate Limiter — Redis-backed with Upstash SDK.
+ * Falls back to in-memory if Redis is unavailable.
  */
+
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 interface RateLimiter {
   check(identifier: string): Promise<{ success: boolean; reset: number }>
 }
 
+// ── Redis client (connects to SRH proxy or Upstash cloud) ────────────────────
+const redisUrl = process.env.REDIS_URL
+const redisToken = process.env.REDIS_TOKEN
+
+export const redis: Redis | null = redisUrl && redisToken
+  ? new Redis({ url: redisUrl, token: redisToken })
+  : null
+
+// ── Fallback: in-memory limiter (used when Redis is unavailable) ─────────────
 class MemoryLimiter implements RateLimiter {
   private store = new Map<string, { count: number; resetAt: number }>()
   private readonly maxTokens: number
@@ -36,20 +47,49 @@ class MemoryLimiter implements RateLimiter {
   }
 }
 
-function windowMs(value: `${number} s` | `${number} m` | `${number} h`): number {
+// ── Upstash Ratelimit wrapper ────────────────────────────────────────────────
+class UpstashLimiter implements RateLimiter {
+  private ratelimit: Ratelimit
+
+  constructor(maxTokens: number, windowSec: number) {
+    this.ratelimit = new Ratelimit({
+      redis: redis!,
+      limiter: Ratelimit.slidingWindow(maxTokens, `${windowSec}s`),
+      analytics: false,
+    })
+  }
+
+  async check(identifier: string): Promise<{ success: boolean; reset: number }> {
+    const result = await this.ratelimit.limit(identifier)
+    return { success: result.success, reset: result.reset }
+  }
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function parseWindow(value: `${number} s` | `${number} m` | `${number} h`): number {
   const [num, unit] = value.split(" ") as [string, string]
   const n = parseInt(num, 10)
-  if (unit === "s") return n * 1000
-  if (unit === "m") return n * 60 * 1000
-  if (unit === "h") return n * 60 * 60 * 1000
-  return n * 1000
+  if (unit === "s") return n
+  if (unit === "m") return n * 60
+  if (unit === "h") return n * 3600
+  return n
 }
 
-function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${number} h`): MemoryLimiter {
-  return new MemoryLimiter(tokens, windowMs(window))
+function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${number} h`): RateLimiter {
+  if (redis) {
+    return new UpstashLimiter(tokens, parseWindow(window))
+  }
+  // Fallback to in-memory when Redis is unavailable
+  const windowMs =
+    window.endsWith("s") ? parseInt(window) * 1000 :
+    window.endsWith("m") ? parseInt(window) * 60 * 1000 :
+    parseInt(window) * 3600 * 1000
+  return new MemoryLimiter(tokens, windowMs)
 }
 
-// 5 check-ins per user per 24h (game mechanic: once per day anyway)
+// ── Exported limiters ────────────────────────────────────────────────────────
+
+// 5 check-ins per user per 24h
 export const checkinLimiter = makeLimiter(5, "24 h")
 
 // 10 claims per user per hour
@@ -58,19 +98,11 @@ export const claimLimiter = makeLimiter(10, "1 h")
 // 5 squad joins per user per hour
 export const squadJoinLimiter = makeLimiter(5, "1 h")
 
-// Default limiter for generic mutations (POST/PATCH/DELETE)
 // 30 requests per minute per user/IP
 export const mutationLimiter = makeLimiter(30, "1 m")
 
-// Strict limiter for sensitive operations (squad creation, etc.)
-// 5 requests per hour
+// 5 requests per hour (sensitive ops)
 export const strictMutationLimiter = makeLimiter(5, "1 h")
-
-// Redis client exporté pour compatibilité ascendante (auth.ts secondaryStorage)
-// Peut être supprimé quand auth.ts n'en a plus besoin
-// Typed as `any` so auth.ts conditional secondaryStorage compiles
-// when redis is unavailable (null). Never called at runtime.
-export const redis: any = null
 
 export async function checkRateLimit(
   limiter: RateLimiter | null,

@@ -15,7 +15,24 @@ export async function GET() {
     }
 
     // Utilise le cache Redis pour éviter le hit DB sur chaque page chargée
-    const user = await getCachedUser(session.user.id);
+    let user;
+    try {
+      user = await getCachedUser(session.user.id);
+    } catch {
+      console.error("🟢 [Middleware Session API] getCachedUser failed, returning basic session");
+      return NextResponse.json({
+        session,
+        user: {
+          id: session.user.id,
+          banned: false,
+          banExpires: null,
+          betaKeyId: null,
+          currentSituation: null,
+          class: null,
+          role: "MEMBER",
+        },
+      });
+    }
 
     if (!user) {
       return NextResponse.json({ session: null, user: null });

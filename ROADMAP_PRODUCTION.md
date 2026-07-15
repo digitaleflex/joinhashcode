@@ -1,72 +1,137 @@
-# ROADMAP DE PRODUCTION — HASHCODE 2026 🚀
-*Plan d'action pour transformer le moteur technique en produit fini engageant.*
+# Roadmap Production — HASHCODE
+
+**Statut:** Bêta fonctionnelle (~70%) → Production ready (100%)
 
 ---
 
-## 📅 SPRINT 1 : ACTIVATION & MOTIVATION (Immédiat)
-*Objectif : Garder l'utilisateur dans les 5 premières minutes (J+0).*
+## Phase 1 — Fondations critiques (semaine 1)
 
-### #1 · Barre de Progression XP (Sidebar)
-- [x] Créer une fonction de calcul de niveau (L1:0, L2:100, L3:400, L4:1400 XP).
-- [x] Calculer le pourcentage de progression vers le prochain niveau.
-- [x] Intégrer une barre de progression néon (Cyan) sous l'avatar dans `app-sidebar.tsx`.
-- [x] **Critère de succès :** L'utilisateur voit son XP et son grade (Initié, Opérateur...) en permanence.
+### 1.1 Tests — couverture > 80%
 
-### #2 · Écran de Révélation Post-Quiz
-- [ ] Créer une page de transition `app/quiz/result/page.tsx` (ou modifier l'existante).
-- [ ] Ajouter une animation de radar chart (Builder, Creator, etc.).
-- [ ] Afficher une description inspirante du profil obtenu.
-- [ ] **Critère de succès :** L'utilisateur ressent une validation forte de son identité tech.
+| Zone         | Priorité | Action                                                                        |
+| ------------ | -------- | ----------------------------------------------------------------------------- |
+| Quiz scoring | Haute    | Tester `lib/analysis.ts` : chaque profil, hybrid detection, consistency score |
+| Missions     | Haute    | Tester `lib/missions.ts`, `lib/acceptance-criteria.ts`, scoring XP            |
+| Squad        | Haute    | Tester `lib/squad-logic.ts` : cohésion, streaks, badges                       |
+| XP & Niveaux | Haute    | Tester `lib/experience.ts`, `lib/level-utils.ts`                              |
+| Auth         | Haute    | Tester flux complets : signin, OTP, magic link, 2FA                           |
+| Évolution    | Moyenne  | Tester `lib/evolution-engine.ts`                                              |
+| Badges       | Moyenne  | Tester `lib/badge-engine.ts` : chaque badge, conditions                       |
+| Parrainage   | Moyenne  | Tester `lib/referral.ts` : anti-fraud, rewards                                |
 
-### #3 · Checklist d'Activation Dashboard
-- [ ] Créer un composant `ActivationChecklist.tsx` avec 3 étapes (Profil, Squad, Mission).
-- [ ] Afficher les récompenses XP pour chaque étape complétée.
-- [ ] Masquer automatiquement une fois les 3 étapes terminées.
-- [ ] **Critère de succès :** Réduction du taux d'abandon post-inscription.
+### 1.2 Sécurité — audit & hardening
 
----
+- [ ] Rate limiting avancé : limiter chaque endpoint sensible par userId + IP
+- [ ] Vérifier que toutes les routes API ont leur guard (session / admin / cron)
+- [ ] Vérifier l'échappement XSS dans les entrées utilisateur (déjà xss lib)
+- [ ] Audit des tokens JWT : durée, rotation, stockage
+- [ ] test d'intrusion manuel sur les flux critiques (quiz, missions, squad)
+- [ ] Validation CSP headers
 
-## 📅 SPRINT 2 : RÉTENTION & CONFIANCE (Court Terme)
-*Objectif : Prouver la valeur et la vitalité de la plateforme.*
+### 1.3 Monitoring & Observabilité
 
-### #4 · Feed d'Activité Réel
-- [ ] Créer une route API `/api/public/feed` retournant les 10 derniers événements réels.
-- [ ] Brancher le composant `ActivityFeed` sur ces données réelles (anonymisées).
-- [ ] **Critère de succès :** La landing page montre une activité authentique et récente.
-
-### #5 · Indicateur de Délai de Review
-- [ ] Calculer le temps moyen de validation des missions via l'admin.
-- [ ] Afficher ce délai sur les fiches missions (ex: "Review habituelle en ~12h").
-- [ ] **Critère de succès :** Moins d'anxiété sur le temps d'attente des validations.
-
-### #6 · Emails de Bienvenue Segmentés
-- [ ] Configurer 4 templates d'emails Resend (un par profil).
-- [ ] Automatiser l'envoi dès la fin du quiz.
-- [ ] **Critère de succès :** Taux d'ouverture élevé et clic vers la première mission.
+- [ ] Intégrer Sentry (ou equivalent) pour les erreurs client et serveur
+- [ ] Logger les performances des requêtes lentes ( > 500ms )
+- [ ] Dashboard de monitoring uptime (déjà Uptime Kuma sur le VPS)
+- [ ] Alertes Discord/Slack sur les erreurs critiques
 
 ---
 
-## 📅 SPRINT 3 : CROISSANCE & ÉCOSYSTÈME (Moyen Terme)
-*Objectif : Créer une communauté autonome.*
+## Phase 2 — Guildes (semaine 2)
 
-### #7 · Messagerie d'Escouade
-- [ ] Créer un modèle Prisma `SquadMessage`.
-- [ ] Implémenter une interface de chat simple dans la page Squad.
-- [ ] **Critère de succès :** Les membres d'une escouade collaborent directement sur l'app.
+### 2.1 Guildes — implémentation complète
 
-### #8 · Page Talent (Dossier Public)
-- [ ] Ajouter un toggle "Rendre mon profil public" dans les réglages.
-- [ ] Créer une vue publique filtrable des talents pour les recruteurs.
-- [ ] **Critère de succès :** Première mise en relation talent/opportunité via HASHCODE.
+Le modèle `Guild` et `GuildMember` existent déjà dans Prisma. Reste à faire :
 
-### #9 · Programme de Parrainage
-- [ ] Utiliser le `referralCode` existant pour récompenser l'inviteur (+50 XP).
-- [ ] Ajouter un badge "Recruteur" pour ceux qui amènent des membres.
-- [ ] **Critère de succès :** Croissance organique via le bouche-à-oreille.
+- [ ] Routes API CRUD pour les guildes
+- [ ] Page de découverte des guildes (`/guilds`)
+- [ ] Page d'une guilde (`/guild/[slug]`)
+- [ ] Composant UI : carte de guilde, liste, recherche/filtre
+- [ ] Système de rejoindre/quitter une guilde
+- [ ] Dashboard guilde : membres, progression, classement
+- [ ] Notifications : invitation, arrivée d'un membre, événements
+- [ ] Cohésion de guilde (similaire squad mais à l'échelle)
+
+> **Pourquoi maintenant :** Les guildes sont dans le schema depuis le début mais jamais connectées. C'est le trou le plus visible.
 
 ---
 
-## 📊 MÉTRIQUES DE RÉUSSITE
-- **Activation J+0 :** Passer de 30% à 70% de missions soumises après inscription.
-- **Rétention J+7 :** Maintenir 50% des utilisateurs actifs après une semaine.
-- **Virale :** Chaque utilisateur invite en moyenne 1.2 nouveaux membres.
+## Phase 3 — Fonctionnalités avancées (semaine 2-3)
+
+### 3.1 Défis hebdomadaires
+
+- [ ] Activer le feature flag `weekly_challenges` dans `lib/feature-flags.ts`
+- [ ] Finaliser le cycle de reset hebdomadaire
+- [ ] UI widget sur le dashboard
+- [ ] Notifications de début/fin de cycle
+
+### 3.2 Squad chat avancé
+
+- [ ] Notifications push pour les nouveaux messages
+- [ ] Historique paginé avec scroll infini
+- [ ] Support des pièces jointes (images, liens)
+- [ ] Indicateurs de lecture (vu/non-vu)
+
+### 3.3 Tours interactifs
+
+- [ ] Finaliser les tours définis dans `lib/tours.ts` (Dashboard, Missions, Dossier, Squad, Talents)
+- [ ] Déclenchement automatique pour les nouveaux utilisateurs
+- [ ] Option "Ne plus montrer"
+
+---
+
+## Phase 4 — Qualité & Performance (semaine 3)
+
+### 4.1 Audit UI/UX responsive
+
+- [ ] Tester tous les écrans sur mobile (320px+), tablette, desktop
+- [ ] Vérifier les bottom-nav, sidebar collapse, modales
+- [ ] Tester le quiz sur mobile
+- [ ] Vérifier les temps de chargement perçus (skeleton states)
+
+### 4.2 Performance
+
+- [ ] Audit Lighthouse (cible : 90+ sur mobile)
+- [ ] Stratégie de cache : ISR pour pages publiques, Redis pour sessions
+- [ ] Optimisation des images (next/image, sharp déjà présent)
+- [ ] Bundle analysis (next/bundle-analyzer)
+- [ ] Code-splitting des composants lourds (quiz, résultat, dashboard)
+
+### 4.3 Accessibilité
+
+- [ ] Audit des contrastes (WCAG AA minimum)
+- [ ] Labels ARIA sur tous les composants interactifs
+- [ ] Navigation au clavier complète
+- [ ] Support lecteurs d'écran (formulaires, quiz, dashboard)
+
+---
+
+## Phase 5 — Internationalisation & Finalisation (semaine 4)
+
+### 5.1 i18n
+
+- [ ] Setup next-intl (ou equivalent)
+- [ ] Extraire tous les textes dans des fichiers de traduction
+- [ ] FR → EN (priorité 1)
+- [ ] Sélecteur de langue dans settings
+- [ ] Détection automatique de la langue du navigateur
+
+### 5.2 Documentation & Onboarding développeur
+
+- [ ] README à jour avec instructions de setup
+- [ ] Documentation API (swagger/openapi — générateur déjà configuré)
+- [ ] Guide de contribution
+
+---
+
+## Résumé des estimations
+
+| Phase                        | Effort   | Impact                       |
+| ---------------------------- | -------- | ---------------------------- |
+| 1 — Fondations critiques     | ~5 jours | 🛡️ Sécurité & confiance      |
+| 2 — Guildes                  | ~4 jours | 🏗️ Feature manquante majeure |
+| 3 — Fonctionnalités avancées | ~4 jours | 🚀 Engagement & rétention    |
+| 4 — Qualité & Performance    | ~3 jours | ⚡ UX & SEO                  |
+| 5 — i18n & Documentation     | ~3 jours | 🌍 Portée internationale     |
+
+**Total estimé : ~19 jours ouvrés** pour passer de 70% → 100%.

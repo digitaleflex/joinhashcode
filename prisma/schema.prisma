@@ -42,6 +42,8 @@ model User {
   mainBlocker          String?
   banReason            String?
   banExpires           DateTime?
+  deactivatedAt        DateTime? @map("deactivated_at")
+  talentVisible        Boolean   @default(false)
   visitorId            String?
   consentLocation      Boolean   @default(false)
   consentLocationAt    DateTime?
@@ -156,10 +158,12 @@ model Organization {
   cohesionScore        Float          @default(0.1)
   streakCount          Int            @default(0)
   lastStreakAt         DateTime?
+  lastComboAt          DateTime?
   requiredLevel        Int            @default(1)
   isPrivate            Boolean        @default(false)
   description          String?
   announcement         String?
+  discordInviteUrl     String?
   members              Member[]
   twoFactorEnabled     Boolean        @default(false)
   twoFactorSecret      String?

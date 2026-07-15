@@ -1,13 +1,9 @@
 export const dynamic = 'force-dynamic'
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-
     const { searchParams } = new URL(req.url);
     const limitParam = searchParams.get('limit');
     const limit = limitParam && !isNaN(parseInt(limitParam)) ? parseInt(limitParam) : undefined;

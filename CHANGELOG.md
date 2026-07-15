@@ -236,7 +236,7 @@ Cette release marque la complétion du plan de remédiation de sécurité suite 
 
 ### Infrastructure & CI/CD
 
-- **Middleware renommé `proxy.ts`** — compatibilité Next.js 16 (le fichier `middleware.ts` à la racine est réservé)
+- **Middleware renommé `middleware.ts`** — compatibilité Next.js 16 (le fichier `middleware.ts` à la racine est réservé)
 - **Deploy pipeline robuste** — séquence : migration Prisma → audit → seed → start → health check (30 tentatives × 5s) → rollback automatique sur échec
 - **SSH single connection** — toutes les étapes de déploiement dans une seule session SSH pour éviter les timeouts port 22
 - **Cron jobs** — squad cohesion decay, release stale claims, rappels utilisateurs inactifs

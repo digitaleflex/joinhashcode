@@ -1,7 +1,6 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
@@ -9,29 +8,38 @@ import { BottomNav } from "@/components/dashboard/bottom-nav";
 import FeedbackForm from "./feedback-form";
 
 export default async function FeedbackPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSessionSafe();
 
   if (!session) {
     redirect("/signin");
   }
 
-  const [dbUser, userSquad] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        class: true,
-        role: true,
-        progress: { select: { level: true, experience: true } },
-      }
-    }),
-    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
-  ]);
+  let dbUser: {
+    id: string; name: string; email: string; image: string | null;
+    class: string | null; role: string;
+    progress: { level: number; experience: number } | null;
+  } | null = null;
+  let userSquad: { id: string } | null = null;
+
+  try {
+    [dbUser, userSquad] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          class: true,
+          role: true,
+          progress: { select: { level: true, experience: true } },
+        }
+      }),
+      prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
+    ]);
+  } catch {
+    redirect("/signin?reason=db_error");
+  }
 
   if (!dbUser) {
     redirect("/signin");

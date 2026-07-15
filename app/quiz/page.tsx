@@ -3,8 +3,8 @@ import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
+import { cookies } from "next/headers"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 
@@ -14,9 +14,7 @@ export const metadata = {
 }
 
 export default async function QuizPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
+  const session = await getSessionSafe()
 
   if (!session) {
     redirect("/signin")
@@ -57,6 +55,9 @@ export default async function QuizPage() {
     }
   }
 
+  const cookieStore = await cookies()
+  const pendingSquad = cookieStore.get("pending-squad")?.value ?? null
+
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Nav />
@@ -78,7 +79,10 @@ export default async function QuizPage() {
               Réponds instinctivement — il n&apos;y a pas de bonne ou mauvaise réponse.
             </p>
           </div>
-          <Quiz user={user ? { ...user, level: user.progress?.level ?? 1, experience: user.progress?.experience ?? 0 } : undefined} />
+          <Quiz
+            user={user ? { ...user, level: user.progress?.level ?? 1, experience: user.progress?.experience ?? 0 } : undefined}
+            pendingSquad={pendingSquad}
+          />
         </div>
       </div>
       <Footer />

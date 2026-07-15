@@ -38,7 +38,7 @@ const NotificationBell = dynamic(
   }
 )
 
-export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any, memberRole?: string }) {
+export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { user: any, squad?: any, memberRole?: string, featureFlags?: Record<string, boolean> }) {
   const session = authClient.useSession();
   const isImpersonated = session.data?.session?.impersonatedBy;
   const isOwner = memberRole === "owner";
@@ -120,6 +120,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
         )}
 
         {/* Tour Guide Trigger */}
+        {featureFlags.tour !== false && (
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -132,6 +133,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: any, squad?: any
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+        )}
 
         {/* Squad Combo Bonus Indicator */}
         {(squad?.lastComboAt || (session.data?.session as Record<string, any>)?.activeOrganization?.lastComboAt) && (

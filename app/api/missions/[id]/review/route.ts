@@ -13,7 +13,7 @@ import {
 } from "@/lib/acceptance-criteria";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
-import { BehavioralVitality } from "@/lib/evolution";
+import { BehavioralVitality } from "@/lib/types";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
@@ -199,7 +199,7 @@ export async function POST(
 
           // Notifications
           const submitterLevel = submission.user.progress?.level ?? 1;
-          const newLevel = updatedSubmitterUser?.progress?.level ?? updatedSubmitterUser?.level ?? submitterLevel;
+          const newLevel = updatedSubmitterUser?.progress?.level ?? submitterLevel;
           const didLevelUp = newLevel > submitterLevel;
 
           await triggerNotification({
