@@ -184,7 +184,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "Zéro Faute",
     description: "Compléter 5 missions sans aucune demande de révision.",
     rarity: "EPIC",
-    criteria: (user) => false,
+    criteria: (_user) => false,
   },
   {
     id: "MENTOR",
@@ -205,7 +205,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "L'Exemplaire",
     description: "Obtenir 5 fois le niveau de qualité 'EXEMPLARY'.",
     rarity: "LEGENDARY",
-    criteria: (user) => false,
+    criteria: (_user) => false,
   },
 
   // --- SPÉCIAUX ---
@@ -221,7 +221,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "Sync Gold",
     description: "Atteindre une cohésion de 100% avec ton escouade.",
     rarity: "EPIC",
-    criteria: (user) => false,
+    criteria: (_user) => false,
   }
 ];
 

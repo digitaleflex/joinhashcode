@@ -97,6 +97,31 @@ const memberRole = ac.newRole({
   session: [],
 });
 
+// Access control for Better Auth organization plugin (squads)
+const orgAc = createAccessControl({
+  organization: ["update", "delete", "list"],
+  member: ["create", "delete", "update", "list"],
+  invitation: ["create", "delete", "update", "list"],
+});
+
+const orgOwnerRole = orgAc.newRole({
+  organization: ["update", "delete", "list"],
+  member: ["create", "delete", "update"],
+  invitation: ["create", "delete", "update"],
+});
+
+const orgAdminRole = orgAc.newRole({
+  organization: ["update"],
+  member: ["create", "delete"],
+  invitation: ["create", "delete"],
+});
+
+const orgMemberRole = orgAc.newRole({
+  organization: ["list"],
+  member: ["list"],
+  invitation: ["list"],
+});
+
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   trustedOrigins: buildTrustedOrigins(),
@@ -323,23 +348,12 @@ export const auth = betterAuth({
       organizationLimit: 1,
       membershipLimit: 5,
       creatorRole: "owner",
+      ac: orgAc,
       roles: {
-        owner: {
-          organization: ["update", "delete", "list"],
-          member: ["create", "delete", "update"],
-          invitation: ["create", "delete", "update"],
-        },
-        admin: {
-          organization: ["update"],
-          member: ["create", "delete"],
-          invitation: ["create", "delete"],
-        },
-        member: {
-          organization: ["list"],
-          member: ["list"],
-          invitation: ["list"],
-        },
-      } as any,
+        owner: orgOwnerRole,
+        admin: orgAdminRole,
+        member: orgMemberRole,
+      },
       schema: {
         organization: {
           additionalFields: {

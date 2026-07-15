@@ -27,12 +27,6 @@ export async function proxy(request: NextRequest) {
   }
 
   if (process.env.MAINTENANCE_MODE === "true" && pathname !== "/maintenance") {
-    if (pathname === "/signin" || pathname === "/feedback") {
-      return NextResponse.json(
-        { error: "Service temporairement indisponible pour maintenance" },
-        { status: 503 }
-      );
-    }
     return NextResponse.redirect(new URL("/maintenance", request.url));
   }
 

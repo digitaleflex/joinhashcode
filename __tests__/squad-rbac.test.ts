@@ -17,8 +17,8 @@ describe('Squad RBAC Configuration (P14)', () => {
   it('should have the correct permissions for admin role', () => {
     const options = (auth as any).options;
     const orgPlugin = options.plugins.find((p: any) => p.id === 'organization');
-    const adminPermissions = orgPlugin.options.roles.admin;
-    
+    const adminPermissions = orgPlugin.options.roles.admin.statements;
+
     // Un Officier (admin) peut lister et mettre à jour l'organisation, et gérer les membres/invitations (mais pas supprimer l'org)
     expect(adminPermissions.organization).toContain('update');
     expect(adminPermissions.organization).not.toContain('delete');
@@ -29,8 +29,8 @@ describe('Squad RBAC Configuration (P14)', () => {
   it('should restrict standard members to list only', () => {
     const options = (auth as any).options;
     const orgPlugin = options.plugins.find((p: any) => p.id === 'organization');
-    const memberPermissions = orgPlugin.options.roles.member;
-    
+    const memberPermissions = orgPlugin.options.roles.member.statements;
+
     expect(memberPermissions.organization).toEqual(['list']);
     expect(memberPermissions.member).toEqual(['list']);
     expect(memberPermissions.invitation).toEqual(['list']);

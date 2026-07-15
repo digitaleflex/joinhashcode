@@ -9,7 +9,12 @@ export class AuthError extends Error {
 }
 
 export async function requireSession() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  let session;
+  try {
+    session = await auth.api.getSession({ headers: await headers() });
+  } catch {
+    throw new AuthError("Non autorisé", 401);
+  }
   if (!session) throw new AuthError("Non autorisé", 401);
 
   const user = await prisma.user.findUnique({
