@@ -113,7 +113,7 @@ export interface UserProfile {
   creatorScore: number;
   strategistScore: number;
   catalystScore: number;
-  behavioralVibrancy?: BehavioralVibrancy | any;
+  behavioralVibrancy?: BehavioralVibrancy | Record<string, number> | null | unknown;
   lastCheckin: Date | string | null;
   currentStreak: number;
 
@@ -140,10 +140,11 @@ export interface DetailedMissionSubmission {
   adminFeedback?: string | null;
   qualityLevel?: "STANDARD" | "HIGH" | "EXEMPLARY" | null;
   mission: {
-    title: string;
-    category: string;
-    slug: string;
-  };
+    title: string
+    category: string
+    slug: string
+    missionLevel?: string | null
+  }
 }
 
 // Onboarding flow
@@ -169,42 +170,38 @@ export interface OnboardingSessionUser {
   class?: string | null
 }
 
-export interface AuthClient {
-    signIn: any;
-    signUp: any;
-    signOut: any;
-    useSession: any;
-    getSession: () => Promise<any>;
-    listSessions: () => Promise<{ data: any[] | null, error: any }>;
-    revokeSession: (args: { token: string }) => Promise<{ error: any }>;
-    revokeOtherSessions: () => Promise<{ error: any }>;
-    $Infer: {
-        Session: any;
-    };
-    organization: {
-        acceptInvitation: (args: { invitationId: string }) => Promise<{ error: any }>;
-        rejectInvitation: (args: { invitationId: string }) => Promise<{ error: any }>;
-        inviteMember: (args: { email: string, role: string }) => Promise<{ error: any }>;
-        listInvitations: () => Promise<{ data: any[] | null, error: any }>;
-    };
-    twoFactor: {
-        enable: (args: { password?: string }) => Promise<{ data: { totpURI: string, backupCodes: string[] } | null, error: any }>;
-        verifyTotp: (args: { code: string, trustDevice?: boolean }) => Promise<{ error: any }>;
-        disable: (args: { password?: string }) => Promise<{ error: any }>;
-    };
-    admin: {
-        stopImpersonating: () => Promise<any>;
-        setRole: (args: { userId: string, role: string }) => Promise<any>;
-        banUser: (args: { userId: string, banReason?: string, expiresAt?: Date }) => Promise<any>;
-        unbanUser: (args: { userId: string }) => Promise<any>;
-        impersonate: (args: { userId: string }) => Promise<any>;
-    };
-    passkey: {
-        addPasskey: () => Promise<{ error: any }>;
-        deletePasskey: (args: { id: string }) => Promise<{ error: any }>;
-        useListPasskeys: () => { data: any[] | null; isPending: boolean };
-    };
-    emailOtp: {
-        sendVerificationOtp: (args: { email: string, type: string }) => Promise<{ error: any }>;
-    };
+export interface NavUser {
+  id?: string
+  name?: string | null
+  email?: string | null
+  image?: string | null
+  experience?: number
+  pseudo?: string | null
+  level?: number | null
+  missionsCompletedCount?: number | null
+  role?: string | null
 }
+
+export interface SettingsUserData {
+  id?: string
+  name?: string | null
+  email?: string | null
+  pseudo?: string | null
+  bio?: string | null
+  image?: string | null
+  country?: string | null
+  city?: string | null
+  language: string
+  currentSituation?: string | null
+  githubUrl?: string | null
+  portfolioUrl?: string | null
+  twitterUrl?: string | null
+  linkedinUrl?: string | null
+  domains: string[]
+  tools: string[]
+  mainObjective?: string | null
+  secondaryObjectives?: unknown
+  talentVisible?: boolean
+}
+
+

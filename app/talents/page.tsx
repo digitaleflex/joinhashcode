@@ -29,7 +29,7 @@ export default async function TalentsPage() {
       role: true,
       createdAt: true,
       memberNumber: true,
-      bio: true,
+      profile: { select: { bio: true } },
       tools: true,
       domains: true,
       country: true,
@@ -65,6 +65,7 @@ export default async function TalentsPage() {
 
   const sessionUser: UserProfile = {
     ...dbSessionUser,
+    bio: dbSessionUser.profile?.bio,
     level: dbSessionUser.progress?.level ?? 1,
     experience: dbSessionUser.progress?.experience ?? 0,
     missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
@@ -142,7 +143,7 @@ export default async function TalentsPage() {
       class: true,
       city: true,
       country: true,
-      bio: true,
+      profile: { select: { bio: true } },
       tools: true,
       builderScore: true,
       creatorScore: true,
@@ -156,6 +157,7 @@ export default async function TalentsPage() {
 
   const talents = talentsRaw.map((t) => ({
     ...t,
+    bio: t.profile?.bio ?? null,
     tools: t.tools ?? [],
     level: t.progress?.level ?? 1,
     experience: t.progress?.experience ?? 0,

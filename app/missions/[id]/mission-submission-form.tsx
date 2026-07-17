@@ -64,8 +64,8 @@ export function MissionSubmissionForm({
       await res.json();
       setSubmitSuccess(true);
       toast.success("Mission transmise avec succès !");
-    } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la soumission");
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Erreur lors de la soumission");
     } finally {
       setIsSubmitting(false);
     }

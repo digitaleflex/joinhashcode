@@ -104,6 +104,30 @@ export const mutationLimiter = makeLimiter(30, "1 m")
 // 5 requests per hour (sensitive ops)
 export const strictMutationLimiter = makeLimiter(5, "1 h")
 
+// 20 onboarding/profile updates per user per hour
+export const profileUpdateLimiter = makeLimiter(20, "1 h")
+
+// 10 avatar uploads per user per hour
+export const avatarLimiter = makeLimiter(10, "1 h")
+
+// 5 account deletions/deactivations per user per 24h (irreversible ops)
+export const accountLifecycleLimiter = makeLimiter(5, "24 h")
+
+// 15 peer reviews per user per hour
+export const reviewLimiter = makeLimiter(15, "1 h")
+
+// 10 quiz feedback submissions per user per hour
+export const quizFeedbackLimiter = makeLimiter(10, "1 h")
+
+// 100 client error logs per IP per minute (high volume expected)
+export const clientErrorLimiter = makeLimiter(100, "1 m")
+
+// 30 squad management ops per leader per hour (update/invite/respond/leave)
+export const squadManagementLimiter = makeLimiter(30, "1 h")
+
+// 10 admin broadcast/export ops per admin per hour
+export const adminOpsLimiter = makeLimiter(10, "1 h")
+
 export async function checkRateLimit(
   limiter: RateLimiter | null,
   identifier: string

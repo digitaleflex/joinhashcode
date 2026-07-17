@@ -7,8 +7,16 @@ import { Monitor, Smartphone, Globe, Loader2, LogOut, ShieldAlert } from "lucide
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
+interface SessionInfo {
+  id: string
+  token: string
+  userAgent?: string | null
+  ipAddress?: string | null
+  updatedAt: string | Date
+}
+
 export function ActiveSessions() {
-    const [sessions, setSessions] = useState<any[]>([])
+    const [sessions, setSessions] = useState<SessionInfo[]>([])
     const [loading, setLoading] = useState(true)
     const [revokingId, setRevokingId] = useState<string | null>(null)
     const { data: currentSession } = authClient.useSession()
@@ -18,7 +26,7 @@ export function ActiveSessions() {
             const { data, error } = await authClient.listSessions()
             if (error) throw error
             // Sort to put current session first, then by newest
-            const sorted = (data || []).sort((a: any, b: any) => {
+            const sorted = (data || []).sort((a: SessionInfo, b: SessionInfo) => {
                 if (a.id === currentSession?.session?.id) return -1
                 if (b.id === currentSession?.session?.id) return 1
                 return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
@@ -67,8 +75,8 @@ export function ActiveSessions() {
     }
 
     // Helper to guess device type from user agent
-    const getDeviceInfo = (userAgent: string = "") => {
-        const ua = userAgent.toLowerCase()
+    const getDeviceInfo = (userAgent: string | null | undefined = "") => {
+        const ua = (userAgent ?? "").toLowerCase()
         if (ua.includes("mobile") || ua.includes("android") || ua.includes("iphone")) {
             return { icon: Smartphone, label: "Mobile" }
         }
@@ -76,8 +84,8 @@ export function ActiveSessions() {
     }
 
     // Helper to extract browser name
-    const getBrowserName = (userAgent: string = "") => {
-        const ua = userAgent.toLowerCase()
+    const getBrowserName = (userAgent: string | null | undefined = "") => {
+        const ua = (userAgent ?? "").toLowerCase()
         if (ua.includes("edg/")) return "Edge"
         if (ua.includes("chrome") && !ua.includes("edg/")) return "Chrome"
         if (ua.includes("safari") && !ua.includes("chrome")) return "Safari"

@@ -5,9 +5,9 @@
  */
 
 export async function trackEvent(
-  userId: string, 
-  event: string, 
-  properties: Record<string, any> = {}
+  userId: string,
+  event: string,
+  properties: Record<string, unknown> = {}
 ) {
   // 1. Console logging for development
   if (process.env.NODE_ENV !== "production") {

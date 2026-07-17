@@ -4,8 +4,7 @@ import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { getUxPollStats } from "@/lib/admin/ux-poll-stats"
 import { BarChart3, Moon, Star, MessageSquareText, TrendingUp, Users } from "lucide-react"
-import { formatDistanceToNow } from "date-fns"
-import { fr } from "date-fns/locale"
+import { formatRelativeTime } from "@/lib/dates"
 
 export const dynamic = "force-dynamic"
 
@@ -156,7 +155,7 @@ export default async function AdminUxPollPage() {
                       {issue.user.name} ({issue.user.email})
                     </span>
                   )}
-                  <span>{formatDistanceToNow(new Date(issue.date), { addSuffix: true, locale: fr })}</span>
+                  <span>{formatRelativeTime(issue.date)}</span>
                 </div>
               </div>
             ))}

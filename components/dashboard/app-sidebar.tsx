@@ -29,11 +29,12 @@ import { mainNavItems } from "./sidebar-nav-config"
 import { SidebarSquad } from "./sidebar-squad"
 import { SidebarUser } from "./sidebar-user"
 import { ThemeToggle } from "./theme-toggle"
+import type { NavUser } from "@/lib/types"
 
-export function AppSidebar({ user, hasSquad }: { user: any; hasSquad?: boolean }) {
+export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?: boolean }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
-  const currentUser = user || session?.user
+  const currentUser = (user || session?.user) as NavUser | undefined
 
   // User is eligible for reviewer role if Level >= 2 AND completed missions >= 3, or has admin role.
   const isReviewerEligible = currentUser && (

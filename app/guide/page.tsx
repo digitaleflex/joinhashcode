@@ -29,7 +29,7 @@ export default async function GuidePage() {
       role: true,
       createdAt: true,
       memberNumber: true,
-      bio: true,
+      profile: { select: { bio: true } },
       tools: true,
       domains: true,
       country: true,
@@ -65,6 +65,7 @@ export default async function GuidePage() {
 
   const sessionUser: UserProfile = {
     ...dbSessionUser,
+    bio: dbSessionUser.profile?.bio,
     level: dbSessionUser.progress?.level ?? 1,
     experience: dbSessionUser.progress?.experience ?? 0,
     missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,

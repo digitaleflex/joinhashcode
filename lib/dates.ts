@@ -1,0 +1,78 @@
+import { formatDistanceToNow, format, subDays } from "date-fns"
+import { fr } from "date-fns/locale"
+
+export { format, subDays, fr }
+
+export function formatRelativeTime(date: Date | string): string {
+  return formatDistanceToNow(new Date(date), { addSuffix: true, locale: fr })
+}
+
+export function formatShortRelativeTime(date: Date): string {
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMinutes = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffMinutes < 1) return "maintenant"
+  if (diffMinutes < 60) return `${diffMinutes}m`
+  if (diffHours < 24) return `${diffHours}h`
+  return `${diffDays}j`
+}
+
+export function formatYYYYMMDD(date?: Date): string {
+  return (date ?? new Date()).toISOString().split("T")[0]
+}
+
+export function getWeekNumber(date: Date): number {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  const dayNum = d.getUTCDay() || 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+}
+
+export function getWeekStart(): Date {
+  const d = new Date()
+  const day = d.getDay()
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
+  const monday = new Date(d.setDate(diff))
+  monday.setHours(0, 0, 0, 0)
+  return monday
+}
+
+export function daysUntilMonday(): number {
+  const today = new Date()
+  const day = today.getDay()
+  return day === 0 ? 1 : 8 - day
+}
+
+export function getTimeUntilNextMonday(): string {
+  const now = new Date()
+  const nextMonday = new Date()
+  nextMonday.setDate(now.getDate() + (1 + 7 - now.getDay()) % 7)
+  nextMonday.setHours(0, 0, 0, 0)
+  const diff = nextMonday.getTime() - now.getTime()
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+  return `${days}j ${hours}h`
+}
+
+export function hoursSince(date: Date | string): number {
+  return (Date.now() - new Date(date).getTime()) / (1000 * 60 * 60)
+}
+
+export function daysSince(date: Date | string): number {
+  return (Date.now() - new Date(date).getTime()) / (1000 * 60 * 60 * 24)
+}
+
+export function minutesSince(date: Date | string): number {
+  return (Date.now() - new Date(date).getTime()) / (1000 * 60)
+}
+
+export function isToday(date: Date): boolean {
+  const now = new Date()
+  return date.getDate() === now.getDate()
+    && date.getMonth() === now.getMonth()
+    && date.getFullYear() === now.getFullYear()
+}

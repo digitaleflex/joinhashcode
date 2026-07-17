@@ -3,6 +3,25 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { NotificationsShell } from "@/components/dashboard/notifications-shell";
 import { UserProfile } from "@/lib/types";
+import type { SquadData, SquadMemberData } from "@/components/dashboard/squad-journey";
+
+interface RawMember {
+  userId: string
+  role: string
+  organization: {
+    id: string
+    name: string
+    slug?: string | null
+    description?: string | null
+    announcement?: string | null
+    isPrivate?: boolean
+    requiredLevel?: number | null
+    discordInviteUrl?: string | null
+    cohesionScore?: number | null
+    streakCount?: number | null
+    members: { id: string; userId: string; role: string; user?: { id: string; name: string; pseudo?: string | null; image: string | null } }[]
+  }
+}
 
 export const metadata = {
   title: "Notifications | HASHCODE",
@@ -17,12 +36,13 @@ export default async function NotificationsPage() {
   }
 
   let dbUser: UserProfile | null = null;
-  let member: any = null;
+  let member: RawMember | null = null;
 
   try {
     const userData = await prisma.user.findUnique({
       where: { id: session.user.id },
       include: {
+        profile: { select: { bio: true } },
         stats: {
           select: { lastCheckinAt: true, currentStreak: true },
         },
@@ -74,7 +94,7 @@ export default async function NotificationsPage() {
       domains: userData.domains || [],
       tools: userData.tools || [],
       badges: userData.badges || [],
-      bio: userData.bio,
+      bio: userData.profile?.bio,
       currentSituation: userData.currentSituation,
       technicalLevel: userData.technicalLevel,
       mainObjective: userData.mainObjective,
@@ -84,21 +104,20 @@ export default async function NotificationsPage() {
       currentStreak: userData.stats?.currentStreak ?? 0,
     } as UserProfile;
 
-    member = userData.members[0] ?? null;
+    member = (userData.members[0] as RawMember) ?? null;
   } catch (error: unknown) {
     console.error("[NOTIFICATIONS_PAGE] DB fetch failed:", error);
     throw error;
   }
 
-  const squad = member?.organization ? {
+  const squad: SquadData | null = member?.organization ? {
     ...member.organization,
-    members: member.organization.members.map((m: any) => ({
-      ...m,
-      user: {
-        ...m.user,
-        pseudo: m.user.pseudo || m.user.name,
-      }
-    }))
+    members: member.organization.members.map((m) => ({
+      id: m.id,
+      userId: m.userId,
+      role: m.role,
+      user: m.user ? { id: m.user.id, name: m.user.name, email: "", image: m.user.image } : undefined,
+    })) as SquadMemberData[]
   } : null;
 
   return (

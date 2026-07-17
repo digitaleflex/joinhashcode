@@ -36,10 +36,10 @@ export default async function InvitePage({ params }: { params: Promise<{ slug: s
   const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")?.user ?? squad.members[0]?.user ?? null;
 
   return (
-    <InviteClient 
-        squad={squad} 
-        leader={leader} 
-        isLoggedIn={!!session} 
+    <InviteClient
+        squad={squad}
+        leader={leader ?? { name: null, pseudo: null, image: null }}
+        isLoggedIn={!!session}
         userId={session?.user?.id}
     />
   );

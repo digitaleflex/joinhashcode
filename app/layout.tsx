@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Syne, Outfit, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
-import { Noise } from "@/components/ui/noise"
 import NextTopLoader from 'nextjs-toploader'
 
 const syne = Syne({
@@ -81,13 +80,10 @@ export const viewport: Viewport = {
 }
 
 import { Toaster } from "@/components/ui/sonner"
-import { CookieBanner } from "@/components/ui/cookie-banner"
 import { AuthErrorToast } from "@/components/ui/auth-error-toast"
 import { ServiceWorkerRegister } from "@/components/service-worker-register"
 import { Providers } from "@/components/providers"
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner"
-import { FloatingFeedbackButton } from "@/components/ui/floating-feedback-button"
-import { UXPollBanner } from "@/components/ui/ux-poll-banner"
 
 export default function RootLayout({
   children,
@@ -102,8 +98,6 @@ export default function RootLayout({
     >
       <body className={`${outfit.variable} font-sans antialiased bg-background text-foreground relative`}>
         <ImpersonationBanner />
-        <UXPollBanner />
-        <FloatingFeedbackButton />
         <NextTopLoader
           color="oklch(0.91 0.22 124)"
           initialPosition={0.08}
@@ -115,13 +109,11 @@ export default function RootLayout({
           speed={200}
           shadow="0 0 10px oklch(0.91 0.22 124),0 0 5px oklch(0.91 0.22 124)"
         />
-        <Noise />
         <Providers>
           {children}
         </Providers>
         <Toaster position="top-center" richColors />
         <AuthErrorToast />
-        <CookieBanner />
         <ServiceWorkerRegister />
       </body>
     </html>

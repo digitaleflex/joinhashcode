@@ -18,6 +18,7 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { awardXp } from "@/lib/experience";
+import { reviewLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -32,6 +33,9 @@ export async function POST(
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
+
+    const { limited } = await checkRateLimit(reviewLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de reviews. Réessaie dans une heure." }, { status: 429 });
 
     const { id: submissionId } = await params;
     const body = await req.json();

@@ -65,8 +65,8 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
       }
       toast.success(`Leadership transféré à ${memberName}`)
       router.refresh()
-    } catch (error: any) {
-      toast.error(error.message)
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Erreur inconnue")
     } finally {
       setIsTransferring(false)
     }
@@ -86,8 +86,8 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
       }
       toast.success("Escouade dissoute (Force admin)")
       router.refresh()
-    } catch (error: any) {
-      toast.error(error.message)
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Erreur inconnue")
     } finally {
       setIsPending(false)
       setIsDisbandDialogOpen(false)

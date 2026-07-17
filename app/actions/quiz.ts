@@ -230,11 +230,11 @@ export async function submitQuiz(rawData: unknown) {
       quizResultId: quizResult.id,
       analysis,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[QUIZ_SERVER_ACTION_ERROR]", error);
     return {
       success: false,
-      error: error.message || "Erreur interne du serveur",
+      error: error instanceof Error ? error.message : "Erreur interne du serveur",
       status: 500,
     };
   }

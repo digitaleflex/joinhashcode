@@ -2,12 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
+import { formatRelativeTime } from "@/lib/dates";
 import { Zap, Target, UserPlus, TrendingUp, Award, Loader2 } from "lucide-react";
 
+interface SquadActivityLog {
+  id: string
+  action: string
+  createdAt: string | Date
+  user?: { id: string; name?: string | null; pseudo?: string | null; image?: string | null }
+}
+
 export function SquadActivityFeed({ organizationId }: { organizationId: string }) {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<SquadActivityLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +21,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
       try {
         const response = await fetch(`/api/squad/activity?organizationId=${organizationId}`);
         if (!response.ok) throw new Error("Échec");
-        const data = await response.json();
+        const data = await response.json() as SquadActivityLog[];
         setLogs(data);
       } catch (error: unknown) {
         console.error(error);
@@ -38,8 +44,8 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
     }
   };
 
-  const getLabel = (log: any) => {
-    const name = log.user.pseudo || log.user.name;
+  const getLabel = (log: SquadActivityLog) => {
+    const name = log.user?.pseudo || log.user?.name;
     switch (log.action) {
       case "MISSION_APPROVED": return <span><strong className="text-white">@{name}</strong> a validé une mission.</span>;
       case "MISSION_SUBMITTED": return <span><strong className="text-white">@{name}</strong> a transmis un livrable.</span>;
@@ -73,7 +79,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
                 <div className="flex-1">{getLabel(log)}</div>
             </div>
             <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-tighter">
-                {formatDistanceToNow(new Date(log.createdAt), { addSuffix: true, locale: fr })}
+                {formatRelativeTime(log.createdAt)}
             </div>
           </div>
         </div>

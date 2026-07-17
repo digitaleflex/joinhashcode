@@ -5,16 +5,22 @@ import { useRouter } from "next/navigation"
 import { Bell, Loader2, UserCheck, X } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
+import type { SquadData } from "@/components/dashboard/squad-journey"
+
+interface JoinRequest {
+  id: string
+  user: { id: string; name?: string | null; image?: string | null; level?: number | null; class?: string | null }
+}
 
 interface SquadJoinRequestsPanelProps {
-  squad: any
+  squad: SquadData | null
   isLeader: boolean
   memberCount: number
 }
 
 export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJoinRequestsPanelProps) {
   const router = useRouter()
-  const [joinRequests, setJoinRequests] = useState<any[]>([])
+  const [joinRequests, setJoinRequests] = useState<JoinRequest[]>([])
   const [loadingRequests, setLoadingRequests] = useState(false)
   const [respondingId, setRespondingId] = useState<string | null>(null)
 
@@ -23,7 +29,7 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
     setLoadingRequests(true)
     try {
       const res = await fetch(`/api/squad/join-request?organizationId=${squad.id}`)
-      if (res.ok) setJoinRequests(await res.json())
+      if (res.ok) setJoinRequests(await res.json() as JoinRequest[])
     } catch {}
     finally { setLoadingRequests(false) }
   }, [squad?.id, isLeader])
@@ -40,8 +46,8 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
       toast.success(action === "accept" ? "Membre accepté !" : "Demande refusée.")
       setJoinRequests(prev => prev.filter(r => r.id !== requestId))
       if (action === "accept") router.refresh()
-    } catch (err: any) {
-      toast.error(err.message || "Erreur.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur.")
     } finally {
       setRespondingId(null)
     }
@@ -82,7 +88,7 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
         <p className="text-[11px] text-zinc-600 font-mono">Aucune demande en attente.</p>
       ) : (
         <div className="space-y-2.5">
-          {joinRequests.map((req: any) => (
+          {joinRequests.map((req) => (
             <div key={req.id} className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/5 bg-white/1">
               <div className="flex items-center gap-3 min-w-0">
                 <Avatar className="size-8 rounded-xl border border-white/10 shrink-0">

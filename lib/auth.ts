@@ -172,9 +172,6 @@ export const auth = betterAuth({
       technicalLevel: { type: "string", required: false },
       mainObjective: { type: "string", required: false },
       missionsCompletedCount: { type: "number", required: true, defaultValue: 0 },
-      dreamStatement: { type: "string", required: false },
-      currentFocus: { type: "string[]", required: false },
-      mainBlocker: { type: "string", required: false },
       betaKeyId: { type: "string", required: false },
     },
   },
@@ -319,13 +316,9 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         const result = await emailService.sendOtpEmail({ email, otp, type });
-        if (!result.success) {
-          const error = (result as { error?: any }).error;
-          const errorMessage = error?.message
-            ? String(error.message)
-            : typeof error === "string"
-              ? error
-              : "Failed to send OTP email";
+        if (!result.success && "error" in result) {
+          const err = result.error;
+          const errorMessage = err instanceof Error ? err.message : String(err);
           console.error("[AUTH][emailOTP] Failed to send OTP:", errorMessage);
         }
       },

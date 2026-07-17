@@ -154,7 +154,7 @@ export async function POST(req: Request) {
       const result = await submitMission(session.user.id, validatedData.data);
       if (process.env.NODE_ENV === "development") console.log("[PERF] missions POST:", (performance.now() - perfStart).toFixed(0), "ms");
       return NextResponse.json(result);
-    } catch (serviceError: any) {
+    } catch (serviceError: unknown) {
       const errorMap: Record<string, { message: string, status: number }> = {
         "MISSION_NOT_FOUND": { message: "Mission introuvable dans le système.", status: 404 },
         "USER_NOT_FOUND": { message: "Utilisateur introuvable.", status: 404 },
@@ -164,7 +164,7 @@ export async function POST(req: Request) {
         "MAX_REVISIONS_REACHED": { message: "Nombre maximum de révisions atteint. Contacte un admin.", status: 400 },
       };
 
-      const mapped = errorMap[serviceError.message];
+      const mapped = errorMap[serviceError instanceof Error ? serviceError.message : String(serviceError)];
       if (mapped) return NextResponse.json({ message: mapped.message }, { status: mapped.status });
       throw serviceError;
     }

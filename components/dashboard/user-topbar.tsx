@@ -12,19 +12,21 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
+import { hoursSince } from "@/lib/dates"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
+import type { NavUser } from "@/lib/types"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
 
-import { TourButton } from "@/components/tour/tour-button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from "@/components/ui/tooltip"
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
@@ -38,7 +40,7 @@ const NotificationBell = dynamic(
   }
 )
 
-export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { user: any, squad?: any, memberRole?: string, featureFlags?: Record<string, boolean> }) {
+export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { user: NavUser | null, squad?: SquadData | null, memberRole?: string, featureFlags?: Record<string, boolean> }) {
   const session = authClient.useSession();
   const isImpersonated = session.data?.session?.impersonatedBy;
   const isOwner = memberRole === "owner";
@@ -119,27 +121,15 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
           </Button>
         )}
 
-        {/* Tour Guide Trigger */}
-        {featureFlags.tour !== false && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
-                <TourButton autoStart={user.experience === 0} />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-              Besoin d'aide ? Lance le guide interactif.
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        )}
-
         {/* Squad Combo Bonus Indicator */}
-        {(squad?.lastComboAt || (session.data?.session as Record<string, any>)?.activeOrganization?.lastComboAt) && (
-          (() => {
-            const lastCombo = squad?.lastComboAt || (session.data?.session as Record<string, any>)?.activeOrganization?.lastComboAt;
-            const diffHours = (new Date().getTime() - new Date(lastCombo).getTime()) / (1000 * 60 * 60);
+        {(() => {
+          const activeOrg = session.data?.session as
+            | { activeOrganization?: { lastComboAt?: string | Date | null } }
+            | undefined;
+          const activeOrgCombo = activeOrg?.activeOrganization?.lastComboAt;
+          return (squad?.lastComboAt || activeOrgCombo) && (() => {
+            const lastCombo = squad?.lastComboAt || activeOrgCombo;
+            const diffHours = hoursSince(lastCombo ?? new Date());
             if (diffHours < 24) {
               return (
                 <TooltipProvider>
@@ -162,8 +152,8 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
               );
             }
             return null;
-          })()
-        )}
+          })();
+        })()}
 
         {/* Notifications */}
         <NotificationBell />
@@ -173,7 +163,7 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
             <Button variant="ghost" className="p-1 pr-3 gap-3 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all">
               <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
                 {user?.image ? (
-                  <Image src={user.image} alt={user.name} width={32} height={32} className="w-full h-full object-cover" />
+                  <Image src={user.image ?? ""} alt={user.name ?? ""} width={32} height={32} className="w-full h-full object-cover" />
                 ) : (
                   <UserIcon className="w-4 h-4 text-primary" />
                 )}

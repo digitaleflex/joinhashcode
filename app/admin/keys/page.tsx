@@ -22,9 +22,12 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { Prisma } from "@/generated/prisma/client";
+
+type BetaKey = Prisma.BetaKeyGetPayload<object>;
 
 export default function AdminKeysPage() {
-  const [keys, setKeys] = useState<any[]>([]);
+  const [keys, setKeys] = useState<BetaKey[]>([]);
   const [loading, setLoading] = useState(true);
   const [generateCount, setCount] = useState(1);
   const [generating, setGenerating] = useState(false);
@@ -35,7 +38,7 @@ export default function AdminKeysPage() {
       const response = await fetch("/api/admin/keys");
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
-      setKeys(data);
+      setKeys(data as BetaKey[]);
     } catch {
       toast.error("Erreur lors du chargement des clés");
     } finally {
@@ -189,11 +192,8 @@ export default function AdminKeysPage() {
                     )}
                   </TableCell>
                   <TableCell>
-                    {key.user ? (
-                      <div className="flex flex-col">
-                        <span className="text-zinc-300 font-bold text-xs uppercase">{key.user.name}</span>
-                        <span className="text-[10px] text-zinc-600 font-mono">{key.user.email}</span>
-                      </div>
+                    {key.usedBy ? (
+                      <span className="text-zinc-300 font-bold text-xs font-mono uppercase">{key.usedBy}</span>
                     ) : (
                       <span className="text-zinc-700 font-mono text-[10px]">--</span>
                     )}

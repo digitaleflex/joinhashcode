@@ -47,6 +47,22 @@ const nextConfig = {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
     const isLocal = appUrl.includes("localhost") || appUrl.includes("127.0.0.1") || process.env.NODE_ENV !== "production"
+
+    htmlHeaders.push({
+      key: "Content-Security-Policy",
+      value: [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob: lh3.googleusercontent.com avatars.githubusercontent.com api.qrserver.com",
+        "font-src 'self' data:",
+        "connect-src 'self'",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join("; "),
+    })
+
     if (!isLocal) {
       htmlHeaders.push({
         key: "Strict-Transport-Security",

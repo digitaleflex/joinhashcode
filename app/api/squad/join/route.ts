@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { joinSquadSchema } from "@/lib/validation";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
@@ -17,8 +18,12 @@ export async function POST(req: Request) {
     const { limited } = await checkRateLimit(squadJoinLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie dans une heure." }, { status: 429 });
 
-    const { slug } = await req.json();
-    if (!slug) return NextResponse.json({ message: "Slug missing" }, { status: 400 });
+    const body = await req.json();
+    const parsed = joinSquadSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ message: "Slug manquant ou invalide." }, { status: 400 });
+    }
+    const { slug } = parsed.data;
 
     const userId = session.user.id;
 

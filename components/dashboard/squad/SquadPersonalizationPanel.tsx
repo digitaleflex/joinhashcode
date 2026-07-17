@@ -4,11 +4,12 @@ import { useState, useCallback, useMemo } from "react"
 import { Link as LinkIcon, Pencil, X, Check, Loader2, Megaphone, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
 const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/
 
 interface SquadPersonalizationPanelProps {
-  squad: any
+  squad: SquadData | null
   localName: string
   localSlug: string
   onSave: (name: string, slug: string) => void
@@ -60,13 +61,13 @@ export function SquadPersonalizationPanel({ squad, localName, localSlug, onSave 
           requiredLevel: squad?.requiredLevel ?? 1,
         }),
       })
-      const data = await res.json()
+      const data = await res.json() as { name?: string; slug?: string; error?: string }
       if (!res.ok) throw new Error(data.error || "Erreur lors de la sauvegarde.")
-      onSave(data.name, data.slug)
+      onSave(data.name ?? editName, data.slug ?? editSlug)
       setIsEditing(false)
       toast.success("Escouade mise à jour !")
-    } catch (err: any) {
-      toast.error(err.message)
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la sauvegarde.")
     } finally {
       setIsSaving(false)
     }

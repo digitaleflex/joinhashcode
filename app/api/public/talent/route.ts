@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
+import type { Prisma } from "@/generated/prisma/client"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -7,11 +8,11 @@ export async function GET(request: Request) {
   const country = searchParams.get("country")
   const minLevel = searchParams.get("minLevel")
 
-  const where: Record<string, unknown> = {
+  const where: Prisma.UserWhereInput = {
     class: { not: null },
     pseudo: { not: null },
     talentVisible: true,
-    missionsCompletedCount: { gte: 1 },
+    progress: { missionsCompletedCount: { gte: 1 } },
   }
 
   if (profile && ["builder", "creator", "strategist", "catalyst"].includes(profile)) {
@@ -30,16 +31,16 @@ export async function GET(request: Request) {
   }
 
   const users = await prisma.user.findMany({
-    where: where as any,
+    where,
     select: {
       pseudo: true,
       class: true,
       country: true,
       city: true,
-      bio: true,
       tools: true,
       socials: { select: { githubUrl: true, portfolioUrl: true, linkedinUrl: true } },
       progress: { select: { level: true, missionsCompletedCount: true } },
+      profile: { select: { bio: true } },
     },
     orderBy: [{ progress: { missionsCompletedCount: "desc" } }, { progress: { level: "desc" } }],
     take: 50,
@@ -50,7 +51,7 @@ export async function GET(request: Request) {
     class: u.class,
     country: u.country,
     city: u.city,
-    bio: u.bio,
+    bio: u.profile?.bio,
     tools: u.tools ?? [],
     level: u.progress?.level ?? 1,
     missionsCompleted: u.progress?.missionsCompletedCount ?? 0,

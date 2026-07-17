@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { uxPollSchema } from "@/lib/validation";
 
 /**
  * Save UX Research Poll Response
@@ -18,25 +19,32 @@ export async function POST(req: Request) {
     const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
     if (limited) return NextResponse.json({ message: "Ton avis compte, mais laisse le système respirer. Réessaie dans une minute." }, { status: 429 });
 
-    const { prefersDarkMode, modernityRating, readabilityIssues } = await req.json();
+    const body = await req.json();
+    const parsed = uxPollSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Données invalides." }, { status: 400 });
+    }
+    const { prefersDarkMode, modernityRating, readabilityIssues } = parsed.data;
 
     if (modernityRating === undefined) {
       return NextResponse.json({ error: "Note de modernité manquante" }, { status: 400 });
     }
+
+    const readabilityText = readabilityIssues ? readabilityIssues.join("; ") : null;
 
     // Upsert poll response
     await prisma.uXPollResponse.upsert({
       where: { userId: session.user.id },
       update: {
         prefersDarkMode: prefersDarkMode === true,
-        modernityRating: parseInt(modernityRating),
-        readabilityIssues
+        modernityRating,
+        readabilityIssues: readabilityText
       },
       create: {
         userId: session.user.id,
         prefersDarkMode: prefersDarkMode === true,
-        modernityRating: parseInt(modernityRating),
-        readabilityIssues
+        modernityRating,
+        readabilityIssues: readabilityText
       }
     });
 

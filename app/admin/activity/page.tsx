@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@/generated/prisma/client"
 import { ScrollText, User, Clock, Filter } from "lucide-react"
-import { formatDistanceToNow, format } from "date-fns"
-import { fr } from "date-fns/locale"
+import { formatRelativeTime, format } from "@/lib/dates"
 
 const ACTION_COLORS: Record<string, { bg: string; color: string; hex: string }> = {
   USER_SIGNIN:                { bg: "bg-zinc-700/40 border-zinc-600/30",       color: "text-zinc-300",   hex: "#a1a1aa" },
@@ -78,8 +78,8 @@ function ActionBadge({ action }: { action: string }) {
 }
 
  
-function MetadataCell({ metadata }: { metadata: any }) {
-  if (!metadata || typeof metadata !== "object") return <span className="text-zinc-700">—</span>
+function MetadataCell({ metadata }: { metadata: Prisma.JsonValue }) {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return <span className="text-zinc-700">—</span>
 
   const entries = Object.entries(metadata as Record<string, unknown>)
     .filter(([, v]) => v !== null && v !== undefined && v !== "")
@@ -200,7 +200,7 @@ export default async function AdminActivityPage({
               {/* Timestamp */}
               <div className="space-y-0.5">
                 <p className="text-[10px] font-mono text-zinc-400">
-                  {formatDistanceToNow(new Date(log.createdAt), { locale: fr, addSuffix: true })}
+                  {formatRelativeTime(log.createdAt)}
                 </p>
                 <p className="text-[9px] font-mono text-zinc-700">
                   {format(new Date(log.createdAt), "dd/MM HH:mm:ss")}

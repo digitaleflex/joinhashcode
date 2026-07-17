@@ -32,7 +32,45 @@ import {
 import { authClient } from "@/lib/auth-client"
 import { Card } from "@/components/ui/card"
 
-function buildPhases(squad: any, memberCount: number): Phase[] {
+export interface SquadMemberData {
+  id: string
+  userId: string
+  role: string
+  user?: { id: string; name: string; email: string; image: string | null }
+}
+
+export interface SquadData {
+  id: string
+  name: string
+  slug?: string | null
+  description?: string | null
+  announcement?: string | null
+  isPrivate?: boolean
+  requiredLevel?: number | null
+  discordInviteUrl?: string | null
+  lastComboAt?: string | Date | null
+  cohesionScore?: number | null
+  streakCount?: number | null
+  members?: SquadMemberData[]
+}
+
+export interface UserData {
+  id: string
+  pseudo?: string | null
+  name?: string | null
+}
+
+export interface IncomingInvitation {
+  id: string
+  organizationId: string
+  organizationName: string
+  organizationDescription?: string | null
+  inviterName: string
+  role: string
+  status: string
+}
+
+function buildPhases(squad: SquadData | null, memberCount: number): Phase[] {
   const cohesion = squad?.cohesionScore ?? 0
   const streak = squad?.streakCount ?? 0
   const s = (completed: boolean, current: boolean) =>
@@ -48,23 +86,23 @@ function buildPhases(squad: any, memberCount: number): Phase[] {
   ]
 }
 
-export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: any; squad: any; incomingInvitations?: any[] }) {
+export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: UserData; squad: SquadData | null; incomingInvitations?: IncomingInvitation[] }) {
   const router = useRouter()
   const [isCopying, setIsCopying] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [localName, setLocalName] = useState<string>(squad?.name ?? "")
   const [localSlug, setLocalSlug] = useState<string>(squad?.slug ?? "")
   const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false)
-  const [invites, setInvites] = useState<any[]>(incomingInvitations)
+  const [invites, setInvites] = useState<IncomingInvitation[]>(incomingInvitations)
 
   const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
-  const memberRole = squad?.members?.find((m: any) => m.userId === user.id)?.role
+  const memberRole = squad?.members?.find((m) => m.userId === user.id)?.role
   const memberCount = squad?.members?.length ?? 0
   const cohesion = squad?.cohesionScore ?? 0
   const streak = squad?.streakCount ?? 0
 
   const isLeader = useMemo(
-    () => squad?.members?.some((m: any) => m.user?.id === user.id && m.role === "owner") ?? false,
+    () => squad?.members?.some((m) => m.user?.id === user.id && m.role === "owner") ?? false,
     [squad, user.id]
   )
 
@@ -96,8 +134,8 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
       }
       toast.success("Escouade créée — protocole initialisé !")
       router.refresh()
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de la création.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la création.")
     } finally {
       setIsCreating(false)
     }
@@ -177,7 +215,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                       <EyeOff className="size-2.5" /> Privée
                     </span>
                   )}
-                  {squad.requiredLevel > 1 && (
+                  {squad.requiredLevel && squad.requiredLevel > 1 && (
                     <span className="flex items-center gap-1 text-[9px] font-mono font-bold bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded-full uppercase">
                       <ShieldCheck className="size-2.5" /> Niv. {squad.requiredLevel}+ requis
                     </span>

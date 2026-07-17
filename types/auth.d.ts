@@ -18,9 +18,6 @@ declare module "better-auth" {
     strategistScore: number;
     catalystScore: number;
     missionsCompletedCount: number;
-    dreamStatement?: string | null;
-    currentFocus?: string[] | null;
-    mainBlocker?: string | null;
     lastCheckinAt?: Date | null;
     betaKeyId?: string | null;
     banned?: boolean | null;

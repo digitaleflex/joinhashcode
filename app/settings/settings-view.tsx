@@ -22,6 +22,7 @@ import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
 import { LinksTab } from "@/components/settings/tabs/LinksTab"
 import { VaultTab } from "@/components/settings/tabs/VaultTab"
 import { AccountTab } from "@/components/settings/tabs/AccountTab"
+import type { SettingsUserData } from "@/lib/types"
 
 const TABS = [
   { id: "profile", label: "Diagnostic", icon: User, desc: "Identité et informations de base" },
@@ -40,18 +41,18 @@ const TAB_COLORS: Record<string, { color: string; border: string; glow: string; 
 }
 
 interface SettingsViewProps {
-  initialData: Record<string, any>
+  initialData: SettingsUserData
 }
 
 export function SettingsView({ initialData }: SettingsViewProps) {
   const [activeTab, setActiveTab] = useState("profile")
-  const [userData, setUserData] = useState<any>(initialData)
+  const [userData, setUserData] = useState<Partial<SettingsUserData>>(initialData)
   const [loading, setLoading] = useState(false)
   const [autoSaving, setAutoSaving] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const save = useCallback(async (data: any, silent = false) => {
+  const save = useCallback(async (data: Partial<SettingsUserData>, silent = false) => {
     try {
       const ALLOWED_FIELDS = [
         "name", "pseudo", "bio", "image", "country", "city", "language", "currentSituation",
@@ -82,7 +83,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
     return false
   }, [])
 
-  const updateData = useCallback((next: any) => {
+  const updateData = useCallback((next: Partial<SettingsUserData>) => {
     setUserData(next)
     setIsDirty(true)
     if (debounceRef.current) clearTimeout(debounceRef.current)

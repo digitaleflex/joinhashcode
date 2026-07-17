@@ -19,7 +19,7 @@ export default function Error({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         message: error?.message,
-        digest: (error as any)?.digest,
+        digest: error.digest,
         stack: error?.stack,
         url: window.location.href,
         userAgent: navigator.userAgent,

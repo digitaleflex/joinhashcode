@@ -10,17 +10,42 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
 import Link from "next/link"
 
-export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
+interface InviteUser {
+  id?: string
+  name?: string | null
+  pseudo?: string | null
+  image?: string | null
+}
+
+interface InviteMember {
+  userId?: string
+  role?: string | null
+  user: InviteUser
+}
+
+interface InviteSquad {
+  slug: string | null
+  members: InviteMember[]
+}
+
+interface InviteClientProps {
+  squad: InviteSquad
+  leader: InviteUser
+  isLoggedIn: boolean
+  userId?: string
+}
+
+export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClientProps) {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
-    const isAlreadyMember = squad.members.some((m: any) => m.userId === userId)
+    const isAlreadyMember = squad.members.some((m) => m.userId === userId)
 
     const handleJoin = async () => {
         if (!isLoggedIn) {
             // Cookie fallback: new users will traverse the full onboarding funnel
             // before landing back here. The cookie survives the redirect chain.
-            document.cookie = `pending-squad=${squad.slug}; path=/; max-age=3600; SameSite=Lax`
-            router.push(`/signin?callbackURL=/invite/${squad.slug}`)
+            document.cookie = `pending-squad=${squad.slug ?? ""}; path=/; max-age=3600; SameSite=Lax`
+            router.push(`/signin?callbackURL=/invite/${squad.slug ?? ""}`)
             return
         }
 
@@ -39,8 +64,8 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
             document.cookie = "pending-squad=; path=/; max-age=0"
             toast.success("Tu as rejoint l'escouade !")
             router.push("/dashboard")
-        } catch (error: any) {
-            toast.error(error.message)
+        } catch (error: unknown) {
+            toast.error(error instanceof Error ? error.message : "Erreur inconnue")
         } finally {
             setIsLoading(false)
         }
@@ -81,7 +106,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                                 <Avatar className="w-full h-full rounded-none">
                                     <AvatarImage src={leader.image || ""} />
                                     <AvatarFallback className="bg-primary/20 text-primary font-black text-4xl">
-                                        {leader.pseudo?.charAt(0) || leader.name.charAt(0)}
+                                        {leader.pseudo?.charAt(0) || (leader.name ?? "").charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
                             </div>
@@ -91,7 +116,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                         </div>
                     </div>
                     <CardTitle className="text-3xl font-black uppercase tracking-tighter italic text-white leading-tight">
-                        {leader.pseudo || leader.name.split(' ')[0]} <span className="text-zinc-600 not-italic">t&apos;a sélectionné</span>
+                        {leader.pseudo || (leader.name ?? "").split(' ')[0]} <span className="text-zinc-600 not-italic">t&apos;a sélectionné</span>
                     </CardTitle>
                     <CardDescription className="text-zinc-400 mt-3 text-sm leading-relaxed">
                         Le Bâtisseur <span className="text-white font-bold">@{leader.pseudo}</span> a besoin de ton expertise pour compléter son équipe. Ensemble, débloquez tout le potentiel <span className="text-primary font-mono font-bold tracking-wide">HASHCODE</span>.
@@ -106,13 +131,13 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: any) {
                             <span className="text-primary font-bold">{squad.members.length}/5</span>
                         </div>
                         <div className="flex justify-center -space-x-3">
-                            {squad.members.map((m: any, i: number) => (
+                            {squad.members.map((m, i: number) => (
                                 <div key={i} className="relative group/avatar">
                                     <div className="size-14 rounded-2xl border-2 border-zinc-950 bg-zinc-800 overflow-hidden shadow-xl transition-transform hover:-translate-y-1 hover:z-10 cursor-pointer">
                                             <Avatar className="h-full w-full">
                                                 <AvatarImage src={m.user.image || ""} />
                                                 <AvatarFallback className="bg-zinc-700 text-xs font-bold">
-                                                    {m.user.pseudo?.slice(0, 2) || m.user.name.slice(0, 2)}
+                                                    {m.user.pseudo?.slice(0, 2) || (m.user.name ?? "").slice(0, 2)}
                                                 </AvatarFallback>
                                             </Avatar>
                                     </div>

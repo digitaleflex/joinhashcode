@@ -56,6 +56,7 @@ vi.mock("../lib/ratelimit", () => ({
   checkinLimiter: {},
   claimLimiter: {},
   squadJoinLimiter: {},
+  profileUpdateLimiter: {},
   redis: null,
 }));
 
@@ -123,12 +124,11 @@ describe("Security & Abuse Prevention", () => {
   });
 
   describe("User Update Rate Limit", () => {
-    test("returns 429 if updated less than 60s ago", async () => {
+    test("returns 429 if rate limited", async () => {
       (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
-      (prisma.user.findUnique as any).mockResolvedValue({
-        id: "user-1",
-        updatedAt: new Date(Date.now() - 30000), // 30s ago
-      });
+      // Override the default ratelimit mock to simulate being limited
+      const ratelimit = await import("../lib/ratelimit");
+      (ratelimit.checkRateLimit as any).mockImplementationOnce(() => Promise.resolve({ limited: true, reset: Date.now() + 3600000 }));
 
       const req = new NextRequest("http://localhost/api/user/update", {
         method: "PATCH",
@@ -137,8 +137,6 @@ describe("Security & Abuse Prevention", () => {
 
       const res = await updatePATCH(req);
       expect(res.status).toBe(429);
-      const json = await res.json();
-      expect(json.message).toContain("Doucement, bâtisseur ! Laisse ton terminal souffler une minute");
     });
 
     test("strips HTML from pseudo and bio", async () => {
@@ -147,7 +145,10 @@ describe("Security & Abuse Prevention", () => {
         id: "user-1",
         updatedAt: new Date(Date.now() - 70000), // 70s ago
       });
-      (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
+      (prisma.user.update as any).mockResolvedValue({
+        id: "user-1",
+        profile: { bio: "I am a cool person ...", secondaryObjectives: [] },
+      });
 
       const req = new NextRequest("http://localhost/api/user/update", {
         method: "PATCH",
@@ -163,7 +164,12 @@ describe("Security & Abuse Prevention", () => {
         where: { id: "user-1" },
         data: expect.objectContaining({
           pseudo: "Hacker",
-          bio: "I am a cool person ...",
+          profile: {
+            upsert: {
+              create: { bio: "I am a cool person ..." },
+              update: { bio: "I am a cool person ..." },
+            }
+          }
         }),
         select: expect.any(Object),
       });

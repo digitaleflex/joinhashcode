@@ -43,7 +43,8 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const dbUser = await prisma.user.findUnique({
     where: { pseudo },
     select: {
-      id: true, name: true, pseudo: true, image: true, bio: true,
+      id: true, name: true, pseudo: true, image: true,
+      profile: { select: { bio: true } },
       role: true, language: true,
       city: true, country: true,
       class: true,
@@ -76,7 +77,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     name: dbUser.name,
     pseudo: dbUser.pseudo,
     image: dbUser.image,
-    bio: dbUser.bio,
+    bio: dbUser.profile?.bio,
     role: dbUser.role,
     language: dbUser.language,
     city: dbUser.city,

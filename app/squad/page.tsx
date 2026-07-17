@@ -4,8 +4,24 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import SquadPageClient from "./squad-page-client";
+import type { SquadData, SquadMemberData, UserData, IncomingInvitation } from "@/components/dashboard/squad-journey";
 
 export const dynamic = "force-dynamic";
+
+interface RawMember {
+  userId: string
+  role: string
+  user?: { id: string; name: string | null; pseudo?: string | null; image: string | null }
+}
+
+function mapMembers(members: RawMember[]): SquadMemberData[] {
+  return members.map((m) => ({
+    id: m.userId,
+    userId: m.userId,
+    role: m.role,
+    user: m.user ? { id: m.user.id, name: m.user.name ?? "", email: "", image: m.user.image } : undefined,
+  }));
+}
 
 export default async function SquadPage() {
   const session = await getSessionSafe();
@@ -14,9 +30,9 @@ export default async function SquadPage() {
   const headers_ = await headers();
   const userId = session.user.id;
 
-  let squad: any = null;
-  let dbUser: any = null;
-  let incomingInvitations: any[] = [];
+  let squad: SquadData | null = null;
+  let dbUser: UserData | null = null;
+  let incomingInvitations: IncomingInvitation[] = [];
 
   try {
     const results = await Promise.allSettled([
@@ -39,7 +55,7 @@ export default async function SquadPage() {
     ]);
 
     const org = results[0].status === "fulfilled" ? results[0].value : null;
-    dbUser = results[1].status === "fulfilled" ? results[1].value : null;
+    dbUser = results[1].status === "fulfilled" ? (results[1].value as UserData | null) : null;
     const invitations = results[2].status === "fulfilled" ? results[2].value : [];
 
     if (!org) {
@@ -66,23 +82,17 @@ export default async function SquadPage() {
       if (member?.organization) {
         squad = {
           ...member.organization,
-          members: member.organization.members.map((m: any) => ({
-            ...m,
-            user: { ...m.user, pseudo: m.user.pseudo || m.user.name },
-          })),
-        };
+          members: mapMembers(member.organization.members as RawMember[]),
+        } as SquadData;
       }
     } else {
       squad = {
         ...org,
-        members: org.members.map((m: any) => ({
-          ...m,
-          user: { ...m.user, pseudo: m.user.name },
-        })),
-      };
+        members: mapMembers(org.members as unknown as RawMember[]),
+      } as SquadData;
     }
 
-    incomingInvitations = invitations.map((inv: any) => ({
+    incomingInvitations = invitations.map((inv) => ({
       id: inv.id,
       organizationId: inv.organizationId,
       organizationName: inv.organization.name,
@@ -97,7 +107,7 @@ export default async function SquadPage() {
 
   return (
     <SquadPageClient
-      user={dbUser ?? session.user}
+      user={dbUser ?? (session.user as unknown as UserData)}
       squad={squad}
       incomingInvitations={incomingInvitations}
     />

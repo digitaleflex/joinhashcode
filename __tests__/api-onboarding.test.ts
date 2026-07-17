@@ -119,9 +119,9 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
       country: "Sénégal",
       currentSituation: "STUDENT",
       mainObjective: null,
-      secondaryObjectives: [],
       language: "fr",
       updatedAt: new Date(),
+      profile: { secondaryObjectives: [] },
     };
 
     (prisma.user.update as any).mockResolvedValue(mockUpdatedUser);
@@ -139,16 +139,23 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
     expect(data.country).toBe("Sénégal");
     expect(data.currentSituation).toBe("STUDENT");
 
-    expect(prisma.user.update).toHaveBeenCalledWith({
-      where: { id: "user-1" },
-      data: {
-        country: "Sénégal",
-        currentSituation: "STUDENT",
-        language: "fr",
-        secondaryObjectives: [],
-      },
-      select: expect.any(Object),
-    });
+    expect(prisma.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "user-1" },
+        data: expect.objectContaining({
+          country: "Sénégal",
+          currentSituation: "STUDENT",
+          language: "fr",
+          profile: {
+            upsert: {
+              create: { secondaryObjectives: [] },
+              update: { secondaryObjectives: [] },
+            }
+          }
+        }),
+        select: expect.any(Object),
+      })
+    );
 
     expect(invalidateUserCache).toHaveBeenCalledWith("user-1");
     expect(logActivity).toHaveBeenCalled();
@@ -169,9 +176,9 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
       country: "Côte d'Ivoire",
       currentSituation: "PROFESSIONAL",
       mainObjective: "Apprendre React et Next.js",
-      secondaryObjectives: ["Trouver un emploi"],
       language: "fr",
       updatedAt: new Date(),
+      profile: { secondaryObjectives: ["Trouver un emploi"] },
     };
 
     (prisma.user.update as any).mockResolvedValue(mockUpdatedUser);

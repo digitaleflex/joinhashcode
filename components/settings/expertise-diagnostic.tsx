@@ -11,12 +11,13 @@ import {
   Sparkles
 } from "lucide-react"
 import { TECH_TREE, SPECIALIZATION_QUIZ } from "@/lib/tech-tree"
+import type { SettingsUserData } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
-export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, updateData: (next: any) => void }) {
+export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partial<SettingsUserData>, updateData: (next: Partial<SettingsUserData>) => void }) {
     const [step, setStep] = useState<"intro" | "quiz" | "result">(() => {
         const hasDomains = userData?.domains && userData.domains.length > 0
         const hasTools = userData?.tools && userData.tools.length > 0
@@ -63,7 +64,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
         updateData({ ...userData, domains: next })
     }
 
-    const handleAnswer = (option: any) => {
+    const handleAnswer = (option: { domains?: string[]; tools?: string[] }) => {
         // Add domains/tools from answer
         let nextData = { ...userData }
         if (option.domains) {
@@ -288,7 +289,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: any, u
     )
 }
 
-function ShieldCheck(props: any) {
+function ShieldCheck(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

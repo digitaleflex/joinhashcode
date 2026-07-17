@@ -23,8 +23,8 @@ export function SquadDisbandPanel({ localName }: SquadDisbandPanelProps) {
       if (!res.ok) throw new Error(await res.text())
       toast.success("Escouade dissoute.")
       router.refresh()
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de la dissolution.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la dissolution.")
     } finally {
       setIsDisbanding(false)
       setShowModal(false)

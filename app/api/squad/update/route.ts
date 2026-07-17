@@ -4,40 +4,33 @@ import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
 import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
-
-const SLUG_REGEX = /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9]|[a-z0-9]{0,28})$/;
+import { updateSquadSchema } from "@/lib/validation";
+import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function PATCH(req: Request) {
   try {
     checkCsrfOrigin(req);
     const session = await requireSession();
+    const { limited } = await checkRateLimit(squadManagementLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop d'actions. Réessaie dans une heure." }, { status: 429 });
 
-    const { name, slug, isPrivate, requiredLevel, description, announcement, discordInviteUrl } = await req.json();
-
-    if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 40) {
-      return NextResponse.json({ error: "Nom invalide (2–40 caractères)." }, { status: 400 });
+    const body = await req.json();
+    const parsed = updateSquadSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "Données invalides." }, { status: 400 });
     }
 
-    if (!slug || !SLUG_REGEX.test(slug)) {
-      return NextResponse.json(
-        { error: "Lien invalide : 3–30 caractères, lettres minuscules, chiffres et tirets uniquement." },
-        { status: 400 }
-      );
-    }
-
-    // Validate level
-    const levelNum = parseInt(requiredLevel);
-    if (isNaN(levelNum) || levelNum < 1 || levelNum > 10) {
-      return NextResponse.json({ error: "Niveau d'habilitation invalide (1–10)." }, { status: 400 });
-    }
+    const { name, slug, isPrivate, requiredLevel, description, announcement, discordInviteUrl } = parsed.data;
 
     // Profanity Filter
-    if (containsProfanity(name) || containsProfanity(slug)) {
+    if (name && containsProfanity(name)) {
       return NextResponse.json(
         { error: "Ce nom n'est pas autorisé par le protocole de sécurité HASHCODE." },
         { status: 400 }
       );
     }
+
+    const levelNum = requiredLevel ?? 1;
 
     // User must be owner or admin of their squad
     const membership = await prisma.member.findFirst({
@@ -62,13 +55,13 @@ export async function PATCH(req: Request) {
     const updated = await prisma.organization.update({
       where: { id: membership.organizationId },
       data: {
-        name: name.trim(),
-        slug,
-        isPrivate: !!isPrivate,
-        requiredLevel: levelNum,
-        description: typeof description === "string" ? description.slice(0, 300) : undefined,
-        announcement: typeof announcement === "string" ? announcement.slice(0, 200) : undefined,
-        discordInviteUrl: typeof discordInviteUrl === "string" ? discordInviteUrl.slice(0, 500) || null : null,
+        ...(name !== undefined && { name: name.trim() }),
+        ...(slug !== undefined && { slug }),
+        ...(isPrivate !== undefined && { isPrivate: !!isPrivate }),
+        ...(requiredLevel !== undefined && { requiredLevel: levelNum }),
+        ...(description !== undefined && { description }),
+        ...(announcement !== undefined && { announcement }),
+        ...(discordInviteUrl !== undefined && { discordInviteUrl: discordInviteUrl ?? null }),
       },
     });
 

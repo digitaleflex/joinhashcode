@@ -4,26 +4,14 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Clock, Trophy } from "lucide-react"
+import { getTimeUntilNextMonday } from "@/lib/dates"
 
 export function WeeklyChallengeWidget() {
   const [timeLeft, setTimeLeft] = useState("")
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date()
-      const nextMonday = new Date()
-      nextMonday.setDate(now.getDate() + (1 + 7 - now.getDay()) % 7)
-      nextMonday.setHours(0, 0, 0, 0)
-      
-      const diff = nextMonday.getTime() - now.getTime()
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-      
-      setTimeLeft(`${days}j ${hours}h`)
-    }
-
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 60000)
+    setTimeLeft(getTimeUntilNextMonday())
+    const timer = setInterval(() => setTimeLeft(getTimeUntilNextMonday()), 60000)
     return () => clearInterval(timer)
   }, [])
 

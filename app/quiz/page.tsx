@@ -1,4 +1,4 @@
-import { Quiz } from "@/components/quiz/quiz"
+import dynamic from "next/dynamic"
 import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
@@ -7,6 +7,19 @@ import { cookies } from "next/headers"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
+
+const Quiz = dynamic(() => import("@/components/quiz/quiz").then((mod) => mod.Quiz), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center py-24">
+      <div className="animate-pulse space-y-4 text-center">
+        <div className="h-4 w-48 bg-muted rounded mx-auto" />
+        <div className="h-24 w-96 bg-muted rounded mx-auto" />
+        <div className="h-8 w-64 bg-muted rounded mx-auto" />
+      </div>
+    </div>
+  ),
+})
 
 export const metadata = {
   title: "Évaluation — HASHCODE",

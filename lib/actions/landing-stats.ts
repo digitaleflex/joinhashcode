@@ -85,13 +85,12 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       classCounts,
       recentActivities,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Silent during Next.js build phase (no DB available)
     if (process.env.NEXT_PHASE !== "phase-production-build") {
       console.error("[GET_LANDING_STATS_ERROR]", {
-        message: error.message,
-        code: error.code,
-        stack: error.stack,
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
       })
     }
     return {

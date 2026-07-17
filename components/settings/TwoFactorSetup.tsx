@@ -18,7 +18,7 @@ import {
   DialogTrigger 
 } from "@/components/ui/dialog";
 
-export function TwoFactorSetup({ user }: { user: any }) {
+export function TwoFactorSetup({ user }: { user: { twoFactorEnabled?: boolean } }) {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [totpData, setTotpData] = useState<{ totpURI: string; backupCodes: string[] } | null>(null);

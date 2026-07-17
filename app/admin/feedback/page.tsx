@@ -2,11 +2,16 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { MessageSquare, AlertTriangle, Lightbulb, User, Clock, Paperclip } from "lucide-react"
-import { formatDistanceToNow } from "date-fns"
-import { fr } from "date-fns/locale"
+import { MessageSquare, AlertTriangle, Lightbulb, User, Clock, Paperclip, type LucideIcon } from "lucide-react"
+import { formatRelativeTime } from "@/lib/dates"
 import { Badge } from "@/components/ui/badge"
 import { FeedbackStatusToggle } from "./status-toggle"
+
+interface TypeIconMeta {
+  icon: LucideIcon
+  color: string
+  label: string
+}
 
 export default async function AdminFeedbackPage() {
   const session = await auth.api.getSession({ headers: await headers() })
@@ -28,7 +33,7 @@ export default async function AdminFeedbackPage() {
     }
   })
 
-  const typeIcons: Record<string, any> = {
+  const typeIcons: Record<string, TypeIconMeta> = {
     BUG: { icon: AlertTriangle, color: "text-red-500", label: "Bug" },
     FEATURE_REQUEST: { icon: Lightbulb, color: "text-blue-500", label: "Idée" },
     GENERAL: { icon: MessageSquare, color: "text-zinc-500", label: "Général" },
@@ -100,7 +105,7 @@ export default async function AdminFeedbackPage() {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Clock className="size-3" />
-                      <span>{formatDistanceToNow(new Date(f.createdAt), { addSuffix: true, locale: fr })}</span>
+                      <span>{formatRelativeTime(f.createdAt)}</span>
                     </div>
                   </div>
                 </div>

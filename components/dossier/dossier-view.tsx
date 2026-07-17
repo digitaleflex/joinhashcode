@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { MemberCard } from "@/components/ui/member-card";
 import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
-import { XPGrowthChart } from "@/components/dashboard/xp-growth-chart";
+import { XPGrowthChart, type ActivityLog } from "@/components/dashboard/xp-growth-chart";
 import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 import { ReferralWidget } from "@/components/dashboard/referral-widget";
 import {
@@ -41,11 +41,20 @@ import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import { calculateNeuralSync } from "@/lib/evolution-utils";
 import { NeuralSyncGauge } from "@/components/dashboard/neural-sync-gauge";
 
+interface DossierOrg {
+  name: string
+  cohesionScore?: number | null
+}
+
+interface DossierQuizResult {
+  profileType?: string | null
+}
+
 interface DossierViewProps {
-  user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: any[] };
-  activeOrg: any;
-  quizResult: any;
-  squadMembersLogs: any[];
+  user: UserProfile & { missionSubmissions: DetailedMissionSubmission[]; activityLogs: ActivityLog[] };
+  activeOrg: DossierOrg | null;
+  quizResult: DossierQuizResult | null | undefined;
+  squadMembersLogs: unknown[];
   isPublic?: boolean;
   isPrivate?: boolean;
   isInspecting?: boolean;
@@ -105,8 +114,8 @@ export function DossierView({
 
       toast.success(data.message || "Invitation envoyée !");
       setAlreadyInvited(true);
-    } catch (err: any) {
-      toast.error(err.message || "Erreur technique");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur technique");
     } finally {
       setSendingInvite(false);
     }
@@ -301,9 +310,9 @@ export function DossierView({
                                               <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
                                               <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
                                           </div>
-                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round((user.behavioralVibrancy?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
+                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round(((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                              <div className="h-full bg-primary" style={{ width: `${(user.behavioralVibrancy?.score || 0.85) * 100}%` }} />
+                                              <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100}%` }} />
                                           </div>
                                       </div>
                                   </TooltipTrigger>
@@ -398,10 +407,10 @@ export function DossierView({
                               <div className="space-y-2">
                                   <div className="flex justify-between items-end">
                                       <span className="text-[8px] sm:text-[9px] font-mono text-zinc-600 uppercase font-black">Cohésion de groupe</span>
-                                      <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black">{(activeOrg.cohesionScore * 100).toFixed(0)}%</span>
-                                  </div>
-                                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                      <div className="h-full bg-primary" style={{ width: `${activeOrg.cohesionScore * 100}%` }} />
+                                      <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black">{((activeOrg.cohesionScore ?? 0) * 100).toFixed(0)}%</span>
+                                   </div>
+                                   <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                       <div className="h-full bg-primary" style={{ width: `${(activeOrg.cohesionScore ?? 0) * 100}%` }} />
                                   </div>
                               </div>
                           </>
@@ -580,7 +589,7 @@ export function DossierView({
                   
                   <div className="space-y-3 sm:space-y-4">
                       {user.missionSubmissions.length > 0 ? (
-                          user.missionSubmissions.map((sub: any) => (
+                          user.missionSubmissions.map((sub) => (
                               <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/2 border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
                                   <div className="space-y-1 min-w-0">
                                       <div className="text-[9px] font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>

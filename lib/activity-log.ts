@@ -1,6 +1,7 @@
 import { prisma } from "./prisma"
 import { sanitizeMetadata } from "./logger"
 import { getClientIp } from "./utils"
+import type { Prisma } from "@/generated/prisma/client"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
@@ -54,7 +55,7 @@ interface LogOptions {
   entity?: string
   entityId?: string
    
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
   request?: Request
 }
 
@@ -71,7 +72,7 @@ export async function logActivity(opts: LogOptions): Promise<void> {
         action,
         entity: entity ?? null,
         entityId: entityId ?? null,
-        metadata: metadata ? sanitizeMetadata(metadata) : undefined,
+        metadata: metadata ? (sanitizeMetadata(metadata) as Prisma.InputJsonValue) : undefined,
         ip: request ? getClientIp(request.headers) : null,
         userAgent: request?.headers.get("user-agent") ?? null,
       },

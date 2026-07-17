@@ -302,7 +302,7 @@ export const emailService = {
     return this._send({ to, subject, html, text });
   },
 
-  async _send({ to, subject, html, text, attachments }: { to: string; subject: string; html: string; text?: string; attachments?: any[] }) {
+  async _send({ to, subject, html, text, attachments }: { to: string; subject: string; html: string; text?: string; attachments?: Record<string, unknown>[] }) {
     if (!resend) return { success: false, error: "Resend not configured" };
     try {
       const { data, error } = await resend.emails.send({

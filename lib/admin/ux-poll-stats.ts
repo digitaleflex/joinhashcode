@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { formatYYYYMMDD } from "@/lib/dates"
 
 export interface UxPollStats {
   total: number
@@ -55,7 +56,7 @@ export async function getUxPollStats(): Promise<UxPollStats> {
 
   const counts: Record<string, number> = {}
   for (const row of rawRows) {
-    const key = row.createdAt.toISOString().split("T")[0]
+    const key = formatYYYYMMDD(row.createdAt)
     counts[key] = (counts[key] || 0) + 1
   }
   const dailyTrend = Object.entries(counts)

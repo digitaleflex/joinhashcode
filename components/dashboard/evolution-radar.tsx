@@ -76,7 +76,7 @@ export function EvolutionRadar({
   const [hoveredAxis, setHoveredAxis] = useState<string | null>(null)
   
   // Clean inputs
-  const cleanScore = (val: any) => {
+  const cleanScore = (val: unknown) => {
     const num = Number(val);
     return isNaN(num) ? 0 : Math.max(0, num);
   };

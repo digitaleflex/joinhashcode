@@ -19,6 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MissionForm } from "@/components/admin/MissionForm";
+import { Prisma } from "@/generated/prisma/client";
+
+type Mission = Prisma.MissionGetPayload<object>;
 import { 
   Plus, 
   Edit, 
@@ -31,9 +34,9 @@ import {
 import { toast } from "sonner";
 
 export default function AdminMissionsPage() {
-  const [missions, setMissions] = useState<any[]>([]);
+  const [missions, setMissions] = useState<Mission[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingMission, setEditingMission] = useState<any>(null);
+  const [editingMission, setEditingMission] = useState<Mission | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const fetchMissions = async () => {
@@ -42,7 +45,7 @@ export default function AdminMissionsPage() {
       const response = await fetch("/api/admin/missions");
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
-      setMissions(data);
+      setMissions(data as Mission[]);
     } catch (error: unknown) {
       toast.error("Erreur lors du chargement des missions");
     } finally {

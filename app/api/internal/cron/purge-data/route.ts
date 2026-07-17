@@ -1,12 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
-import { purgeOldLocations } from "@/lib/location";
+
+interface BatchModel {
+  findMany: (args: { where: Record<string, unknown>; select: { id: true }; take: number }) => Promise<{ id: string }[]>
+  deleteMany: (args: { where: { id: { in: string[] } } }) => Promise<{ count: number }>
+}
 
 // Supprime les données par blocs pour éviter de bloquer la base de données
-async function deleteInBatches(model: string, where: any, batchSize = 2000): Promise<number> {
+async function deleteInBatches(model: string, where: Record<string, unknown>, batchSize = 2000): Promise<number> {
   let totalDeleted = 0;
-  const prismaModel = (prisma as any)[model];
+  const prismaModel = (prisma as unknown as Record<string, BatchModel>)[model];
   if (!prismaModel) return 0;
 
   while (true) {
@@ -19,7 +23,7 @@ async function deleteInBatches(model: string, where: any, batchSize = 2000): Pro
 
     if (records.length === 0) break;
 
-    const ids = records.map((r: any) => r.id);
+    const ids = records.map((r) => r.id);
     const deleted = await prismaModel.deleteMany({
       where: { id: { in: ids } },
     });
@@ -59,9 +63,6 @@ export async function POST(req: Request) {
     // 3. Purge old Contact Messages
     const purgedMessagesCount = await deleteInBatches("contactMessage", { createdAt: { lt: retentionMessages } });
 
-    // 4. Purge old GPS location data (anonymize after 90 days)
-    const purgedLocationsCount = await purgeOldLocations();
-
     logActivity({
       action: "CRON_PURGE_DATA",
       entity: "System",
@@ -69,7 +70,6 @@ export async function POST(req: Request) {
         purgedLogs: purgedLogsCount,
         purgedNotifications: purgedNotificationsCount,
         purgedMessages: purgedMessagesCount,
-        purgedLocations: purgedLocationsCount
       },
     });
 
@@ -79,7 +79,6 @@ export async function POST(req: Request) {
         logs: purgedLogsCount,
         notifications: purgedNotificationsCount,
         messages: purgedMessagesCount,
-        locations: purgedLocationsCount
       }
     });
   } catch (error: unknown) {

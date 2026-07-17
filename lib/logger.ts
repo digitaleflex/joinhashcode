@@ -2,8 +2,10 @@
  * Centralized logging and alerting for HASHCODE Infrastructure.
  */
 
+import type { Prisma } from "@/generated/prisma/client";
+
 const SENSITIVE_KEYS = [
-  "email", "token", "secret", "idToken", "sessionToken", "password", 
+  "email", "token", "secret", "idToken", "sessionToken", "password",
   "access_token", "refresh_token", "otp", "code", "authorization",
   "cookie", "key", "apiKey", "ip", "userAgent"
 ];
@@ -11,32 +13,32 @@ const SENSITIVE_KEYS = [
 /**
  * Filtre récursif pour masquer les données sensibles dans les métadonnées.
  */
-export function sanitizeMetadata(data: any): any {
-  if (!data || typeof data !== "object") return data;
-  
+export function sanitizeMetadata(data: unknown): Prisma.InputJsonValue {
+  if (!data || typeof data !== "object") return data as Prisma.InputJsonValue;
+
   if (Array.isArray(data)) {
-    return data.map(sanitizeMetadata);
+    return data.map(sanitizeMetadata) as Prisma.InputJsonValue;
   }
 
-  const sanitized: Record<string, any> = {};
+  const sanitized: Record<string, Prisma.InputJsonValue> = {};
   for (const [key, value] of Object.entries(data)) {
     const isSensitive = SENSITIVE_KEYS.some(sk => key.toLowerCase().includes(sk.toLowerCase()));
-    
+
     if (isSensitive && value) {
       sanitized[key] = "[MASKED]";
-    } else if (typeof value === "object") {
+    } else if (typeof value === "object" && value !== null) {
       sanitized[key] = sanitizeMetadata(value);
     } else {
-      sanitized[key] = value;
+      sanitized[key] = value as Prisma.InputJsonValue;
     }
   }
   return sanitized;
 }
 
-export async function logError(title: string, error: any, metadata: Record<string, any> = {}) {
+export async function logError(title: string, error: unknown, metadata: Record<string, Prisma.InputJsonValue> = {}) {
   const message = error instanceof Error ? error.message : String(error);
   const stack = error instanceof Error ? error.stack : "No stack trace";
-  
+
   console.error(`[${title.toUpperCase()}] ${message}`, { metadata, stack });
 
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
@@ -78,7 +80,7 @@ export async function logError(title: string, error: any, metadata: Record<strin
   }
 }
 
-export async function logInfo(title: string, message: string, metadata: Record<string, any> = {}) {
+export async function logInfo(title: string, message: string, metadata: Record<string, Prisma.InputJsonValue> = {}) {
   const sanitizedMetadata = sanitizeMetadata(metadata);
   console.log(`[INFO] ${title}: ${message}`, sanitizedMetadata);
 

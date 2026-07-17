@@ -1,29 +1,16 @@
-import { auth } from "@/lib/auth";
+import { checkAdmin } from "@/lib/admin-auth";
 import { logActivity } from "@/lib/activity-log";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-
-async function checkAdmin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-
-  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
-
-  return session.user;
-}
+import { formatYYYYMMDD } from "@/lib/dates";
+import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function GET(req: Request) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
   try {
     const usersData = await prisma.user.findMany({
@@ -93,7 +80,7 @@ export async function GET(req: Request) {
     
     const csv = [headers, ...rows].join("\n");
 
-    await logActivity({
+    logActivity({
       userId: admin.id,
       action: "ADMIN_USER_EXPORTED",
       metadata: { count: users.length, format: "csv" },
@@ -103,7 +90,7 @@ export async function GET(req: Request) {
     return new NextResponse(csv, {
       headers: {
         "Content-Type": "text/csv",
-        "Content-Disposition": `attachment; filename=hashcode-users-export-${new Date().toISOString().split('T')[0]}.csv`,
+        "Content-Disposition": `attachment; filename=hashcode-users-export-${formatYYYYMMDD()}.csv`,
       },
     });
   } catch (error) {

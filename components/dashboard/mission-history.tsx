@@ -5,13 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { History, Calendar, CheckCircle2, Target } from "lucide-react"
-import { format } from "date-fns"
-import { fr } from "date-fns/locale"
+import { format, fr } from "@/lib/dates"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import type { DetailedMissionSubmission } from "@/lib/types"
 
 interface MissionHistoryProps {
-  submissions: any[]
+  submissions: DetailedMissionSubmission[]
 }
 
 export function MissionHistory({ submissions }: MissionHistoryProps) {

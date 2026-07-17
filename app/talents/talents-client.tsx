@@ -259,8 +259,8 @@ function InviteAnalysisDialog({
       if (!res.ok) throw new Error(data.error || data.message || "Erreur")
       setSent(true)
       toast.success(data.message || "Invitation envoyée !")
-    } catch (err: any) {
-      toast.error(err.message || "Erreur technique")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur technique")
     } finally {
       setSending(false)
     }

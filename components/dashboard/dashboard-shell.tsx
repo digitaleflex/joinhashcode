@@ -41,6 +41,8 @@ import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
+import type { SquadData } from "@/components/dashboard/squad-journey"
+import type { Activity } from "@/components/landing/activity-feed"
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
 const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
@@ -83,19 +85,19 @@ export function DashboardShell({
   featureFlags = {}
 }: {
   user: UserProfile,
-  quizResult: any,
+  quizResult: { profileType?: string | null } | null,
   submissions?: Record<string, string>,
   fullSubmissions?: DetailedMissionSubmission[],
-  squad?: any,
+  squad?: SquadData | null,
   memberRole?: string,
   recommendedMissions?: Mission[],
-  feedActivities?: any[],
+  feedActivities?: Activity[],
   featureFlags?: Record<string, boolean>
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
   const levelName = LEVEL_MAP[level] || "AGENT"
-  const isSquadFull = useMemo(() => !!(squad && squad.members.length >= 5), [squad])
+  const isSquadFull = useMemo(() => !!(squad && (squad.members?.length ?? 0) >= 5), [squad])
   const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
 

@@ -4,6 +4,7 @@ import { invalidateUserCache } from "./user-cache";
 import { checkAndAwardBadges } from "./badge-engine";
 import { emailService } from "./email";
 import { XP_THRESHOLDS } from "./member-card-constants";
+import { hoursSince } from "./dates";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -20,7 +21,7 @@ export async function awardXp(
   amount: number,
   reason: string,
   sourceId?: string,
-  customTx?: any
+  customTx?: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">
 ) {
   const execute = async (tx: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">) => {
     // 1. Détecter le bonus de cohésion de squad
@@ -31,10 +32,7 @@ export async function awardXp(
     });
 
     if (membership?.organization?.lastComboAt) {
-      const now = new Date();
-      const comboDate = new Date(membership.organization.lastComboAt);
-      const diffMs = now.getTime() - comboDate.getTime();
-      const diffHours = diffMs / (1000 * 60 * 60);
+      const diffHours = hoursSince(membership.organization.lastComboAt);
 
       // Si le combo a été réalisé il y a moins de 24h, appliquer le bonus
       if (diffHours < 24) {

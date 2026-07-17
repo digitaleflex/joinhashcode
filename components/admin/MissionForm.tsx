@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { toast } from "sonner";
 import { X, Plus } from "lucide-react";
 
@@ -48,19 +48,19 @@ const missionSchema = z.object({
 type MissionFormValues = z.infer<typeof missionSchema>;
 
 interface MissionFormProps {
-  initialData?: any;
+  initialData?: Record<string, unknown> | null;
   onSuccess: () => void;
 }
 
 export function MissionForm({ initialData, onSuccess }: MissionFormProps) {
   const [loading, setLoading] = useState(false);
-  const [requirements, setRequirements] = useState<string[]>(initialData?.requirements || []);
-  const [deliverables, setDeliverables] = useState<string[]>(initialData?.deliverables || []);
-  const [acceptanceCriteria, setAcceptanceCriteria] = useState<string[]>(initialData?.acceptanceCriteria || []);
+  const [requirements, setRequirements] = useState<string[]>((initialData?.requirements as string[]) || []);
+  const [deliverables, setDeliverables] = useState<string[]>((initialData?.deliverables as string[]) || []);
+  const [acceptanceCriteria, setAcceptanceCriteria] = useState<string[]>((initialData?.acceptanceCriteria as string[]) || []);
 
   const form = useForm<MissionFormValues>({
     resolver: zodResolver(missionSchema),
-    defaultValues: initialData || {
+    defaultValues: (initialData as MissionFormValues) || {
       title: "",
       description: "",
       shortDesc: "",
@@ -109,17 +109,17 @@ export function MissionForm({ initialData, onSuccess }: MissionFormProps) {
     }
   };
 
-  const addListEntry = (setter: any, current: string[]) => {
+  const addListEntry = (setter: Dispatch<SetStateAction<string[]>>, current: string[]) => {
     setter([...current, ""]);
   };
 
-  const updateListEntry = (setter: any, current: string[], index: number, value: string) => {
+  const updateListEntry = (setter: Dispatch<SetStateAction<string[]>>, current: string[], index: number, value: string) => {
     const next = [...current];
     next[index] = value;
     setter(next);
   };
 
-  const removeListEntry = (setter: any, current: string[], index: number) => {
+  const removeListEntry = (setter: Dispatch<SetStateAction<string[]>>, current: string[], index: number) => {
     setter(current.filter((_, i) => i !== index));
   };
 

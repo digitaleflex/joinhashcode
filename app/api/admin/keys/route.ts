@@ -1,26 +1,10 @@
-import { auth } from "@/lib/auth";
+import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { logActivity } from "@/lib/activity-log";
-
-async function checkAdmin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-
-  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
-
-  return session.user;
-}
+import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { adminKeyGenSchema } from "@/lib/validation";
 
 export async function GET() {
   const admin = await checkAdmin();
@@ -41,9 +25,17 @@ export async function POST(req: Request) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
+
   try {
-    const { count = 1, prefix = "H26-" } = await req.json();
-    
+    const body = await req.json();
+    const parsed = adminKeyGenSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ message: "Paramètres invalides." }, { status: 400 });
+    }
+    const { count, prefix } = parsed.data;
+
     const keysToCreate = Array.from({ length: count }).map(() => ({
       key: `${prefix}${randomBytes(16).toString('hex').toUpperCase()}`,
     }));
@@ -52,7 +44,7 @@ export async function POST(req: Request) {
       keysToCreate.map(data => prisma.betaKey.create({ data }))
     );
 
-    await logActivity({
+    logActivity({
       userId: admin.id,
       action: "ADMIN_BETA_KEY_GENERATED",
       metadata: { count, prefix },

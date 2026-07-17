@@ -132,7 +132,7 @@ export default function OnboardingPage() {
 
   // ─── API saves ──────────────────────────────────────────────────────────────
 
-  const savePartial = async (data: Record<string, any>, onConflict?: () => void) => {
+  const savePartial = async (data: Record<string, unknown>, onConflict?: () => void) => {
     setIsSubmitting(true)
     try {
       const res = await fetch("/api/onboarding", {
@@ -182,8 +182,9 @@ export default function OnboardingPage() {
         // Bridge → dashboard si déjà quizé, /quiz sinon
         window.location.href = userClass ? "/dashboard" : "/quiz"
       }
-    } catch (err: any) {
-      if (err.message !== "Unauthorized" && err.message !== "Conflict") {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : ""
+      if (message !== "Unauthorized" && message !== "Conflict") {
         toast.error("Erreur de connexion. Vérifie ta connexion.")
       }
     }

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
+import { formatShortRelativeTime } from "@/lib/dates"
 
 interface NeuralEvent {
   id: string
@@ -12,18 +13,7 @@ interface NeuralEvent {
   timestamp: string
 }
 
-function formatRelativeTime(date: Date): string {
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffMinutes = Math.floor(diffMs / (1000 * 60))
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
-  if (diffMinutes < 1) return `maintenant`
-  if (diffMinutes < 60) return `${diffMinutes}m`
-  if (diffHours < 24) return `${diffHours}h`
-  return `${diffDays}j`
-}
 
 export async function GET() {
   try {
@@ -75,7 +65,7 @@ export async function GET() {
           class: log.user?.class,
         },
         meta,
-        timestamp: formatRelativeTime(log.createdAt),
+        timestamp: formatShortRelativeTime(new Date(log.createdAt)),
       }
     })
 

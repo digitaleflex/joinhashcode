@@ -9,10 +9,11 @@ import { Loader2, Camera, User, AtSign, Languages, Globe, RefreshCw, Eye, EyeOff
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { CountrySelector } from "@/components/onboarding/country-selector"
+import type { SettingsUserData } from "@/lib/types"
 
 interface ProfileTabProps {
-  userData: any
-  updateData: (next: any) => void
+  userData: Partial<SettingsUserData>
+  updateData: (next: Partial<SettingsUserData>) => void
 }
 
 function HudCorners({ className }: { className?: string }) {
@@ -72,11 +73,11 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
       updateData({ ...userData, image: url })
       toast.success("Avatar mis à jour !")
       router.refresh()
-    } catch (error: any) {
-      if (error.name === "AbortError") {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === "AbortError") {
         toast.error("Upload trop long. Vérifie ta connexion et réessaie.")
       } else {
-        toast.error(error.message || "Erreur lors de l'upload")
+        toast.error(error instanceof Error ? error.message : "Erreur lors de l'upload")
       }
     } finally {
       clearTimeout(timeout)

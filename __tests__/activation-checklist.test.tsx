@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ActivationChecklist } from '@/components/dashboard/activation-checklist';
+import type { UserProfile } from '@/lib/types';
 
 vi.mock('@/lib/features', () => ({
   isFeatureEnabled: () => true,
@@ -14,7 +15,7 @@ describe('ActivationChecklist Component', () => {
   };
 
   it('renders correctly and shows progress', () => {
-    render(<ActivationChecklist user={mockUser} hasSquad={false} hasSubmission={false} />);
+    render(<ActivationChecklist user={mockUser as UserProfile} hasSquad={false} hasSubmission={false} />);
     
     // Quiz is always completed by default in logic
     expect(screen.getByText('Calibration terminée')).toBeDefined();
@@ -29,7 +30,7 @@ describe('ActivationChecklist Component', () => {
   it('hides when all steps are completed', () => {
     const fullUser = { ...mockUser, linkedinUrl: 'linked' };
     const { container } = render(
-      <ActivationChecklist user={fullUser} hasSquad={true} hasSubmission={true} />
+      <ActivationChecklist user={fullUser as UserProfile} hasSquad={true} hasSubmission={true} />
     );
     
     expect(container.firstChild).toBeNull();
@@ -37,7 +38,7 @@ describe('ActivationChecklist Component', () => {
 
   it('calculates profile completion correctly', () => {
     const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null };
-    render(<ActivationChecklist user={incompleteUser} hasSquad={false} hasSubmission={false} />);
+    render(<ActivationChecklist user={incompleteUser as UserProfile} hasSquad={false} hasSubmission={false} />);
     
     const profileCard = screen.getByText('Identité configurée');
     expect(profileCard).toBeDefined();

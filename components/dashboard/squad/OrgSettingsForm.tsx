@@ -8,9 +8,10 @@ import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
+import type { SquadData } from "@/components/dashboard/squad-journey";
 
 interface OrgSettingsFormProps {
-  organization: any;
+  organization: SquadData;
 }
 
 export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {

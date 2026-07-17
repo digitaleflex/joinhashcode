@@ -104,7 +104,7 @@ export const PATCH = withAdminAuth(async (req: Request) => {
     }
 
     return NextResponse.json({ success: true });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("Admin Feedback API Error:", e);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
   }

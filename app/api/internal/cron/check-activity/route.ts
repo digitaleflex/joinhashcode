@@ -8,10 +8,10 @@ import { safeAfter } from "@/lib/after";
 async function runWithConcurrencyLimit<T>(
   items: T[],
   limit: number,
-  fn: (item: T) => Promise<any>
+  fn: (item: T) => Promise<unknown>
 ) {
   const results = [];
-  const executing = new Set<Promise<any>>();
+  const executing = new Set<Promise<unknown>>();
   for (const item of items) {
     const p = Promise.resolve().then(() => fn(item));
     results.push(p);

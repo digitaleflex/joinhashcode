@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { ShieldBan, AlertTriangle, Ban, RotateCcw, User } from "lucide-react"
-import { formatDistanceToNow } from "date-fns"
-import { fr } from "date-fns/locale"
+import { formatRelativeTime } from "@/lib/dates"
 
 export default async function AdminFraudPage() {
   const [bannedUsers, suspiciousLogs] = await Promise.all([
@@ -92,7 +91,7 @@ export default async function AdminFraudPage() {
                 <div className="text-right">
                   <p className="text-[10px] font-mono text-rose-400/60 uppercase tracking-wider">Banni</p>
                   <p className="text-[9px] font-mono text-zinc-700">
-                    {formatDistanceToNow(new Date(sec.updatedAt), { locale: fr, addSuffix: true })}
+                    {formatRelativeTime(sec.updatedAt)}
                   </p>
                 </div>
               </div>
@@ -132,7 +131,7 @@ export default async function AdminFraudPage() {
                   </span>
                 </div>
                 <span className="text-[9px] font-mono text-zinc-700">
-                  {formatDistanceToNow(new Date(log.createdAt), { locale: fr, addSuffix: true })}
+                  {formatRelativeTime(log.createdAt)}
                 </span>
               </div>
             ))}

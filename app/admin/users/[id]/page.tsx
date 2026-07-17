@@ -43,6 +43,7 @@ export default async function UserDossierPage({ params }: PageProps) {
       security: true,
       referral: true,
       beta: true,
+      profile: true,
       quizResults: {
         orderBy: { createdAt: 'desc' },
         take: 1
@@ -324,13 +325,13 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
 
               {/* Objectifs Secondaires */}
-              {user.secondaryObjectives && user.secondaryObjectives.length > 0 && (
+              {user.profile?.secondaryObjectives && user.profile.secondaryObjectives.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <BookOpen className="h-3 w-3 text-zinc-600" /> Objectifs Secondaires
                   </p>
                   <div className="flex flex-wrap gap-1.5 pl-4">
-                    {user.secondaryObjectives.map((obj) => (
+                    {user.profile!.secondaryObjectives.map((obj) => (
                       <Badge key={obj} variant="secondary" className="text-[10px] bg-zinc-800 text-zinc-300 border-white/5 font-normal">
                         {obj}
                       </Badge>
@@ -340,25 +341,25 @@ export default async function UserDossierPage({ params }: PageProps) {
               )}
 
               {/* Principal Obstacle */}
-              {user.mainBlocker && (
+              {user.profile?.mainBlocker && (
                 <div className="space-y-1">
                   <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <AlertCircle className="h-3 w-3 text-zinc-600" /> Obstacle Principal
                   </p>
                   <p className="text-sm text-zinc-200 font-medium pl-4">
-                    {blockerLabels[user.mainBlocker] || user.mainBlocker}
+                    {blockerLabels[user.profile!.mainBlocker] || user.profile!.mainBlocker}
                   </p>
                 </div>
               )}
 
               {/* Domaines de Focus */}
-              {user.currentFocus && user.currentFocus.length > 0 && (
+              {user.profile?.currentFocus && user.profile.currentFocus.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <Layers className="h-3 w-3 text-zinc-600" /> Domaines de Focus
                   </p>
                   <div className="flex flex-wrap gap-1.5 pl-4">
-                    {user.currentFocus.map((foc) => (
+                    {user.profile!.currentFocus.map((foc) => (
                       <Badge key={foc} variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/20 font-mono uppercase tracking-wider font-bold">
                         {focusLabels[foc] || foc}
                       </Badge>
@@ -368,13 +369,13 @@ export default async function UserDossierPage({ params }: PageProps) {
               )}
 
               {/* Rêve à 12 Mois */}
-              {user.dreamStatement && (
+              {user.profile?.dreamStatement && (
                 <div className="space-y-2 pt-2 border-t border-white/5">
-                  <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
-                    <Sparkles className="h-3 w-3 text-zinc-600" /> Rêve à 12 Mois
-                  </p>
-                  <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 relative overflow-hidden italic text-xs text-zinc-400 font-light leading-relaxed pl-4">
-                    &ldquo;{user.dreamStatement}&rdquo;
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                      <Sparkles className="h-3 w-3 text-zinc-600" /> Rêve à 12 Mois
+                    </p>
+                    <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 relative overflow-hidden italic text-xs text-zinc-400 font-light leading-relaxed pl-4">
+                      &ldquo;{user.profile!.dreamStatement}&rdquo;
                   </div>
                 </div>
               )}
@@ -547,7 +548,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                       <h4 className="text-[9px] font-mono text-zinc-500 uppercase font-black">Activité du Squad</h4>
                       <div className="space-y-2 max-h-48 overflow-y-auto scrollbar-none pr-1">
                         {squadMembersLogs.length > 0 ? (
-                          squadMembersLogs.map((log: any) => (
+                          squadMembersLogs.map((log) => (
                             <div key={log.id} className="text-[9px] font-mono text-zinc-400 leading-normal flex gap-2">
                               <span className="text-primary">➜</span>
                               <div>

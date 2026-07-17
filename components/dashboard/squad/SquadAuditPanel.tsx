@@ -5,6 +5,13 @@ import { Sparkles, Loader2, ChevronRight, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import type { SquadData } from "@/components/dashboard/squad-journey"
+
+interface AuditMember {
+  id: string
+  role: string
+  user?: { id: string; name?: string | null; pseudo?: string | null; class?: string | null }
+}
 
 interface AuditResult {
   score: number
@@ -15,12 +22,12 @@ interface AuditResult {
   memberCount: number
 }
 
-function computeAudit(squad: any): AuditResult | null {
+function computeAudit(squad: SquadData | null): AuditResult | null {
   if (!squad) return null
-  const members = squad.members || []
+  const members = (squad.members ?? []) as AuditMember[]
   if (members.length === 0) return null
 
-  const classes = members.map((m: any) => m.user?.class?.toLowerCase()).filter(Boolean)
+  const classes = members.map((m) => m.user?.class?.toLowerCase()).filter((c): c is string => Boolean(c))
   const uniqueClasses = Array.from(new Set(classes)) as string[]
   const hasBuilder = classes.includes("builder")
   const hasCreator = classes.includes("creator")
@@ -50,9 +57,9 @@ function computeAudit(squad: any): AuditResult | null {
   Object.entries(classCounts).forEach(([cls, count]) => {
     if (count > 2) {
       warnings.push(`Hyper-concentration : Trop de ${nameMap[cls] || cls} (${count}).`)
-      const matching = members.filter((m: any) => m.user?.class?.toLowerCase() === cls && m.role !== "owner")
-      matching.slice(1).forEach((m: any) => {
-        excessMembers.push({ memberId: m.id, userId: m.user.id, name: m.user.name || "Agent", pseudo: m.user.pseudo || m.user.name?.split(" ")[0] || "Agent", class: m.user.class })
+      const matching = members.filter((m) => m.user?.class?.toLowerCase() === cls && m.role !== "owner")
+      matching.slice(1).forEach((m) => {
+        excessMembers.push({ memberId: m.id, userId: m.user?.id ?? "", name: m.user?.name || "Agent", pseudo: m.user?.pseudo || m.user?.name?.split(" ")[0] || "Agent", class: m.user?.class || "" })
       })
     }
   })
@@ -66,7 +73,7 @@ function computeAudit(squad: any): AuditResult | null {
 }
 
 interface SquadAuditPanelProps {
-  squad: any
+  squad: SquadData | null
   isLeader: boolean
 }
 
@@ -89,8 +96,8 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
       if (!res.ok) throw new Error(await res.text())
       setSuggestedIds(prev => new Set([...prev, targetUserId]))
       toast.success("Suggestion envoyée.")
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de l'envoi.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de l'envoi.")
     } finally {
       setSuggestingSendId(null)
     }

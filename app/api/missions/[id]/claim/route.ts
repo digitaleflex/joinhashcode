@@ -80,8 +80,8 @@ export async function POST(
       });
 
       return NextResponse.json({ success: true, submission: updated });
-    } catch (error: any) {
-      if (error.code === "P2025") {
+    } catch (error: unknown) {
+      if (error instanceof Error && (error as { code?: string }).code === "P2025") {
         return NextResponse.json({ message: "Cette soumission a déjà été réclamée ou n'est plus disponible." }, { status: 409 });
       }
       throw error;

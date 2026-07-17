@@ -34,25 +34,11 @@ model User {
   pseudo               String?   @unique
   technicalLevel       String?
   tools                String[]
-  secondaryObjectives  String[]
-  bio                  String?
   memberNumber         Int       @unique @default(autoincrement())
-  currentFocus         String[]
-  dreamStatement       String?
-  mainBlocker          String?
   banReason            String?
   banExpires           DateTime?
   deactivatedAt        DateTime? @map("deactivated_at")
   talentVisible        Boolean   @default(false)
-  visitorId            String?
-  consentLocation      Boolean   @default(false)
-  consentLocationAt    DateTime?
-  latitude             Float?
-  longitude            Float?
-  locationAccuracy     Float?
-  locationUpdatedAt    DateTime?
-  ipCountry            String?
-
   // Scores psychométriques calculés par analysis.ts
   builderScore        Int     @default(0)
   creatorScore        Int     @default(0)
@@ -67,6 +53,7 @@ model User {
   referral             UserReferral?
   progress             UserProgress?
   beta                 UserBeta?
+  profile              UserProfile?
   accounts             Account[]
   dailyCheckins        DailyCheckin[]
   guildMembers         GuildMember[]
@@ -88,7 +75,6 @@ model User {
   twofactors           TwoFactor[]
   xpTransactions       XpTransaction[]
   squadMessages        SquadMessage[]
-  locations            UserLocation[]
 
   @@index([class])
   @@index([role])
@@ -135,6 +121,21 @@ model UserProgress {
   @@index([experience])
   @@index([level])
   @@map("user_progress")
+}
+
+model UserProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio                String?
+  secondaryObjectives String[]
+  currentFocus        String[]
+  dreamStatement     String?
+  mainBlocker        String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("user_profile")
 }
 
 model UserBeta {
@@ -607,21 +608,6 @@ model EngagementStats {
   lastStreakDate DateTime?
 
   @@map("engagement_stats")
-}
-
-model UserLocation {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  latitude  Float
-  longitude Float
-  accuracy  Float?
-  ip        String?
-  createdAt DateTime @default(now())
-
-  @@index([userId, createdAt])
-  @@index([createdAt])
-  @@map("user_location")
 }
 
 model TeamApplication {

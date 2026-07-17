@@ -5,6 +5,7 @@ import { Check, Lock, HelpCircle, Sparkles, Loader2, ChevronRight, Copy } from "
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { LucideIcon } from "lucide-react"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
 export type PhaseStatus = "completed" | "current" | "locked"
 
@@ -26,7 +27,7 @@ interface PhaseNodeProps {
   phase: Phase
   isLast: boolean
   memberCount: number
-  squad: any
+  squad: SquadData | null
   isCopying: boolean
   isCreating: boolean
   onCopy: () => void

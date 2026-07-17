@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
+import { adminLogSchema } from "@/lib/validation";
 
 const ALLOWED_ADMIN_ACTIONS = [
   "ADMIN_ROLE_UPDATED",
@@ -28,16 +29,21 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { action, entityId, metadata } = await req.json();
+    const body = await req.json();
+    const parsed = adminLogSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ message: "Données invalides." }, { status: 400 });
+    }
+    const { action, entityId, metadata } = parsed.data;
 
     if (!ALLOWED_ADMIN_ACTIONS.includes(action)) {
       return NextResponse.json({ message: "Action non autorisée via ce terminal." }, { status: 400 });
     }
 
-    await logActivity({
+    logActivity({
       userId: admin.id,
       action,
-      entityId,
+      entityId: entityId ?? undefined,
       metadata,
       request: req
     });

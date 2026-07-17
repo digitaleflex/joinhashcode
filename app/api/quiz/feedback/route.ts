@@ -2,6 +2,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { quizFeedbackLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { quizFeedbackSchema } from "@/lib/validation";
 
 /**
  * Save Post-Quiz Feedback
@@ -12,8 +14,19 @@ export async function POST(req: Request) {
       headers: await headers(),
     });
 
+    // Rate limit: only applies if logged in
+    if (session) {
+      const { limited } = await checkRateLimit(quizFeedbackLimiter, session.user.id);
+      if (limited) return NextResponse.json({ error: "Trop de feedback. Réessaie dans une heure." }, { status: 429 });
+    }
+
     // Feedback can be anonymous or linked to a user
-    const { quizResultId, isAccurate, usefulness, comment } = await req.json();
+    const body = await req.json();
+    const parsed = quizFeedbackSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Données invalides." }, { status: 400 });
+    }
+    const { quizResultId, isAccurate, usefulness, comment } = parsed.data;
 
     if (!quizResultId) {
       return NextResponse.json({ error: "ID du résultat manquant" }, { status: 400 });

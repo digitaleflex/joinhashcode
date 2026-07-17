@@ -1,9 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import type { SettingsUserData } from "@/lib/types"
 
 interface VaultTabProps {
-  userData: any
+  userData: Partial<SettingsUserData>
 }
 
 export function VaultTab({ userData }: VaultTabProps) {

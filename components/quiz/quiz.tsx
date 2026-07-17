@@ -169,9 +169,9 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
         } else {
           throw new Error(res.error || "Erreur lors de la synchronisation");
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Failed to save results:", error)
-        toast.error(error.message || "Le système n'a pas pu traiter tes vecteurs. Réessaie.");
+        toast.error(error instanceof Error ? error.message : "Le système n'a pas pu traiter tes vecteurs. Réessaie.");
       } finally {
         setIsSaving(false)
         setIsAnalyzing(false)

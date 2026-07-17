@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { collectUserData } from "@/lib/user-export";
 import JSZip from "jszip";
 import { strictMutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { formatYYYYMMDD } from "@/lib/dates";
 import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET(req: Request) {
@@ -17,7 +18,7 @@ export async function GET(req: Request) {
     const format = new URL(req.url).searchParams.get("format") ?? "json";
     const data = await collectUserData(session.user.id);
     const safeId = session.user.id.slice(0, 8);
-    const date = new Date().toISOString().split("T")[0];
+    const date = formatYYYYMMDD();
 
     if (format === "zip") {
       const zip = new JSZip();

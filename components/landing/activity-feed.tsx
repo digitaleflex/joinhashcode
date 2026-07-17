@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-interface Activity {
+export interface Activity {
   id: string
   user: {
     name: string

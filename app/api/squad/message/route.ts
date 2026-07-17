@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { logActivity } from "@/lib/activity-log";
+import { squadMessageSchema } from "@/lib/validation";
 
 export async function GET(req: Request) {
   try {
@@ -50,10 +51,12 @@ export async function POST(req: Request) {
     const { limited } = await checkRateLimit(mutationLimiter, `msg:${session.user.id}`);
     if (limited) return NextResponse.json({ message: "Trop de requêtes" }, { status: 429 });
 
-    const { content, organizationId } = await req.json();
-    if (!content?.trim() || !organizationId) {
+    const body = await req.json();
+    const parsed = squadMessageSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json({ error: "content et organizationId requis" }, { status: 400 });
     }
+    const { content, organizationId } = parsed.data;
 
     const membership = await prisma.member.findFirst({
       where: { userId: session.user.id, organizationId },

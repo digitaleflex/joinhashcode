@@ -4,11 +4,15 @@ import { saveFile } from "@/lib/upload";
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { avatarLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function POST(req: Request) {
   try {
     checkCsrfOrigin(req);
     const session = await requireSession();
+
+    const { limited } = await checkRateLimit(avatarLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie dans une heure." }, { status: 429 });
 
     const formData = await req.formData();
     const file = formData.get("file") as File;

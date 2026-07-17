@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PublicSquadList } from "@/components/dashboard/squad/PublicSquadList";
+import { PublicSquadList, type PublicSquad } from "@/components/dashboard/squad/PublicSquadList";
 import { Globe } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function SquadDiscoverySection() {
-  const [squads, setSquads] = useState<any[]>([]);
+  const [squads, setSquads] = useState<PublicSquad[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export function SquadDiscoverySection() {
         const response = await fetch("/api/squad/public?limit=3");
         if (!response.ok) throw new Error("Échec");
         const json = await response.json();
-        setSquads(json || []);
+        setSquads((json as PublicSquad[]) || []);
       } catch (error: unknown) {
         console.error(error);
 

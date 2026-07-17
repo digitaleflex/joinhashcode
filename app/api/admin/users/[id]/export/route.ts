@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { collectUserData } from "@/lib/user-export";
 import { logActivity } from "@/lib/activity-log";
+import { formatYYYYMMDD } from "@/lib/dates";
 import JSZip from "jszip";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -38,7 +39,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   });
   const data = await collectUserData(targetUserId);
   const safeId = targetUserId.slice(0, 8);
-  const date = new Date().toISOString().split("T")[0];
+  const date = formatYYYYMMDD();
 
   if (format === "zip") {
     const zip = new JSZip();

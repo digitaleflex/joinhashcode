@@ -6,12 +6,33 @@ import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
 import { getFeatureFlags } from "@/lib/feature-flags"
+import { daysUntilMonday, getWeekStart } from "@/lib/dates"
 import { MissionsList } from "@/components/missions/missions-list"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-banner"
+import { Prisma } from "@/generated/prisma/client"
+
+type MissionsUserPayload = Prisma.UserGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    email: true;
+    image: true;
+    class: true;
+    role: true;
+    missionSubmissions: {
+      select: {
+        missionId: true;
+        status: true;
+        mission: { select: { slug: true } };
+      };
+    };
+    progress: { select: { level: true; experience: true } };
+  };
+}>;
 
 const getMissionsEnrichment = unstable_cache(
   async () => {
@@ -60,21 +81,6 @@ const getMissionsEnrichment = unstable_cache(
   { revalidate: 300 }
 )
 
-function daysUntilMonday(): number {
-  const today = new Date()
-  const day = today.getDay() // 0=dim, 1=lun, ...
-  return day === 0 ? 1 : 8 - day
-}
-
-function getWeekStart(): Date {
-  const d = new Date()
-  const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  const monday = new Date(d.setDate(diff))
-  monday.setHours(0, 0, 0, 0)
-  return monday
-}
-
 export default async function MissionsPage() {
   const session = await getSessionSafe();
 
@@ -86,13 +92,13 @@ export default async function MissionsPage() {
   const weekStart = getWeekStart();
 
   // Fetch user data, weekly mission, weekly submission and cached enrichment in parallel
-  let finalDbUser: any = null
-  let weeklyMission: any = null
+  let finalDbUser: MissionsUserPayload | null = null
+  let weeklyMission: Prisma.MissionGetPayload<object> | null = null
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
   let avgDelayMap: Record<string, number> = {}
   let userSquad: { id: string } | null = null
-  let weeklySubmission: any = null
+  let weeklySubmission: Prisma.MissionSubmissionGetPayload<object> | null = null
 
   try {
     ;[
@@ -148,7 +154,7 @@ export default async function MissionsPage() {
 
   // Key by slug so MissionsList can look up by MISSIONS[n].id (which equals the slug)
   const submissionsMap: Record<string, string> = {};
-  finalDbUser.missionSubmissions.forEach((sub: any) => {
+  finalDbUser.missionSubmissions.forEach((sub) => {
     const slug = sub.mission?.slug ?? sub.missionId;
     submissionsMap[slug] = sub.status;
   });

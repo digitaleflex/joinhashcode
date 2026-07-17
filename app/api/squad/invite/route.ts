@@ -5,16 +5,22 @@ import { logActivity } from "@/lib/activity-log";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 import { emailService } from "@/lib/email";
+import { inviteSquadSchema } from "@/lib/validation";
+import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
     checkCsrfOrigin(req);
     const session = await requireSession();
-    const { targetUserId } = await req.json();
-    if (!targetUserId) {
+    const { limited } = await checkRateLimit(squadManagementLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop d'actions. Réessaie dans une heure." }, { status: 429 });
+    const body = await req.json();
+    const parsed = inviteSquadSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json({ error: "ID de la cible requis" }, { status: 400 });
     }
+    const { targetUserId } = parsed.data;
 
     const inviterId = session.user.id;
 

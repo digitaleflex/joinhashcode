@@ -28,8 +28,8 @@ export function AcceptInvitationClient({
       if (error) throw new Error(error.message || "Erreur lors de l'acceptation.")
       setStatus("success")
       setTimeout(() => router.push("/squad"), 1500)
-    } catch (err: any) {
-      setErrorMsg(err.message)
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "Erreur inconnue")
       setStatus("error")
     }
   }

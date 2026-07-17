@@ -1,36 +1,24 @@
-import { auth } from "@/lib/auth";
+import { checkAdmin } from "@/lib/admin-auth";
 import { logActivity } from "@/lib/activity-log";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-
-async function checkAdmin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-
-  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
-
-  return session.user;
-}
+import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { adminBroadcastSchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
-  try {
-    const { title, message, type = "SYSTEM", link = null } = await req.json();
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
-    if (!title || !message) {
-      return NextResponse.json({ message: "Missing title or message" }, { status: 400 });
+  try {
+    const body = await req.json();
+    const parsed = adminBroadcastSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ message: "Missing or invalid title/message" }, { status: 400 });
     }
+    const { title, message, type, link } = parsed.data;
 
     const users = await prisma.user.findMany({
       select: { id: true }
@@ -48,7 +36,7 @@ export async function POST(req: Request) {
       data: notifications
     });
 
-    await logActivity({
+    logActivity({
       userId: admin.id,
       action: "ADMIN_BROADCAST_SENT",
       metadata: { title, type, count: users.length },

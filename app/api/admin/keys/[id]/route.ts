@@ -1,25 +1,8 @@
-import { auth } from "@/lib/auth";
+import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
-
-async function checkAdmin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-
-  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
-
-  return session.user;
-}
+import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function DELETE(
   req: Request,
@@ -27,6 +10,9 @@ export async function DELETE(
 ) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
   try {
     const { id } = await params;
@@ -40,7 +26,7 @@ export async function DELETE(
     });
 
     if (betaKey) {
-      await logActivity({
+      logActivity({
         userId: admin.id,
         action: "ADMIN_BETA_KEY_DELETED",
         metadata: { key: betaKey.key },

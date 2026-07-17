@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Users, Shield, Sparkles, Trophy, Cpu, ExternalLink, MessageSquare } from "lucide-react"
+import { Users, Shield, Sparkles, Trophy, Cpu, ExternalLink, MessageSquare, type LucideIcon } from "lucide-react"
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons"
 import { Button } from "@/components/ui/button"
 import {
@@ -32,7 +32,7 @@ const CLASS_CONFIG: Record<string, {
   color: string
   borderColor: string
   bgColor: string
-  icon: any
+  icon: LucideIcon
 }> = {
   BUILDER: {
     label: "BUILDER",

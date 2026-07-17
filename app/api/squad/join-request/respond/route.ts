@@ -2,6 +2,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { updateSquadCohesion } from "@/lib/squad-logic";
+import { joinRequestRespondSchema } from "@/lib/validation";
+import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
 import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
@@ -9,10 +11,15 @@ export async function POST(req: NextRequest) {
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
+    const { limited } = await checkRateLimit(squadManagementLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop d'actions. Réessaie dans une heure." }, { status: 429 });
+
     const body = await req.json();
-    const { requestId, action } = body;
-    if (!requestId || !action) return NextResponse.json({ error: "requestId et action requis" }, { status: 400 });
-    if (action !== "accept" && action !== "reject") return NextResponse.json({ error: "action doit être accept ou reject" }, { status: 400 });
+    const parsed = joinRequestRespondSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "requestId et action requis" }, { status: 400 });
+    }
+    const { requestId, action } = parsed.data;
 
     const request = await prisma.joinRequest.findUnique({
       where: { id: requestId },

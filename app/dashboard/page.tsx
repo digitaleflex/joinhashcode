@@ -2,8 +2,42 @@ import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
+import type { SquadData } from "@/components/dashboard/squad-journey";
+import type { Activity } from "@/components/landing/activity-feed";
 import { getFeatureFlags } from "@/lib/feature-flags";
+
+type MemberPayload = Prisma.MemberGetPayload<{
+  select: {
+    role: true;
+    organization: {
+      select: {
+        id: true;
+        name: true;
+        slug: true;
+        logo: true;
+        cohesionScore: true;
+        streakCount: true;
+        members: {
+          take: 5;
+          select: {
+            id: true;
+            userId: true;
+            role: true;
+            user: {
+              select: { id: true; name: true; email: true; pseudo: true; image: true; class: true };
+            };
+          };
+        };
+      };
+    };
+  };
+}>;
+
+type FeedPayload = Prisma.ActivityLogGetPayload<{
+  include: { user: { select: { name: true; city: true; class: true } } };
+}>;
 
 export default async function DashboardPage() {
   const session = await getSessionSafe();
@@ -15,10 +49,10 @@ export default async function DashboardPage() {
   // ⚡ Perf: 3 requêtes parallèles avec select stricts au lieu d'un include massif.
   // Réduit le payload DB de 40–60% et supprime les nested includes profonds.
   let dbUser: UserProfile | null = null;
-  let quizResult: any = null;
+  let quizResult: { profileType?: string | null } | null = null;
   let submissions: DetailedMissionSubmission[] = [];
-  let member: any = null;
-  let feedActivities: any[] = [];
+  let member: MemberPayload | null = null;
+  let feedActivities: Activity[] = [];
 
   try {
     const [userData, submissionsData, memberData, feedData] = await Promise.all([
@@ -32,7 +66,7 @@ export default async function DashboardPage() {
           image: true,
           class: true,
           pseudo: true,
-          bio: true,
+          profile: { select: { bio: true } },
           country: true,
           city: true,
           currentSituation: true,
@@ -95,9 +129,11 @@ export default async function DashboardPage() {
               members: {
                 take: 5,
                 select: {
+                  id: true,
+                  userId: true,
                   role: true,
                   user: {
-                    select: { id: true, name: true, pseudo: true, image: true, class: true },
+                    select: { id: true, name: true, email: true, pseudo: true, image: true, class: true },
                   },
                 },
               },
@@ -141,7 +177,7 @@ export default async function DashboardPage() {
       domains: userData.domains || [],
       tools: userData.tools || [],
       badges: userData.badges || [],
-      bio: userData.bio,
+      bio: userData.profile?.bio,
       currentSituation: userData.currentSituation,
       technicalLevel: userData.technicalLevel,
       mainObjective: userData.mainObjective,
@@ -159,7 +195,12 @@ export default async function DashboardPage() {
     quizResult = userData.quizResults[0] ?? null;
     submissions = submissionsData as DetailedMissionSubmission[];
     member = memberData ?? null;
-    feedActivities = feedData ?? [];
+    feedActivities = (feedData ?? []).map((a) => ({
+      id: a.id,
+      user: { name: a.user!.name, city: a.user!.city, class: a.user!.class },
+      action: a.action,
+      createdAt: a.createdAt.toISOString(),
+    }));
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error);
     throw error;
@@ -171,17 +212,17 @@ export default async function DashboardPage() {
     return acc;
   }, {} as Record<string, string>);
 
-  const squad = member?.organization
+  const squad: SquadData | null = member?.organization
     ? {
         ...member.organization,
-        members: member.organization.members.map((m: any) => ({
+        members: member.organization.members.map((m) => ({
           ...m,
           user: {
             ...m.user,
             pseudo: m.user.pseudo || m.user.name,
           },
         })),
-      }
+      } as SquadData
     : null;
 
   if (!dbUser) {

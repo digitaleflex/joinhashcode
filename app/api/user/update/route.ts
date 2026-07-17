@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { invalidateUserCache } from "@/lib/user-cache";
 import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { profileUpdateLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
@@ -60,7 +61,9 @@ export async function PATCH(req: Request) {
     checkCsrfOrigin(req);
     const session = await requireSession();
 
-    // Basic rate limit (60 seconds)
+    const { limited } = await checkRateLimit(profileUpdateLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de modifications. Réessaie dans une heure." }, { status: 429 });
+
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: { updatedAt: true }
@@ -78,12 +81,26 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ message: firstError || "Certaines données transmises sont invalides." }, { status: 400 });
     }
 
-    const { githubUrl, portfolioUrl, twitterUrl, linkedinUrl, ...restData } = parsed.data;
+    const { githubUrl, portfolioUrl, twitterUrl, linkedinUrl, bio, secondaryObjectives, ...restData } = parsed.data;
 
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: {
         ...restData,
+        ...(bio !== undefined || secondaryObjectives !== undefined ? {
+          profile: {
+            upsert: {
+              create: {
+                ...(bio !== undefined ? { bio } : {}),
+                ...(secondaryObjectives !== undefined ? { secondaryObjectives } : {}),
+              },
+              update: {
+                ...(bio !== undefined ? { bio } : {}),
+                ...(secondaryObjectives !== undefined ? { secondaryObjectives } : {}),
+              }
+            }
+          }
+        } : {}),
         socials: {
           upsert: {
             create: {
@@ -109,16 +126,15 @@ export async function PATCH(req: Request) {
         class: true,
         role: true,
         pseudo: true,
-        bio: true,
         country: true,
         city: true,
         language: true,
         domains: true,
         tools: true,
         mainObjective: true,
-        secondaryObjectives: true,
         updatedAt: true,
         socials: true,
+        profile: { select: { bio: true, secondaryObjectives: true } },
         progress: { select: { level: true, experience: true } },
       }
     });
@@ -135,7 +151,7 @@ export async function PATCH(req: Request) {
       class: updatedUser.class,
       role: updatedUser.role,
       pseudo: updatedUser.pseudo,
-      bio: updatedUser.bio,
+      bio: updatedUser.profile?.bio,
       country: updatedUser.country,
       city: updatedUser.city,
       language: updatedUser.language,
@@ -146,16 +162,16 @@ export async function PATCH(req: Request) {
       domains: updatedUser.domains,
       tools: updatedUser.tools,
       mainObjective: updatedUser.mainObjective,
-      secondaryObjectives: updatedUser.secondaryObjectives,
+      secondaryObjectives: updatedUser.profile?.secondaryObjectives ?? [],
       updatedAt: updatedUser.updatedAt,
     };
 
     return NextResponse.json(safeUser);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[USER_UPDATE_PATCH]", error);
 
-    if (error.code === "P2002") {
-      const field = error.meta?.target?.[0];
+    if (error instanceof Error && (error as { code?: string }).code === "P2002") {
+      const field = (error as { meta?: { target?: string[] } }).meta?.target?.[0];
       if (field === "pseudo") {
         return NextResponse.json({ message: "Ce pseudo est déjà utilisé par un autre talent du réseau." }, { status: 409 });
       }

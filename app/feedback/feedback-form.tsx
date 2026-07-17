@@ -94,8 +94,8 @@ export default function FeedbackForm() {
             setRating(0)
             // Redirect after successful submission
             setTimeout(() => router.push("/dashboard"), 1500)
-        } catch (error: any) {
-            toast.error(error.message || "Erreur lors de l'envoi du feedback.")
+        } catch (error: unknown) {
+            toast.error(error instanceof Error ? error.message : "Erreur lors de l'envoi du feedback.")
             console.error(error)
         } finally {
             setIsSubmitting(false)

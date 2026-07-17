@@ -134,7 +134,7 @@ export async function POST(req: Request) {
     const result = { ...checkin, finalMessage, totalXP, isCriticalHit };
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Error && error.message === "COOLDOWN_ACTIVE") {
       return NextResponse.json({ 
           message: "Tu as déjà signé ton check-in aujourd'hui. Reviens dans quelques heures pour la suite de ton build !" 

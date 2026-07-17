@@ -2,15 +2,17 @@
 
 import { Globe } from "lucide-react"
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons"
+import type { SVGProps, ComponentType } from "react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import type { SettingsUserData } from "@/lib/types"
 
 interface LinksTabProps {
-  userData: any
-  updateData: (next: any) => void
+  userData: Partial<SettingsUserData>
+  updateData: (next: Partial<SettingsUserData>) => void
 }
 
-const LINK_CONFIG = [
+const LINK_CONFIG: { id: keyof SettingsUserData; icon: ComponentType<SVGProps<SVGSVGElement>>; label: string; placeholder: string }[] = [
   { id: "githubUrl", icon: Github, label: "Lien GitHub", placeholder: "github.com/votre-user" },
   { id: "linkedinUrl", icon: Linkedin, label: "Profil LinkedIn", placeholder: "linkedin.com/in/profil" },
   { id: "twitterUrl", icon: Twitter, label: "Compte X (Twitter)", placeholder: "x.com/votre-user" },
@@ -45,8 +47,8 @@ export function LinksTab({ userData, updateData }: LinksTabProps) {
               </div>
               <div className="relative w-full md:w-80">
                 <Input
-                  value={userData[link.id] || ""}
-                  onChange={e => updateData({ ...userData, [link.id]: e.target.value })}
+                  value={String(userData[link.id] ?? "")}
+                  onChange={e => updateData({ ...userData, [link.id]: e.target.value } as Partial<SettingsUserData>)}
                   className="input-premium h-12 rounded-xl text-xs font-bold pl-4 focus:border-cyan-500/60 focus:shadow-[0_0_15px_rgba(6,182,212,0.15)]"
                   placeholder={link.placeholder}
                 />

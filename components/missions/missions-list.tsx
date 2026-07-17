@@ -348,8 +348,8 @@ function MissionCard({
       if (!res.ok) throw new Error(await res.text());
       toast.success("Soumission envoyée ! Un admin va vérifier et valider sous 24h.");
       router.refresh();
-    } catch (error: any) {
-      toast.error(error.message || "Erreur lors de la validation");
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : "Erreur lors de la validation");
     } finally {
       setIsSubmitting(false);
     }

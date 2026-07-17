@@ -9,12 +9,18 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MoreHorizontal, Trash2, LogOut, Crown, Zap, ShieldAlert, UserPlus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
+import { formatRelativeTime } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 
+interface MemberListMember {
+  id: string
+  userId: string
+  role: string
+  user?: { id: string; name?: string | null; pseudo?: string | null; image?: string | null }
+}
+
 interface MemberListProps {
-  members: any[];
+  members: MemberListMember[];
   currentUserId: string;
 }
 
@@ -36,7 +42,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
   useEffect(() => {
     fetch("/api/squad/members")
       .then(r => r.ok ? r.json() : [])
-      .then((data: any[]) => {
+      .then((data: { userId: string; user?: { lastCheckinAt?: string | null } }[]) => {
         const map: Record<string, string | null> = {};
         data.forEach(m => { map[m.userId] = m.user?.lastCheckinAt ?? null; });
         setMemberActivity(map);
@@ -44,7 +50,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
       .catch(() => {});
   }, []);
 
-  const handleUpdateRole = async (memberId: string, newRole: string, name: string) => {
+  const handleUpdateRole = async (memberId: string, newRole: string, name?: string | null) => {
     try {
       const res = await fetch("/api/squad/member/update-role", {
         method: "PATCH",
@@ -62,7 +68,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
     } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
-  const handleRemove = async (guildMemberId: string, name: string) => {
+  const handleRemove = async (guildMemberId: string, name?: string | null) => {
     if (!confirm(`Es-tu sûr de vouloir retirer ${name} de l'escouade ?`)) return;
     try {
       const res = await fetch("/api/squad/join-request/respond", {
@@ -75,7 +81,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
     } catch { toast.error("Une erreur inattendue est survenue"); }
   };
 
-  const handleTransfer = async (memberId: string, name: string) => {
+  const handleTransfer = async (memberId: string, name?: string | null) => {
     if (!confirm(`Es-tu sûr de vouloir transférer le leadership à ${name} ?`)) return;
     try {
       const res = await fetch("/api/squad/transfer", {
@@ -119,7 +125,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                 <TableCell className="flex items-center gap-3">
                   <div className="relative shrink-0">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={member.user?.image} />
+                      <AvatarImage src={member.user?.image ?? undefined} />
                       <AvatarFallback>{member.user?.name?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <span className="absolute -bottom-0.5 -right-0.5">
@@ -144,7 +150,7 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                 </TableCell>
                 <TableCell>
                   <span className={cn("text-[9px] font-mono", lastCheckinDate ? "text-zinc-400" : "text-zinc-600")}>
-                    {lastCheckinDate ? formatDistanceToNow(lastCheckinDate, { addSuffix: true, locale: fr }) : "Jamais"}
+                    {lastCheckinDate ? formatRelativeTime(lastCheckinDate) : "Jamais"}
                   </span>
                 </TableCell>
                 <TableCell className="text-right">

@@ -93,9 +93,9 @@ export async function POST(req: Request) {
             },
           },
         });
-      } catch (createErr: any) {
+      } catch (createErr: unknown) {
         // Unique constraint on slug → retry with a disambiguator
-        if (createErr?.code === "P2002") {
+        if (createErr instanceof Error && (createErr as { code?: string }).code === "P2002") {
           attempts++;
           continue;
         }

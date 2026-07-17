@@ -20,10 +20,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 import { getLevelProgress } from "@/lib/level-utils"
 import { MoreHorizontal, LogOut, Settings, FileText } from "lucide-react"
+import type { NavUser } from "@/lib/types"
 
-export function SidebarUser({ user }: { user: any }) {
+export function SidebarUser({ user }: { user: NavUser | null }) {
   const { data: session } = authClient.useSession()
-  const currentUser = user || session?.user
+  const currentUser = (user || session?.user) as NavUser | undefined
   const progress = getLevelProgress(currentUser?.experience || 0)
 
   const handleLogout = async () => {

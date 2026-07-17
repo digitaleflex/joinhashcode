@@ -31,13 +31,27 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar"
 import { UserTopBar } from "./user-topbar"
 import { BottomNav } from "./bottom-nav"
-import { formatDistanceToNow } from "date-fns"
-import { fr } from "date-fns/locale"
+import { formatRelativeTime } from "@/lib/dates"
 import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
+import type { LucideIcon } from "lucide-react"
+import type { UserProfile } from "@/lib/types"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
-const iconMap: Record<string, any> = {
+interface NotificationItem {
+  id: string
+  type: string
+  title: string
+  message: string
+  link?: string | null
+  createdAt: string | Date
+  isRead: boolean
+  isSaved?: boolean
+  isArchived?: boolean
+}
+
+const iconMap: Record<string, LucideIcon> = {
   MISSION_APPROVED: CheckCircle,
   LEVEL_UP: Star,
   DAILY_REMINDER: Info,
@@ -70,8 +84,8 @@ export function NotificationsShell({
   squad,
   memberRole
 }: {
-  user: any
-  squad: any
+  user: UserProfile
+  squad: SquadData | null
   memberRole?: string
 }) {
   const queryClient = useQueryClient()
@@ -100,7 +114,7 @@ export function NotificationsShell({
   })
 
   const notifications = useMemo(() => {
-    let list = data?.notifications ?? []
+    let list = (data?.notifications ?? []) as NotificationItem[]
     if (sortBy === "oldest") {
       return [...list].reverse()
     }
@@ -142,8 +156,8 @@ export function NotificationsShell({
       }
       queryClient.invalidateQueries({ queryKey: ["notifications"] })
       queryClient.invalidateQueries({ queryKey: ["notifications-full"] })
-    } catch (err: any) {
-      toast.error(err.message || "Une erreur est survenue")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Une erreur est survenue")
     } finally {
       setProcessingId(null)
     }
@@ -152,7 +166,7 @@ export function NotificationsShell({
   // Sélection globale
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedIds(notifications.map((n: any) => n.id))
+      setSelectedIds(notifications.map((n) => n.id))
     } else {
       setSelectedIds([])
     }
@@ -198,7 +212,7 @@ export function NotificationsShell({
   // Liste des types uniques présents pour le filtre
   const uniqueTypes = useMemo(() => {
     const types = new Set<string>()
-    data?.notifications?.forEach((n: any) => {
+    ;(data?.notifications ?? []).forEach((n: NotificationItem) => {
       if (n.type) types.add(n.type)
     })
     return Array.from(types)
@@ -461,7 +475,7 @@ export function NotificationsShell({
                       </div>
                     ) : (
                       <AnimatePresence initial={false}>
-                        {notifications.map((notif: any) => {
+                        {notifications.map((notif) => {
                           const Icon = iconMap[notif.type] || Info
                           const isInvitation = notif.type === "SQUAD_INVITATION"
                           const invitationId = notif.link?.split("id=")[1]
@@ -521,7 +535,7 @@ export function NotificationsShell({
                                   </h4>
                                   <span className="text-[10px] text-zinc-500 font-mono whitespace-nowrap shrink-0 flex items-center gap-1.5">
                                     <Calendar className="size-3" />
-                                    {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: fr })}
+                                    {formatRelativeTime(notif.createdAt)}
                                   </span>
                                 </div>
                                 <p className="text-xs text-zinc-400 leading-relaxed max-w-2xl">{notif.message}</p>

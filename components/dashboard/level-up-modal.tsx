@@ -11,8 +11,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { Award, Zap, Sparkles, ChevronRight, Share2 } from "lucide-react"
 import { toast } from "sonner"
-import Confetti from "react-confetti"
-import { useWindowSize } from "react-use"
 
 interface LevelUpModalProps {
   currentLevel: number
@@ -36,8 +34,6 @@ const CLASS_QUOTES: Record<string, string> = {
 
 export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
-  const { width, height } = useWindowSize()
 
   useEffect(() => {
     const lastSeenLevel = localStorage.getItem("hashcode_last_level")
@@ -45,11 +41,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
 
     if (currentLevel > numericLastLevel) {
       setIsOpen(true)
-      setShowConfetti(true)
       localStorage.setItem("hashcode_last_level", currentLevel.toString())
-      
-      // Auto-hide confetti after 15s for massiveness
-      setTimeout(() => setShowConfetti(false), 15000)
     } else if (!lastSeenLevel) {
       localStorage.setItem("hashcode_last_level", currentLevel.toString())
     }
@@ -69,10 +61,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
   }
 
   return (
-    <>
-      {showConfetti && <Confetti width={width} height={height} recycle={true} numberOfPieces={500} colors={['#B8FF3B', '#ffffff', '#22D3EE', '#F59E0B']} opacity={0.6} />}
-      
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="bg-black border-primary/20 text-white max-w-md overflow-hidden p-0 rounded-[2.5rem]">
           <DialogTitle className="sr-only">Niveau Supérieur Atteint</DialogTitle>
           <DialogDescription className="sr-only">Célébration de ton évolution au niveau {currentLevel}.</DialogDescription>
@@ -149,7 +138,6 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
             </div>
           </div>
         </DialogContent>
-      </Dialog>
-    </>
+    </Dialog>
   )
 }

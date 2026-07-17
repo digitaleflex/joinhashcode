@@ -4,11 +4,15 @@ import { NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
 import { logActivity } from "@/lib/activity-log";
 import { requireSession, AuthError, checkCsrfOrigin } from "@/lib/auth-guard";
+import { accountLifecycleLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function DELETE(req: Request) {
   try {
     checkCsrfOrigin(req);
     const session = await requireSession();
+
+    const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie demain." }, { status: 429 });
 
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
@@ -50,7 +54,7 @@ export async function DELETE(req: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof AuthError) {
       return NextResponse.json({ message: error.message }, { status: error.status });
     }

@@ -1,13 +1,12 @@
 "use client"
 
 import { useMemo, useState, useEffect } from "react"
-import { format, subDays } from "date-fns"
-import { fr } from "date-fns/locale"
+import { format, subDays, fr } from "@/lib/dates"
 
-interface ActivityLog {
+export interface ActivityLog {
   id: string
   action: string
-  metadata: any
+  metadata?: Record<string, unknown> | null
   createdAt: Date | string
 }
 
@@ -32,7 +31,7 @@ export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
 
     logs.forEach(log => {
       const dateKey = format(new Date(log.createdAt), 'yyyy-MM-dd')
-      const xpGained = (log.metadata as Record<string, number>)?.xpGained || (log.action === 'MISSION_APPROVED' ? 100 : log.action === 'CHECKIN_COMPLETED' ? 20 : 0)
+      const xpGained = (log.metadata as Record<string, number> | undefined)?.xpGained || (log.action === 'MISSION_APPROVED' ? 100 : log.action === 'CHECKIN_COMPLETED' ? 20 : 0)
       dailyGains.set(dateKey, (dailyGains.get(dateKey) || 0) + xpGained)
     })
 

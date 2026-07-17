@@ -26,14 +26,14 @@ export async function POST(req: Request) {
     }
 
     const wh = new Webhook(secret);
-    let evt: any;
+    let evt: { type: string; data: { to?: string[] } };
 
     try {
       evt = wh.verify(payload, {
         "svix-id": svix_id,
         "svix-timestamp": svix_timestamp,
         "svix-signature": svix_signature,
-      });
+      }) as { type: string; data: { to?: string[] } };
     } catch (error: unknown) {
       console.error("[RESEND_WEBHOOK] Invalid signature:", error);
       return NextResponse.json({ message: "Signature invalide" }, { status: 401 });
@@ -42,7 +42,10 @@ export async function POST(req: Request) {
     const { type, data } = evt;
 
     if (type === "email.bounced" || type === "email.complained") {
-      const email = data.to[0];
+      const email = data.to?.[0];
+      if (!email) {
+        return NextResponse.json({ processed: true });
+      }
 
       await prisma.user.updateMany({
         where: { email },

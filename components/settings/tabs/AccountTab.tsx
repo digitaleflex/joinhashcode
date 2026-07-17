@@ -5,9 +5,10 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { ActiveSessions } from "@/components/settings/ActiveSessions"
 import { authClient } from "@/lib/auth-client"
+import type { SettingsUserData } from "@/lib/types"
 
 interface AccountTabProps {
-  userData: any
+  userData: Partial<SettingsUserData>
 }
 
 export function AccountTab({ userData }: AccountTabProps) {

@@ -10,6 +10,7 @@ import { invalidateUserCache } from "@/lib/user-cache";
 import { handleApiError } from "@/lib/api-error-handler";
 import { awardXp } from "@/lib/experience";
 import { cookies } from "next/headers";
+import { profileUpdateLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 const pseudoRegex = /^[a-zA-Z0-9_]{3,20}$/;
 
@@ -34,6 +35,9 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ message: "Session expirée. Déconnecte-toi et reconnecte-toi." }, { status: 401 });
     }
 
+    const { limited } = await checkRateLimit(profileUpdateLimiter, session.user.id);
+    if (limited) return NextResponse.json({ message: "Trop de modifications. Réessaie dans une heure." }, { status: 429 });
+
     const body = await req.json();
     const parsed = onboardingSchema.safeParse(body);
 
@@ -45,7 +49,12 @@ export async function PATCH(req: Request) {
       where: { id: session.user.id },
       data: {
         ...parsed.data,
-        secondaryObjectives: parsed.data.secondaryObjectives || [],
+        profile: {
+          upsert: {
+            create: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
+            update: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
+          }
+        }
       },
       select: {
         id: true,
@@ -56,12 +65,12 @@ export async function PATCH(req: Request) {
         country: true,
         currentSituation: true,
         mainObjective: true,
-        secondaryObjectives: true,
         language: true,
         updatedAt: true,
+        profile: { select: { secondaryObjectives: true } },
       }
-    }).catch((err: any) => {
-      if (err?.code === "P2002" && err?.meta?.target?.includes("pseudo")) {
+    }).catch((err: unknown) => {
+      if (err instanceof Error && (err as { code?: string }).code === "P2002" && (err as { meta?: { target?: string[] } }).meta?.target?.includes("pseudo")) {
         throw Object.assign(new Error("PSEUDO_TAKEN"), { status: 409 });
       }
       throw err;
@@ -143,9 +152,13 @@ export async function PATCH(req: Request) {
 
     await invalidateUserCache(session.user.id);
 
-    return NextResponse.json(updatedUser);
-  } catch (error: any) {
-    if (error?.message === "PSEUDO_TAKEN") {
+    const { profile, ...userBase } = updatedUser;
+    return NextResponse.json({
+      ...userBase,
+      secondaryObjectives: profile?.secondaryObjectives ?? [],
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "PSEUDO_TAKEN") {
       return NextResponse.json({ message: "Ce pseudo est déjà pris, choisis-en un autre." }, { status: 409 });
     }
     return handleApiError(error, "ONBOARDING_PATCH");

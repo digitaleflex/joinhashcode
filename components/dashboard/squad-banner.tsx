@@ -10,12 +10,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from "@/components/ui/tooltip"
+import type { NavUser } from "@/lib/types"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
 interface SquadBannerProps {
-  user: any
-  squad: any
+  user: NavUser | null
+  squad: SquadData | null
 }
 
 export function SquadBanner({ user, squad }: SquadBannerProps) {
@@ -31,7 +33,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
   }, [])
 
   const memberCount = squad?.members?.length ?? 0
-  const pseudo = user.pseudo || user.name.split(" ")[0]
+  const pseudo = user?.pseudo || user?.name?.split(" ")[0] || ""
   const inviteLink = squad
     ? `${origin}/invite/${squad.slug || pseudo.toLowerCase()}`
     : null

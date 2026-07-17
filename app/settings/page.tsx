@@ -1,7 +1,19 @@
+import dynamic from "next/dynamic"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { getCachedUser } from "@/lib/user-cache"
 import { redirect } from "next/navigation"
-import { SettingsView } from "./settings-view"
+
+const SettingsView = dynamic(() => import("./settings-view").then((mod) => mod.SettingsView), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-pulse space-y-6 w-full max-w-2xl px-4">
+        <div className="h-8 w-48 bg-muted rounded" />
+        <div className="h-64 bg-muted rounded" />
+        <div className="h-32 bg-muted rounded" />
+      </div>
+    </div>
+  ),
+})
 
 export default async function SettingsPage() {
   const session = await getSessionSafe()
@@ -22,7 +34,7 @@ export default async function SettingsPage() {
     class: user.class,
     role: user.role,
     pseudo: user.pseudo,
-    bio: user.bio,
+    bio: user.profile?.bio,
     country: user.country,
     city: user.city,
     language: user.language,
@@ -31,10 +43,10 @@ export default async function SettingsPage() {
     twitterUrl: user.socials?.twitterUrl ?? null,
     portfolioUrl: user.socials?.portfolioUrl ?? null,
     currentSituation: user.currentSituation,
-    dreamStatement: user.dreamStatement,
+    dreamStatement: user.profile?.dreamStatement,
     mainObjective: user.mainObjective,
-    currentFocus: user.currentFocus,
-    mainBlocker: user.mainBlocker,
+    currentFocus: user.profile?.currentFocus ?? [],
+    mainBlocker: user.profile?.mainBlocker,
     builderScore: user.builderScore ?? 0,
     creatorScore: user.creatorScore ?? 0,
     strategistScore: user.strategistScore ?? 0,

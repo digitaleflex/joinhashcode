@@ -16,6 +16,7 @@ export async function getCachedUser(userId: string) {
         security: true,
         referral: true,
         beta: true,
+        profile: true,
       }
     });
   }
@@ -34,15 +35,16 @@ export async function getCachedUser(userId: string) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    include: {
-      socials: true,
-      stats: true,
-      progress: true,
-      security: true,
-      referral: true,
-      beta: true,
-    }
-  });
+      include: {
+        socials: true,
+        stats: true,
+        progress: true,
+        security: true,
+        referral: true,
+        beta: true,
+        profile: true,
+      }
+    });
 
   if (user && redis) {
     try {

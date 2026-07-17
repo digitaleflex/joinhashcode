@@ -1,10 +1,10 @@
-import { auth } from "@/lib/auth";
+import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { logActivity } from "@/lib/activity-log";
 import type { Prisma } from "@/generated/prisma/client";
+import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 const missionSchema = z.object({
   title: z.string().min(1),
@@ -29,29 +29,15 @@ const missionSchema = z.object({
   weeklySlot: z.number().optional().nullable(),
 });
 
-async function checkAdmin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) return null;
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true, id: true },
-  });
-
-  if (!user || !["ADMIN", "MODERATOR"].includes(user.role)) return null;
-
-  return user;
-}
-
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
   try {
     const { id } = await params;
@@ -66,7 +52,7 @@ export async function PUT(
       },
     });
 
-    await logActivity({
+    logActivity({
       userId: admin.id,
       action: "ADMIN_MISSION_UPDATED",
       entity: "Mission",
@@ -92,6 +78,9 @@ export async function DELETE(
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
+  const { limited: delLimited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  if (delLimited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
+
   try {
     const { id } = await params;
     const mission = await prisma.mission.findUnique({
@@ -104,7 +93,7 @@ export async function DELETE(
     });
 
     if (mission) {
-      await logActivity({
+      logActivity({
         userId: admin.id,
         action: "ADMIN_MISSION_DELETED",
         entity: "Mission",

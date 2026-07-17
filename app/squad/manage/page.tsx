@@ -24,6 +24,19 @@ import { InviteMemberForm } from "@/components/dashboard/squad/InviteMemberForm"
 import { OrgSettingsForm } from "@/components/dashboard/squad/OrgSettingsForm";
 import { PendingInvitations } from "@/components/dashboard/squad/PendingInvitations";
 
+interface OrgMember {
+  id: string
+  userId: string
+  role: string
+  user: {
+    id: string
+    name?: string | null
+    email?: string | null
+    image?: string | null
+    pseudo?: string | null
+  }
+}
+
 export default async function SquadManagePage() {
   const session = await getSessionSafe();
   if (!session) redirect("/signin");
@@ -44,7 +57,10 @@ export default async function SquadManagePage() {
         organization: {
           include: {
             members: {
-              include: {
+              select: {
+                id: true,
+                userId: true,
+                role: true,
                 user: {
                   select: {
                     id: true,
@@ -66,7 +82,7 @@ export default async function SquadManagePage() {
     if (member?.organization) {
       dbSquad = {
         ...member.organization,
-        members: member.organization.members.map((m: any) => ({
+        members: member.organization.members.map((m) => ({
           ...m,
           user: {
             ...m.user,
@@ -77,12 +93,12 @@ export default async function SquadManagePage() {
       memberRole = member.role;
     }
   } else {
-    memberRole = org.members.find((m: any) => m.userId === session.user.id)?.role || "";
+    memberRole = org.members.find((m: OrgMember) => m.userId === session.user.id)?.role || "";
   }
 
   const squad = org ? {
     ...org,
-    members: org.members.map((m: any) => ({
+    members: (org.members as OrgMember[]).map((m) => ({
       ...m,
       user: {
         ...m.user,

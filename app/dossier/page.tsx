@@ -61,7 +61,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
       domains: true,
       tools: true,
       badges: true,
-      bio: true,
+      profile: { select: { bio: true } },
       currentSituation: true,
       technicalLevel: true,
       mainObjective: true,
@@ -140,6 +140,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
 
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
+    bio: dbUser.profile?.bio,
     level: dbUser.progress?.level ?? 1,
     experience: dbUser.progress?.experience ?? 0,
     missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,

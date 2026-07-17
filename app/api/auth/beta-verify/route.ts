@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { processReferralReward } from "@/lib/referral";
 import { emailService } from "@/lib/email";
 import { checkRateLimit, mutationLimiter } from "@/lib/ratelimit";
+import { betaVerifySchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   const session = await auth.api.getSession({
@@ -22,11 +23,12 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { key } = await req.json();
-
-    if (!key) {
+    const body = await req.json();
+    const parsed = betaVerifySchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json({ message: "La clé est requise" }, { status: 400 });
     }
+    const { key } = parsed.data;
 
     const betaKey = await prisma.betaKey.findUnique({
       where: { key: key.toUpperCase() },

@@ -5,7 +5,7 @@ import { after } from "next/server";
  * In a test environment (Vitest/Jest), it runs synchronously to ensure
  * mock assertions and state expectations pass.
  */
-export async function safeAfter(fn: () => any | Promise<any>) {
+export async function safeAfter(fn: () => unknown | Promise<unknown>) {
   if (process.env.NODE_ENV === "test") {
     try {
       await fn();

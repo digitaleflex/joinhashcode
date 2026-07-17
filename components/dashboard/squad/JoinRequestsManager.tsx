@@ -8,16 +8,21 @@ import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Loader2 } from "lucide-react";
 
+interface JoinRequest {
+  id: string
+  user: { id: string; name?: string | null; image?: string | null; level?: number | null; class?: string | null }
+}
+
 export function JoinRequestsManager({ organizationId }: { organizationId: string }) {
   const router = useRouter();
-  const [requests, setRequests] = useState<any[]>([]);
+  const [requests, setRequests] = useState<JoinRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchRequests = async () => {
     try {
       const response = await fetch(`/api/squad/join-request?organizationId=${organizationId}`);
       if (!response.ok) throw new Error("Échec du chargement");
-      const data = await response.json();
+      const data = await response.json() as JoinRequest[];
       setRequests(data);
     } catch (error: unknown) {
       console.error(error);

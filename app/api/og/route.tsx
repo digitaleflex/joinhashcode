@@ -125,9 +125,9 @@ export async function GET(req: Request) {
         height: 630,
       }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error);
-    return new Response(`Erreur OG: ${error.message}`, { status: 500 });
+    return new Response(`Erreur OG: ${error instanceof Error ? error.message : "erreur inconnue"}`, { status: 500 });
   }
 }
 

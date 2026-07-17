@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { joinRequestSchema } from "@/lib/validation";
+import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function GET(req: NextRequest) {
   try {
@@ -46,9 +48,15 @@ export async function POST(req: NextRequest) {
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
+    const { limited } = await checkRateLimit(squadManagementLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop d'actions. Réessaie dans une heure." }, { status: 429 });
+
     const body = await req.json();
-    const { organizationId } = body;
-    if (!organizationId) return NextResponse.json({ error: "organizationId requis" }, { status: 400 });
+    const parsed = joinRequestSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "organizationId requis" }, { status: 400 });
+    }
+    const { organizationId } = parsed.data;
 
     // Vérifier que l'org existe
     const org = await prisma.organization.findUnique({

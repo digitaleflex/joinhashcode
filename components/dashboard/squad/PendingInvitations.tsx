@@ -8,9 +8,15 @@ import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Mail, Loader2 } from "lucide-react";
 
+interface PendingInvitation {
+  id: string
+  organizationName?: string
+  role: string
+}
+
 export function PendingInvitations() {
   const router = useRouter();
-  const [invitations, setInvitations] = useState<any[]>([]);
+  const [invitations, setInvitations] = useState<PendingInvitation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchInvitations = async () => {
@@ -19,7 +25,7 @@ export function PendingInvitations() {
       if (error) {
         console.error(error);
       } else {
-        setInvitations(data || []);
+        setInvitations((data as unknown as PendingInvitation[] | null) || []);
       }
     } catch (error: unknown) {
       console.error(error);

@@ -13,8 +13,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+interface SlideOverMission {
+  id: string
+  title: string
+  type?: string
+  level?: number
+  requiredLevel?: number
+  xp?: number
+  xpReward?: number
+  duration?: string
+  shortDesc?: string
+  description?: string
+  fullBriefing?: string
+  avgDelay?: number
+  deliverables?: string[]
+}
+
 interface MissionSlideOverProps {
-  mission: any | null
+  mission: SlideOverMission | null
   isOpen: boolean
   onClose: () => void
   userLevel: number
@@ -62,7 +78,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider cursor-help", TYPE_COLORS[mission.type] || TYPE_COLORS.GENERAL)}>
+                      <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider cursor-help", TYPE_COLORS[mission.type ?? "GENERAL"] || TYPE_COLORS.GENERAL)}>
                         {mission.type}
                       </span>
                     </TooltipTrigger>
@@ -72,7 +88,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                       {mission.type === "BUSINESS" && "Focus : Stratégie de marché et croissance."}
                       {mission.type === "NETWORK" && "Focus : Collaboration et engagement communautaire."}
                       {mission.type === "INTRO" && "Focus : Ton premier pas dans l'écosystème."}
-                      {!["CODE", "DESIGN", "BUSINESS", "NETWORK", "INTRO"].includes(mission.type) && "Mission polyvalente combinant plusieurs vecteurs."}
+                      {!["CODE", "DESIGN", "BUSINESS", "NETWORK", "INTRO"].includes(mission.type ?? "") && "Mission polyvalente combinant plusieurs vecteurs."}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -81,14 +97,14 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="text-[9px] font-mono text-zinc-500 bg-zinc-900 border border-white/5 px-2 py-0.5 rounded-full cursor-help">
-                        {DIFFICULTY_LABEL[mission.level] || `Niv. ${mission.level}`}
+                        {DIFFICULTY_LABEL[mission.level ?? 1] || `Niv. ${mission.level ?? 1}`}
                       </span>
                     </TooltipTrigger>
                     <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
-                      {mission.level <= 1 && "Niveau Initié : Idéal pour apprendre les bases sans pression."}
-                      {mission.level === 2 && "Niveau Apprenti : Demande une connaissance des outils standards."}
-                      {mission.level === 3 && "Niveau Confirmé : Nécessite une rigueur technique et une preuve solide."}
-                      {mission.level >= 4 && "Niveau Expert : Défis complexes simulant des cas de production réels."}
+                      {(mission.level ?? 1) <= 1 && "Niveau Initié : Idéal pour apprendre les bases sans pression."}
+                      {(mission.level ?? 1) === 2 && "Niveau Apprenti : Demande une connaissance des outils standards."}
+                      {(mission.level ?? 1) === 3 && "Niveau Confirmé : Nécessite une rigueur technique et une preuve solide."}
+                      {(mission.level ?? 1) >= 4 && "Niveau Expert : Défis complexes simulant des cas de production réels."}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -149,11 +165,11 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
           </p>
 
           {/* Livrables */}
-          {mission.deliverables?.length > 0 && (
+          {mission.deliverables && mission.deliverables.length > 0 && (
             <div className="space-y-2">
               <p className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Livrables attendus</p>
               <ul className="space-y-1.5">
-                {mission.deliverables.map((d: string, i: number) => (
+                {mission.deliverables!.map((d: string, i: number) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-zinc-400">
                     <span className="text-primary mt-0.5 shrink-0">›</span>
                     {d}
@@ -168,7 +184,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
             <div className="space-y-2">
               <p className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Briefing</p>
               <div className="prose-sm max-h-60 overflow-y-auto scrollbar-none">
-                <MissionBriefing content={mission.fullBriefing || mission.description} />
+                <MissionBriefing content={(mission.fullBriefing ?? mission.description) ?? ""} />
               </div>
             </div>
           )}

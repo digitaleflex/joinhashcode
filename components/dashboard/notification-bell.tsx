@@ -11,18 +11,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { formatDistanceToNow } from "date-fns"
-import { fr } from "date-fns/locale"
+import { formatRelativeTime } from "@/lib/dates"
 import { motion, AnimatePresence } from "framer-motion"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useState } from "react"
+import type { LucideIcon } from "lucide-react"
 
 import Link from "next/link"
 
+interface NotificationItem {
+  id: string
+  type: string
+  title: string
+  message: string
+  link?: string | null
+  createdAt: string | Date
+  isRead: boolean
+  isSaved?: boolean
+  isArchived?: boolean
+}
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   MISSION_APPROVED: CheckCircle,
   LEVEL_UP: Star,
   DAILY_REMINDER: Info,
@@ -42,7 +54,7 @@ export function NotificationBell() {
   const queryClient = useQueryClient()
   const [processingId, setProcessingId] = useState<string | null>(null)
 
-  const { data } = useQuery({
+  const { data } = useQuery<{ notifications: NotificationItem[]; unreadCount: number }>({
     queryKey: ["notifications"],
     queryFn: () => fetcher("/api/user/notifications"),
     refetchInterval: 30_000,
@@ -52,11 +64,11 @@ export function NotificationBell() {
     mutationFn: () => fetch("/api/user/notifications", { method: "PATCH" }).then(r => r.json()),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["notifications"] })
-      const prev = queryClient.getQueryData(["notifications"])
-      queryClient.setQueryData(["notifications"], (old: any) => ({
+      const prev = queryClient.getQueryData<{ notifications: NotificationItem[]; unreadCount: number }>(["notifications"])
+      queryClient.setQueryData<{ notifications: NotificationItem[]; unreadCount: number }>(["notifications"], (old) => ({
         ...old,
         unreadCount: 0,
-        notifications: old?.notifications?.map((n: any) => ({ ...n, isRead: true })) ?? [],
+        notifications: old?.notifications?.map((n) => ({ ...n, isRead: true })) ?? [],
       }))
       return { prev }
     },
@@ -87,8 +99,8 @@ export function NotificationBell() {
       
       // Optionally mark this specific notification as read or delete it
       // For simplicity, we just refetch everything
-    } catch (err: any) {
-      toast.error(err.message || "Une erreur est survenue")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Une erreur est survenue")
     } finally {
       setProcessingId(null)
     }
@@ -137,7 +149,7 @@ export function NotificationBell() {
                 Aucune notification pour le moment.
               </motion.div>
             ) : (
-              notifications.map((notif: any) => {
+              notifications.map((notif) => {
                 const Icon = iconMap[notif.type] || Info
                 const isInvitation = notif.type === "SQUAD_INVITATION"
                 const invitationId = notif.link?.split("id=")[1]
@@ -174,7 +186,7 @@ export function NotificationBell() {
                         </div>
                         <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">{notif.message}</p>
                         <p className="text-[9px] text-muted-foreground font-mono mt-0.5">
-                          {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: fr })}
+                          {formatRelativeTime(notif.createdAt)}
                         </p>
                       </div>
                     </div>

@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import type { NavUser } from "@/lib/types"
 import {
   LayoutDashboard,
   Users,
@@ -20,8 +21,14 @@ import {
   Bell,
   KeyRound,
   ShieldBan,
-  MapPin,
   BarChart3,
+  Route,
+  GraduationCap,
+  HeartHandshake,
+  LifeBuoy,
+  BrainCircuit,
+  Library,
+  BookOpen,
 } from "lucide-react"
 
 import {
@@ -49,22 +56,54 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 
-const adminNavItems = [
-  { title: "Vue d'ensemble", url: "/admin",             icon: LayoutDashboard },
-  { title: "Utilisateurs",   url: "/admin/users",       icon: Users },
-  { title: "Missions",       url: "/admin/missions",    icon: Target },
-  { title: "Soumissions",    url: "/admin/submissions", icon: FileCheck },
-  { title: "Escouades",      url: "/admin/squads",      icon: Swords },
-  { title: "Notifications",  url: "/admin/notifications", icon: Bell },
-  { title: "Clés API",       url: "/admin/keys",        icon: KeyRound },
-  { title: "Anti-Fraude",    url: "/admin/fraud",       icon: ShieldBan },
-  { title: "Données GPS",    url: "/admin/gps",         icon: MapPin },
-  { title: "Activité",       url: "/admin/activity",    icon: ScrollText },
-  { title: "Feedback",       url: "/admin/feedback",    icon: MessageSquare },
-  { title: "Sondage UX",     url: "/admin/ux-poll",     icon: BarChart3 },
+const navGroups = [
+  {
+    label: "Pilotage",
+    items: [
+      { title: "Dashboard",   url: "/admin",                icon: LayoutDashboard },
+      { title: "Talents",     url: "/admin/users",          icon: Users },
+      { title: "Parcours",    url: "/admin/parcours",       icon: Route },
+    ],
+  },
+  {
+    label: "Apprentissage",
+    items: [
+      { title: "Ateliers",    url: "/admin/ateliers",       icon: GraduationCap },
+      { title: "Projets",     url: "/admin/missions",       icon: Target },
+      { title: "Évidences",   url: "/admin/submissions",    icon: FileCheck },
+    ],
+  },
+  {
+    label: "Accompagnement",
+    items: [
+      { title: "Mentorat",    url: "/admin/mentorat",       icon: HeartHandshake },
+      { title: "Interventions", url: "/admin/interventions", icon: LifeBuoy },
+      { title: "CORE",        url: "/admin/core",           icon: BrainCircuit },
+    ],
+  },
+  {
+    label: "Connaissances",
+    items: [
+      { title: "Analytics",   url: "/admin/analytics",      icon: BarChart3 },
+      { title: "Contenus",    url: "/admin/contenus",       icon: BookOpen },
+      { title: "Knowledge Hub", url: "/admin/knowledge-hub", icon: Library },
+      { title: "Notifications", url: "/admin/notifications", icon: Bell },
+    ],
+  },
+  {
+    label: "Système",
+    items: [
+      { title: "Activité",    url: "/admin/activity",       icon: ScrollText },
+      { title: "Feedback",    url: "/admin/feedback",       icon: MessageSquare },
+      { title: "Escouades",   url: "/admin/squads",         icon: Swords },
+      { title: "Clés API",    url: "/admin/keys",           icon: KeyRound },
+      { title: "Anti-Fraude", url: "/admin/fraud",          icon: ShieldBan },
+      { title: "Sondage UX",  url: "/admin/ux-poll",        icon: BarChart3 },
+    ],
+  },
 ]
 
-export function AdminSidebar({ user }: { user: any }) {
+export function AdminSidebar({ user }: { user: NavUser | null }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = user || session?.user
@@ -92,28 +131,32 @@ export function AdminSidebar({ user }: { user: any }) {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Gestion</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.url}
-                    tooltip={item.title}
-                    className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                  >
-                    <Link href={item.url}>
-                      <item.icon className="size-4" />
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {navGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">
+              {group.label}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.url}
+                      tooltip={item.title}
+                      className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    >
+                      <Link href={item.url}>
+                        <item.icon className="size-4" />
+                        <span className="font-medium">{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
 
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>

@@ -77,8 +77,8 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
       }
       const data = await res.json()
       setMessages((prev) => [...prev, data.message])
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de l'envoi")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de l'envoi")
       setInput(text)
     } finally {
       setSending(false)
@@ -95,8 +95,8 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
         throw new Error(data.error || "Erreur")
       }
       setMessages((prev) => prev.filter((m) => m.id !== id))
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de la suppression")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la suppression")
     } finally {
       setDeletingId(null)
     }

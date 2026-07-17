@@ -6,8 +6,19 @@ import { Users, UserPlus, UserMinus, Crown, Loader2, X } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import type { SquadData } from "@/components/dashboard/squad-journey"
 
-function getClassStyle(cls?: string) {
+interface RosterMember {
+  id: string
+  role: string
+  user?: { id: string; name?: string | null; pseudo?: string | null; image?: string | null; class?: string | null; level?: number | null }
+}
+
+interface RosterUser {
+  id: string
+}
+
+function getClassStyle(cls?: string | null) {
   const c = cls?.toLowerCase()
   if (c === "builder") return "text-primary bg-primary/10 border-primary/20"
   if (c === "creator") return "text-purple-400 bg-purple-500/10 border-purple-500/20"
@@ -17,8 +28,8 @@ function getClassStyle(cls?: string) {
 }
 
 interface SquadRosterPanelProps {
-  squad: any
-  user: any
+  squad: SquadData
+  user: RosterUser
   isLeader: boolean
   memberCount: number
 }
@@ -40,8 +51,8 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
       if (!res.ok) throw new Error(await res.text())
       toast.success("Membre retiré de l'escouade.")
       router.refresh()
-    } catch (err: any) {
-      toast.error(err.message || "Erreur lors de l'expulsion.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de l'expulsion.")
     } finally {
       setKickingId(null)
     }
@@ -60,8 +71,8 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
       toast.success("Leadership transféré avec succès.")
       setTransferTargetId(null)
       router.refresh()
-    } catch (err: any) {
-      toast.error(err.message)
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors du transfert.")
     } finally {
       setIsTransferring(false)
     }
@@ -76,23 +87,24 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
         </span>
       </div>
       <div className="space-y-2.5">
-        {squad.members?.map((m: any) => {
-          const isSelf = m.user.id === user.id
+        {squad.members?.map((m) => {
+          const member = m as RosterMember
+          const isSelf = member.user?.id === user.id
           const isOwner = m.role === "owner"
           const canActOn = isLeader && !isSelf && !isOwner
 
           return (
-            <div key={m.user.id} className="group flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/3 bg-white/1 hover:border-white/8 transition-all">
+            <div key={member.user?.id} className="group flex items-center justify-between gap-3 p-3 rounded-2xl border border-white/3 bg-white/1 hover:border-white/8 transition-all">
               <div className="flex items-center gap-3 min-w-0">
                 <Avatar className="size-9 rounded-xl border border-white/10 shrink-0">
-                  <AvatarImage src={m.user.image || ""} />
+                  <AvatarImage src={member.user?.image || ""} />
                   <AvatarFallback className="bg-primary/10 text-primary font-bold text-sm rounded-xl">
-                    {(m.user.pseudo || m.user.name || "?").charAt(0).toUpperCase()}
+                    {(member.user?.pseudo || member.user?.name || "?").charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
                   <div className="text-sm font-bold text-white truncate flex items-center gap-1.5">
-                    @{m.user.pseudo || m.user.name?.split(" ")[0]}
+                    @{member.user?.pseudo || member.user?.name?.split(" ")[0]}
                     {isSelf && (
                       <span className="text-[7px] font-bold font-mono bg-primary/20 text-primary px-1.5 py-0.2 rounded-md uppercase shrink-0">
                         Moi
@@ -101,17 +113,17 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                     {isOwner && !isSelf && <Crown className="size-3 text-amber-400 shrink-0" />}
                   </div>
                   <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight">
-                    LVL {m.user.level ?? 1} · {isOwner ? "Chef" : m.role === "admin" ? "Admin" : "Membre"}
+                    LVL {member.user?.level ?? 1} · {isOwner ? "Chef" : member.role === "admin" ? "Admin" : "Membre"}
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
                 {canActOn && (
                   <>
-                    {transferTargetId === m.id ? (
+                    {transferTargetId === member.id ? (
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={() => transferOwnership(m.id)}
+                          onClick={() => transferOwnership(member.id)}
                           disabled={isTransferring}
                           className="text-[9px] font-mono font-bold text-amber-400 border border-amber-500/30 rounded-lg px-2 py-1 hover:bg-amber-500/10 transition-colors"
                         >
@@ -123,7 +135,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                       </div>
                     ) : (
                       <button
-                        onClick={() => setTransferTargetId(m.id)}
+                        onClick={() => setTransferTargetId(member.id)}
                         title="Transférer le leadership"
                         className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-zinc-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
                       >
@@ -131,20 +143,20 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                       </button>
                     )}
                     <button
-                      onClick={() => kickMember(m.id)}
-                      disabled={kickingId === m.id}
+                      onClick={() => kickMember(member.id)}
+                      disabled={kickingId === member.id}
                       title="Expulser de l'escouade"
                       className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-zinc-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
                     >
-                      {kickingId === m.id ? <Loader2 className="size-3.5 animate-spin" /> : <UserMinus className="size-3.5" />}
+                      {kickingId === member.id ? <Loader2 className="size-3.5 animate-spin" /> : <UserMinus className="size-3.5" />}
                     </button>
                   </>
                 )}
                 <span className={cn(
                   "text-[8px] font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider",
-                  getClassStyle(m.user.class)
+                  getClassStyle(member.user?.class)
                 )}>
-                  {m.user.class || "Agent"}
+                  {member.user?.class || "Agent"}
                 </span>
               </div>
             </div>

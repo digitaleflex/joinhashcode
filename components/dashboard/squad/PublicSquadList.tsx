@@ -11,8 +11,23 @@ import { Users, UserPlus, Loader2, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+interface PublicSquadMember {
+  id: string
+  user?: { id: string; name?: string | null; image?: string | null }
+}
+
+export interface PublicSquad {
+  id: string
+  name: string
+  slug: string
+  logo?: string | null
+  description?: string | null
+  cohesionScore?: number | null
+  members: PublicSquadMember[]
+}
+
 interface PublicSquadListProps {
-  squads: any[];
+  squads: PublicSquad[];
   currentUserId?: string;
 }
 
@@ -30,13 +45,13 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
       });
 
       if (!response.ok) {
-        const error = await response.json();
+        const error = await response.json() as { message?: string };
         throw new Error(error.message || "Erreur lors de la demande");
       }
 
       toast.success("Demande envoyée au Chef d'escouade !");
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la demande");
       setPendingIds(prev => prev.filter(id => id !== squadId));
     }
   };
@@ -87,7 +102,7 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {squad.members.slice(0, 3).map((m: any) => (
+              {squad.members.slice(0, 3).map((m) => (
                 <Avatar key={m.id} className="size-6 border border-zinc-900">
                   <AvatarImage src={m.user?.image ?? ""} />
                   <AvatarFallback className="text-[8px]">{m.user?.name?.charAt(0) ?? "?"}</AvatarFallback>

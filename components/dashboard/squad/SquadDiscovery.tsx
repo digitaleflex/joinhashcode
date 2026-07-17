@@ -1,11 +1,11 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
-import { PublicSquadList } from "@/components/dashboard/squad/PublicSquadList";
+import { PublicSquadList, type PublicSquad } from "@/components/dashboard/squad/PublicSquadList";
 import { Loader2, Globe } from "lucide-react";
 
 export function SquadDiscovery() {
-  const [squads, setSquads] = useState<any[]>([]);
+  const [squads, setSquads] = useState<PublicSquad[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export function SquadDiscovery() {
       try {
         const response = await fetch("/api/squad/public");
         if (!response.ok) throw new Error("Échec du chargement");
-        const json = await response.json();
+        const json = await response.json() as PublicSquad[];
         setSquads(json || []);
       } catch (error: unknown) {
         console.error(error);

@@ -2,6 +2,8 @@ export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { requireSession, AuthError } from "@/lib/auth-guard";
+import { notificationBulkSchema } from "@/lib/validation";
+import type { Prisma } from "@/generated/prisma/client";
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,7 +17,7 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search");
 
     // Construction des filtres de recherche Prisma
-    const whereClause: any = {
+    const whereClause: Prisma.NotificationWhereInput = {
       userId: session.user.id,
     };
 
@@ -77,7 +79,11 @@ export async function PATCH(req: NextRequest) {
   try {
     const session = await requireSession();
     const body = await req.json().catch(() => ({}));
-    const { ids, isRead, isSaved, isArchived, readAll, archiveAll } = body;
+    const parsed = notificationBulkSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Données invalides." }, { status: 400 });
+    }
+    const { ids, isRead, isSaved, isArchived, readAll, archiveAll } = parsed.data;
 
     // Actions globales de masse
     if (readAll) {
@@ -98,7 +104,7 @@ export async function PATCH(req: NextRequest) {
 
     // Mise à jour de notifications spécifiques
     if (Array.isArray(ids) && ids.length > 0) {
-      const updateData: any = {};
+      const updateData: Prisma.NotificationUpdateInput = {};
       if (typeof isRead === "boolean") updateData.isRead = isRead;
       if (typeof isSaved === "boolean") updateData.isSaved = isSaved;
       if (typeof isArchived === "boolean") updateData.isArchived = isArchived;
@@ -121,7 +127,7 @@ export async function PATCH(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof AuthError) {
       return NextResponse.json({ message: error.message }, { status: error.status });
     }

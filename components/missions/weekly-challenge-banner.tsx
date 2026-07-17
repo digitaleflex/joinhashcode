@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tooltip"
 
 interface WeeklyChallengeBannerProps {
-  mission: any
+  mission: { id: string; slug?: string | null; title?: string | null; shortDesc?: string | null; xp: number }
   isCompleted: boolean
   daysLeft: number   // jours restants avant reset (lundi prochain)
 }
