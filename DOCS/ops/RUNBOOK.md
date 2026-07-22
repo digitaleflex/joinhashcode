@@ -1,7 +1,7 @@
 # Runbook de Déploiement & Opérations — HASHCODE
 
 > Source de vérité pour le déploiement en production, le rollback et la gestion
-> des incidents. Maintenu par l'équipe infra. Dernière mise à jour : 17 juillet 2026.
+> des incidents. Maintenu par l'équipe infra. Dernière mise à jour : 22 juillet 2026.
 
 ---
 
@@ -13,10 +13,10 @@
 | **Reverse proxy** | Traefik (TLS Let's Encrypt, entrypoint `websecure`) |
 | **DB** | PostgreSQL auto-hébergé sur VPS Hostinger, conteneur Docker `db` |
 | **Cache rate-limit** | Redis (via proxy local `redis-proxy:80`) — fallback in-memory si indispo |
-| **CI/CD** | GitHub Actions (`deploy.yml`) sur runner self-hosted, déclenché sur `push` → `main` |
+| **CI/CD** | GitHub Actions (`deploy.yml`) — build sur `ubuntu-latest` (gratuit) + déploiement sur runner self-hosted (VPS). Déclenché sur `push` → `main` |
 | **Secrets** | `/home/actions-runner/secrets/.env.production` sur le runner (hors repo) |
 
-Flux : `git push main` → GitHub Actions build + `docker build` → `docker compose up -d web --force-recreate`.
+Flux : `git push main` → GitHub Actions → **Job 1** (`ubuntu-latest`) : `pnpm install` + `next build` → artefact → **Job 2** (`self-hosted` VPS) : `docker build` + `docker compose up -d web --force-recreate`.
 
 ---
 
@@ -65,11 +65,19 @@ Le déploiement est **automatique** à chaque `push` sur `main` :
 git push origin main
 ```
 
-GitHub Actions exécute dans l'ordre :
+GitHub Actions exécute **2 jobs séquentiels** :
+
+**Job 1 — `build` (runner `ubuntu-latest`, gratuit, 4 CPU / 16 GB) :**
 1. `pnpm install --frozen-lockfile`
-2. `pnpm run build` (avec `.env.production` sourcé → `prisma generate` + `next build`)
-3. `docker build --no-cache -t hashcode_web:latest .`
-4. `docker compose -f compose.app.yml --env-file .env.production up -d web --force-recreate`
+2. `pnpm run build` (avec variables CI factices — pas de secrets requis pour la compilation)
+3. Upload l'artefact (`.next/`, `prisma/`, `generated/`, `Dockerfile`, etc.)
+
+**Job 2 — `deploy` (runner self-hosted sur le VPS) :**
+1. Télécharge l'artefact
+2. `docker build --no-cache -t hashcode-web:latest .` (léger : uniquement des `COPY` + `npm install prisma@7.8.0`)
+3. `docker compose -f compose.app.yml up -d web --force-recreate`
+
+> **Pourquoi ?** Le VPS (8 GB) est saturé par l'app en prod, la DB, Neo4j, Traefik, Tailscale, etc. Faire le build lourd (`pnpm install` + `next build`) sur le VPS provoquait des OOM kills et prenait ~9 min. Déléguer le build aux runners GitHub (gratuits, puissants) libère le VPS et divise le temps total par 2-3.
 
 Le conteneur applique les migrations au démarrage (`npx prisma migrate deploy`
 dans le `CMD` du Dockerfile), puis lance `node server.js`.
@@ -197,7 +205,31 @@ docker compose -f compose.app.yml up -d web --force-recreate
 
 ---
 
-## 10. Checklist pré-déploiement
+## 10. Modification du workflow CI/CD
+
+L'organisation GitHub `digitaleflex` bloque les `git push` de fichiers `.github/workflows/` via token OAuth classique (`gho_...`), même avec le scope `workflow`.
+
+**Contournement** — utiliser l'API GitHub pour modifier le fichier :
+
+```bash
+# 1. Récupérer le SHA actuel du fichier sur GitHub
+REMOTE_SHA=$(gh api /repos/digitaleflex/joinhashcode/contents/.github/workflows/deploy.yml --jq '.sha')
+
+# 2. Pousser le nouveau contenu encodé en base64
+CONTENT=$(base64 -w0 .github/workflows/deploy.yml)
+gh api /repos/digitaleflex/joinhashcode/contents/.github/workflows/deploy.yml \
+  -X PUT \
+  -f message="ci(deploy): description du changement" \
+  -f content="$CONTENT" \
+  -f sha="$REMOTE_SHA"
+
+# 3. Resynchroniser le repo local
+git fetch origin && git reset --hard origin/main
+```
+
+---
+
+## 11. Checklist pré-déploiement
 
 - [ ] `pnpm run build` réussit en local (0 erreur TS)
 - [ ] `npm run lint` → 0 erreur
@@ -209,7 +241,7 @@ docker compose -f compose.app.yml up -d web --force-recreate
 
 ---
 
-## 11. Contacts & escalade
+## 12. Contacts & escalade
 
 - **Infra/VPS** : accès Hostinger (équipe DevOps)
 - **DB / migrations** : voir `lib/prisma.ts` + `prisma/schema.prisma`
