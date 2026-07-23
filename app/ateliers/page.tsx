@@ -1,4 +1,4 @@
-import { GraduationCap, Clock, Zap, ChevronRight, ArrowLeft } from "lucide-react"
+import { GraduationCap, Clock, Zap, ChevronRight, ArrowLeft, CheckCircle2, Play } from "lucide-react"
 import Link from "next/link"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
@@ -38,6 +38,12 @@ export default async function AteliersPage() {
 
   const allAteliers = getAllAteliers()
   const userClass = user?.class?.toLowerCase() || ""
+
+  const userProgress = await prisma.atelierProgress.findMany({
+    where: { userId: session.user.id },
+    select: { atelierSlug: true, status: true },
+  })
+  const progressMap = new Map(userProgress.map(p => [p.atelierSlug, p.status]))
 
   return (
     <SidebarProvider>
@@ -79,11 +85,19 @@ export default async function AteliersPage() {
                       <Link
                         key={atelier.slug}
                         href={`/ateliers/${atelier.slug}`}
-                        className="group block p-5 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-primary/30 hover:bg-primary/[0.03] transition-all duration-200"
+                        className="group block p-5 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-primary/30 hover:bg-primary/[0.03] transition-all duration-200 relative"
                       >
                         <div className="flex items-start justify-between mb-3">
                           <h3 className="text-sm font-bold text-white group-hover:text-primary transition-colors">{atelier.title}</h3>
-                          <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                          <div className="flex items-center gap-2 shrink-0 ml-2">
+                            {progressMap.get(atelier.slug) === "COMPLETED" && (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            )}
+                            {progressMap.get(atelier.slug) === "IN_PROGRESS" && (
+                              <Play className="w-3.5 h-3.5 text-amber-500" />
+                            )}
+                            <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                          </div>
                         </div>
                         <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-4">{atelier.description}</p>
                         <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600">

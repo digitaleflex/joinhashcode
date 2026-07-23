@@ -75,6 +75,7 @@ model User {
   twofactors           TwoFactor[]
   xpTransactions       XpTransaction[]
   squadMessages        SquadMessage[]
+  atelierProgress      AtelierProgress[]
 
   @@index([class])
   @@index([role])
@@ -608,6 +609,24 @@ model EngagementStats {
   lastStreakDate DateTime?
 
   @@map("engagement_stats")
+}
+
+model AtelierProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  atelierSlug String
+  status      String    @default("NOT_STARTED") // NOT_STARTED, IN_PROGRESS, COMPLETED
+  xpEarned    Int       @default(0)
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, atelierSlug])
+  @@index([userId])
+  @@index([atelierSlug])
+  @@map("atelier_progress")
 }
 
 model TeamApplication {

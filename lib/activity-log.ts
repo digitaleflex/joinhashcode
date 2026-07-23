@@ -22,6 +22,9 @@ export type ActivityAction =
   | "SQUAD_INVITE_SENT"
   | "SQUAD_DISBANDED"
   | "SQUAD_OWNERSHIP_TRANSFERRED"
+  // Ateliers
+  | "ATELIER_STARTED"
+  | "ATELIER_COMPLETED"
   // Missions
   | "MISSION_VIEWED"
   | "MISSION_CLAIMED"

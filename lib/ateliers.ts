@@ -10,6 +10,9 @@ export interface Atelier {
   xpReward: number
   missionSlugs: string[]
   pourquoi: string
+  videoUrl: string
+  mediaUrl: string
+  mediaLabel: string
 }
 
 const ateliersMap: Record<string, Atelier> = {
@@ -25,6 +28,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que le frontend est la porte d'entrée visible de tout projet web.",
+    videoUrl: "https://youtu.be/7VdL5z8dG6w",
+    mediaUrl: "https://developer.mozilla.org/fr/docs/Web/HTML",
+    mediaLabel: "Docs MDN HTML",
   },
   "linux-cloud-basics": {
     slug: "linux-cloud-basics",
@@ -38,6 +44,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que tous les serveurs cloud tournent sur Linux.",
+    videoUrl: "https://youtu.be/g_7A3x3L1oE",
+    mediaUrl: "https://doc.ubuntu.com",
+    mediaLabel: "Docs Ubuntu",
   },
   "architecture-solid": {
     slug: "architecture-solid",
@@ -51,6 +60,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que les principes SOLID sont la base de toute architecture maintenable.",
+    videoUrl: "https://youtu.be/Mh49i6KjBpI",
+    mediaUrl: "https://refactoring.guru/fr/design-patterns",
+    mediaLabel: "Refactoring Guru",
   },
   "figma-basics": {
     slug: "figma-basics",
@@ -64,6 +76,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que Figma est l'outil standard de tous les designers aujourd'hui.",
+    videoUrl: "https://youtu.be/3q3FV65zUsE",
+    mediaUrl: "https://www.figma.com/resources/",
+    mediaLabel: "Ressources Figma",
   },
   "graphic-design-basics": {
     slug: "graphic-design-basics",
@@ -77,6 +92,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que les bases du design sont les mêmes, quel que soit le support.",
+    videoUrl: "https://youtu.be/YqQx75OPkO4",
+    mediaUrl: "https://coolors.co",
+    mediaLabel: "Coolors — Palettes",
   },
   "content-strategy": {
     slug: "content-strategy",
@@ -90,6 +108,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce qu'une bonne stratégie avant de produire, c'est la clé.",
+    videoUrl: "https://youtu.be/5MpMfBmBz6k",
+    mediaUrl: "https://www.notion.so/help/guides",
+    mediaLabel: "Notion — Guide",
   },
   "product-management-basics": {
     slug: "product-management-basics",
@@ -103,6 +124,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que le cadre produit est ce qui transforme une bonne idée en un produit viable.",
+    videoUrl: "https://youtu.be/ZgVQ8o4Mk2A",
+    mediaUrl: "https://www.productplan.com/learn/",
+    mediaLabel: "ProductPlan Academy",
   },
   "data-analysis-intro": {
     slug: "data-analysis-intro",
@@ -116,6 +140,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que les données sont le langage universel du business.",
+    videoUrl: "https://youtu.be/xUj0vCKNf8Q",
+    mediaUrl: "https://www.kaggle.com/learn",
+    mediaLabel: "Kaggle Learn",
   },
   "design-thinking": {
     slug: "design-thinking",
@@ -129,6 +156,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que la qualité d'une solution dépend de la qualité de la problématisation.",
+    videoUrl: "https://youtu.be/_g5J3s1Y7f8",
+    mediaUrl: "https://www.interaction-design.org/literature/topics/design-thinking",
+    mediaLabel: "IDF — Design Thinking",
   },
   "community-management-basics": {
     slug: "community-management-basics",
@@ -142,6 +172,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce qu'une communauté ne se décrète pas — elle se construit avec méthode.",
+    videoUrl: "https://youtu.be/6BQrUQ5n5lE",
+    mediaUrl: "https://circle.so/community-building/",
+    mediaLabel: "Circle — Community Building",
   },
   "project-management-intro": {
     slug: "project-management-intro",
@@ -155,6 +188,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce que la méthode est ce qui libère l'énergie au lieu de la disperser.",
+    videoUrl: "https://youtu.be/Y5J7qWX7W5I",
+    mediaUrl: "https://asana.com/fr/resources",
+    mediaLabel: "Asana — Ressources",
   },
   "partner-identification": {
     slug: "partner-identification",
@@ -168,6 +204,9 @@ const ateliersMap: Record<string, Atelier> = {
     xpReward: 50,
     missionSlugs: ["premiere-preuve-maitrise"],
     pourquoi: "Parce qu'un bon partenariat commence par le bon choix de partenaire.",
+    videoUrl: "https://youtu.be/0S3I0I1gODQ",
+    mediaUrl: "https://www.salesforce.com/fr/learning-centre/",
+    mediaLabel: "Salesforce — Centre d'apprentissage",
   },
 }
 
