@@ -5,10 +5,9 @@ on:
     branches: [main]
 
 jobs:
-  # ── Heavy build on GitHub's fast runners (free, 4 CPU, 16 GB RAM) ──
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+  deploy:
+    runs-on: self-hosted
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
 
@@ -19,23 +18,12 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Build Next.js app
-        run: pnpm run build
-        env:
-          # Prisma generate only needs a valid URL format (no real DB access)
-          DIRECT_URL: "postgresql://ci:dummy@localhost:5432/hashcode?sslmode=disable"
-          DATABASE_URL: "postgresql://ci:dummy@localhost:5432/hashcode?sslmode=disable"
-          # Dummy values — Next.js build doesn't execute auth at runtime,
-          # but some modules access process.env at import time.
-          BETTER_AUTH_SECRET: "ci-dummy-secret-32-chars-minimum"
-          BETTER_AUTH_URL: "http://localhost:3000"
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
-          GOOGLE_CLIENT_ID: "ci-dummy-client-id"
-          GOOGLE_CLIENT_SECRET: "ci-dummy-client-secret"
-          RESEND_API_KEY: "re_ci_dummy"
-          CRON_SECRET: "ci-dummy-cron-secret-32chars"
-          REDIS_URL: "http://localhost:6379"
-          REDIS_TOKEN: "ci-dummy"
+      - name: Build with env
+        run: |
+          set -a
+          source /home/actions-runner/secrets/.env.production
+          set +a
+          pnpm run build
 
       - name: Verify standalone output
         run: |
@@ -46,45 +34,6 @@ jobs:
           fi
           echo "Standalone output found: $(du -sh .next/standalone/ | cut -f1)"
           ls -la .next/standalone/
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: |
-            .next/
-            prisma/
-            generated/
-            public/
-            Dockerfile
-            prisma.config.ts
-            compose.app.yml
-          retention-days: 1
-
-  # ── Light deploy on the self-hosted VPS runner ──
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    timeout-minutes: 10
-    steps:
-      - name: Clean workspace from stale build artifacts
-        run: |
-          rm -rf .next/ generated/ public/prisma/
-          echo "Workspace cleaned"
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-output
-
-      - name: Verify downloaded artifact
-        run: |
-          if [ ! -d ".next/standalone" ]; then
-            echo "ERROR: .next/standalone/ still missing after download"
-            ls -la .next/ 2>/dev/null || echo ".next/ not found"
-            exit 1
-          fi
-          echo "Artifact valid: $(du -sh .next/standalone/ | cut -f1)"
 
       - name: Build Docker image
         run: docker build --no-cache -t hashcode-web:latest .
