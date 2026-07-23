@@ -3,37 +3,55 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* HASHCODE — Base light (default), overridden by .dark */
+/* HASHCODE — Base light (default), overridden by .dark
+ *
+ * Light mode: warm ivory foundation with rich emerald accent.
+ * Dark mode: deep charcoal with electric lime accent (cyberpunk).
+ *
+ * Both pass WCAG AA contrast on their respective backgrounds.
+ */
 :root {
-  --background: oklch(0.98 0 0);
-  --foreground: oklch(0.09 0 0);
+  /* ── Core Palette (warm ivory) ─────────────────────────── */
+  --background: oklch(0.965 0.006 85);        /* warm cream — easier on the eyes than pure white */
+  --foreground: oklch(0.12 0.008 85);         /* near-black with warm tint */
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.09 0 0);
+  --card: oklch(0.992 0.003 85);              /* warm off-white */
+  --card-foreground: oklch(0.12 0.008 85);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.09 0 0);
+  --popover: oklch(0.992 0.003 85);
+  --popover-foreground: oklch(0.12 0.008 85);
 
-  --primary: oklch(0.55 0.18 130); /* HASHCODE green adapted for light bg */
+  /* Primary: professional emerald green — visible but not aggressive */
+  --primary: oklch(0.58 0.19 150);            /* rich emerald */
   --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.92 0 0);
-  --secondary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.92 0.006 85);          /* warm light grey */
+  --secondary-foreground: oklch(0.2 0.005 85);
 
-  --muted: oklch(0.95 0 0);
-  --muted-foreground: oklch(0.45 0 0);
+  --muted: oklch(0.94 0.005 85);
+  --muted-foreground: oklch(0.48 0.008 85);   /* ~#6b6b6b — passes WCAG AA on background */
 
-  --accent: oklch(0.55 0.18 130 / 0.1);
-  --accent-foreground: oklch(0.55 0.18 130);
+  --accent: oklch(0.58 0.19 150 / 0.1);
+  --accent-foreground: oklch(0.58 0.19 150);
 
-  --destructive: oklch(0.6 0.2 25);
+  --destructive: oklch(0.58 0.22 28);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.88 0 0);
-  --input: oklch(0.88 0 0);
-  --ring: oklch(0.55 0.18 130);
+  --border: oklch(0.86 0.006 85);             /* subtle warm border */
+  --input: oklch(0.86 0.006 85);
+  --ring: oklch(0.58 0.19 150);
 
-  /* Fluid Typography - Industry Standard Scales */
+  /* ── Sidebar (light ivory) ─────────────────────────────── */
+  --sidebar: oklch(0.99 0.003 85);
+  --sidebar-foreground: oklch(0.12 0.008 85);
+  --sidebar-primary: oklch(0.58 0.19 150);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.58 0.19 150 / 0.1);
+  --sidebar-accent-foreground: oklch(0.58 0.19 150);
+  --sidebar-border: oklch(0.86 0.006 85);
+  --sidebar-ring: oklch(0.58 0.19 150);
+
+  /* ── Typography ────────────────────────────────────────── */
   --h1-size: clamp(1.75rem, 6vw, 3.5rem);
   --h2-size: clamp(1.35rem, 4.5vw, 2.5rem);
   --h3-size: clamp(1.15rem, 3vw, 1.85rem);
@@ -42,17 +60,16 @@
   --radius: 0.75rem;
   --bottom-nav-height: 5rem;
 
-  /* Sidebar configuration */
-  --sidebar: oklch(0.96 0 0);
-  --sidebar-foreground: oklch(0.09 0 0);
-  --sidebar-primary: oklch(0.55 0.18 130);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.55 0.18 130 / 0.1);
-  --sidebar-accent-foreground: oklch(0.55 0.18 130);
-  --sidebar-border: oklch(0.88 0 0);
-  --sidebar-ring: oklch(0.55 0.18 130);
+  /* ── Light mode overrides for hardcoded dark utilities ── */
+  --card-dark: oklch(1 0 0);
+  --card-dark-hover: oklch(0.975 0 0);
+  --card-dark-border: oklch(0.88 0.005 85);
+  --surface-subtle: oklch(0.97 0.003 85);
+  --surface-elevated: oklch(1 0 0);
+  --surface-overlay: oklch(0 0 0 / 0.04);
 }
 
+/* ── DARK MODE (cyberpunk aesthetic preserved) ── */
 .dark {
   --background: oklch(0.08 0 0);
   --foreground: oklch(0.98 0 0);
@@ -82,7 +99,6 @@
   --input: oklch(0.18 0 0);
   --ring: oklch(0.91 0.22 124);
 
-  /* Sidebar configuration */
   --sidebar: oklch(0.08 0 0);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.91 0.22 124);
@@ -91,35 +107,13 @@
   --sidebar-accent-foreground: oklch(0.91 0.22 124);
   --sidebar-border: oklch(0.18 0 0);
   --sidebar-ring: oklch(0.91 0.22 124);
-}
 
-.dark {
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.12 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.91 0.22 124);
-  --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.16 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.14 0 0);
-  --muted-foreground: oklch(0.7 0 0);
-  --accent: oklch(0.91 0.22 124 / 0.15);
-  --accent-foreground: oklch(0.91 0.22 124);
-  --border: oklch(0.18 0 0);
-  --input: oklch(0.18 0 0);
-
-  /* Sidebar configuration */
-  --sidebar: oklch(0.08 0 0);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.91 0.22 124);
-  --sidebar-primary-foreground: oklch(0.1 0 0);
-  --sidebar-accent: oklch(0.91 0.22 124 / 0.15);
-  --sidebar-accent-foreground: oklch(0.91 0.22 124);
-  --sidebar-border: oklch(0.18 0 0);
-  --sidebar-ring: oklch(0.91 0.22 124);
+  --card-dark: oklch(0.12 0 0);
+  --card-dark-hover: oklch(0.16 0 0);
+  --card-dark-border: oklch(0.18 0 0);
+  --surface-subtle: oklch(0.1 0 0);
+  --surface-elevated: oklch(0.14 0 0);
+  --surface-overlay: oklch(0 0 0 / 0.8);
 }
 
 @theme inline {
@@ -180,6 +174,107 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ── Light mode overrides for hardcoded dark utilities ──
+   Components use bg-zinc-900, border-white/5, text-zinc-400 etc.
+   These overrides remap them in light mode via custom properties. */
+:root:not(.dark) {
+  /* Card / surface backgrounds */
+  --card-dark: oklch(1 0 0);
+  --card-dark-hover: oklch(0.97 0 0);
+  --card-dark-border: oklch(0.87 0 0);
+  --surface-subtle: oklch(0.98 0 0);
+  --surface-elevated: oklch(1 0 0);
+  --surface-overlay: oklch(0 0 0 / 0.04);
+
+  /* Text on light backgrounds — override zinc text utility visual */
+  --text-secondary-on-light: oklch(0.5 0 0);
+  --text-muted-on-light: oklch(0.65 0 0);
+}
+
+/* ── Utility overrides for light mode ───────────────────── */
+/* The app heavily uses dark-hardcoded classes. These fix the most common ones. */
+
+/* Backgrounds */
+:root:not(.dark) [class*="bg-zinc-950"] { background-color: var(--sidebar) !important; }
+:root:not(.dark) [class*="bg-zinc-900/40"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-zinc-900/60"] { background-color: var(--card) !important; }
+:root:not(.dark) [class*="bg-zinc-900"] { background-color: var(--card) !important; }
+:root:not(.dark) [class*="bg-zinc-800"] { background-color: var(--muted) !important; }
+:root:not(.dark) [class*="bg-white/2"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/5"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/10"] { background-color: var(--muted) !important; }
+:root:not(.dark) [class*="bg-white/1"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/3"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/4"] { background-color: var(--card-dark-hover) !important; }
+:root:not(.dark) [class*="bg-white/[0.02"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/[0.03"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-black/40"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-black/80"] { background-color: var(--surface-overlay) !important; }
+
+/* Borders */
+:root:not(.dark) [class*="border-white/"] { border-color: var(--card-dark-border) !important; }
+:root:not(.dark) [class*="border-white/[0.08"] { border-color: var(--border) !important; }
+:root:not(.dark) [class*="border-white/[0.06"] { border-color: var(--border) !important; }
+:root:not(.dark) [class*="border-zinc-800"] { border-color: var(--border) !important; }
+
+/* Text colors on dark surfaces -> map to muted/foreground */
+:root:not(.dark) [class*="text-zinc-700"] { color: var(--muted-foreground) !important; }
+:root:not(.dark) [class*="text-zinc-600"] { color: var(--muted-foreground) !important; }
+:root:not(.dark) [class*="text-zinc-500"] { color: var(--muted-foreground) !important; }
+:root:not(.dark) [class*="text-zinc-400"] { color: var(--muted-foreground) !important; }
+:root:not(.dark) [class*="text-white"]:not([class*="text-white/"]) { color: var(--foreground) !important; }
+
+/* Modal / dialog overlays */
+:root:not(.dark) [class*="bg-black/80"] { background-color: oklch(0 0 0 / 0.3) !important; }
+:root:not(.dark) .driver-popover-next-btn {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+}
+
+/* Background gradient mesh overlay */
+:root:not(.dark) .bg-gradient-mesh {
+  opacity: 0.03;
+}
+
+/* Scanline effect — hide in light mode */
+:root:not(.dark) .scanline {
+  display: none !important;
+}
+
+/* Bottom nav in light mode */
+:root:not(.dark) .bottom-nav-glass {
+  background-color: oklch(1 0 0 / 0.85) !important;
+  backdrop-filter: blur(24px) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.06) !important;
+}
+
+/* Dark placeholder text in inputs */
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder {
+  color: oklch(0.7 0 0) !important;
+}
+
+/* Dark elevated card variant (used in dashboard bento grid) */
+:root:not(.dark) [class*="bg-zinc-950"] { background-color: var(--sidebar) !important; }
+
+/* Radial gradient background decoration */
+:root:not(.dark) [class*="bg-\\[radial-gradient"] {
+  opacity: 0.3;
+}
+
+/* Badge variants in light mode */
+:root:not(.dark) [class*="bg-primary/10"] { background-color: var(--accent) !important; }
+:root:not(.dark) [class*="bg-primary/5"] { background-color: oklch(0.58 0.19 150 / 0.06) !important; }
+:root:not(.dark) [class*="bg-emerald-500/10"] { background-color: oklch(0.6 0.2 150 / 0.08) !important; }
+:root:not(.dark) [class*="bg-amber-500/10"] { background-color: oklch(0.7 0.2 85 / 0.08) !important; }
+
+/* Ambient glow decorations */
+:root:not(.dark) [class*="blur-\\[100px\\]"],
+:root:not(.dark) [class*="blur-\\[120px\\]"],
+:root:not(.dark) [class*="blur-\\[60px\\]"] {
+  opacity: 0.15 !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -211,10 +306,11 @@
     @apply shadow-[0_0_35px_rgba(197,244,65,0.4)] scale-[1.02] brightness-105;
   }
   :root:not(.dark) .btn-primary-glow {
-    @apply shadow-none;
+    @apply shadow-[0_2px_12px_rgba(0,0,0,0.08)];
+    background: var(--primary) !important;
   }
   :root:not(.dark) .btn-primary-glow:hover {
-    @apply shadow-none brightness-100;
+    @apply shadow-[0_4px_20px_rgba(0,0,0,0.12)] brightness-105;
   }
 
   /* Glassmorphism utility */
@@ -222,7 +318,7 @@
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
   }
   :root:not(.dark) .glass-card {
-    @apply bg-black/[0.02] border border-black/[0.06] shadow-[0_8px_32px_0_rgba(0,0,0,0.04)];
+    @apply bg-white/70 backdrop-blur-xl border border-black/[0.06] shadow-[0_4px_24px_0_rgba(0,0,0,0.04)];
   }
 
   /* Cyberpunk Premium UI Facelift Classes */
