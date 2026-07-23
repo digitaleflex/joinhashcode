@@ -462,19 +462,19 @@ function MissionCard({
                       value={socialForm.telegram}
                       onChange={e => setSocialForm(f => ({ ...f, telegram: e.target.value }))}
                       placeholder="Pseudo Telegram (ex: @mon_pseudo)"
-                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
                     />
                     <Input
                       value={socialForm.discord}
                       onChange={e => setSocialForm(f => ({ ...f, discord: e.target.value }))}
                       placeholder="Pseudo Discord (ex: mon_pseudo)"
-                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
                     />
                     <Input
                       value={socialForm.whatsapp}
                       onChange={e => setSocialForm(f => ({ ...f, whatsapp: e.target.value }))}
                       placeholder="Numéro WhatsApp (ex: +225XXXXXXXXXX)"
-                      className="h-9 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
+                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
                     />
                     <Button
                       onClick={handleSocialSubmit}
