@@ -1,14 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Mission, UserProfile } from "@/lib/missions";
-import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send, Clock } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Lock, ArrowRight, Zap, ShieldCheck, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -277,72 +274,7 @@ function MissionCard({
   const requiredLevel = mission.requiredLevel ?? 1;
   const isLocked = userLevel < requiredLevel;
 
-  const [socialClicks, setSocialClicks] = useState<Record<string, boolean>>({
-    telegram: false, discord: false, whatsapp: false
-  });
-  const [socialForm, setSocialForm] = useState({ telegram: '', discord: '', whatsapp: '' });
-
-  const socialFormRef = useRef(socialForm);
-  useEffect(() => {
-    socialFormRef.current = socialForm;
-  }, [socialForm]);
-
-  useEffect(() => {
-    if (mission.id === "social-connection-protocol" && (status === "APPROVED" || status === "PENDING")) {
-      setSocialClicks({ telegram: true, discord: true, whatsapp: true });
-    }
-  }, [status, mission.id]);
-
-  const allLinksClicked = Object.values(socialClicks).every(Boolean);
-
-  const handleSocialClick = useCallback((platform: string) => {
-    if (mission.id !== "social-connection-protocol") return;
-    if (status === "APPROVED" || status === "PENDING") return;
-    
-    setSocialClicks((prev) => {
-      if (prev[platform]) return prev;
-      const next = { ...prev, [platform]: true };
-      const count = Object.values(next).filter(Boolean).length;
-      if (count < 3) {
-        toast.info(`${count}/3 canaux rejoints — continue !`);
-      } else {
-        toast.success("Tous les canaux rejoints ! Entre tes identifiants pour valider.");
-      }
-      return next;
-    });
-  }, [status, mission.id]);
-
-  const handleSocialSubmit = useCallback(async () => {
-    const { telegram, discord, whatsapp } = socialFormRef.current;
-    if (!telegram.trim() || !discord.trim() || !whatsapp.trim()) {
-      toast.error("Remplis les 3 champs pour valider la mission.");
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      const content = `Protocole de Connexion Globale — Vérification admin\nTelegram : ${telegram.trim()}\nDiscord : ${discord.trim()}\nWhatsApp : ${whatsapp.trim()}`;
-      const res = await fetch('/api/missions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          missionId: "social-connection-protocol",
-          content,
-          projectDescription: "Rejoint les 3 canaux communautaires HASHCODE.",
-          userDifficulty: 1,
-          userRating: 5,
-          userFeedback: "Validation via identifiants communautaires",
-          improvementSuggestions: ""
-        })
-      });
-      if (!res.ok) throw new Error(await res.text());
-      toast.success("Soumission envoyée ! Un admin va vérifier et valider sous 24h.");
-      router.refresh();
-    } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : "Erreur lors de la validation");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [router]);
+  const isSocialMission = mission.id === "social-connection-protocol";
 
   return (
     <Card className={cn(
@@ -416,65 +348,17 @@ function MissionCard({
             
             <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 font-bold">Protocole_Validation</p>
             
-            {mission.id === "social-connection-protocol" ? (
-              <div className="space-y-2 mt-3">
-                {/* Step 1 — join the 3 channels */}
-                <div className="grid gap-2">
-                  <a href={COMMUNITY_LINKS.telegram} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('telegram')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
-                      socialClicks.telegram ? 'bg-[#0088cc]/10 border-[#0088cc]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#0088cc]/20 text-[#0088cc]'
-                    )}>
-                    <div className="flex items-center gap-2"><Globe className="h-3.5 w-3.5" />Telegram</div>
-                    {socialClicks.telegram ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
-                  </a>
-                  <a href={COMMUNITY_LINKS.discord} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('discord')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
-                      socialClicks.discord ? 'bg-[#5865F2]/10 border-[#5865F2]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#5865F2]/20 text-[#5865F2]'
-                    )}>
-                    <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />Discord</div>
-                    {socialClicks.discord ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
-                  </a>
-                  <a href={COMMUNITY_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('whatsapp')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
-                      socialClicks.whatsapp ? 'bg-[#25D366]/10 border-[#25D366]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#25D366]/20 text-[#25D366]'
-                    )}>
-                    <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />WhatsApp</div>
-                    {socialClicks.whatsapp ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
-                  </a>
-                </div>
-
-                {/* Step 2 — identify yourself for admin review */}
-                {allLinksClicked && !isPending && !isCompleted && (
-                  <div className="mt-3 space-y-2 p-3 rounded-xl bg-white/3 border border-white/10">
-                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Étape 2 — Confirme tes identifiants</p>
-                    <Input
-                      value={socialForm.telegram}
-                      onChange={e => setSocialForm(f => ({ ...f, telegram: e.target.value }))}
-                      placeholder="Pseudo Telegram (ex: @mon_pseudo)"
-                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
-                    />
-                    <Input
-                      value={socialForm.discord}
-                      onChange={e => setSocialForm(f => ({ ...f, discord: e.target.value }))}
-                      placeholder="Pseudo Discord (ex: mon_pseudo)"
-                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
-                    />
-                    <Input
-                      value={socialForm.whatsapp}
-                      onChange={e => setSocialForm(f => ({ ...f, whatsapp: e.target.value }))}
-                      placeholder="Numéro WhatsApp (ex: +225XXXXXXXXXX)"
-                      className="h-11 text-xs bg-zinc-950 border-white/10 text-white placeholder:text-zinc-700 rounded-xl"
-                    />
-                    <Button
-                      onClick={handleSocialSubmit}
-                      disabled={isSubmitting || !socialForm.telegram.trim() || !socialForm.discord.trim() || !socialForm.whatsapp.trim()}
-                      className="w-full h-10 rounded-xl btn-primary-glow text-[10px] uppercase font-black tracking-wider gap-2"
-                    >
-                      <Send className="h-3.5 w-3.5" />
-                      {isSubmitting ? "Envoi..." : "Envoyer pour validation admin"}
-                    </Button>
-                  </div>
-                )}
+            {isSocialMission ? (
+              <div className="space-y-2">
+                <p className="text-[10px] font-mono text-muted-foreground leading-relaxed">
+                  Rejoins Telegram, Discord et WhatsApp pour activer ta connexion à la communauté.
+                </p>
+                <Link
+                  href="/missions/social-connection"
+                  className="inline-flex items-center gap-2 text-[10px] font-mono text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ouvrir la page de connexion →
+                </Link>
               </div>
             ) : (
               <ul className="space-y-1.5 list-none">
@@ -540,7 +424,16 @@ function MissionCard({
             </button>
           </div>
 
-          {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
+          {!isLocked && !isCompleted && !isPending && isSocialMission && (
+            <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2">
+              <Link href="/missions/social-connection">
+                Rejoindre les canaux
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          )}
+
+          {!isLocked && !isCompleted && !isPending && !isSocialMission && (
             <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2">
               <Link href={`/missions/${mission.id}`}>
                 {mission.type === "INTRO" ? "Me présenter" : "Commencer"}
