@@ -37,6 +37,16 @@ jobs:
           REDIS_URL: "http://localhost:6379"
           REDIS_TOKEN: "ci-dummy"
 
+      - name: Verify standalone output
+        run: |
+          if [ ! -d ".next/standalone" ]; then
+            echo "ERROR: .next/standalone/ missing — build did not produce standalone output"
+            ls -la .next/
+            exit 1
+          fi
+          echo "Standalone output found: $(du -sh .next/standalone/ | cut -f1)"
+          ls -la .next/standalone/
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -57,10 +67,24 @@ jobs:
     runs-on: self-hosted
     timeout-minutes: 10
     steps:
+      - name: Clean workspace from stale build artifacts
+        run: |
+          rm -rf .next/ generated/ public/prisma/
+          echo "Workspace cleaned"
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-output
+
+      - name: Verify downloaded artifact
+        run: |
+          if [ ! -d ".next/standalone" ]; then
+            echo "ERROR: .next/standalone/ still missing after download"
+            ls -la .next/ 2>/dev/null || echo ".next/ not found"
+            exit 1
+          fi
+          echo "Artifact valid: $(du -sh .next/standalone/ | cut -f1)"
 
       - name: Build Docker image
         run: docker build --no-cache -t hashcode-web:latest .
