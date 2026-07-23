@@ -26,27 +26,7 @@ interface QuizUser {
 
 const QUIZ_STORAGE_KEY = "hc_quiz_progress";
 
-const ANALYSIS_STEPS = [
-  { label: "Lecture des réponses",          desc: "Lecture de tes 13 réponses...",               pct: 12 },
-  { label: "Analyse comportementale",       desc: "Analyse de tes choix de dev...",              pct: 28 },
-  { label: "Calcul des vecteurs",           desc: "Analyse de tes points forts...",              pct: 45 },
-  { label: "Scénarios de crise",            desc: "Analyse de tes réflexes en équipe...",        pct: 62 },
-  { label: "Profil dominant",               desc: "Identification de la tendance principale...", pct: 78 },
-  { label: "Génération de l'hypothèse",     desc: "Génération de ton profil...",                 pct: 94 },
-];
-
 function AnalyzingScreen() {
-  const [stepIdx, setStepIdx] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setStepIdx(prev => Math.min(prev + 1, ANALYSIS_STEPS.length - 1));
-    }, 450);
-    return () => clearInterval(timer);
-  }, []);
-
-  const step = ANALYSIS_STEPS[stepIdx];
-
   return (
     <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in-95 duration-1000 relative">
       <div className="absolute inset-0 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
@@ -56,37 +36,32 @@ function AnalyzingScreen() {
       </p>
 
       <div className="relative mb-12">
-        <div className="size-24 rounded-full border-2 border-primary/20 flex items-center justify-center animate-spin-slow">
-            <div className="size-16 rounded-full border-2 border-primary/40 border-t-primary animate-spin" />
+        <div className="size-24 rounded-full border-2 border-primary/20 flex items-center justify-center">
+          <div className="size-16 rounded-full border-2 border-primary/40 border-t-primary animate-spin" />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-            <Sparkles className="size-6 text-primary animate-pulse" />
+          <Sparkles className="size-6 text-primary animate-pulse" />
         </div>
       </div>
 
       <div className="h-8 flex items-center justify-center mb-2 relative">
-        <h3 key={stepIdx} className="text-lg font-black uppercase tracking-tighter text-white animate-in slide-in-from-bottom-2 duration-500">
-          {step.label}
+        <h3 className="text-lg font-black uppercase tracking-tighter text-white">
+          Analyse de tes réponses
         </h3>
       </div>
       <div className="h-6 flex items-center justify-center mb-12 relative">
-        <p key={`d-${stepIdx}`} className="text-xs text-zinc-500 font-mono uppercase tracking-wider animate-in fade-in duration-700">
-          {step.desc}
+        <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">
+          Calcule de ton profil...
         </p>
       </div>
 
       <div className="w-full space-y-4 relative">
         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-          <motion.div
-            className="h-full bg-primary shadow-[0_0_20px_#C5F441]"
-            initial={{ width: 0 }}
-            animate={{ width: `${step.pct}%` }}
-            transition={{ duration: 0.5 }}
-          />
+          <div className="h-full bg-primary shadow-[0_0_20px_#C5F441] animate-pulse" style={{ width: "60%" }} />
         </div>
         <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
           <span>Analyse en cours</span>
-          <span className="text-primary font-bold">{step.pct}%</span>
+          <span className="text-primary font-bold">patiente...</span>
         </div>
       </div>
     </div>

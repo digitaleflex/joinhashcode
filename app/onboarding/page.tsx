@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, type ComponentType } from "react"
+import { useState, useEffect, useRef, type ComponentType } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -73,6 +73,25 @@ export default function OnboardingPage() {
   const [isSyncing, setIsSyncing] = useState(true)
   const [userName, setUserName] = useState("")
   const [pseudoError, setPseudoError] = useState("")
+  const [pseudoStatus, setPseudoStatus] = useState<"idle" | "checking" | "available" | "taken">("idle")
+  const pseudoTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  const checkPseudoAvailability = async (pseudo: string) => {
+    if (!pseudo || pseudo.length < 3) { setPseudoStatus("idle"); return }
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(pseudo)) { setPseudoStatus("idle"); return }
+    setPseudoStatus("checking")
+    try {
+      const res = await fetch(`/api/user/check-pseudo?pseudo=${encodeURIComponent(pseudo)}`)
+      if (res.ok) {
+        const data = await res.json()
+        setPseudoStatus(data.available ? "available" : "taken")
+      } else {
+        setPseudoStatus("idle")
+      }
+    } catch {
+      setPseudoStatus("idle")
+    }
+  }
 
   const [formData, setFormData] = useState<{
     pseudo: string
@@ -198,7 +217,7 @@ export default function OnboardingPage() {
 
   const isNextDisabled = () => {
     if (isSubmitting) return true
-    if (step === OnboardingStep.PSEUDO) return !formData.pseudo || !/^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo)
+    if (step === OnboardingStep.PSEUDO) return !formData.pseudo || !/^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo) || pseudoStatus !== "available"
     if (step === OnboardingStep.LEVEL) return !formData.technicalLevel
     if (step === OnboardingStep.CONTEXT) return !formData.country || !formData.currentSituation
     if (step === OnboardingStep.OBJECTIVE) return !formData.mainObjective
@@ -212,7 +231,7 @@ export default function OnboardingPage() {
     { id: "Diagnostic", steps: [OnboardingStep.OBJECTIVE] },
     { id: "Quiz", steps: [OnboardingStep.BRIDGE] },
   ]
-  const totalInteractiveSteps = OnboardingStep.BRIDGE
+  const totalInteractiveSteps = OnboardingStep.OBJECTIVE
   const currentPhaseIndex = PHASES.findIndex(p => p.steps.includes(step))
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -252,7 +271,7 @@ export default function OnboardingPage() {
               </span>
             ))}
             <span className="text-[9px] font-mono text-muted-foreground/60">
-              {step}/{totalInteractiveSteps}
+              {Math.min(step, totalInteractiveSteps)}/{totalInteractiveSteps}
             </span>
           </div>
         </div>
@@ -334,13 +353,23 @@ export default function OnboardingPage() {
                         setPseudoError("")
                         const val = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "")
                         updateForm({ ...formData, pseudo: val })
+                        clearTimeout(pseudoTimeout.current)
+                        pseudoTimeout.current = setTimeout(() => checkPseudoAvailability(val), 400)
                       }}
                       placeholder="ton_pseudo"
                       maxLength={20}
                       className="pl-8 h-14 rounded-2xl bg-white/2 border-white/10 font-mono text-base focus:border-primary/50"
                     />
-                    {formData.pseudo.length >= 3 && !pseudoError && /^[a-zA-Z0-9_]{3,20}$/.test(formData.pseudo) && (
-                      <Check className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+                    {pseudoStatus === "checking" && (
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                        <div className="size-4 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                      </div>
+                    )}
+                    {pseudoStatus === "available" && (
+                      <Check className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-500" />
+                    )}
+                    {pseudoStatus === "taken" && (
+                      <p className="text-xs text-red-400 font-mono mt-2">Ce pseudo est déjà pris.</p>
                     )}
                   </div>
                   {pseudoError && (

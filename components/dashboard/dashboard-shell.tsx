@@ -112,8 +112,7 @@ export function DashboardShell({
 
   return (
     <SidebarProvider>
-      {/* First-visit welcome modal — shown once after quiz completion */}
-      {user?.class && typeof window !== "undefined" && !localStorage.getItem(`hc_welcomed_${user.id}`) && (
+      {user?.class && (
         <WelcomeModal
           userId={user.id}
           userName={user.name}
@@ -223,8 +222,8 @@ export function DashboardShell({
                   {user.mainObjective ? "45 min · Première étape de ton parcours" : "Découvre ton profil et ta spécialisation"}
                 </p>
                 <Button className="mt-3 btn-primary-glow" asChild>
-                  <Link href={user.mainObjective ? "/missions" : "/quiz"}>
-                    {user.mainObjective ? "Commencer" : "Faire le quiz →"}
+                  <Link href={user.mainObjective ? "/ateliers" : "/quiz"}>
+                    {user.mainObjective ? "Explorer les ateliers" : "Faire le quiz →"}
                   </Link>
                 </Button>
               </div>

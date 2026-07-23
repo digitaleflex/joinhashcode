@@ -2,22 +2,23 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, Zap, FileText } from "lucide-react"
+import { LayoutDashboard, GraduationCap, Zap, Users, Compass } from "lucide-react"
 export function BottomNav() {
   const pathname = usePathname()
 
   const navItems = [
-    { name: "Home", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Escouade", href: "/squad", icon: Users },
+    { name: "Console", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Ateliers", href: "/ateliers", icon: GraduationCap },
     { name: "Missions", href: "/missions", icon: Zap },
-    { name: "Dossier", href: "/dossier", icon: FileText },
+    { name: "Squad", href: "/squad", icon: Users },
+    { name: "Talents", href: "/talents", icon: Compass },
   ]
 
   return (
     <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
       <nav 
         aria-label="Navigation principale mobile"
-        className="relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40"
+        className="bottom-nav-glass relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40"
       >
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
