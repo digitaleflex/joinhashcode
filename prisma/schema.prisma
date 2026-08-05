@@ -34,6 +34,12 @@ model User {
   pseudo               String?   @unique
   technicalLevel       String?
   tools                String[]
+  primaryDomain        String?
+  subDomain            String?
+  learningTools        String[]   @default([])
+  practiceMode         String?
+  certifications       String[]   @default([])
+  specializationAt     DateTime?
   memberNumber         Int       @unique @default(autoincrement())
   banReason            String?
   banExpires           DateTime?

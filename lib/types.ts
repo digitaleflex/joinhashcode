@@ -103,6 +103,14 @@ export interface UserProfile {
   // User Objectives
   mainObjective?: MainObjective | string | null;
 
+  // Specialization System
+  primaryDomain?: string | null;
+  subDomain?: string | null;
+  learningTools?: string[];
+  practiceMode?: string | null;
+  certifications?: string[];
+  specializationAt?: string | null;
+
   // Psychometric Data & Evolution
   class: string | null;
   experience: number;
@@ -199,9 +207,91 @@ export interface SettingsUserData {
   linkedinUrl?: string | null
   domains: string[]
   tools: string[]
+  primaryDomain?: string | null
+  subDomain?: string | null
+  learningTools?: string[]
+  practiceMode?: string | null
+  certifications?: string[]
   mainObjective?: string | null
   secondaryObjectives?: unknown
   talentVisible?: boolean
+}
+
+export type PrimaryDomain =
+  | "Web" | "Cybersecurity" | "Cloud" | "IA"
+  | "Mobile" | "Automation" | "UI/UX" | "Web3" | "Data" | "DevOps"
+
+export type SubDomain =
+  | "frontend" | "backend" | "fullstack" | "web3"
+  | "offensive" | "defensive" | "appsec" | "crypto"
+  | "cloud" | "containers" | "iac" | "sre"
+  | "ml" | "llm" | "data-eng" | "analytics"
+
+export type PracticeMode = "github" | "ctf_platform" | "learning_platform" | "team"
+
+export const TECH_TREE_V2: Record<PrimaryDomain, {
+  subDomains: SubDomain[]
+  tools: string[]
+  platforms?: string[]
+}> = {
+  Cybersecurity: {
+    subDomains: ["offensive", "defensive", "appsec", "crypto"],
+    tools: [
+      "Kali Linux", "Metasploit", "Burp Suite", "Nmap", "SQLmap",
+      "Wireshark", "Aircrack-ng", "Gobuster", "Hydra", "ELK Stack",
+      "Splunk", "Snort", "Suricata", "OWASP ZAP", "Semgrep", "Nuclei",
+      "OpenSSL", "Hashcat", "CyberChef"
+    ],
+    platforms: ["HackTheBox", "TryHackMe", "Root-Me", "CTFtime", "PicoCTF", "PortSwigger"]
+  },
+  Web: {
+    subDomains: ["frontend", "backend", "fullstack", "web3"],
+    tools: [
+      "Next.js", "React", "Vue.js", "TypeScript", "Tailwind",
+      "Node.js", "Express", "NestJS", "FastAPI", "PostgreSQL",
+      "Redis", "Prisma", "Supabase", "Vercel", "tRPC"
+    ]
+  },
+  Cloud: {
+    subDomains: ["cloud", "containers", "iac", "sre"],
+    tools: [
+      "Docker", "Kubernetes", "Terraform", "Ansible", "AWS",
+      "GCP", "Azure", "GitHub Actions", "ArgoCD", "Prometheus",
+      "Grafana", "Nginx", "Helm", "Pulumi"
+    ]
+  },
+  IA: {
+    subDomains: ["ml", "llm", "data-eng", "analytics"],
+    tools: [
+      "Python", "PyTorch", "LangChain", "LlamaIndex", "CrewAI",
+      "Hugging Face", "OpenAI SDK", "Ollama", "Pandas", "dbt",
+      "Apache Spark", "Airflow", "Kafka", "BigQuery", "Chroma"
+    ]
+  },
+  Mobile: {
+    subDomains: [],
+    tools: ["React Native", "Flutter", "Expo", "Swift", "Kotlin"]
+  },
+  Automation: {
+    subDomains: [],
+    tools: ["Python", "Bash", "GitHub Actions", "n8n", "Zapier", "Playwright"]
+  },
+  "UI/UX": {
+    subDomains: [],
+    tools: ["Figma", "Adobe XD", "Framer", "Spline", "Storybook", "Maze"]
+  },
+  Web3: {
+    subDomains: [],
+    tools: ["Solidity", "Ethers.js", "Hardhat", "Wagmi", "Foundry", "IPFS"]
+  },
+  Data: {
+    subDomains: ["data-eng", "analytics"],
+    tools: ["SQL", "dbt", "Airflow", "BigQuery", "Metabase", "Superset"]
+  },
+  DevOps: {
+    subDomains: ["containers", "iac", "sre"],
+    tools: ["Docker", "Kubernetes", "Terraform", "Prometheus", "Grafana", "Linux"]
+  },
 }
 
 
