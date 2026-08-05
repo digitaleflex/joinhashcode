@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { middleware } from "../middleware";
+import { proxy as middleware } from "../proxy";
 import { NextRequest } from "next/server";
 
 // Mock better-auth/cookies
@@ -108,11 +108,35 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     expect(res?.headers.get("location")).toBe("http://localhost:3000/quiz");
   });
 
+  it("should redirect to /specialization if user has class but no primaryDomain", async () => {
+    const userData = {
+      id: "user_1",
+      currentSituation: "STUDENT",
+      class: "BUILDER",
+      betaKeyId: "key_1",
+    };
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        session: { id: "sess_1" },
+        user: userData,
+      }),
+    });
+
+    // Provide a cookie to satisfy getSessionCookie
+    const req = createRequest("/dashboard", "session=mock-token");
+    const res = await middleware(req);
+
+    expect(res?.status).toBe(307);
+    expect(res?.headers.get("location")).toBe("http://localhost:3000/specialization");
+  });
+
   it("should allow access to dashboard if user is fully onboarded", async () => {
     const userData = {
       id: "user_1",
       currentSituation: "STUDENT",
       class: "BUILDER",
+      primaryDomain: "Web",
       betaKeyId: "key_1",
     };
     (global.fetch as any).mockResolvedValueOnce({
