@@ -41,6 +41,7 @@ services:
       # Bind mounts — le build host est monté dans le conteneur
       # Pas besoin de rebuild l'image Docker à chaque déploiement
       - ./.next/standalone:/app/.next/standalone:ro
+      # standalone/.next/static est un symlink hôte → ../../static (résolu vers .next/static)
       - ./.next/static:/app/.next/static:ro
       - ./prisma:/app/prisma:ro
       - ./prisma.config.ts:/app/prisma.config.ts:ro

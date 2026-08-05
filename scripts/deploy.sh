@@ -61,6 +61,17 @@ echo ""
 echo "▸ Building Next.js application…"
 npm run build 2>&1
 
+# ── Symlinks for standalone assets ─────────────────────────────
+# Le server.js standalone sert les assets depuis standalone/.next/static
+# et public depuis standalone/public. Câbler ces répertoires vers le
+# dossier réel évite d'avoir à copier/coller les fichiers (build host
+# monté en bind mount dans le conteneur). Recréés après chaque build.
+echo ""
+echo "▸ Wiring standalone asset symlinks…"
+ln -sfn ../../static .next/standalone/.next/static
+ln -sfn ../../public .next/standalone/public
+echo "  ✓ static/public symlinks linked"
+
 # ── Docker build ───────────────────────────────────────────────
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 IMAGE_TAG="hashcode-web:${TIMESTAMP}"
