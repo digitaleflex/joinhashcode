@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
-const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers"];
+const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization"];
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
@@ -94,12 +94,16 @@ export async function proxy(request: NextRequest) {
 
     const needsOnboarding = !user.currentSituation;
     const needsQuiz = user.currentSituation && !user.class;
+    const needsSpecialization = user.class && !user.primaryDomain;
+    const isSpecializationPath = pathname.startsWith("/specialization");
 
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
       if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
       } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
+      } else if (needsSpecialization && !isSpecializationPath && !isQuizPath && !isOnboardingPath) {
+        nextResponse = NextResponse.redirect(new URL("/specialization", request.url));
       }
     }
   }
