@@ -7,7 +7,7 @@ import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
 import { emailService } from "@/lib/email";
 import crypto from "crypto";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 
 // ── Curated name generator ────────────────────────────────────────────────────
 // Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
@@ -162,6 +162,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(squad);
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[SQUAD_CREATE]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { AuthError } from "./auth-guard";
 
 /**
  * Handler d'erreurs global pour les routes d'API Next.js.
@@ -13,7 +14,15 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
   // 1. Log sécurisé côté serveur
   console.error(`🔴 [API_ERROR] ${contextMessage}:`, error);
 
-  // 2. Gestion des erreurs de validation Zod
+  // 2. Gestion des erreurs d'authentification
+  if (error instanceof AuthError) {
+    return NextResponse.json(
+      { message: error.message },
+      { status: error.status }
+    );
+  }
+
+  // 3. Gestion des erreurs de validation Zod
   if (error instanceof ZodError) {
     const firstError = Object.values(error.flatten().fieldErrors)[0]?.[0] 
       || error.errors[0]?.message 
@@ -24,7 +33,7 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
     );
   }
 
-  // 3. Gestion des erreurs de base de données Prisma connues
+  // 4. Gestion des erreurs de base de données Prisma connues
   if (error && typeof error === "object") {
     const prismaError = error as { code?: string; meta?: { target?: unknown } };
     // Code d'erreur unique violé (ex: pseudo ou email dupliqué)
@@ -46,7 +55,7 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
     }
   }
 
-  // 4. Erreur système générique pour la production
+  // 5. Erreur système générique pour la production
   return NextResponse.json(
     { message: "Le serveur a rencontré une erreur. Réessaie dans un instant." },
     { status: 500 }

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/activity-log";
 import { containsProfanity } from "@/lib/security";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 import { updateSquadSchema } from "@/lib/validation";
 import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
 
@@ -76,6 +76,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[SQUAD_UPDATE]", error);
     return NextResponse.json({ message: "Erreur système. Réessaie dans un instant." }, { status: 500 });
   }

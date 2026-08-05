@@ -7,7 +7,7 @@ import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
 import { emailService } from "@/lib/email";
 import { inviteSquadSchema } from "@/lib/validation";
 import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
@@ -141,6 +141,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, message: "Invitation envoyée !" });
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[SQUAD_INVITE]", error);
     return NextResponse.json({ error: "Erreur interne du serveur" }, { status: 500 });
   }

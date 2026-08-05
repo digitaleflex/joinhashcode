@@ -1,12 +1,4 @@
-node_modules
-out
-.git
-.env
-.env.*
-*.log
-npm-debug.log*
-Dockerfile
-docker-compose*.yml
-compose*.yaml
-compose*.yml
-.dockerignore
+*
+!prisma
+!prisma.config.ts
+!Dockerfile

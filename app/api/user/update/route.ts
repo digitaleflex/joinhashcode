@@ -5,7 +5,7 @@ import { containsProfanity } from "@/lib/security";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { invalidateUserCache } from "@/lib/user-cache";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 import { profileUpdateLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
@@ -168,7 +168,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(safeUser);
   } catch (error: unknown) {
-    console.error("[USER_UPDATE_PATCH]", error);
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
 
     if (error instanceof Error && (error as { code?: string }).code === "P2002") {
       const field = (error as { meta?: { target?: string[] } }).meta?.target?.[0];
@@ -177,6 +179,7 @@ export async function PATCH(req: Request) {
       }
     }
 
+    console.error("[USER_UPDATE_PATCH]", error);
     return NextResponse.json({ message: "Le système a rencontré une erreur lors de la synchronisation. Réessaie bientôt." }, { status: 500 });
   }
 }

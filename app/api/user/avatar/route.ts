@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { saveFile } from "@/lib/upload";
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 import { avatarLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export async function POST(req: Request) {
@@ -60,6 +60,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url });
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[AVATAR_POST]", error);
     return NextResponse.json({ message: "Une erreur système est survenue. Réessaie dans un instant." }, { status: 500 });
   }

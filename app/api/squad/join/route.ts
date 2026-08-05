@@ -8,7 +8,7 @@ import { squadJoinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { joinSquadSchema } from "@/lib/validation";
 import crypto from "crypto";
 import { validateSquadCognitiveBalance } from "@/lib/squad-validation";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 
 export async function POST(req: Request) {
   try {
@@ -174,6 +174,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[SQUAD_JOIN]", error);
     return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }

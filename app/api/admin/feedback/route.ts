@@ -8,6 +8,57 @@ import { XP_THRESHOLDS } from "@/lib/member-card-constants";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 
+const listQuerySchema = z.object({
+  status: z.enum(["NEW", "REVIEWED", "RESOLVED"]).optional(),
+  type: z.string().optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+});
+
+export const GET = withAdminAuth(async (req: Request) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const query = listQuerySchema.parse({
+      status: searchParams.get("status") || undefined,
+      type: searchParams.get("type") || undefined,
+      page: searchParams.get("page") || 1,
+      limit: searchParams.get("limit") || 20,
+    });
+
+    const where: Record<string, unknown> = {};
+    if (query.status) where.status = query.status;
+    if (query.type) where.type = query.type;
+
+    const [items, total] = await Promise.all([
+      prisma.betaFeedback.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (query.page - 1) * query.limit,
+        take: query.limit,
+        include: {
+          user: {
+            select: { id: true, name: true, email: true, image: true },
+          },
+        },
+      }),
+      prisma.betaFeedback.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      items,
+      pagination: {
+        page: query.page,
+        limit: query.limit,
+        total,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    });
+  } catch (error: unknown) {
+    console.error("[ADMIN_FEEDBACK_GET]", error);
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500 });
+  }
+});
+
 const statusSchema = z.object({
   id: z.string(),
   status: z.enum(["NEW", "REVIEWED", "RESOLVED"]),

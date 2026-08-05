@@ -131,6 +131,47 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
   return { submission: resultSubmission, status: finalStatus, bonusXp: SYNC_BONUS_XP, missionXp: xpToAward };
 }
 
+export async function GET() {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) {
+      return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
+    }
+
+    const missions = await prisma.mission.findMany({
+      orderBy: [{ difficulty: "asc" }, { title: "asc" }],
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        shortDesc: true,
+        slug: true,
+        category: true,
+        difficulty: true,
+        xp: true,
+        missionLevel: true,
+        weightBuilder: true,
+        weightCreator: true,
+        weightStrategist: true,
+        weightCatalyst: true,
+        duration: true,
+        requirements: true,
+        targetProfiles: true,
+        deliverables: true,
+        submissionMethod: true,
+        isWeeklyChallenge: true,
+        weeklySlot: true,
+        createdAt: true,
+      },
+    });
+
+    return NextResponse.json(missions);
+  } catch (error: unknown) {
+    console.error("[MISSIONS_GET]", error);
+    return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });

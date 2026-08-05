@@ -6,7 +6,7 @@ import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
-import { requireSession, checkCsrfOrigin } from "@/lib/auth-guard";
+import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 
 const checkinSchema = z.object({
   note: z.string().min(20, "Ta note doit faire au moins 20 caractères pour être validée par le protocole."),
@@ -135,6 +135,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(result);
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     if (error instanceof Error && error.message === "COOLDOWN_ACTIVE") {
       return NextResponse.json({ 
           message: "Tu as déjà signé ton check-in aujourd'hui. Reviens dans quelques heures pour la suite de ton build !" 
