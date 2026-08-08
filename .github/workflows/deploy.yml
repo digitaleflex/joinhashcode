@@ -59,6 +59,7 @@ jobs:
             compose.app.yml
           retention-days: 1
           if-no-files-found: error
+          include-hidden-files: true
 
   deploy:
     needs: build
