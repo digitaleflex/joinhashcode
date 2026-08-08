@@ -57,6 +57,7 @@ jobs:
             Dockerfile
             prisma.config.ts
             compose.app.yml
+            cluster.mjs
           retention-days: 1
           if-no-files-found: error
           include-hidden-files: true
@@ -111,6 +112,7 @@ jobs:
             cp "$STAGE/Dockerfile" "$APP_DIR/Dockerfile" 2>/dev/null || true
             cp "$STAGE/prisma.config.ts" "$APP_DIR/prisma.config.ts" 2>/dev/null || true
             cp "$STAGE/compose.app.yml" "$APP_DIR/compose.app.yml" 2>/dev/null || true
+            cp "$STAGE/cluster.mjs" "$APP_DIR/cluster.mjs" 2>/dev/null || true
             # Recréer les symlinks (le SCP écrasé par copie)
             ln -sfn ../../static "$APP_DIR/.next/standalone/.next/static"
             ln -sfn ../../public "$APP_DIR/.next/standalone/public"
