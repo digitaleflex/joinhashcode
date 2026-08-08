@@ -13,7 +13,6 @@ export async function HeroSection() {
     <>
       <Hero
         totalMembers={stats.totalMembers}
-        realCount={stats.realUserCount}
         classCounts={stats.classCounts}
       />
       <ActivityFeed initialActivities={serializedActivities} />

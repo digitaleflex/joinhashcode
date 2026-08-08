@@ -20,21 +20,21 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
   // Mapper les types d'actions vers des libellés lisibles
   const getActionLabel = (action: string, className: string | null) => {
     switch (action) {
-      case "USER_SIGNUP": return `[${className || 'TALENT'}] a rejoint l'infrastructure`
-      case "QUIZ_COMPLETED": return `Profil détecté — ${className || 'Analyse...'}`
-      case "MISSION_APPROVED": return `Mission validée avec succès`
-      case "SQUAD_JOINED": return `Escouade synchronisée`
-      default: return `Signal reçu`
+      case "USER_SIGNUP": return `[${className || 'TALENT'}] a rejoint la communauté`
+      case "QUIZ_COMPLETED": return `Profil identifié — ${className || 'Analyse...'}`
+      case "MISSION_APPROVED": return `Mission accomplie`
+      case "SQUAD_JOINED": return `Équipe formée`
+      default: return `Action en cours`
     }
   }
 
   const getPrefix = (action: string) => {
     switch (action) {
       case "USER_SIGNUP": return "NOUVEAU_MEMBRE"
-      case "QUIZ_COMPLETED": return "SCAN_TERMINÉ"
-      case "MISSION_APPROVED": return "NODE_VALIDÉ"
-      case "SQUAD_JOINED": return "SQUAD_SYNC"
-      default: return "LOG_SYSTEM"
+      case "QUIZ_COMPLETED": return "PROFIL IDENTIFIÉ"
+      case "MISSION_APPROVED": return "MISSION ACCOMPLIE"
+      case "SQUAD_JOINED": return "ÉQUIPE FORMÉE"
+      default: return "ACTION"
     }
   }
 
@@ -61,7 +61,7 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
             <div className="absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-ping opacity-50" />
           </div>
           <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-tight text-primary font-black">
-            flux_temporel
+            Activité récente
           </span>
         </div>
 
@@ -85,17 +85,9 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
                 </motion.div>
               ))
             ) : (
-              <span className="font-mono text-[10px] text-zinc-700 italic">Initialisation du flux de données...</span>
+              <span className="font-mono text-[10px] text-zinc-700 italic">Chargement de l'activité...</span>
             )}
           </AnimatePresence>
-        </div>
-
-        {/* Counter */}
-        <div className="hidden lg:flex items-center gap-3 shrink-0 border-l border-white/10 pl-6">
-          <div className="text-right">
-            <div className="font-mono text-[11px] text-white font-black tracking-tighter uppercase italic">Signal_Stable</div>
-            <div className="font-mono text-[8px] text-zinc-600 uppercase tracking-widest font-bold">Latency: 24ms</div>
-          </div>
         </div>
       </div>
     </div>

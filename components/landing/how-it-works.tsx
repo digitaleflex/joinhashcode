@@ -33,7 +33,7 @@ export function HowItWorks() {
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-mono text-[10px] font-black uppercase tracking-widest text-primary">
-              Protocole d'embarquement
+              Comment ça marche
             </span>
           </div>
           <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl uppercase italic leading-none">

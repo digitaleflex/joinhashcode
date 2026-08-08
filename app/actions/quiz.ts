@@ -3,10 +3,11 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "../../generated/prisma/client";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
 import { logActivity } from "@/lib/activity-log";
+import { invalidateUserCache } from "@/lib/user-cache";
 import { z } from "zod";
 import { questions } from "@/lib/questions";
 
@@ -202,6 +203,8 @@ export async function submitQuiz(rawData: unknown) {
         console.error("[QUIZ_SERVER_ACTION] Email send failure:", err)
       );
 
+    await invalidateUserCache(session.user.id);
+
     // Mock request object for activity logging in server actions
     const reqHeaders = await headers();
     const mockRequest = {
@@ -221,9 +224,6 @@ export async function submitQuiz(rawData: unknown) {
       },
       request: mockRequest,
     });
-
-    // Clear middleware cookie so the redirect funnel picks up the new class
-    try { (await cookies()).delete("hc_mw"); } catch { /* ignore */ }
 
     return {
       success: true,

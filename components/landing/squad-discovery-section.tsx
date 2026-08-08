@@ -44,16 +44,16 @@ export function SquadDiscoverySection() {
               Trouve ton <span className="text-primary underline decoration-4 underline-offset-8">unité</span>
             </h2>
             <p className="text-zinc-500 max-w-xl font-light text-sm md:text-base">
-                Ne bâtis pas seul. Rejoins une escouade d"élite, synchronise tes efforts et multiplie ton impact dans l"écosystème.
+              Ne bâtis pas seul. Rejoins une équipe, synchronise tes efforts et multiplie ton impact dans l'écosystème.
             </p>
           </div>
           
-          <div className="hidden lg:block p-6 rounded-3xl border border-dashed border-white/5 bg-white/1 text-center">
-             <div className="text-3xl font-black text-white/20 font-mono italic mb-1">{squads.length}+</div>
-             <p className="text-[8px] font-mono text-zinc-700 uppercase tracking-widest leading-relaxed">
-               Escouades_En_Expansion
-             </p>
-          </div>
+           <div className="hidden lg:block p-6 rounded-3xl border border-dashed border-white/5 bg-white/1 text-center">
+              <div className="text-3xl font-black text-white/20 font-mono italic mb-1">{squads.length}+</div>
+              <p className="text-[8px] font-mono text-zinc-700 uppercase tracking-widest leading-relaxed">
+                Équipes_En_Expansion
+              </p>
+            </div>
         </div>
 
         <motion.div 
@@ -66,10 +66,7 @@ export function SquadDiscoverySection() {
         </motion.div>
 
         <div className="mt-16 text-center">
-            <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-[0.3em]">
-                Authentification_Sécurisée // Collaboration_Décentralisée
-            </p>
-        </div>
+          </div>
       </div>
     </section>
   );

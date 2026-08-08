@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
+import { invalidateUserCache } from "@/lib/user-cache"
 
 const specializationSchema = z.object({
   primaryDomain: z.string().max(50),
@@ -44,6 +45,8 @@ export async function POST(req: Request) {
         specializationAt: new Date(),
       },
     })
+
+    await invalidateUserCache(session.user.id)
 
     return NextResponse.json({ success: true })
   } catch (error) {

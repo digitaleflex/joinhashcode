@@ -30,6 +30,10 @@ export default async function SpecializationPage() {
     redirect("/signin")
   }
 
+  if (user.primaryDomain) {
+    redirect("/dashboard")
+  }
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />

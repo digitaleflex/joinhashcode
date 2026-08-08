@@ -144,6 +144,15 @@ export default function OnboardingPage() {
     syncSession()
   }, [])
 
+  useEffect(() => {
+    if (!isSyncing && formData.currentSituation) {
+      const target = userClass ? "/dashboard" : "/quiz"
+      if (window.location.pathname === "/onboarding") {
+        router.replace(target)
+      }
+    }
+  }, [isSyncing, formData.currentSituation, userClass, router])
+
   const updateForm = (next: typeof formData) => {
     setFormData(next)
     try { localStorage.setItem(ONBOARDING_KEY, JSON.stringify(next)) } catch { /* ignore */ }

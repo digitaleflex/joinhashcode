@@ -19,8 +19,6 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
-  const isOnboardingPath = pathname.startsWith("/onboarding");
-  const isQuizPath = pathname.startsWith("/quiz");
 
   if (pathname.startsWith("/beta-access")) {
     return NextResponse.redirect(new URL("/onboarding", request.url));
@@ -96,6 +94,8 @@ export async function proxy(request: NextRequest) {
     const needsQuiz = user.currentSituation && !user.class;
     const needsSpecialization = user.class && !user.primaryDomain;
     const isSpecializationPath = pathname.startsWith("/specialization");
+    const isOnboardingPath = pathname.startsWith("/onboarding");
+    const isQuizPath = pathname.startsWith("/quiz");
 
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
       if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
@@ -104,6 +104,14 @@ export async function proxy(request: NextRequest) {
         nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       } else if (needsSpecialization && !isSpecializationPath && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/specialization", request.url));
+      }
+
+      if (isSpecializationPath && !needsSpecialization) {
+        nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
+      } else if (isOnboardingPath && !needsOnboarding) {
+        nextResponse = NextResponse.redirect(new URL(user.class ? "/quiz" : "/dashboard", request.url));
+      } else if (isQuizPath && !needsQuiz) {
+        nextResponse = NextResponse.redirect(new URL("/missions", request.url));
       }
     }
   }

@@ -50,6 +50,11 @@ vi.mock("../lib/activity-log", () => ({
   logActivity: vi.fn(),
 }));
 
+// Mock User Cache
+vi.mock("../lib/user-cache", () => ({
+  invalidateUserCache: vi.fn(() => Promise.resolve()),
+}));
+
 // Mock next/headers
 vi.mock("next/headers", () => ({
   headers: vi.fn(() => Promise.resolve(new Headers())),

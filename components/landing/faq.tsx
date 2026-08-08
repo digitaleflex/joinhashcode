@@ -7,23 +7,23 @@ import { Plus, Minus, HelpCircle } from "lucide-react"
 const faqs = [
   {
     question: "C'est quoi exactement HASHCODE ?",
-    answer: "HASHCODE est une infrastructure de progression pour Builders. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes (Guildes) où tu peux avoir un impact immédiat."
+    answer: "HASHCODE est une plateforme d'évolution pour les bâtisseurs tech. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes où tu peux avoir un impact immédiat."
   },
   {
-    question: "Comment fonctionne le diagnostic par l'action ?",
-    answer: "Contrairement aux tests classiques, HASHCODE utilise une boucle comportementale. Ton diagnostic initial (Quiz) n'est qu'une hypothèse. Elle est validée ou corrigée au fil de tes soumissions de code et de tes interactions dans le système."
+    question: "Comment fonctionne le diagnostic ?",
+    answer: "Contrairement aux tests classiques, HASHCODE observe tes actions réelles pour affiner ton profil. Ton résultat initial n'est qu'un point de départ. Il se précise au fil de tes missions et de tes interactions."
   },
   {
     question: "Est-ce que l'accès est gratuit ?",
-    answer: "L'accès à l'évaluation et aux premières missions de validation est gratuit. Les accès aux Guildes Elite et aux ressources avancées dépendent de ton niveau d'évolution (INIT, CORE, PRO, ELITE) et de ta contribution au réseau."
+    answer: "L'accès à l'évaluation et aux premières missions est gratuit. Les accès aux ressources avancées dépendent de ton niveau d'évolution et de ta contribution au réseau."
   },
   {
     question: "Quels sont les prérequis techniques ?",
-    answer: "HASHCODE s'adresse à ceux qui veulent construire. Que tu sois débutant (INIT) ou expert (ELITE), le système s'adapte. Nous mettons l'accent sur la stack moderne : Next.js, AI Agents, Cloud Infrastructure et Product Design."
+    answer: "HASHCODE s'adresse à ceux qui veulent construire. Que tu sois débutant ou expert, le système s'adapte. Nous mettons l'accent sur la stack moderne : Next.js, AI Agents, Cloud Infrastructure et Product Design."
   },
   {
-    question: "Puis-je changer de 'Classe' plus tard ?",
-    answer: "Absolument. Ton 'Profile Drift' mesure justement tes changements de direction. Si tu commences comme Builder mais que tes actions montrent des capacités de Stratège, le système te proposera naturellement une transition de classe."
+    question: "Puis-je changer de profil plus tard ?",
+    answer: "Absolument. Ton profil peut évoluer. Si tu commences comme Builder mais que tes actions montrent des capacités de Stratège, le système te proposera naturellement une transition."
   }
 ]
 
@@ -41,7 +41,7 @@ export function Faq() {
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-mono text-[10px] font-black uppercase tracking-widest text-primary">
-              System_FAQ
+              Questions fréquentes
             </span>
           </div>
           <h2 className="text-3xl font-black tracking-tight text-white sm:text-5xl uppercase italic leading-none">
