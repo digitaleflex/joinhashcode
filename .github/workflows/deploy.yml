@@ -101,7 +101,8 @@ jobs:
               echo "ERROR: staged build missing at $STAGE"
               exit 1
             fi
-            # Copier chaque artifact à sa place
+            # Copier chaque artifact à sa place (écrase les précédents)
+            rm -rf "$APP_DIR/.next" "$APP_DIR/prisma" "$APP_DIR/generated" "$APP_DIR/public"
             cp -r "$STAGE/.next" "$APP_DIR/.next"
             cp -r "$STAGE/prisma" "$APP_DIR/prisma"
             cp -r "$STAGE/generated" "$APP_DIR/generated"
