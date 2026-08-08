@@ -82,6 +82,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: artifact
           target: /tmp/hashcode-deploy
+          timeout: 5m
+          command_timeout: 15m
 
       - name: Install build on VPS & restart
         uses: appleboy/ssh-action@v1.0.3
