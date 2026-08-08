@@ -160,8 +160,6 @@ export const auth = betterAuth({
       enabled: true,
     },
     additionalFields: {
-      level: { type: "number", required: true, defaultValue: 1 },
-      experience: { type: "number", required: true, defaultValue: 0 },
       class: { type: "string", required: false },
       role: { type: "string", required: true, defaultValue: "MEMBER" },
       pseudo: { type: "string", required: false },
@@ -171,7 +169,6 @@ export const auth = betterAuth({
       currentSituation: { type: "string", required: false },
       technicalLevel: { type: "string", required: false },
       mainObjective: { type: "string", required: false },
-      missionsCompletedCount: { type: "number", required: true, defaultValue: 0 },
       betaKeyId: { type: "string", required: false },
     },
   },

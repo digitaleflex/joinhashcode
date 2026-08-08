@@ -41,6 +41,7 @@ model User {
   certifications       String[]   @default([])
   specializationAt     DateTime?
   memberNumber         Int       @unique @default(autoincrement())
+  banned               Boolean?  @default(false)
   banReason            String?
   banExpires           DateTime?
   deactivatedAt        DateTime? @map("deactivated_at")
