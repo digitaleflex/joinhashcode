@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  build:
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
@@ -18,12 +18,17 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Build with env
+      - name: Build with production env
         run: |
           set -a
-          source /home/actions-runner/secrets/.env.production
+          echo "$PRODUCTION_ENV" > .env.production
+          source .env.production
           set +a
           pnpm run build
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET || 'ci-dummy-secret-32chars-minimum' }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL || 'http://localhost:3000' }}
 
       - name: Verify standalone output
         run: |
@@ -33,14 +38,89 @@ jobs:
             exit 1
           fi
           echo "Standalone output found: $(du -sh .next/standalone/ | cut -f1)"
-          ls -la .next/standalone/
 
-      - name: Build Docker image
-        run: docker build --no-cache -t hashcode-web:latest .
-
-      - name: Restart web container
+      - name: Wire standalone asset symlinks
         run: |
-          docker rm -f hashcode-web 2>/dev/null || true
-          docker compose -f compose.app.yml \
-            --env-file /home/actions-runner/secrets/.env.production \
-            up -d web --force-recreate
+          ln -sfn ../../static .next/standalone/.next/static
+          ln -sfn ../../public .next/standalone/public
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            .next/standalone/
+            .next/static/
+            prisma/
+            generated/
+            public/
+            Dockerfile
+            prisma.config.ts
+            compose.app.yml
+          retention-days: 1
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./artifact
+
+      - name: Deploy build to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: artifact
+          target: /tmp/hashcode-deploy
+
+      - name: Install build on VPS & restart
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 10m
+          script: |
+            set -e
+            APP_DIR="/home/audest/hashcode-community"
+            STAGE="/tmp/hashcode-deploy/artifact"
+            if [ ! -d "$APP_DIR" ]; then
+              echo "ERROR: app dir $APP_DIR missing"
+              exit 1
+            fi
+            if [ ! -d "$STAGE" ]; then
+              echo "ERROR: staged build missing at $STAGE"
+              exit 1
+            fi
+            # Copier chaque artifact à sa place
+            cp -r "$STAGE/.next" "$APP_DIR/.next"
+            cp -r "$STAGE/prisma" "$APP_DIR/prisma"
+            cp -r "$STAGE/generated" "$APP_DIR/generated"
+            cp -r "$STAGE/public" "$APP_DIR/public"
+            cp "$STAGE/Dockerfile" "$APP_DIR/Dockerfile" 2>/dev/null || true
+            cp "$STAGE/prisma.config.ts" "$APP_DIR/prisma.config.ts" 2>/dev/null || true
+            cp "$STAGE/compose.app.yml" "$APP_DIR/compose.app.yml" 2>/dev/null || true
+            # Recréer les symlinks (le SCP écrasé par copie)
+            ln -sfn ../../static "$APP_DIR/.next/standalone/.next/static"
+            ln -sfn ../../public "$APP_DIR/.next/standalone/public"
+            cd "$APP_DIR"
+            docker rm -f hashcode-web 2>/dev/null || true
+            docker compose -f compose.app.yml \
+              --env-file /home/actions-runner/secrets/.env.production \
+              up -d web --force-recreate
+            sleep 12
+            HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' hashcode-web 2>/dev/null || echo '"unknown"')
+            echo "Health: $HEALTH"
+            if [ "$HEALTH" != '"healthy"' ]; then
+              docker logs hashcode-web --tail 50 || true
+              exit 1
+            fi
