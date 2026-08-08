@@ -88,7 +88,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                       {mission.type === "BUSINESS" && "Focus : Stratégie de marché et croissance."}
                       {mission.type === "NETWORK" && "Focus : Collaboration et engagement communautaire."}
                       {mission.type === "INTRO" && "Focus : Ton premier pas dans l'écosystème."}
-                      {!["CODE", "DESIGN", "BUSINESS", "NETWORK", "INTRO"].includes(mission.type ?? "") && "Mission polyvalente combinant plusieurs vecteurs."}
+                      {!["CODE", "DESIGN", "BUSINESS", "NETWORK", "INTRO"].includes(mission.type ?? "") && "Mission polyvalente combinant plusieurs domaines."}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

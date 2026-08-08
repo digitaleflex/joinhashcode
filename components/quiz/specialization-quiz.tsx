@@ -36,7 +36,7 @@ const CYBERSEC_SUBDOMAINS: SubDomainOption[] = [
   { value: "offensive", label: "Offensif (Red Team)", description: "Tests d'intrusion, exploitation de vulnérabilités" },
   { value: "defensive", label: "Défensif (Blue Team)", description: "Surveillance, réponse aux incidents" },
   { value: "appsec", label: "AppSec", description: "Sécurité des applications, code review" },
-  { value: "crypto", label: "Cryptographie", description: "Chiffrement, protocoles, analysis" },
+  { value: "crypto", label: "Cryptographie", description: "Chiffrement, protocoles, analyse" },
 ]
 
 const WEB_SUBDOMAINS: SubDomainOption[] = [

@@ -91,7 +91,7 @@ export function GuideClient() {
             Guide de <span className="text-primary">l&apos;Utilisateur</span>
           </h1>
           <p className="text-zinc-500 text-sm font-light">
-            Décodez les protocoles, maximisez vos synergies cognitives et maîtrisez l&apos;ascension HASHCODE.
+            Décode les règles du jeu, maximise tes synergies et maîtrise l&apos;ascension HASHCODE.
           </p>
         </div>
       </div>

@@ -252,7 +252,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
             <RefreshCw className="size-4 text-emerald-500" /> Recalibrage de profil
           </h3>
           <p className="text-zinc-500 text-xs font-light mt-1">
-            Repassez le quiz de diagnostic pour recalibrer vos scores comportementaux de départ.
+            Repasse le quiz pour mettre à jour ton profil initial.
           </p>
         </div>
 
@@ -284,7 +284,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
                       RECALIBRAGE VERROUILLÉ
                     </span>
                     <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                      Vous avez déjà passé le quiz de diagnostic. Pour stabiliser votre intégration d'escouade et privilégier l'évolution par l'action, vous devez attendre le délai de 14 jours entre chaque quiz.
+                      Vous avez déjà passé le quiz. Pour garantir la stabilité de ton équipe et privilégier l'évolution par l'action, un délai de 14 jours est requis entre chaque tentative.
                     </p>
                     {quizStatus?.nextAvailableDate && (
                       <p className="text-[10px] font-mono text-zinc-500">

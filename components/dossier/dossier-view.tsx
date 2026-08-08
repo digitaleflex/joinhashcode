@@ -353,7 +353,7 @@ export function DossierView({
                             <div className="grid grid-cols-1 gap-3">
                                 {[
                                     { k: "Vitalité", v: "Force de ton signal. Dépend de ta régularité quotidienne." },
-                                    { k: "Alignement", v: "Précision de ta trajectoire. Un écart (Drift) est une opportunité de recalibrer tes ambitions." },
+                                     { k: "Alignement", v: "Précision de ta trajectoire. Un écart est une opportunité d'ajuster tes ambitions." },
                                     { k: "Confiance", v: "Niveau de certitude du système sur tes capacités techniques." }
                                 ].map((item) => (
                                     <div key={item.k} className="text-[9px] font-mono flex gap-2 items-start">

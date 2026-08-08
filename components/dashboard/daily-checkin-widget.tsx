@@ -110,10 +110,10 @@ export function DailyCheckinWidget({
         <div className="space-y-1 mb-6">
           <div className="flex items-center gap-2 mb-1">
             <div className="size-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Synchronisation Globale</span>
+            <span className="text-[10px] font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">Neural Check-in</h2>
-          <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta synchronisation.</p>
+          <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta progression.</p>
         </div>
       )}
       
@@ -257,13 +257,13 @@ export function DailyCheckinWidget({
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 mb-1">
               <div className="size-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">Ma Synchro</span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase">Mon Check-in</span>
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
             </CardTitle>
             <CardDescription className="text-zinc-400 text-sm font-light">
-              30 secondes pour ancrer tes progrès et maintenir ta synchronisation.
+              30 secondes pour ancrer tes progrès et maintenir ta progression.
             </CardDescription>
           </div>
           <Button

@@ -28,7 +28,7 @@ export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProp
     const shareUrl = referralCode ? `${baseUrl}/signin?ref=${referralCode}` : baseUrl
     
     const profileLabel = profileType.toUpperCase()
-    const shareText = `Je viens de découvrir mon profil tech sur HASHCODE : je suis un ${profileLabel} ! 🚀\n\n${userName} — rejoins-moi et découvre ton style de build.`
+    const shareText = `Je viens de découvrir mon profil tech sur HASHCODE : je suis un ${profileLabel} ! 🚀\n\n${userName} — rejoins-moi et découvre ton profil.`
 
     const copyLink = () => {
         navigator.clipboard.writeText(shareUrl)
@@ -56,7 +56,7 @@ export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProp
         <div className="space-y-6">
             <div className="flex items-center gap-3">
                 <div className="h-px flex-1 bg-white/5" />
-                <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-[0.3em]">Propager le signal</span>
+                <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-[0.3em]">Partager</span>
                 <div className="h-px flex-1 bg-white/5" />
             </div>
 
@@ -98,8 +98,8 @@ export function QuizShareButtons({ profileType, userName }: QuizShareButtonsProp
             </div>
             
             <p className="text-center text-[9px] font-mono text-zinc-600 uppercase tracking-tighter">
-                [ Protocol: Social_Amplification_V1 ]
-            </p>
+                Merci de partager HASHCODE
+              </p>
         </div>
     )
 }

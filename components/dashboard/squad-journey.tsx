@@ -132,7 +132,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
         const data = await res.json().catch(() => ({}))
         throw new Error(data.error || "Erreur lors de la création.")
       }
-      toast.success("Escouade créée — protocole initialisé !")
+      toast.success("Équipe créée — prête à accueillir des membres !")
       router.refresh()
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Erreur lors de la création.")
@@ -422,10 +422,10 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
             <DialogHeader className="space-y-3">
               <DialogTitle className="text-xl font-extrabold uppercase italic tracking-tight text-white flex items-center gap-2">
                 <Shield className="size-5 text-primary" />
-                Règles de Formation d&apos;Escouade
+                 Règles de Formation d&apos;Équipe
               </DialogTitle>
               <DialogDescription className="text-zinc-400 text-sm leading-relaxed">
-                Avant de lancer ton escouade et d&apos;activer le protocole initial, prends connaissance des directives d&apos;alignement collectif :
+                 Avant de lancer ton équipe, prends connaissance des règles d&apos;alignement collectif :
               </DialogDescription>
             </DialogHeader>
 

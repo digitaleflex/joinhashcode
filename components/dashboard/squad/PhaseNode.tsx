@@ -238,7 +238,7 @@ export function PhaseNode({
                     <Loader2 className="size-4 animate-spin" />
                   ) : (
                     <>
-                      Initialiser le protocole
+                       Créer l'équipe
                       <ChevronRight className="size-4 ml-2" />
                     </>
                   )}

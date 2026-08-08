@@ -85,7 +85,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
             </div>
             <div className="space-y-2">
               <h2 className="text-xl font-black font-mono text-white tracking-tighter uppercase italic">
-                Analyse_Biométrique_En_Cours
+                Analyse de ton profil
               </h2>
               <div className="flex justify-center gap-1">
                 {[0, 1, 2].map((i) => (
@@ -141,7 +141,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
                   className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold tracking-widest uppercase text-zinc-400"
                 >
                   <Cpu className="size-3" style={{ color }} />
-                  Signature Neurale Détectée
+                  Ton profil est prêt
                 </motion.div>
 
                 <motion.h1

@@ -32,7 +32,7 @@ function AnalyzingScreen() {
       <div className="absolute inset-0 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       
       <p className="text-[10px] font-mono uppercase text-primary/60 mb-12 relative">
-        [ PROCESSUS_DE_SYNCHRONISATION ]
+        [ ANALYSE_DE_TON_PROFIL ]
       </p>
 
       <div className="relative mb-12">
@@ -50,9 +50,9 @@ function AnalyzingScreen() {
         </h3>
       </div>
       <div className="h-6 flex items-center justify-center mb-12 relative">
-        <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">
-          Calcule de ton profil...
-        </p>
+          <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">
+            Calcul de ton profil...
+          </p>
       </div>
 
       <div className="w-full space-y-4 relative">
@@ -138,7 +138,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
           setQuizResultId(res.quizResultId);
           setIsFinished(true); // Mark as finished immediately upon successful sync
         } else if (res.status === 409) {
-          toast.info("Protocole déjà enregistré. Redirection vers le dashboard...");
+          toast.info("Résultat déjà enregistré. Redirection vers le tableau de bord...");
           setTimeout(() => window.location.href = "/dashboard", 2000);
           return; // Exit early to avoid showing empty ResultPage
         } else {
@@ -146,7 +146,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
         }
       } catch (error: unknown) {
         console.error("Failed to save results:", error)
-        toast.error(error instanceof Error ? error.message : "Le système n'a pas pu traiter tes vecteurs. Réessaie.");
+          toast.error(error instanceof Error ? error.message : "Le système n'a pas pu traiter tes réponses. Réessaie.");
       } finally {
         setIsSaving(false)
         setIsAnalyzing(false)
@@ -174,13 +174,13 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black text-primary uppercase tracking-widest">Protocole de Calibration Neurale</span>
+              <span className="text-[10px] font-mono font-black text-primary uppercase tracking-widest">Évaluation de Profil</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-white italic leading-[0.95]">
               Définis ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Identité de Build</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-md font-light">
-              Cette évaluation détermine ta classe initiale et calibre le flux de missions que tu recevras. Réponds avec sincérité technique.
+              Cette évaluation définit ta classe initiale et les missions qui te correspondent. Réponds avec sincérité.
             </p>
           </div>
 
@@ -368,12 +368,12 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
         
         <div className="flex flex-col items-end gap-1">
             <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
-              [ CRYPTO_LINK_SECURED ]
+              [ CONNEXION_SECURISEE ]
             </span>
             <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-wider">
-              HASHCODE_TERMINAL_V2
+              HASHCODE
             </span>
-        </div>
+          </div>
       </div>
     </div>
   )

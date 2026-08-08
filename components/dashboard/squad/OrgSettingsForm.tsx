@@ -131,7 +131,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
       </div>
 
       <Button type="submit" className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl" disabled={isPending}>
-        {isPending ? "Synchronisation..." : "Mettre à jour le protocole"}
+        {isPending ? "Enregistrement..." : "Mettre à jour les paramètres"}
       </Button>
 
       {/* Zone danger */}
