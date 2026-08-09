@@ -21,7 +21,7 @@ export async function requireSession() {
     where: { id: session.user.id },
     select: {
       deactivatedAt: true,
-      security: { select: { banned: true } },
+      banned: true,
     },
   });
 
@@ -29,7 +29,7 @@ export async function requireSession() {
     throw new AuthError("Compte désactivé", 403);
   }
 
-  if (user?.security?.banned) {
+  if (user?.banned) {
     throw new AuthError("Compte banni", 403);
   }
 

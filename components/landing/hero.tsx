@@ -35,7 +35,7 @@ export function Hero({
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden border-b border-white/5 bg-background pt-16 sm:pt-24 pb-16">
       {/* Clean Ambient Background */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[var(--z-base)]">
         <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 h-[300px] w-[400px] rounded-full bg-purple-500/5 blur-[100px]" />
       </div>
@@ -43,12 +43,12 @@ export function Hero({
       {/* Subtle Grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-20 z-10"
+        className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-20 z-[var(--z-content)]"
       />
 
       <div className="scanline"></div>
       
-      <div className="relative z-20 mx-auto w-full max-w-6xl px-4 py-8 sm:py-24 lg:px-8">
+      <div className="relative z-[var(--z-elevated)] mx-auto w-full max-w-6xl px-4 py-8 sm:py-24 lg:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
 
           {/* Eyebrow — human & welcoming */}
@@ -126,7 +126,7 @@ export function Hero({
                   return (
                     <div key={p.label} className="flex items-center gap-1.5">
                       <span className="h-1 w-1 rounded-full" style={{ backgroundColor: p.color }} />
-                      <span className="font-mono text-[8px] uppercase font-bold text-zinc-500">
+                      <span className="font-mono text-[10px] uppercase font-bold text-zinc-500">
                         {p.label}s: <span className="text-white">{count}</span>
                       </span>
                     </div>
@@ -147,7 +147,7 @@ export function Hero({
 
           {/* Meta */}
           <div
-            className="mt-6 flex items-center gap-4 font-mono text-[9px] font-bold text-zinc-700 tracking-tight"
+            className="mt-6 flex items-center gap-4 font-mono text-[10px] font-bold text-zinc-700 tracking-tight"
           >
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes chrono</span>

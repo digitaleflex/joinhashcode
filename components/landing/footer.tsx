@@ -25,7 +25,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <div className="size-2 rounded-full bg-emerald-500/50 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <span className="text-[9px] font-mono font-bold text-zinc-600 uppercase tracking-tighter">système_opérationnel_v1.1</span>
+              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-tighter">système_opérationnel_v1.1</span>
             </div>
           </div>
 
@@ -53,13 +53,13 @@ export function Footer() {
           {/* Technical Info / CTA */}
           <div className="bg-white/2 border border-white/5 rounded-2xl p-6 space-y-4">
             <div className="space-y-1">
-              <span className="text-[9px] font-mono text-primary font-black uppercase">HASHCODE</span>
+              <span className="text-[10px] font-mono text-primary font-black uppercase">HASHCODE</span>
               <p className="text-xs text-zinc-400 font-bold uppercase tracking-tight">Afrique & Diaspora Connectée</p>
             </div>
             <div className="h-px bg-white/5" />
             <div className="flex justify-between items-center">
-              <span className="text-[9px] font-mono text-zinc-600 font-bold">2026</span>
-              <span className="text-[9px] font-mono text-zinc-600 font-bold">v1.1</span>
+              <span className="text-[10px] font-mono text-zinc-600 font-bold">2026</span>
+              <span className="text-[10px] font-mono text-zinc-600 font-bold">v1.1</span>
             </div>
           </div>
         </div>

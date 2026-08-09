@@ -30,7 +30,6 @@ export async function updateUserEvolution(
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      confidenceScore: true,
     }
   });
 
@@ -49,7 +48,6 @@ export async function updateUserEvolution(
     strategist: currentVitality.strategist + (actionWeights.strategist || 0),
     catalyst: currentVitality.catalyst + (actionWeights.catalyst || 0),
   };
-  const newConfidence = Math.min((user.confidenceScore ?? 0.25) + confidenceGain, 1.0);
 
   await client.user.update({
     where: { id: userId },
@@ -59,7 +57,6 @@ export async function updateUserEvolution(
       creatorScore: { increment: actionWeights.creator || 0 },
       strategistScore: { increment: actionWeights.strategist || 0 },
       catalystScore: { increment: actionWeights.catalyst || 0 },
-      confidenceScore: newConfidence,
     }
   });
 }

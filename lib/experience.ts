@@ -53,15 +53,15 @@ export async function awardXp(
     // 3. Récupérer l'XP et le niveau actuels de l'utilisateur
     const user = await tx.user.findUnique({
       where: { id: userId },
-      include: { progress: { select: { experience: true, level: true } } },
+      select: { experience: true, level: true },
     });
 
     if (!user) {
       throw new Error(`Utilisateur introuvable : ${userId}`);
     }
 
-    const currentXp = user.progress?.experience ?? 0;
-    const currentLevel = user.progress?.level ?? 1;
+    const currentXp = user.experience ?? 0;
+    const currentLevel = user.level ?? 1;
     const nextXp = currentXp + finalAmount;
 
     const sortedLevels = Object.keys(XP_THRESHOLDS).map(Number).sort((a, b) => b - a);
@@ -78,24 +78,14 @@ export async function awardXp(
     const updatedUser = await tx.user.update({
       where: { id: userId },
       data: {
-        progress: {
-          upsert: {
-            create: {
-              experience: finalAmount,
-              level: nextLevel,
-            },
-            update: {
-              experience: { increment: finalAmount },
-              level: nextLevel,
-            },
-          },
-        },
+        experience: { increment: finalAmount },
+        level: nextLevel,
       },
       select: {
         id: true,
         name: true,
         email: true,
-        progress: { select: { level: true } },
+        level: true,
       },
     });
 

@@ -9,7 +9,7 @@ export function Vision() {
         className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/6 blur-[140px]"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div className="relative z-[var(--z-content)] mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="lg:col-span-7">

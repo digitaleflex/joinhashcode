@@ -50,8 +50,8 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
 
   return (
     <div className="w-full bg-zinc-950 border-y border-white/5 py-2 sm:py-3 overflow-hidden relative">
-      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-linear-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-linear-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-linear-to-r from-zinc-950 to-transparent z-[var(--z-content)] pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-linear-to-l from-zinc-950 to-transparent z-[var(--z-content)] pointer-events-none" />
 
       <div className="mx-auto max-w-6xl px-4 flex items-center gap-4 sm:gap-6">
         {/* Status */}

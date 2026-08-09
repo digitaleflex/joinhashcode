@@ -11,7 +11,7 @@ export function FinalCta() {
       {/* Background Decor */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-20" />
       
-      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-[var(--z-content)] mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
         <div
           className="space-y-8"
         >
@@ -50,19 +50,19 @@ export function FinalCta() {
           >
             <div className="flex flex-col items-center gap-2">
               <Shield className="size-5 text-zinc-600" />
-              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Accès Sécurisé</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Accès Sécurisé</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <Target className="size-5 text-zinc-600" />
-              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Objectifs Réels</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Objectifs Réels</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <Zap className="size-5 text-zinc-600" />
-              <span className="font-mono text-[9px] uppercase font-bold text-zinc-500 tracking-tighter">Impact Immédiat</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Impact Immédiat</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <Users className="size-5 text-indigo-400" />
-              <span className="font-mono text-[9px] uppercase font-bold text-indigo-400 tracking-tighter">Parrainage</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-indigo-400 tracking-tighter">Parrainage</span>
             </div>
           </div>
         </div>

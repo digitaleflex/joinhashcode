@@ -116,7 +116,6 @@ export interface UserProfile {
   experience: number;
   level: number;
   missionsCompletedCount: number;
-  confidenceScore: number;
   builderScore: number;
   creatorScore: number;
   strategistScore: number;

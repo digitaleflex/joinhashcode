@@ -36,7 +36,7 @@ export function Faq() {
       <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-primary/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-primary/3 blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-[var(--z-content)] mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />

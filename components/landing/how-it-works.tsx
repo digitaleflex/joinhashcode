@@ -27,7 +27,7 @@ export function HowItWorks() {
       {/* Subtle Background pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(197,244,65,0.05),transparent_50%)]" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-[var(--z-content)] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center mb-20">
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
@@ -54,7 +54,7 @@ export function HowItWorks() {
                 {step.n}
               </div>
 
-              <div className="flex items-center justify-between relative z-10">
+              <div className="flex items-center justify-between relative z-[var(--z-content)]">
                 <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
                   <step.icon className="h-6 w-6" />
                 </div>
@@ -63,7 +63,7 @@ export function HowItWorks() {
                 </span>
               </div>
 
-              <div className="space-y-3 relative z-10">
+              <div className="space-y-3 relative z-[var(--z-content)]">
                 <h3 className="text-xl font-black tracking-tight text-white uppercase italic">
                   {step.title}
                 </h3>

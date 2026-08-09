@@ -1,5 +1,6 @@
 import { questions } from "./questions";
 import { PROFILE_CONTENT } from "./profile-content";
+import { createBayesianProfileFromQuiz } from "./bayesian-profile";
 
 export type ProfileType = "builder" | "creator" | "strategist" | "catalyst";
 
@@ -42,6 +43,11 @@ export interface AnalysisResult {
   consistencyScore: number;
   suggestedChannels: Channel[];
   recommendedSpecializations: RecommendedSpecialization[];
+  bayesianState?: {
+    posterior: Record<ProfileType, number>;
+    uncertainty: number;
+    evidenceCount: number;
+  };
 }
 
 // Class display labels
@@ -205,6 +211,8 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
       })
     : fallback;
 
+  const bayesianState = createBayesianProfileFromQuiz(percentages);
+
   return {
     scores: counts,
     percentages,
@@ -216,5 +224,10 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     consistencyScore,
     suggestedChannels: channels,
     recommendedSpecializations,
+    bayesianState: {
+      posterior: bayesianState.posterior,
+      uncertainty: bayesianState.uncertainty,
+      evidenceCount: bayesianState.evidenceCount,
+    },
   };
 };
