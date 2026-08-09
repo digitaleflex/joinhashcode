@@ -8,7 +8,10 @@ export interface ExtendedUserForBadges {
   badges: string[];
   currentStreak: number;
   referralCount: number;
-  reviewsCount?: number;
+  reviewsCount: number;
+  createdAt: Date;
+  missionsWithoutRevisionCount: number;
+  exemplaryReviewCount: number;
   vibrancy: BehavioralVibrancy;
   squadId?: string | null;
 }
@@ -184,7 +187,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "Zéro Faute",
     description: "Compléter 5 missions sans aucune demande de révision.",
     rarity: "EPIC",
-    criteria: (_user) => false,
+    criteria: (user) => user.missionsWithoutRevisionCount >= 5,
   },
   {
     id: "MENTOR",
@@ -205,7 +208,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "L'Exemplaire",
     description: "Obtenir 5 fois le niveau de qualité 'EXEMPLARY'.",
     rarity: "LEGENDARY",
-    criteria: (_user) => false,
+    criteria: (user) => user.exemplaryReviewCount >= 5,
   },
 
   // --- SPÉCIAUX ---
@@ -214,7 +217,7 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     name: "Pionnier",
     description: "Membre de la phase Bêta.",
     rarity: "RARE",
-    criteria: (_user) => true,
+    criteria: (user) => user.createdAt <= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
   },
   {
     id: "SYNCHRO_GOLD",
@@ -233,8 +236,11 @@ export async function checkAndAwardBadges(userId: string) {
         id: true,
         badges: true,
         behavioralVibrancy: true,
-        progress: { select: { level: true, missionsCompletedCount: true } },
-        referral: { select: { referralCount: true } },
+        createdAt: true,
+        level: true,
+        missionsCompletedCount: true,
+        referralCount: true,
+        currentStreak: true,
       },
     });
 
@@ -243,14 +249,23 @@ export async function checkAndAwardBadges(userId: string) {
     const existingBadges = new Set(user.badges);
     const newBadges: string[] = [];
 
-    // Adapter user pour les critères
+    const [reviewsCount, missionsWithoutRevisionCount, exemplaryReviewCount] = await Promise.all([
+      prisma.missionReview.count({ where: { reviewerId: userId } }),
+      prisma.missionSubmission.count({ where: { userId, revisionCount: 0, status: "APPROVED" } }),
+      prisma.missionReview.count({ where: { submission: { userId }, qualityLevel: "EXEMPLARY" } }),
+    ]);
+
     const userWithStats: ExtendedUserForBadges = {
       id: user.id,
-      level: user.progress?.level ?? 1,
-      missionsCompletedCount: user.progress?.missionsCompletedCount ?? 0,
+      level: user.level ?? 1,
+      missionsCompletedCount: user.missionsCompletedCount ?? 0,
       badges: user.badges,
-      currentStreak: 0, // Sera implémenté avec engagementStats
-      referralCount: user.referral?.referralCount ?? 0,
+      currentStreak: user.currentStreak ?? 0,
+      referralCount: user.referralCount ?? 0,
+      reviewsCount,
+      createdAt: user.createdAt,
+      missionsWithoutRevisionCount,
+      exemplaryReviewCount,
       vibrancy: (user.behavioralVibrancy as unknown as BehavioralVibrancy) || {
         builder: 0,
         creator: 0,

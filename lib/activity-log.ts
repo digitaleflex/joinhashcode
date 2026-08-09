@@ -22,6 +22,7 @@ export type ActivityAction =
   | "SQUAD_INVITE_SENT"
   | "SQUAD_DISBANDED"
   | "SQUAD_OWNERSHIP_TRANSFERRED"
+  | "SQUAD_DECAY"
   // Missions
   | "MISSION_VIEWED"
   | "MISSION_CLAIMED"
@@ -29,6 +30,7 @@ export type ActivityAction =
   | "MISSION_APPROVED"
   | "MISSION_REJECTED"
   | "MISSION_REVISION_REQUESTED"
+  | "CLAIM_RELEASED"
   // Profile / settings
   | "PROFILE_UPDATED"
   | "CHECKIN_COMPLETED"

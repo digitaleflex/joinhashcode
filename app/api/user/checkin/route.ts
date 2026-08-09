@@ -5,6 +5,7 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 import { awardXp } from "@/lib/experience";
 import { checkinLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { safeAfter as after } from "@/lib/after";
+import { triggerNotification } from "@/lib/qstash";
 import { z } from "zod";
 import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
 
@@ -59,11 +60,12 @@ export async function POST(req: Request) {
         : successMessages[Math.floor(Math.random() * successMessages.length)];
 
     // 2. Process check-in transaction (ultra-courte + thread-safe)
+    let streakBroken = false;
     const checkin = await prisma.$transaction(async (tx) => {
-      // A. Lock user's engagement stats to serialize concurrent check-ins
+      // A. Lock user row to serialize concurrent check-ins
       await tx.$queryRaw`
-        SELECT "lastCheckinAt" FROM "engagement_stats" 
-        WHERE "userId" = ${session.user.id} 
+        SELECT "lastCheckinAt" FROM "user" 
+        WHERE "id" = ${session.user.id} 
         FOR UPDATE
       `;
 
@@ -75,7 +77,7 @@ export async function POST(req: Request) {
 
       if (lastCheckin) {
         const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
-        if (hoursSince < 20) {
+        if (hoursSince < 24) {
           throw new Error("COOLDOWN_ACTIVE");
         }
       }
@@ -91,18 +93,37 @@ export async function POST(req: Request) {
         },
       });
 
-      // D. Update user streak directement sur engagementStats (évite lock User)
-      await tx.engagementStats.upsert({
-        where: { userId: session.user.id },
-        create: {
-          userId: session.user.id,
-          lastCheckinAt: new Date(),
-          currentStreak: 1,
-        },
-        update: {
-          lastCheckinAt: new Date(),
-          currentStreak: { increment: 1 },
+      // D. Read current engagement stats for streak calculation
+      const currentStats = await tx.user.findUnique({
+        where: { id: session.user.id },
+        select: { lastCheckinAt: true, currentStreak: true, longestStreak: true },
+      });
+
+      const now = new Date();
+      let newStreak = 1;
+
+      if (currentStats?.lastCheckinAt) {
+        const hoursSince = (now.getTime() - currentStats.lastCheckinAt.getTime()) / (1000 * 60 * 60);
+        if (hoursSince > 24) {
+          streakBroken = true;
+          newStreak = 1;
+        } else {
+          newStreak = (currentStats.currentStreak ?? 0) + 1;
         }
+      } else {
+        newStreak = 1;
+      }
+
+      const newLongestStreak = Math.max(newStreak, currentStats?.longestStreak ?? 0);
+
+      // E. Update engagement stats on user
+      await tx.user.update({
+        where: { id: session.user.id },
+        data: {
+          lastCheckinAt: now,
+          currentStreak: newStreak,
+          longestStreak: newLongestStreak,
+        },
       });
 
       return created;
@@ -125,6 +146,17 @@ export async function POST(req: Request) {
         });
         if (membership) {
           await updateSquadCohesion(membership.organizationId, 0.02, session.user.id);
+        }
+
+        // Notify if streak was broken
+        if (streakBroken) {
+          await triggerNotification({
+            userId: session.user.id,
+            type: "STREAK_BROKEN",
+            title: "Série brisée",
+            message: "Tu as manqué un jour de check-in. Ta série a été remise à zéro. Reviens demain pour repartir !",
+            link: "/dashboard",
+          });
         }
       } catch (error) {
         console.error("🔴 [Checkin API Post-Tasks Error]", error);

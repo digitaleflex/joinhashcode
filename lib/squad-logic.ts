@@ -53,7 +53,6 @@ export async function updateSquadCohesion(
     }
 
     if (newScore === 1.0 && squad.cohesionScore < 1.0) {
-      await rewardSquadMembers(organizationId, "SYNCHRO_GOLD", 0);
       await notifySquadMembers(
         organizationId,
         "SQUAD_COHESION_MAX",
