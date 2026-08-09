@@ -237,7 +237,7 @@ const channelMap: Record<ProfileType, [Channel, Channel]> = { ... };
 export const CLASS_COLORS = PROFILE_COLORS;
 ```
 
-### I3 — URL hardcodée dans le middleware (middleware.ts)
+### I3 — URL hardcodée dans le middleware (proxy.ts)
 **Avant :** `fetch('http://127.0.0.1:3000/api/auth/middleware-session')` — ne fonctionnait pas en Docker/production.
 **Après :** reconstruction dynamique depuis le host de la requête.
 ```ts

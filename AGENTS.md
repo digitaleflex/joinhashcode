@@ -25,7 +25,7 @@ HASHCODE is a Next.js 15 App Router app for AI-driven tech talent profiling and 
 
 ### Routing & Middleware
 
-Route groups live under `/app`. The middleware at `middleware.ts` enforces a three-stage funnel:
+Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-stage funnel:
 
 1. No session → redirect to `/signin`
 2. Session but no `currentSituation` → redirect to `/onboarding`
@@ -136,7 +136,7 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 
 | File                                     | Purpose                                                      |
 | ---------------------------------------- | ------------------------------------------------------------ |
-| `middleware.ts`                          | Session guard, onboarding funnel, protected route list       |
+| `proxy.ts`                          | Session guard, onboarding funnel, protected route list       |
 | `lib/auth.ts`                            | Better Auth configuration                                    |
 | `lib/activity-log.ts`                    | Fire-and-forget activity logger — instrument new routes here |
 | `lib/squad-logic.ts`                     | Cohesion updates, streak logic, member notifications         |

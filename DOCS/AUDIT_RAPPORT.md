@@ -42,7 +42,7 @@ HashCode est un projet ambitieux avec une base technique solide : Next.js 16 App
 2. **466 warnings ESLint**, principalement `no-explicit-any`. Le typage n'est pas un outil de confiance.
 3. **Dépendances inutilisées en production** : `@better-auth/passkey`, `@fingerprintjs/fingerprintjs`, `@radix-ui/react-aspect-ratio`, `embla-carousel-react`, `vaul`, `zustand`, `react-day-picker`, etc. Cela allonge le bundle, les temps d'install et la surface d'attaque.
 4. **Test `__tests__/notifications-api.test.ts` échoue**. La route retourne 500 au lieu de 401 quand la DB n'est pas disponible. Cela masque potentiellement une mauvaise gestion d'erreur.
-5. **Middleware `middleware.ts` : bug en mode maintenance**. Les routes `/signin` et `/feedback` retournent un `NextResponse.json` 503 au lieu d'être redirigées vers `/maintenance`, ce qui casse le flux de connexion.
+5. **Middleware `proxy.ts` : bug en mode maintenance**. Les routes `/signin` et `/feedback` retournent un `NextResponse.json` 503 au lieu d'être redirigées vers `/maintenance`, ce qui casse le flux de connexion.
 6. **`as any` explicite dans `lib/auth.ts`** pour le plugin `organization`. Cela désactive le typage sur les rôles et permissions.
 7. **Layout global surchargé** (`app/layout.tsx`). `Noise`, `UXPollBanner`, `FloatingFeedbackButton`, `NextTopLoader`, `CookieBanner`, `ServiceWorkerRegister`, `AuthErrorToast`, `ImpersonationBanner` sont injectés sur chaque page. Cela crée de la distraction et des conflits.
 8. **Aucun lazy loading** repéré dans les composants lourds (quiz, dashboard, landing). Risque de Time-to-Interactive élevé.
@@ -65,7 +65,7 @@ HashCode est un projet ambitieux avec une base technique solide : Next.js 16 App
 
 1. **Supprimer les dépendances inutilisées** identifiées par knip.
 2. **Corriger le test `notifications-api.test.ts`** ou la route associée.
-3. **Corriger le bug maintenance mode** dans `middleware.ts`.
+3. **Corriger le bug maintenance mode** dans `proxy.ts`.
 4. **Remplacer `as any` dans `lib/auth.ts`** par un typage correct ou un cast justifié.
 5. **Supprimer `Noise`, `UXPollBanner`, `FloatingFeedbackButton` du layout** si non essentiels à la mission.
 6. **Réduire les templates email** à 5-6 templates essentiels.
@@ -211,7 +211,7 @@ D'après `knip` et la revue manuelle :
 
 **Problème** : `any` partout.
 
-**Recommandation** : Éliminer progressivement les `any` dans `lib/types.ts`, `lib/auth.ts`, `middleware.ts`.
+**Recommandation** : Éliminer progressivement les `any` dans `lib/types.ts`, `lib/auth.ts`, `proxy.ts`.
 
 **Impact** : Moins de bugs runtime, meilleure DX.
 
@@ -226,7 +226,7 @@ D'après `knip` et la revue manuelle :
 | ID | Description | Pourquoi | Impact | Temps estimé | Risque | Fichiers concernés |
 |----|-------------|----------|--------|--------------|--------|-------------------|
 | S1-1 | Corriger `__tests__/notifications-api.test.ts` | Éviter le faux 500, garantir auth | Sécurité, CI | 2h | 🟢 | `app/api/user/notifications/route.ts` |
-| S1-2 | Corriger le bug maintenance mode | `/signin` et `/feedback` redirigées correctement | UX, sécurité | 2h | 🟢 | `middleware.ts` |
+| S1-2 | Corriger le bug maintenance mode | `/signin` et `/feedback` redirigées correctement | UX, sécurité | 2h | 🟢 | `proxy.ts` |
 | S1-3 | Supprimer 10 dépendances inutilisées | Réduire bundle/node_modules | Perf, maintenance | 4h | 🟢 | `package.json` |
 | S1-4 | Fixer imports inutilisés et dead code léger | Nettoyer codebase | Code quality | 4h | 🟢 | multiples |
 | S1-5 | Remplacer `as any` dans `lib/auth.ts` organization | Type safety | Maintenabilité | 3h | 🟡 | `lib/auth.ts` |
@@ -265,7 +265,7 @@ D'après `knip` et la revue manuelle :
 
 | ID | Description | Pourquoi | Impact | Temps estimé | Risque | Fichiers concernés |
 |----|-------------|----------|--------|--------------|--------|-------------------|
-| S5-1 | Éliminer 50% des `any` | Type safety | Maintenabilité | 12h | 🟠 | `lib/types.ts`, `lib/auth.ts`, `middleware.ts` |
+| S5-1 | Éliminer 50% des `any` | Type safety | Maintenabilité | 12h | 🟠 | `lib/types.ts`, `lib/auth.ts`, `proxy.ts` |
 | S5-2 | Consolider helpers de dates | Éviter duplication | Code quality | 3h | 🟢 | `lib/` |
 | S5-3 | Audit des composants UI shadcn | Réduire bundle | Perf | 4h | 🟢 | `components/ui/` |
 | S5-4 | Réorganiser `app/api/` si pertinent | Réduire 56 routes | Architecture | 6h | 🟠 | `app/api/` |

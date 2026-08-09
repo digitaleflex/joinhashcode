@@ -99,7 +99,7 @@ Create the API that updates status, grants XP, and triggers the "Mission Validé
 ### Task 5: Security & Role Check
 
 **Files:**
-- Modify: `middleware.ts`
+- Modify: `proxy.ts`
 
 - [ ] **Step 1: Protect admin routes**
 
