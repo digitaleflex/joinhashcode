@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     class: { not: null },
     pseudo: { not: null },
     talentVisible: true,
-    progress: { missionsCompletedCount: { gte: 1 } },
+    missionsCompletedCount: { gte: 1 },
   }
 
   if (profile && ["builder", "creator", "strategist", "catalyst"].includes(profile)) {
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   if (minLevel) {
     const level = parseInt(minLevel, 10)
     if (!isNaN(level)) {
-      where.progress = { level: { gte: level } }
+      where.level = { gte: level }
     }
   }
 
@@ -38,11 +38,14 @@ export async function GET(request: Request) {
       country: true,
       city: true,
       tools: true,
-      socials: { select: { githubUrl: true, portfolioUrl: true, linkedinUrl: true } },
-      progress: { select: { level: true, missionsCompletedCount: true } },
+      githubUrl: true,
+      portfolioUrl: true,
+      linkedinUrl: true,
+      level: true,
+      missionsCompletedCount: true,
       profile: { select: { bio: true } },
     },
-    orderBy: [{ progress: { missionsCompletedCount: "desc" } }, { progress: { level: "desc" } }],
+    orderBy: [{ missionsCompletedCount: "desc" }, { level: "desc" }],
     take: 50,
   })
 
@@ -53,11 +56,11 @@ export async function GET(request: Request) {
     city: u.city,
     bio: u.profile?.bio,
     tools: u.tools ?? [],
-    level: u.progress?.level ?? 1,
-    missionsCompleted: u.progress?.missionsCompletedCount ?? 0,
-    githubUrl: u.socials?.githubUrl ?? null,
-    portfolioUrl: u.socials?.portfolioUrl ?? null,
-    linkedinUrl: u.socials?.linkedinUrl ?? null,
+    level: u.level ?? 1,
+    missionsCompleted: u.missionsCompletedCount ?? 0,
+    githubUrl: u.githubUrl ?? null,
+    portfolioUrl: u.portfolioUrl ?? null,
+    linkedinUrl: u.linkedinUrl ?? null,
   }))
 
   return NextResponse.json(talents, {

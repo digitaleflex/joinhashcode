@@ -37,10 +37,14 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       include: {
         mission: true,
         user: {
-          include: {
-            stats: true,
-            progress: true,
-          }
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            currentStreak: true,
+            experience: true,
+            level: true,
+          },
         }
       }
     });
@@ -57,14 +61,14 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       let xpAwarded = computeXp(submission.mission.xp, level);
 
       // Apply streak multiplier
-      const userStreak = submission.user.stats?.currentStreak || 0;
+      const userStreak = submission.user.currentStreak || 0;
       let multiplier = 1.0;
       if (userStreak >= 7) multiplier = 1.2;
       else if (userStreak >= 3) multiplier = 1.1;
       
       xpAwarded = Math.round(xpAwarded * multiplier);
 
-      const newXp = (submission.user.progress?.experience ?? 0) + xpAwarded;
+      const newXp = (submission.user.experience ?? 0) + xpAwarded;
 
       const missionWeights: BehavioralVitality = {
         builder: submission.mission.weightBuilder || 0,
@@ -88,15 +92,14 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
           // Attribution XP & progression pour le submitter
           const updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId);
 
-          await prisma.userProgress.upsert({
-            where: { userId: submission.userId },
-            create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
-            update: { missionsCompletedCount: { increment: 1 } },
+          await prisma.user.update({
+            where: { id: submission.userId },
+            data: { missionsCompletedCount: { increment: 1 } },
           });
 
           // Validation du passage de niveau
-          const submitterLevel = submission.user.progress?.level ?? 1;
-          const newLevel = updatedUser?.progress?.level ?? submitterLevel;
+          const submitterLevel = submission.user.level ?? 1;
+          const newLevel = updatedUser?.level ?? submitterLevel;
           const leveledUp = newLevel > submitterLevel;
 
           // Notifications
@@ -142,8 +145,8 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       });
 
       // Le client n'attend plus la résolution d'awardXp/emails pour obtenir la réponse
-      const submitterLevel = submission.user.progress?.level ?? 1;
-      const expectedNewXp = (submission.user.progress?.experience ?? 0) + xpAwarded;
+          const submitterLevel = submission.user.level ?? 1;
+          const expectedNewXp = (submission.user.experience ?? 0) + xpAwarded;
       // Approximation simple pour la réponse immédiate (le background effectue le calcul exact et persistant)
       const leveledUpApprox = expectedNewXp >= 100; 
 

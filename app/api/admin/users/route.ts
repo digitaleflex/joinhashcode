@@ -41,9 +41,9 @@ export async function GET(req: Request) {
     }
 
     if (status === "BANNED") {
-      where.security = { banned: true }
+      where.banned = true
     } else if (status === "ACTIVE") {
-      where.security = { banned: { not: true } }
+      where.banned = { not: true }
     }
 
     // Removed fraudLevel filters as fraudRiskScore is deleted
@@ -59,8 +59,9 @@ export async function GET(req: Request) {
           createdAt: true,
           image: true,
           class: true,
-          progress: { select: { level: true, experience: true } },
-          security: { select: { banned: true } },
+          level: true,
+          experience: true,
+          banned: true,
         },
         orderBy: { createdAt: "desc" },
         take: limit,
@@ -78,9 +79,9 @@ export async function GET(req: Request) {
       createdAt: u.createdAt,
       image: u.image,
       class: u.class,
-      level: u.progress?.level ?? 1,
-      experience: u.progress?.experience ?? 0,
-      banned: u.security?.banned ?? false,
+      level: u.level ?? 1,
+      experience: u.experience ?? 0,
+      banned: u.banned ?? false,
     }))
 
     return NextResponse.json({ users, total, page, limit })

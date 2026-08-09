@@ -38,7 +38,7 @@ export async function GET() {
             pseudo: true,
             image: true,
             class: true,
-            progress: { select: { level: true } },
+            level: true,
           }
         }
       }

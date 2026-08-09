@@ -40,7 +40,7 @@ export async function GET() {
 
     const safeUser: Record<string, unknown> = {
       id: user.id,
-      banned: user.security?.banned ?? false,
+      banned: user.banned ?? false,
       banExpires: user.banExpires,
       betaKeyId: user.beta?.betaKeyId ?? null,
       currentSituation: user.currentSituation,

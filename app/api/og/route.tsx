@@ -25,7 +25,7 @@ export async function GET(req: Request) {
         creatorScore: true,
         strategistScore: true,
         catalystScore: true,
-        progress: { select: { level: true } },
+        level: true,
       },
     });
 
@@ -93,7 +93,7 @@ export async function GET(req: Request) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ backgroundColor: '#C5F441', padding: '6px 12px', borderRadius: '8px', color: 'black', fontSize: '14px', fontWeight: '900' }}>
-                        LVL_{user.progress?.level ?? 1}
+                        LVL_{user.level ?? 1}
                     </div>
                     <div style={{ color: '#C5F441', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic' }}>
                         {profileLabel}

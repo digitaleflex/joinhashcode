@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { CLASS_COLORS, LEVEL_NAMES, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
+import { CLASS_COLORS, getLevelName, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
 
 export const runtime = "nodejs";
 
@@ -24,7 +24,8 @@ export async function GET(
       name: true,
       class: true,
       createdAt: true,
-      progress: { select: { level: true, experience: true } },
+      level: true,
+      experience: true,
     },
   });
 
@@ -33,9 +34,9 @@ export async function GET(
   }
 
   const accent = CLASS_COLORS[(user.class ?? "builder") as ProfileType] ?? "#B8FF3B";
-  const userLevel = user.progress?.level ?? 1;
-  const userXp = user.progress?.experience ?? 0;
-  const levelName = LEVEL_NAMES[userLevel] ?? "INIT";
+  const userLevel = user.level ?? 1;
+  const userXp = user.experience ?? 0;
+  const levelName = getLevelName(userLevel);
   const xpMax = XP_MAX[userLevel] ?? 100;
   const xpPct = Math.min(100, Math.round((userXp / xpMax) * 100));
   const pseudo = user.pseudo ?? user.name ?? "MEMBRE";

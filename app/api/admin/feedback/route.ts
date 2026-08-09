@@ -94,9 +94,8 @@ export const PATCH = withAdminAuth(async (req: Request) => {
               id: true,
               email: true,
               name: true,
-            },
-            include: {
-              progress: { select: { experience: true, level: true } },
+              experience: true,
+              level: true,
             },
           }
         }
@@ -104,9 +103,9 @@ export const PATCH = withAdminAuth(async (req: Request) => {
 
       // Gamification: Reward XP if moving to RESOLVED and wasn't already RESOLVED
       if (result.data.status === "RESOLVED" && currentFeedback.status !== "RESOLVED") {
-        const currentXp = feedback.user.progress?.experience ?? 0;
+        const currentXp = feedback.user.experience ?? 0;
         const newXp = currentXp + FEEDBACK_XP_REWARD;
-        let newLevel = feedback.user.progress?.level ?? 1;
+        let newLevel = feedback.user.level ?? 1;
         
         for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
           const levelNum = parseInt(levelStr);
@@ -121,10 +120,9 @@ export const PATCH = withAdminAuth(async (req: Request) => {
           catalyst: 0.1,
         };
 
-        await tx.userProgress.upsert({
-          where: { userId: feedback.userId },
-          create: { userId: feedback.userId, experience: newXp, level: newLevel },
-          update: { experience: newXp, level: newLevel },
+        await tx.user.update({
+          where: { id: feedback.userId },
+          data: { experience: newXp, level: newLevel },
         });
 
         await updateUserEvolution(feedback.userId, contributionWeights, 0.02, tx);

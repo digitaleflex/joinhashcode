@@ -33,9 +33,7 @@ export const GET = withAdminAuth(async (req: Request) => {
           id: true,
           name: true,
           email: true,
-        },
-        include: {
-          progress: { select: { level: true } },
+          level: true,
         },
       },
       mission: {
@@ -70,7 +68,7 @@ export const GET = withAdminAuth(async (req: Request) => {
         id: s.user.id,
         name: s.user.name,
         email: s.user.email,
-        level: s.user.progress?.level ?? 1,
+        level: s.user.level ?? 1,
       },
     }));
 
