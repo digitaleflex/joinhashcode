@@ -1,3 +1,5 @@
+// Next.js 15 Proxy middleware
+// File named proxy.ts per Next.js 15 convention; exported as `middleware`
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 

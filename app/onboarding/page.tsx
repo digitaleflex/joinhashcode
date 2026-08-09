@@ -272,21 +272,21 @@ export default function OnboardingPage() {
             {PHASES.map((phase, i) => (
               <span
                 key={phase.id}
-                className={`text-[9px] font-mono uppercase tracking-widest transition-colors ${
+                className={`text-[10px] font-mono uppercase tracking-widest transition-colors ${
                   i === currentPhaseIndex ? "text-primary" : "text-muted-foreground/40"
                 }`}
               >
                 {phase.id}
               </span>
             ))}
-            <span className="text-[9px] font-mono text-muted-foreground/60">
+            <span className="text-[10px] font-mono text-muted-foreground/60">
               {Math.min(step, totalInteractiveSteps)}/{totalInteractiveSteps}
             </span>
           </div>
         </div>
       )}
 
-      <div className="w-full max-w-2xl z-10 px-4 mt-10">
+      <div className="w-full max-w-2xl z-[var(--z-content)] px-4 mt-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -321,7 +321,7 @@ export default function OnboardingPage() {
                     <div key={item.label} className="p-3 rounded-2xl bg-white/2 border border-white/5 text-center space-y-1">
                       <div className="text-xl">{item.icon}</div>
                       <div className="text-[10px] font-bold text-white uppercase tracking-wide">{item.label}</div>
-                      <div className="text-[9px] text-zinc-500 leading-tight">{item.sub}</div>
+                      <div className="text-[10px] text-zinc-500 leading-tight">{item.sub}</div>
                     </div>
                   ))}
                 </div>
@@ -631,7 +631,7 @@ export default function OnboardingPage() {
 
         {/* Privacy note */}
         {step >= OnboardingStep.PSEUDO && step <= OnboardingStep.OBJECTIVE && (
-          <p className="mt-8 text-[9px] text-center text-muted-foreground/40 leading-relaxed max-w-sm mx-auto">
+          <p className="mt-8 text-xs text-center text-muted-foreground/40 leading-relaxed max-w-sm mx-auto">
             Tes réponses sont utilisées pour personnaliser ton expérience.{" "}
             <a href="/privacy" className="underline hover:text-primary transition-colors">Politique de confidentialité</a>
           </p>

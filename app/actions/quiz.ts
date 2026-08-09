@@ -16,12 +16,6 @@ const QuizSubmissionSchema = z.object({
   responseTimes: z.array(z.number()).optional(),
 });
 
-const GUILD_SLUG_MAP: Record<string, string> = {
-  builder: "builders",
-  creator: "creators",
-  strategist: "strategists",
-  catalyst: "catalysts",
-};
 
 export async function submitQuiz(rawData: unknown) {
   try {
@@ -46,7 +40,7 @@ export async function submitQuiz(rawData: unknown) {
     const { answers, responseTimes = [] } = result.data;
 
     // Fix SEC-017: Validate answers against the question bank
-    if (answers.length !== questions.length) {
+    if (answers.length > questions.length) {
       return {
         success: false,
         error: "Nombre de réponses incorrect.",
@@ -111,16 +105,6 @@ export async function submitQuiz(rawData: unknown) {
           )
         : 0;
 
-    // Determine target Guild
-    const guildSlug = GUILD_SLUG_MAP[analysis.primary];
-    if (!guildSlug) {
-      return {
-        success: false,
-        error: `Profil d'évolution comportementale invalide : ${analysis.primary}`,
-        status: 500,
-      };
-    }
-
     // Prisma Transaction for all writes to preserve database integrity
     const { quizResult } = await prisma.$transaction(async (tx) => {
       // 1. Create the quiz result
@@ -146,47 +130,10 @@ export async function submitQuiz(rawData: unknown) {
           creatorScore: analysis.scores.creator || 0,
           strategistScore: analysis.scores.strategist || 0,
           catalystScore: analysis.scores.catalyst || 0,
-          confidenceScore: 0.25,
-          progress: {
-            upsert: {
-              create: { level: analysis.level, experience: 0 },
-              update: { level: analysis.level },
-            }
-          }
+          confidenceScore: analysis.confidenceScore,
+          level: analysis.level,
+          experience: 0,
         },
-      });
-
-      // 3. Find the Guild
-      const guild = await tx.guild.findUnique({
-        where: { slug: guildSlug },
-      });
-
-      if (!guild) {
-        throw new Error(`La guilde [${guildSlug}] est introuvable.`);
-      }
-
-      // 4. Clean up other active guild memberships of profile classes (except the new one)
-      await tx.guildMember.deleteMany({
-        where: {
-          userId: session.user.id,
-          guildId: { not: guild.id },
-        },
-      });
-
-      // 5. Enroll the user in the Guild
-      await tx.guildMember.upsert({
-        where: {
-          userId_guildId: {
-            userId: session.user.id,
-            guildId: guild.id,
-          },
-        },
-        create: {
-          userId: session.user.id,
-          guildId: guild.id,
-          role: "MEMBER",
-        },
-        update: {}, // No change if already exists
       });
 
       return { quizResult: createdResult };
