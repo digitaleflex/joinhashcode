@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn, generatePassportId } from "@/lib/utils";
-import { CLASS_COLORS, LEVEL_NAMES, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
+import { CLASS_COLORS, getLevelName, XP_MAX, type ProfileType } from "@/lib/member-card-constants";
 
 interface MemberCardProps {
   userId: string;
@@ -17,7 +17,6 @@ interface MemberCardProps {
   createdAt: Date | string;
   className?: string;
   image?: string | null;
-  confidenceScore?: number;
   missionsCompleted?: number;
   tools?: string[];
   actions?: React.ReactNode;
@@ -33,7 +32,6 @@ export function MemberCard({
   createdAt,
   className,
   image,
-  confidenceScore = 0.25,
   missionsCompleted = 0,
   tools = [],
   actions,
@@ -41,7 +39,7 @@ export function MemberCard({
   const [copied, setCopied] = useState(false);
 
   const accent = CLASS_COLORS[(userClass ?? "builder") as ProfileType] ?? "#B8FF3B";
-  const levelName = LEVEL_NAMES[level] ?? "INIT";
+  const levelName = getLevelName(level);
   const xpMax = XP_MAX[level] ?? 100;
   const xpPct = Math.min(100, Math.round((experience / xpMax) * 100));
   const passportId = generatePassportId(memberNumber);
@@ -141,12 +139,6 @@ export function MemberCard({
                   <div className="flex items-baseline gap-1">
                     <span className="text-base font-black text-white">{missionsCompleted}</span>
                     <span className="text-[7px] font-bold text-zinc-500 uppercase">Missions</span>
-                  </div>
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-wide block">Trust_</span>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-base font-black" style={{ color: accent }}>{Math.round(confidenceScore * 100)}%</span>
                   </div>
                 </div>
                 <div className="hidden sm:block space-y-0.5 flex-1">

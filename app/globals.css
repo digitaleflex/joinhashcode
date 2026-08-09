@@ -11,6 +11,31 @@
  * Both pass WCAG AA contrast on their respective backgrounds.
  */
 :root {
+  /* ── Z-Index Scale (centralized) ─────────────────────────── */
+  /* Use arbitrary values like z-[var(--z-modal)] instead of hardcoded z-* classes. */
+  /* --z-base: 0          → background decorations, base content */
+  /* --z-content: 10      → page content above backgrounds */
+  /* --z-elevated: 20     → elevated cards, close buttons, decorative lines */
+  /* --z-header: 40       → sticky headers */
+  /* --z-ui: 50           → legacy UI layer (being migrated to semantic tiers below) */
+  /* --z-banner: 100      → alert banners */
+  /* --z-dropdown: 1000   → dropdowns, popovers, selects, tooltips, hover cards */
+  /* --z-sticky: 1100     → fixed sidebars, bottom nav, sticky panels */
+  /* --z-modal: 1200      → dialogs, sheets, modals, overlays */
+  /* --z-toast: 1300      → toasts, notifications */
+  /* --z-overlay: 1400    → global overlays */
+  --z-base: 0;
+  --z-content: 10;
+  --z-elevated: 20;
+  --z-header: 40;
+  --z-ui: 50;
+  --z-banner: 100;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-modal: 1200;
+  --z-toast: 1300;
+  --z-overlay: 1400;
+
   /* ── Core Palette (warm ivory) ─────────────────────────── */
   --background: oklch(0.965 0.006 85);        /* warm cream — easier on the eyes than pure white */
   --foreground: oklch(0.12 0.008 85);         /* near-black with warm tint */
@@ -176,69 +201,43 @@
 
 /* ── Light mode overrides for hardcoded dark utilities ──
    Components use bg-zinc-900, border-white/5, text-zinc-400 etc.
-   These overrides remap them in light mode via custom properties. */
+   Consolidated from ~50 selectors down to semantic groups. */
 :root:not(.dark) {
-  /* Card / surface backgrounds */
-  --card-dark: oklch(1 0 0);
-  --card-dark-hover: oklch(0.97 0 0);
-  --card-dark-border: oklch(0.87 0 0);
+  --surface-base: oklch(1 0 0);
+  --surface-raised: oklch(0.97 0 0);
   --surface-subtle: oklch(0.98 0 0);
-  --surface-elevated: oklch(1 0 0);
   --surface-overlay: oklch(0 0 0 / 0.04);
-
-  /* Text on light backgrounds — override zinc text utility visual */
-  --text-secondary-on-light: oklch(0.5 0 0);
-  --text-muted-on-light: oklch(0.65 0 0);
+  --text-secondary: oklch(0.5 0 0);
+  --text-tertiary: oklch(0.65 0 0);
 }
 
-/* ── Utility overrides for light mode ───────────────────── */
-/* The app heavily uses dark-hardcoded classes. These fix the most common ones. */
+/* ── Consolidated light-mode utility remapping ───────────────────── */
 
-/* Backgrounds */
+/* Backgrounds: dark zinc/black/white utilities → light surfaces */
+:root:not(.dark) [class*="bg-zinc-9"] { background-color: var(--surface-subtle) !important; }
 :root:not(.dark) [class*="bg-zinc-950"] { background-color: var(--sidebar) !important; }
-:root:not(.dark) [class*="bg-zinc-900/40"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-zinc-900/60"] { background-color: var(--card) !important; }
-:root:not(.dark) [class*="bg-zinc-900"] { background-color: var(--card) !important; }
-:root:not(.dark) [class*="bg-zinc-800"] { background-color: var(--muted) !important; }
-:root:not(.dark) [class*="bg-white/2"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-white/5"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-white/10"] { background-color: var(--muted) !important; }
-:root:not(.dark) [class*="bg-white/1"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-white/3"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-white/4"] { background-color: var(--card-dark-hover) !important; }
-:root:not(.dark) [class*="bg-white/[0.02"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-white/[0.03"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-black/40"] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-white/"],
+:root:not(.dark) [class*="bg-white/["] { background-color: var(--surface-subtle) !important; }
+:root:not(.dark) [class*="bg-black/40"],
 :root:not(.dark) [class*="bg-black/80"] { background-color: var(--surface-overlay) !important; }
 
-/* Borders */
-:root:not(.dark) [class*="border-white/"] { border-color: var(--card-dark-border) !important; }
-:root:not(.dark) [class*="border-white/[0.08"] { border-color: var(--border) !important; }
-:root:not(.dark) [class*="border-white/[0.06"] { border-color: var(--border) !important; }
-:root:not(.dark) [class*="border-zinc-800"] { border-color: var(--border) !important; }
+/* Borders: white/zinc border utilities → subtle light borders */
+:root:not(.dark) [class*="border-white/"],
+:root:not(.dark) [class*="border-zinc-8"] { border-color: var(--border) !important; }
 
-/* Text colors on dark surfaces -> map to muted/foreground */
-:root:not(.dark) [class*="text-zinc-700"] { color: var(--muted-foreground) !important; }
-:root:not(.dark) [class*="text-zinc-600"] { color: var(--muted-foreground) !important; }
-:root:not(.dark) [class*="text-zinc-500"] { color: var(--muted-foreground) !important; }
-:root:not(.dark) [class*="text-zinc-400"] { color: var(--muted-foreground) !important; }
-:root:not(.dark) [class*="text-white"]:not([class*="text-white/"]) { color: var(--foreground) !important; }
+/* Text: zinc/white text utilities → semantic light text */
+:root:not(.dark) [class*="text-zinc-"],
+:root:not(.dark) [class*="text-white"]:not([class*="text-white/"]) { color: var(--muted-foreground) !important; }
 
 /* Modal / dialog overlays */
 :root:not(.dark) [class*="bg-black/80"] { background-color: oklch(0 0 0 / 0.3) !important; }
-:root:not(.dark) .driver-popover-next-btn {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
-}
+:root:not(.dark) .driver-popover-next-btn { box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important; }
 
 /* Background gradient mesh overlay */
-:root:not(.dark) .bg-gradient-mesh {
-  opacity: 0.03;
-}
+:root:not(.dark) .bg-gradient-mesh { opacity: 0.03; }
 
 /* Scanline effect — hide in light mode */
-:root:not(.dark) .scanline {
-  display: none !important;
-}
+:root:not(.dark) .scanline { display: none !important; }
 
 /* Bottom nav in light mode */
 :root:not(.dark) .bottom-nav-glass {
@@ -250,17 +249,10 @@
 
 /* Dark placeholder text in inputs */
 :root:not(.dark) input::placeholder,
-:root:not(.dark) textarea::placeholder {
-  color: oklch(0.7 0 0) !important;
-}
-
-/* Dark elevated card variant (used in dashboard bento grid) */
-:root:not(.dark) [class*="bg-zinc-950"] { background-color: var(--sidebar) !important; }
+:root:not(.dark) textarea::placeholder { color: oklch(0.7 0 0) !important; }
 
 /* Radial gradient background decoration */
-:root:not(.dark) [class*="bg-\\[radial-gradient"] {
-  opacity: 0.3;
-}
+:root:not(.dark) [class*="bg-\\[radial-gradient"] { opacity: 0.3; }
 
 /* Badge variants in light mode */
 :root:not(.dark) [class*="bg-primary/10"] { background-color: var(--accent) !important; }
@@ -271,9 +263,7 @@
 /* Ambient glow decorations */
 :root:not(.dark) [class*="blur-\\[100px\\]"],
 :root:not(.dark) [class*="blur-\\[120px\\]"],
-:root:not(.dark) [class*="blur-\\[60px\\]"] {
-  opacity: 0.15 !important;
-}
+:root:not(.dark) [class*="blur-\\[60px\\]"] { opacity: 0.15 !important; }
 
 @layer base {
   * {
@@ -305,38 +295,17 @@
   .btn-primary-glow:hover {
     @apply shadow-[0_0_35px_rgba(197,244,65,0.4)] scale-[1.02] brightness-105;
   }
+  /* Component-level light-mode overrides — use CSS variables instead of hardcoded colors */
   :root:not(.dark) .btn-primary-glow {
-    @apply shadow-[0_2px_12px_rgba(0,0,0,0.08)];
-    background: var(--primary) !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
   }
   :root:not(.dark) .btn-primary-glow:hover {
-    @apply shadow-[0_4px_20px_rgba(0,0,0,0.12)] brightness-105;
-  }
-
-  /* Glassmorphism utility */
-  .glass-card {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
   }
   :root:not(.dark) .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-black/[0.06] shadow-[0_4px_24px_0_rgba(0,0,0,0.04)];
-  }
-
-  /* Cyberpunk Premium UI Facelift Classes */
-  .input-premium {
-    background: rgba(4, 4, 4, 0.45) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: white !important;
-    backdrop-filter: blur(8px) !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-  .input-premium:hover {
-    border-color: rgba(255, 255, 255, 0.15) !important;
-    background: rgba(4, 4, 4, 0.55) !important;
-  }
-  .input-premium:focus {
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 20px rgba(197, 244, 65, 0.15) !important;
-    background: rgba(4, 4, 4, 0.75) !important;
+    background-color: rgba(255,255,255,0.7) !important;
+    border-color: rgba(0,0,0,0.06) !important;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.04) !important;
   }
   :root:not(.dark) .input-premium {
     background: var(--background) !important;
@@ -349,38 +318,20 @@
   :root:not(.dark) .input-premium:focus {
     border-color: var(--primary) !important;
     box-shadow: 0 0 20px rgba(197, 244, 65, 0.15) !important;
-    background: var(--background) !important;
   }
-
-  /* Holographic Foil Sheen Animation */
-  .holographic-sheen {
-    position: relative;
+  :root:not(.dark) .holographic-sheen::after { display: none; }
+  :root:not(.dark) .hc-driver-popover {
+    background-color: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 4px 16px -4px rgba(0,0,0,0.08) !important;
   }
-  :root:not(.dark) .holographic-sheen::after {
-    display: none;
-  }
-  .holographic-sheen::after {
-    content: '';
-    position: absolute;
-    top: -150%;
-    left: -150%;
-    width: 300%;
-    height: 300%;
-    background: linear-gradient(
-      115deg,
-      transparent 35%,
-      rgba(255, 255, 255, 0.01) 38%,
-      rgba(255, 255, 255, 0.12) 43%,
-      rgba(197, 244, 65, 0.15) 45%,
-      rgba(34, 211, 238, 0.1) 47%,
-      rgba(255, 255, 255, 0.01) 52%,
-      transparent 55%
-    );
-    transform: rotate(-8deg);
-    animation: holo-sheen-sweep 8s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 8;
-    mix-blend-mode: color-dodge;
+  :root:not(.dark) .driver-popover-title { color: var(--foreground) !important; }
+  :root:not(.dark) .driver-popover-description { color: var(--muted-foreground) !important; }
+  :root:not(.dark) .custom-scrollbar { scrollbar-color: oklch(0.8 0 0) transparent; }
+  :root:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb { background: oklch(0.8 0 0); }
+  :root:not(.dark) .low-power .glass-card {
+    background: var(--muted) !important;
+    border-color: var(--border) !important;
   }
 
   @keyframes holo-sheen-sweep {
@@ -415,11 +366,6 @@
   padding: 1.5rem !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
 }
-:root:not(.dark) .hc-driver-popover {
-  background-color: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.08) !important;
-}
 
 .driver-popover-title {
   color: white !important;
@@ -429,17 +375,11 @@
   font-size: 1.25rem !important;
   margin-bottom: 0.5rem !important;
 }
-:root:not(.dark) .driver-popover-title {
-  color: var(--foreground) !important;
-}
 
 .driver-popover-description {
   color: oklch(0.7 0 0) !important;
   font-size: 0.875rem !important;
   line-height: 1.625 !important;
-}
-:root:not(.dark) .driver-popover-description {
-  color: var(--muted-foreground) !important;
 }
 
 .driver-popover-next-btn {
@@ -462,18 +402,12 @@
     scrollbar-width: thin;
     scrollbar-color: oklch(0.2 0 0) transparent;
   }
-  :root:not(.dark) .custom-scrollbar {
-    scrollbar-color: oklch(0.8 0 0) transparent;
-  }
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: oklch(0.2 0 0);
     border-radius: 10px;
-  }
-  :root:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: oklch(0.8 0 0);
   }
 
   /* Cyber Laser Sweep Animation */
@@ -502,7 +436,7 @@
     box-shadow: 0 0 12px 1px var(--laser-color, var(--primary));
     animation: laser-sweep 4s infinite linear;
     pointer-events: none;
-    z-index: 10;
+    z-index: var(--z-elevated);
   }
 
   /* Grid Drift background animation */
@@ -608,9 +542,6 @@
   .low-power .glass-card {
     @apply bg-zinc-900 border-white/10 shadow-none;
     backdrop-filter: none !important;
-  }
-  :root:not(.dark) .low-power .glass-card {
-    @apply bg-zinc-100 border-black/10;
   }
   .low-power .holographic-sheen::after {
     display: none !important;

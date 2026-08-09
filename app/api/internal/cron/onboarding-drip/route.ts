@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       const users = await prisma.user.findMany({
         where: {
           createdAt: { gte: step.window.start, lte: step.window.end },
-          security: { banned: { not: true } },
+          banned: { not: true },
           activityLogs: {
             none: { action: step.action }
           }
