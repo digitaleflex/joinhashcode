@@ -6,7 +6,7 @@ export default function OfflinePage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,244,65,0.03),transparent_50%)]" />
-      <div className="max-w-xl w-full text-center relative z-10">
+      <div className="max-w-xl w-full text-center relative z-[var(--z-content)]">
         <div className="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-zinc-900 border border-zinc-800">
           <WifiOff className="w-12 h-12 text-zinc-500" />
         </div>

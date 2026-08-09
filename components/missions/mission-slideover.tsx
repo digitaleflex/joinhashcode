@@ -70,7 +70,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
         className="w-full sm:max-w-lg bg-zinc-950 border-l border-white/5 overflow-y-auto scrollbar-none p-0"
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
+        <div className="sticky top-0 z-[var(--z-content)] bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2 flex-1 min-w-0">
               {/* Badges */}

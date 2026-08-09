@@ -1,11 +1,15 @@
 import { prisma } from "./prisma";
 
 const PROFILE_INCLUDE = {
-  socials: {
-    select: { githubUrl: true, linkedinUrl: true, twitterUrl: true, portfolioUrl: true },
-  },
-  stats: {
-    select: { currentStreak: true, longestStreak: true, lastCheckinAt: true, lastStreakDate: true },
+  select: {
+    githubUrl: true,
+    linkedinUrl: true,
+    twitterUrl: true,
+    portfolioUrl: true,
+    currentStreak: true,
+    longestStreak: true,
+    lastCheckinAt: true,
+    lastStreakDate: true,
   },
 } as const;
 
@@ -70,10 +74,14 @@ export async function collectUserData(userId: string) {
 
   const profile = raw ? {
     ...raw,
-    ...raw.socials,
-    ...raw.stats,
-    socials: undefined,
-    stats: undefined,
+    githubUrl: raw.githubUrl ?? null,
+    linkedinUrl: raw.linkedinUrl ?? null,
+    twitterUrl: raw.twitterUrl ?? null,
+    portfolioUrl: raw.portfolioUrl ?? null,
+    currentStreak: raw.currentStreak ?? 0,
+    longestStreak: raw.longestStreak ?? 0,
+    lastCheckinAt: raw.lastCheckinAt ?? null,
+    lastStreakDate: raw.lastStreakDate ?? null,
   } : null
 
   return {

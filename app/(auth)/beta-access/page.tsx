@@ -53,7 +53,7 @@ export default function BetaAccessPage() {
       <div className="absolute inset-0 bg-gradient-mesh opacity-30 pointer-events-none" />
       <div className="scanline opacity-10" />
 
-      <div className="w-full max-w-md space-y-8 relative z-10 animate-in fade-in zoom-in duration-700">
+      <div className="w-full max-w-md space-y-8 relative z-[var(--z-content)] animate-in fade-in zoom-in duration-700">
         <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Lock className="size-3 text-primary" />

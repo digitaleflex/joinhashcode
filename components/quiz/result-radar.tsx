@@ -58,7 +58,7 @@ export function ResultRadar({
         style={{ background: `${color}15` }}
       />
 
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative z-10 overflow-visible">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative z-[var(--z-content)] overflow-visible">
         {/* Grid Rings */}
         {[0.25, 0.5, 0.75, 1.0].map((scale) => (
           <circle

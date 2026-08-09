@@ -76,7 +76,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClient
             {/* Background Effects */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
 
-            <div className="mb-10 text-center space-y-4 relative z-10">
+            <div className="mb-10 text-center space-y-4 relative z-[var(--z-content)]">
                 <Image
                     src="/hashcodejoin.png"
                     alt="HASHCODE"
@@ -133,7 +133,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClient
                         <div className="flex justify-center -space-x-3">
                             {squad.members.map((m, i: number) => (
                                 <div key={i} className="relative group/avatar">
-                                    <div className="size-14 rounded-2xl border-2 border-zinc-950 bg-zinc-800 overflow-hidden shadow-xl transition-transform hover:-translate-y-1 hover:z-10 cursor-pointer">
+                                    <div className="size-14 rounded-2xl border-2 border-zinc-950 bg-zinc-800 overflow-hidden shadow-xl transition-transform hover:-translate-y-1 hover:z-[var(--z-content)] cursor-pointer">
                                             <Avatar className="h-full w-full">
                                                 <AvatarImage src={m.user.image || ""} />
                                                 <AvatarFallback className="bg-zinc-700 text-xs font-bold">
@@ -159,7 +159,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClient
                     {/* Mission Benefit Box */}
                     <div className="bg-primary/3 border border-primary/10 rounded-3xl p-5 text-center relative group/box overflow-hidden">
                         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover/box:opacity-100 transition-opacity duration-500" />
-                        <p className="text-xs text-zinc-300 leading-relaxed relative z-10 italic">
+                        <p className="text-xs text-zinc-300 leading-relaxed relative z-[var(--z-content)] italic">
                             &quot;Une équipe complète débloque <span className="text-white font-bold">100% des missions</span> et active les bonus d&apos;évolution collective.&quot;
                         </p>
                     </div>

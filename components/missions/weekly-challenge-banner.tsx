@@ -35,7 +35,7 @@ export function WeeklyChallengeBanner({ mission, isCompleted, daysLeft }: Weekly
       {/* Fond animé subtil */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(184,255,59,0.04),transparent_60%)] pointer-events-none" />
 
-      <div className="flex items-center justify-between gap-4 relative z-10">
+      <div className="flex items-center justify-between gap-4 relative z-[var(--z-content)]">
         <div className="flex items-center gap-4">
           {/* Icône */}
           <div className={cn(

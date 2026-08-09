@@ -4,17 +4,14 @@ import { formatRelativeTime } from "@/lib/dates"
 
 export default async function AdminFraudPage() {
   const [bannedUsers, suspiciousLogs] = await Promise.all([
-    prisma.userSecurity.findMany({
+    prisma.user.findMany({
       where: { banned: true },
       orderBy: { updatedAt: "desc" },
       take: 50,
-      include: {
-        user: {
-          select: {
-            id: true, name: true, email: true, pseudo: true,
-            progress: { select: { level: true } },
-          },
-        },
+      select: {
+        id: true, name: true, email: true, pseudo: true,
+        level: true,
+        updatedAt: true,
       },
     }),
     prisma.activityLog.findMany({
@@ -76,7 +73,7 @@ export default async function AdminFraudPage() {
         ) : (
           <div className="divide-y divide-white/5">
             {bannedUsers.map((sec) => {
-              const u = sec.user
+              const u = sec
               return (
               <div key={sec.id} className="flex items-center justify-between px-6 py-3.5 hover:bg-white/[0.015] transition-colors">
                 <div className="flex items-center gap-3 min-w-0">

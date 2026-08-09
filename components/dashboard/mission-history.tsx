@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { History, Calendar, CheckCircle2, Target } from "lucide-react"
 import { format, fr } from "@/lib/dates"
 import { cn } from "@/lib/utils"
+import { EmptyState } from "@/components/ui/empty-state"
 import Link from "next/link"
 import type { DetailedMissionSubmission } from "@/lib/types"
 
@@ -36,20 +37,21 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-2">
-          <div className="flex flex-col items-center justify-center py-10 gap-5 text-center">
-            <div className="p-4 rounded-2xl bg-white/2 border border-white/5">
-              <Target className="h-8 w-8 text-zinc-600" />
-            </div>
-            <div className="space-y-1.5">
-              <p className="text-sm font-bold text-zinc-400">Aucune mission complétée pour l&apos;instant</p>
-              <p className="text-[11px] text-zinc-600 font-mono max-w-xs">
+          <EmptyState
+            icon={Target}
+            title="Aucune mission complétée pour l'instant"
+            description={
+              <span className="text-[11px] text-zinc-600 font-mono max-w-xs">
                 Chaque mission approuvée apparaît ici. Commence par une mission INIT — elles sont conçues pour les débutants.
-              </p>
-            </div>
-            <Button asChild size="sm" className="btn-primary-glow h-10 rounded-xl font-bold text-xs uppercase tracking-wider">
-              <Link href="/missions">Voir les missions disponibles</Link>
-            </Button>
-          </div>
+              </span>
+            }
+            action={
+              <Button asChild size="sm" className="btn-primary-glow h-10 rounded-xl font-bold text-xs uppercase tracking-wider">
+                <Link href="/missions">Voir les missions disponibles</Link>
+              </Button>
+            }
+            className="py-10 gap-5"
+          />
         </CardContent>
       </Card>
     )

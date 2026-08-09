@@ -117,7 +117,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
                         <div className="absolute top-0 right-0 p-6 opacity-[0.05]">
                             <Target className="size-24" />
                         </div>
-                        <div className="space-y-6 relative z-10">
+                        <div className="space-y-6 relative z-[var(--z-content)]">
                             <div className="space-y-2">
                                 <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold normal-case tracking-wide">Diagnostic disponible</Badge>
                                 <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">Définissez votre spécialisation</h3>

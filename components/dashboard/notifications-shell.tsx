@@ -26,6 +26,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { EmptyState } from "@/components/ui/empty-state"
 import { Input } from "@/components/ui/input"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar"
@@ -225,7 +226,7 @@ export function NotificationsShell({
         <div className="scanline"></div>
         <UserTopBar user={user} squad={squad} memberRole={memberRole} />
 
-        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-8">
             
             {/* Header */}
@@ -465,15 +466,14 @@ export function NotificationsShell({
                         <Loader2 className="size-8 animate-spin text-primary" />
                         <span className="font-mono text-xs uppercase tracking-wider">Synchronisation des signaux...</span>
                       </div>
-                    ) : notifications.length === 0 ? (
-                      <div className="p-16 text-center text-sm text-zinc-500 flex flex-col items-center justify-center gap-4">
-                        <CheckCircle2 className="size-10 text-zinc-700" />
-                        <div>
-                          <p className="font-bold text-white text-base">Aucun signal trouvé.</p>
-                          <p className="text-xs text-zinc-500 mt-1">Tout est propre pour le moment dans cette boîte.</p>
-                        </div>
-                      </div>
-                    ) : (
+                     ) : notifications.length === 0 ? (
+                       <EmptyState
+                         icon={CheckCircle2}
+                         title="Aucun signal trouvé."
+                         description="Tout est propre pour le moment dans cette boîte."
+                         className="p-16"
+                       />
+                     ) : (
                       <AnimatePresence initial={false}>
                         {notifications.map((notif) => {
                           const Icon = iconMap[notif.type] || Info
@@ -566,7 +566,7 @@ export function NotificationsShell({
                               </div>
 
                               {/* Hover Actions (GitHub-style actions rapides à droite) */}
-                              <div className="opacity-0 group-hover/row:opacity-100 transition-opacity absolute right-4 top-1/2 -translate-y-1/2 bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/5 flex items-center gap-1 z-20">
+                              <div className="opacity-0 group-hover/row:opacity-100 transition-opacity absolute right-4 top-1/2 -translate-y-1/2 bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/5 flex items-center gap-1 z-[var(--z-elevated)]">
                                 
                                 <Button
                                   size="icon"

@@ -40,19 +40,12 @@ export default async function TalentsPage() {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      confidenceScore: true,
-      stats: {
-        select: {
-          lastCheckinAt: true,
-          currentStreak: true,
-        },
-      },
-      progress: {
-        select: { level: true, experience: true, missionsCompletedCount: true },
-      },
-      referral: {
-        select: { referralCount: true },
-      },
+      lastCheckinAt: true,
+      currentStreak: true,
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
+      referralCount: true,
       members: {
         include: {
           organization: true,
@@ -66,17 +59,16 @@ export default async function TalentsPage() {
   const sessionUser: UserProfile = {
     ...dbSessionUser,
     bio: dbSessionUser.profile?.bio,
-    level: dbSessionUser.progress?.level ?? 1,
-    experience: dbSessionUser.progress?.experience ?? 0,
-    missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
-    referralCount: dbSessionUser.referral?.referralCount ?? 0,
+    level: dbSessionUser.level ?? 1,
+    experience: dbSessionUser.experience ?? 0,
+    missionsCompletedCount: dbSessionUser.missionsCompletedCount ?? 0,
+    referralCount: dbSessionUser.referralCount ?? 0,
     builderScore: dbSessionUser.builderScore ?? 0,
     creatorScore: dbSessionUser.creatorScore ?? 0,
     strategistScore: dbSessionUser.strategistScore ?? 0,
     catalystScore: dbSessionUser.catalystScore ?? 0,
-    confidenceScore: dbSessionUser.confidenceScore ?? 0.25,
-    lastCheckin: dbSessionUser.stats?.lastCheckinAt ?? null,
-    currentStreak: dbSessionUser.stats?.currentStreak ?? 0,
+    lastCheckin: dbSessionUser.lastCheckinAt ?? null,
+    currentStreak: dbSessionUser.currentStreak ?? 0,
   }
 
   const activeOrg = dbSessionUser.members[0]?.organization ?? null
@@ -99,7 +91,8 @@ export default async function TalentsPage() {
                   creatorScore: true,
                   strategistScore: true,
                   catalystScore: true,
-                  progress: { select: { level: true, experience: true } },
+                  level: true,
+                  experience: true,
                 }
               }
             }
@@ -120,7 +113,7 @@ export default async function TalentsPage() {
       name: m.user.name,
       class: m.user.class,
       tools: m.user.tools ?? [],
-      level: m.user.progress?.level ?? 1,
+      level: m.user.level ?? 1,
       scores: {
         builderScore: m.user.builderScore,
         creatorScore: m.user.creatorScore,
@@ -133,7 +126,7 @@ export default async function TalentsPage() {
   // Fetch all active, non-banned users in the directory
   const talentsRaw = await prisma.user.findMany({
     where: {
-      OR: [{ security: null }, { security: { banned: { not: true } } }],
+      OR: [{ banned: { not: true } }, { banned: null }],
     },
     select: {
       id: true,
@@ -149,18 +142,20 @@ export default async function TalentsPage() {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      progress: { select: { level: true, experience: true } },
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
       members: { select: { id: true } },
     },
-    orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
+    orderBy: [{ experience: "desc" }, { level: "desc" }],
   })
 
   const talents = talentsRaw.map((t) => ({
     ...t,
     bio: t.profile?.bio ?? null,
     tools: t.tools ?? [],
-    level: t.progress?.level ?? 1,
-    experience: t.progress?.experience ?? 0,
+    level: t.level ?? 1,
+    experience: t.experience ?? 0,
     inSquad: t.members.length > 0,
   }))
 
@@ -176,7 +171,7 @@ export default async function TalentsPage() {
 
         <UserTopBar user={sessionUser} />
 
-        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <TalentsClient talents={talents} viewerSquad={viewerSquad} />
         </main>
       </SidebarInset>

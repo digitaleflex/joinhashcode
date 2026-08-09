@@ -65,7 +65,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="relative z-10 flex flex-col items-center gap-8"
+            className="relative z-[var(--z-content)] flex flex-col items-center gap-8"
           >
             <div className="relative">
               <motion.div
@@ -80,7 +80,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
                 initial={{ top: "-10%" }}
                 animate={{ top: "110%" }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-0 right-0 h-0.5 bg-primary/40 blur-sm z-20"
+                className="absolute left-0 right-0 h-0.5 bg-primary/40 blur-sm z-[var(--z-elevated)]"
               />
             </div>
             <div className="space-y-2">
@@ -106,7 +106,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="relative z-10 flex flex-col items-center w-full max-w-4xl"
+            className="relative z-[var(--z-content)] flex flex-col items-center w-full max-w-4xl"
           >
             {/* Holographic Aura */}
             <div

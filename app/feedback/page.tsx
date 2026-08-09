@@ -17,7 +17,7 @@ export default async function FeedbackPage() {
   let dbUser: {
     id: string; name: string; email: string; image: string | null;
     class: string | null; role: string;
-    progress: { level: number; experience: number } | null;
+    level: number; experience: number;
   } | null = null;
   let userSquad: { id: string } | null = null;
 
@@ -32,7 +32,8 @@ export default async function FeedbackPage() {
           image: true,
           class: true,
           role: true,
-          progress: { select: { level: true, experience: true } },
+          level: true,
+          experience: true,
         }
       }),
       prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),

@@ -77,7 +77,7 @@ export function SubmissionTimeline({ submission }: TimelineProps) {
           {steps.map((step, i) => (
             <div key={i} className="flex items-start gap-4 relative">
               <div className={cn(
-                "size-4 rounded-full border-2 shrink-0 flex items-center justify-center relative z-10 transition-all duration-500",
+                "size-4 rounded-full border-2 shrink-0 flex items-center justify-center relative z-[var(--z-content)] transition-all duration-500",
                 step.done ? `${step.color} border-transparent` : "bg-zinc-900 border-white/10",
                 step.active && "animate-pulse"
               )}>

@@ -40,19 +40,12 @@ export default async function GuidePage() {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      confidenceScore: true,
-      stats: {
-        select: {
-          lastCheckinAt: true,
-          currentStreak: true,
-        },
-      },
-      progress: {
-        select: { level: true, experience: true, missionsCompletedCount: true },
-      },
-      referral: {
-        select: { referralCount: true },
-      },
+      lastCheckinAt: true,
+      currentStreak: true,
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
+      referralCount: true,
       members: {
         include: {
           organization: true,
@@ -66,17 +59,16 @@ export default async function GuidePage() {
   const sessionUser: UserProfile = {
     ...dbSessionUser,
     bio: dbSessionUser.profile?.bio,
-    level: dbSessionUser.progress?.level ?? 1,
-    experience: dbSessionUser.progress?.experience ?? 0,
-    missionsCompletedCount: dbSessionUser.progress?.missionsCompletedCount ?? 0,
-    referralCount: dbSessionUser.referral?.referralCount ?? 0,
+    level: dbSessionUser.level ?? 1,
+    experience: dbSessionUser.experience ?? 0,
+    missionsCompletedCount: dbSessionUser.missionsCompletedCount ?? 0,
+    referralCount: dbSessionUser.referralCount ?? 0,
     builderScore: dbSessionUser.builderScore ?? 0,
     creatorScore: dbSessionUser.creatorScore ?? 0,
     strategistScore: dbSessionUser.strategistScore ?? 0,
     catalystScore: dbSessionUser.catalystScore ?? 0,
-    confidenceScore: dbSessionUser.confidenceScore ?? 0.25,
-    lastCheckin: dbSessionUser.stats?.lastCheckinAt ?? null,
-    currentStreak: dbSessionUser.stats?.currentStreak ?? 0,
+    lastCheckin: dbSessionUser.lastCheckinAt ?? null,
+    currentStreak: dbSessionUser.currentStreak ?? 0,
   }
 
   const activeOrg = dbSessionUser.members[0]?.organization ?? null
@@ -93,7 +85,7 @@ export default async function GuidePage() {
 
         <UserTopBar user={sessionUser} />
 
-        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <GuideClient />
         </main>
       </SidebarInset>

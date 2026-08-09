@@ -20,7 +20,7 @@ const getCachedSquadLeaderboardData = unstable_cache(
         members: {
           select: {
             id: true, role: true,
-            user: { select: { id: true, name: true, pseudo: true, image: true, class: true }, include: { progress: { select: { level: true, missionsCompletedCount: true } } } },
+            user: { select: { id: true, name: true, pseudo: true, image: true, class: true, level: true, missionsCompletedCount: true } },
           },
         },
       },
@@ -38,9 +38,9 @@ async function getLeaderboard() {
   return squads.map((s, i) => ({
     ...s,
     rank: i + 1,
-    totalMissions: s.members.reduce((acc, m) => acc + (m.user.progress?.missionsCompletedCount || 0), 0),
+    totalMissions: s.members.reduce((acc, m) => acc + (m.user.missionsCompletedCount || 0), 0),
     avgLevel: s.members.length
-      ? Math.round(s.members.reduce((acc, m) => acc + (m.user.progress?.level ?? 1), 0) / s.members.length * 10) / 10
+      ? Math.round(s.members.reduce((acc, m) => acc + (m.user.level ?? 1), 0) / s.members.length * 10) / 10
       : 0,
   }));
 }

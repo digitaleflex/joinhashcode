@@ -6,10 +6,11 @@ import {
 } from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { EmptyState } from "@/components/ui/empty-state"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserRowActions } from "./UserRowActions"
-import { Search, Loader2, Download, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, Loader2, Download, ChevronLeft, ChevronRight, Users } from "lucide-react"
 import { CLASS_COLORS, type ProfileType } from "@/lib/member-card-constants"
 import Link from "next/link"
 
@@ -178,13 +179,17 @@ export function UserManagementTable() {
                   </div>
                 </TableCell>
               </TableRow>
-            ) : users.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={8} className="h-64 text-center">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Aucun membre trouvé</span>
-                </TableCell>
-              </TableRow>
-            ) : (
+             ) : users.length === 0 ? (
+               <TableRow>
+                 <TableCell colSpan={8} className="h-64 text-center">
+                   <EmptyState
+                     icon={Users}
+                     title="Aucun membre trouvé"
+                     className="border-0 bg-transparent p-0 inline-flex"
+                   />
+                 </TableCell>
+               </TableRow>
+             ) : (
               users.map(user => {
                 const classColor = getColorForClass(user.class)
                 return (

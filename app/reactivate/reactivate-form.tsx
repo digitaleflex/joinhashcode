@@ -36,10 +36,10 @@ export function ReactivateForm() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-6 animate-grid-drift z-0" />
-      <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-amber-500/5 rounded-full blur-[130px] z-0" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-6 animate-grid-drift z-[var(--z-base)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-amber-500/5 rounded-full blur-[130px] z-[var(--z-base)]" />
 
-      <Card className="w-full max-w-md border border-white/8 glass-card relative z-10 shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm">
+      <Card className="w-full max-w-md border border-white/8 glass-card relative z-[var(--z-content)] shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm">
         <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-amber-500/50 to-transparent" />
 
         <CardHeader className="text-center space-y-2 pt-8 pb-6">

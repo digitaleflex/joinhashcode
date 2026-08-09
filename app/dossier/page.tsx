@@ -71,26 +71,13 @@ export default async function DossierPage({ searchParams }: PageProps) {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      confidenceScore: true,
-      stats: {
-        select: {
-          lastCheckinAt: true,
-          currentStreak: true,
-        }
-      },
-      progress: {
-        select: {
-          level: true,
-          experience: true,
-          missionsCompletedCount: true,
-        }
-      },
-      referral: {
-        select: {
-          referralCode: true,
-          referralCount: true,
-        }
-      },
+      lastCheckinAt: true,
+      currentStreak: true,
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
+      referralCode: true,
+      referralCount: true,
       quizResults: {
         orderBy: { createdAt: 'desc' },
         take: 1
@@ -112,16 +99,16 @@ export default async function DossierPage({ searchParams }: PageProps) {
             include: {
               members: {
                 include: {
-                  user: {
-                    select: {
-                      id: true,
-                      name: true,
-                      pseudo: true,
-                      image: true,
-                      class: true,
-                      progress: { select: { level: true } },
-                    }
-                  }
+                     user: {
+                       select: {
+                         id: true,
+                         name: true,
+                         pseudo: true,
+                         image: true,
+                         class: true,
+                         level: true,
+                       }
+                     }
                 }
               }
             }
@@ -141,18 +128,17 @@ export default async function DossierPage({ searchParams }: PageProps) {
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
     bio: dbUser.profile?.bio,
-    level: dbUser.progress?.level ?? 1,
-    experience: dbUser.progress?.experience ?? 0,
-    missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,
-    referralCode: dbUser.referral?.referralCode ?? null,
-    referralCount: dbUser.referral?.referralCount ?? 0,
-    builderScore: dbUser.builderScore ?? 0,
-    creatorScore: dbUser.creatorScore ?? 0,
-    strategistScore: dbUser.strategistScore ?? 0,
-    catalystScore: dbUser.catalystScore ?? 0,
-    confidenceScore: dbUser.confidenceScore ?? 0.25,
-    lastCheckin: dbUser.stats?.lastCheckinAt ?? null,
-    currentStreak: dbUser.stats?.currentStreak ?? 0,
+    level: dbUser.level ?? 1,
+    experience: dbUser.experience ?? 0,
+    missionsCompletedCount: dbUser.missionsCompletedCount ?? 0,
+    referralCode: dbUser.referralCode ?? null,
+    referralCount: dbUser.referralCount ?? 0,
+      builderScore: dbUser.builderScore ?? 0,
+      creatorScore: dbUser.creatorScore ?? 0,
+      strategistScore: dbUser.strategistScore ?? 0,
+      catalystScore: dbUser.catalystScore ?? 0,
+      lastCheckin: dbUser.lastCheckinAt ?? null,
+    currentStreak: dbUser.currentStreak ?? 0,
     missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,
   };
@@ -245,7 +231,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
 
         <UserTopBar user={user} />
         
-        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <DossierView 
             user={user}
             activeOrg={activeOrg}

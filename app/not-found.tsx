@@ -12,7 +12,7 @@ export default function NotFound() {
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" 
            style={{ backgroundImage: 'radial-gradient(#C5F441 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
 
-      <div className="max-w-xl w-full text-center relative z-10">
+      <div className="max-w-xl w-full text-center relative z-[var(--z-content)]">
         <div className="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-primary/10 border border-primary/20 rotate-12 animate-pulse">
           <Terminal className="w-12 h-12 text-primary -rotate-12" />
         </div>

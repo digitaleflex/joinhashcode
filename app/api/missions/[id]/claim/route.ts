@@ -27,7 +27,7 @@ export async function POST(
       }),
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { id: true, class: true, role: true, progress: { select: { level: true, missionsCompletedCount: true } } },
+        select: { id: true, class: true, role: true, level: true, missionsCompletedCount: true },
       }),
     ]);
 
@@ -52,8 +52,8 @@ export async function POST(
 
     const eligible = isEligibleReviewer({
       reviewerClass: reviewer.class,
-      reviewerLevel: reviewer.progress?.level ?? 1,
-      reviewerMissionsCompleted: reviewer.progress?.missionsCompletedCount ?? 0,
+      reviewerLevel: reviewer.level ?? 1,
+      reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
       reviewerId: reviewer.id,
       submissionUserId: submission.userId,
       missionTargetProfiles: submission.mission.targetProfiles,

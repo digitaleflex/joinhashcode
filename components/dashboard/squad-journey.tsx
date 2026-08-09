@@ -177,7 +177,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
         <div className="scanline" />
         <UserTopBar user={user} squad={squad} memberRole={memberRole} />
 
-        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
 
             {/* Page header */}

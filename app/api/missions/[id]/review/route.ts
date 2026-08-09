@@ -57,7 +57,7 @@ export async function POST(
 
     const submission = await prisma.missionSubmission.findUnique({
       where: { id: submissionId },
-      include: { mission: true, user: { include: { progress: { select: { level: true } } } } },
+      include: { mission: true, user: { select: { level: true, name: true, email: true } } },
     });
 
     if (!submission) return NextResponse.json({ message: "Soumission introuvable." }, { status: 404 });
@@ -180,10 +180,9 @@ export async function POST(
           // Attribution XP & progression pour le submitter
           const updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId);
           
-          await prisma.userProgress.upsert({
-            where: { userId: submission.userId },
-            create: { userId: submission.userId, missionsCompletedCount: 1, level: 1, experience: 0 },
-            update: { missionsCompletedCount: { increment: 1 } },
+          await prisma.user.update({
+            where: { id: submission.userId },
+            data: { missionsCompletedCount: { increment: 1 } },
           });
 
           // Attribution XP pour le reviewer
@@ -202,8 +201,8 @@ export async function POST(
           }
 
           // Notifications
-          const submitterLevel = submission.user.progress?.level ?? 1;
-          const newLevel = updatedSubmitterUser?.progress?.level ?? submitterLevel;
+          const submitterLevel = submission.user.level ?? 1;
+          const newLevel = updatedSubmitterUser?.level ?? submitterLevel;
           const didLevelUp = newLevel > submitterLevel;
 
           await triggerNotification({

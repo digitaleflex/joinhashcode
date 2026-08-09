@@ -39,7 +39,7 @@ export default async function SpecializationPage() {
       <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />
       <div className="scanline opacity-20" />
       <Nav />
-      <main className="flex-1 p-4 pt-24 md:pt-32 relative z-10">
+      <main className="flex-1 p-4 pt-24 md:pt-32 relative z-[var(--z-content)]">
         <div className="max-w-lg mx-auto text-center mb-8">
           <h1 className="text-2xl font-black uppercase tracking-tighter text-white">
             Spécialisation

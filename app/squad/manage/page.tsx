@@ -62,15 +62,19 @@ export default async function SquadManagePage() {
                 userId: true,
                 role: true,
                 user: {
-                  select: {
-                    id: true,
-                    name: true,
-                    pseudo: true,
-                    image: true,
-                    class: true,
-                    role: true,
-                    progress: { select: { level: true, missionsCompletedCount: true } },
-                  },
+    select: {
+                      id: true,
+                      name: true,
+                      pseudo: true,
+                      image: true,
+                      class: true,
+                      role: true,
+                      level: true,
+                      experience: true,
+                      missionsCompletedCount: true,
+                      referralCode: true,
+                      referredCount: true,
+                    },
                 },
               },
             },
@@ -124,7 +128,9 @@ export default async function SquadManagePage() {
       class: true,
       badges: true,
       role: true,
-      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+                     level: true,
+                     experience: true,
+                     missionsCompletedCount: true,
     },
   });
 
@@ -135,7 +141,7 @@ export default async function SquadManagePage() {
         <div className="scanline" />
         <UserTopBar user={dbUser ?? session.user} squad={squad} memberRole={memberRole} />
 
-        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
             
             {/* Header */}

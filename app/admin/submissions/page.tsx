@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Check, Loader2, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { EmptyState } from "@/components/ui/empty-state"
 import { toast } from "@/hooks/use-toast"
 import { SubmissionsTable } from "@/components/admin/submissions/submissions-table"
 import { ReviewPanel } from "@/components/admin/submissions/review-panel"
@@ -145,22 +146,16 @@ export default function AdminSubmissionsPage() {
           <p className="text-sm text-muted-foreground font-mono">Chargement des données neuronal...</p>
         </div>
       ) : submissions.length === 0 ? (
-        <div className="rounded-2xl border border-white/5 bg-zinc-900/40 p-12 text-center space-y-4">
-          <div className="h-12 w-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto">
-            <Check className="h-6 w-6 text-muted-foreground" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="font-medium">
-              {activeTab === "pending" ? "Aucune soumission en attente" : "Aucun historique"}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {activeTab === "pending" ? "Tout est à jour. Bon travail !" : "Pas encore de décisions enregistrées."}
-            </p>
-          </div>
-          <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-wider">
-            Actualiser
-          </Button>
-        </div>
+        <EmptyState
+          icon={Check}
+          title={activeTab === "pending" ? "Aucune soumission en attente" : "Aucun historique"}
+          description={activeTab === "pending" ? "Tout est à jour. Bon travail !" : "Pas encore de décisions enregistrées."}
+          action={
+            <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-wider">
+              Actualiser
+            </Button>
+          }
+        />
       ) : (
         <div className="space-y-6">
           <SubmissionsTable

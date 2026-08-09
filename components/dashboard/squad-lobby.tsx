@@ -83,12 +83,12 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 rounded-full blur-[160px] pointer-events-none transition-all duration-1000", glowColor)} />
 
             {/* In-app Invitations Center */}
-            <div className="max-w-xl mx-auto relative z-20">
+            <div className="max-w-xl mx-auto relative z-[var(--z-elevated)]">
                 <PendingInvitations />
             </div>
 
             {/* Header Lock Section */}
-            <div className="text-center space-y-4 relative z-10">
+            <div className="text-center space-y-4 relative z-[var(--z-content)]">
                 <div className="flex justify-center items-center gap-4">
                     <div className={cn(
                         "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-700",
@@ -157,7 +157,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             </div>
 
             {/* Squad Slots */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 relative z-10">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 relative z-[var(--z-content)]">
                 {slots.map((index) => {
                     const member = members[index]
                     const isActive = !!member
@@ -227,7 +227,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             </div>
 
             {/* Action Section */}
-            <div className="relative z-10">
+            <div className="relative z-[var(--z-content)]">
                 {!squad ? (
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
@@ -252,7 +252,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                     <div className="max-w-2xl mx-auto p-10 rounded-[2.5rem] border border-white/5 bg-zinc-900/40 backdrop-blur-md text-center space-y-8 shadow-2xl relative overflow-hidden">
                         <div className={cn("absolute inset-0 opacity-10", glowColor)} />
                         
-                        <div className="flex justify-center gap-3 relative z-10">
+                        <div className="flex justify-center gap-3 relative z-[var(--z-content)]">
                             {[...Array(5)].map((_, i) => (
                                 <Zap 
                                     key={i} 
@@ -264,7 +264,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                             ))}
                         </div>
 
-                    <div className="space-y-2 relative z-10">
+                    <div className="space-y-2 relative z-[var(--z-content)]">
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -319,7 +319,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                     </div>
 
                         {memberCount < 5 && (
-                            <div className="pt-4 relative z-10">
+                            <div className="pt-4 relative z-[var(--z-content)]">
                                 <Button 
                                     onClick={copyInvite}
                                     className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-bold uppercase tracking-wider text-[10px]"
@@ -333,7 +333,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             </div>
 
             {/* FOMO Section */}
-            <div className="text-center py-6 border-t border-white/5 opacity-50 relative z-10">
+            <div className="text-center py-6 border-t border-white/5 opacity-50 relative z-[var(--z-content)]">
                 <p className="text-[9px] font-mono text-zinc-600 uppercase">
                     Phase_Bêta_En_Cours // Écosystème_En_Expansion
                 </p>

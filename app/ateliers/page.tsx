@@ -30,7 +30,7 @@ export default async function AteliersPage() {
   const [user, userSquad] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, progress: { select: { level: true, experience: true } } },
+      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true },
     }),
     prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
   ])

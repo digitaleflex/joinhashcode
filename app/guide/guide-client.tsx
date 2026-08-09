@@ -100,7 +100,7 @@ export function GuideClient() {
       <div className="p-6 md:p-8 rounded-[2rem] bg-emerald-950/10 border border-emerald-500/10 relative overflow-hidden group">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.01)_1px,transparent_1px)] bg-size-[20px_20px] pointer-events-none" />
         <HudCorners className="border-emerald-500/25" />
-        <div className="space-y-4 relative z-10">
+        <div className="space-y-4 relative z-[var(--z-content)]">
           <span className="text-[9px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
             // MANIFESTE_DE_L_AGENT
           </span>
@@ -137,7 +137,7 @@ export function GuideClient() {
         </TabsList>
 
         {/* Sticky Section Navigation */}
-        <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 py-2 bg-zinc-950/90 backdrop-blur-xl border-b border-white/5 overflow-x-auto scrollbar-none">
+        <div className="sticky top-14 md:top-16 z-[var(--z-elevated)] -mx-4 px-4 py-2 bg-zinc-950/90 backdrop-blur-xl border-b border-white/5 overflow-x-auto scrollbar-none">
           <div className="flex gap-2 whitespace-nowrap">
             {TAB_SECTIONS[activeTab]?.map((section) => (
               <button

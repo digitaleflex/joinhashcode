@@ -53,7 +53,7 @@ export function PhaseNode({
       {/* Connector line + node icon */}
       <div className="flex flex-col items-center shrink-0">
         <div className={cn(
-          "size-12 md:size-14 rounded-2xl flex items-center justify-center border-2 z-10 transition-all duration-700 shrink-0",
+          "size-12 md:size-14 rounded-2xl flex items-center justify-center border-2 z-[var(--z-content)] transition-all duration-700 shrink-0",
           status === "completed" && "bg-primary/10 border-primary text-primary",
           status === "current" && "bg-primary/5 border-primary text-primary shadow-[0_0_25px_rgba(197,244,65,0.25)] animate-pulse",
           status === "locked" && "bg-zinc-900/40 border-white/5 text-zinc-800",

@@ -62,7 +62,7 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.2 }}
-              className="relative z-10 text-primary"
+              className="relative z-[var(--z-content)] text-primary"
             >
               {createElement(steps[step]?.icon || Cpu, { className: "size-10" })}
             </motion.div>

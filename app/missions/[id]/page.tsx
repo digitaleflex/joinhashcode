@@ -101,19 +101,15 @@ export default async function MissionBriefingPage({
     where: {
       id: { not: dbUser.id },
       class: { in: targets },
-      security: { banned: { not: true } },
+      banned: { not: true },
     },
     select: {
       id: true,
       pseudo: true,
       class: true,
-      socials: {
-        select: {
-          githubUrl: true,
-          linkedinUrl: true,
-          twitterUrl: true,
-        }
-      }
+      githubUrl: true,
+      linkedinUrl: true,
+      twitterUrl: true,
     },
     take: 3,
   })
@@ -122,9 +118,9 @@ export default async function MissionBriefingPage({
     id: p.id,
     pseudo: p.pseudo,
     class: p.class,
-    githubUrl: p.socials?.githubUrl ?? null,
-    linkedinUrl: p.socials?.linkedinUrl ?? null,
-    twitterUrl: p.socials?.twitterUrl ?? null,
+    githubUrl: p.githubUrl ?? null,
+    linkedinUrl: p.linkedinUrl ?? null,
+    twitterUrl: p.twitterUrl ?? null,
   }))
 
   const submission = dbUser.missionSubmissions[0]

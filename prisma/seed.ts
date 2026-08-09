@@ -20,32 +20,6 @@ const pool = new Pool({
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
-const GUILDS = [
-  {
-    slug: "builders",
-    name: "Guild des Builders",
-    description: "Les architectes du code. Développeurs, ingénieurs et bâtisseurs de produits techniques.",
-    requiredLevel: 1,
-  },
-  {
-    slug: "creators",
-    name: "Guild des Créateurs",
-    description: "Les artisans du visuel et du récit. Designers, vidéastes et créateurs de contenu.",
-    requiredLevel: 1,
-  },
-  {
-    slug: "strategists",
-    name: "Guild des Stratèges",
-    description: "Les architectes de la croissance. Business developers, product managers et growth hackers.",
-    requiredLevel: 1,
-  },
-  {
-    slug: "catalysts",
-    name: "Guild des Catalyseurs",
-    description: "Les connecteurs humains. Community managers, mentors et ambassadeurs du réseau.",
-    requiredLevel: 1,
-  },
-];
 
 // List of administrator emails to synchronize during deployment
 const ADMIN_EMAILS = [
@@ -147,24 +121,6 @@ async function main() {
     console.log(`  ✓ [WEEKLY] ${challenge.title} (slug: ${challenge.id})`);
   }
 
-  console.log("\n🏰 Upserting guilds...");
-  for (const guild of GUILDS) {
-    await prisma.guild.upsert({
-      where: { slug: guild.slug },
-      update: {
-        name: guild.name,
-        description: guild.description,
-        requiredLevel: guild.requiredLevel,
-      },
-      create: {
-        slug: guild.slug,
-        name: guild.name,
-        description: guild.description,
-        requiredLevel: guild.requiredLevel,
-      },
-    });
-    console.log(`  ✓ ${guild.name}`);
-  }
 
   console.log("\n🛡️ Synchronizing administrators...");
   for (const email of ADMIN_EMAILS) {
@@ -183,7 +139,6 @@ async function main() {
   console.log("\n✅ Seeding complete.");
   console.log(`   ${MISSIONS.length} missions processed`);
   console.log(`   ${WEEKLY_CHALLENGES.length} weekly challenges processed`);
-  console.log(`   ${GUILDS.length} guilds processed`);
   console.log(`   ${ADMIN_EMAILS.length} admin accounts checked`);
 }
 

@@ -136,7 +136,7 @@ export default function JoinTeamPage() {
       <div className="relative pt-24 sm:pt-32 pb-24 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] opacity-30" />
 
-        <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-[var(--z-content)] mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">

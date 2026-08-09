@@ -51,22 +51,32 @@ model User {
   creatorScore        Int     @default(0)
   strategistScore     Int     @default(0)
   catalystScore       Int     @default(0)
-  confidenceScore     Float   @default(0.25)
+
+  level               Int      @default(1)
+  experience          Int      @default(0)
+  missionsCompletedCount Int   @default(0)
+  currentStreak       Int      @default(0)
+  longestStreak       Int      @default(0)
+  lastCheckinAt       DateTime?
+  lastStreakDate      DateTime?
+  twoFactorEnabled    Boolean  @default(false)
+  twoFactorSecret     String?
+  referralCode        String?  @unique
+  referralCount       Int      @default(0)
+  referrerId          String?
+  githubUrl           String?
+  portfolioUrl        String?
+  linkedinUrl         String?
+  twitterUrl          String?
 
   // Relations spécialisées
-  socials              UserSocials?
-  stats                EngagementStats?
-  security             UserSecurity?
-  referral             UserReferral?
-  progress             UserProgress?
   beta                 UserBeta?
   profile              UserProfile?
   accounts             Account[]
   dailyCheckins        DailyCheckin[]
-  guildMembers         GuildMember[]
+
   missionSubmissions   MissionSubmission[] @relation("SubmissionOwner")
   submissionsInReview  MissionSubmission[] @relation("SubmissionReviewer")
-  canReviewProfiles    String[]            @default([])
   reviewsCompleted     Int                 @default(0)
   reviewsGiven         MissionReview[]     @relation("ReviewsGiven")
   notifications        Notification[]
@@ -79,7 +89,7 @@ model User {
   twoFactorBackupCodes String?
   invitations          Invitation[]
   joinRequests         JoinRequest[]
-  twofactors           TwoFactor[]
+
   xpTransactions       XpTransaction[]
   squadMessages        SquadMessage[]
 
@@ -87,47 +97,6 @@ model User {
   @@index([role])
   @@index([createdAt])
   @@map("user")
-}
-
-model UserSecurity {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  twoFactorEnabled Boolean  @default(false)
-  twoFactorSecret  String?
-  banned           Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  @@map("user_security")
-}
-
-model UserReferral {
-  id            String   @id @default(cuid())
-  userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  referralCode  String   @unique
-  referrerId    String?
-  referralCount Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@map("user_referral")
-}
-
-model UserProgress {
-  id                     String   @id @default(cuid())
-  userId                 String   @unique
-  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  level                  Int      @default(1)
-  experience             Int      @default(0)
-  missionsCompletedCount Int      @default(0)
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
-
-  @@index([experience])
-  @@index([level])
-  @@map("user_progress")
 }
 
 model UserProfile {
@@ -298,38 +267,6 @@ model Mission {
   @@index([category])
   @@index([difficulty])
   @@map("mission")
-}
-
-model Guild {
-  id            String        @id @default(cuid())
-  name          String
-  description   String?
-  slug          String        @unique
-  requiredLevel Int           @default(1)
-  isPrivate     Boolean       @default(false)
-  cohesionScore Float         @default(0.1)
-  streakCount   Int           @default(0)
-  lastStreakAt  DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  members       GuildMember[]
-
-  @@map("guild")
-}
-
-model GuildMember {
-  id       String   @id @default(cuid())
-  userId   String
-  guildId  String
-  role     String   @default("MEMBER")
-  joinedAt DateTime @default(now())
-  guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, guildId])
-  @@index([userId])
-  @@index([guildId])
-  @@map("guild_member")
 }
 
 model Session {
@@ -566,19 +503,6 @@ model BetaKey {
   @@map("beta_key")
 }
 
-model TwoFactor {
-  id          String   @id
-  secret      String
-  backupCodes String
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  verified    Boolean? @default(true)
-
-  @@index([secret])
-  @@index([userId])
-  @@map("twoFactor")
-}
-
 model XpTransaction {
   id        String   @id @default(cuid())
   userId    String
@@ -591,42 +515,4 @@ model XpTransaction {
   @@index([userId])
   @@index([createdAt])
   @@map("xp_transaction")
-}
-
-model UserSocials {
-  id           String  @id @default(cuid())
-  userId       String  @unique
-  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  githubUrl    String?
-  portfolioUrl String?
-  linkedinUrl  String?
-  twitterUrl   String?
-
-  @@map("user_socials")
-}
-
-model EngagementStats {
-  id             String    @id @default(cuid())
-  userId         String    @unique
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  currentStreak  Int       @default(0)
-  longestStreak  Int       @default(0)
-  lastCheckinAt  DateTime?
-  lastStreakDate DateTime?
-
-  @@map("engagement_stats")
-}
-
-model TeamApplication {
-  id              String   @id @default(cuid())
-  signalId        String // Nom ou Pseudo
-  whatsapp        String
-  country         String
-  expertiseVector String // BUILDER, CREATOR, STRATEGIST, CATALYST
-  proofOfWork     String // URL Portfolio/GitHub
-  cognitiveTest   String   @db.Text // Réponse à la mise en situation
-  status          String   @default("PENDING") // PENDING, REVIEWING, ACCEPTED, REJECTED
-  createdAt       DateTime @default(now())
-
-  @@map("team_application")
 }

@@ -111,7 +111,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploadingAvatar}
-              className="absolute -bottom-2 -right-2 p-3 rounded-2xl bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-110 active:scale-95 transition-all disabled:opacity-50 z-20 cursor-pointer"
+              className="absolute -bottom-2 -right-2 p-3 rounded-2xl bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-110 active:scale-95 transition-all disabled:opacity-50 z-[var(--z-elevated)] cursor-pointer"
               aria-label="Changer l'avatar"
             >
               <Camera className="size-4" />
@@ -209,7 +209,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
 
         <div className="p-6 rounded-3xl bg-zinc-950/40 border border-white/5 relative overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-size-[16px_16px] pointer-events-none" />
-          <div className="flex items-center justify-between relative z-10">
+          <div className="flex items-center justify-between relative z-[var(--z-content)]">
             <div className="flex items-center gap-3">
               {userData?.talentVisible ? (
                 <Eye className="size-5 text-emerald-500" />
@@ -265,7 +265,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               <Loader2 className="size-6 animate-spin text-emerald-500" />
             </div>
           ) : (
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-[var(--z-content)]">
               <div className="space-y-2 max-w-xl">
                 {quizStatus?.canRetake ? (
                   <>

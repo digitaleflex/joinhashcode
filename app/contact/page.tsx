@@ -78,7 +78,7 @@ function ContactForm() {
       <div className="relative pt-8 sm:pt-32 pb-24 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-20" />
         
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-[var(--z-content)] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-16">
             
             <div className="lg:col-span-5">

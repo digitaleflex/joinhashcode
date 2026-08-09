@@ -68,7 +68,7 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
   return (
     <>
       {isImpersonated && (
-        <div className="bg-amber-500 text-black py-2 px-4 flex items-center justify-between font-mono text-[10px] font-black uppercase tracking-widest animate-pulse relative z-50">
+        <div className="bg-amber-500 text-black py-2 px-4 flex items-center justify-between font-mono text-[10px] font-black uppercase tracking-widest animate-pulse relative z-[var(--z-banner)]">
             <div className="flex items-center gap-2">
                 <ShieldAlert className="size-3" />
                 Mode Visionneuse Actif : Navigue en tant que {user?.name}
@@ -81,7 +81,7 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
             </button>
         </div>
       )}
-      <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between">
+      <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-[var(--z-header)] px-4 md:px-8 flex items-center justify-between">
       {/* Left: Sidebar Trigger & Logo */}
       <div className="flex items-center gap-4 flex-1">
         <SidebarTrigger className="md:hidden text-muted-foreground hover:text-white mr-2" />
@@ -91,7 +91,7 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
             alt="HASHCODE"
             width={120}
             height={30}
-            className="h-7 w-auto object-contain relative z-10"
+            className="h-7 w-auto object-contain relative z-[var(--z-content)]"
             priority
           />
         </Link>

@@ -762,7 +762,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
       {/* Hero */}
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-transparent rounded-[3rem] pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+        <div className="relative z-[var(--z-content)] flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
               <TrendingUp className="size-3.5 text-primary" />

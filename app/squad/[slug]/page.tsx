@@ -25,9 +25,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
               pseudo: true,
               image: true,
               class: true,
-            },
-            include: {
-              progress: { select: { level: true } },
+              level: true,
             },
           },
         },
@@ -50,7 +48,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
       <div className="absolute inset-0 bg-gradient-mesh opacity-30 pointer-events-none" aria-hidden="true" />
       <div className="scanline opacity-10" aria-hidden="true" />
 
-      <div className="w-full max-w-2xl space-y-6 relative z-10">
+      <div className="w-full max-w-2xl space-y-6 relative z-[var(--z-content)]">
 
         {/* Header nav */}
         <div className="flex items-center justify-between">
@@ -146,7 +144,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
                           {m.role === "owner" && <span className="ml-2 text-[8px] font-mono text-primary uppercase">Chef</span>}
                         </p>
                         <p className="text-[9px] font-mono" style={{ color }}>
-                          {(m.user.class || "Builder").toUpperCase()} · LVL {m.user.progress?.level ?? 1}
+                           {(m.user.class || "Builder").toUpperCase()} · LVL {m.user.level ?? 1}
                         </p>
                       </div>
                     </div>

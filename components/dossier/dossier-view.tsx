@@ -40,6 +40,7 @@ import { toast } from "sonner";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import { calculateNeuralSync } from "@/lib/evolution-utils";
 import { NeuralSyncGauge } from "@/components/dashboard/neural-sync-gauge";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface DossierOrg {
   name: string
@@ -236,9 +237,8 @@ export function DossierView({
                           level={user.level}
                           experience={user.experience}
                           createdAt={user.createdAt}
-                          image={user.image ?? null}
-                          confidenceScore={user.confidenceScore}
-                          missionsCompleted={user.missionsCompletedCount}
+                           image={user.image ?? null}
+                           missionsCompleted={user.missionsCompletedCount}
                           tools={user.tools}
                       />
                   </div>
@@ -301,50 +301,29 @@ export function DossierView({
                   </p>
                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6">
                       <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                          <TooltipProvider>
-                              <Tooltip>
-                                  <TooltipTrigger asChild>
-                                      <div className="space-y-3 cursor-help group/item">
-                                          <div className="flex items-center gap-2">
-                                              <Zap className="size-3.5 text-primary" />
-                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
-                                              <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
-                                          </div>
-                                          <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round(((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
-                                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                              <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100}%` }} />
-                                          </div>
-                                      </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      La 'Vibrancy' mesure la force de ton signal. Elle augmente avec tes check-ins quotidiens et ton activité constante.
-                                  </TooltipContent>
-                              </Tooltip>
-                          </TooltipProvider>
-                          
-                          <TooltipProvider>
-                              <Tooltip>
-                                  <TooltipTrigger asChild>
-                                      <div className="space-y-3 cursor-help group/item">
-                                          <div className="flex items-center gap-2">
-                                              <ShieldCheck className="size-3.5 text-emerald-500" />
-                                              <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Confiance</span>
-                                              <Info className="size-2.5 text-zinc-700 group-hover/item:text-emerald-500 transition-colors" />
-                                          </div>
-                                          <div className="text-xl font-black text-white font-mono italic">{(user.confidenceScore * 100).toFixed(0)}<span className="text-emerald-500 text-xs ml-1">%</span></div>
-                                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                              <div className="h-full bg-emerald-500" style={{ width: `${user.confidenceScore * 100}%` }} />
-                                          </div>
-                                      </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                      L'indice de 'Confidence' reflète ta fiabilité technique. Un score élevé permet de valider tes missions sans délai.
-                                  </TooltipContent>
-                              </Tooltip>
-                          </TooltipProvider>
-                      </div>
-
-                      {!isPublic && (
+                           <TooltipProvider>
+                               <Tooltip>
+                                   <TooltipTrigger asChild>
+                                       <div className="space-y-3 cursor-help group/item">
+                                           <div className="flex items-center gap-2">
+                                               <Zap className="size-3.5 text-primary" />
+                                               <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
+                                               <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
+                                           </div>
+                                           <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round(((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
+                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                               <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100}%` }} />
+                                           </div>
+                                       </div>
+                                   </TooltipTrigger>
+                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                       La 'Vibrancy' mesure la force de ton signal. Elle augmente avec tes check-ins quotidiens et ton activité constante.
+                                   </TooltipContent>
+                               </Tooltip>
+                           </TooltipProvider>
+                       </div>
+                       
+                       {!isPublic && (
                         <div className="space-y-4 pt-6 border-t border-white/5">
                             <h5 className="text-[9px] sm:text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
                                 <Brain className="size-3 text-primary" />
@@ -352,10 +331,9 @@ export function DossierView({
                             </h5>
                             <div className="grid grid-cols-1 gap-3">
                                 {[
-                                    { k: "Vitalité", v: "Force de ton signal. Dépend de ta régularité quotidienne." },
+                                 { k: "Vitalité", v: "Force de ton signal. Dépend de ta régularité quotidienne." },
                                      { k: "Alignement", v: "Précision de ta trajectoire. Un écart est une opportunité d'ajuster tes ambitions." },
-                                    { k: "Confiance", v: "Niveau de certitude du système sur tes capacités techniques." }
-                                ].map((item) => (
+                                 ].map((item) => (
                                     <div key={item.k} className="text-[9px] font-mono flex gap-2 items-start">
                                         <span className="text-primary font-bold shrink-0">[{item.k}]</span>
                                         <span className="text-zinc-500 leading-tight">{item.v}</span>
@@ -603,11 +581,13 @@ export function DossierView({
                                   </Badge>
                               </div>
                           ))
-                      ) : (
-                          <div className="p-8 rounded-2xl bg-white/1 border border-dashed border-white/5 text-center">
-                              <p className="text-[10px] font-mono text-zinc-600 uppercase">Aucune mission enregistrée</p>
-                          </div>
-                      )}
+                       ) : (
+                           <EmptyState
+                             icon={Target}
+                             title="Aucune mission enregistrée"
+                             className="border-dashed bg-white/1 p-8"
+                           />
+                       )}
                   </div>
               </div>
               )}

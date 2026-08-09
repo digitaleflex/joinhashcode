@@ -107,7 +107,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
 
         <UserTopBar user={userData} />
 
-        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-12">
             
             <Link 
@@ -167,7 +167,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                       onClick={() => setActiveTab(tab.id)}
                       className={cn(
                         "w-full flex items-start gap-5 p-5 rounded-3xl transition-all duration-500 border group text-left relative overflow-hidden cursor-pointer",
-                        isActive ? "text-white backdrop-blur-md z-10" : "bg-white/1 border-white/5 text-zinc-500 hover:bg-white/3 hover:border-white/10 z-0"
+                        isActive ? "text-white backdrop-blur-md z-[var(--z-content)]" : "bg-white/1 border-white/5 text-zinc-500 hover:bg-white/3 hover:border-white/10 z-[var(--z-base)]"
                       )}
                       style={isActive ? {
                         backgroundColor: `${tabColor.color}12`,
@@ -222,7 +222,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.4, ease: "circOut" }}
-                    className="p-8 md:p-12 relative z-10"
+                    className="p-8 md:p-12 relative z-[var(--z-content)]"
                   >
                     {activeTab === "profile" && (
                       <ProfileTab userData={userData} updateData={updateData} />

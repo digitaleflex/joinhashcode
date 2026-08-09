@@ -34,7 +34,7 @@ export default function Error({
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none" 
            style={{ backgroundImage: 'radial-gradient(#ef4444 0.5px, transparent 0.5px)', backgroundSize: '32px 32px' }} />
 
-      <div className="max-w-xl w-full text-center relative z-10">
+      <div className="max-w-xl w-full text-center relative z-[var(--z-content)]">
         <div className="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-red-500/10 border border-red-500/20 animate-bounce">
           <AlertCircle className="w-12 h-12 text-red-500" />
         </div>

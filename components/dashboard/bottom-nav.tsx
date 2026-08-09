@@ -15,7 +15,7 @@ export function BottomNav() {
   ]
 
   return (
-    <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
+    <div className="md:hidden fixed bottom-6 left-4 right-4 z-[var(--z-sticky)]">
       <nav 
         aria-label="Navigation principale mobile"
         className="bottom-nav-glass relative flex items-center justify-around px-2 py-3 bg-card/60 backdrop-blur-2xl border border-white/5 rounded-4xl shadow-2xl shadow-black/40"
@@ -38,8 +38,8 @@ export function BottomNav() {
                 <span className="absolute inset-0 bg-primary/10 rounded-2xl border border-primary/20 transition-all duration-500" />
               )}
 
-              <Icon className={`w-6 h-6 relative z-10 transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
-              <span className="text-[9px] font-bold uppercase tracking-wider relative z-10">
+              <Icon className={`w-6 h-6 relative z-[var(--z-content)] transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
+              <span className="text-[9px] font-bold uppercase tracking-wider relative z-[var(--z-content)]">
                 {item.name}
               </span>
 

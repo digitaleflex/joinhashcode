@@ -89,7 +89,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -101,7 +101,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
             {/* Close */}
             <button
               onClick={dismiss}
-              className="absolute top-4 right-4 z-20 p-2 rounded-xl text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-colors"
+              className="absolute top-4 right-4 z-[var(--z-elevated)] p-2 rounded-xl text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -119,7 +119,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="p-8 text-center space-y-6 relative z-10"
+                  className="p-8 text-center space-y-6 relative z-[var(--z-content)]"
                 >
                   <div className="space-y-2">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/8 mb-4">
@@ -192,7 +192,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="p-8 space-y-6 relative z-10"
+                  className="p-8 space-y-6 relative z-[var(--z-content)]"
                 >
                   <div className="text-center space-y-1">
                     <h3 className="text-lg font-black uppercase tracking-tighter text-white">Voici ta feuille de route</h3>

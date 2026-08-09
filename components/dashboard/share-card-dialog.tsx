@@ -64,7 +64,7 @@ export function ShareCardDialog({ userId, userName }: ShareCardDialogProps) {
       <DialogContent className="sm:max-w-150 bg-zinc-950 border-white/10 p-0 overflow-hidden rounded-[2.5rem]">
         <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" />
         
-        <div className="p-8 space-y-6 relative z-10">
+        <div className="p-8 space-y-6 relative z-[var(--z-content)]">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black uppercase tracking-tighter italic text-white flex items-center gap-3">
                 <Share2 className="size-6 text-primary" />

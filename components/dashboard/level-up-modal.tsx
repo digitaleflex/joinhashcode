@@ -18,11 +18,16 @@ interface LevelUpModalProps {
 }
 
 const LEVEL_NAMES: Record<number, string> = {
-  1: "INITIÉ du Réseau",
-  2: "OPÉRATEUR Core",
-  3: "ARCHITECTE Confirmé",
-  4: "COMMANDANT Expert",
-  5: "LÉGENDE du Réseau",
+   1: "INITIÉ du Réseau",
+   2: "OPÉRATEUR Core",
+   3: "ARCHITECTE Confirmé",
+   4: "COMMANDANT Expert",
+   5: "VÉTÉRAN du Réseau",
+   6: "MAÎTRE du Réseau",
+   7: "GRAND MAÎTRE",
+   8: "LÉGENDE du Réseau",
+   9: "MYTHE Vivant",
+   10: "TRANSCENDANT",
 }
 
 const CLASS_QUOTES: Record<string, string> = {
@@ -75,7 +80,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
               initial={{ scale: 0, rotate: -20, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-              className="relative z-10"
+              className="relative z-[var(--z-content)]"
             >
               <div className="size-28 rounded-[2rem] bg-primary/10 border-2 border-primary flex items-center justify-center shadow-[0_0_50px_rgba(184,255,59,0.4)]">
                 <Award className="size-14 text-primary animate-pulse" />
@@ -87,7 +92,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
               initial={{ top: "0%" }}
               animate={{ top: "100%" }}
               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="absolute left-0 w-full h-px bg-primary/30 z-20 shadow-[0_0_10px_rgba(184,255,59,0.5)]"
+              className="absolute left-0 w-full h-px bg-primary/30 z-[var(--z-elevated)] shadow-[0_0_10px_rgba(184,255,59,0.5)]"
             />
           </div>
 

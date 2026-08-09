@@ -36,14 +36,14 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       logs,
     ] = await Promise.all([
       prisma.user.count({
-        where: { role: "MEMBER", security: { banned: { not: true } } },
+        where: { role: "MEMBER", banned: { not: true } },
       }),
       prisma.user.count(),
       prisma.organization.count(),
       prisma.missionSubmission.count({ where: { status: "APPROVED" } }),
       prisma.user.groupBy({
         by: ["class"],
-        where: { security: { banned: { not: true } } },
+        where: { banned: { not: true } },
         _count: { class: true },
       }),
       prisma.activityLog.findMany({

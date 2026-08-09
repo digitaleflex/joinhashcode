@@ -52,20 +52,18 @@ export default async function PublicProfilePage({ params }: PageProps) {
       technicalLevel: true,
       mainObjective: true, domains: true, tools: true, badges: true,
       memberNumber: true, createdAt: true,
-      socials: {
-        select: {
-          githubUrl: true,
-          linkedinUrl: true,
-          twitterUrl: true,
-          portfolioUrl: true,
-        }
-      },
-      progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
-      security: { select: { banned: true } },
+      githubUrl: true,
+      linkedinUrl: true,
+      twitterUrl: true,
+      portfolioUrl: true,
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
+      banned: true,
     },
   });
 
-  if (!dbUser || dbUser.security?.banned) {
+  if (!dbUser || dbUser.banned) {
     notFound();
   }
 
@@ -90,20 +88,19 @@ export default async function PublicProfilePage({ params }: PageProps) {
     badges: dbUser.badges ?? [],
     memberNumber: dbUser.memberNumber,
     createdAt: dbUser.createdAt,
-    level: dbUser.progress?.level ?? 1,
-    experience: dbUser.progress?.experience ?? 0,
-    missionsCompletedCount: dbUser.progress?.missionsCompletedCount ?? 0,
-    githubUrl: dbUser.socials?.githubUrl ?? null,
-    linkedinUrl: dbUser.socials?.linkedinUrl ?? null,
-    twitterUrl: dbUser.socials?.twitterUrl ?? null,
-    portfolioUrl: dbUser.socials?.portfolioUrl ?? null,
+    level: dbUser.level ?? 1,
+    experience: dbUser.experience ?? 0,
+    missionsCompletedCount: dbUser.missionsCompletedCount ?? 0,
+    githubUrl: dbUser.githubUrl ?? null,
+    linkedinUrl: dbUser.linkedinUrl ?? null,
+    twitterUrl: dbUser.twitterUrl ?? null,
+    portfolioUrl: dbUser.portfolioUrl ?? null,
     // Sécurité : champs sensibles jamais exposés publiquement
     email: "",
     builderScore: 0,
     creatorScore: 0,
     strategistScore: 0,
     catalystScore: 0,
-    confidenceScore: 0,
     behavioralVibrancy: null,
     currentStreak: 0,
     lastCheckin: null,
@@ -120,7 +117,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
       
       <Nav />
       
-      <main className="flex-1 p-4 md:p-10 pt-24 md:pt-32 relative z-10">
+      <main className="flex-1 p-4 md:p-10 pt-24 md:pt-32 relative z-[var(--z-content)]">
         <DossierView 
           user={user}
           activeOrg={null}

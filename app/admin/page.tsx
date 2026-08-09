@@ -38,7 +38,7 @@ export default async function AdminPage() {
       prisma.user.findMany({
         orderBy: { createdAt: "desc" },
         take: 10,
-        select: { id: true, name: true, email: true, class: true, createdAt: true, country: true, progress: { select: { level: true } } },
+        select: { id: true, name: true, email: true, class: true, createdAt: true, country: true, level: true },
       }),
       prisma.quizResult.groupBy({ by: ["profileType"], _count: { profileType: true } }),
     ]).then(([total, recent, byProfile]) => ({ total, recent, byProfile })),
@@ -50,11 +50,11 @@ export default async function AdminPage() {
     ]).then(([withOnboarding, withClass, inSquad]) => ({ withOnboarding, withClass, inSquad })),
 
     Promise.all([
-      prisma.user.count({ where: { stats: { lastCheckinAt: { gte: sevenDaysAgo } } } }),
-      prisma.user.count({ where: { stats: { lastCheckinAt: { not: null } } } }),
-      prisma.user.count({ where: { stats: { lastCheckinAt: { gte: thirtyDaysAgo } } } }),
-      prisma.user.count({ where: { stats: { lastCheckinAt: { gte: sixtyDaysAgo } } } }),
-      prisma.user.count({ where: { stats: { lastCheckinAt: { gte: ninetyDaysAgo } } } }),
+      prisma.user.count({ where: { lastCheckinAt: { gte: sevenDaysAgo } } }),
+      prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
+      prisma.user.count({ where: { lastCheckinAt: { gte: thirtyDaysAgo } } }),
+      prisma.user.count({ where: { lastCheckinAt: { gte: sixtyDaysAgo } } }),
+      prisma.user.count({ where: { lastCheckinAt: { gte: ninetyDaysAgo } } }),
     ]).then(([active7d, everCheckin, active30d, active60d, active90d]) => ({
       active7d, everCheckin, active30d, active60d, active90d
     })),

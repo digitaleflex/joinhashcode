@@ -208,7 +208,9 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         <form onSubmit={handleSubmitStep1} className="space-y-4">
           <div className="space-y-2">
             <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-              {missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Contenu de la mission / Lien_"}
+              {isTextResponse
+                ? (missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Ta réponse_")
+                : "Lien de soumission_"}
             </Label>
             {isTextResponse ? (
               <Textarea

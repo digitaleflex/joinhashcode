@@ -42,7 +42,8 @@ export default async function SquadPage() {
         select: {
           id: true, name: true, email: true, image: true,
           pseudo: true, class: true, badges: true, role: true,
-          progress: { select: { level: true, experience: true } },
+          level: true,
+          experience: true,
         },
       }),
       prisma.invitation.findMany({
@@ -69,7 +70,7 @@ export default async function SquadPage() {
                   user: {
                     select: {
                       id: true, name: true, pseudo: true, image: true,
-                      class: true, progress: { select: { level: true } },
+                      class: true, level: true,
                     },
                   },
                 },

@@ -59,7 +59,7 @@ function AnalyzingScreen() {
         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
           <div className="h-full bg-primary shadow-[0_0_20px_#C5F441] animate-pulse" style={{ width: "60%" }} />
         </div>
-        <div className="flex justify-between text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
+        <div className="flex justify-between text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
           <span>Analyse en cours</span>
           <span className="text-primary font-bold">patiente...</span>
         </div>
@@ -249,10 +249,10 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             >
               Débuter l'évaluation <ChevronRight className="w-6 h-6" />
             </Button>
-            <div className="flex justify-center items-center gap-6 text-[9px] text-zinc-600 font-mono">
-              <span>[ 13 questions ]</span>
+            <div className="flex justify-center items-center gap-6 text-[10px] text-zinc-600 font-mono">
+              <span>[ 5 questions ]</span>
               <span className="size-1 rounded-full bg-zinc-800" />
-              <span>[ ~2 minutes ]</span>
+              <span>[ ~1 minute ]</span>
             </div>
           </div>
         </div>
@@ -286,7 +286,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
   const currentQuestion = questions[currentStep]
 
   return (
-    <div className="w-full max-w-3xl mx-auto py-10 px-4 flex flex-col relative z-10">
+    <div className="w-full max-w-3xl mx-auto py-10 px-4 flex flex-col relative z-[var(--z-content)]">
       <div className="mb-12">
         <div className="flex justify-between items-end mb-5 px-2">
           <div className="space-y-1.5">
@@ -320,7 +320,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             <h2 className="text-xl sm:text-2xl font-bold mb-2 leading-snug text-white tracking-tight">
                 {currentQuestion.text}
             </h2>
-            <p className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-3">
+            <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-wider mt-3">
               -- Scénario pratique --
             </p>
         </div>
@@ -334,7 +334,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             >
               <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
               
-              <div className="flex items-center gap-6 relative z-10">
+              <div className="flex items-center gap-6 relative z-[var(--z-content)]">
                 <span className="text-[10px] font-mono text-zinc-600 group-hover:text-primary transition-colors font-bold">
                     {String.fromCharCode(65 + idx)}
                 </span>
@@ -343,7 +343,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
                 </span>
               </div>
 
-              <div className="size-10 rounded-xl border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/20 transition-all relative z-10 shadow-inner">
+              <div className="size-10 rounded-xl border border-white/10 flex items-center justify-center shrink-0 group-hover:border-primary/40 group-hover:bg-primary/20 transition-all relative z-[var(--z-content)] shadow-inner">
                 <ChevronRight className="size-5 text-zinc-700 group-hover:text-primary transition-all group-hover:translate-x-1" />
               </div>
               
@@ -367,10 +367,10 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
         </Button>
         
         <div className="flex flex-col items-end gap-1">
-            <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
               [ CONNEXION_SECURISEE ]
             </span>
-            <span className="text-[9px] font-mono text-zinc-700 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-wider">
               HASHCODE
             </span>
           </div>

@@ -37,7 +37,7 @@ export default function TwoFactorPage() {
         {/* Background Mesh */}
         <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" />
         
-        <div className="w-full max-w-md space-y-8 relative z-10">
+        <div className="w-full max-w-md space-y-8 relative z-[var(--z-content)]">
             <div className="text-center space-y-2">
                 <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-2xl border border-primary/20 mb-4 animate-pulse">
                     <ShieldAlert className="size-8 text-primary" />

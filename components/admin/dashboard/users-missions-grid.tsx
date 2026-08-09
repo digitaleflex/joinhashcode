@@ -6,7 +6,7 @@ interface RecentUser {
   email: string
   country: string | null
   class: string | null
-  progress: { level: number } | null
+  level: number
 }
 
 interface MissionStat {
@@ -44,7 +44,7 @@ export function UsersMissionsGrid({ recentUsers, missionStats, profileColors }: 
                 ) : (
                   <span className="text-[10px] font-mono text-muted-foreground">—</span>
                 )}
-                <p className="text-[9px] text-muted-foreground/60 font-mono mt-0.5">LVL {u.progress?.level ?? 1}</p>
+                 <p className="text-[9px] text-muted-foreground/60 font-mono mt-0.5">LVL {u.level}</p>
               </div>
             </div>
           ))}

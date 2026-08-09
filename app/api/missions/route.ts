@@ -12,13 +12,15 @@ import { emailService } from "@/lib/email";
 
 const submissionSchema = z.object({
   missionId: z.string().min(1),
-  content: z.string().url("Le lien de soumission doit être une URL valide (http/https).").startsWith("http", "Seuls les liens HTTP/HTTPS sont acceptés.").max(2048),
+  content: z.string().max(5000).min(1, "Le contenu ne peut pas être vide."),
   projectDescription: z.string().max(5000).optional(),
   userDifficulty: z.number().min(1).max(5).optional(),
   userRating: z.number().min(1).max(5).optional(),
   userFeedback: z.string().optional(),
   improvementSuggestions: z.string().optional(),
 });
+
+const URL_METHODS = ["ANY_LINK", "LIVE_URL", "DOCUMENT_LINK", "GITHUB_LINK"] as const;
 
 const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
 
@@ -31,8 +33,8 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       where: { id: userId },
       select: {
         id: true, email: true, name: true,
-        stats: { select: { currentStreak: true } },
-        progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
+        currentStreak: true,
+        level: true, experience: true, missionsCompletedCount: true,
       }
     }),
   ]);
@@ -40,7 +42,20 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
   if (!dbUser) throw new Error("USER_NOT_FOUND");
 
   const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
-  if ((dbUser.progress?.level ?? 1) < requiredLevel) throw new Error("LEVEL_TOO_LOW");
+  if ((dbUser.level ?? 1) < requiredLevel) throw new Error("LEVEL_TOO_LOW");
+
+  if (mission.submissionMethod === "TEXT_RESPONSE") {
+    if (!input.content.trim()) throw new Error("INVALID_SUBMISSION_CONTENT");
+  } else if (URL_METHODS.includes(mission.submissionMethod as any)) {
+    if (!input.content.startsWith("http")) {
+      throw new Error("INVALID_SUBMISSION_URL");
+    }
+    try {
+      new URL(input.content);
+    } catch {
+      throw new Error("INVALID_SUBMISSION_URL");
+    }
+  }
 
   const cycleKey = getCurrentCycleKey(mission);
 
@@ -54,7 +69,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     if (existingSubmission.revisionCount >= 3) throw new Error("MAX_REVISIONS_REACHED");
   }
 
-  const SYNC_BONUS_XP = (dbUser.stats?.currentStreak || 0) >= 3 ? 6 : 5;
+  const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
   const isAutoApproved = mission.isWeeklyChallenge || mission.slug === "signal-ouverture" || mission.id === "signal-ouverture";
   const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
   const xpToAward = isAutoApproved ? (mission.xp || 0) : 0;
@@ -90,10 +105,9 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     }
 
     if (isAutoApproved) {
-      await tx.userProgress.upsert({
-        where: { userId },
-        create: { userId, missionsCompletedCount: 1 },
-        update: { missionsCompletedCount: { increment: 1 } },
+      await tx.user.update({
+        where: { id: userId },
+        data: { missionsCompletedCount: { increment: 1 } },
       });
     }
 
@@ -102,10 +116,10 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
 
   const finalUser = await prisma.user.findUnique({
     where: { id: userId },
-    include: { progress: { select: { experience: true, missionsCompletedCount: true } } }
+    select: { experience: true, missionsCompletedCount: true }
   });
 
-  if (finalUser && (finalUser.progress?.missionsCompletedCount ?? 0) === 1) {
+  if (finalUser && (finalUser.missionsCompletedCount ?? 0) === 1) {
     const { trackEvent, EVENTS } = await import("@/lib/analytics");
     await trackEvent(userId, EVENTS.FIRST_MISSION_STARTED, { missionId: mission.id, title: mission.title });
   }
@@ -203,6 +217,8 @@ export async function POST(req: Request) {
         "ALREADY_APPROVED": { message: "Cette mission a déjà été validée pour cette période.", status: 409 },
         "SUBMISSION_PENDING": { message: "Ta soumission est déjà en attente de validation. Patience !", status: 400 },
         "MAX_REVISIONS_REACHED": { message: "Nombre maximum de révisions atteint. Contacte un admin.", status: 400 },
+        "INVALID_SUBMISSION_URL": { message: "Le lien de soumission doit être une URL valide (http/https).", status: 400 },
+        "INVALID_SUBMISSION_CONTENT": { message: "Le contenu textuel est requis pour cette mission.", status: 400 },
       };
 
       const mapped = errorMap[serviceError instanceof Error ? serviceError.message : String(serviceError)];

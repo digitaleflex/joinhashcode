@@ -29,7 +29,8 @@ export default async function QuizPage() {
       memberNumber: true,
       class: true,
       createdAt: true,
-      progress: { select: { level: true, experience: true } },
+      level: true,
+      experience: true,
     },
   })
 
@@ -80,7 +81,7 @@ export default async function QuizPage() {
             </p>
           </div>
           <QuizWrapper
-            user={user ? { ...user, level: user.progress?.level ?? 1, experience: user.progress?.experience ?? 0 } : undefined}
+            user={user ? { ...user, level: user.level ?? 1, experience: user.experience ?? 0 } : undefined}
             pendingSquad={pendingSquad}
           />
         </div>

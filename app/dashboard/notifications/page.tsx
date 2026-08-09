@@ -42,17 +42,15 @@ export default async function NotificationsPage() {
     const userData = await prisma.user.findUnique({
       where: { id: session.user.id },
       include: {
-        profile: { select: { bio: true } },
-        stats: {
-          select: { lastCheckinAt: true, currentStreak: true },
-        },
-        progress: {
-          select: { level: true, experience: true, missionsCompletedCount: true },
-        },
-        referral: {
-          select: { referralCode: true, referralCount: true },
-        },
-        members: {
+      profile: { select: { bio: true } },
+      lastCheckinAt: true,
+      currentStreak: true,
+      level: true,
+      experience: true,
+      missionsCompletedCount: true,
+      referralCode: true,
+      referralCount: true,
+      members: {
           take: 1,
           include: {
             organization: {
@@ -79,14 +77,14 @@ export default async function NotificationsPage() {
       name: userData.name,
       email: userData.email,
       image: userData.image,
-      level: userData.progress?.level ?? 1,
-      experience: userData.progress?.experience ?? 0,
+      level: userData.level ?? 1,
+      experience: userData.experience ?? 0,
       class: userData.class,
-      missionsCompletedCount: userData.progress?.missionsCompletedCount ?? 0,
+      missionsCompletedCount: userData.missionsCompletedCount ?? 0,
       behavioralVibrancy: userData.behavioralVibrancy,
       pseudo: userData.pseudo,
-      referralCode: userData.referral?.referralCode ?? null,
-      referralCount: userData.referral?.referralCount ?? 0,
+      referralCode: userData.referralCode ?? null,
+      referralCount: userData.referralCount ?? 0,
       role: userData.role,
       language: userData.language,
       memberNumber: userData.memberNumber,
@@ -100,8 +98,8 @@ export default async function NotificationsPage() {
       mainObjective: userData.mainObjective,
       country: userData.country,
       city: userData.city,
-      lastCheckin: userData.stats?.lastCheckinAt ?? null,
-      currentStreak: userData.stats?.currentStreak ?? 0,
+      lastCheckin: userData.lastCheckinAt ?? null,
+      currentStreak: userData.currentStreak ?? 0,
     } as UserProfile;
 
     member = (userData.members[0] as RawMember) ?? null;

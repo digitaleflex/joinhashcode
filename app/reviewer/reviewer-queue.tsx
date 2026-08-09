@@ -26,7 +26,7 @@ export interface Submission {
     name: string
     pseudo: string | null
     image: string | null
-    progress: { level: number } | null
+    level: number
   }
   createdAt: string
 }
@@ -71,7 +71,7 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
                       <div>
                         <p className="text-sm font-semibold">{sub.user.name}</p>
                         <p className="text-[10px] font-mono text-zinc-500">
-                          LV.{sub.user.progress?.level ?? 1} · {sub.user.pseudo && `@${sub.user.pseudo}`}
+                           LV.{sub.user.level ?? 1} · {sub.user.pseudo && `@${sub.user.pseudo}`}
                         </p>
                       </div>
                     </div>

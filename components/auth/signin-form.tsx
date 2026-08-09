@@ -138,12 +138,12 @@ export function SignInForm() {
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
             {/* Cyberpunk Animated Background Elements */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-6 animate-grid-drift z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid mask-radial-fade opacity-6 animate-grid-drift z-[var(--z-base)]" />
             
-            <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[130px] z-0" />
-            <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-75 h-75 bg-purple-500/5 rounded-full blur-[100px] z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/5 rounded-full blur-[130px] z-[var(--z-base)]" />
+            <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-75 h-75 bg-purple-500/5 rounded-full blur-[100px] z-[var(--z-base)]" />
 
-            <Link href="/" className="mb-8 relative z-10 transition-all hover:scale-105 active:scale-95 duration-300">
+            <Link href="/" className="mb-8 relative z-[var(--z-content)] transition-all hover:scale-105 active:scale-95 duration-300">
                 <Image
                     src="/hashcodejoin.png"
                     alt="HASHCODE"
@@ -153,7 +153,7 @@ export function SignInForm() {
                 />
             </Link>
 
-            <Card className="w-full max-w-md border border-white/8 glass-card relative z-10 shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm transition-all duration-300">
+            <Card className="w-full max-w-md border border-white/8 glass-card relative z-[var(--z-content)] shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm transition-all duration-300">
                 {/* Decorative neon top border */}
                 <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-primary/50 to-transparent" />
                 

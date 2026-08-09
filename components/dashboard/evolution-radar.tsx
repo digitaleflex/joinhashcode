@@ -132,7 +132,7 @@ export function EvolutionRadar({
           width={size}
           height={size}
           viewBox={`0 0 ${size} ${size}`}
-          className="relative z-10 overflow-visible"
+          className="relative z-[var(--z-content)] overflow-visible"
         >
           <defs>
             {/* Holographic Radar Gradient */}
@@ -374,7 +374,7 @@ export function EvolutionRadar({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.15 }}
-              className="space-y-1.5 relative z-10"
+              className="space-y-1.5 relative z-[var(--z-content)]"
             >
               <div className="flex items-center gap-1.5">
                 <span className={cn("text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-sm bg-zinc-900 border border-white/5 uppercase", activeAxis.color)}>

@@ -7,12 +7,11 @@ import { cn } from "@/lib/utils"
 
 interface NeuralSyncGaugeProps {
   score: number
-  confidenceScore?: number
   className?: string
 }
 
-export function NeuralSyncGauge({ score, confidenceScore, className }: NeuralSyncGaugeProps) {
-  const finalScore = confidenceScore !== undefined ? Math.round(confidenceScore * 100) : score
+export function NeuralSyncGauge({ score, className }: NeuralSyncGaugeProps) {
+  const finalScore = Math.round(score)
   const status = getSyncStatus(finalScore)
   const Icon = finalScore >= 80 ? ShieldCheck : finalScore >= 50 ? Zap : finalScore >= 30 ? Activity : AlertTriangle
 

@@ -40,12 +40,11 @@ const NeuralSyncGauge = dynamic(() => import("./neural-sync-gauge").then((m) => 
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { getLevelProgress } from "@/lib/level-utils"
+import { getLevelName } from "@/lib/member-card-constants"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { SquadData } from "@/components/dashboard/squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
-
-const LEVEL_MAP: Record<number, string> = { 1: "INIT", 2: "CORE", 3: "PRO", 4: "ELITE" }
 
 const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: string, message: string }> = {
   builder: {
@@ -96,7 +95,7 @@ export function DashboardShell({
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
-  const levelName = LEVEL_MAP[level] || "AGENT"
+  const levelName = getLevelName(level)
   const isSquadFull = useMemo(() => !!(squad && (squad.members?.length ?? 0) >= 5), [squad])
   const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
@@ -125,7 +124,7 @@ export function DashboardShell({
         <div className="scanline"></div>
         <UserTopBar user={user} squad={squad} memberRole={memberRole} featureFlags={featureFlags} />
 
-        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
 
             {/* ACTIVATION CHECKLIST */}
@@ -150,9 +149,9 @@ export function DashboardShell({
 
             {/* TIER 1: HEADER ORIENTÉ OBJECTIF */}
             <div className="p-6 sm:p-8 rounded-3xl glass-card relative overflow-hidden border-white/5">
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-[var(--z-content)]">
                 <div className="flex-1 min-w-0">
-                  <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 mb-1">Mon Parcours</p>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1">Mon Parcours</p>
                   <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">
                     Bienvenue sur ton Parcours, <span className={config.color}>{user.name.split(' ')[0]}</span>.
                   </h2>
@@ -167,12 +166,12 @@ export function DashboardShell({
 
                 <div className="flex items-center gap-4 shrink-0">
                   <div className="text-right">
-                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
                     <p className="text-lg font-bold text-white">{user.experience} XP</p>
                   </div>
                   <div className="h-8 w-px bg-white/10" />
                   <div className="text-right">
-                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">Série</p>
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Série</p>
                     <p className="text-sm font-bold text-primary flex items-center gap-1">
                       <Zap className="h-3 w-3 fill-current" />
                       {user.currentStreak ?? 0}
@@ -185,7 +184,7 @@ export function DashboardShell({
             {/* OBJECTIF 90 JOURS + BOUCLE DE PROGRESSION */}
             <div className="space-y-5">
               <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
-                <p className="text-[9px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
+                <p className="text-[10px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
                   Objectif 90 jours
                 </p>
                 <p className="text-lg font-bold text-white">
@@ -211,7 +210,7 @@ export function DashboardShell({
               </div>
 
               <div className="p-4 rounded-2xl border border-white/10 bg-white/5">
-                <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Prochaine étape</p>
+                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Prochaine étape</p>
                 <p className="text-base font-bold text-white mt-1">
                   {user.mainObjective
                     ? `Premier atelier — ${user.mainObjective.toLowerCase()}`
@@ -308,11 +307,11 @@ export function DashboardShell({
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
+                        <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                       </div>
                       <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
+                        <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
                         <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
                       </div>
                     </div>
@@ -322,7 +321,6 @@ export function DashboardShell({
                     <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
                       <NeuralSyncGauge 
                         score={25}
-                        confidenceScore={user.confidenceScore}
                       />
                     </div>
                   )}
@@ -442,7 +440,7 @@ export function DashboardShell({
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
+                        <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
                         <div className="text-sm font-bold text-white tracking-tight">@{user.pseudo || "Talent"}</div>
                       </div>
                       <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
@@ -452,7 +450,7 @@ export function DashboardShell({
 
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
                       <div className="space-y-1">
-                        <div className="text-[9px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
+                        <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Localisation</div>
                         <div className="text-sm font-medium text-white tracking-tight">
                           {user.city || user.country ? (
                             [user.city, user.country].filter(Boolean).join(", ")
@@ -471,7 +469,7 @@ export function DashboardShell({
                     <div className="flex items-center gap-2 text-primary">
                       <span className="text-[10px] font-mono font-bold tracking-tight">Objectif principal</span>
                     </div>
-                    <div className="text-sm font-medium text-zinc-300 leading-relaxed relative z-10">
+                    <div className="text-sm font-medium text-zinc-300 leading-relaxed relative z-[var(--z-content)]">
                       {user.mainObjective || "Définis ton objectif principal dans tes réglages pour aligner le système."}
                     </div>
                   </div>
@@ -542,8 +540,6 @@ export function DashboardShell({
                     experience={user.experience ?? 0}
                     createdAt={user.createdAt ?? new Date()}
                     image={user.image ?? null}
-                    confidenceScore={user.confidenceScore ?? 0.25}
-                    missionsCompleted={user.missionsCompletedCount ?? 0}
                     tools={user.tools ?? []}
                     actions={
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto w-full">

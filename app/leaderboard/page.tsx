@@ -12,15 +12,17 @@ export const revalidate = 120;
 const getCachedLeaderboardData = unstable_cache(
   async () => {
     return prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        pseudo: true,
-        image: true,
-        class: true,
-        progress: { select: { level: true, experience: true, missionsCompletedCount: true } },
-      },
-      orderBy: [{ progress: { experience: "desc" } }, { progress: { level: "desc" } }],
+        select: {
+          id: true,
+          name: true,
+          pseudo: true,
+          image: true,
+          class: true,
+          level: true,
+          experience: true,
+          missionsCompletedCount: true,
+        },
+        orderBy: [{ experience: "desc" }, { level: "desc" }],
       take: 50,
     });
   },
@@ -37,9 +39,9 @@ async function getLeaderboard() {
     pseudo: u.pseudo,
     image: u.image,
     class: u.class,
-    level: u.progress?.level ?? 1,
-    experience: u.progress?.experience ?? 0,
-    missionsCompletedCount: u.progress?.missionsCompletedCount ?? 0,
+    level: u.level ?? 1,
+    experience: u.experience ?? 0,
+    missionsCompletedCount: u.missionsCompletedCount ?? 0,
     rank: i + 1,
   }));
 }

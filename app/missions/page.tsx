@@ -30,9 +30,10 @@ type MissionsUserPayload = Prisma.UserGetPayload<{
         mission: { select: { slug: true } };
       };
     };
-    progress: { select: { level: true; experience: true } };
+    level: true;
+    experience: true;
   };
-}>;
+ }>;
 
 const getMissionsEnrichment = unstable_cache(
   async () => {
@@ -124,7 +125,8 @@ export default async function MissionsPage() {
               mission: { select: { slug: true } },
             },
           },
-          progress: { select: { level: true, experience: true } },
+          level: true,
+          experience: true,
         }
       }),
       prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
@@ -186,7 +188,7 @@ export default async function MissionsPage() {
         
         <UserTopBar user={finalDbUser} />
         
-        <main className="flex-1 p-4 md:p-10 pb-(--bottom-nav-height) md:pb-12 overflow-y-auto scrollbar-none relative z-10">
+        <main className="flex-1 p-4 md:p-10 pb-(--bottom-nav-height) md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
             <Link 
               href="/dashboard" 
@@ -229,17 +231,17 @@ export default async function MissionsPage() {
                       <div className="text-[10px] font-mono text-zinc-500 uppercase">Données_D_Évolution</div>
                       <div className="text-sm font-bold text-white uppercase tracking-tight">Expérience Globale Accumulée</div>
                    </div>
-                    <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.progress?.experience ?? 0} <span className="text-xs not-italic text-zinc-600">XP</span></div>
+                     <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience ?? 0} <span className="text-xs not-italic text-zinc-600">XP</span></div>
                 </div>
                 <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
                     <div 
                         className="h-full bg-primary shadow-[0_0_20px_#C5F441] transition-all duration-1000" 
-                        style={{ width: `${Math.min(100, ((finalDbUser.progress?.experience ?? 0) % 1000) / 10)}%` }}
+                         style={{ width: `${Math.min(100, ((finalDbUser.experience ?? 0) % 1000) / 10)}%` }}
                     />
                 </div>
                 <div className="text-[10px] text-zinc-500 mt-4 font-mono uppercase tracking-wider flex items-center gap-2">
                    <span className="size-1 rounded-full bg-primary animate-pulse" />
-                   Status: Synchronisation de ton habilitation niveau {finalDbUser.progress?.level ?? 1} en cours...
+                   Status: Synchronisation de ton habilitation niveau {finalDbUser.level ?? 1} en cours...
                 </div>
               </div>
               
@@ -254,8 +256,8 @@ export default async function MissionsPage() {
 
             <div id="tour-missions-list">
               <MissionsList 
-                userLevel={finalDbUser.progress?.level ?? 1} 
-                userXp={finalDbUser.progress?.experience ?? 0} 
+                userLevel={finalDbUser.level ?? 1} 
+                userXp={finalDbUser.experience ?? 0} 
                 submissions={submissionsMap} 
                 userClass={finalDbUser.class}
                 missions={enrichedMissions}
