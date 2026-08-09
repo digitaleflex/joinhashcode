@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
             pseudo: true,
             image: true,
             class: true,
-            progress: { select: { level: true } },
+            level: true,
           },
         },
       },

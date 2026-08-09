@@ -11,36 +11,39 @@ export async function GET() {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
-    let userReferral = await prisma.userReferral.findUnique({
-      where: { userId: session.user.id },
+    const currentReferral = await prisma.user.findUnique({
+      where: { id: session.user.id },
       select: { referralCode: true, referralCount: true },
     });
 
-    if (!userReferral) {
-      userReferral = await prisma.userReferral.create({
-        data: {
-          userId: session.user.id,
-          referralCode: nanoid(8).toLowerCase(),
-          referralCount: 0,
-        },
+    if (!currentReferral) {
+      const newCode = nanoid(8).toLowerCase();
+      const created = await prisma.user.update({
+        where: { id: session.user.id },
+        data: { referralCode: newCode },
         select: { referralCode: true, referralCount: true },
       });
+      return NextResponse.json(created, { headers: { "Cache-Control": "private, no-cache" } });
     }
 
-    // Fetch referred users via the referral table
-    const referredUserRecords = await prisma.userReferral.findMany({
+    // Fetch referred users via referrerId
+    const referredUserRecords = await prisma.user.findMany({
       where: { referrerId: session.user.id },
       select: {
-        user: {
-          select: { id: true, name: true, pseudo: true, image: true, class: true, progress: { select: { level: true } }, createdAt: true },
-        },
+        id: true,
+        name: true,
+        pseudo: true,
+        image: true,
+        class: true,
+        level: true,
+        createdAt: true,
       },
     });
-    const referrals = referredUserRecords.map(r => r.user);
+    const referrals = referredUserRecords;
 
     return NextResponse.json({
-      referralCode: userReferral.referralCode,
-      referralCount: userReferral.referralCount,
+      referralCode: currentReferral.referralCode,
+      referralCount: currentReferral.referralCount,
       referrals,
     }, { headers: { "Cache-Control": "private, no-cache" } });
   } catch (error: unknown) {

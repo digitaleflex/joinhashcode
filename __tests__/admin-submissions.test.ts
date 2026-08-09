@@ -15,6 +15,10 @@ const { mockPrisma } = vi.hoisted(() => {
       findUnique: vi.fn(),
       update: vi.fn(),
       updateMany: vi.fn(),
+      count: vi.fn(),
+    },
+    missionReview: {
+      count: vi.fn(),
     },
     member: {
       findFirst: vi.fn(),
@@ -24,9 +28,6 @@ const { mockPrisma } = vi.hoisted(() => {
     },
     activityLog: {
       create: vi.fn(),
-    },
-    userProgress: {
-      upsert: vi.fn(),
     },
     $transaction: vi.fn(),
   };
@@ -90,10 +91,9 @@ describe("Admin Submissions API [id]", () => {
   it("should approve submission and update evolution and notify", async () => {
     (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
     
-    const mockUser = { id: "user1", progress: { experience: 0, level: 1 } };
+    const mockUser = { id: "user1", experience: 0, level: 1 };
     (prisma.user.findUnique as any).mockResolvedValue(mockUser);
     (prisma.user.update as any).mockResolvedValue(mockUser);
-    (prisma.userProgress.upsert as any).mockResolvedValue({ missionsCompletedCount: 1 });
     (prisma.xpTransaction.create as any).mockResolvedValue({});
     (prisma.activityLog.create as any).mockResolvedValue({});
 
@@ -102,7 +102,7 @@ describe("Admin Submissions API [id]", () => {
       userId: "user1",
       status: "PENDING",
       mission: { id: "m1", title: "Mission 1", xp: 100, weightBuilder: 1, weightCreator: 0, weightStrategist: 0, weightCatalyst: 0 },
-      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1, stats: null, progress: null }
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1 }
     };
     (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
 
@@ -165,7 +165,7 @@ describe("Admin Submissions API [id]", () => {
       userId: "user1",
       status: "PENDING",
       mission: { id: "m1", title: "Mission 1", xp: 200, category: "CODE", weightBuilder: 1, weightCreator: 0, weightStrategist: 0, weightCatalyst: 0 },
-      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1, stats: null, progress: null }
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1 }
     };
     (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
 

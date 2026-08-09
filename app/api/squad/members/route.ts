@@ -29,14 +29,8 @@ export async function GET() {
             pseudo: true,
             image: true,
             class: true,
-            stats: {
-              select: {
-                lastCheckinAt: true,
-              }
-            }
-          },
-          include: {
-            progress: { select: { level: true } },
+            level: true,
+            lastCheckinAt: true,
           },
         },
       },
@@ -52,8 +46,8 @@ export async function GET() {
         pseudo: m.user.pseudo,
         image: m.user.image,
         class: m.user.class,
-        level: m.user.progress?.level ?? 1,
-        lastCheckinAt: m.user.stats?.lastCheckinAt ?? null,
+        level: m.user.level ?? 1,
+        lastCheckinAt: m.user.lastCheckinAt ?? null,
       }
     }));
 

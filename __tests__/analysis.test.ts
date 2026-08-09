@@ -45,10 +45,7 @@ describe("analyzeQuizResults", () => {
 
   it("detects hybrid when two profiles are close", () => {
     const answers = [
-      "builder", "builder", "builder", "builder",
-      "strategist", "strategist", "strategist", "strategist",
-      "builder", "builder", "builder", "strategist",
-      "strategist",
+      "builder", "strategist", "strategist", "catalyst", "creator"
     ]
     const result = analyzeQuizResults(answers, [])
     expect(result.isHybrid).toBe(true)

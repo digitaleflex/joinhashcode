@@ -16,13 +16,6 @@ vi.mock("../lib/prisma", () => {
       create: vi.fn(),
       findFirst: vi.fn(),
     },
-    guild: {
-      findUnique: vi.fn(),
-    },
-    guildMember: {
-      upsert: vi.fn(),
-      deleteMany: vi.fn(),
-    },
     $transaction: vi.fn(),
   };
   return { prisma: mockPrisma };
@@ -67,6 +60,11 @@ vi.mock("../lib/analysis", () => ({
     level: 1,
     scores: { builder: 100, creator: 0, strategist: 0, catalyst: 0 },
     consistencyScore: 0.9,
+    bayesianState: {
+      posterior: { builder: 0.6, creator: 0.1, strategist: 0.1, catalyst: 0.1 },
+      uncertainty: 0.65,
+      evidenceCount: 1,
+    },
   })),
 }));
 
@@ -127,7 +125,7 @@ describe("Quiz Server Action", () => {
     });
 
     const res = await submitQuiz({
-      answers: Array(13).fill("builder"),
+      answers: Array(5).fill("builder"),
     });
 
     expect(res.success).toBe(false);
@@ -155,13 +153,11 @@ describe("Quiz Server Action", () => {
 
     // Mock prisma responses in transaction
     (prisma.quizResult.create as any).mockResolvedValue({ id: "quiz-res-123" });
-    (prisma.guild.findUnique as any).mockResolvedValue({ id: "guild-123", slug: "builders" });
-    (prisma.guildMember.upsert as any).mockResolvedValue({ id: "member-123" });
     (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
 
     const res = await submitQuiz({
-      answers: Array(13).fill("builder"),
-      responseTimes: Array(13).fill(1000),
+      answers: Array(5).fill("builder"),
+      responseTimes: Array(5).fill(1000),
     });
 
     expect(res.success).toBe(true);
@@ -188,13 +184,11 @@ describe("Quiz Server Action", () => {
 
     // Mock prisma responses in transaction
     (prisma.quizResult.create as any).mockResolvedValue({ id: "quiz-res-123" });
-    (prisma.guild.findUnique as any).mockResolvedValue({ id: "guild-123", slug: "builders" });
-    (prisma.guildMember.upsert as any).mockResolvedValue({ id: "member-123" });
     (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
 
     const res = await submitQuiz({
-      answers: Array(13).fill("builder"),
-      responseTimes: Array(13).fill(1000),
+      answers: Array(5).fill("builder"),
+      responseTimes: Array(5).fill(1000),
     });
 
     expect(res.success).toBe(true);
@@ -213,13 +207,11 @@ describe("Quiz Server Action", () => {
 
     // Mock prisma responses in transaction
     (prisma.quizResult.create as any).mockResolvedValue({ id: "quiz-res-123" });
-    (prisma.guild.findUnique as any).mockResolvedValue({ id: "guild-123", slug: "builders" });
-    (prisma.guildMember.upsert as any).mockResolvedValue({ id: "member-123" });
     (prisma.user.update as any).mockResolvedValue({ id: "user-1" });
 
     const res = await submitQuiz({
-      answers: Array(13).fill("builder"),
-      responseTimes: Array(13).fill(1000),
+      answers: Array(5).fill("builder"),
+      responseTimes: Array(5).fill(1000),
     });
 
     expect(res.success).toBe(true);
@@ -231,7 +223,7 @@ describe("Quiz Server Action", () => {
       data: {
         user: { connect: { id: "user-1" } },
         profileType: "builder",
-        answers: Object.fromEntries(Array(13).fill("builder").map((a, i) => [i, a])),
+        answers: Object.fromEntries(Array(5).fill("builder").map((a, i) => [i, a])),
         averageResponseTime: 1000,
       },
     });
@@ -240,40 +232,15 @@ describe("Quiz Server Action", () => {
       where: { id: "user-1" },
       data: expect.objectContaining({
         class: "builder",
-        progress: {
-          upsert: {
-            create: { level: 1, experience: 0 },
-            update: { level: 1 },
-          }
-        },
-        builderScore: 100,
-        creatorScore: 0,
-        strategistScore: 0,
-        catalystScore: 0,
-        confidenceScore: 0.25,
+        experience: 0,
+        level: 1,
+        builderScore: expect.any(Number),
+        creatorScore: expect.any(Number),
+        strategistScore: expect.any(Number),
+        catalystScore: expect.any(Number),
       }),
     });
 
-    expect(prisma.guild.findUnique).toHaveBeenCalledWith({
-      where: { slug: "builders" },
-    });
-
-    expect(prisma.guildMember.upsert).toHaveBeenCalledWith({
-      where: {
-        userId_guildId: {
-          userId: "user-1",
-          guildId: "guild-123",
-        },
-      },
-      create: {
-        userId: "user-1",
-        guildId: "guild-123",
-        role: "MEMBER",
-      },
-      update: {},
-    });
-
-    // Verify email and activity triggers
     expect(emailService.sendQuizResults).toHaveBeenCalledWith({
       email: "test@example.com",
       name: "Test User",

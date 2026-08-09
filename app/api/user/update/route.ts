@@ -92,6 +92,10 @@ export async function PATCH(req: Request) {
       where: { id: session.user.id },
       data: {
         ...restData,
+        githubUrl: githubUrl || null,
+        portfolioUrl: portfolioUrl || null,
+        twitterUrl: twitterUrl || null,
+        linkedinUrl: linkedinUrl || null,
         ...(bio !== undefined || secondaryObjectives !== undefined ? {
           profile: {
             upsert: {
@@ -106,22 +110,6 @@ export async function PATCH(req: Request) {
             }
           }
         } : {}),
-        socials: {
-          upsert: {
-            create: {
-              githubUrl: githubUrl || null,
-              portfolioUrl: portfolioUrl || null,
-              twitterUrl: twitterUrl || null,
-              linkedinUrl: linkedinUrl || null,
-            },
-            update: {
-              githubUrl: githubUrl !== undefined ? githubUrl : undefined,
-              portfolioUrl: portfolioUrl !== undefined ? portfolioUrl : undefined,
-              twitterUrl: twitterUrl !== undefined ? twitterUrl : undefined,
-              linkedinUrl: linkedinUrl !== undefined ? linkedinUrl : undefined,
-            }
-          }
-        }
       },
       select: {
         id: true,
@@ -144,9 +132,13 @@ export async function PATCH(req: Request) {
         specializationAt: true,
         mainObjective: true,
         updatedAt: true,
-        socials: true,
+        githubUrl: true,
+        portfolioUrl: true,
+        twitterUrl: true,
+        linkedinUrl: true,
         profile: { select: { bio: true, secondaryObjectives: true } },
-        progress: { select: { level: true, experience: true } },
+        level: true,
+        experience: true,
       }
     });
 
@@ -157,8 +149,8 @@ export async function PATCH(req: Request) {
       name: updatedUser.name,
       email: updatedUser.email,
       image: updatedUser.image,
-      level: updatedUser.progress?.level ?? 1,
-      experience: updatedUser.progress?.experience ?? 0,
+      level: updatedUser.level ?? 1,
+      experience: updatedUser.experience ?? 0,
       class: updatedUser.class,
       role: updatedUser.role,
       pseudo: updatedUser.pseudo,
@@ -166,10 +158,10 @@ export async function PATCH(req: Request) {
       country: updatedUser.country,
       city: updatedUser.city,
       language: updatedUser.language,
-      githubUrl: updatedUser.socials?.githubUrl ?? null,
-      linkedinUrl: updatedUser.socials?.linkedinUrl ?? null,
-      twitterUrl: updatedUser.socials?.twitterUrl ?? null,
-      portfolioUrl: updatedUser.socials?.portfolioUrl ?? null,
+      githubUrl: updatedUser.githubUrl ?? null,
+      linkedinUrl: updatedUser.linkedinUrl ?? null,
+      twitterUrl: updatedUser.twitterUrl ?? null,
+      portfolioUrl: updatedUser.portfolioUrl ?? null,
       domains: updatedUser.domains,
       tools: updatedUser.tools,
       primaryDomain: updatedUser.primaryDomain,

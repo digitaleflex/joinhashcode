@@ -11,6 +11,12 @@ vi.mock("../lib/prisma", () => {
       findFirst: vi.fn(),
       create: vi.fn(),
     },
+    missionSubmission: {
+      count: vi.fn(),
+    },
+    missionReview: {
+      count: vi.fn(),
+    },
     user: {
       findUnique: vi.fn(),
       update: vi.fn(),
@@ -18,12 +24,6 @@ vi.mock("../lib/prisma", () => {
     member: {
       findFirst: vi.fn(),
       findUnique: vi.fn(),
-    },
-    guildMember: {
-      findFirst: vi.fn(),
-    },
-    engagementStats: {
-      upsert: vi.fn(),
     },
     xpTransaction: {
       create: vi.fn(),
@@ -99,7 +99,6 @@ describe("Security & Abuse Prevention", () => {
         currentStreak: 0,
         longestStreak: 0,
         lastStreakDate: null,
-        guildMembers: [],
       });
       (prisma.dailyCheckin.create as any).mockResolvedValue({ id: "checkin-2" });
 

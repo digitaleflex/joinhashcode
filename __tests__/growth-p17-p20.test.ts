@@ -21,10 +21,13 @@ vi.mock('../lib/prisma', () => ({
     xpTransaction: {
       create: vi.fn(),
     },
-    userReferral: {
-      upsert: vi.fn(),
-    },
     dailyCheckin: {
+      count: vi.fn(),
+    },
+    missionSubmission: {
+      count: vi.fn(),
+    },
+    missionReview: {
       count: vi.fn(),
     },
     $transaction: vi.fn((arg) => {
@@ -38,7 +41,7 @@ vi.mock('../lib/prisma', () => ({
 
 describe('Referral System Logic (P17)', () => {
   it('should not award reward if user has no referrer', async () => {
-    (prisma.user.findUnique as any).mockResolvedValue({ id: 'user_new', referral: null, createdAt: new Date() });
+    (prisma.user.findUnique as any).mockResolvedValue({ id: 'user_new', referrerId: null, createdAt: new Date() });
     
     await processReferralReward('user_new');
     
@@ -51,7 +54,7 @@ describe('Referral System Logic (P17)', () => {
       if (where.id === 'user_new') {
         return Promise.resolve({ 
           id: 'user_new',
-          referral: { referrerId: mockReferrerId },
+          referrerId: mockReferrerId,
           name: 'Nouveau Filleul',
           createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 jours (valide > 7)
         });
@@ -61,7 +64,8 @@ describe('Referral System Logic (P17)', () => {
           id: mockReferrerId,
           name: 'Referrer',
           email: 'referrer@test.com',
-          progress: { experience: 100, level: 1 },
+          experience: 100,
+          level: 1,
         });
       }
       return Promise.resolve(null);
@@ -75,21 +79,10 @@ describe('Referral System Logic (P17)', () => {
     expect(prisma.user.update).toHaveBeenCalledWith(expect.objectContaining({
       where: { id: mockReferrerId },
       data: expect.objectContaining({
-        progress: expect.objectContaining({
-          upsert: expect.objectContaining({
-            create: expect.objectContaining({ experience: 50 }),
-            update: expect.objectContaining({ experience: { increment: 50 } }),
-          })
-        })
+        referralCount: { increment: 1 },
       })
     }));
 
-    expect(prisma.userReferral.upsert).toHaveBeenCalledWith(expect.objectContaining({
-      where: { userId: mockReferrerId },
-      create: expect.objectContaining({ referralCount: 1 }),
-      update: expect.objectContaining({ referralCount: { increment: 1 } }),
-    }));
-    
     expect(prisma.notification.create).toHaveBeenCalled();
   });
 });

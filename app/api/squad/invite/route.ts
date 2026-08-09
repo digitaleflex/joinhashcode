@@ -41,17 +41,14 @@ export async function POST(req: Request) {
     // Find target user
     const targetUser = await prisma.user.findUnique({
       where: { id: targetUserId },
+      select: { id: true, email: true, name: true, banned: true },
     });
 
     if (!targetUser) {
       return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
     }
 
-    // Check if target is already banned
-    const targetSecurity = await prisma.userSecurity.findUnique({
-      where: { userId: targetUserId },
-    });
-    if (targetSecurity?.banned) {
+    if (targetUser.banned) {
       return NextResponse.json({ error: "Cet utilisateur est suspendu" }, { status: 403 });
     }
 

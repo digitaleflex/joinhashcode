@@ -12,7 +12,7 @@ export async function GET() {
 
     const reviewer = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, class: true, progress: { select: { level: true, missionsCompletedCount: true } } },
+      select: { id: true, class: true, level: true, missionsCompletedCount: true },
     });
 
     if (!reviewer) return NextResponse.json({ message: "Utilisateur non trouvé" }, { status: 404 });
@@ -21,7 +21,7 @@ export async function GET() {
       where: { status: "PENDING" },
       include: {
         mission: { select: { id: true, title: true, category: true, xp: true, missionLevel: true, targetProfiles: true } },
-        user: { select: { id: true, name: true, pseudo: true, progress: { select: { level: true } } } },
+        user: { select: { id: true, name: true, pseudo: true, level: true } },
       },
       orderBy: { createdAt: "asc" },
     });
@@ -30,8 +30,8 @@ export async function GET() {
       const missionRequiredLevel = LEVEL_REQUIREMENT[sub.mission.missionLevel ?? "INIT"] ?? 1;
       return isEligibleReviewer({
         reviewerClass: reviewer.class,
-        reviewerLevel: reviewer.progress?.level ?? 1,
-        reviewerMissionsCompleted: reviewer.progress?.missionsCompletedCount ?? 0,
+        reviewerLevel: reviewer.level ?? 1,
+        reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
         reviewerId: reviewer.id,
         submissionUserId: sub.userId,
         missionTargetProfiles: sub.mission.targetProfiles,

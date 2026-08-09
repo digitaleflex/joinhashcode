@@ -130,7 +130,6 @@ export async function submitQuiz(rawData: unknown) {
           creatorScore: analysis.scores.creator || 0,
           strategistScore: analysis.scores.strategist || 0,
           catalystScore: analysis.scores.catalyst || 0,
-          confidenceScore: analysis.confidenceScore,
           level: analysis.level,
           experience: 0,
         },

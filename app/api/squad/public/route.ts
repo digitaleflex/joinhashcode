@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
                 pseudo: true,
                 image: true,
                 class: true,
-                progress: { select: { level: true } },
+                level: true,
               },
             },
           },
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
         pseudo: member.user.pseudo,
         image: member.user.image,
         class: member.user.class,
-        level: member.user.progress?.level ?? 1,
+        level: member.user.level ?? 1,
       })),
     }));
 
