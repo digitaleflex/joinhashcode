@@ -41,16 +41,35 @@ export default async function NotificationsPage() {
   try {
     const userData = await prisma.user.findUnique({
       where: { id: session.user.id },
-      include: {
-      profile: { select: { bio: true } },
-      lastCheckinAt: true,
-      currentStreak: true,
-      level: true,
-      experience: true,
-      missionsCompletedCount: true,
-      referralCode: true,
-      referralCount: true,
-      members: {
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        level: true,
+        experience: true,
+        missionsCompletedCount: true,
+        referralCode: true,
+        referralCount: true,
+        class: true,
+        behavioralVibrancy: true,
+        pseudo: true,
+        role: true,
+        language: true,
+        lastCheckinAt: true,
+        currentStreak: true,
+        memberNumber: true,
+        createdAt: true,
+        domains: true,
+        tools: true,
+        badges: true,
+        currentSituation: true,
+        technicalLevel: true,
+        mainObjective: true,
+        country: true,
+        city: true,
+        profile: { select: { bio: true } },
+        members: {
           take: 1,
           include: {
             organization: {

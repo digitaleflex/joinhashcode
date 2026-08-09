@@ -201,10 +201,7 @@ export const auth = betterAuth({
           await prisma.user.update({
             where: { id: userId },
             data: {
-          referralCode: {
-            create: { referralCode },
-            update: { referralCode },
-          },
+          referralCode: referralCode,
 
           githubUrl: null,
           portfolioUrl: null,

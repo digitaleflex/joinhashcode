@@ -1,6 +1,6 @@
 import { questions } from "./questions";
 import { PROFILE_CONTENT } from "./profile-content";
-import { createBayesianProfileFromQuiz } from "./bayesian-profile";
+import { createKalmanStateFromQuiz } from "./profile-kalman";
 
 export type ProfileType = "builder" | "creator" | "strategist" | "catalyst";
 
@@ -43,10 +43,10 @@ export interface AnalysisResult {
   consistencyScore: number;
   suggestedChannels: Channel[];
   recommendedSpecializations: RecommendedSpecialization[];
-  bayesianState?: {
-    posterior: Record<ProfileType, number>;
-    uncertainty: number;
-    evidenceCount: number;
+  kalmanState?: {
+    mean: Record<ProfileType, number>;
+    confidence: number;
+    lastUpdated: Date;
   };
 }
 
@@ -211,7 +211,7 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
       })
     : fallback;
 
-  const bayesianState = createBayesianProfileFromQuiz(percentages);
+  const kalmanState = createKalmanStateFromQuiz(percentages);
 
   return {
     scores: counts,
@@ -224,10 +224,15 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     consistencyScore,
     suggestedChannels: channels,
     recommendedSpecializations,
-    bayesianState: {
-      posterior: bayesianState.posterior,
-      uncertainty: bayesianState.uncertainty,
-      evidenceCount: bayesianState.evidenceCount,
+    kalmanState: {
+      mean: {
+        builder: kalmanState.mean[0],
+        creator: kalmanState.mean[1],
+        strategist: kalmanState.mean[2],
+        catalyst: kalmanState.mean[3],
+      },
+      confidence: kalmanState.confidence,
+      lastUpdated: kalmanState.lastUpdated,
     },
   };
 };

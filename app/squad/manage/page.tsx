@@ -73,7 +73,7 @@ export default async function SquadManagePage() {
                       experience: true,
                       missionsCompletedCount: true,
                       referralCode: true,
-                      referredCount: true,
+                      referralCount: true,
                     },
                 },
               },

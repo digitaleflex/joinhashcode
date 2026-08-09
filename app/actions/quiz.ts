@@ -6,6 +6,7 @@ import { Prisma } from "../../generated/prisma/client";
 import { headers } from "next/headers";
 import { emailService } from "@/lib/email";
 import { analyzeQuizResults } from "@/lib/analysis";
+import { initializeProfileFromQuiz } from "@/lib/profile-kalman";
 import { logActivity } from "@/lib/activity-log";
 import { invalidateUserCache } from "@/lib/user-cache";
 import { z } from "zod";
@@ -105,6 +106,8 @@ export async function submitQuiz(rawData: unknown) {
           )
         : 0;
 
+    const kalmanState = initializeProfileFromQuiz(analysis.percentages);
+
     // Prisma Transaction for all writes to preserve database integrity
     const { quizResult } = await prisma.$transaction(async (tx) => {
       // 1. Create the quiz result
@@ -130,6 +133,7 @@ export async function submitQuiz(rawData: unknown) {
           creatorScore: analysis.scores.creator || 0,
           strategistScore: analysis.scores.strategist || 0,
           catalystScore: analysis.scores.catalyst || 0,
+          confidenceScore: kalmanState.confidence,
           level: analysis.level,
           experience: 0,
         },

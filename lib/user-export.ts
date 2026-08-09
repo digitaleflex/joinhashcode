@@ -1,16 +1,16 @@
 import { prisma } from "./prisma";
 
-const PROFILE_INCLUDE = {
-  select: {
-    githubUrl: true,
-    linkedinUrl: true,
-    twitterUrl: true,
-    portfolioUrl: true,
-    currentStreak: true,
-    longestStreak: true,
-    lastCheckinAt: true,
-    lastStreakDate: true,
-  },
+const PROFILE_SELECT = {
+  name: true,
+  email: true,
+  githubUrl: true,
+  linkedinUrl: true,
+  twitterUrl: true,
+  portfolioUrl: true,
+  currentStreak: true,
+  longestStreak: true,
+  lastCheckinAt: true,
+  lastStreakDate: true,
 } as const;
 
 export async function collectUserData(userId: string) {
@@ -24,7 +24,7 @@ export async function collectUserData(userId: string) {
     notifications,
     feedbacks,
   ] = await Promise.all([
-    prisma.user.findUnique({ where: { id: userId }, include: PROFILE_INCLUDE }),
+    prisma.user.findUnique({ where: { id: userId }, select: PROFILE_SELECT }),
     prisma.quizResult.findMany({
       where: { userId },
       select: { id: true, profileType: true, score: true, answers: true, createdAt: true, averageResponseTime: true },

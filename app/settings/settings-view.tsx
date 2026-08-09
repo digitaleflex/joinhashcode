@@ -179,7 +179,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                         <div className="absolute left-0 top-1/4 bottom-1/4 w-1 rounded-full" style={{ backgroundColor: tabColor.color }} aria-hidden="true" />
                       )}
                       {isActive && (
-                        <div className="absolute inset-0 -z-10 pointer-events-none opacity-60" style={{ background: `radial-gradient(circle at 10% 50%, ${tabColor.color}22 0%, transparent 70%)` }} aria-hidden="true" />
+                        <div className="absolute inset-0 z-[var(--z-base)] pointer-events-none opacity-60" style={{ background: `radial-gradient(circle at 10% 50%, ${tabColor.color}22 0%, transparent 70%)` }} aria-hidden="true" />
                       )}
                       <div
                         className={cn("p-3 rounded-xl transition-all duration-500 relative", isActive ? "text-black" : "bg-zinc-900 border border-white/5 group-hover:text-primary")}

@@ -41,17 +41,21 @@ export async function processReferralReward(newUserId: string) {
 
     const rewardXp = 50;
 
+    if (!user.referrerId) {
+      return;
+    }
+
     await prisma.$transaction(async (tx) => {
-      await awardXp(user.referrerId, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
+      await awardXp(user.referrerId as string, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
 
       await tx.user.update({
-        where: { id: user.referrerId },
+        where: { id: user.referrerId as string },
         data: { referralCount: { increment: 1 } },
       });
 
       await tx.notification.create({
         data: {
-          userId: user.referrerId,
+          userId: user.referrerId as string,
           type: "REFERRAL_SUCCESS",
           title: "Récompense de parrainage ! 💎",
           message: `Ton ami ${user.name} a rejoint HASHCODE. Tu as reçu +${rewardXp} XP.`,

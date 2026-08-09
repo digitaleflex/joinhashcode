@@ -23,13 +23,18 @@ function ConfirmDialog({
   onConfirm,
   children,
   className,
-}: React.ComponentProps<typeof DialogPrimitive.Root> & {
-  title: string
-  description?: string
-  confirmText?: string
-  cancelText?: string
-  variant?: 'destructive' | 'default'
-  onConfirm?: () => void
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description?: string;
+  confirmText?: string;
+  cancelText?: string;
+  variant?: 'destructive' | 'default';
+  onConfirm?: () => void;
+  className?: string;
+} & React.ComponentProps<typeof DialogPrimitive.Root> & {
+  children?: React.ReactNode;
 }) {
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>

@@ -59,11 +59,12 @@ vi.mock("../lib/analysis", () => ({
     primary: "builder",
     level: 1,
     scores: { builder: 100, creator: 0, strategist: 0, catalyst: 0 },
+    percentages: { builder: 100, creator: 0, strategist: 0, catalyst: 0 },
     consistencyScore: 0.9,
-    bayesianState: {
-      posterior: { builder: 0.6, creator: 0.1, strategist: 0.1, catalyst: 0.1 },
-      uncertainty: 0.65,
-      evidenceCount: 1,
+    kalmanState: {
+      mean: { builder: 0.6, creator: 0.1, strategist: 0.1, catalyst: 0.1 },
+      confidence: 0.35,
+      lastUpdated: new Date(),
     },
   })),
 }));
@@ -232,12 +233,15 @@ describe("Quiz Server Action", () => {
       where: { id: "user-1" },
       data: expect.objectContaining({
         class: "builder",
-        experience: 0,
-        level: 1,
         builderScore: expect.any(Number),
         creatorScore: expect.any(Number),
         strategistScore: expect.any(Number),
         catalystScore: expect.any(Number),
+        confidenceScore: expect.any(Number),
+        behavioralVibrancy: expect.any(Object),
+        lastHypothesisUpdate: expect.any(Date),
+        level: 1,
+        experience: 0,
       }),
     });
 

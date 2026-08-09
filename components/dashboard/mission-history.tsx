@@ -40,11 +40,7 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
           <EmptyState
             icon={Target}
             title="Aucune mission complétée pour l'instant"
-            description={
-              <span className="text-[11px] text-zinc-600 font-mono max-w-xs">
-                Chaque mission approuvée apparaît ici. Commence par une mission INIT — elles sont conçues pour les débutants.
-              </span>
-            }
+            description="Chaque mission approuvée apparaît ici. Commence par une mission INIT — elles sont conçues pour les débutants."
             action={
               <Button asChild size="sm" className="btn-primary-glow h-10 rounded-xl font-bold text-xs uppercase tracking-wider">
                 <Link href="/missions">Voir les missions disponibles</Link>
