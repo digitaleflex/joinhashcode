@@ -125,7 +125,7 @@ export const PATCH = withAdminAuth(async (req: Request) => {
           data: { experience: newXp, level: newLevel },
         });
 
-        await updateUserEvolution(feedback.userId, contributionWeights, 0.02, tx);
+        await updateUserEvolution(feedback.userId, contributionWeights, tx);
 
         try {
           await triggerNotification({

@@ -237,7 +237,6 @@ describe("Quiz Server Action", () => {
         creatorScore: expect.any(Number),
         strategistScore: expect.any(Number),
         catalystScore: expect.any(Number),
-        confidenceScore: expect.any(Number),
         behavioralVibrancy: expect.any(Object),
         lastHypothesisUpdate: expect.any(Date),
         level: 1,

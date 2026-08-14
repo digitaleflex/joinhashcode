@@ -48,7 +48,6 @@ export interface SquadData {
   isPrivate?: boolean
   requiredLevel?: number | null
   discordInviteUrl?: string | null
-  lastComboAt?: string | Date | null
   cohesionScore?: number | null
   streakCount?: number | null
   members?: SquadMemberData[]

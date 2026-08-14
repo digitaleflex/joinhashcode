@@ -137,7 +137,7 @@ export async function POST(req: Request) {
 
         // Update Vibrancy and Confidence
         const weights = { builder: 0, creator: 0, strategist: 0, catalyst: 0, ...CHECKIN_WEIGHTS[domain] };
-        await updateUserEvolution(session.user.id, weights, 0.05);
+        await updateUserEvolution(session.user.id, weights);
 
         // Update squad cohesion if member
         const membership = await prisma.member.findUnique({

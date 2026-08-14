@@ -17,7 +17,6 @@ export { getLevelProgress } from './level-utils';
 export async function updateUserEvolution(
   userId: string,
   actionWeights: BehavioralVitality,
-  confidenceGain: number,
   tx?: Prisma.TransactionClient
 ) {
   const client = tx || prisma;

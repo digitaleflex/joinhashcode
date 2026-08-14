@@ -189,7 +189,7 @@ export async function POST(
           await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId);
 
           // Évolution du profil comportemental
-          await updateUserEvolution(submission.userId, missionWeights, 0.05);
+          await updateUserEvolution(submission.userId, missionWeights);
 
           // Cohésion d'escouade
           const userMember = await prisma.member.findFirst({

@@ -235,7 +235,6 @@ export default async function DashboardPage() {
       fullSubmissions={submissions}
       squad={squad}
       memberRole={member?.role ?? undefined}
-      recommendedMissions={[]}
       feedActivities={feedActivities}
       featureFlags={featureFlags}
     />

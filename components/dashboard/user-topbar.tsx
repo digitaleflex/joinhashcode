@@ -1,7 +1,6 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users, Zap } from "lucide-react"
-import { motion } from "framer-motion"
+import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -12,7 +11,6 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
-import { hoursSince } from "@/lib/dates"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
@@ -20,14 +18,6 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
 import type { NavUser } from "@/lib/types"
 import type { SquadData } from "@/components/dashboard/squad-journey"
-
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/components/ui/tooltip"
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
   {
@@ -40,7 +30,7 @@ const NotificationBell = dynamic(
   }
 )
 
-export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { user: NavUser | null, squad?: SquadData | null, memberRole?: string, featureFlags?: Record<string, boolean> }) {
+export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, squad?: SquadData | null, memberRole?: string }) {
   const session = authClient.useSession();
   const isImpersonated = session.data?.session?.impersonatedBy;
   const isOwner = memberRole === "owner";
@@ -120,40 +110,6 @@ export function UserTopBar({ user, squad, memberRole, featureFlags = {} }: { use
             </Link>
           </Button>
         )}
-
-        {/* Squad Combo Bonus Indicator */}
-        {(() => {
-          const activeOrg = session.data?.session as
-            | { activeOrganization?: { lastComboAt?: string | Date | null } }
-            | undefined;
-          const activeOrgCombo = activeOrg?.activeOrganization?.lastComboAt;
-          return (squad?.lastComboAt || activeOrgCombo) && (() => {
-            const lastCombo = squad?.lastComboAt || activeOrgCombo;
-            const diffHours = hoursSince(lastCombo ?? new Date());
-            if (diffHours < 24) {
-              return (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <motion.div 
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-500 font-mono text-[9px] font-black uppercase tracking-tighter cursor-help"
-                      >
-                        <Zap className="size-3 fill-amber-500 animate-pulse" />
-                        <span>Combo x1.15</span>
-                      </motion.div>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-[200px]">
-                      Toute l'escouade a fait son check-in hier ! Tu gagnes +15% d'XP sur toutes tes actions aujourd'hui.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              );
-            }
-            return null;
-          })();
-        })()}
 
         {/* Notifications */}
         <NotificationBell />

@@ -4,7 +4,6 @@ import { invalidateUserCache } from "./user-cache";
 import { checkAndAwardBadges } from "./badge-engine";
 import { emailService } from "./email";
 import { XP_THRESHOLDS } from "./member-card-constants";
-import { hoursSince } from "./dates";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -24,23 +23,8 @@ export async function awardXp(
   customTx?: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">
 ) {
   const execute = async (tx: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">) => {
-    // 1. Détecter le bonus de cohésion de squad
     let finalAmount = amount;
-    const membership = await tx.member.findFirst({
-      where: { userId },
-      include: { organization: true }
-    });
-
-    if (membership?.organization?.lastComboAt) {
-      const diffHours = hoursSince(membership.organization.lastComboAt);
-
-      // Si le combo a été réalisé il y a moins de 24h, appliquer le bonus
-      if (diffHours < 24) {
-        finalAmount = Math.round(amount * 1.15); // +15% de bonus
-      }
-    }
-
-    // 2. Enregistrer la transaction XP
+    // 1. Enregistrer la transaction XP
     await tx.xpTransaction.create({
       data: {
         userId,

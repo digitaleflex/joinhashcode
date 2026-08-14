@@ -36,6 +36,8 @@ import { type Mission } from "@/lib/missions"
 import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { WeeklyChallengeWidget } from "./weekly-challenge-widget"
+import { calculateNeuralSync } from "@/lib/evolution-utils";
+
 const NeuralSyncGauge = dynamic(() => import("./neural-sync-gauge").then((m) => m.NeuralSyncGauge), { ssr: false })
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
@@ -100,14 +102,13 @@ export function DashboardShell({
   const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
 
-  const hasCheckinToday = useMemo(() => {
-    if (!user?.lastCheckin) return false
-    const last = new Date(user.lastCheckin)
-    const now = new Date()
-    return last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth() && last.getDate() === now.getDate()
-  }, [user?.lastCheckin])
-
   const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
+  const syncScore = useMemo(() => calculateNeuralSync(user.class, {
+    builder: user.builderScore,
+    creator: user.creatorScore,
+    strategist: user.strategistScore,
+    catalyst: user.catalystScore,
+  }), [user.class, user.builderScore, user.creatorScore, user.strategistScore, user.catalystScore])
 
   return (
     <SidebarProvider>
@@ -122,7 +123,7 @@ export function DashboardShell({
       <AppSidebar user={user} hasSquad={!!squad} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} squad={squad} memberRole={memberRole} featureFlags={featureFlags} />
+        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
@@ -320,7 +321,7 @@ export function DashboardShell({
                   {featureFlags.neural_sync_gauge !== false && (
                     <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
                       <NeuralSyncGauge 
-                        score={25}
+                        score={syncScore}
                       />
                     </div>
                   )}

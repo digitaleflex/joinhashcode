@@ -87,7 +87,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       await after(async () => {
         try {
           // Évolution du profil comportemental
-          await updateUserEvolution(submission.userId, missionWeights, 0.05);
+          await updateUserEvolution(submission.userId, missionWeights);
 
           // Attribution XP & progression pour le submitter
           const updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId);

@@ -51,7 +51,6 @@ model User {
   creatorScore        Int     @default(0)
   strategistScore     Int     @default(0)
   catalystScore       Int     @default(0)
-  confidenceScore     Float   @default(0.3)
 
   level               Int      @default(1)
   experience          Int      @default(0)
@@ -136,8 +135,7 @@ model Organization {
   cohesionScore        Float          @default(0.1)
   streakCount          Int            @default(0)
   lastStreakAt         DateTime?
-  lastComboAt          DateTime?
-  requiredLevel        Int            @default(1)
+  requiredLevel        Int          @default(1)
   isPrivate            Boolean        @default(false)
   description          String?
   announcement         String?

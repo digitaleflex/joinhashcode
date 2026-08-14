@@ -1,6 +1,5 @@
 import { questions } from "./questions";
 import { PROFILE_CONTENT } from "./profile-content";
-import { createKalmanStateFromQuiz } from "./profile-kalman";
 
 export type ProfileType = "builder" | "creator" | "strategist" | "catalyst";
 
@@ -43,11 +42,6 @@ export interface AnalysisResult {
   consistencyScore: number;
   suggestedChannels: Channel[];
   recommendedSpecializations: RecommendedSpecialization[];
-  kalmanState?: {
-    mean: Record<ProfileType, number>;
-    confidence: number;
-    lastUpdated: Date;
-  };
 }
 
 // Class display labels
@@ -211,8 +205,6 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
       })
     : fallback;
 
-  const kalmanState = createKalmanStateFromQuiz(percentages);
-
   return {
     scores: counts,
     percentages,
@@ -224,15 +216,5 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     consistencyScore,
     suggestedChannels: channels,
     recommendedSpecializations,
-    kalmanState: {
-      mean: {
-        builder: kalmanState.mean[0],
-        creator: kalmanState.mean[1],
-        strategist: kalmanState.mean[2],
-        catalyst: kalmanState.mean[3],
-      },
-      confidence: kalmanState.confidence,
-      lastUpdated: kalmanState.lastUpdated,
-    },
   };
 };
