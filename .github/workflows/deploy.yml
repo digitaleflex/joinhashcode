@@ -79,10 +79,11 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          # printf '%s' laisse les "\n" littéraux si le secret est encodé avec des
-          # retours à la ligne échappés -> clé PEM corrompue ("error in libcrypto").
-          # printf '%b' interprète les séquences \n et restaure le fichier de clé.
-          printf '%b' "$SSH_KEY" > ~/.ssh/deploy_key
+          # La clé est écrite via heredoc pour préserver exactement les retours à la
+          # ligne réels du secret. printf '%s'/'%b' casse la clé ("error in libcrypto").
+          cat > ~/.ssh/deploy_key <<EOF
+          $SSH_KEY
+          EOF
           chmod 600 ~/.ssh/deploy_key
 
       - name: Deploy build & restart hashcode-web (retry x5)
