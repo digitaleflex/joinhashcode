@@ -58,6 +58,7 @@ jobs:
             prisma.config.ts
             compose.app.yml
             cluster.mjs
+            scripts/deploy-install.sh
           retention-days: 1
           if-no-files-found: error
           include-hidden-files: true
@@ -65,7 +66,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -73,60 +74,57 @@ jobs:
           name: build-output
           path: ./artifact
 
-      - name: Deploy build to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: artifact
-          target: /tmp/hashcode-deploy
-          timeout: 5m
-          command_timeout: 15m
+      - name: Prepare SSH key
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-      - name: Install build on VPS & restart
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command_timeout: 10m
-          script: |
-            set -e
-            APP_DIR="/home/audest/hashcode-community"
-            STAGE="/tmp/hashcode-deploy/artifact"
-            if [ ! -d "$APP_DIR" ]; then
-              echo "ERROR: app dir $APP_DIR missing"
-              exit 1
+      - name: Deploy build & restart hashcode-web (retry x5)
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          set -e
+
+          # Packer la build + le script d'install en un seul tarball
+          echo "=== packaging artifact ==="
+          tar -czf /tmp/hashcode-deploy.tgz -C artifact .
+
+          # Boucle de retry : le chemin runner->VPS est instable, on retente
+          success=0
+          for i in 1 2 3 4 5; do
+            echo ""
+            echo "=== tentative $i/5 ==="
+            if
+              # Un seul flux TCP pour le gros du transfert (le tarball)
+              ssh \
+                -o ConnectTimeout=20 \
+                -o ServerAliveInterval=15 \
+                -o ServerAliveCountMax=4 \
+                -o StrictHostKeyChecking=accept-new \
+                -i ~/.ssh/deploy_key -p "$SSH_PORT" \
+                "$SSH_USER@$SSH_HOST" \
+                'rm -rf /tmp/hashcode-deploy && mkdir -p /tmp/hashcode-deploy && tar -xzf - -C /tmp/hashcode-deploy' \
+              < /tmp/hashcode-deploy.tgz \
+              &&
+              # Ensuite le même tarball est déplacé sur le VPS pour soirces scripts
+              ssh \
+                -o ConnectTimeout=20 \
+                -o ServerAliveInterval=15 \
+                -o ServerAliveCountMax=4 \
+                -o StrictHostKeyChecking=accept-new \
+                -i ~/.ssh/deploy_key -p "$SSH_PORT" \
+                "$SSH_USER@$SSH_HOST" \
+                'bash /tmp/hashcode-deploy/scripts/deploy-install.sh'
+            then
+              success=1
+              break
             fi
-            if [ ! -d "$STAGE" ]; then
-              echo "ERROR: staged build missing at $STAGE"
-              exit 1
-            fi
-            # Copier chaque artifact à sa place (écrase les précédents)
-            rm -rf "$APP_DIR/.next" "$APP_DIR/prisma" "$APP_DIR/generated" "$APP_DIR/public"
-            cp -r "$STAGE/.next" "$APP_DIR/.next"
-            cp -r "$STAGE/prisma" "$APP_DIR/prisma"
-            cp -r "$STAGE/generated" "$APP_DIR/generated"
-            cp -r "$STAGE/public" "$APP_DIR/public"
-            cp "$STAGE/Dockerfile" "$APP_DIR/Dockerfile" 2>/dev/null || true
-            cp "$STAGE/prisma.config.ts" "$APP_DIR/prisma.config.ts" 2>/dev/null || true
-            cp "$STAGE/compose.app.yml" "$APP_DIR/compose.app.yml" 2>/dev/null || true
-            cp "$STAGE/cluster.mjs" "$APP_DIR/cluster.mjs" 2>/dev/null || true
-            # Recréer les symlinks (le SCP écrasé par copie)
-            ln -sfn ../../static "$APP_DIR/.next/standalone/.next/static"
-            ln -sfn ../../public "$APP_DIR/.next/standalone/public"
-            cd "$APP_DIR"
-            docker rm -f hashcode-web 2>/dev/null || true
-            docker compose -f compose.app.yml \
-              --env-file /home/actions-runner/secrets/.env.production \
-              up -d web --force-recreate
-            sleep 12
-            HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' hashcode-web 2>/dev/null || echo '"unknown"')
-            echo "Health: $HEALTH"
-            if [ "$HEALTH" != '"healthy"' ]; then
-              docker logs hashcode-web --tail 50 || true
-              exit 1
-            fi
+            echo "tentative $i échouée — nouvelle tentative"
+            sleep 10
+          done
+          [ "$success" -eq 1 ]
