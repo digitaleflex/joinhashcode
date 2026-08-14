@@ -170,6 +170,8 @@ export const auth = betterAuth({
       technicalLevel: { type: "string", required: false },
       mainObjective: { type: "string", required: false },
       betaKeyId: { type: "string", required: false },
+      primaryDomain: { type: "string", required: false },
+      deactivatedAt: { type: "string", required: false },
     },
   },
   databaseHooks: {

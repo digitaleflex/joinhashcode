@@ -30,6 +30,8 @@ export async function GET() {
           currentSituation: null,
           class: null,
           role: "MEMBER",
+          primaryDomain: null,
+          deactivatedAt: null,
         },
       });
     }
@@ -46,6 +48,8 @@ export async function GET() {
       currentSituation: user.currentSituation,
       class: user.class,
       role: user.role,
+      primaryDomain: user.primaryDomain ?? null,
+      deactivatedAt: user.deactivatedAt ?? null,
     };
 
     return NextResponse.json({

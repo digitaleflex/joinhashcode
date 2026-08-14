@@ -52,6 +52,14 @@ export async function proxy(request: NextRequest) {
       });
       if (decoded) {
         sessionData = decoded;
+        // Le cookie cache JWE ne contient pas forcément les champs funnel
+        // (primaryDomain, deactivatedAt). On bascule vers la source fraîche
+        // (middleware-session → DB) pour éviter les boucles de redirection
+        // /dashboard <-> /specialization.
+        const cachedUser = (decoded as { user?: Record<string, unknown> })?.user;
+        if (cachedUser && cachedUser.class && cachedUser.primaryDomain === undefined) {
+          sessionData = null;
+        }
       }
     } catch {
       // Fallback HTTP si le décodage JWE échoue
