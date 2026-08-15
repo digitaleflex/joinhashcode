@@ -46,40 +46,37 @@ export async function proxy(request: NextRequest) {
   let sessionData: { session?: unknown; user?: Record<string, unknown> } | null = null;
 
   if (sessionCookie) {
+    // Le cookie cache JWE (maxAge 2 min) reste périmé pendant le funnel
+    // (onboarding → quiz → specialization) : la DB est à jour mais pas le
+    // cookie. L'utiliser pour le funnel provoquait des boucles de redirection
+    // /onboarding <-> /quiz, /quiz <-> /missions et /specialization <-> /dashboard.
+    // On privilégie donc TOUJOURS la source fraîche (middleware-session → DB,
+    // cache Redis invalidé après chaque étape du funnel) et on ne garde le JWE
+    // qu'en repli si le fetch échoue (résilience, pas de boucle).
+    let jweFallback: { session?: unknown; user?: Record<string, unknown> } | null = null;
     try {
       const decoded = await getCookieCache(request, {
         secret: process.env.BETTER_AUTH_SECRET,
       });
-      if (decoded) {
-        sessionData = decoded;
-        // Le cookie cache JWE ne contient pas forcément les champs funnel
-        // (primaryDomain, deactivatedAt). On bascule vers la source fraîche
-        // (middleware-session → DB) pour éviter les boucles de redirection
-        // /dashboard <-> /specialization.
-        const cachedUser = (decoded as { user?: Record<string, unknown> })?.user;
-        if (cachedUser && cachedUser.class && cachedUser.primaryDomain === undefined) {
-          sessionData = null;
-        }
-      }
+      if (decoded) jweFallback = decoded;
     } catch {
-      // Fallback HTTP si le décodage JWE échoue
+      // Décodage JWE échoue → on ignore le repli
     }
 
-    if (!sessionData) {
-      try {
-        const requestHeaders = new Headers(request.headers);
-        const baseUrl = `${request.nextUrl.protocol}//${request.headers.get("host") || "127.0.0.1:3000"}`;
-        const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
-          headers: requestHeaders,
-          cache: "no-store",
-          signal: AbortSignal.timeout(5000),
-        });
-        if (response.ok) {
-          sessionData = await response.json();
-        }
-      } catch {
-        // Session indisponible — la route gérera l'auth elle-même
+    try {
+      const requestHeaders = new Headers(request.headers);
+      const baseUrl = `${request.nextUrl.protocol}//${request.headers.get("host") || "127.0.0.1:3000"}`;
+      const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
+        headers: requestHeaders,
+        cache: "no-store",
+        signal: AbortSignal.timeout(5000),
+      });
+      if (response.ok) {
+        sessionData = await response.json();
       }
+    } catch {
+      // Source fraîche indisponible → repli sur le JWE
+      sessionData = jweFallback;
     }
   }
 
@@ -119,7 +116,9 @@ export async function proxy(request: NextRequest) {
       if (isSpecializationPath && !needsSpecialization) {
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       } else if (isOnboardingPath && !needsOnboarding) {
-        nextResponse = NextResponse.redirect(new URL(user.class ? "/quiz" : "/dashboard", request.url));
+        // Onboarding terminé → quiz si pas encore de class, sinon dashboard.
+        // (évite le détour /dashboard → /quiz qui peut faire penser à une boucle)
+        nextResponse = NextResponse.redirect(new URL(user.class ? "/dashboard" : "/quiz", request.url));
       } else if (isQuizPath && !needsQuiz) {
         nextResponse = NextResponse.redirect(new URL("/missions", request.url));
       }
