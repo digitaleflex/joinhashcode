@@ -15,7 +15,8 @@ export async function proxy(request: NextRequest) {
   const host = request.headers.get("host") || "";
   if (host.startsWith("www.")) {
     const url = new URL(request.url);
-    url.host = host.replace("www.", "");
+    url.host = host.replace("www.", "").replace(/:.*/, "");
+    url.port = "";
     return NextResponse.redirect(url, 308);
   }
 
