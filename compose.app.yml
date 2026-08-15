@@ -4,7 +4,7 @@
 #
 # Lancement (production) :
 #   docker compose -f compose.app.yml \
-#     --env-file /home/actions-runner/secrets/.env.production \
+#     --env-file /home/audest/hashcode-community/.env.production \
 #     up -d web --wait
 #
 # Variables Docker (DB_USER, DB_PASSWORD, APP_DOMAIN…) injectées
@@ -21,7 +21,7 @@ services:
     restart: always
     command: ["sh", "-c", "prisma migrate deploy 2>&1; node /app/cluster.mjs"]
     env_file:
-      - /home/actions-runner/secrets/.env.production
+      - /home/audest/hashcode-community/.env.production
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
       DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
