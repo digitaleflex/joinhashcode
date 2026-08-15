@@ -45,6 +45,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         missionId: mission.id,
         slug: mission.slug,
         title: mission.title,
+        shortDesc: mission.shortDesc,
+        duration: def.duration,
+        category: def.category,
+        missionLevel: def.missionLevel,
+        xpReward: def.xpReward,
         steps: def.steps.map((s, i) => ({
           key: s.key,
           title: s.title,
@@ -57,6 +62,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         })),
         attempt: null,
         profile: null,
+        maxScore: def.scoringGrid.reduce((s, c) => s + c.max, 0),
       });
     }
 
@@ -82,6 +88,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       missionId: mission.id,
       slug: mission.slug,
       title: mission.title,
+      shortDesc: mission.shortDesc,
+      duration: def.duration,
+      category: def.category,
+      missionLevel: def.missionLevel,
+      xpReward: def.xpReward,
       steps: serializedSteps,
       attempt: {
         id: attempt.id,
@@ -108,6 +119,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         createdAt: l.createdAt,
       })),
       profile: null,
+      maxScore: def.scoringGrid.reduce((s, c) => s + c.max, 0),
     });
   } catch (error: unknown) {
     console.error("[ATTEMPT_GET]", error);

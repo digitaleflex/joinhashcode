@@ -4,6 +4,7 @@ import { PrismaClient } from "../generated/prisma/client";
 import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
 import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
+import { PROJECT_MISSION } from "../lib/project-mission";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -137,101 +138,103 @@ async function main() {
     }
   }
 
-  console.log("\n🚀 Seeding onboarding mission (Mission 01)...");
-  const onboarding = ONBOARDING_MISSION;
-  const acc = onboarding.acceptanceCriteria;
-  await prisma.mission.upsert({
-    where: { slug: onboarding.slug },
-    update: {
-      title: onboarding.title,
-      shortDesc: onboarding.shortDesc,
-      description: onboarding.description,
-      category: onboarding.category,
-      difficulty: onboarding.difficulty,
-      xp: onboarding.xpReward,
-      missionLevel: onboarding.missionLevel,
-      targetProfiles: onboarding.targetProfiles,
-      requirements: onboarding.requirements,
-      duration: onboarding.duration,
-      weightBuilder: 0.25,
-      weightCreator: 0.25,
-      weightStrategist: 0.25,
-      weightCatalyst: 0.25,
-      deliverables: onboarding.deliverables,
-      fullBriefing: onboarding.description,
-      submissionMethod: onboarding.submissionMethod,
-      acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
-      evaluatorNotes: onboarding.evaluatorNotes,
-      qualityIndicators: JSON.parse(JSON.stringify(onboarding.qualityIndicators)),
-      isOnboarding: true,
-    },
-    create: {
-      slug: onboarding.slug,
-      title: onboarding.title,
-      shortDesc: onboarding.shortDesc,
-      description: onboarding.description,
-      category: onboarding.category,
-      difficulty: onboarding.difficulty,
-      xp: onboarding.xpReward,
-      missionLevel: onboarding.missionLevel,
-      targetProfiles: onboarding.targetProfiles,
-      requirements: onboarding.requirements,
-      duration: onboarding.duration,
-      weightBuilder: 0.25,
-      weightCreator: 0.25,
-      weightStrategist: 0.25,
-      weightCatalyst: 0.25,
-      deliverables: onboarding.deliverables,
-      fullBriefing: onboarding.description,
-      submissionMethod: onboarding.submissionMethod,
-      acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
-      evaluatorNotes: onboarding.evaluatorNotes,
-      qualityIndicators: JSON.parse(JSON.stringify(onboarding.qualityIndicators)),
-      isOnboarding: true,
-    },
-  });
-  const onboardingMission = await prisma.mission.findUnique({
-    where: { slug: onboarding.slug },
-    select: { id: true },
-  });
-  if (onboardingMission) {
-    const existingSteps = await prisma.missionStep.findMany({
-      where: { missionId: onboardingMission.id },
-      select: { key: true },
+  console.log("\n🚀 Seeding missions à étapes (Mission 01 + Mission 02)...");
+  const stepMissionDefs = [ONBOARDING_MISSION, PROJECT_MISSION];
+  for (const def of stepMissionDefs) {
+    const acc = def.acceptanceCriteria;
+    await prisma.mission.upsert({
+      where: { slug: def.slug },
+      update: {
+        title: def.title,
+        shortDesc: def.shortDesc,
+        description: def.description,
+        category: def.category,
+        difficulty: def.difficulty,
+        xp: def.xpReward,
+        missionLevel: def.missionLevel,
+        targetProfiles: def.targetProfiles,
+        requirements: def.requirements,
+        duration: def.duration,
+        weightBuilder: 0.25,
+        weightCreator: 0.25,
+        weightStrategist: 0.25,
+        weightCatalyst: 0.25,
+        deliverables: def.deliverables,
+        fullBriefing: def.description,
+        submissionMethod: def.submissionMethod,
+        acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
+        evaluatorNotes: def.evaluatorNotes,
+        qualityIndicators: JSON.parse(JSON.stringify(def.qualityIndicators)),
+        isOnboarding: def === ONBOARDING_MISSION,
+      },
+      create: {
+        slug: def.slug,
+        title: def.title,
+        shortDesc: def.shortDesc,
+        description: def.description,
+        category: def.category,
+        difficulty: def.difficulty,
+        xp: def.xpReward,
+        missionLevel: def.missionLevel,
+        targetProfiles: def.targetProfiles,
+        requirements: def.requirements,
+        duration: def.duration,
+        weightBuilder: 0.25,
+        weightCreator: 0.25,
+        weightStrategist: 0.25,
+        weightCatalyst: 0.25,
+        deliverables: def.deliverables,
+        fullBriefing: def.description,
+        submissionMethod: def.submissionMethod,
+        acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
+        evaluatorNotes: def.evaluatorNotes,
+        qualityIndicators: JSON.parse(JSON.stringify(def.qualityIndicators)),
+        isOnboarding: def === ONBOARDING_MISSION,
+      },
     });
-    const existingKeys = new Set(existingSteps.map((s) => s.key));
-    let order = 1;
-    for (const step of onboarding.steps) {
-      if (!existingKeys.has(step.key)) {
-        await prisma.missionStep.create({
-          data: {
-            missionId: onboardingMission.id,
-            stepOrder: order,
-            key: step.key,
-            title: step.title,
-            description: step.description,
-            fields: JSON.parse(JSON.stringify(step.fields)),
-            required: true,
-          },
-        });
-        console.log(`  ✓ STEP ${order} — ${step.title}`);
-      } else {
-        await prisma.missionStep.update({
-          where: {
-            missionId_key: { missionId: onboardingMission.id, key: step.key },
-          },
-          data: {
-            stepOrder: order,
-            title: step.title,
-            description: step.description,
-            fields: JSON.parse(JSON.stringify(step.fields)),
-            required: true,
-          },
-        });
+    const mission = await prisma.mission.findUnique({
+      where: { slug: def.slug },
+      select: { id: true },
+    });
+    if (mission) {
+      const existingSteps = await prisma.missionStep.findMany({
+        where: { missionId: mission.id },
+        select: { key: true },
+      });
+      const existingKeys = new Set(existingSteps.map((s) => s.key));
+      let order = 1;
+      for (const step of def.steps) {
+        if (!existingKeys.has(step.key)) {
+          await prisma.missionStep.create({
+            data: {
+              missionId: mission.id,
+              stepOrder: order,
+              key: step.key,
+              title: step.title,
+              description: step.description,
+              fields: JSON.parse(JSON.stringify(step.fields)),
+              required: true,
+            },
+          });
+          console.log(`  ✓ [${def.slug}] STEP ${order} — ${step.title}`);
+        } else {
+          await prisma.missionStep.update({
+            where: {
+              missionId_key: { missionId: mission.id, key: step.key },
+            },
+            data: {
+              stepOrder: order,
+              title: step.title,
+              description: step.description,
+              fields: JSON.parse(JSON.stringify(step.fields)),
+              required: true,
+            },
+          });
+        }
+        order++;
       }
-      order++;
+      console.log(`  ✓ ${def.slug} syncée (${def.steps.length} étapes)`);
     }
-    console.log(`  ✓ Mission 01 syncée (${onboarding.steps.length} étapes)`);
   }
 
   console.log("\n✅ Seeding complete.");

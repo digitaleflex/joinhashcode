@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 const reviewSchema = z.object({
   action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
   feedback: z.string().max(3000).optional(),
-  score: z.number().min(0).max(25).optional(),
+  score: z.number().min(0).max(100).optional(),
   gridScores: z.record(z.number()).optional(),
   stepScores: z.record(z.object({ score: z.number().min(0).max(5).optional(), feedback: z.string().max(1000).optional(), status: z.enum(["APPROVED", "REVISION_REQUIRED"]).optional() })).optional(),
   reviewerId: z.string().optional(),

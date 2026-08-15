@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { computeCriteriaScore } from "@/lib/criteria-score";
 import type {
   StepField,
   MissionStepDef,
@@ -79,6 +80,12 @@ interface MissionState {
   missionId: string;
   slug: string;
   title: string;
+  shortDesc?: string | null;
+  duration?: string | null;
+  category?: string | null;
+  missionLevel?: string | null;
+  xpReward?: number | null;
+  maxScore?: number | null;
   steps: StepDTO[];
   attempt: AttemptDTO | null;
   timeline: { action: string; message: string | null; createdAt: string }[];
@@ -218,10 +225,12 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
       <div className="rounded-2xl border border-border/40 bg-card/30 p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">Mission 01 · INTRO</div>
+            <div className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">
+              {state.missionLevel ?? "MISSION"} · {state.category ?? "MISSION"}
+            </div>
             <h1 className="text-xl md:text-2xl font-bold tracking-tight mt-1">{state.title}</h1>
             <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5" /> 2-3 jours estimés · Applicable à tous les profils
+              <Clock className="w-3.5 h-3.5" /> {state.duration ?? "Durée estimée"} · Applicable à tous les profils
             </p>
           </div>
           {attempt && (
@@ -249,7 +258,9 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
           <div>
             <h3 className="font-bold text-emerald-400 font-mono uppercase tracking-wide">Mission validée</h3>
             {attempt.score != null && (
-              <p className="text-xs text-emerald-400/70 mt-1 font-mono">Score : {attempt.score}/25 · Profil HashCode v1 généré</p>
+              <p className="text-xs text-emerald-400/70 mt-1 font-mono">
+                Score : {attempt.score}/{state.maxScore ?? 25} · Profil HashCode enrichi
+              </p>
             )}
           </div>
           <Button variant="outline" onClick={() => router.push("/missions")} className="gap-2">
@@ -533,9 +544,436 @@ function FieldRenderer({
       return <SkillFields field={field} value={value} onChange={onChange} />;
     case "ENV":
       return <EnvFields field={field} value={value} onChange={onChange} />;
+    case "SLIDER":
+      return <SliderField field={field} value={value} onChange={onChange} />;
+    case "SCORED_CRITERIA":
+      return <ScoredCriteriaField field={field} value={value} onChange={onChange} />;
+    case "SOLUTIONS_TABLE":
+      return <SolutionsTableField field={field} value={value} onChange={onChange} />;
+    case "EISENHOWER":
+      return <EisenhowerField field={field} value={value} onChange={onChange} />;
+    case "ROADMAP":
+      return <RoadmapField field={field} value={value} onChange={onChange} />;
+    case "RISK_TABLE":
+      return <RiskTableField field={field} value={value} onChange={onChange} />;
+    case "SMART_GOALS":
+      return <SmartGoalsField field={field} value={value} onChange={onChange} />;
+    case "SYNTHESIS":
+      return <SynthesisField field={field} value={value} onChange={onChange} />;
     default:
       return null;
   }
+}
+
+const CONFIDENCE_OPTIONS = ["Faible", "Moyen", "Élevé"];
+
+function SliderField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const min = field.min ?? 0;
+  const max = field.max ?? 10;
+  const num = typeof value === "number" ? value : min;
+  return (
+    <FieldShell field={field}>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500">
+          <span>{min}</span>
+          <span className="text-sm font-bold text-white">{num}/{max}</span>
+          <span>{max}</span>
+        </div>
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={field.step ?? 1}
+          value={num}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full accent-primary"
+        />
+      </div>
+    </FieldShell>
+  );
+}
+
+function ScoredCriteriaField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const record = (value as Record<string, { score: number; justification: string; preuves: string; confiance: string }>) ?? {};
+  const { total, max } = computeCriteriaScore(field, value);
+  const setCriterion = (key: string, patch: Partial<Record<string, unknown>>) => {
+    const raw = (record as Record<string, unknown>)[key];
+    const prev: Record<string, unknown> = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+    const next: Record<string, unknown> = { ...prev };
+    next["score"] = typeof next["score"] === "number" ? next["score"] : 0;
+    next["justification"] = typeof next["justification"] === "string" ? next["justification"] : "";
+    next["preuves"] = typeof next["preuves"] === "string" ? next["preuves"] : "";
+    next["confiance"] = typeof next["confiance"] === "string" ? next["confiance"] : "Faible";
+    for (const [k, v] of Object.entries(patch)) next[k] = v;
+    onChange({ ...record, [key]: next });
+  };
+
+  const interpretation = (s: number) =>
+    s <= 20 ? "Faible" : s <= 30 ? "À approfondir" : s <= 40 ? "Prometteur" : "Très fort";
+
+  return (
+    <FieldShell field={field}>
+      <div className="space-y-4">
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center space-y-1">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">Score du problème</p>
+          <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/{max}</span></p>
+          <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+            <div className="h-full bg-primary transition-all" style={{ width: `${max > 0 ? Math.min(100, (total / max) * 100) : 0}%` }} />
+          </div>
+          <p className="text-xs font-medium text-primary">{interpretation(total)}</p>
+          <p className="text-[10px] text-zinc-500 leading-snug">
+            Ce score ne prouve pas que ton projet est viable. Il représente uniquement la force actuelle de ton hypothèse.
+          </p>
+        </div>
+
+        {(field.criteria ?? []).map((c) => {
+          const entry = record[c.key] ?? { score: 0, justification: "", preuves: "", confiance: "Faible" };
+          return (
+            <div key={c.key} className="rounded-xl border border-border/40 bg-card/20 p-4 space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-white uppercase tracking-wide text-[11px]">{c.label}</p>
+                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug">{c.question}</p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="text-lg font-mono font-bold text-white">{entry.score}/10</p>
+                </div>
+              </div>
+
+              {(c.reflect ?? []).length > 0 && (
+                <p className="text-[10px] text-zinc-600 flex flex-wrap gap-1">
+                  {(c.reflect ?? []).map((r) => (
+                    <span key={r} className="rounded-full bg-zinc-800/60 border border-zinc-700/50 px-2 py-0.5">{r}</span>
+                  ))}
+                </p>
+              )}
+
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase">Note</p>
+                <input
+                  type="range"
+                  min={0}
+                  max={10}
+                  value={entry.score}
+                  onChange={(e) => setCriterion(c.key, { score: Number(e.target.value) })}
+                  className="w-full accent-primary"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase">Justification</p>
+                <Textarea
+                  value={entry.justification}
+                  onChange={(e) => setCriterion(c.key, { justification: e.target.value })}
+                  rows={2}
+                  className="bg-zinc-900/60 border-border/60 min-h-[60px]"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase">Preuves / sources</p>
+                <Input
+                  value={entry.preuves}
+                  onChange={(e) => setCriterion(c.key, { preuves: e.target.value })}
+                  placeholder="Source, observation, donnée, entretien…"
+                  className="bg-zinc-900/60 border-border/60"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase">Niveau de confiance</p>
+                <RadioGroup value={entry.confiance} onValueChange={(v) => setCriterion(c.key, { confiance: v })} className="flex gap-2">
+                  {CONFIDENCE_OPTIONS.map((opt) => (
+                    <label key={opt} className="flex items-center gap-1.5 cursor-pointer">
+                      <RadioGroupItem value={opt} className="peer sr-only" />
+                      <span className={`rounded-lg border px-3 py-1.5 text-xs transition-all ${entry.confiance === opt ? "border-primary/40 bg-primary/10 text-white" : "border-border/40 bg-card/20 text-zinc-400"}`}>
+                        {opt}
+                      </span>
+                    </label>
+                  ))}
+                </RadioGroup>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </FieldShell>
+  );
+}
+
+const SOLUTION_TYPES = ["Concurrent direct", "Concurrent indirect", "Alternative", "Solution actuelle"];
+
+function SolutionsTableField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const rows = Array.isArray(value) ? (value as { nom: string; type: string; public: string; forces: string; faiblesses: string }[]) : [];
+  const setRows = (next: typeof rows) => onChange(next);
+  const addRow = () => setRows([...rows, { nom: "", type: "Concurrent direct", public: "", forces: "", faiblesses: "" }]);
+  const updateRow = (i: number, patch: Partial<(typeof rows)[number]>) => {
+    const next = [...rows];
+    next[i] = { ...next[i], ...patch };
+    setRows(next);
+  };
+
+  return (
+    <FieldShell field={field}>
+      <div className="space-y-3">
+        <div className="hidden md:grid grid-cols-[1.2fr_0.8fr_1fr_1fr_1fr] gap-2 text-[10px] font-mono text-zinc-500 uppercase">
+          <span>Solution</span><span>Type</span><span>Public</span><span>Forces</span><span>Faiblesses</span>
+        </div>
+        {rows.map((row, i) => (
+          <div key={i} className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr_1fr_1fr_1fr] gap-2 items-start rounded-xl border border-border/40 bg-card/20 p-3">
+            <Input value={row.nom} placeholder="Nom de la solution" onChange={(e) => updateRow(i, { nom: e.target.value })} className="bg-zinc-900/60 border-border/60" />
+            <Select value={row.type} onValueChange={(v) => updateRow(i, { type: v })}>
+              <SelectTrigger className="bg-zinc-900/60 border-border/60"><SelectValue /></SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-border/60 text-white">
+                {SOLUTION_TYPES.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Input value={row.public} placeholder="Public cible" onChange={(e) => updateRow(i, { public: e.target.value })} className="bg-zinc-900/60 border-border/60" />
+            <Input value={row.forces} placeholder="Forces" onChange={(e) => updateRow(i, { forces: e.target.value })} className="bg-zinc-900/60 border-border/60" />
+            <Input value={row.faiblesses} placeholder="Faiblesses" onChange={(e) => updateRow(i, { faiblesses: e.target.value })} className="bg-zinc-900/60 border-border/60" />
+          </div>
+        ))}
+        <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={addRow}>
+          <Sparkles className="w-3.5 h-3.5" /> Ajouter une solution
+        </Button>
+      </div>
+    </FieldShell>
+  );
+}
+
+const EISENHOWER_QUADRANTS: { key: string; label: string; sub: string; accent: string }[] = [
+  { key: "important-urgent", label: "IMPORTANT + URGENT", sub: "À faire immédiatement", accent: "text-red-400 border-red-500/30 bg-red-500/5" },
+  { key: "important-non-urgent", label: "IMPORTANT + NON URGENT", sub: "À planifier", accent: "text-amber-400 border-amber-500/30 bg-amber-500/5" },
+  { key: "non-important-urgent", label: "NON IMPORTANT + URGENT", sub: "À déléguer / automatiser", accent: "text-blue-400 border-blue-500/30 bg-blue-500/5" },
+  { key: "non-important-non-urgent", label: "NON IMPORTANT + NON URGENT", sub: "À éliminer", accent: "text-zinc-500 border-zinc-700/40 bg-zinc-800/20" },
+];
+
+function EisenhowerField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const quadrants = (value as Record<string, string[]>) ?? {};
+  const setQuadrant = (key: string, items: string[]) => onChange({ ...quadrants, [key]: items });
+  const move = (from: string, to: string, item: string) => {
+    setQuadrant(from, (quadrants[from] ?? []).filter((x) => x !== item));
+    setQuadrant(to, [...(quadrants[to] ?? []), item]);
+  };
+
+  return (
+    <FieldShell field={field}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {EISENHOWER_QUADRANTS.map((q) => {
+          const items = quadrants[q.key] ?? [];
+          return (
+            <div key={q.key} className={`rounded-xl border p-3 space-y-2 min-h-[120px] ${q.accent}`}>
+              <div>
+                <p className="text-[10px] font-mono font-bold uppercase tracking-wider">{q.label}</p>
+                <p className="text-[10px] text-zinc-500">{q.sub}</p>
+              </div>
+              <ul className="space-y-1">
+                {items.map((item, i) => (
+                  <li key={i} className="flex items-center gap-1.5 text-xs text-zinc-300 bg-zinc-900/50 rounded-lg px-2 py-1">
+                    <span className="flex-1">{item}</span>
+                    <div className="flex gap-1">
+                      {q.key !== "important-urgent" && (
+                        <button type="button" title="Monter" className="text-[10px] text-zinc-500 hover:text-white" onClick={() => move(q.key, "important-urgent", item)}>↑</button>
+                      )}
+                      {q.key !== "non-important-non-urgent" && (
+                        <button type="button" title="Descendre" className="text-[10px] text-zinc-500 hover:text-white" onClick={() => move(q.key, "non-important-non-urgent", item)}>↓</button>
+                      )}
+                      <button type="button" title="Supprimer" className="text-[10px] text-zinc-500 hover:text-red-400" onClick={() => setQuadrant(q.key, items.filter((x) => x !== item))}>✕</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const input = (e.currentTarget.elements.namedItem("action") as HTMLInputElement)?.value?.trim();
+                  if (input) setQuadrant(q.key, [...items, input]);
+                  e.currentTarget.reset();
+                }}
+                className="flex gap-1.5"
+              >
+                <Input name="action" placeholder="Ajouter une action…" className="h-8 text-xs bg-zinc-900/60 border-border/60" />
+                <Button type="submit" size="sm" variant="ghost" className="h-8 px-2 text-xs">+</Button>
+              </form>
+            </div>
+          );
+        })}
+      </div>
+    </FieldShell>
+  );
+}
+
+function RoadmapField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const months = Array.isArray(value) ? (value as { mois: string; objectif: string; resultat: string }[]) : [];
+  const setMonth = (i: number, patch: Partial<(typeof months)[number]>) => {
+    const next = [...months];
+    next[i] = { ...next[i], ...patch };
+    onChange(next);
+  };
+  const labels = ["Comprendre", "Valider", "Construire", "Tester", "Améliorer", "Démontrer"];
+
+  return (
+    <FieldShell field={field}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {months.map((m, i) => (
+          <div key={i} className="rounded-xl border border-border/40 bg-card/20 p-4 space-y-2.5">
+            <div className="flex items-center gap-2">
+              <span className="rounded-lg bg-primary/10 text-primary text-[10px] font-mono font-bold px-2 py-1">M{i + 1}</span>
+              <span className="text-xs font-semibold text-white">{labels[i]}</span>
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-mono text-zinc-500 uppercase">Objectif</p>
+              <Textarea value={m.objectif} onChange={(e) => setMonth(i, { objectif: e.target.value })} rows={2} className="bg-zinc-900/60 border-border/60 min-h-[50px]" placeholder="Objectif du mois" />
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-mono text-zinc-500 uppercase">Résultat attendu</p>
+              <Textarea value={m.resultat} onChange={(e) => setMonth(i, { resultat: e.target.value })} rows={2} className="bg-zinc-900/60 border-border/60 min-h-[50px]" placeholder="Résultat observable" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </FieldShell>
+  );
+}
+
+function RiskTableField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const rows = Array.isArray(value) ? (value as { nom: string; probabilite: number; impact: number; attenuation: string }[]) : [];
+  const setRows = (next: typeof rows) => onChange(next);
+  const addRow = () => setRows([...rows, { nom: "", probabilite: 1, impact: 1, attenuation: "" }]);
+  const updateRow = (i: number, patch: Partial<(typeof rows)[number]>) => {
+    const next = [...rows];
+    next[i] = { ...next[i], ...patch };
+    setRows(next);
+  };
+
+  return (
+    <FieldShell field={field}>
+      <div className="space-y-3">
+        {rows.map((row, i) => {
+          const score = row.probabilite * row.impact;
+          return (
+            <div key={i} className="rounded-xl border border-border/40 bg-card/20 p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <Input value={row.nom} placeholder="Risque (ex : Manque d'utilisateurs pilotes)" onChange={(e) => updateRow(i, { nom: e.target.value })} className="bg-zinc-900/60 border-border/60 flex-1" />
+                <span className={`shrink-0 rounded-lg px-2 py-1 text-[10px] font-mono font-bold ${score >= 20 ? "bg-red-500/10 text-red-400" : score >= 12 ? "bg-amber-500/10 text-amber-400" : "bg-zinc-700/30 text-zinc-400"}`}>
+                  {score}
+                </span>
+                <button type="button" className="text-zinc-500 hover:text-red-400 text-xs" onClick={() => setRows(rows.filter((_, j) => j !== i))}>✕</button>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase">Probabilité /5</p>
+                  <input type="range" min={1} max={5} value={row.probabilite} onChange={(e) => updateRow(i, { probabilite: Number(e.target.value) })} className="w-full accent-primary" />
+                  <p className="text-[10px] font-mono text-zinc-400 text-right">{row.probabilite}/5</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-zinc-500 uppercase">Impact /5</p>
+                  <input type="range" min={1} max={5} value={row.impact} onChange={(e) => updateRow(i, { impact: Number(e.target.value) })} className="w-full accent-primary" />
+                  <p className="text-[10px] font-mono text-zinc-400 text-right">{row.impact}/5</p>
+                </div>
+              </div>
+              <Input value={row.attenuation} placeholder="Stratégie d'atténuation" onChange={(e) => updateRow(i, { attenuation: e.target.value })} className="bg-zinc-900/60 border-border/60" />
+            </div>
+          );
+        })}
+        <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={addRow}>
+          <Sparkles className="w-3.5 h-3.5" /> Ajouter un risque
+        </Button>
+      </div>
+    </FieldShell>
+  );
+}
+
+const GOAL_TYPES = ["Projet", "Personnel", "Apprentissage"];
+
+function SmartGoalsField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const goals = Array.isArray(value) ? (value as { type: string; objectif: string; indicateur: string; date: string }[]) : [];
+  const updateGoal = (i: number, patch: Partial<(typeof goals)[number]>) => {
+    const next = [...goals];
+    next[i] = { ...next[i], ...patch };
+    onChange(next);
+  };
+  const filled = (g: (typeof goals)[number]) => g.objectif.trim() && g.indicateur.trim() && g.date.trim();
+
+  return (
+    <FieldShell field={field}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {goals.map((g, i) => {
+          const isComplete = filled(g);
+          return (
+            <div key={i} className={`rounded-xl border p-4 space-y-2.5 ${isComplete ? "border-emerald-500/30 bg-emerald-500/5" : "border-border/40 bg-card/20"}`}>
+              <div className="flex items-center justify-between">
+                <span className="rounded-lg bg-primary/10 text-primary text-[10px] font-mono font-bold px-2 py-1">OBJECTIF {i + 1}</span>
+                <Select value={g.type} onValueChange={(v) => updateGoal(i, { type: v })}>
+                  <SelectTrigger className="h-8 w-32 text-[11px] bg-zinc-900/60 border-border/60"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-border/60 text-white">
+                    {GOAL_TYPES.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Textarea value={g.objectif} onChange={(e) => updateGoal(i, { objectif: e.target.value })} rows={2} placeholder="Objectif SMART" className="bg-zinc-900/60 border-border/60 min-h-[50px]" />
+              <Input value={g.indicateur} onChange={(e) => updateGoal(i, { indicateur: e.target.value })} placeholder="Indicateur de réussite" className="bg-zinc-900/60 border-border/60" />
+              <Input value={g.date} onChange={(e) => updateGoal(i, { date: e.target.value })} placeholder="Date limite" className="bg-zinc-900/60 border-border/60" />
+              <p className={`text-[10px] font-mono ${isComplete ? "text-emerald-400" : "text-zinc-500"}`}>
+                {isComplete ? "✓ Objectif suffisamment structuré" : "○ Objectif incomplet"}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </FieldShell>
+  );
+}
+
+const SELF_EVAL_ITEMS: { key: string; label: string }[] = [
+  { key: "probleme", label: "Je comprends clairement le problème" },
+  { key: "preuves", label: "J'ai utilisé des preuves" },
+  { key: "marche", label: "J'ai étudié les solutions existantes" },
+  { key: "public", label: "Je connais mon public cible" },
+  { key: "valeur", label: "Ma proposition de valeur est claire" },
+  { key: "objectifs", label: "Mes objectifs sont réalistes" },
+  { key: "priorites", label: "Mes priorités sont claires" },
+  { key: "roadmap", label: "Ma roadmap est cohérente" },
+  { key: "risques", label: "J'ai identifié les principaux risques" },
+  { key: "clarte", label: "Je peux expliquer mon projet simplement" },
+];
+
+function SynthesisField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const scores = (value as Record<string, number>) ?? {};
+  const total = SELF_EVAL_ITEMS.reduce((a, it) => a + (scores[it.key] ?? 0), 0);
+
+  return (
+    <FieldShell field={field}>
+      <div className="space-y-4">
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center space-y-1">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">Auto-évaluation</p>
+          <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/50</span></p>
+          <p className="text-[10px] text-zinc-500 leading-snug">
+            Cette note sert à te faire réfléchir sur la qualité de ton propre travail. Elle ne remplace pas la note du reviewer.
+          </p>
+        </div>
+        <div className="space-y-2">
+          {SELF_EVAL_ITEMS.map((it) => (
+            <div key={it.key} className="flex items-center gap-3 rounded-xl border border-border/40 bg-card/20 px-3 py-2">
+              <span className="flex-1 text-xs text-zinc-300">{it.label}</span>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => onChange({ ...scores, [it.key]: n })}
+                    className={`w-6 h-6 rounded-md text-[10px] font-mono transition-all ${(scores[it.key] ?? 0) >= n ? "bg-primary/20 text-primary border border-primary/40" : "bg-zinc-800/60 text-zinc-500 border border-transparent hover:border-zinc-600"}`}
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </FieldShell>
+  );
 }
 
 function FieldShell({ field, children }: { field: StepField; children: React.ReactNode }) {

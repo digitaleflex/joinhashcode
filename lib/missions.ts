@@ -52,6 +52,26 @@ export const MISSIONS: Mission[] = [
     submissionMethod: "TEXT_RESPONSE",
     deliverables: ["Profil HashCode v1 validé"],
   },
+  {
+    id: "mission-02-de-l-idee-au-projet",
+    title: "De l'Idée au Projet",
+    shortDesc: "Transforme une intuition en un projet réfléchi, réaliste et défendable.",
+    description: "Chaque idée commence par une intuition. Cette mission va t'aider à transformer cette intuition en un projet réfléchi, réaliste et défendable : problème réel, hypothèses vérifiables, stratégie d'exécution et preuves de progression.",
+    xpReward: 250,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: ["Avoir validé la Mission 01"],
+    type: "BUSINESS",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "CORE",
+    duration: "3-5 jours",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Dossier projet (3 à 8 pages)"],
+  },
 ];
 
 export interface WeeklyChallenge {

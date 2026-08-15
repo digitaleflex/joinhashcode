@@ -63,8 +63,6 @@ interface AttemptDetail {
   timeline: { action: string; message: string | null; actorId: string | null; createdAt: string }[];
 }
 
-const GRID_KEYS = ["completude", "clarte", "reflexion", "coherence_objectif", "qualite_presentation"];
-
 function renderFieldValue(field: StepField, value: unknown) {
   if (value === undefined || value === null || value === "") return <span className="text-zinc-700">—</span>;
   if (typeof value === "string") return <span className="whitespace-pre-wrap">{value}</span>;
@@ -203,7 +201,7 @@ export default function AdminAttemptDetailPage() {
             <ChevronLeft className="w-3.5 h-3.5" /> RETOUR AUX REVIEWS
           </Link>
           <h1 className="text-2xl font-mono font-bold text-primary tracking-tighter uppercase">
-            {detail.user.name} — Mission 01
+            {detail.user.name} — {detail.mission.title}
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">{detail.mission.title}</p>
         </div>
@@ -328,11 +326,11 @@ export default function AdminAttemptDetailPage() {
                       min={0}
                       max={c.max}
                       disabled={!canReview}
-                      value={gridScores[c.key] ?? (c.key === "completude" ? 3 : 3)}
+                      value={gridScores[c.key] ?? 3}
                       onChange={(e) => setGridScores((p) => ({ ...p, [c.key]: Number(e.target.value) }))}
                       className="w-16 h-8 text-xs text-center"
                     />
-                    <span className="text-[10px] font-mono text-zinc-600 w-4">/5</span>
+                    <span className="text-[10px] font-mono text-zinc-600 w-4">/{c.max}</span>
                   </div>
                 ))}
               </div>

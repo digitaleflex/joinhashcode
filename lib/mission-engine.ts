@@ -5,7 +5,8 @@ import { prisma } from "./prisma";
 import { logActivity } from "./activity-log";
 import { triggerNotification } from "./qstash";
 import { ONBOARDING_MISSION } from "./onboarding-mission";
-import type { OnboardingMissionDef, MissionStepDef } from "./onboarding-mission";
+import type { OnboardingMissionDef, MissionStepDef, StepField } from "./onboarding-mission";
+import { PROJECT_MISSION } from "./project-mission";
 import type { Prisma } from "@/generated/prisma/client";
 
 export type AttemptStatus =
@@ -23,6 +24,7 @@ export type StepStatus = "DRAFT" | "APPROVED" | "REVISION_REQUIRED";
 export function getStepMissionDef(slug: string | null | undefined): OnboardingMissionDef | null {
   if (!slug) return null;
   if (slug === ONBOARDING_MISSION.slug) return ONBOARDING_MISSION;
+  if (slug === PROJECT_MISSION.slug) return PROJECT_MISSION;
   return null;
 }
 
@@ -60,12 +62,64 @@ export function isStepComplete(
   return computeStepCompleteness(step, data) >= 1;
 }
 
-function isFieldFilled(field: { type?: string; options?: { value: string; label: string }[] }, value: unknown): boolean {
+function isFieldFilled(field: StepField, value: unknown): boolean {
   if (value === undefined || value === null) return false;
+  if (field.type === "SLIDER") {
+    return typeof value === "number" && value >= (field.min ?? 0);
+  }
+  if (field.type === "SCORED_CRITERIA") {
+    if (typeof value !== "object" || Array.isArray(value)) return false;
+    const criteria = field.criteria ?? [];
+    if (criteria.length === 0) return true;
+    const record = value as Record<string, { score?: number; justification?: string }>;
+    // Chaque critère doit avoir une note et une justification.
+    return criteria.every((c) => {
+      const entry = record[c.key];
+      return !!entry && typeof entry.score === "number" && typeof entry.justification === "string" && entry.justification.trim().length > 0;
+    });
+  }
+  if (field.type === "SOLUTIONS_TABLE" || field.type === "RISK_TABLE") {
+    const arr = value as { nom?: string }[];
+    if (!Array.isArray(arr)) return false;
+    const min = field.minItems ?? 1;
+    const filled = arr.filter((r) => (r.nom ?? "").trim().length > 0).length;
+    return filled >= min;
+  }
+  if (field.type === "EISENHOWER") {
+    if (typeof value !== "object" || Array.isArray(value)) return false;
+    const quadrants = value as Record<string, string[]>;
+    const hasActions = Object.values(quadrants).some((q) => Array.isArray(q) && q.length > 0);
+    if (!hasActions) return false;
+    // Action la plus importante exigée dans le même champ data["actionPrincipale"].
+    return true;
+  }
+  if (field.type === "ROADMAP") {
+    const arr = value as { objectif?: string }[];
+    if (!Array.isArray(arr)) return false;
+    const min = field.minItems ?? 6;
+    const filled = arr.filter((m) => (m.objectif ?? "").trim().length > 0).length;
+    return filled >= min;
+  }
+  if (field.type === "SMART_GOALS") {
+    const arr = value as { objectif?: string; indicateur?: string; date?: string }[];
+    if (!Array.isArray(arr)) return false;
+    const min = field.minItems ?? 3;
+    const filled = arr.filter((g) => (g.objectif ?? "").trim().length > 0 && (g.indicateur ?? "").trim().length > 0 && (g.date ?? "").trim().length > 0).length;
+    return filled >= min;
+  }
+  if (field.type === "SYNTHESIS") {
+    if (typeof value !== "object" || Array.isArray(value)) return false;
+    const items = value as Record<string, number>;
+    const keys = Object.keys(items);
+    return keys.length > 0 && keys.some((k) => typeof items[k] === "number" && items[k] > 0);
+  }
   if (typeof value === "string") return value.trim().length > 0;
   if (Array.isArray(value)) return value.length > 0;
   return true;
 }
+
+// Score d'un champ à critères (ex. validation du problème) : ré-export du module pur.
+export { computeCriteriaScore } from "./criteria-score";
 
 // Score global (grille /25) — utilisé côté review admin.
 export function computeGlobalScore(
@@ -95,6 +149,39 @@ export function createDefaultAttemptData(def: OnboardingMissionDef): Record<stri
           connexion: "",
           machine: { cpu: "", ram: "", stockage: "" },
         };
+      } else if (field.type === "SLIDER") {
+        data[field.key] = 0;
+      } else if (field.type === "SCORED_CRITERIA") {
+        const rec: Record<string, { score: number; justification: string; preuves: string; confiance: string }> = {};
+        for (const c of field.criteria ?? []) {
+          rec[c.key] = { score: 0, justification: "", preuves: "", confiance: "Faible" };
+        }
+        data[field.key] = rec;
+      } else if (field.type === "SOLUTIONS_TABLE") {
+        data[field.key] = [{ nom: "", type: "Concurrent direct", public: "", forces: "", faiblesses: "" }];
+      } else if (field.type === "EISENHOWER") {
+        data[field.key] = {
+          "important-urgent": [],
+          "important-non-urgent": [],
+          "non-important-urgent": [],
+          "non-important-non-urgent": [],
+        };
+      } else if (field.type === "ROADMAP") {
+        data[field.key] = Array.from({ length: 6 }, (_, i) => ({
+          mois: `Mois ${i + 1}`,
+          objectif: "",
+          resultat: "",
+        }));
+      } else if (field.type === "RISK_TABLE") {
+        data[field.key] = [{ nom: "", probabilite: 1, impact: 1, attenuation: "" }];
+      } else if (field.type === "SMART_GOALS") {
+        data[field.key] = [
+          { type: "Projet", objectif: "", indicateur: "", date: "" },
+          { type: "Personnel", objectif: "", indicateur: "", date: "" },
+          { type: "Apprentissage", objectif: "", indicateur: "", date: "" },
+        ];
+      } else if (field.type === "SYNTHESIS") {
+        data[field.key] = {};
       } else {
         data[field.key] = "";
       }

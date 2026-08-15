@@ -10,6 +10,14 @@ export type StepFieldType =
   | "SELECT"
   | "SKILLS"
   | "ENV"
+  | "SLIDER"
+  | "SCORED_CRITERIA"
+  | "SOLUTIONS_TABLE"
+  | "EISENHOWER"
+  | "ROADMAP"
+  | "RISK_TABLE"
+  | "SMART_GOALS"
+  | "SYNTHESIS"
 
 export interface StepFieldOption {
   value: string
@@ -33,6 +41,21 @@ export interface StepField {
   options?: StepFieldOption[]
   skills?: StepFieldSkill
   defaultLines?: number
+  /** Pour SLIDER : valeurs min/max/step (défaut 0/10/1). */
+  min?: number
+  max?: number
+  step?: number
+  /** Pour SCORED_CRITERIA : critères avec notes /10, justification, preuves, confiance. */
+  criteria?: {
+    key: string
+    label: string
+    question: string
+    reflect?: string[]
+  }[]
+  /** Nombre minimum d'éléments requis (tableaux, risques, objectifs…). */
+  minItems?: number
+  /** Pour SCORED_CRITERIA : maximum de la somme des notes. */
+  totalMax?: number
 }
 
 export interface MissionStepDef {

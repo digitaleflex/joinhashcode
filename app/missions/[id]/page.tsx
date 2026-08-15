@@ -18,6 +18,7 @@ import { SubmissionTimeline, type TimelineProps } from "@/components/missions/su
 import { SuggestedPartners } from "@/components/missions/suggested-partners"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
 import { getAteliersForMission } from "@/lib/ateliers"
+import { getStepMissionDef } from "@/lib/mission-engine"
 import {
   Tooltip,
   TooltipContent,
@@ -129,7 +130,7 @@ export default async function MissionBriefingPage({
   const isPending = submission?.status === "PENDING"
   const isNeedsRevision = submission?.status === "NEEDS_REVISION"
   const isInReview = submission?.status === "IN_REVIEW"
-  const isOnboarding = mission.isOnboarding
+  const isOnboarding = mission.isOnboarding || getStepMissionDef(mission.slug) !== null
 
   const briefingContent = mission.fullBriefing || mission.description
 
