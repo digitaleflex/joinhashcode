@@ -12,6 +12,7 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { MissionSubmissionForm } from "./mission-submission-form"
+import { OnboardingWorkflow } from "@/components/missions/onboarding-workflow"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline, type TimelineProps } from "@/components/missions/submission-timeline"
 import { SuggestedPartners } from "@/components/missions/suggested-partners"
@@ -128,6 +129,7 @@ export default async function MissionBriefingPage({
   const isPending = submission?.status === "PENDING"
   const isNeedsRevision = submission?.status === "NEEDS_REVISION"
   const isInReview = submission?.status === "IN_REVIEW"
+  const isOnboarding = mission.isOnboarding
 
   const briefingContent = mission.fullBriefing || mission.description
 
@@ -284,6 +286,9 @@ export default async function MissionBriefingPage({
             </div>
 
             {/* ── Body ── */}
+            {isOnboarding ? (
+              <OnboardingWorkflow missionSlug={mission.slug || mission.id} />
+            ) : (
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12">
 
               {/* ── Left Column ── */}
@@ -362,7 +367,9 @@ export default async function MissionBriefingPage({
                   </div>
 
                   <div className="p-5">
-                    {isCompleted ? (
+                    {isOnboarding ? (
+                      <OnboardingWorkflow missionSlug={mission.slug || mission.id} />
+                    ) : isCompleted ? (
                       <div className="flex flex-col items-center text-center py-8 gap-4">
                         <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
                           <CheckCircle2 className="w-7 h-7 text-emerald-500" />
@@ -454,6 +461,7 @@ export default async function MissionBriefingPage({
 
               </div>
             </div>
+            )}
 
           </div>
         </main>

@@ -36,9 +36,9 @@ model User {
   tools                String[]
   primaryDomain        String?
   subDomain            String?
-  learningTools        String[]   @default([])
+  learningTools        String[]  @default([])
   practiceMode         String?
-  certifications       String[]   @default([])
+  certifications       String[]  @default([])
   specializationAt     DateTime?
   memberNumber         Int       @unique @default(autoincrement())
   banned               Boolean?  @default(false)
@@ -47,33 +47,33 @@ model User {
   deactivatedAt        DateTime? @map("deactivated_at")
   talentVisible        Boolean   @default(false)
   // Scores psychométriques calculés par analysis.ts
-  builderScore        Int     @default(0)
-  creatorScore        Int     @default(0)
-  strategistScore     Int     @default(0)
-  catalystScore       Int     @default(0)
+  builderScore         Int       @default(0)
+  creatorScore         Int       @default(0)
+  strategistScore      Int       @default(0)
+  catalystScore        Int       @default(0)
 
-  level               Int      @default(1)
-  experience          Int      @default(0)
-  missionsCompletedCount Int   @default(0)
-  currentStreak       Int      @default(0)
-  longestStreak       Int      @default(0)
-  lastCheckinAt       DateTime?
-  lastStreakDate      DateTime?
-  twoFactorEnabled    Boolean  @default(false)
-  twoFactorSecret     String?
-  referralCode        String?  @unique
-  referralCount       Int      @default(0)
-  referrerId          String?
-  githubUrl           String?
-  portfolioUrl        String?
-  linkedinUrl         String?
-  twitterUrl          String?
+  level                  Int       @default(1)
+  experience             Int       @default(0)
+  missionsCompletedCount Int       @default(0)
+  currentStreak          Int       @default(0)
+  longestStreak          Int       @default(0)
+  lastCheckinAt          DateTime?
+  lastStreakDate         DateTime?
+  twoFactorEnabled       Boolean   @default(false)
+  twoFactorSecret        String?
+  referralCode           String?   @unique
+  referralCount          Int       @default(0)
+  referrerId             String?
+  githubUrl              String?
+  portfolioUrl           String?
+  linkedinUrl            String?
+  twitterUrl             String?
 
   // Relations spécialisées
-  beta                 UserBeta?
-  profile              UserProfile?
-  accounts             Account[]
-  dailyCheckins        DailyCheckin[]
+  beta          UserBeta?
+  profile       UserProfile?
+  accounts      Account[]
+  dailyCheckins DailyCheckin[]
 
   missionSubmissions   MissionSubmission[] @relation("SubmissionOwner")
   submissionsInReview  MissionSubmission[] @relation("SubmissionReviewer")
@@ -90,8 +90,14 @@ model User {
   invitations          Invitation[]
   joinRequests         JoinRequest[]
 
-  xpTransactions       XpTransaction[]
-  squadMessages        SquadMessage[]
+  xpTransactions XpTransaction[]
+  squadMessages  SquadMessage[]
+
+  missionAttempts       MissionAttempt[]      @relation("AttemptOwner")
+  attemptsReviewed      MissionAttempt[]      @relation("AttemptReviewer")
+  stepResponsesReviewed MissionStepResponse[] @relation("StepReviewer")
+  reviewLogs            MissionReviewLog[]    @relation("TimelineActor")
+  profileV1             ProfileV1?
 
   @@index([class])
   @@index([role])
@@ -100,16 +106,16 @@ model User {
 }
 
 model UserProfile {
-  id                 String   @id @default(cuid())
-  userId             String   @unique
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio                String?
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio                 String?
   secondaryObjectives String[]
   currentFocus        String[]
-  dreamStatement     String?
-  mainBlocker        String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  dreamStatement      String?
+  mainBlocker         String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   @@map("user_profile")
 }
@@ -135,7 +141,7 @@ model Organization {
   cohesionScore        Float          @default(0.1)
   streakCount          Int            @default(0)
   lastStreakAt         DateTime?
-  requiredLevel        Int          @default(1)
+  requiredLevel        Int            @default(1)
   isPrivate            Boolean        @default(false)
   description          String?
   announcement         String?
@@ -261,10 +267,14 @@ model Mission {
   qualityIndicators  Json                @default("[]")
   isWeeklyChallenge  Boolean             @default(false)
   weeklySlot         Int?
+  isOnboarding       Boolean             @default(false)
   submissions        MissionSubmission[]
+  steps              MissionStep[]
+  attempts           MissionAttempt[]
 
   @@index([category])
   @@index([difficulty])
+  @@index([isOnboarding])
   @@map("mission")
 }
 
@@ -514,4 +524,105 @@ model XpTransaction {
   @@index([userId])
   @@index([createdAt])
   @@map("xp_transaction")
+}
+
+model MissionStep {
+  id          String                @id @default(cuid())
+  missionId   String
+  stepOrder   Int
+  key         String
+  title       String
+  description String
+  fields      Json                  @default("[]")
+  required    Boolean               @default(true)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  mission     Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  responses   MissionStepResponse[]
+
+  @@unique([missionId, stepOrder])
+  @@unique([missionId, key])
+  @@index([missionId])
+  @@map("mission_step")
+}
+
+model MissionAttempt {
+  id            String                @id @default(cuid())
+  userId        String
+  missionId     String
+  status        String                @default("DRAFT")
+  currentStep   Int                   @default(0)
+  submittedAt   DateTime?
+  reviewerId    String?
+  score         Int?
+  decision      String?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  user          User                  @relation("AttemptOwner", fields: [userId], references: [id], onDelete: Cascade)
+  mission       Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  reviewer      User?                 @relation("AttemptReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  stepResponses MissionStepResponse[]
+  reviewLogs    MissionReviewLog[]
+  profileV1     ProfileV1?
+
+  @@unique([userId, missionId])
+  @@index([missionId])
+  @@index([status])
+  @@index([userId, status])
+  @@map("mission_attempt")
+}
+
+model MissionStepResponse {
+  id           String         @id @default(cuid())
+  attemptId    String
+  stepId       String
+  stepOrder    Int
+  data         Json           @default("{}")
+  status       String         @default("DRAFT")
+  score        Int?
+  feedback     String?
+  reviewedById String?
+  reviewedAt   DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  attempt      MissionAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  step         MissionStep    @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  reviewedBy   User?          @relation("StepReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@unique([attemptId, stepId])
+  @@index([attemptId])
+  @@map("mission_step_response")
+}
+
+model MissionReviewLog {
+  id        String         @id @default(cuid())
+  attemptId String
+  actorId   String?
+  action    String
+  message   String?
+  metadata  Json?
+  createdAt DateTime       @default(now())
+  attempt   MissionAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  actor     User?          @relation("TimelineActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([attemptId])
+  @@index([createdAt])
+  @@map("mission_review_log")
+}
+
+model ProfileV1 {
+  id             String          @id @default(cuid())
+  userId         String          @unique
+  attemptId      String?         @unique
+  data           Json
+  declaredSkills Json            @default("[]")
+  observed       Json            @default("{}")
+  demonstrated   Json            @default("[]")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempt        MissionAttempt? @relation(fields: [attemptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@map("profile_v1")
 }

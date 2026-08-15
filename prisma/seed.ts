@@ -3,6 +3,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
 import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
+import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -134,6 +135,103 @@ async function main() {
     } else {
       console.log(`  ○ User ${email} not found (will be updated after their first sign-in)`);
     }
+  }
+
+  console.log("\n🚀 Seeding onboarding mission (Mission 01)...");
+  const onboarding = ONBOARDING_MISSION;
+  const acc = onboarding.acceptanceCriteria;
+  await prisma.mission.upsert({
+    where: { slug: onboarding.slug },
+    update: {
+      title: onboarding.title,
+      shortDesc: onboarding.shortDesc,
+      description: onboarding.description,
+      category: onboarding.category,
+      difficulty: onboarding.difficulty,
+      xp: onboarding.xpReward,
+      missionLevel: onboarding.missionLevel,
+      targetProfiles: onboarding.targetProfiles,
+      requirements: onboarding.requirements,
+      duration: onboarding.duration,
+      weightBuilder: 0.25,
+      weightCreator: 0.25,
+      weightStrategist: 0.25,
+      weightCatalyst: 0.25,
+      deliverables: onboarding.deliverables,
+      fullBriefing: onboarding.description,
+      submissionMethod: onboarding.submissionMethod,
+      acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
+      evaluatorNotes: onboarding.evaluatorNotes,
+      qualityIndicators: JSON.parse(JSON.stringify(onboarding.qualityIndicators)),
+      isOnboarding: true,
+    },
+    create: {
+      slug: onboarding.slug,
+      title: onboarding.title,
+      shortDesc: onboarding.shortDesc,
+      description: onboarding.description,
+      category: onboarding.category,
+      difficulty: onboarding.difficulty,
+      xp: onboarding.xpReward,
+      missionLevel: onboarding.missionLevel,
+      targetProfiles: onboarding.targetProfiles,
+      requirements: onboarding.requirements,
+      duration: onboarding.duration,
+      weightBuilder: 0.25,
+      weightCreator: 0.25,
+      weightStrategist: 0.25,
+      weightCatalyst: 0.25,
+      deliverables: onboarding.deliverables,
+      fullBriefing: onboarding.description,
+      submissionMethod: onboarding.submissionMethod,
+      acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
+      evaluatorNotes: onboarding.evaluatorNotes,
+      qualityIndicators: JSON.parse(JSON.stringify(onboarding.qualityIndicators)),
+      isOnboarding: true,
+    },
+  });
+  const onboardingMission = await prisma.mission.findUnique({
+    where: { slug: onboarding.slug },
+    select: { id: true },
+  });
+  if (onboardingMission) {
+    const existingSteps = await prisma.missionStep.findMany({
+      where: { missionId: onboardingMission.id },
+      select: { key: true },
+    });
+    const existingKeys = new Set(existingSteps.map((s) => s.key));
+    let order = 1;
+    for (const step of onboarding.steps) {
+      if (!existingKeys.has(step.key)) {
+        await prisma.missionStep.create({
+          data: {
+            missionId: onboardingMission.id,
+            stepOrder: order,
+            key: step.key,
+            title: step.title,
+            description: step.description,
+            fields: JSON.parse(JSON.stringify(step.fields)),
+            required: true,
+          },
+        });
+        console.log(`  ✓ STEP ${order} — ${step.title}`);
+      } else {
+        await prisma.missionStep.update({
+          where: {
+            missionId_key: { missionId: onboardingMission.id, key: step.key },
+          },
+          data: {
+            stepOrder: order,
+            title: step.title,
+            description: step.description,
+            fields: JSON.parse(JSON.stringify(step.fields)),
+            required: true,
+          },
+        });
+      }
+      order++;
+    }
+    console.log(`  ✓ Mission 01 syncée (${onboarding.steps.length} étapes)`);
   }
 
   console.log("\n✅ Seeding complete.");

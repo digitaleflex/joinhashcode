@@ -29,6 +29,7 @@ import {
   BrainCircuit,
   Library,
   BookOpen,
+  UserRound,
 } from "lucide-react"
 
 import {
@@ -71,6 +72,7 @@ const navGroups = [
       { title: "Ateliers",    url: "/admin/ateliers",       icon: GraduationCap },
       { title: "Projets",     url: "/admin/missions",       icon: Target },
       { title: "Évidences",   url: "/admin/submissions",    icon: FileCheck },
+      { title: "Onboarding",  url: "/admin/missions/attempts", icon: UserRound },
     ],
   },
   {
@@ -142,7 +144,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      isActive={pathname === item.url}
+                      isActive={pathname === item.url || pathname.startsWith(`${item.url}/`)}
                       tooltip={item.title}
                       className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                     >
