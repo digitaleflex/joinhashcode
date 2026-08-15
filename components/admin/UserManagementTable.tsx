@@ -79,7 +79,9 @@ export function UserManagementTable() {
     }
   }, [page, debouncedSearch, roleFilter, statusFilter])
 
-  useEffect(() => { fetchUsers() }, [fetchUsers])
+  useEffect(() => {
+    fetchUsers()
+  }, [page, debouncedSearch, roleFilter, statusFilter])
 
   const totalPages = Math.ceil(total / limit)
 

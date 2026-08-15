@@ -84,7 +84,7 @@ export default function AdminAttemptsPage() {
   }, [tab, page, search]);
 
   React.useEffect(() => {
-    const t = setTimeout(() => fetchData(), search.trim() ? 350 : 0);
+    const t = setTimeout(() => fetchData(), search.trim() ? 350 : 100);
     return () => clearTimeout(t);
   }, [fetchData, search]);
 

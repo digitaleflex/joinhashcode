@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCcw, Home } from "lucide-react"
 import Link from "next/link"
@@ -12,20 +12,26 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const errorRef = useRef(error)
   useEffect(() => {
-    console.error(error)
+    errorRef.current = error
+  })
+
+  useEffect(() => {
+    const current = errorRef.current
+    console.error(current)
     fetch("/api/log/client-error", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: error?.message,
-        digest: error.digest,
-        stack: error?.stack,
+        message: current?.message,
+        digest: current.digest,
+        stack: current?.stack,
         url: window.location.href,
         userAgent: navigator.userAgent,
       }),
     }).catch(() => {})
-  }, [error])
+  }, [error.digest])
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">

@@ -999,8 +999,16 @@ function SkillFields({ field, value, onChange }: { field: StepField; value: unkn
   const levels = field.skills?.levels ?? ["Découverte", "Débutant", "Intermédiaire", "Avancé", "Expert"];
 
   React.useEffect(() => {
-    onChange(rows.filter((r) => r.name.trim()));
-  }, [rows]);
+    const next = Array.isArray(value)
+      ? (value as { name?: string; level?: string }[]).map((s) => ({ name: s.name ?? "", level: s.level ?? "Découverte" }))
+      : [{ name: "", level: "Découverte" }];
+    setRows(next);
+  }, [value]);
+
+  const sync = (next: { name: string; level: string }[]) => {
+    setRows(next);
+    onChange(next.filter((r) => r.name.trim()));
+  };
 
   return (
     <FieldShell field={field}>
@@ -1013,7 +1021,7 @@ function SkillFields({ field, value, onChange }: { field: StepField; value: unkn
               onChange={(e) => {
                 const next = [...rows];
                 next[i] = { ...next[i], name: e.target.value };
-                setRows(next);
+                sync(next);
               }}
               className="bg-zinc-900/60 border-border/60"
             />
@@ -1022,7 +1030,7 @@ function SkillFields({ field, value, onChange }: { field: StepField; value: unkn
               onValueChange={(v) => {
                 const next = [...rows];
                 next[i] = { ...next[i], level: v };
-                setRows(next);
+                sync(next);
               }}
             >
               <SelectTrigger className="bg-zinc-900/60 border-border/60 w-40">
@@ -1039,7 +1047,7 @@ function SkillFields({ field, value, onChange }: { field: StepField; value: unkn
                 variant="ghost"
                 size="icon"
                 className="h-9 w-9 text-zinc-500 hover:text-red-400"
-                onClick={() => setRows(rows.filter((_, j) => j !== i))}
+                onClick={() => sync(rows.filter((_, j) => j !== i))}
               >
                 <Circle className="w-4 h-4" />
               </Button>
@@ -1051,7 +1059,7 @@ function SkillFields({ field, value, onChange }: { field: StepField; value: unkn
           variant="outline"
           size="sm"
           className="text-xs gap-1.5"
-          onClick={() => setRows([...rows, { name: "", level: "Découverte" }])}
+          onClick={() => sync([...rows, { name: "", level: "Découverte" }])}
         >
           <Sparkles className="w-3.5 h-3.5" /> Ajouter une compétence
         </Button>
