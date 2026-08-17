@@ -26,8 +26,8 @@ export async function POST(req: Request) {
         },
         select: { id: true, userId: true, missionId: true },
         take: BATCH_SIZE,
-        orderBy: { updatedAt: "asc" },
-        ...(lastId ? { cursor: { id: lastId }, skip: 0 } : {}),
+        orderBy: [{ updatedAt: "asc" }, { id: "asc" }],
+        ...(lastId ? { cursor: { id: lastId }, skip: 1 } : {}),
       });
 
       if (submissions.length === 0) break;

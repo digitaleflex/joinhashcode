@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         select: { id: true, cohesionScore: true, lastStreakAt: true, name: true },
         take: BATCH_SIZE,
         orderBy: { id: "asc" },
-        ...(lastId ? { cursor: { id: lastId }, skip: 0 } : {}),
+        ...(lastId ? { cursor: { id: lastId }, skip: 1 } : {}),
       });
 
       if (orgs.length === 0) break;
