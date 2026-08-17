@@ -92,6 +92,19 @@ export default async function MissionsPage() {
   const currentWeeklyChallenge = getCurrentWeeklyChallenge();
   const weekStart = getWeekStart();
 
+  const weeklyMissionQuery = currentWeeklyChallenge
+    ? prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } })
+    : Promise.resolve(null);
+  const weeklySubmissionQuery = currentWeeklyChallenge
+    ? prisma.missionSubmission.findFirst({
+        where: {
+          userId: session.user.id,
+          mission: { slug: currentWeeklyChallenge.id },
+          createdAt: { gte: weekStart },
+        }
+      })
+    : Promise.resolve(null);
+
   // Fetch user data, weekly mission, weekly submission and cached enrichment in parallel
   let finalDbUser: MissionsUserPayload | null = null
   let weeklyMission: Prisma.MissionGetPayload<object> | null = null
@@ -129,19 +142,13 @@ export default async function MissionsPage() {
           experience: true,
         }
       }),
-      prisma.mission.findUnique({ where: { slug: currentWeeklyChallenge.id } }),
+      weeklyMissionQuery,
       getMissionsEnrichment(),
       prisma.member.findFirst({
         where: { userId: session.user.id },
         select: { id: true },
       }),
-      prisma.missionSubmission.findFirst({
-        where: {
-          userId: session.user.id,
-          mission: { slug: currentWeeklyChallenge.id },
-          createdAt: { gte: weekStart },
-        }
-      }),
+      weeklySubmissionQuery,
     ])
   } catch (error: unknown) {
     console.error("[MISSIONS_PAGE] DB fetch failed:", error)

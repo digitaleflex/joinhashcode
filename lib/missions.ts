@@ -87,8 +87,9 @@ export interface WeeklyChallenge {
 
 export const WEEKLY_CHALLENGES: WeeklyChallenge[] = [];
 
-export function getCurrentWeeklyChallenge(): WeeklyChallenge {
+export function getCurrentWeeklyChallenge(): WeeklyChallenge | undefined {
   const weekNumber = getWeekNumber(new Date());
+  if (WEEKLY_CHALLENGES.length === 0) return undefined;
   return WEEKLY_CHALLENGES[weekNumber % WEEKLY_CHALLENGES.length];
 }
 

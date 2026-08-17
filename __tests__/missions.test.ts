@@ -82,7 +82,7 @@ describe("getCurrentWeeklyChallenge", () => {
     }
     // Mock a fixed date to be deterministic
     vi.setSystemTime(new Date("2026-08-05T12:00:00Z"));
-    const challenge = getCurrentWeeklyChallenge();
+    const challenge = getCurrentWeeklyChallenge()!;
     expect(WEEKLY_CHALLENGES).toContain(challenge);
     expect(challenge.id).toBeTruthy();
     expect(challenge.title).toBeTruthy();
