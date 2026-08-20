@@ -3,7 +3,7 @@
 import Link from "next/link"
 // import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Zap, Shield, Target, Users } from "lucide-react"
+import { ArrowRight, Zap } from "lucide-react"
 
 export function FinalCta() {
   return (
@@ -30,8 +30,13 @@ export function FinalCta() {
             Rejoins une communauté d'élite où tes compétences sont tes seules limites. Le futur de l'Afrique se code ici.
           </p>
 
+          {/* Cost reminder — remove friction right before the CTA */}
+          <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-500">
+            Gratuit · 3 minutes · Sans engagement
+          </p>
+
           <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8"
+            className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-2"
           >
             <Button
               asChild
@@ -46,23 +51,19 @@ export function FinalCta() {
           </div>
 
           <div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-16 border-t border-white/5"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-10 border-t border-white/5 max-w-2xl mx-auto"
           >
             <div className="flex flex-col items-center gap-2">
-              <Shield className="size-5 text-zinc-600" />
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Accès Sécurisé</span>
+              <span className="text-3xl font-black text-white font-mono">4</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Profils identifiés</span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <Target className="size-5 text-zinc-600" />
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Objectifs Réels</span>
+              <span className="text-3xl font-black text-white font-mono">100%</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Gratuit au départ</span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <Zap className="size-5 text-zinc-600" />
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Impact Immédiat</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <Users className="size-5 text-indigo-400" />
-              <span className="font-mono text-[10px] uppercase font-bold text-indigo-400 tracking-tighter">Parrainage</span>
+              <span className="text-3xl font-black text-white font-mono">3 min</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Pour te profiler</span>
             </div>
           </div>
         </div>

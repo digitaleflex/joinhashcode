@@ -32,24 +32,24 @@ export function Hero({
           >
             <span className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#B8FF3B]" />
             <span className="font-mono text-[10px] font-black text-primary tracking-tight">
-              découvre ton potentiel tech
+              la tech africaine a besoin de toi
             </span>
           </div>
 
-          {/* H1 — Transformation promise */}
+          {/* H1 — Unique value proposition: the 4-profile diagnostic */}
           <h1
             className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
-            Développe tes compétences.
+            Lequel de ces 4
             <br />
-            <span className="text-primary">Construis ton avenir.</span>
+            <span className="text-primary">builders</span> es-tu ?
           </h1>
 
-          {/* Subtitle */}
+          {/* Subtitle — why me + cost + time */}
           <p
             className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
           >
-            HashCode identifie tes forces et t'accompagne avec des ateliers, du mentorat et des projets concrets.
+            En 3 minutes, HASHCODE révèle ta tendance dominante — Builder, Créateur, Stratège ou Catalyseur — et te donne les missions concrètes pour avancer.
           </p>
 
           {/* CTAs */}

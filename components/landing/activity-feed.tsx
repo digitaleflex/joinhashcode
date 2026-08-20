@@ -17,13 +17,14 @@ export interface Activity {
 export function ActivityFeed({ initialActivities }: { initialActivities?: Activity[] }) {
   const [activities, setActivities] = useState<Activity[]>(initialActivities || [])
 
-  // Mapper les types d'actions vers des libellés lisibles
+  // Mapper les types d'actions vers des libellés lisibles — [Prénom], [Profil] à [Ville] a [action]
   const getActionLabel = (action: string, className: string | null) => {
+    const profile = className || 'Builder'
     switch (action) {
-      case "USER_SIGNUP": return `[${className || 'TALENT'}] a rejoint la communauté`
-      case "QUIZ_COMPLETED": return `Profil identifié — ${className || 'Analyse...'}`
-      case "MISSION_APPROVED": return `Mission accomplie`
-      case "SQUAD_JOINED": return `Équipe formée`
+      case "USER_SIGNUP": return `${profile} à rejoint la communauté`
+      case "QUIZ_COMPLETED": return `${profile} a découvert son profil`
+      case "MISSION_APPROVED": return `${profile} a validé une mission`
+      case "SQUAD_JOINED": return `${profile} a rejoint une équipe`
       default: return `Action en cours`
     }
   }
@@ -80,7 +81,7 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
                     {getPrefix(log.action)}
                   </span>
                   <span className="font-mono text-[9px] sm:text-[10px] text-zinc-500 font-bold tracking-tight">
-                    {getActionLabel(log.action, log.user.class)} — {log.user.city || 'Nexus'}
+                    {log.user.name} · {getActionLabel(log.action, log.user.class)} · {log.user.city || 'Nexus'}
                   </span>
                 </motion.div>
               ))

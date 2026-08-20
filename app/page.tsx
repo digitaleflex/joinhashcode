@@ -22,13 +22,13 @@ export default function HomePage() {
         <HowItWorks />
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
+        <Vision />
+      </Suspense>
+      <Suspense fallback={<div className="h-96 w-full" />}>
         <MissionsPreview />
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <SquadDiscoverySection />
-      </Suspense>
-      <Suspense fallback={<div className="h-96 w-full" />}>
-        <Vision />
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <Faq />

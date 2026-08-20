@@ -11,7 +11,7 @@ const steps = [
     n: "02",
     title: "Découvre ton profil",
     icon: Zap,
-    body: "L'algorithme identifie ton type dominant parmi quatre : Builder, Créateur, Stratège ou Catalyseur. Beaucoup de membres sont hybrides.",
+    body: "Ton type dominant se révèle parmi quatre : Builder, Créateur, Stratège ou Catalyseur. Beaucoup de membres sont hybrides.",
   },
   {
     n: "03",
