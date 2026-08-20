@@ -35,18 +35,18 @@ export function SquadDiscoverySection() {
       
       <div className="max-w-7xl mx-auto px-6 relative z-[var(--z-content)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-              <Globe className="size-3.5 text-primary animate-pulse" />
-              <span className="text-[10px] font-mono font-bold text-primary uppercase">Recrutement Actif</span>
+<div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                <Globe className="size-3.5 text-primary animate-pulse" />
+                <span className="text-[10px] font-mono font-bold text-primary uppercase">Recrutement Actif</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
+                Rejoins une <span className="text-primary underline decoration-4 underline-offset-8">équipe</span>
+              </h2>
+              <p className="text-zinc-500 max-w-xl font-light text-sm md:text-base">
+                Ne bâtis pas seul. Synchronise tes efforts et multiplie ton impact.
+              </p>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
-              Trouve ton <span className="text-primary underline decoration-4 underline-offset-8">unité</span>
-            </h2>
-            <p className="text-zinc-500 max-w-xl font-light text-sm md:text-base">
-              Ne bâtis pas seul. Rejoins une équipe, synchronise tes efforts et multiplie ton impact dans l'écosystème.
-            </p>
-          </div>
           
            <div className="hidden lg:block p-6 rounded-3xl border border-dashed border-white/5 bg-white/1 text-center">
               <div className="text-3xl font-black text-white/20 font-mono italic mb-1">{squads.length}+</div>

@@ -50,11 +50,11 @@ export function MissionsPreview() {
 
         {/* Header */}
         <div
-          className="flex flex-col items-center text-center mb-16"
+          className="flex flex-col items-center text-center mb-12"
         >
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase text-primary">Les 4 profils</span>
+            <span className="font-mono text-[11px] uppercase text-primary">Le diagnostic</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
@@ -63,10 +63,23 @@ export function MissionsPreview() {
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
             L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
           </p>
-          <p className="mt-4 max-w-xl text-center text-xs text-zinc-600 leading-relaxed">
-            Ton profil est une hypothèse de travail, pas une étiquette définitive.
-            Il peut évoluer. Beaucoup de membres sont hybrides.
-          </p>
+        </div>
+
+        {/* Compact process — 3 steps */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 max-w-4xl mx-auto">
+          {[
+            { n: "01", title: "Profile-toi", body: "Réponds à 5 questions ciblées. Identité, parcours, objectifs, mode de travail." },
+            { n: "02", title: "Découvre ton profil", body: "Ton type dominant se révèle parmi les quatre ci-dessous. Beaucoup de membres sont hybrides." },
+            { n: "03", title: "Rejoins ta guilde", body: "Accède à un dashboard personnalisé, des missions adaptées et une communauté de pairs." },
+          ].map((s) => (
+            <div key={s.n} className="flex gap-4 items-start rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5">
+              <span className="font-mono text-xs font-black text-primary shrink-0 mt-0.5">{s.n}</span>
+              <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-tight mb-1">{s.title}</h3>
+                <p className="text-xs text-zinc-500 leading-relaxed font-medium">{s.body}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Desktop: two columns */}
