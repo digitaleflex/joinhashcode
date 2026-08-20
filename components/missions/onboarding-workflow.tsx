@@ -50,6 +50,7 @@ interface StepDTO {
   description: string;
   stepOrder: number;
   fields: StepField[];
+  scoreMax: number;
   status: StepStatus;
   completeness: number;
 }
@@ -217,7 +218,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
 
   const completedSteps = state.steps.filter((s) => s.status === "APPROVED").length;
   const progressPct = state.steps.length === 0 ? 0 : Math.round((completedSteps / state.steps.length) * 100);
-  const locked = lockedAll ? true : activeStep?.status === "APPROVED" && !revision;
+  const locked = lockedAll;
 
   return (
     <div className="space-y-6">
@@ -251,7 +252,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
 
       {/* Approved state */}
       {approved && (
-        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-8 text-center space-y-4">
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-8 text-center space-y-6">
           <div className="mx-auto w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
             <CheckCircle2 className="w-7 h-7 text-emerald-500" />
           </div>
@@ -263,9 +264,53 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
               </p>
             )}
           </div>
+
+          {(attempt.stepResponses?.some((r) => r.score != null || r.feedback)) && (
+            <div className="max-w-2xl mx-auto text-left space-y-2">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-emerald-400/60">Détail par étape</p>
+              {state.steps.map((step) => {
+                const resp = attempt.stepResponses?.find((r) => r.stepKey === step.key);
+                if (!resp || (resp.score == null && !resp.feedback)) return null;
+                const stepApproved = resp.status === "APPROVED";
+                return (
+                  <div key={step.key} className={`rounded-xl border p-3 ${stepApproved ? "border-emerald-500/20 bg-emerald-500/5" : "border-amber-500/20 bg-amber-500/5"}`}>
+                    <div className="flex items-center gap-2">
+                      {stepApproved ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> : <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+                      <span className="text-xs font-medium text-white">{step.title}</span>
+                      {resp.score != null && (
+                        <span className={`ml-auto text-[10px] font-mono ${stepApproved ? "text-emerald-400/70" : "text-amber-400/70"}`}>
+                          {resp.score}/{step.scoreMax || 5}
+                        </span>
+                      )}
+                    </div>
+                    {resp.feedback && (
+                      <p className="text-[11px] text-zinc-300 mt-1.5 whitespace-pre-wrap leading-relaxed">{resp.feedback}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           <Button variant="outline" onClick={() => router.push("/missions")} className="gap-2">
             Retour aux missions <ChevronRight className="w-4 h-4" />
           </Button>
+        </div>
+      )}
+
+      {/* Rejected state */}
+      {attempt?.status === "REJECTED" && (
+        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-6 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-red-400">Mission rejetée</p>
+            <p className="text-xs text-zinc-400">
+              Cette mission a été rejetée et ne peut plus être soumise. Contacte l'équipe HashCode pour plus d'informations.
+            </p>
+            {attempt?.decision && (
+              <p className="text-xs text-zinc-300 mt-2 border-l-2 border-red-400/50 pl-3">{attempt.decision}</p>
+            )}
+          </div>
         </div>
       )}
 
@@ -286,7 +331,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
       )}
 
       {/* Submitted state */}
-      {submitted && !approved && !revision && (
+      {submitted && !approved && !revision && attempt?.status !== "REJECTED" && (
         <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6 flex items-start gap-3">
           <Loader2 className="w-5 h-5 text-blue-400 animate-spin shrink-0 mt-0.5" />
           <div className="space-y-1">
@@ -299,12 +344,61 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
       )}
 
       {lockedAll ? (
-        <div className="rounded-2xl border border-border/40 bg-card/20 p-8 text-center">
-          <Lock className="w-8 h-8 text-muted-foreground/50 mx-auto mb-3" />
-          <p className="text-sm text-muted-foreground">
-            Les réponses sont verrouillées tant que la mission est en cours de revue.
-          </p>
-        </div>
+        attempt?.status === "REJECTED" ? (
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
+            <nav className="space-y-1 lg:sticky lg:top-6 lg:self-start">
+              {state.steps.map((step, i) => {
+                const active = i === activeIndex;
+                const done = step.status === "APPROVED";
+                return (
+                  <button
+                    key={step.key}
+                    onClick={() => setActiveIndex(i)}
+                    className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all ${
+                      active ? "bg-primary/10 border border-primary/20" : "border border-transparent hover:bg-white/5"
+                    }`}
+                  >
+                    <span className="shrink-0">
+                      {done ? (
+                        <Check className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <span className={`text-[10px] font-mono w-4 h-4 inline-flex items-center justify-center rounded-full border ${active ? "border-primary text-primary" : "border-zinc-600 text-zinc-500"}`}>
+                          {i + 1}
+                        </span>
+                      )}
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className={`block text-xs font-medium truncate ${active ? "text-white" : "text-zinc-400"}`}>
+                        {step.shortTitle}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </nav>
+            <div className="space-y-5">
+              {activeStep && (
+                <div className="rounded-2xl border border-border/40 bg-card/30 p-6 space-y-6">
+                  <div>
+                    <h2 className="text-lg font-bold tracking-tight">{activeStep.title}</h2>
+                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{activeStep.description}</p>
+                  </div>
+                  <div className="rounded-xl border border-border/30 bg-card/20 p-6 flex items-center gap-3">
+                    <Lock className="w-4 h-4 text-muted-foreground/50 shrink-0" />
+                    <p className="text-xs text-zinc-400">Réponse verrouillée (mission rejetée).</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-border/40 bg-card/20 p-8 text-center">
+            <Lock className="w-8 h-8 text-muted-foreground/50 mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">
+              Les réponses sont verrouillées tant que la mission est en cours de revue.
+            </p>
+          </div>
+        )
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
           {/* Stepper */}
@@ -359,6 +453,35 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
                   <h2 className="text-lg font-bold tracking-tight">{activeStep.title}</h2>
                   <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{activeStep.description}</p>
                 </div>
+
+                {(() => {
+                  const activeResponse = attempt?.stepResponses.find((r) => r.stepKey === activeStep.key);
+                  const hasReview = activeResponse && (activeResponse.feedback || activeResponse.score != null);
+                  if (!hasReview) return null;
+                  const isRevisionStep = activeResponse.status === "REVISION_REQUIRED";
+                  return (
+                    <div className={`rounded-xl border p-4 space-y-2 ${isRevisionStep ? "border-amber-500/30 bg-amber-500/5" : "border-emerald-500/30 bg-emerald-500/5"}`}>
+                      <div className="flex items-center gap-2">
+                        {isRevisionStep ? (
+                          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                        ) : (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        )}
+                        <p className={`text-[10px] font-mono uppercase tracking-wider ${isRevisionStep ? "text-amber-400" : "text-emerald-400"}`}>
+                          {isRevisionStep ? "À corriger" : "Retour du reviewer"}
+                        </p>
+                        {activeResponse.score != null && (
+                          <span className={`ml-auto text-[10px] font-mono ${isRevisionStep ? "text-amber-400/70" : "text-emerald-400/70"}`}>
+                            Score : {activeResponse.score}/{activeStep.scoreMax || 5}
+                          </span>
+                        )}
+                      </div>
+                      {activeResponse.feedback && (
+                        <p className="text-xs text-zinc-300 whitespace-pre-wrap leading-relaxed">{activeResponse.feedback}</p>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {locked && !revision ? (
                   <div className="rounded-xl border border-border/30 bg-card/20 p-6 flex items-center gap-3">

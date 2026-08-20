@@ -79,6 +79,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         description: step.description,
         stepOrder: step.stepOrder,
         fields: step.fields,
+        scoreMax: stepDef?.scoreMax ?? 0,
         status: response?.status ?? "DRAFT",
         completeness: stepDef ? computeStepCompleteness(stepDef, (response?.data as Record<string, unknown>) ?? {}) : 0,
       };

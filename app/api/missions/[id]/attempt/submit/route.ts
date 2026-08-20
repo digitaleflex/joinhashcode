@@ -35,7 +35,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       include: { stepResponses: true },
     });
 
-    if (attempt && attempt.status === "SUBMITTED" || attempt?.status === "IN_REVIEW" || attempt?.status === "APPROVED") {
+    if (attempt && ["SUBMITTED", "IN_REVIEW", "APPROVED", "REJECTED"].includes(attempt.status)) {
       return NextResponse.json({ error: "Mission déjà soumise" }, { status: 409 });
     }
 
