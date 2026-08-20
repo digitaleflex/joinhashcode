@@ -7,7 +7,7 @@ import { Plus, Minus, HelpCircle } from "lucide-react"
 const faqs = [
   {
     question: "C'est quoi exactement HASHCODE ?",
-    answer: "HASHCODE est une plateforme d'évolution pour les bâtisseurs tech. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes où tu peux avoir un impact immédiat."
+    answer: "Tu commences par un quiz rapide. HASHCODE t'identifie parmi 4 profils : Builder, Créateur, Stratège ou Catalyseur. Ensuite, tu reçois des missions adaptées à ton niveau, des pairs au même niveau que toi, et un chemin concret pour évoluer dans la tech africaine."
   },
   {
     question: "Comment fonctionne le diagnostic ?",

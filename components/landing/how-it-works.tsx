@@ -5,7 +5,7 @@ const steps = [
     n: "01",
     title: "Profile-toi",
     icon: Target,
-    body: "Réponds à 13 questions ciblées en 3 minutes. Identité, parcours, objectifs, mode de travail.",
+    body: "Réponds à 5 questions ciblées. Identité, parcours, objectifs, mode de travail.",
   },
   {
     n: "02",

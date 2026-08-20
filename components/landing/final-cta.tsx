@@ -62,8 +62,8 @@ export function FinalCta() {
               <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Gratuit au départ</span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <span className="text-3xl font-black text-white font-mono">3 min</span>
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Pour te profiler</span>
+              <span className="text-3xl font-black text-white font-mono">5</span>
+              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Questions ciblées</span>
             </div>
           </div>
         </div>

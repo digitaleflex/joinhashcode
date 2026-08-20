@@ -191,7 +191,7 @@ export function MissionsPreview() {
             href="/quiz"
             className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
-            Découvrir mon profil en 3 minutes
+            Découvrir mon profil
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

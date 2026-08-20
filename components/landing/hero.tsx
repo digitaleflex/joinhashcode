@@ -45,11 +45,11 @@ export function Hero({
             <span className="text-primary">builders</span> es-tu ?
           </h1>
 
-          {/* Subtitle — why me + cost + time */}
+          {/* Subtitle — stakes, not spoiler */}
           <p
             className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
           >
-            En 3 minutes, HASHCODE révèle ta tendance dominante — Builder, Créateur, Stratège ou Catalyseur — et te donne les missions concrètes pour avancer.
+            En 3 minutes, découvre le profil qui te rendra irremplaçable dans l'écosystème tech africain — et reçois des missions concrètes pour y arriver.
           </p>
 
           {/* CTAs */}
@@ -97,7 +97,7 @@ export function Hero({
             className="mt-6 flex items-center gap-4 font-mono text-[10px] font-bold text-zinc-700 tracking-tight"
           >
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes chrono</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">4 profils</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">sans engagement</span>
           </div>
         </div>
