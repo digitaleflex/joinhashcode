@@ -35,17 +35,31 @@ echo "=== 4/6 symlinks standalone ==="
 ln -sfn ../../static .next/standalone/.next/static
 ln -sfn ../../public .next/standalone/public
 
+echo "=== 4.5/6 cache dir standalone ==="
+mkdir -p .next/standalone/.next/cache
+chmod 777 .next/standalone/.next/cache
+
 echo "=== 5/6 docker compose up ==="
 docker compose -f compose.app.yml \
   --env-file "$ENV_FILE" \
   up -d web --force-recreate
 
 echo "=== 6/6 healthcheck ==="
-sleep 15
-HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' hashcode-web 2>/dev/null || echo '"unknown"')
-echo "Health: $HEALTH"
-if [ "$HEALTH" != '"healthy"' ]; then
-  docker logs hashcode-web --tail 60 || true
-  exit 1
-fi
-echo "=== deploy OK ==="
+MAX_ATTEMPTS=12
+ATTEMPTS=0
+while [ "$ATTEMPTS" -lt "$MAX_ATTEMPTS" ]; do
+  HEALTH=$(docker inspect --format='{{json .State.Health.Status}}' hashcode-web 2>/dev/null || echo '"unknown"')
+  echo "Health: $HEALTH (attempt $((ATTEMPTS + 1))/$MAX_ATTEMPTS)"
+  if [ "$HEALTH" = '"healthy"' ]; then
+    echo "=== deploy OK ==="
+    exit 0
+  fi
+  if [ "$HEALTH" = '"unhealthy"' ]; then
+    break
+  fi
+  sleep 10
+  ATTEMPTS=$((ATTEMPTS + 1))
+done
+echo "❌ Deploy failed: container never became healthy"
+docker logs hashcode-web --tail 60 || true
+exit 1

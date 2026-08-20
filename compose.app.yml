@@ -43,6 +43,8 @@ services:
       # Bind mounts — le build host est monté dans le conteneur
       # Pas besoin de rebuild l'image Docker à chaque déploiement
       - ./.next/standalone:/app/.next/standalone:ro
+      # Cache instable_cache — sous-montage dédié en écriture (le parent est en :ro)
+      - ./.next/standalone/.next/cache:/app/.next/standalone/.next/cache
       # standalone/.next/static est un symlink hôte → ../../static (résolu vers .next/static)
       - ./.next/static:/app/.next/static:ro
       # Wrapper multi-process (cluster Node) — même code que server.js
