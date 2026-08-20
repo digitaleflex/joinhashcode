@@ -1,37 +1,12 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
-const PROFILES = [
-  { label: "Builder",    color: "#B8FF3B" },
-  { label: "Créateur",   color: "#A855F7" },
-  { label: "Stratège",   color: "#22D3EE" },
-  { label: "Catalyseur", color: "#F97316" },
-] as const
-
 export function Hero({ 
-  totalMembers = 1240, 
-  classCounts 
+  totalMembers = 1240
 }: { 
-  totalMembers?: number; 
-  classCounts?: Record<string, number>;
+  totalMembers?: number
 }) {
-  const [index, setIndex] = useState(0)
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-    const id = setInterval(() => {
-      setIndex(i => (i + 1) % PROFILES.length)
-    }, 2200)
-    return () => clearInterval(id)
-  }, [])
-
-  const current = PROFILES[index]
-
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden border-b border-white/5 bg-background pt-16 sm:pt-24 pb-16">
       {/* Clean Ambient Background */}
@@ -65,18 +40,16 @@ export function Hero({
           <h1
             className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
-            Découvre ton potentiel.
+            Développe tes compétences.
             <br />
-            <span className="text-primary">Développe tes compétences.</span>
-            <br />
-            Construis ton avenir.
+            <span className="text-primary">Construis ton avenir.</span>
           </h1>
 
           {/* Subtitle */}
           <p
             className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
           >
-            HashCode identifie tes forces, t'oriente vers la spécialisation qui te correspond et t'accompagne avec des ateliers, du mentorat et des projets concrets.
+            HashCode identifie tes forces et t'accompagne avec des ateliers, du mentorat et des projets concrets.
           </p>
 
           {/* CTAs */}
@@ -117,33 +90,7 @@ export function Hero({
                 <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> Builders synchronisés
               </span>
             </div>
-
-            {/* Class Breakdown (Transparency) */}
-            {classCounts && Object.keys(classCounts).length > 0 && (
-              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 opacity-50">
-                {PROFILES.map((p) => {
-                  const count = classCounts[p.label.toLowerCase()] || 0
-                  return (
-                    <div key={p.label} className="flex items-center gap-1.5">
-                      <span className="h-1 w-1 rounded-full" style={{ backgroundColor: p.color }} />
-                      <span className="font-mono text-[10px] uppercase font-bold text-zinc-500">
-                        {p.label}s: <span className="text-white">{count}</span>
-                      </span>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
           </div>
-
-          {/* Disclaimer pédagogique */}
-          <p
-            className="mt-8 max-w-md text-center text-xs text-zinc-600 leading-relaxed"
-          >
-            Ce quiz ne te classe pas — il identifie ta <span className="text-zinc-500">tendance dominante du moment</span>.
-            Ton profil est une hypothèse de travail, pas une étiquette définitive.
-            Il peut évoluer. Beaucoup de membres sont hybrides.
-          </p>
 
           {/* Meta */}
           <div
@@ -154,8 +101,6 @@ export function Hero({
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">sans engagement</span>
           </div>
         </div>
-
-        {/* Social Proof — nombre de membres */}
       </div>
     </section>
   )

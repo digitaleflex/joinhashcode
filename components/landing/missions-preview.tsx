@@ -63,6 +63,10 @@ export function MissionsPreview() {
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
             L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
           </p>
+          <p className="mt-4 max-w-xl text-center text-xs text-zinc-600 leading-relaxed">
+            Ton profil est une hypothèse de travail, pas une étiquette définitive.
+            Il peut évoluer. Beaucoup de membres sont hybrides.
+          </p>
         </div>
 
         {/* Desktop: two columns */}
