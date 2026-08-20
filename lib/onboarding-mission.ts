@@ -18,6 +18,7 @@ export type StepFieldType =
   | "RISK_TABLE"
   | "SMART_GOALS"
   | "SYNTHESIS"
+  | "DYNAMIC_TABLE"
 
 export interface StepFieldOption {
   value: string
@@ -56,6 +57,13 @@ export interface StepField {
   minItems?: number
   /** Pour SCORED_CRITERIA : maximum de la somme des notes. */
   totalMax?: number
+  /** Pour DYNAMIC_TABLE : colonnes configurables du tableau dynamique. */
+  columns?: {
+    key: string
+    label: string
+    type?: "text" | "textarea" | "select"
+    options?: StepFieldOption[]
+  }[]
 }
 
 export interface MissionStepDef {

@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAdminAuth } from "@/lib/admin-auth";
+import { ONBOARDING_MISSION } from "@/lib/onboarding-mission";
+import { PROJECT_MISSION } from "@/lib/project-mission";
+import { SOLUTION_MISSION } from "@/lib/solution-mission";
 
 export const dynamic = "force-dynamic";
+
+const STEP_MISSION_SLUGS = [
+  ONBOARDING_MISSION.slug,
+  PROJECT_MISSION.slug,
+  SOLUTION_MISSION.slug,
+];
 
 export const GET = withAdminAuth(async (req) => {
   try {
@@ -25,7 +34,7 @@ export const GET = withAdminAuth(async (req) => {
     const statuses = statusFilter[tab] ?? statusFilter.all;
 
     const where: Record<string, unknown> = {
-      mission: { isOnboarding: true },
+      mission: { slug: { in: STEP_MISSION_SLUGS } },
       status: { in: statuses },
     };
     if (search.trim()) {

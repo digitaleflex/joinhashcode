@@ -560,6 +560,8 @@ function FieldRenderer({
       return <SmartGoalsField field={field} value={value} onChange={onChange} />;
     case "SYNTHESIS":
       return <SynthesisField field={field} value={value} onChange={onChange} />;
+    case "DYNAMIC_TABLE":
+      return <DynamicTableField field={field} value={value} onChange={onChange} />;
     default:
       return null;
   }
@@ -940,24 +942,29 @@ const SELF_EVAL_ITEMS: { key: string; label: string }[] = [
 
 function SynthesisField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
   const scores = (value as Record<string, number>) ?? {};
-  const total = SELF_EVAL_ITEMS.reduce((a, it) => a + (scores[it.key] ?? 0), 0);
+  const items = field.criteria && field.criteria.length > 0
+    ? field.criteria.map((c) => ({ key: c.key, label: c.label }))
+    : SELF_EVAL_ITEMS;
+  const itemMax = field.totalMax ?? 50;
+  const total = items.reduce((a, it) => a + (scores[it.key] ?? 0), 0);
+  const perItemMax = Math.round(itemMax / Math.max(1, items.length));
 
   return (
     <FieldShell field={field}>
       <div className="space-y-4">
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center space-y-1">
           <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">Auto-évaluation</p>
-          <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/50</span></p>
+          <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/{itemMax}</span></p>
           <p className="text-[10px] text-zinc-500 leading-snug">
             Cette note sert à te faire réfléchir sur la qualité de ton propre travail. Elle ne remplace pas la note du reviewer.
           </p>
         </div>
         <div className="space-y-2">
-          {SELF_EVAL_ITEMS.map((it) => (
+          {items.map((it) => (
             <div key={it.key} className="flex items-center gap-3 rounded-xl border border-border/40 bg-card/20 px-3 py-2">
               <span className="flex-1 text-xs text-zinc-300">{it.label}</span>
               <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((n) => (
+                {Array.from({ length: perItemMax }, (_, i) => i + 1).map((n) => (
                   <button
                     key={n}
                     type="button"
@@ -971,6 +978,105 @@ function SynthesisField({ field, value, onChange }: { field: StepField; value: u
             </div>
           ))}
         </div>
+      </div>
+    </FieldShell>
+  );
+}
+
+function DynamicTableField({ field, value, onChange }: { field: StepField; value: unknown; onChange: (v: unknown) => void }) {
+  const rows = Array.isArray(value) ? (value as Record<string, string>[]) : [];
+  const columns = field.columns ?? [];
+
+  const updateCell = (rowIndex: number, colKey: string, cellValue: string) => {
+    const next = rows.map((row, i) => (i === rowIndex ? { ...row, [colKey]: cellValue } : row));
+    onChange(next);
+  };
+
+  const addRow = () => {
+    const row: Record<string, string> = {};
+    for (const col of columns) row[col.key] = "";
+    onChange([...rows, row]);
+  };
+
+  const removeRow = (rowIndex: number) => {
+    onChange(rows.filter((_, i) => i !== rowIndex));
+  };
+
+  return (
+    <FieldShell field={field}>
+      <div className="overflow-x-auto rounded-xl border border-border/40">
+        <table className="w-full text-left text-xs">
+          <thead>
+            <tr className="border-b border-border/40 bg-card/20">
+              {columns.map((col) => (
+                <th key={col.key} className="px-3 py-2 font-medium text-zinc-400 whitespace-nowrap">{col.label}</th>
+              ))}
+              <th className="px-3 py-2 w-10" />
+            </tr>
+          </thead>
+          <tbody>
+            {rows.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length + 1} className="px-3 py-4 text-center text-zinc-600">Aucune ligne. Clique sur « Ajouter une ligne ».</td>
+              </tr>
+            ) : (
+              rows.map((row, ri) => (
+                <tr key={ri} className="border-b border-border/20 last:border-0">
+                  {columns.map((col) => (
+                    <td key={col.key} className="px-2 py-1.5 align-top">
+                      {col.type === "select" ? (
+                        <Select value={row[col.key] ?? ""} onValueChange={(v) => updateCell(ri, col.key, v)}>
+                          <SelectTrigger className="bg-zinc-900/60 border-border/60 h-8 text-xs">
+                            <SelectValue placeholder="…" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-zinc-900 border-border/60 text-white">
+                            {(col.options ?? []).map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : col.type === "textarea" ? (
+                        <Textarea
+                          value={row[col.key] ?? ""}
+                          rows={2}
+                          onChange={(e) => updateCell(ri, col.key, e.target.value)}
+                          className="bg-zinc-900/60 border-border/60 text-xs min-h-[44px]"
+                        />
+                      ) : (
+                        <Input
+                          value={row[col.key] ?? ""}
+                          onChange={(e) => updateCell(ri, col.key, e.target.value)}
+                          className="bg-zinc-900/60 border-border/60 h-8 text-xs"
+                        />
+                      )}
+                    </td>
+                  ))}
+                  <td className="px-2 py-1.5">
+                    <button
+                      type="button"
+                      onClick={() => removeRow(ri)}
+                      className="text-zinc-600 hover:text-red-400 transition-colors"
+                      aria-label="Supprimer la ligne"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /></svg>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex items-center justify-between pt-2">
+        <button
+          type="button"
+          onClick={addRow}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+          Ajouter une ligne
+        </button>
+        <p className="text-[10px] font-mono text-zinc-600">{rows.filter((r) => Object.values(r).some((v) => (v ?? "").trim().length > 0)).length} ligne(s) remplie(s)</p>
       </div>
     </FieldShell>
   );

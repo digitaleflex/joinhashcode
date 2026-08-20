@@ -65,6 +65,31 @@ interface AttemptDetail {
 
 function renderFieldValue(field: StepField, value: unknown) {
   if (value === undefined || value === null || value === "") return <span className="text-zinc-700">—</span>;
+  if (field.type === "DYNAMIC_TABLE") {
+    if (!Array.isArray(value) || value.length === 0) return <span className="text-zinc-700">—</span>;
+    return (
+      <div className="overflow-x-auto rounded-lg border border-border/40">
+        <table className="w-full text-left text-[10px]">
+          <thead>
+            <tr className="border-b border-border/40 bg-card/20">
+              {(field.columns ?? []).map((col) => (
+                <th key={col.key} className="px-2 py-1 font-medium text-zinc-500 whitespace-nowrap">{col.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {(value as Record<string, string>[]).map((row, i) => (
+              <tr key={i} className="border-b border-border/20 last:border-0">
+                {(field.columns ?? []).map((col) => (
+                  <td key={col.key} className="px-2 py-1 text-zinc-300 whitespace-pre-wrap">{row[col.key] ?? "—"}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
   if (typeof value === "string") return <span className="whitespace-pre-wrap">{value}</span>;
   if (Array.isArray(value)) {
     if (field.type === "SKILLS") {

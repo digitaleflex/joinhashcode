@@ -1,7 +1,7 @@
 import { getWeekNumber } from "./dates"
 
 export type MissionLevel = 1 | 2 | 3 | 4;
-export type MissionType = "CODE" | "DESIGN" | "BUSINESS" | "NETWORK" | "GENERAL" | "INTRO";
+export type MissionType = "CODE" | "DESIGN" | "BUSINESS" | "NETWORK" | "GENERAL" | "INTRO" | "PRODUCT";
 export type UserProfile = "builder" | "creator" | "strategist" | "catalyst";
 export type ProgressionLevel = "INIT" | "CORE" | "PRO";
 
@@ -71,6 +71,26 @@ export const MISSIONS: Mission[] = [
     weightCatalyst: 0.25,
     submissionMethod: "TEXT_RESPONSE",
     deliverables: ["Dossier projet (3 à 8 pages)"],
+  },
+  {
+    id: "mission-03-du-probleme-a-la-solution",
+    title: "Du Problème à la Solution",
+    shortDesc: "Concevoir, prototyper et tester une première solution.",
+    description: "Une idée analysée reste une hypothèse. Transforme ton problème identifié en solution concrète : reformulation, compréhension utilisateur, conception, prototype V1, tests utilisateurs et itération vers un prototype V2.",
+    xpReward: 350,
+    requiredLevel: 1,
+    targetLevel: 1,
+    requirements: ["Avoir validé la Mission 02"],
+    type: "PRODUCT",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    missionLevel: "CORE",
+    duration: "5-7 jours",
+    weightBuilder: 0.25,
+    weightCreator: 0.25,
+    weightStrategist: 0.25,
+    weightCatalyst: 0.25,
+    submissionMethod: "TEXT_RESPONSE",
+    deliverables: ["Dossier de conception", "Prototype V1", "Retours utilisateurs", "Prototype V2"],
   },
 ];
 

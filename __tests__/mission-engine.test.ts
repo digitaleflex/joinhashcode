@@ -11,6 +11,7 @@ import {
 } from "../lib/mission-engine";
 import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
 import { PROJECT_MISSION } from "../lib/project-mission";
+import { SOLUTION_MISSION } from "../lib/solution-mission";
 
 describe("mission-engine : résolveur de définition", () => {
   it("résout la Mission 01 par slug", () => {
@@ -24,6 +25,14 @@ describe("mission-engine : résolveur de définition", () => {
     expect(PROJECT_MISSION.scoringGrid.reduce((s, c) => s + c.max, 0)).toBe(50);
   });
 
+  it("résout la Mission 03 par slug", () => {
+    expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")).not.toBeNull();
+    expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")?.steps.length).toBe(12);
+    expect(SOLUTION_MISSION.scoringGrid.reduce((s, c) => s + c.max, 0)).toBe(50);
+    expect(SOLUTION_MISSION.scoringGrid.length).toBe(10);
+    expect(SOLUTION_MISSION.requirements[0]).toBe("Avoir validé la Mission 02");
+  });
+
   it("retourne null pour une mission inconnue", () => {
     expect(getStepMissionDef("mission-inconnue")).toBeNull();
     expect(getStepMissionDef(null)).toBeNull();
@@ -32,6 +41,7 @@ describe("mission-engine : résolveur de définition", () => {
   it("isStepMission détecte le workflow", () => {
     expect(isStepMission("mission-01-decouverte")).toBe(true);
     expect(isStepMission("mission-02-de-l-idee-au-projet")).toBe(true);
+    expect(isStepMission("mission-03-du-probleme-a-la-solution")).toBe(true);
     expect(isStepMission("autre-mission")).toBe(false);
   });
 });
@@ -186,5 +196,73 @@ describe("mission-engine : complétude des champs complexes Mission 02", () => {
     expect(computeStepCompleteness(step, { ...base, autoEval: {} })).toBeCloseTo(4 / 5);
     expect(computeStepCompleteness(step, { ...base, autoEval: { probleme: 4 } })).toBe(1);
     expect(isStepComplete(step, { ...base, autoEval: { probleme: 4 } })).toBe(true);
+  });
+});
+
+describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
+  const def = SOLUTION_MISSION;
+
+  it("reformuler le problème : complet avec les 4 champs + checklist", () => {
+    const step = def.steps[0];
+    const data = {
+      probleme: "x".repeat(40),
+      public: "étudiants",
+      contexte: "x".repeat(20),
+      consequence: "x".repeat(20),
+      checklist: ["precis", "identifiable"],
+    };
+    expect(computeStepCompleteness(step, {})).toBe(0);
+    expect(computeStepCompleteness(step, data)).toBe(1);
+    expect(isStepComplete(step, data)).toBe(true);
+  });
+
+  it("DYNAMIC_TABLE : fonctionnalités complètes avec >= minItems lignes remplies", () => {
+    const step = def.steps[4];
+    const fields = step.fields;
+    const features = fields.find((f) => f.type === "DYNAMIC_TABLE")!;
+    expect(features.columns?.length).toBe(4);
+    const row = (nom: string) => ({ nom, description: "desc", probleme: "prob", priorite: "haute" });
+    const twoRows = [row("a"), row("b")];
+    const threeRows = [...twoRows, row("c")];
+    const otherRequired = {
+      mustHave: "x",
+      top3_1: "a", top3_2: "b", top3_3: "c",
+    };
+    // 2 < minItems 3 → incomplet
+    expect(isStepComplete(step, { ...otherRequired, features: twoRows })).toBe(false);
+    expect(isStepComplete(step, { ...otherRequired, features: threeRows })).toBe(true);
+  });
+
+  it("DYNAMIC_TABLE : ne compte pas les lignes vides", () => {
+    const step = def.steps[7]; // tests utilisateurs, minItems 3
+    const fields = step.fields;
+    const testeurs = fields.find((f) => f.type === "DYNAMIC_TABLE")!;
+    const base = {
+      feedbackSimple: "x", feedbackDifficile: "x", feedbackManquant: "x",
+      feedbackChangement: "x", utiliseraisTu: "x", pourquoi: "x",
+    };
+    const emptyRow = { compris: "", parcoursClair: "", difficulte: "", reussite: "", feedback: "" };
+    const filledRow = { compris: "oui", parcoursClair: "oui", difficulte: "x", reussite: "oui", feedback: "ok" };
+    // 2 remplies + 1 vide = 2 remplies < 3
+    expect(isStepComplete(step, { ...base, testeurs: [filledRow, filledRow, emptyRow] })).toBe(false);
+    expect(isStepComplete(step, { ...base, testeurs: [filledRow, filledRow, filledRow] })).toBe(true);
+  });
+
+  it("createDefaultAttemptData initialise les DYNAMIC_TABLE avec une ligne vide", () => {
+    const data = createDefaultAttemptData(def);
+    const features = def.steps[4].fields.find((f) => f.type === "DYNAMIC_TABLE")!;
+    const rows = data[features.key] as Record<string, string>[];
+    expect(Array.isArray(rows)).toBe(true);
+    expect(rows.length).toBe(1);
+    expect(rows[0].nom).toBe("");
+    expect(rows[0].priorite).toBe("");
+  });
+
+  it("computeGlobalScore totalise /50 sur la grille Mission 03", () => {
+    const scores = {
+      probleme: 4, utilisateur: 5, journey: 4, solution: 4, mvp: 3,
+      flow: 4, prototype: 4, tests: 4, feedbacks: 4, iteration: 4,
+    };
+    expect(computeGlobalScore(def.scoringGrid, scores)).toBe(40);
   });
 });

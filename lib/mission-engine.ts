@@ -7,6 +7,7 @@ import { triggerNotification } from "./qstash";
 import { ONBOARDING_MISSION } from "./onboarding-mission";
 import type { OnboardingMissionDef, MissionStepDef, StepField } from "./onboarding-mission";
 import { PROJECT_MISSION } from "./project-mission";
+import { SOLUTION_MISSION } from "./solution-mission";
 import type { Prisma } from "@/generated/prisma/client";
 
 export type AttemptStatus =
@@ -25,6 +26,7 @@ export function getStepMissionDef(slug: string | null | undefined): OnboardingMi
   if (!slug) return null;
   if (slug === ONBOARDING_MISSION.slug) return ONBOARDING_MISSION;
   if (slug === PROJECT_MISSION.slug) return PROJECT_MISSION;
+  if (slug === SOLUTION_MISSION.slug) return SOLUTION_MISSION;
   return null;
 }
 
@@ -107,6 +109,16 @@ function isFieldFilled(field: StepField, value: unknown): boolean {
     const filled = arr.filter((g) => (g.objectif ?? "").trim().length > 0 && (g.indicateur ?? "").trim().length > 0 && (g.date ?? "").trim().length > 0).length;
     return filled >= min;
   }
+  if (field.type === "DYNAMIC_TABLE") {
+    const arr = value as Record<string, unknown>[];
+    if (!Array.isArray(arr)) return false;
+    const min = field.minItems ?? 1;
+    const filled = arr.filter((row) => {
+      if (!row || typeof row !== "object") return false;
+      return Object.values(row).some((v) => typeof v === "string" && v.trim().length > 0);
+    }).length;
+    return filled >= min;
+  }
   if (field.type === "SYNTHESIS") {
     if (typeof value !== "object" || Array.isArray(value)) return false;
     const items = value as Record<string, number>;
@@ -182,6 +194,12 @@ export function createDefaultAttemptData(def: OnboardingMissionDef): Record<stri
         ];
       } else if (field.type === "SYNTHESIS") {
         data[field.key] = {};
+      } else if (field.type === "DYNAMIC_TABLE") {
+        const row: Record<string, string> = {};
+        for (const col of field.columns ?? []) {
+          row[col.key] = "";
+        }
+        data[field.key] = [row];
       } else {
         data[field.key] = "";
       }

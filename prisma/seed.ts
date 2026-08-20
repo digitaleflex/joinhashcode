@@ -5,6 +5,7 @@ import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
 import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
 import { PROJECT_MISSION } from "../lib/project-mission";
+import { SOLUTION_MISSION } from "../lib/solution-mission";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -138,8 +139,8 @@ async function main() {
     }
   }
 
-  console.log("\n🚀 Seeding missions à étapes (Mission 01 + Mission 02)...");
-  const stepMissionDefs = [ONBOARDING_MISSION, PROJECT_MISSION];
+  console.log("\n🚀 Seeding missions à étapes (Mission 01 + Mission 02 + Mission 03)...");
+  const stepMissionDefs = [ONBOARDING_MISSION, PROJECT_MISSION, SOLUTION_MISSION];
   for (const def of stepMissionDefs) {
     const acc = def.acceptanceCriteria;
     await prisma.mission.upsert({
