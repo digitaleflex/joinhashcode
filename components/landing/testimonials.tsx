@@ -7,11 +7,6 @@ const TESTIMONIALS = [
   { text: "Ce que j'apprécie chez HashCode, c'est qu'on ne se contente pas d'apprendre de la théorie. On doit réellement pratiquer, chercher, se tromper et améliorer son travail. Les feedbacks m'aident à comprendre mes erreurs et surtout à progresser.", theme: "feedback" },
   { text: "HashCode m'a permis de mieux comprendre mes centres d'intérêt et les domaines dans lesquels je pourrais réellement évoluer. Je ne suis pas encore arrivé au bout du chemin, mais j'ai maintenant une direction et surtout l'envie de continuer à apprendre.", theme: "direction" },
   { text: "Ce que je trouve intéressant chez HashCode, c'est l'esprit de communauté. On ne travaille pas simplement chacun de son côté. On échange, on partage nos difficultés et on apprend aussi du travail des autres.", theme: "communauté" },
-  { text: "Au début, je pensais que réussir une mission signifiait simplement terminer le travail demandé. HashCode m'a appris à aller plus loin : comprendre pourquoi je fais quelque chose, recevoir du feedback et améliorer ma manière de travailler.", theme: "mission" },
-  { text: "J'ai beaucoup appris en regardant des cours et des tutoriels, mais HashCode m'a fait comprendre l'importance de mettre réellement ses connaissances en pratique. Les missions et les projets donnent une autre dimension à l'apprentissage.", theme: "pratique" },
-  { text: "Ce que j'aime chez HashCode, c'est la sensation de progresser étape par étape. On commence avec ce qu'on sait déjà, puis les missions nous poussent progressivement à apprendre de nouvelles choses.", theme: "progression" },
-  { text: "HashCode ne m'apprend pas seulement des technologies. Cela m'apprend surtout à réfléchir face à un problème, à chercher une solution, à expliquer mes choix et à accepter les corrections.", theme: "réflexion" },
-  { text: "Ce n'est pas toujours facile, et c'est justement ce que j'apprécie. Les missions demandent de réfléchir et parfois de sortir de sa zone de confort. Mais lorsqu'on réussit après avoir rencontré des difficultés, la satisfaction est beaucoup plus grande.", theme: "défi" },
   { text: "L'un des aspects que je trouve particulièrement intéressant est de pouvoir transformer ce que j'apprends en réalisations concrètes. Au lieu de simplement dire que je connais une technologie, je peux progressivement montrer ce que je suis capable de construire.", theme: "portfolio" },
   { text: "HashCode m'a fait comprendre qu'apprendre dans la tech ne signifie pas seulement accumuler des technologies. Il faut apprendre à résoudre des problèmes, collaborer, documenter son travail et construire des choses utiles.", theme: "vision" },
 ]
@@ -153,7 +148,7 @@ export function Testimonials() {
         {/* Members Continuous Carousel — 3 visible */}
         <div className="border-t border-white/5 pt-12">
           <p className="text-center text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
-            7 membres fondateurs — tous réels, tous au Bénin
+            7 membres — Cohorte 01, Bénin
           </p>
 
           <div

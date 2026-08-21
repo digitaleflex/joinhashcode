@@ -58,10 +58,10 @@ export function MissionsPreview() {
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
-            L'un de ces quatre te ressemble.
+            4 profils. Lequel es-tu ?
           </h2>
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
-            L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
+            L&apos;algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
           </p>
         </div>
 

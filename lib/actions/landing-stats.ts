@@ -64,7 +64,7 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
     }))
 
     return {
-      totalMembers: memberCount + 1000,
+      totalMembers: memberCount,
       realUserCount: totalCount,
       activeSquads,
       missionsCompleted,

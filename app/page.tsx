@@ -19,11 +19,11 @@ export default function HomePage() {
       <Suspense fallback={<div className="h-96 w-full" />}>
         <MissionsPreview />
       </Suspense>
-      <Suspense fallback={<div className="h-48 w-full" />}>
-        <Testimonials />
-      </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <Faq />
+      </Suspense>
+      <Suspense fallback={<div className="h-48 w-full" />}>
+        <Testimonials />
       </Suspense>
       <Suspense fallback={<div className="h-48 w-full" />}>
         <FinalCta />

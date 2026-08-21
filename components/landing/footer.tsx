@@ -25,7 +25,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <div className="size-2 rounded-full bg-emerald-500/50 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-tighter">système_opérationnel_v1.1</span>
+              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-tighter">en ligne</span>
             </div>
           </div>
 

@@ -40,16 +40,16 @@ export function Hero({
           <h1
             className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
-            Lequel de ces 4
+            Quel type de
             <br />
-            <span className="text-primary">builders</span> es-tu ?
+            <span className="text-primary">builder</span> es-tu ?
           </h1>
 
           {/* Subtitle — stakes, not spoiler */}
           <p
             className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
           >
-            En 3 minutes, découvre le profil qui te rendra irremplaçable dans l'écosystème tech africain — et reçois des missions concrètes pour y arriver.
+            En 3 minutes, ton profil. Tes missions. Ta communauté. Rejoins les {totalMembers} builders qui construisent déjà l'écosystème tech africain.
           </p>
 
           {/* CTAs */}
@@ -87,7 +87,7 @@ export function Hero({
                 ))}
               </div>
               <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-zinc-400">
-                <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> Builders synchronisés
+                <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> {totalMembers > 1 ? "Builders synchronisés" : "Builder synchronisé"}
               </span>
             </div>
           </div>
@@ -96,9 +96,9 @@ export function Hero({
           <div
             className="mt-6 flex items-center gap-4 font-mono text-[10px] font-bold text-zinc-700 tracking-tight"
           >
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">initiation gratuite</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">4 profils</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">sans engagement</span>
+            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">gratuit</span>
           </div>
         </div>
       </div>

@@ -17,17 +17,17 @@ export function FinalCta() {
         >
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4">
             <Zap className="size-4 text-primary" />
-            <span className="font-mono text-[10px] uppercase font-bold text-zinc-400 tracking-widest">Initialisation_v2.0</span>
+            <span className="font-mono text-[10px] uppercase font-bold text-zinc-400 tracking-widest">Commence maintenant</span>
           </div>
 
           <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase italic leading-[0.9]">
-            Ne sois plus un <span className="text-primary text-glow">spectateur</span>.
+            Arrête de <span className="text-zinc-500">regarder</span>.
             <br />
-            Deviens un <span className="underline decoration-primary/30 underline-offset-8">bâtisseur</span>.
+            <span className="text-primary text-glow">Commence à construire</span>.
           </h2>
 
           <p className="text-zinc-400 text-lg sm:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-            Rejoins une communauté d'élite où tes compétences sont tes seules limites. Le futur de l'Afrique se code ici.
+            Rejoins une communauté de builders qui ne parlent pas de tech — qui la construisent. Tes compétences sont tes seules limites.
           </p>
 
           {/* Cost reminder — remove friction right before the CTA */}
