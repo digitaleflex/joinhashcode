@@ -35,6 +35,8 @@ const PROFILE_COLORS: Record<string, string> = {
 export function Testimonials() {
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [memberIndex, setMemberIndex] = useState(0)
+  const [memberPaused, setMemberPaused] = useState(false)
 
   const next = useCallback(() => {
     setCurrent((c) => (c + 1) % TESTIMONIALS.length)
@@ -44,17 +46,31 @@ export function Testimonials() {
     setCurrent((c) => (c - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
   }, [])
 
+  const nextMember = useCallback(() => {
+    setMemberIndex((c) => (c + 1) % MEMBERS.length)
+  }, [])
+
+  const prevMember = useCallback(() => {
+    setMemberIndex((c) => (c - 1 + MEMBERS.length) % MEMBERS.length)
+  }, [])
+
   useEffect(() => {
     if (paused) return
     const id = setInterval(next, 5000)
     return () => clearInterval(id)
   }, [paused, next])
 
+  useEffect(() => {
+    if (memberPaused) return
+    const id = setInterval(nextMember, 3500)
+    return () => clearInterval(id)
+  }, [memberPaused, nextMember])
+
   return (
     <section className="border-b border-border/60 bg-zinc-950 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        {/* Carousel */}
+        {/* Testimonials Carousel */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
@@ -67,10 +83,8 @@ export function Testimonials() {
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
-            {/* Quote icon */}
             <Quote className="absolute -top-2 left-0 h-8 w-8 text-primary/20" />
 
-            {/* Testimonial */}
             <blockquote className="px-8 sm:px-16">
               <p className="text-lg sm:text-xl text-zinc-300 font-medium leading-relaxed italic">
                 &ldquo;{TESTIMONIALS[current].text}&rdquo;
@@ -80,7 +94,6 @@ export function Testimonials() {
               </p>
             </blockquote>
 
-            {/* Arrows */}
             <button
               onClick={prev}
               className="absolute left-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
@@ -97,7 +110,6 @@ export function Testimonials() {
             </button>
           </div>
 
-          {/* Dots */}
           <div className="flex items-center gap-2 mt-8">
             {TESTIMONIALS.map((_, i) => (
               <button
@@ -112,28 +124,61 @@ export function Testimonials() {
           </div>
         </div>
 
-        {/* Real member profiles */}
+        {/* Members Carousel */}
         <div className="border-t border-white/5 pt-12">
           <p className="text-center text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
             7 membres fondateurs — tous réels, tous au Bénin
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
-            {MEMBERS.map((m) => (
-              <div
-                key={m.name}
-                className="flex flex-col items-center gap-3 rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5 hover:border-primary/20 transition-colors"
-              >
-                <div className="h-10 w-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <span className="font-mono text-xs font-black text-primary">#{m.member}</span>
+
+          <div
+            className="relative max-w-md mx-auto"
+            onMouseEnter={() => setMemberPaused(true)}
+            onMouseLeave={() => setMemberPaused(false)}
+          >
+            {/* Member Card */}
+            <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-8 w-64 transition-all duration-500">
+                <div className="h-14 w-14 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center">
+                  <span className="font-mono text-sm font-black text-primary">#{MEMBERS[memberIndex].member}</span>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-black text-white">{m.name}</p>
-                  <p className={`text-[10px] font-bold uppercase tracking-tight ${PROFILE_COLORS[m.profile] ?? "text-zinc-400"}`}>
-                    {m.profile}
+                  <p className="text-lg font-black text-white">{MEMBERS[memberIndex].name}</p>
+                  <p className={`text-xs font-bold uppercase tracking-tight mt-1 ${PROFILE_COLORS[MEMBERS[memberIndex].profile] ?? "text-zinc-400"}`}>
+                    {MEMBERS[memberIndex].profile}
                   </p>
-                  <p className="text-[10px] text-zinc-600 mt-1">{m.city}</p>
+                  <p className="text-xs text-zinc-600 mt-2">{MEMBERS[memberIndex].city}</p>
                 </div>
               </div>
+            </div>
+
+            {/* Arrows */}
+            <button
+              onClick={prevMember}
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              aria-label="Membre précédent"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={nextMember}
+              className="absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              aria-label="Membre suivant"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {MEMBERS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setMemberIndex(i)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === memberIndex ? "w-6 bg-primary" : "w-1.5 bg-zinc-700 hover:bg-zinc-500"
+                }`}
+                aria-label={`Membre ${i + 1}`}
+              />
             ))}
           </div>
         </div>
