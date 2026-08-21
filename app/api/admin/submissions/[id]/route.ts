@@ -77,29 +77,34 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      // 1. Mise à jour de statut synchrone ultra-rapide
-      await prisma.missionSubmission.update({
-        where: { id },
-        data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
+      // 1. Transaction atomique — status + XP + missionsCompletedCount
+      await prisma.$transaction(async (tx) => {
+        await tx.missionSubmission.update({
+          where: { id },
+          data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
+        });
+
+        // XP & progression pour le submitter — dans la même transaction
+        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
+        await tx.user.update({
+          where: { id: submission.userId },
+          data: { missionsCompletedCount: { increment: 1 } },
+        });
       });
 
-      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      // 2. Traitements post-réponse asynchrones (non-critiques)
       await after(async () => {
         try {
           // Évolution du profil comportemental
           await updateUserEvolution(submission.userId, missionWeights);
 
-          // Attribution XP & progression pour le submitter
-          const updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId);
-
-          await prisma.user.update({
+          // Vérifier level up
+          const submitterAfter = await prisma.user.findUnique({
             where: { id: submission.userId },
-            data: { missionsCompletedCount: { increment: 1 } },
+            select: { level: true }
           });
-
-          // Validation du passage de niveau
           const submitterLevel = submission.user.level ?? 1;
-          const newLevel = updatedUser?.level ?? submitterLevel;
+          const newLevel = submitterAfter?.level ?? submitterLevel;
           const leveledUp = newLevel > submitterLevel;
 
           // Notifications

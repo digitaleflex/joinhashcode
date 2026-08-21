@@ -157,18 +157,19 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
         request: req,
       });
 
-      after(async () => {
-        const mission = attempt.mission;
-        if (mission.xp > 0) {
-          await awardXp(attempt.userId, mission.xp, "MISSION_COMPLETED", mission.id).catch((e) =>
-            console.error("[ATTEMPT_APPROVE] XP error:", e)
-          );
-        }
-        await prisma.user.update({
-          where: { id: attempt.userId },
-          data: { missionsCompletedCount: { increment: 1 } },
-        }).catch(() => undefined);
+      // XP & missionsCompletedCount dans une transaction atomique
+      const mission = attempt.mission;
+      if (mission.xp > 0) {
+        await prisma.$transaction(async (tx) => {
+          await awardXp(attempt.userId, mission.xp, "MISSION_COMPLETED", mission.id, tx);
+          await tx.user.update({
+            where: { id: attempt.userId },
+            data: { missionsCompletedCount: { increment: 1 } },
+          });
+        });
+      }
 
+      after(async () => {
         if (def) {
           await generateProfileV1({
             userId: attempt.userId,

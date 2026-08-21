@@ -159,7 +159,7 @@ export async function POST(
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      // 1. Transaction ultra-rapide (les verrous sont libérés immédiatement)
+      // 1. Transaction atomique — review + XP + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
           data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
@@ -172,22 +172,21 @@ export async function POST(
           where: { id: session.user.id },
           data: { reviewsCompleted: { increment: 1 } },
         });
+
+        // XP & progression pour le submitter — dans la même transaction
+        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId, tx);
+        await tx.user.update({
+          where: { id: submission.userId },
+          data: { missionsCompletedCount: { increment: 1 } },
+        });
+
+        // XP pour le reviewer
+        await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
       });
 
-      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      // 2. Traitements post-réponse asynchrones (non-critiques)
       await after(async () => {
         try {
-          // Attribution XP & progression pour le submitter
-          const updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId);
-          
-          await prisma.user.update({
-            where: { id: submission.userId },
-            data: { missionsCompletedCount: { increment: 1 } },
-          });
-
-          // Attribution XP pour le reviewer
-          await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId);
-
           // Évolution du profil comportemental
           await updateUserEvolution(submission.userId, missionWeights);
 
@@ -200,9 +199,13 @@ export async function POST(
             await updateSquadCohesion(userMember.organizationId, 0.1);
           }
 
-          // Notifications
+          // Notifications — vérifier level up
+          const submitterAfter = await prisma.user.findUnique({
+            where: { id: submission.userId },
+            select: { level: true }
+          });
           const submitterLevel = submission.user.level ?? 1;
-          const newLevel = updatedSubmitterUser?.level ?? submitterLevel;
+          const newLevel = submitterAfter?.level ?? submitterLevel;
           const didLevelUp = newLevel > submitterLevel;
 
           await triggerNotification({

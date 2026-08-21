@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-auth";
 import { z } from "zod";
 import { emailService } from "@/lib/email";
-import { XP_THRESHOLDS } from "@/lib/member-card-constants";
+import { awardXp } from "@/lib/experience";
 import { triggerNotification } from "@/lib/qstash";
 import { updateUserEvolution } from "@/lib/evolution-engine";
 
@@ -103,14 +103,8 @@ export const PATCH = withAdminAuth(async (req: Request) => {
 
       // Gamification: Reward XP if moving to RESOLVED and wasn't already RESOLVED
       if (result.data.status === "RESOLVED" && currentFeedback.status !== "RESOLVED") {
-        const currentXp = feedback.user.experience ?? 0;
-        const newXp = currentXp + FEEDBACK_XP_REWARD;
-        let newLevel = feedback.user.level ?? 1;
-        
-        for (const [levelStr, threshold] of Object.entries(XP_THRESHOLDS)) {
-          const levelNum = parseInt(levelStr);
-          if (newXp >= threshold && levelNum > newLevel) newLevel = levelNum;
-        }
+        // Use awardXp to create proper ledger entry
+        await awardXp(feedback.userId, FEEDBACK_XP_REWARD, "FEEDBACK_RESOLVED", feedback.id, tx);
 
         // Generic weights for feedback contribution
         const contributionWeights = {
@@ -119,11 +113,6 @@ export const PATCH = withAdminAuth(async (req: Request) => {
           strategist: 0.1,
           catalyst: 0.1,
         };
-
-        await tx.user.update({
-          where: { id: feedback.userId },
-          data: { experience: newXp, level: newLevel },
-        });
 
         await updateUserEvolution(feedback.userId, contributionWeights, tx);
 
