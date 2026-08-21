@@ -41,6 +41,7 @@ import { calculateNeuralSync } from "@/lib/evolution-utils";
 const NeuralSyncGauge = dynamic(() => import("./neural-sync-gauge").then((m) => m.NeuralSyncGauge), { ssr: false })
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
+import { FirstDayWidget } from "./first-day-widget"
 import { getLevelProgress } from "@/lib/level-utils"
 import { getLevelName } from "@/lib/member-card-constants"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
@@ -83,7 +84,8 @@ export function DashboardShell({
   recommendedMissions = [],
   fullSubmissions = [],
   feedActivities = [],
-  featureFlags = {}
+  featureFlags = {},
+  socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 }
 }: {
   user: UserProfile,
   quizResult: { profileType?: string | null } | null,
@@ -93,7 +95,8 @@ export function DashboardShell({
   memberRole?: string,
   recommendedMissions?: Mission[],
   feedActivities?: Activity[],
-  featureFlags?: Record<string, boolean>
+  featureFlags?: Record<string, boolean>,
+  socialProof?: { activeMembers: number, userRank: number, weeklyCheckins: number, totalMembers: number }
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
@@ -166,6 +169,15 @@ export function DashboardShell({
             {/* ── NEW USER: 3 sections only ───────────────────────── */}
             {isNewUser && (
               <>
+                {/* Social proof + rank + weekly goal */}
+                <FirstDayWidget
+                  activeMembers={socialProof.activeMembers}
+                  userRank={socialProof.userRank}
+                  totalMembers={socialProof.totalMembers}
+                  weeklyCheckins={socialProof.weeklyCheckins}
+                  userName={user.name}
+                />
+
                 {/* Prochaine étape — the single most important CTA */}
                 <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
                   <p className="text-[10px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
