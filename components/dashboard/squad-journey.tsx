@@ -89,6 +89,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
   const router = useRouter()
   const [isCopying, setIsCopying] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
+  const [squadName, setSquadName] = useState("")
   const [localName, setLocalName] = useState<string>(squad?.name ?? "")
   const [localSlug, setLocalSlug] = useState<string>(squad?.slug ?? "")
   const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false)
@@ -124,12 +125,20 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
   }
 
   const createSquad = async () => {
+    if (!squadName.trim()) {
+      toast.error("Donne un nom à ton escouade.")
+      return
+    }
     setIsCreating(true)
     try {
-      const res = await fetch("/api/squad/create", { method: "POST", headers: { "Content-Type": "application/json" } })
+      const res = await fetch("/api/squad/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: squadName.trim() }),
+      })
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || "Erreur lors de la création.")
+        throw new Error(data.message || data.error || "Erreur lors de la création.")
       }
       toast.success("Équipe créée — prête à accueillir des membres !")
       router.refresh()
@@ -452,6 +461,17 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="my-4">
+              <input
+                type="text"
+                value={squadName}
+                onChange={(e) => setSquadName(e.target.value)}
+                placeholder="Nom de ton escouade"
+                maxLength={40}
+                className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-sm font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+              />
             </div>
 
             <DialogFooter className="flex flex-col sm:flex-row gap-3">

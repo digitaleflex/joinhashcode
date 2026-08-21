@@ -24,6 +24,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
   const router = useRouter()
   const [copied, setCopied] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
+  const [squadName, setSquadName] = useState("")
   const [origin, setOrigin] = useState("")
 
   useEffect(() => {
@@ -47,17 +48,25 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
   }
 
   const createSquad = async () => {
+    if (!squadName.trim()) {
+      toast.error("Donne un nom à ton escouade.")
+      return
+    }
     setIsCreating(true)
     try {
       const res = await fetch("/api/squad/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: squadName.trim() }),
       })
-      if (!res.ok) throw new Error()
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.message || data.error || "Erreur lors de la création.")
+      }
       toast.success("Escouade créée !")
       router.refresh()
-    } catch {
-      toast.error("Erreur lors de la création, réessaie.")
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la création, réessaie.")
     } finally {
       setIsCreating(false)
     }
@@ -113,20 +122,30 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
       </div>
 
       {/* CTA */}
-      <div className="shrink-0">
+      <div className="shrink-0 flex flex-col items-end gap-2">
         {!squad ? (
-          <Button
-            onClick={createSquad}
-            disabled={isCreating}
-            size="sm"
-            className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider"
-          >
-            {isCreating ? (
-              <Loader2 className="size-3 animate-spin" />
-            ) : (
-              "Créer mon escouade"
-            )}
-          </Button>
+          <>
+            <input
+              type="text"
+              value={squadName}
+              onChange={(e) => setSquadName(e.target.value)}
+              placeholder="Nom de l'escouade"
+              maxLength={40}
+              className="w-full px-3 py-2 rounded-lg border border-white/10 bg-white/5 text-white text-[10px] font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 transition-all"
+            />
+            <Button
+              onClick={createSquad}
+              disabled={isCreating || !squadName.trim()}
+              size="sm"
+              className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider"
+            >
+              {isCreating ? (
+                <Loader2 className="size-3 animate-spin" />
+              ) : (
+                "Créer mon escouade"
+              )}
+            </Button>
+          </>
         ) : (
           <Button
             onClick={copyInvite}

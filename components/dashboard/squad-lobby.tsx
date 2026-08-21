@@ -33,6 +33,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const router = useRouter()
     const [isCopying, setIsLocked] = useState(false)
     const [isCreating, setIsCreating] = useState(false)
+    const [squadName, setSquadName] = useState("")
     
     // Fallback pseudo if not set
     const pseudo = user.pseudo || user.name.split(" ")[0]
@@ -60,12 +61,20 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     }
 
     const createSquad = async () => {
+        if (!squadName.trim()) {
+            toast.error("Donne un nom à ton escouade.")
+            return
+        }
         setIsCreating(true)
         try {
-            const res = await fetch("/api/squad/create", { method: "POST" })
+            const res = await fetch("/api/squad/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: squadName.trim() }),
+            })
             if (!res.ok) {
-                const text = await res.text()
-                throw new Error(text || "Erreur lors de la création de l'escouade.")
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.message || data.error || "Erreur lors de la création de l'escouade.")
             }
             toast.success("Escouade créée avec succès !")
             router.refresh()
@@ -232,12 +241,20 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
                             <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
-                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Lance ton escouade</p>
+                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Choisis un nom pour ton escouade</p>
                         </div>
+                        <input
+                            type="text"
+                            value={squadName}
+                            onChange={(e) => setSquadName(e.target.value)}
+                            placeholder="Ex: Équipe Fulgor, Circuit Nova..."
+                            maxLength={40}
+                            className="w-full max-w-sm px-5 py-4 rounded-2xl border border-white/10 bg-white/5 text-white text-center text-sm font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+                        />
                         <Button 
                             size="lg" 
                             onClick={createSquad}
-                            disabled={isCreating}
+                            disabled={isCreating || !squadName.trim()}
                             className="btn-primary-glow px-12 h-16 text-base font-bold uppercase group"
                         >
                             {isCreating ? <Loader2 className="animate-spin" /> : (
