@@ -42,10 +42,12 @@ const ENERGIES = [
 
 export function DailyCheckinWidget({ 
   isModal = false, 
-  onClose 
+  onClose,
+  isFirstTime = false,
 }: { 
   isModal?: boolean; 
-  onClose?: () => void 
+  onClose?: () => void;
+  isFirstTime?: boolean;
 }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(isModal)
@@ -96,6 +98,12 @@ export function DailyCheckinWidget({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (isFirstTime) {
+      // First time: just pick a domain, auto-fill the rest
+      if (!formData.domain) return
+      checkin.mutate({ note: "Mon premier check-in", domain: formData.domain, energy: 3, duration: 30 })
+      return
+    }
     if (!formData.note || !formData.domain) return
     if (formData.note.length < 20) {
       toast.error("Ta note est trop courte. Détaille un peu plus tes progrès (min 20 car.).")
@@ -149,6 +157,50 @@ export function DailyCheckinWidget({
             animate={{ opacity: 1, y: 0 }}
             className="space-y-5"
           >
+            {isFirstTime ? (
+              /* ── SIMPLIFIED: domain only ── */
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Dans quel domaine as-tu bossé aujourd&apos;hui ?</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {DOMAINS.map((d) => (
+                      <button
+                        key={d.id}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, domain: d.id })}
+                        className={`p-2 rounded-lg border transition-all ${
+                          formData.domain === d.id
+                            ? "bg-primary/10 border-primary text-primary"
+                            : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
+                        }`}
+                        title={d.id}
+                      >
+                        <d.icon className="h-4 w-4" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => isModal ? onClose?.() : setIsOpen(false)}
+                    className="h-9 text-xs font-mono uppercase"
+                  >
+                    Plus tard
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={checkin.isPending || !formData.domain}
+                    className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
+                  >
+                    {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "C'est parti"}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              /* ── FULL FORM: note + domain + energy + duration ── */
+              <>
             <div className="space-y-2">
               <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
               <Textarea
@@ -242,6 +294,8 @@ export function DailyCheckinWidget({
                 </Button>
               </div>
             </div>
+              </>
+            )}
           </motion.form>
         )}
       </AnimatePresence>

@@ -192,7 +192,7 @@ export function DashboardShell({
 
                 {/* Check-in — simple, low friction */}
                 <div id="tour-checkin">
-                  <DailyCheckinWidget />
+                  <DailyCheckinWidget isFirstTime={!user.lastCheckin} />
                 </div>
               </>
             )}
@@ -249,7 +249,7 @@ export function DashboardShell({
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   <div className="lg:col-span-2 space-y-8">
                     <div id="tour-checkin">
-                      <DailyCheckinWidget />
+                      <DailyCheckinWidget isFirstTime={!user.lastCheckin} />
                     </div>
                     {featureFlags.weekly_challenges !== false && (
                       <div id="tour-weekly">
