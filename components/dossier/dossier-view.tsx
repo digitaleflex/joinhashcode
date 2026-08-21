@@ -6,8 +6,6 @@ import {
   Globe,
   ShieldCheck,
   Zap,
-  Fingerprint,
-  Activity,
   TrendingUp,
   Users,
   Lightbulb,
@@ -24,7 +22,6 @@ import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart, type ActivityLog } from "@/components/dashboard/xp-growth-chart";
 import { ReferralWidget } from "@/components/dashboard/referral-widget";
 import {
@@ -52,7 +49,6 @@ interface DossierViewProps {
   user: UserProfile & { missionSubmissions: DetailedMissionSubmission[]; activityLogs: ActivityLog[] };
   activeOrg: DossierOrg | null;
   quizResult: DossierQuizResult | null | undefined;
-  squadMembersLogs: unknown[];
   isPublic?: boolean;
   isPrivate?: boolean;
   isInspecting?: boolean;
@@ -65,6 +61,15 @@ interface DossierViewProps {
   hasSentInvitation?: boolean;
 }
 
+const STATUS_LABELS: Record<string, { label: string; className: string }> = {
+  APPROVED: { label: "VALIDÉ", className: "text-emerald-500 bg-emerald-500/5" },
+  REJECTED: { label: "REFUSÉ", className: "text-red-500 bg-red-500/5" },
+  NEEDS_REVISION: { label: "À REVOIR", className: "text-amber-500 bg-amber-500/5" },
+  IN_REVIEW: { label: "EN REVUE", className: "text-blue-500 bg-blue-500/5" },
+  PENDING_ADMIN: { label: "EN REVUE", className: "text-blue-500 bg-blue-500/5" },
+  PENDING: { label: "EN ATTENTE", className: "text-zinc-400 bg-white/5" },
+};
+
 export function DossierView({ 
   user, 
   activeOrg, 
@@ -75,7 +80,7 @@ export function DossierView({
   viewerSquad = null,
   hasSentInvitation = false,
   featureFlags = {}
-}: Omit<DossierViewProps, "squadMembersLogs"> & { featureFlags?: Record<string, boolean> }) {
+}: DossierViewProps & { featureFlags?: Record<string, boolean> }) {
   const [sendingInvite, setSendingInvite] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
 
@@ -172,21 +177,15 @@ export function DossierView({
       {/* Header Dossier */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8 sm:pb-10">
           <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                  <Fingerprint className="size-3.5 text-primary" />
-                  <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-primary">Fiche Profil</span>
-              </div>
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-[0.9]">
                   {user.name.split(' ')[0]}
               </h1>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                  <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] border-white/10 text-zinc-500 uppercase tracking-wider">
-                      Pseudo : {user.pseudo || "TALENT"}
-                  </Badge>
-                  <div className="flex items-center gap-1.5">
-                      <div className="size-1 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-[9px] font-mono text-emerald-500/60 uppercase tracking-wider">Actif</span>
-                  </div>
+                  {user.pseudo && (
+                    <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] border-white/10 text-zinc-500 uppercase tracking-wider">
+                        @{user.pseudo}
+                    </Badge>
+                  )}
                   {user.technicalLevel && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                         <span className="text-[9px] font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
@@ -267,57 +266,39 @@ export function DossierView({
                 </div>
               )}
 
-              {!isPublic && (
+              {!isPublic && (((user.behavioralVibrancy as Record<string, number> | null)?.score != null) || engagementTips.length > 0) && (
               <div className="space-y-4" id="tour-dossier-tips">
-                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                      Indices de Performance
-                      <div className="h-px bg-white/5 flex-1" />
-                  </p>
+                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                       Indices de Performance
+                       <div className="h-px bg-white/5 flex-1" />
+                   </p>
                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6">
-                      <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                           <TooltipProvider>
-                               <Tooltip>
-                                   <TooltipTrigger asChild>
-                                       <div className="space-y-3 cursor-help group/item">
-                                           <div className="flex items-center gap-2">
-                                               <Zap className="size-3.5 text-primary" />
-                                               <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
-                                               <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
+                      {(user.behavioralVibrancy as Record<string, number> | null)?.score != null && (
+                          <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                               <TooltipProvider>
+                                   <Tooltip>
+                                       <TooltipTrigger asChild>
+                                           <div className="space-y-3 cursor-help group/item">
+                                               <div className="flex items-center gap-2">
+                                                   <Zap className="size-3.5 text-primary" />
+                                                   <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
+                                                   <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
+                                               </div>
+                                               <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round((user.behavioralVibrancy as Record<string, number>).score * 100)}<span className="text-primary text-xs ml-1">%</span></div>
+                                               <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                   <div className="h-full bg-primary" style={{ width: `${(user.behavioralVibrancy as Record<string, number>).score * 100}%` }} />
+                                               </div>
                                            </div>
-                                           <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round(((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100)}<span className="text-primary text-xs ml-1">%</span></div>
-                                           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                               <div className="h-full bg-primary" style={{ width: `${((user.behavioralVibrancy as Record<string, number> | null)?.score || 0.85) * 100}%` }} />
-                                           </div>
-                                       </div>
-                                   </TooltipTrigger>
-                                   <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                       La 'Vibrancy' mesure la force de ton signal. Elle augmente avec tes check-ins quotidiens et ton activité constante.
-                                   </TooltipContent>
-                               </Tooltip>
-                           </TooltipProvider>
-                       </div>
-                       
-                       {!isPublic && (
-                        <div className="space-y-4 pt-6 border-t border-white/5">
-                            <h5 className="text-[9px] sm:text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
-                                <Brain className="size-3 text-primary" />
-                                Glossaire des Concepts
-                            </h5>
-                            <div className="grid grid-cols-1 gap-3">
-                                {[
-                                 { k: "Vitalité", v: "Force de ton signal. Dépend de ta régularité quotidienne." },
-                                     { k: "Alignement", v: "Précision de ta trajectoire. Un écart est une opportunité d'ajuster tes ambitions." },
-                                 ].map((item) => (
-                                    <div key={item.k} className="text-[9px] font-mono flex gap-2 items-start">
-                                        <span className="text-primary font-bold shrink-0">[{item.k}]</span>
-                                        <span className="text-zinc-500 leading-tight">{item.v}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                      )}
+                                       </TooltipTrigger>
+                                       <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                           La vitalité mesure ta régularité. Elle augmente avec tes check-ins quotidiens et ton activité constante.
+                                       </TooltipContent>
+                                   </Tooltip>
+                               </TooltipProvider>
+                           </div>
+                       )}
 
-                      {!isPublic && engagementTips.length > 0 && (
+                       {!isPublic && engagementTips.length > 0 && (
                         <div className="space-y-4 pt-6 border-t border-white/5">
                             <h5 className="text-[9px] sm:text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
                                 <Lightbulb className="size-3 text-primary" />
@@ -494,29 +475,6 @@ export function DossierView({
               </div>
               )}
 
-              {!isPublic && (
-              <div className="space-y-6" id="tour-dossier-radar">
-                  <div className="flex items-center gap-3">
-                      <Activity className="size-5 text-primary" />
-                      <h2 className="text-xl font-black uppercase tracking-tight text-white">Graphique d'Évolution</h2>
-                  </div>
-                  
-                  <Card className="glass-card overflow-hidden relative group rounded-3xl sm:rounded-5xl border-white/5 shadow-2xl">
-                      <CardContent className="p-6 sm:p-10 lg:p-12">
-                          <div className="pt-2">
-                              <EvolutionRadar 
-                                  builderScore={user.builderScore}
-                                  creatorScore={user.creatorScore}
-                                  strategistScore={user.strategistScore}
-                                  catalystScore={user.catalystScore}
-                                  userClass={user.class || "builder"}
-                              />
-                          </div>
-                      </CardContent>
-                  </Card>
-              </div>
-              )}
-
               {user.experience > 0 && (
               <div className="space-y-6" id="tour-dossier-xp">
                    <div className="flex items-center gap-3">
@@ -550,9 +508,9 @@ export function DossierView({
                                </div>
                                <Badge variant="outline" className={cn(
                                    "text-[8px] sm:text-[9px] font-mono border-white/5 shrink-0",
-                                   sub.status === "APPROVED" ? "text-emerald-500 bg-emerald-500/5" : "text-amber-500 bg-amber-500/5"
+                                   (STATUS_LABELS[sub.status] ?? STATUS_LABELS.PENDING).className
                                )}>
-                                   {sub.status === "APPROVED" ? "VALIDÉ" : sub.status}
+                                   {(STATUS_LABELS[sub.status] ?? STATUS_LABELS.PENDING).label}
                                </Badge>
                            </div>
                        ))}
@@ -560,7 +518,8 @@ export function DossierView({
               </div>
               )}
 
-              {/* Spécialisations & Outils */}
+              {/* Spécialisations & Outils — hidden if both empty */}
+              {(user.domains?.length > 0 || user.tools?.length > 0) && (
               <div className="space-y-6">
                   <div className="flex items-center gap-3">
                       <Zap className="size-5 text-primary" />
@@ -568,41 +527,38 @@ export function DossierView({
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                      {user.domains?.length > 0 && (
                       <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                           <div className="space-y-2">
                               <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-primary font-black">Domaines d'expertise</h4>
                               <div className="flex flex-wrap gap-2 pt-2">
-                                  {user.domains?.length > 0 ? (
-                                      user.domains.map((d: string) => (
+                                  {user.domains.map((d: string) => (
                                           <Badge key={d} className="bg-primary/10 text-primary border-primary/20 text-[9px] sm:text-[10px] font-black uppercase py-1 px-3">
                                               {d}
                                           </Badge>
-                                      ))
-                                  ) : (
-                                      <span className="text-[10px] italic text-zinc-600 font-mono">-- Aucun domaine détecté --</span>
-                                  )}
+                                      ))}
                               </div>
                           </div>
                       </Card>
+                      )}
                       
+                      {user.tools?.length > 0 && (
                       <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                           <div className="space-y-2">
                               <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 font-black">Outils favoris</h4>
                               <div className="flex flex-wrap gap-2 pt-2">
-                                  {user.tools?.length > 0 ? (
-                                      user.tools.map((t: string) => (
+                                  {user.tools.map((t: string) => (
                                           <Badge key={t} variant="outline" className="border-white/10 text-zinc-400 text-[9px] sm:text-[10px] font-bold uppercase py-1 px-3">
                                               {t}
                                           </Badge>
-                                      ))
-                                  ) : (
-                                      <span className="text-[10px] italic text-zinc-600 font-mono">-- Aucun outil configuré --</span>
-                                  )}
+                                      ))}
                               </div>
                           </div>
                       </Card>
+                      )}
                   </div>
               </div>
+              )}
 
               {/* Referral widget — own profile only */}
               {!isPublic && <ReferralWidget />}
