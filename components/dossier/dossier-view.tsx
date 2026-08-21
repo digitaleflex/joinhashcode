@@ -40,7 +40,6 @@ import { toast } from "sonner";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import { calculateNeuralSync } from "@/lib/evolution-utils";
 import { NeuralSyncGauge } from "@/components/dashboard/neural-sync-gauge";
-import { EmptyState } from "@/components/ui/empty-state";
 
 interface DossierOrg {
   name: string
@@ -203,15 +202,15 @@ export function DossierView({
                   )}
               </div>
               <p className="text-zinc-500 max-w-xl italic text-xs sm:text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
-                  &quot;{user.bio || "Le silence est parfois la meilleure signature."}&quot;
+                  &quot;{user.bio || "Pas encore de bio. Ajoute une phrase sur toi dans les paramètres."}&quot;
               </p>
           </div>
           
           <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
               <div className="text-left md:text-right">
-                  <div className="text-[9px] sm:text-[10px] font-mono text-zinc-600 uppercase tracking-wider mb-1">ID Profil</div>
-                  <div className="text-lg sm:text-xl font-black text-white font-mono bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-                      {user.id.slice(0, 12).toUpperCase()}
+                  <div className="text-[9px] sm:text-[10px] font-mono text-zinc-600 uppercase tracking-wider mb-1">Membre depuis</div>
+                  <div className="text-sm font-bold text-white font-mono bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+                      {new Date(user.createdAt).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}
                   </div>
               </div>
           </div>
@@ -398,9 +397,9 @@ export function DossierView({
                                   <Users className="size-5" />
                               </div>
                               <div className="space-y-1">
-                                  <p className="text-[9px] font-mono text-zinc-600 uppercase">Aucune Squad Détectée</p>
-                                  <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Build solitaire actif.</p>
-                              </div>
+                                   <p className="text-[9px] font-mono text-zinc-600 uppercase">Aucune Squad</p>
+                                   <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Pas encore d&apos;escouade.</p>
+                               </div>
                           </div>
                       )}
                   </Card>
@@ -409,24 +408,24 @@ export function DossierView({
               {/* Social Links Metadata */}
               <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                   <div className="space-y-6">
-                      <div className="space-y-2">
-                          <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif Principal</div>
-                          <div className="text-base font-bold text-white uppercase tracking-tight italic">
-                              {user.mainObjective || "NON_SPÉCIFIÉ"}
-                          </div>
-                      </div>
+                          <div className="space-y-2">
+                           <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif Principal</div>
+                           <div className="text-base font-bold text-white uppercase tracking-tight italic">
+                               {user.mainObjective || "Pas encore défini"}
+                           </div>
+                       </div>
                       
-                      <div className="space-y-2">
-                          <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Localisation</div>
-                          <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
-                              <Globe className="size-3.5 text-primary" />
-                              {user.city || user.country ? (
-                                [user.city, user.country].filter(Boolean).join(", ")
-                              ) : (
-                                "GLOBAL"
-                              )}
-                          </div>
-                      </div>
+                          <div className="space-y-2">
+                           <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Localisation</div>
+                           <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
+                               <Globe className="size-3.5 text-primary" />
+                               {user.city || user.country ? (
+                                 [user.city, user.country].filter(Boolean).join(", ")
+                               ) : (
+                                 "Non renseigné"
+                               )}
+                           </div>
+                       </div>
                       
                       <div className="space-y-2">
                           <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Réseaux Sociaux</div>
@@ -469,25 +468,27 @@ export function DossierView({
                           <div className="grid grid-cols-1 gap-8 sm:gap-12">
                               <div className="space-y-6 sm:space-y-8">
                                   <div className="p-6 rounded-3xl sm:rounded-4xl bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
-                                      <div className="flex items-center justify-between gap-4 mb-4">
-                                          <div className="space-y-1">
-                                              <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black uppercase">Vecteur_Dominant</span>
-                                              <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">
-                                                  {quizResult?.profileType || "CALIBRATION_PENDING"}
-                                              </h3>
-                                          </div>
-                                      </div>
-                                      <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-light">
-                                          L&apos;analyse comportementale profonde révèle un profil de type <span className="text-white font-bold">{quizResult?.profileType || "inconnu"}</span>. 
-                                          Ses schémas de décision montrent une prédisposition naturelle pour le build stratégique.
-                                      </p>
-                                  </div>
+                                       <div className="flex items-center justify-between gap-4 mb-4">
+                                           <div className="space-y-1">
+                                               <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black uppercase">Ton profil</span>
+                                               <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">
+                                                   {quizResult?.profileType || "Pas encore calibré"}
+                                               </h3>
+                                           </div>
+                                       </div>
+                                       <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-light">
+                                           {quizResult?.profileType 
+                                             ? <>Ton profil est de type <span className="text-white font-bold">{quizResult.profileType}</span>. Tes scores reflètent tes forces naturelles.</>
+                                             : <>Fais le quiz pour découvrir ton profil et débloquer des missions adaptées.</>
+                                           }
+                                       </p>
+                                   </div>
 
                                   <div className="space-y-4">
-                                      <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
-                                          Vecteurs_Comportementaux
-                                          <div className="h-px bg-white/5 flex-1" />
-                                      </h4>
+                                       <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
+                                           Tes scores
+                                           <div className="h-px bg-white/5 flex-1" />
+                                       </h4>
                                       <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                           {[
                                               { label: 'BÂTISSEUR', value: user.builderScore, color: 'text-blue-400', desc: "Conception et implémentation technique." },
@@ -541,12 +542,12 @@ export function DossierView({
               </div>
               )}
 
-              {!isPublic && (
+              {user.experience > 0 && (
               <div className="space-y-6" id="tour-dossier-xp">
-                  <div className="flex items-center gap-3">
-                      <TrendingUp className="size-5 text-primary" />
-                      <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
-                  </div>
+                   <div className="flex items-center gap-3">
+                       <TrendingUp className="size-5 text-primary" />
+                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
+                   </div>
                   
                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-5 sm:p-8 overflow-hidden relative">
                       <div className="absolute top-0 right-0 p-4 sm:p-6 text-right">
@@ -558,37 +559,29 @@ export function DossierView({
               </div>
               )}
 
-              {!isPublic && (
+              {user.missionSubmissions.length > 0 && (
               <div className="space-y-6" id="tour-dossier-missions">
-                  <div className="flex items-center gap-3">
-                      <Target className="size-5 text-primary" />
-                      <h2 className="text-xl font-black uppercase tracking-tight text-white">Missions Récentes</h2>
-                  </div>
-                  
-                  <div className="space-y-3 sm:space-y-4">
-                      {user.missionSubmissions.length > 0 ? (
-                          user.missionSubmissions.map((sub) => (
-                              <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/2 border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
-                                  <div className="space-y-1 min-w-0">
-                                      <div className="text-[9px] font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>
-                                      <div className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-primary transition-colors truncate pr-2">{sub.mission.title}</div>
-                                  </div>
-                                  <Badge variant="outline" className={cn(
-                                      "text-[8px] sm:text-[9px] font-mono border-white/5 shrink-0",
-                                      sub.status === "APPROVED" ? "text-emerald-500 bg-emerald-500/5" : "text-amber-500 bg-amber-500/5"
-                                  )}>
-                                      {sub.status === "APPROVED" ? "VALIDÉ" : sub.status}
-                                  </Badge>
-                              </div>
-                          ))
-                       ) : (
-                           <EmptyState
-                             icon={Target}
-                             title="Aucune mission enregistrée"
-                             className="border-dashed bg-white/1 p-8"
-                           />
-                       )}
-                  </div>
+                   <div className="flex items-center gap-3">
+                       <Target className="size-5 text-primary" />
+                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Missions Récentes</h2>
+                   </div>
+                   
+                   <div className="space-y-3 sm:space-y-4">
+                       {user.missionSubmissions.map((sub) => (
+                           <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/2 border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
+                               <div className="space-y-1 min-w-0">
+                                   <div className="text-[9px] font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>
+                                   <div className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-primary transition-colors truncate pr-2">{sub.mission.title}</div>
+                               </div>
+                               <Badge variant="outline" className={cn(
+                                   "text-[8px] sm:text-[9px] font-mono border-white/5 shrink-0",
+                                   sub.status === "APPROVED" ? "text-emerald-500 bg-emerald-500/5" : "text-amber-500 bg-amber-500/5"
+                               )}>
+                                   {sub.status === "APPROVED" ? "VALIDÉ" : sub.status}
+                               </Badge>
+                           </div>
+                       ))}
+                   </div>
               </div>
               )}
 
@@ -639,23 +632,19 @@ export function DossierView({
               {/* Referral widget — own profile only */}
               {!isPublic && <ReferralWidget />}
 
-              {featureFlags.badges !== false && (
+              {featureFlags.badges !== false && (user.badges?.length > 0) && (
               <div className="space-y-4">
-                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                      Badges & Distinctions
-                      <div className="h-px bg-white/5 flex-1" />
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                      {user.badges?.length > 0 ? (
-                          user.badges.map((badge: string) => (
-                              <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[9px] font-black uppercase py-1 px-3 rounded-lg">
-                                  {badge}
-                              </Badge>
-                          ))
-                      ) : (
-                          <p className="text-[9px] text-zinc-700 font-mono italic">-- En attente de premiers accomplissements --</p>
-                      )}
-                  </div>
+                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                       Badges & Distinctions
+                       <div className="h-px bg-white/5 flex-1" />
+                   </p>
+                   <div className="flex flex-wrap gap-2">
+                       {user.badges.map((badge: string) => (
+                           <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[9px] font-black uppercase py-1 px-3 rounded-lg">
+                               {badge}
+                           </Badge>
+                       ))}
+                   </div>
               </div>
               )}
           </div>
