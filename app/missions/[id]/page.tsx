@@ -288,7 +288,7 @@ export default async function MissionBriefingPage({
 
             {/* ── Body ── */}
             {isOnboarding ? (
-              <OnboardingWorkflow missionSlug={mission.slug || mission.id} />
+                      <OnboardingWorkflow missionSlug={mission.slug || mission.id} userName={dbUser.name} userClass={dbUser.class} />
             ) : (
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12">
 
@@ -369,7 +369,7 @@ export default async function MissionBriefingPage({
 
                   <div className="p-5">
                     {isOnboarding ? (
-                      <OnboardingWorkflow missionSlug={mission.slug || mission.id} />
+              <OnboardingWorkflow missionSlug={mission.slug || mission.id} userName={dbUser.name} userClass={dbUser.class} />
                     ) : isCompleted ? (
                       <div className="flex flex-col items-center text-center py-8 gap-4">
                         <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">

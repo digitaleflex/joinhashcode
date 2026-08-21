@@ -534,7 +534,7 @@ function MissionCard({
                 <span className="text-[9px] font-mono text-zinc-500 uppercase">
                   {mission.completionsCount > 0
                     ? `${mission.completionsCount} complét${mission.completionsCount > 1 ? "ions" : "ion"}`
-                    : "Sois le premier"}
+                    : "Nouveau · parmi les premiers"}
                 </span>
               </div>
 

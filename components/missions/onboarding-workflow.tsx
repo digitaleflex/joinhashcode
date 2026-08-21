@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
   Circle,
@@ -18,6 +19,8 @@ import {
   ListChecks,
   Wrench,
   UserRound,
+  X,
+  Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -101,7 +104,22 @@ const STATUS_BADGE: Record<string, { label: string; className: string }> = {
   REJECTED: { label: "Rejetée", className: "bg-red-500/10 text-red-400 border-red-500/20" },
 };
 
-export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
+const CLASS_LABELS: Record<string, { label: string; tagline: string; color: string }> = {
+  builder: { label: "Builder", tagline: "Tu construis.", color: "text-blue-400" },
+  creator: { label: "Créateur", tagline: "Tu crées.", color: "text-purple-400" },
+  strategist: { label: "Stratège", tagline: "Tu analyses.", color: "text-amber-400" },
+  catalyst: { label: "Catalyseur", tagline: "Tu fédères.", color: "text-emerald-400" },
+};
+
+export function OnboardingWorkflow({
+  missionSlug,
+  userName,
+  userClass,
+}: {
+  missionSlug: string;
+  userName?: string | null;
+  userClass?: string | null;
+}) {
   const router = useRouter();
   const [state, setState] = React.useState<MissionState | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -109,6 +127,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
   const [drafts, setDrafts] = React.useState<Record<string, Record<string, unknown>>>({});
   const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved" | "error">("idle");
   const [submitting, setSubmitting] = React.useState(false);
+  const [celebrationOpen, setCelebrationOpen] = React.useState(false);
   const saveTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   React.useEffect(() => {
@@ -139,6 +158,25 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
       }
     })();
   }, [missionSlug]);
+
+  // Célébration (règle du pic-fin) : affichée une seule fois quand la mission
+  // passe en APPROVED — y compris juste après la validation automatique.
+  React.useEffect(() => {
+    if (state?.attempt?.status !== "APPROVED") return;
+    try {
+      const key = `hc_celebrated_${state.slug}`;
+      if (!localStorage.getItem(key)) setCelebrationOpen(true);
+    } catch {
+      setCelebrationOpen(true);
+    }
+  }, [state?.attempt?.status, state?.slug]);
+
+  const dismissCelebration = () => {
+    try {
+      if (state?.slug) localStorage.setItem(`hc_celebrated_${state.slug}`, "1");
+    } catch { /* ignore */ }
+    setCelebrationOpen(false);
+  };
 
   const activeStep = state?.steps[activeIndex];
 
@@ -221,6 +259,102 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
   const locked = lockedAll;
 
   return (
+    <>
+      {/* ── Écran de célébration (pic émotionnel de fin) ── */}
+      <AnimatePresence>
+        {celebrationOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-md rounded-3xl bg-zinc-950 border border-primary/25 shadow-[0_0_80px_rgba(197,244,65,0.12)] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-linear-to-b from-primary/8 via-transparent to-transparent pointer-events-none" />
+              <button
+                onClick={dismissCelebration}
+                aria-label="Fermer"
+                className="absolute top-4 right-4 z-10 p-2 rounded-xl text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="relative p-8 text-center space-y-6">
+                <motion.div
+                  initial={{ scale: 0, rotate: -30 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 18 }}
+                  className="mx-auto w-20 h-20 rounded-full bg-primary/15 border-2 border-primary/40 flex items-center justify-center shadow-[0_0_40px_rgba(197,244,65,0.25)]"
+                >
+                  <CheckCircle2 className="w-10 h-10 text-primary" />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-2"
+                >
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">
+                    Mission validée{userName ? `, ${userName.split(" ")[0]}` : ""}
+                  </p>
+                  <h2 className="text-3xl font-black tracking-tighter text-white uppercase italic leading-tight">
+                    Ton profil HashCode est né
+                  </h2>
+                  <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
+                    Officiellement membre. Tes réponses ont façonné ton profil — la suite se construit maintenant.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45 }}
+                  className="flex flex-wrap items-center justify-center gap-2"
+                >
+                  <Badge className="bg-primary/15 text-primary border-primary/30 font-mono gap-1.5 px-3 py-1.5">
+                    <Zap className="w-3 h-3 fill-current" />
+                    +{state?.xpReward ?? 150} XP
+                  </Badge>
+                  {userClass && CLASS_LABELS[userClass.toLowerCase()] && (
+                    <Badge variant="outline" className="font-mono px-3 py-1.5 border-white/15 text-zinc-300">
+                      Profil&nbsp;
+                      <span className={CLASS_LABELS[userClass.toLowerCase()].color}>
+                        {CLASS_LABELS[userClass.toLowerCase()].label}
+                      </span>
+                      &nbsp;· {CLASS_LABELS[userClass.toLowerCase()].tagline}
+                    </Badge>
+                  )}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Button
+                    onClick={() => {
+                      dismissCelebration();
+                      router.push("/missions");
+                    }}
+                    className="btn-primary-glow w-full h-12 rounded-2xl font-bold uppercase tracking-wider text-xs group"
+                  >
+                    Découvre ta prochaine mission
+                    <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     <div className="space-y-6">
       {/* Header */}
       <div className="rounded-2xl border border-border/40 bg-card/30 p-6 space-y-4">
@@ -545,6 +679,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
         </div>
       )}
     </div>
+    </>
   );
 }
 
