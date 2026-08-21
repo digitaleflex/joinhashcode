@@ -19,7 +19,9 @@ const TESTIMONIALS = [
 const MEMBERS = [
   { name: "Nelkaël T.", profile: "Builder", city: "Bénin", member: 5 },
   { name: "Steve E.", profile: "Strategist", city: "Akassato", member: 6 },
+  { name: "José D.", profile: "Catalyst", city: "Cotonou", member: 7 },
   { name: "Malick R.", profile: "Strategist", city: "Cotonou", member: 8 },
+  { name: "Pricilia K.", profile: "Strategist", city: "Bénin", member: 10 },
   { name: "Danie D.", profile: "Strategist", city: "Bénin", member: 11 },
   { name: "Joanice A.", profile: "Strategist", city: "Bénin", member: 13 },
 ]
@@ -27,6 +29,7 @@ const MEMBERS = [
 const PROFILE_COLORS: Record<string, string> = {
   Builder: "text-emerald-400",
   Strategist: "text-amber-400",
+  Catalyst: "text-sky-400",
 }
 
 export function Testimonials() {
@@ -112,9 +115,9 @@ export function Testimonials() {
         {/* Real member profiles */}
         <div className="border-t border-white/5 pt-12">
           <p className="text-center text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
-            5 membres fondateurs — tous réels, tous au Bénin
+            7 membres fondateurs — tous réels, tous au Bénin
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
             {MEMBERS.map((m) => (
               <div
                 key={m.name}
