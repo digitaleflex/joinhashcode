@@ -86,37 +86,35 @@ export function MissionsList({
 }) {
 
   const [selectedMission, setSelectedMission] = useState<MissionWithStats | null>(null);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
   
   const lowerClass = useMemo(() => userClass?.toLowerCase(), [userClass]);
 
-  const { availableMissions, comingSoonMissions } = useMemo(() => {
-    const available: MissionWithStats[] = [];
-    const comingSoon: MissionWithStats[] = [];
-
-    for (const m of missions) {
+  const availableMissions = useMemo(() => {
+    return missions.filter(m => {
       const classMatch = !m.targetProfiles || m.targetProfiles.length === 0 || (lowerClass && m.targetProfiles.includes(lowerClass as UserProfile));
-      if (!classMatch) continue;
-
-      if (m.comingSoon) {
-        comingSoon.push(m);
-      } else {
-        available.push(m);
-      }
-    }
-
-    return { availableMissions: available, comingSoonMissions: comingSoon };
+      return classMatch && !m.comingSoon;
+    });
   }, [lowerClass, missions]);
 
   const missionsByStage = useMemo(() => {
+    const filtered = typeFilter 
+      ? availableMissions.filter(m => m.type === typeFilter)
+      : availableMissions;
     return {
-      INIT: availableMissions.filter(m => m.missionLevel === "INIT"),
-      CORE: availableMissions.filter(m => m.missionLevel === "CORE"),
-      PRO: availableMissions.filter(m => m.missionLevel === "PRO"),
+      INIT: filtered.filter(m => m.missionLevel === "INIT"),
+      CORE: filtered.filter(m => m.missionLevel === "CORE"),
+      PRO: filtered.filter(m => m.missionLevel === "PRO"),
     };
-  }, [availableMissions]);
+  }, [availableMissions, typeFilter]);
 
   const userStage = getUserStage(userLevel);
   const stages: ProgressionStage[] = ["INIT", "CORE", "PRO"];
+
+  const allTypes = useMemo(() => {
+    const types = new Set(availableMissions.map(m => m.type));
+    return Array.from(types);
+  }, [availableMissions]);
 
   return (
     <div className="space-y-10">
@@ -161,13 +159,46 @@ export function MissionsList({
         })}
       </div>
 
+      {/* Filtre par type */}
+      {allTypes.length > 1 && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setTypeFilter(null)}
+            className={cn(
+              "px-3 py-1.5 rounded-full text-[9px] font-mono uppercase tracking-wider border transition-all",
+              !typeFilter 
+                ? "bg-primary/10 border-primary/30 text-primary" 
+                : "bg-white/5 border-white/10 text-zinc-500 hover:text-white hover:border-white/20"
+            )}
+          >
+            Toutes
+          </button>
+          {allTypes.map(type => (
+            <button
+              key={type}
+              onClick={() => setTypeFilter(type === typeFilter ? null : type)}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-[9px] font-mono uppercase tracking-wider border transition-all",
+                typeFilter === type 
+                  ? "bg-primary/10 border-primary/30 text-primary" 
+                  : "bg-white/5 border-white/10 text-zinc-500 hover:text-white hover:border-white/20"
+              )}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Sections par étape */}
       {stages.map(stage => {
         const config = STAGE_CONFIG[stage];
         const stageMissions = missionsByStage[stage];
         const isLocked = config.requiredLevel > userLevel;
+        const stageTotal = availableMissions.filter(m => m.missionLevel === stage).length;
+        const stageCompleted = stageMissions.filter(m => submissions[m.id] === "APPROVED").length;
 
-        if (stageMissions.length === 0) return null;
+        if (stageMissions.length === 0 && !isLocked) return null;
 
         return (
           <section key={stage} className="space-y-4">
@@ -178,10 +209,28 @@ export function MissionsList({
                 <span className="text-[9px] font-mono font-black uppercase tracking-widest" style={{ color: config.color }}>
                   {config.label}
                 </span>
-                <span className="text-[8px] text-zinc-600 font-mono hidden md:inline">— {stageMissions.length} missions</span>
+                <span className="text-[8px] text-zinc-600 font-mono hidden md:inline">— {stageCompleted}/{stageTotal}</span>
               </div>
               <div className="h-px flex-1 bg-white/5" />
             </div>
+
+            {/* Progress bar per stage */}
+            {stageTotal > 0 && (
+              <div className="flex items-center gap-3 px-1">
+                <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full rounded-full transition-all duration-700" 
+                    style={{ 
+                      width: `${stageTotal > 0 ? (stageCompleted / stageTotal) * 100 : 0}%`,
+                      backgroundColor: config.color,
+                    }} 
+                  />
+                </div>
+                <span className="text-[9px] font-mono text-zinc-600">
+                  {stageCompleted}/{stageTotal}
+                </span>
+              </div>
+            )}
 
             {isLocked && (
               <div className="px-4 py-3 bg-zinc-900/40 rounded-xl border border-white/5 space-y-2">
@@ -207,6 +256,7 @@ export function MissionsList({
                   mission={mission} 
                   userLevel={userLevel} 
                   submissions={submissions}
+                  isRecommended={!!lowerClass && (!!mission.targetProfiles?.includes(lowerClass as UserProfile))}
                   onPreview={() => setSelectedMission(mission)}
                 />
               ))}
@@ -214,35 +264,6 @@ export function MissionsList({
           </section>
         )
       })}
-
-      {/* Coming Soon Missions */}
-      {comingSoonMissions.length > 0 && (
-        <section className="mt-10 pt-8 border-t border-white/5">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="size-1.5 rounded-full bg-zinc-600 animate-pulse" />
-            <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-600">
-              En développement — {comingSoonMissions.length} missions à venir
-            </h2>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {comingSoonMissions.map(mission => (
-              <div
-                key={mission.id}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/50 border border-white/5"
-              >
-                <span className="size-1 rounded-full bg-zinc-700" />
-                <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wide">
-                  {mission.title}
-                </span>
-                <span className="text-[8px] font-mono text-zinc-700 ml-1">
-                  +{mission.xpReward} XP
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* SlideOver */}
       <MissionSlideOver
@@ -261,11 +282,13 @@ function MissionCard({
   mission, 
   userLevel, 
   submissions,
+  isRecommended,
   onPreview
 }: { 
   mission: MissionWithStats; 
   userLevel: number;
   submissions: Record<string, string>;
+  isRecommended?: boolean;
   onPreview: () => void;
 }) {
   const router = useRouter();
@@ -352,6 +375,11 @@ function MissionCard({
       <CardHeader className="pb-4 shrink-0">
         <div className="flex items-start justify-between mb-4">
           <div className="flex flex-wrap gap-2">
+            {isRecommended && !isCompleted && !isPending && (
+              <Badge className="text-[9px] uppercase font-black tracking-wider bg-sky-500/10 text-sky-400 border-sky-500/20">
+                Recommandé
+              </Badge>
+            )}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -369,6 +397,12 @@ function MissionCard({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+
+            {mission.duration && (
+              <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500">
+                {mission.duration}
+              </Badge>
+            )}
 
             <TooltipProvider>
               <Tooltip>

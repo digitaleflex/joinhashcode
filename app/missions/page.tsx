@@ -211,10 +211,10 @@ export default async function MissionsPage() {
                 <span className="text-[10px] font-mono font-black uppercase text-primary">Centre de Commandement</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
-                Arsenal des <span className="text-primary">Missions</span>
+                Mes <span className="text-primary">Missions</span>
               </h1>
               <p className="text-zinc-500 max-w-2xl font-light text-sm md:base leading-relaxed">
-                Chaque objectif rempli renforce ton signal et ton autorité dans l&apos;écosystème HASHCODE.
+                Chaque mission complétée renforce ton signal. Commence par la première — le reste suivra.
               </p>
             </div>
 
