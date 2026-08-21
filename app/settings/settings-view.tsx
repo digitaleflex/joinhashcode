@@ -147,7 +147,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                   <div className="flex flex-col items-end">
                     <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Statut</span>
                     <span className={cn("text-[10px] font-mono font-black uppercase tracking-wider", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
-                      {autoSaving ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
+                      {autoSaving ? "SAUVEGARDE..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
                     </span>
                   </div>
                   <div className={cn("size-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />

@@ -197,7 +197,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClient
             </Card>
 
             <Link href="/" className="mt-8 text-[10px] font-mono text-zinc-600 hover:text-white uppercase transition-colors border-b border-transparent hover:border-white/20 pb-1">
-                -- Terminal HASHCODE v2.0 --
+                -- HASHCODE --
             </Link>
         </div>
     )

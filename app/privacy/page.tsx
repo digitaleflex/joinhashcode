@@ -19,7 +19,7 @@ export default function PrivacyPage() {
           >
             <span className="h-px w-8 bg-primary/50" />
             <span className="font-mono text-[11px] uppercase text-primary text-glow">
-              Privacy_Protocol_v1.2
+              Politique de confidentialité
             </span>
           </motion.div>
 

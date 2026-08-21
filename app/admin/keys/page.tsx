@@ -143,10 +143,10 @@ export default function AdminKeysPage() {
         <Table>
           <TableHeader className="bg-white/5">
             <TableRow className="hover:bg-transparent border-zinc-800">
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Habilitation_Key</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Clé</TableHead>
               <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Statut</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Utilisé_Par</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Date_Création</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Utilisé par</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Date de création</TableHead>
               <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>

@@ -250,12 +250,12 @@ export default function FeedbackForm() {
                                 ) : (
                                     <>
                                         <Send className="mr-2 size-4" />
-                                        Envoyer la transmission
+                                        Envoyer le message
                                     </>
                                 )}
                             </Button>
                             <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
-                                [ Protocol: Secure_Transmission_V2 ]
+                                Envoi sécurisé
                             </p>
                         </div>
                     </form>

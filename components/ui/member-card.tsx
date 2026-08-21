@@ -163,8 +163,8 @@ export function MemberCard({
              </div>
              <div className="flex items-center gap-3">
                <div className="text-right hidden sm:block">
-                 <div className="text-[6px] font-mono text-zinc-700 uppercase">Verification_Protocol</div>
-                 <div className="text-[8px] font-bold text-zinc-500 font-mono">STATUS_SYNCHRONIZED</div>
+                 <div className="text-[6px] font-mono text-zinc-700 uppercase">Vérification</div>
+                 <div className="text-[8px] font-bold text-zinc-500 font-mono">Profil vérifié</div>
                </div>
                <div className="p-1 bg-white rounded-md">
                   <img

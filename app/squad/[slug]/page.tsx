@@ -53,7 +53,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
         {/* Header nav */}
         <div className="flex items-center justify-between">
           <Link href="/" className="text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
-            ← Terminal HASHCODE
+            ← HASHCODE
           </Link>
           {session && (
             <Link href="/squad" className="text-[10px] font-mono text-zinc-600 hover:text-primary transition-colors uppercase tracking-widest">

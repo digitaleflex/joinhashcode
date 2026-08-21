@@ -84,10 +84,10 @@ export default function AdminMissionsPage() {
         <div>
           <h1 className="text-3xl font-mono font-bold text-primary flex items-center gap-3 tracking-tighter uppercase">
             <Terminal className="h-8 w-8" />
-            Mission Control Center
+            Centre de gestion des missions
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">
-            Gère les déploiements tactiques et les défis de la communauté.
+            Gère les missions et les défis de la communauté.
           </p>
         </div>
 

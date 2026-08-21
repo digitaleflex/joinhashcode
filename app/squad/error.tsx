@@ -12,7 +12,7 @@ export default function SquadError({ error, reset }: { error: Error; reset: () =
         </div>
         <div className="space-y-2">
           <h2 className="text-lg font-black uppercase tracking-tight text-white italic">
-            Signal de l&apos;Escouade Perdu
+            Impossible de charger l&apos;escouade
           </h2>
           <p className="text-sm text-muted-foreground font-light leading-relaxed">
             Impossible de charger les données de ton escouade. Vérifie ta connexion et réessaie.

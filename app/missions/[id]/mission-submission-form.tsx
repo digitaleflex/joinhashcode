@@ -115,7 +115,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         <StepIndicator />
         <NeuralScanner
           onComplete={() => {
-            toast.success("Analyse terminée. Synchronisation effectuée !");
+            toast.success("Analyse terminée !");
             router.refresh();
           }}
         />
@@ -138,11 +138,11 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
           </div>
           <div className="space-y-1">
             <h3 className="text-base font-bold text-white">
-              {isSignalMission ? "SIGNAL_STABILISÉ ✓" : "Mission soumise ✓"}
+              {isSignalMission ? "Mission soumise ✓" : "Mission soumise ✓"}
             </h3>
             <p className="text-xs text-zinc-400 font-light max-w-xs">
               {isSignalMission 
-                ? "Ton identité numérique est désormais synchronisée. XP accordés immédiatement." 
+                ? "Ton profil est à jour. XP accordés immédiatement." 
                 : "Ta soumission est en file d'attente. Un reviewer va l'examiner sous 48h."}
             </p>
           </div>

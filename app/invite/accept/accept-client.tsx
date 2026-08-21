@@ -106,7 +106,7 @@ export function AcceptInvitationClient({
         </div>
 
         <p className="text-center text-[10px] font-mono text-zinc-700">
-          HASHCODE · Protocol_Escouade
+          HASHCODE · Système d&apos;invitation
         </p>
       </div>
     </div>

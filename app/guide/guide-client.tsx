@@ -437,7 +437,7 @@ export function GuideClient() {
           <Card id="glossaire" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
-                <BookOpen className="size-5 text-primary" /> Glossaire Tactique des Concepts
+                <BookOpen className="size-5 text-primary" /> Glossaire des Concepts
               </CardTitle>
               <CardDescription className="text-xs text-zinc-500 font-light">
                 Le vocabulaire indispensable pour décoder la console et naviguer dans l&apos;écosystème HASHCODE.
@@ -689,7 +689,7 @@ export function GuideClient() {
                   <tr className="border-b border-white/5 text-zinc-500">
                     <th className="pb-3 font-semibold uppercase">Rang</th>
                     <th className="pb-3 font-semibold uppercase">Titre</th>
-                    <th className="pb-3 font-semibold uppercase">Habilitations</th>
+                    <th className="pb-3 font-semibold uppercase">Niveaux d&apos;accès</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -725,16 +725,16 @@ export function GuideClient() {
             <Card id="matching" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
-                  <Users className="size-5 text-primary" /> Talent Matching Engine
+                  <Users className="size-5 text-primary" /> Système de mise en relation
                 </CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
-                  HASHCODE utilise des protocoles issus des recherches du MIT et de Google (Project Aristotle) pour assembler les escouades les plus performantes.
+                  HASHCODE utilise des méthodes issues des recherches du MIT et de Google (Project Aristotle) pour assembler les escouades les plus performantes.
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 space-y-6">
                 <div className="space-y-4">
                   <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-3">
-                    <h4 className="text-xs font-mono font-bold text-white uppercase">Le Protocole de Match Score</h4>
+                    <h4 className="text-xs font-mono font-bold text-white uppercase">Le système de matching</h4>
                     <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
                       Chaque profil est analysé selon <strong className="text-white">7 piliers de compatibilité</strong> pour maximiser vos chances de réussite collective :
                     </p>
@@ -791,7 +791,7 @@ export function GuideClient() {
                     <div className="space-y-1">
                       <h4 className="text-sm font-bold text-white">Gestion & Leadership (V2)</h4>
                       <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                        Panel de contrôle étendu pour les leaders : transfert de commandement, dissolution destructive et gestion de la visibilité tactique (Public/Privé).
+                        Panel de contrôle étendu pour les leaders : transfert de leadership, suppression et gestion de la visibilité (Public/Privé) (Public/Privé).
                       </p>
                     </div>
                   </div>
@@ -831,7 +831,7 @@ export function GuideClient() {
           <Card id="synergie" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
-                <MessageSquare className="size-5 text-emerald-500" /> Protocole de Synergie & Frictions
+                <MessageSquare className="size-5 text-emerald-500" /> Collaboration et tensions
               </CardTitle>
               <CardDescription className="text-xs text-zinc-500 font-light">
                 Résoudre des défis en équipe requiert une collaboration étroite entre des profils aux modes de pensée radicalement opposés.
@@ -1297,7 +1297,7 @@ export function GuideClient() {
                   Le statut de <strong className="text-white">Reviewer</strong> n&apos;est pas acquis, il se mérite. Une fois le rang de Technicien atteint, vous pouvez postuler pour devenir auditeur.
                 </p>
                 <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-2.5">
-                  <div className="font-bold text-primary font-mono uppercase text-[10px]">Conditions d&apos;habilitation :</div>
+                  <div className="font-bold text-primary font-mono uppercase text-[10px]">Conditions d&apos;accès :</div>
                   <ul className="space-y-1.5 list-disc pl-4 text-zinc-400 font-mono text-[10px]">
                     <li>Atteindre le grade de <strong className="text-white">Technicien</strong>.</li>
                     <li>Avoir validé au moins <strong className="text-white">3 missions</strong> de spécialisation.</li>
@@ -1389,7 +1389,7 @@ export function GuideClient() {
                     <div className="space-y-1">
                       <h4 className="text-sm font-bold text-white">La Dégradation Temporelle (Decay)</h4>
                       <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                        Chaque nuit, un protocole d&apos;usure (cron de decay) réduit la cohésion de l&apos;escouade. Si l&apos;équipe n&apos;effectue pas ses check-ins régulièrement, la cohésion s&apos;effondre, bloquant les avantages collectifs.
+                        Chaque nuit, un mécanisme d&apos;usure automatique réduit la cohésion de l&apos;escouade. Si l&apos;équipe n&apos;effectue pas ses check-ins régulièrement, la cohésion s&apos;effondre, bloquant les avantages collectifs.
                       </p>
                     </div>
                   </div>
@@ -1528,7 +1528,7 @@ export function GuideClient() {
                   <LifeBuoy className="size-5 text-emerald-500" /> Je suis bloqué : Que faire ?
                 </CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
-                  Chaque problème a sa solution sur JoinHashcode. Suivez le protocole de secours.
+                  Chaque problème a sa solution sur JoinHashcode. Consultez les solutions ci-dessous.
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 space-y-5 text-xs font-light leading-relaxed">
@@ -1718,7 +1718,7 @@ export function GuideClient() {
                   Combien de temps prend la validation d&apos;une mission ?
                 </AccordionTrigger>
                 <AccordionContent className="text-xs text-zinc-400 leading-relaxed pt-2 font-light">
-                  Le protocole d&apos;audit des Reviewers prend généralement entre 12 et 48 heures. Dès qu&apos;une action est prise sur votre soumission (approbation ou demande de révision), vous recevez une notification en temps réel sur votre console.
+                  La vérification par les Reviewers prend généralement entre 12 et 48 heures. Dès qu&apos;une action est prise sur votre soumission (approbation ou demande de révision), vous recevez une notification en temps réel sur votre page.
                 </AccordionContent>
               </AccordionItem>
 

@@ -74,7 +74,7 @@ export default function Error({
           <Button asChild variant="ghost" size="lg" className="h-12 px-8 rounded-full border border-border/50 hover:bg-card transition-all">
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Retour au Terminal
+              Retour à l'accueil
             </Link>
           </Button>
         </div>
@@ -82,11 +82,11 @@ export default function Error({
         <div className="mt-16 pt-8 border-t border-border/40 flex items-center justify-center gap-6">
           <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            Noyau en Panique
+            Erreur interne
           </div>
           <div className="w-px h-3 bg-border/40" />
           <div className="text-[10px] font-mono text-muted-foreground uppercase">
-            SYSTEM_OVERLOAD_ERR
+            Erreur serveur
           </div>
         </div>
       </div>

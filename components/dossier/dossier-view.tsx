@@ -140,7 +140,7 @@ export function DossierView({
             <ShieldCheck className="size-5 text-amber-500 animate-pulse" />
             <div className="text-left">
               <p className="text-xs font-black uppercase tracking-wider font-mono">Mode Inspection Administrateur</p>
-              <p className="text-[10px] font-mono text-amber-500/60 uppercase">Vous visualisez le dossier tactique de {user.name} (Pseudo: {user.pseudo || "aucun"}).</p>
+              <p className="text-[10px] font-mono text-amber-500/60 uppercase">Vous visualisez le profil de {user.name} (Pseudo: {user.pseudo || "aucun"}).</p>
             </div>
           </div>
           <Badge variant="outline" className="border-amber-500/30 text-amber-500 font-mono text-[9px] uppercase tracking-widest bg-amber-500/5">
@@ -284,7 +284,7 @@ export function DossierView({
               {!isPublic && (
                 <div className="space-y-4">
                     <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                        Alignement Neural
+                        Complémentarité
                         <div className="h-px bg-white/5 flex-1" />
                     </p>
                     <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8">

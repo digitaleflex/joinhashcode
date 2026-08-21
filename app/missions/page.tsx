@@ -202,7 +202,7 @@ export default async function MissionsPage() {
               className="inline-flex items-center gap-2 text-[10px] font-mono font-bold text-muted-foreground hover:text-primary transition-all mb-4 group"
             >
               <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              RETOUR_AU_TERMINAL
+              RETOUR AU TABLEAU DE BORD
             </Link>
 
             <div className="space-y-4">
@@ -235,7 +235,7 @@ export default async function MissionsPage() {
                 </div>
                 <div className="flex justify-between items-end mb-6">
                    <div className="space-y-1">
-                      <div className="text-[10px] font-mono text-zinc-500 uppercase">Données_D_Évolution</div>
+                      <div className="text-[10px] font-mono text-zinc-500 uppercase">Données d'évolution</div>
                       <div className="text-sm font-bold text-white uppercase tracking-tight">Expérience Globale Accumulée</div>
                    </div>
                      <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience ?? 0} <span className="text-xs not-italic text-zinc-600">XP</span></div>
@@ -248,15 +248,15 @@ export default async function MissionsPage() {
                 </div>
                 <div className="text-[10px] text-zinc-500 mt-4 font-mono uppercase tracking-wider flex items-center gap-2">
                    <span className="size-1 rounded-full bg-primary animate-pulse" />
-                   Status: Synchronisation de ton habilitation niveau {finalDbUser.level ?? 1} en cours...
+                   Status: Mise à jour de ton niveau {finalDbUser.level ?? 1} en cours...
                 </div>
               </div>
               
               <div className="hidden md:flex p-8 rounded-4xl border border-dashed border-white/5 bg-white/1 items-center justify-center text-center">
                  <p className="text-[9px] font-mono text-zinc-700 uppercase leading-relaxed">
-                   [ Accès_Prioritaire ]<br/>
-                   Prêt pour le déploiement<br/>
-                   tactique_v2.0
+                   [ Accès prioritaire ]<br/>
+                   Prêt pour la prochaine<br/>
+                   mission à venir
                  </p>
               </div>
             </div>

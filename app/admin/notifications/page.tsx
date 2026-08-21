@@ -158,7 +158,7 @@ export default function AdminNotificationsPage() {
             <Card className="glass-card bg-primary/5 border-primary/20 rounded-3xl p-6 border-dashed">
                 <h3 className="text-primary font-black uppercase text-xs flex items-center gap-2 mb-4">
                     <Info className="size-4" />
-                    Protocole de Diffusion
+                    Règles d&apos;envoi
                 </h3>
                 <ul className="space-y-4">
                     {[

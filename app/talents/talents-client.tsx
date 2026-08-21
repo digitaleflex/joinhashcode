@@ -220,7 +220,7 @@ function InviteAnalysisDialog({
     if (isOverLimit) {
       advice += `Alerte équilibre : ton escouade a déjà ${currentCount} ${label} (max 2). Ajouter un·e autre risquerait de créer un déséquilibre cognitif. `
       if (missingProfiles.length > 0) {
-        advice += `L'escouade gagnerait plus à recruter un profil ${missingProfiles.join(" ou ")} pour diversifier ses angles d'attaque.`
+        advice += `L'escouade gagnerait plus à recruter un profil ${missingProfiles.join(" ou ")} pour diversifier les profils.`
       } else {
         advice += `Tous les profils sont déjà représentés — privilégie l'agent·e le·plus aligné·e avec la prochaine mission.`
       }

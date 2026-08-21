@@ -148,13 +148,13 @@ export default async function SquadManagePage() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-zinc-500 uppercase">
                 <ShieldCheck className="size-3 text-primary" />
-                terminal_gestion_escouade
+                Gestion de l&apos;escouade
               </div>
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase leading-[0.9]">
                 Gestion de l&apos; <span className="text-primary italic">Escouade</span>
               </h1>
               <p className="text-zinc-500 text-sm font-medium max-w-xl">
-                Contrôle total sur l&apos;unité {squad.name}. Gère tes membres, tes invitations et synchronise ton équipe.
+                Contrôle total sur l&apos;unité {squad.name}. Gère tes membres, tes invitations et mets à jour ton équipe.
               </p>
             </div>
 
