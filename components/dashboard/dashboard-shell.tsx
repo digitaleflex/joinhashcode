@@ -15,19 +15,16 @@ import {
   Check,
   Target,
   User as UserIcon,
-  Info,
-  Download
+  Info
 } from "lucide-react"
 import { Linkedin } from "@/components/ui/brand-icons"
 import Link from "next/link"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
-import { MemberCard } from "@/components/ui/member-card"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
 const LevelUpModal = dynamic(() => import("./level-up-modal").then((m) => m.LevelUpModal), { ssr: false })
-const ShareCardDialog = dynamic(() => import("./share-card-dialog").then((m) => m.ShareCardDialog), { ssr: false })
 const AmbassadorGoal = dynamic(() => import("./AmbassadorGoal").then((m) => m.AmbassadorGoal), { ssr: false })
 const ReferralCard = dynamic(() => import("./ReferralCard").then((m) => m.ReferralCard), { ssr: false })
 const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
@@ -464,48 +461,6 @@ export function DashboardShell({
                     </Card>
                   )}
                 </div>
-
-                {/* Member Card — only after level 2 or 1+ missions */}
-                {(level >= 2 || (user.missionsCompletedCount ?? 0) > 0) && (
-                  <div className="space-y-6 pt-6 flex flex-col items-center w-full" id="tour-member-card">
-                    <h3 className="text-[10px] font-mono font-bold text-zinc-600 flex items-center gap-4 justify-center w-full">
-                      <span className="h-px w-10 bg-zinc-800"></span>
-                      carte_de_membre_officielle
-                      <span className="h-px w-10 bg-zinc-800"></span>
-                    </h3>
-                    <div className="hover:scale-[1.01] transition-transform duration-500 ease-out w-full max-w-4xl relative group">
-                      <div className={`absolute -inset-1.5 bg-linear-to-r ${config.gradient} to-transparent rounded-4xl blur-xl opacity-20 group-hover:opacity-30 transition duration-1000`} />
-                      <div className="relative">
-                        <MemberCard
-                          userId={user.id}
-                          pseudo={user.pseudo ?? user.name}
-                          memberNumber={user.memberNumber ?? null}
-                          userClass={user.class ?? null}
-                          level={user.level ?? 1}
-                          experience={user.experience ?? 0}
-                          createdAt={user.createdAt ?? new Date()}
-                          image={user.image ?? null}
-                          tools={user.tools ?? []}
-                          actions={
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto w-full">
-                              <Button
-                                asChild
-                                variant="outline"
-                                className="rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-[10px] font-bold uppercase tracking-wider h-14"
-                              >
-                                <a href={`/api/card/${user.id}`} download={`hashcode-passport-${user.pseudo ?? user.name}.png`}>
-                                  <Download className="mr-2 h-4 w-4" />
-                                  Exporter HD
-                                </a>
-                              </Button>
-                              <ShareCardDialog userId={user.id} userName={user.pseudo ?? user.name} />
-                            </div>
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
               </>
             )}
 

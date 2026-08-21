@@ -6,7 +6,7 @@ import {
   User, Link as LinkIcon,
   Save, Loader2,
   Shield, Sparkles, Activity,
-  Settings, Fingerprint, ChevronLeft
+  Settings, ChevronLeft
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -20,7 +20,6 @@ import Link from "next/link"
 import { ProfileTab } from "@/components/settings/tabs/ProfileTab"
 import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
 import { LinksTab } from "@/components/settings/tabs/LinksTab"
-import { VaultTab } from "@/components/settings/tabs/VaultTab"
 import { AccountTab } from "@/components/settings/tabs/AccountTab"
 import type { SettingsUserData } from "@/lib/types"
 
@@ -28,7 +27,6 @@ const TABS = [
   { id: "profile", label: "Diagnostic", icon: User, desc: "Identité et informations de base" },
   { id: "expertise", label: "Spécialisation", icon: Sparkles, desc: "Tes domaines et outils favoris" },
   { id: "links", label: "Connectivité", icon: LinkIcon, desc: "Tes points d'ancrage externes" },
-  { id: "vault", label: "Coffre-fort", icon: Fingerprint, desc: "Ta carte membre & clés d'accès" },
   { id: "account", label: "Sécurité", icon: Shield, desc: "Gestion du compte et accès" },
 ]
 
@@ -36,7 +34,6 @@ const TAB_COLORS: Record<string, { color: string; border: string; glow: string; 
   profile: { color: "#10B981", border: "border-emerald-500/30", glow: "rgba(16, 185, 129, 0.2)", text: "text-emerald-400", label: "PROFIL_PERSONNEL" },
   expertise: { color: "#A855F7", border: "border-purple-500/30", glow: "rgba(168, 85, 247, 0.2)", text: "text-purple-400", label: "SPECIALISATION" },
   links: { color: "#06B6D4", border: "border-cyan-500/30", glow: "rgba(6, 182, 212, 0.2)", text: "text-cyan-400", label: "RESEAUX_EXTERNES" },
-  vault: { color: "#B8FF3B", border: "border-[#B8FF3B]/30", glow: "rgba(184, 255, 59, 0.2)", text: "text-[#B8FF3B]", label: "CARTE_MEMBRE" },
   account: { color: "#EF4444", border: "border-red-500/30", glow: "rgba(239, 68, 68, 0.2)", text: "text-red-400", label: "SECURITE_COMPTE" },
 }
 
@@ -234,10 +231,6 @@ export function SettingsView({ initialData }: SettingsViewProps) {
 
                     {activeTab === "links" && (
                       <LinksTab userData={userData} updateData={updateData} />
-                    )}
-
-                    {activeTab === "vault" && (
-                      <VaultTab userData={userData} />
                     )}
 
                     {activeTab === "account" && (

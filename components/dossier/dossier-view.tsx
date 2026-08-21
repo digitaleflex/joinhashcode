@@ -24,10 +24,8 @@ import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { MemberCard } from "@/components/ui/member-card";
 import { EvolutionRadar } from "@/components/dashboard/evolution-radar";
 import { XPGrowthChart, type ActivityLog } from "@/components/dashboard/xp-growth-chart";
-import { ShareCardDialog } from "@/components/dashboard/share-card-dialog";
 import { ReferralWidget } from "@/components/dashboard/referral-widget";
 import {
   Tooltip,
@@ -218,36 +216,14 @@ export function DossierView({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
-          {/* Right Sidebar Area */}
+              {/* Right Sidebar Area */}
           <div className="lg:col-span-4 space-y-8 sm:space-y-12 lg:order-2">
-              
-              {/* Member Card */}
-              <div className="space-y-4">
-                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                      Carte de Membre
-                      <div className="h-px bg-white/5 flex-1" />
-                  </p>
-                  <div className="scale-95 sm:scale-100 origin-top">
-                      <MemberCard
-                          userId={user.id}
-                          pseudo={user.pseudo ?? user.name}
-                          memberNumber={user.memberNumber}
-                          userClass={user.class}
-                          level={user.level}
-                          experience={user.experience}
-                          createdAt={user.createdAt}
-                           image={user.image ?? null}
-                           missionsCompleted={user.missionsCompletedCount}
-                          tools={user.tools}
-                      />
-                  </div>
 
-                  {!isPublic && <ShareCardDialog userId={user.id} userName={user.name} />}
-                  {isPublic && (
-                    <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px]">
-                      <Link href="/signin">Rejoindre HASHCODE</Link>
-                    </Button>
-                  )}
+              {isPublic && (
+                <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px]">
+                  <Link href="/signin">Rejoindre HASHCODE</Link>
+                </Button>
+              )}
 
                   {viewerSquad && (
                     <div className="pt-2">
@@ -275,10 +251,9 @@ export function DossierView({
                             </>
                           )}
                         </Button>
-                      )}
-                    </div>
-                  )}
-              </div>
+                       )}
+                     </div>
+                   )}
 
               {!isPublic && (
                 <div className="space-y-4">
