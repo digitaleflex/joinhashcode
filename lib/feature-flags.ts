@@ -1,7 +1,6 @@
 export type FeatureFlag =
   | "weekly_challenges"
   | "badges"
-  | "neural_sync_gauge"
   | "squad_advanced"
   | "squad_chat"
   | "squad_discovery"
@@ -12,7 +11,6 @@ export type FeatureFlag =
 const DEFAULTS: Record<FeatureFlag, boolean> = {
   weekly_challenges: true,
   badges: true,
-  neural_sync_gauge: true,
   squad_advanced: true,
   squad_chat: true,
   squad_discovery: true,

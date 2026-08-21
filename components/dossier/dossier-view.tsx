@@ -8,7 +8,6 @@ import {
   Zap,
   TrendingUp,
   Users,
-  Lightbulb,
   Flame,
   Target,
   Info,
@@ -33,8 +32,6 @@ import {
 import { toast } from "sonner";
 
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import { calculateNeuralSync } from "@/lib/evolution-utils";
-import { NeuralSyncGauge } from "@/components/dashboard/neural-sync-gauge";
 
 interface DossierOrg {
   name: string
@@ -84,13 +81,6 @@ export function DossierView({
   const [sendingInvite, setSendingInvite] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
 
-  const syncScore = calculateNeuralSync(user.class, {
-    builder: user.builderScore,
-    creator: user.creatorScore,
-    strategist: user.strategistScore,
-    catalyst: user.catalystScore,
-  });
-
   const handleInvite = async () => {
     const targetClass = user.class?.toLowerCase();
     const classCount = viewerSquad?.members.filter((m) => m.class?.toLowerCase() === targetClass).length ?? 0;
@@ -127,10 +117,10 @@ export function DossierView({
   // Neural Loop Logic: Engagement tips based on stats (Only for private/admin view)
   const engagementTips = [];
   if (!isPublic) {
-    if (user.currentStreak < 3) engagementTips.push("Active le boost de Vitalité en complétant un Check-in 3 jours de suite.");
-    if (user.missionSubmissions.length === 0) engagementTips.push("Initialise ta première mission pour voir comment ton profil évolue (Dérive).");
-    if (!activeOrg) engagementTips.push("Rejoins une Squad pour débloquer les bonus de Cohésion Réseau.");
-    if (user.experience < 500) engagementTips.push("Atteins 500 XP pour débloquer l'Habilitation Niveau 2.");
+    if (user.currentStreak < 3) engagementTips.push("Fais un check-in 3 jours de suite pour créer ta série.");
+    if (user.missionSubmissions.length === 0) engagementTips.push("Lance ta première mission pour voir ton profil prendre vie.");
+    if (!activeOrg) engagementTips.push("Rejoins une escouade pour progresser avec les autres.");
+    if (user.experience < 500) engagementTips.push("Atteins 500 XP pour passer au niveau 2.");
   }
 
   return (
@@ -254,67 +244,22 @@ export function DossierView({
                      </div>
                    )}
 
-              {!isPublic && (
-                <div className="space-y-4">
-                    <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                        Complémentarité
-                        <div className="h-px bg-white/5 flex-1" />
-                    </p>
-                    <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8">
-                        <NeuralSyncGauge score={syncScore} />
-                    </Card>
-                </div>
-              )}
-
-              {!isPublic && (((user.behavioralVibrancy as Record<string, number> | null)?.score != null) || engagementTips.length > 0) && (
+              {!isPublic && engagementTips.length > 0 && (
               <div className="space-y-4" id="tour-dossier-tips">
                    <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
-                       Indices de Performance
+                       Conseils d&apos;évolution
                        <div className="h-px bg-white/5 flex-1" />
                    </p>
-                  <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6">
-                      {(user.behavioralVibrancy as Record<string, number> | null)?.score != null && (
-                          <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                               <TooltipProvider>
-                                   <Tooltip>
-                                       <TooltipTrigger asChild>
-                                           <div className="space-y-3 cursor-help group/item">
-                                               <div className="flex items-center gap-2">
-                                                   <Zap className="size-3.5 text-primary" />
-                                                   <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase font-black">Vitalité</span>
-                                                   <Info className="size-2.5 text-zinc-700 group-hover/item:text-primary transition-colors" />
-                                               </div>
-                                               <div className="text-lg sm:text-xl font-black text-white font-mono italic">{Math.round((user.behavioralVibrancy as Record<string, number>).score * 100)}<span className="text-primary text-xs ml-1">%</span></div>
-                                               <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                                   <div className="h-full bg-primary" style={{ width: `${(user.behavioralVibrancy as Record<string, number>).score * 100}%` }} />
-                                               </div>
-                                           </div>
-                                       </TooltipTrigger>
-                                       <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
-                                           La vitalité mesure ta régularité. Elle augmente avec tes check-ins quotidiens et ton activité constante.
-                                       </TooltipContent>
-                                   </Tooltip>
-                               </TooltipProvider>
-                           </div>
-                       )}
-
-                       {!isPublic && engagementTips.length > 0 && (
-                        <div className="space-y-4 pt-6 border-t border-white/5">
-                            <h5 className="text-[9px] sm:text-[10px] font-mono text-zinc-400 uppercase font-black flex items-center gap-2">
-                                <Lightbulb className="size-3 text-primary" />
-                                Conseils d'évolution
-                            </h5>
-                            <div className="space-y-2 sm:space-y-3">
-                                {engagementTips.map((tip, i) => (
-                                    <div key={i} className="flex gap-3 items-start p-3 rounded-xl bg-primary/5 border border-primary/10">
-                                        <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_#C5F441]" />
-                                        <p className="text-[9px] sm:text-[10px] text-zinc-300 font-bold leading-tight">{tip}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                      )}
-                  </Card>
+                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-6 sm:p-8 space-y-6">
+                         <div className="space-y-2 sm:space-y-3">
+                             {engagementTips.map((tip, i) => (
+                                 <div key={i} className="flex gap-3 items-start p-3 rounded-xl bg-primary/5 border border-primary/10">
+                                     <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_#C5F441]" />
+                                     <p className="text-[9px] sm:text-[10px] text-zinc-300 font-bold leading-tight">{tip}</p>
+                                 </div>
+                             ))}
+                         </div>
+                   </Card>
               </div>
               )}
 

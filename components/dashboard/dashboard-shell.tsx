@@ -33,9 +33,6 @@ import { type Mission } from "@/lib/missions"
 import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
 import { WeeklyChallengeWidget } from "./weekly-challenge-widget"
-import { calculateNeuralSync } from "@/lib/evolution-utils";
-
-const NeuralSyncGauge = dynamic(() => import("./neural-sync-gauge").then((m) => m.NeuralSyncGauge), { ssr: false })
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { FirstDayWidget } from "./first-day-widget"
@@ -104,12 +101,6 @@ export function DashboardShell({
 
   const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
   const hasStarted = (user?.missionsCompletedCount ?? 0) > 0 || (user?.currentStreak ?? 0) > 0
-  const syncScore = useMemo(() => calculateNeuralSync(user.class, {
-    builder: user.builderScore,
-    creator: user.creatorScore,
-    strategist: user.strategistScore,
-    catalyst: user.catalystScore,
-  }), [user.class, user.builderScore, user.creatorScore, user.strategistScore, user.catalystScore])
 
   return (
     <SidebarProvider>
@@ -303,7 +294,7 @@ export function DashboardShell({
                       </div>
                       <CardDescription className="text-zinc-500 font-medium tracking-tight">Ta progression vers le niveau suivant.</CardDescription>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-2">
+                    <CardContent className="pt-2">
                       <div className="space-y-6">
                         <div className="space-y-3">
                           <div className="flex items-center justify-between text-[11px] font-mono font-bold tracking-tight">
@@ -326,11 +317,6 @@ export function DashboardShell({
                           </div>
                         </div>
                       </div>
-                      {featureFlags.neural_sync_gauge !== false && (
-                        <div className="flex items-center justify-center p-4 rounded-2xl bg-white/1 border border-white/5 hover:bg-white/2 transition-colors h-full min-h-40">
-                          <NeuralSyncGauge score={syncScore} />
-                        </div>
-                      )}
                     </CardContent>
                   </Card>
 
