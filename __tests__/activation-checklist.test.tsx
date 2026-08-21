@@ -17,14 +17,12 @@ describe('ActivationChecklist Component', () => {
   it('renders correctly and shows progress', () => {
     render(<ActivationChecklist user={mockUser as UserProfile} hasSquad={false} hasSubmission={false} />);
     
-    // Quiz is always completed by default in logic
-    expect(screen.getByText('Calibration terminée')).toBeDefined();
-    
-    // Profile should be completed based on mockUser
-    expect(screen.getByText('Identité configurée')).toBeDefined();
-    
-    // Squad and Mission should be pending
-    expect(screen.getAllByText('Initialiser')).toHaveLength(2);
+    // Header
+    expect(screen.getByText('progression')).toBeDefined();
+    // 2/4 completed (quiz + profile)
+    expect(screen.getByText('2 / 4 ÉTAPES')).toBeDefined();
+    // Next step is Squad
+    expect(screen.getByText(/Prochaine étape : Unité active/)).toBeDefined();
   });
 
   it('hides when all steps are completed', () => {
@@ -36,14 +34,13 @@ describe('ActivationChecklist Component', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('calculates profile completion correctly', () => {
+  it('shows 1/4 progress for incomplete user', () => {
     const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null };
     render(<ActivationChecklist user={incompleteUser as UserProfile} hasSquad={false} hasSubmission={false} />);
     
-    const profileCard = screen.getByText('Identité configurée');
-    expect(profileCard).toBeDefined();
-    // Should show "Initialiser" button for profile
-    const buttons = screen.getAllByText('Initialiser');
-    expect(buttons.length).toBe(3); // Profile, Squad, Mission
+    // 1/4 completed (only quiz)
+    expect(screen.getByText('1 / 4 ÉTAPES')).toBeDefined();
+    // Next step is profile
+    expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });
 });
