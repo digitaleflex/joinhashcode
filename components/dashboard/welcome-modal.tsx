@@ -240,7 +240,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Aujourd&apos;hui</p>
-                        <p className="text-sm font-bold text-white">Première mission d&apos;ancrage</p>
+                        <p className="text-sm font-bold text-white">Première mission</p>
                       </div>
                     </motion.div>
                   </div>

@@ -34,7 +34,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
     },
     {
       id: "squad" as const,
-      title: "Unité active",
+      title: "Escouade rejointe",
       description: "Rejoins ou crée ta première Squad.",
       icon: Users,
       completed: hasSquad,

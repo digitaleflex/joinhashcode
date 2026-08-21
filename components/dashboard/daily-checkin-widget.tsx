@@ -120,7 +120,7 @@ export function DailyCheckinWidget({
             <div className="size-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
           </div>
-          <h2 className="text-xl font-bold tracking-tight text-white">Neural Check-in</h2>
+          <h2 className="text-xl font-bold tracking-tight text-white">Check-in Quotidien</h2>
           <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta progression.</p>
         </div>
       )}

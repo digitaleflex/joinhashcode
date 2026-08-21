@@ -22,7 +22,7 @@ describe('ActivationChecklist Component', () => {
     // 2/4 completed (quiz + profile)
     expect(screen.getByText('2 / 4 ÉTAPES')).toBeDefined();
     // Next step is Squad
-    expect(screen.getByText(/Prochaine étape : Unité active/)).toBeDefined();
+    expect(screen.getByText(/Prochaine étape : Escouade rejointe/)).toBeDefined();
   });
 
   it('hides when all steps are completed', () => {
