@@ -2,12 +2,11 @@ import { Suspense } from "react"
 import { Nav } from "@/components/landing/nav"
 import { HeroSection } from "@/components/landing/hero-section"
 import { MissionsPreview } from "@/components/landing/missions-preview"
-import { SquadDiscoverySection } from "@/components/landing/squad-discovery-section"
 import { Faq } from "@/components/landing/faq"
 import { FinalCta } from "@/components/landing/final-cta"
 import { Footer } from "@/components/landing/footer"
 
-export const revalidate = 3600 // Re-calculer les stats toutes les heures
+export const revalidate = 3600
 
 export default function HomePage() {
   return (
@@ -18,9 +17,6 @@ export default function HomePage() {
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <MissionsPreview />
-      </Suspense>
-      <Suspense fallback={<div className="h-96 w-full" />}>
-        <SquadDiscoverySection />
       </Suspense>
       <Suspense fallback={<div className="h-96 w-full" />}>
         <Faq />
