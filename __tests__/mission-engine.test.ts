@@ -30,7 +30,7 @@ describe("mission-engine : résolveur de définition", () => {
     expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")?.steps.length).toBe(12);
     expect(SOLUTION_MISSION.scoringGrid.reduce((s, c) => s + c.max, 0)).toBe(50);
     expect(SOLUTION_MISSION.scoringGrid.length).toBe(10);
-    expect(SOLUTION_MISSION.requirements[0]).toBe("Avoir validé la Mission 02");
+    expect(SOLUTION_MISSION.requirements[0]).toBe("Recommandé après la Mission 02");
   });
 
   it("retourne null pour une mission inconnue", () => {

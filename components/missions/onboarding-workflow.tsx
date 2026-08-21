@@ -190,7 +190,7 @@ export function OnboardingWorkflow({ missionSlug }: { missionSlug: string }) {
         }
         return;
       }
-      toast.success("Mission soumise ! Elle est maintenant en cours de revue.");
+      toast.success(body.autoApproved ? "Mission validée ! Bienvenue officiellement." : "Mission soumise ! Elle est maintenant en cours de revue.");
       await refreshState();
       router.refresh();
     } catch {

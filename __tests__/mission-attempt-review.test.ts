@@ -43,6 +43,9 @@ const { mockPrisma } = vi.hoisted(() => {
       upsert: vi.fn(),
       updateMany: vi.fn(),
     },
+    missionSubmission: {
+      upsert: vi.fn(() => Promise.resolve()),
+    },
     missionReviewLog: {
       create: vi.fn(() => Promise.resolve()),
       findMany: vi.fn(),
@@ -201,9 +204,34 @@ describe("Mission Attempt — Submit API", () => {
     expect(body.incomplete.length).toBe(10);
   });
 
-  it("submits successfully when all steps complete", async () => {
-    (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1", role: "MEMBER" } });
+  it("auto-approves onboarding missions without peer review", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1", role: "MEMBER", email: "u@test.com", name: "Test" } });
     (prisma.mission.findFirst as any).mockResolvedValue(mission);
+    (prisma.missionAttempt.findUnique as any).mockResolvedValue(null);
+    (prisma.missionStep.findMany as any).mockResolvedValue(steps);
+    (prisma.missionAttempt.create as any).mockResolvedValue({ id: "attempt1", status: "DRAFT" });
+    (prisma.missionStepResponse.findMany as any).mockResolvedValue(completeResponses("attempt1"));
+
+    const req = new Request("http://localhost/api/missions/mission1/attempt/submit", {
+      method: "POST",
+      body: JSON.stringify({}),
+    });
+    const res = await POST(req, { params: Promise.resolve({ id: "mission1" }) });
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.status).toBe("APPROVED");
+    expect(body.autoApproved).toBe(true);
+    expect(prisma.missionSubmission.upsert).toHaveBeenCalledWith(expect.objectContaining({
+      where: {
+        userId_missionId_cycleKey: { userId: "user1", missionId: "mission1", cycleKey: "PERMANENT" },
+      },
+      create: expect.objectContaining({ status: "APPROVED", reviewerType: "AUTO" }),
+    }));
+  });
+
+  it("submits successfully when all steps complete (peer review path)", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1", role: "MEMBER", email: "u@test.com", name: "Test" } });
+    (prisma.mission.findFirst as any).mockResolvedValue({ ...mission, isOnboarding: false });
     (prisma.missionAttempt.findUnique as any).mockResolvedValue(null);
     (prisma.missionStep.findMany as any).mockResolvedValue(steps);
     (prisma.missionAttempt.create as any).mockResolvedValue({ id: "attempt1", status: "DRAFT" });

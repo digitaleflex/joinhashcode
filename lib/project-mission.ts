@@ -16,7 +16,7 @@ export const PROJECT_MISSION: OnboardingMissionDef = {
   difficulty: 2,
   missionLevel: "CORE",
   targetProfiles: ["builder", "creator", "strategist", "catalyst"],
-  requirements: ["Avoir validé la Mission 01"],
+  requirements: ["Recommandé après la Mission 01"],
   deliverables: ["Dossier projet (3 à 8 pages)"],
   submissionMethod: "TEXT_RESPONSE",
   acceptanceCriteria: [

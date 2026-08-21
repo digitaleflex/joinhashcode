@@ -3,8 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { z } from "zod";
-import { getStepMissionDef, isStepComplete, logAttemptAction } from "@/lib/mission-engine";
+import { getStepMissionDef, isStepComplete, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { awardXp } from "@/lib/experience";
+import { safeAfter as after } from "@/lib/after";
+import { generateProfileV1 } from "@/lib/profile-v1";
+import { logActivity } from "@/lib/activity-log";
+import { triggerNotification } from "@/lib/qstash";
+import { emailService } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -110,6 +116,94 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       action: "SUBMITTED",
       message: "Le membre a soumis sa mission.",
     });
+
+    // ── Auto-validation : les missions déclaratives (isOnboarding) ne
+    // nécessitent pas de revue par les pairs. Voir evaluatorNotes de la M01 :
+    // « Il ne s'agit PAS d'une évaluation de niveau. »
+    if (mission.isOnboarding === true) {
+      await prisma.$transaction(async (tx) => {
+        await tx.missionAttempt.update({
+          where: { id: attemptId },
+          data: { status: "APPROVED", decision: "APPROVED" },
+        });
+        await tx.missionSubmission.upsert({
+          where: {
+            userId_missionId_cycleKey: {
+              userId: session.user.id,
+              missionId: mission.id,
+              cycleKey: "PERMANENT",
+            },
+          },
+          update: { status: "APPROVED", xpAwarded: mission.xp, reviewerType: "AUTO" },
+          create: {
+            userId: session.user.id,
+            missionId: mission.id,
+            status: "APPROVED",
+            xpAwarded: mission.xp,
+            reviewerType: "AUTO",
+          },
+        });
+        if (mission.xp > 0) {
+          await awardXp(session.user.id, mission.xp, "MISSION_COMPLETED", mission.id, tx);
+        }
+        await tx.user.update({
+          where: { id: session.user.id },
+          data: { missionsCompletedCount: { increment: 1 } },
+        });
+      });
+
+      await logAttemptAction({
+        attemptId,
+        actorId: session.user.id,
+        action: "APPROVED",
+        message: "Validation automatique — mission déclarative.",
+        metadata: { autoApproved: true },
+      });
+      await logAttemptActivity({
+        userId: session.user.id,
+        action: "ATTEMPT_APPROVED",
+        entityId: attemptId,
+        metadata: { autoApproved: true },
+        request: req,
+      });
+
+      after(async () => {
+        if (def) {
+          await generateProfileV1({
+            userId: session.user.id,
+            attemptId,
+            mission: { id: mission.id, slug: mission.slug },
+            def,
+          }).catch((e) => console.error("[ATTEMPT_AUTO_APPROVE] ProfileV1 error:", e));
+        }
+
+        logActivity({
+          userId: session.user.id,
+          action: "MISSION_APPROVED",
+          entity: "mission_attempt",
+          entityId: attemptId,
+          metadata: { missionSlug: mission.slug, autoApproved: true },
+          request: req,
+        });
+
+        await triggerNotification({
+          userId: session.user.id,
+          type: "MISSION_APPROVED",
+          title: `Mission validée : ${mission.title}`,
+          message: `Bienvenue officiellement. Ta prochaine mission t'attend.`,
+          link: "/missions",
+        }).catch(() => undefined);
+
+        emailService.sendMissionApproval({
+          email: session.user.email,
+          name: session.user.name,
+          missionTitle: mission.title,
+          xp: mission.xp,
+        }).catch(() => undefined);
+      });
+
+      return NextResponse.json({ ok: true, status: "APPROVED", autoApproved: true });
+    }
 
     return NextResponse.json({ ok: true, status: "SUBMITTED" });
   } catch (error: unknown) {
