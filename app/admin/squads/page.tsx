@@ -98,7 +98,7 @@ export default async function AdminSquadsPage() {
                   <p className="text-sm font-semibold text-white truncate">{squad.name}</p>
                   <p className="text-[10px] font-mono text-zinc-600 truncate">
                     /invite/{squad.slug}
-                    {leader && <> · chef: {leader.user.pseudo || leader.user.name}</>}
+                    {leader && <> · responsable: {leader.user.pseudo || leader.user.name}</>}
                   </p>
                 </div>
 

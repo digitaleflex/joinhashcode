@@ -143,7 +143,7 @@ export default function AdminSubmissionsPage() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground font-mono">Chargement des données neuronal...</p>
+          <p className="text-sm text-muted-foreground font-mono">Chargement...</p>
         </div>
       ) : submissions.length === 0 ? (
         <EmptyState

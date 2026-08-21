@@ -168,13 +168,13 @@ export default function AdminMissionsPage() {
             {loading ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-10 text-zinc-500 font-mono">
-                  Initialisation du flux de données...
+                  Chargement...
                 </TableCell>
               </TableRow>
             ) : missions.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-10 text-zinc-500 font-mono">
-                  Aucune mission détectée dans le secteur.
+                  Aucune mission disponible.
                 </TableCell>
               </TableRow>
             ) : (

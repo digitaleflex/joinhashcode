@@ -94,7 +94,7 @@ export default function AdminKeysPage() {
         <div>
           <h1 className="text-3xl font-mono font-bold text-primary flex items-center gap-3 tracking-tighter uppercase">
             <Key className="h-8 w-8" />
-            Access Control
+            Clés d'accès
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">
             Gère les habilitations d'entrée pour la phase Beta.
@@ -119,7 +119,7 @@ export default function AdminKeysPage() {
                 className="bg-primary text-black hover:bg-primary/90 font-mono font-bold uppercase tracking-tight h-12 px-6 rounded-xl shadow-[0_0_15px_#C5F44140]"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Générer Flux
+              Générer
             </Button>
         </div>
       </div>

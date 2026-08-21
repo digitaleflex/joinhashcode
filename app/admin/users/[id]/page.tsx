@@ -192,7 +192,7 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
               <CardTitle className="text-lg font-bold text-white tracking-tight">{user.name}</CardTitle>
               <CardDescription className="font-mono text-xs uppercase tracking-wider text-zinc-500 flex items-center justify-center gap-2 mt-1">
-                 {user.pseudo ? `@${user.pseudo}` : "ID NEURONAL"} · LVL {user.level ?? 1}
+                 {user.pseudo ? `@${user.pseudo}` : "ID inconnu"} · LVL {user.level ?? 1}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
@@ -567,7 +567,7 @@ export default async function UserDossierPage({ params }: PageProps) {
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 font-mono text-xs uppercase">Aucune escouade active détectée</p>
-                    <p className="text-sm text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Cet agent effectue actuellement un build en solo.</p>
+                    <p className="text-sm text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Cet utilisateur n'a pas encore rejoint d'escouade.</p>
                   </div>
                 </div>
               )}

@@ -46,7 +46,7 @@ export default function AdminNotificationsPage() {
       if (!response.ok) throw new Error("Broadcast failed");
       
       const data = await response.json();
-      toast.success(`Succès : ${data.count} agents notifiés.`);
+      toast.success(`Succès : ${data.count} membres notifiés.`);
       setTitle("");
       setMessage("");
       setLink("");
@@ -66,7 +66,7 @@ export default function AdminNotificationsPage() {
             Broadcast Center
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">
-            Diffuse des directives et annonces globales sur tous les terminaux.
+            Annonces globales à tous les membres.
           </p>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function AdminNotificationsPage() {
                 <CardHeader className="border-b border-white/5 bg-white/[0.02]">
                     <CardTitle className="text-lg font-mono uppercase text-white flex items-center gap-2">
                         <Send className="size-4 text-primary" />
-                        Nouvelle_Transmission
+                        Nouvelle Annonce
                     </CardTitle>
                     <CardDescription className="text-[10px] font-mono uppercase">L'impact est global et immédiat.</CardDescription>
                 </CardHeader>
@@ -104,7 +104,7 @@ export default function AdminNotificationsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Titre_Alerte</label>
+                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Titre</label>
                             <Input 
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -115,7 +115,7 @@ export default function AdminNotificationsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Message_Directif</label>
+                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Message</label>
                             <Textarea 
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
@@ -144,7 +144,7 @@ export default function AdminNotificationsPage() {
                                 <Loader2 className="size-5 animate-spin" />
                             ) : (
                                 <>
-                                    Exécuter Broadcast_Global
+                                    Envoyer l'annonce
                                     <Globe className="ml-2 size-4 group-hover:rotate-12 transition-transform" />
                                 </>
                             )}
@@ -164,7 +164,7 @@ export default function AdminNotificationsPage() {
                     {[
                         "Chaque utilisateur recevra une notification instantanée.",
                         "Le flux d'activité global sera mis à jour.",
-                        "Éviter les abus pour ne pas saturer l'attention des agents.",
+                        "Éviter les abus pour ne pas saturer l'attention des membres.",
                         "Les notifications prioritaires (WARNING) s'affichent avec une lueur spécifique."
                     ].map((text, i) => (
                         <li key={i} className="flex gap-3 items-start">
@@ -181,7 +181,7 @@ export default function AdminNotificationsPage() {
                 </div>
                 <div className="space-y-1">
                     <h4 className="text-sm font-black uppercase text-white tracking-wide text-opacity-80">Portée Maximale</h4>
-                    <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider italic">Prêt pour impact sur la grille.</p>
+                    <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider italic">Annonce prête à être envoyée.</p>
                 </div>
             </div>
         </div>
