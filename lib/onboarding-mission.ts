@@ -103,8 +103,8 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
   title: "Fais connaissance avec HashCode",
   shortDesc: "Ton premier profil HashCode. Comprends qui tu es, ce qui t'intéresse et où tu veux aller.",
   description:
-    "Avant les formations, les challenges et les projets, HashCode veut comprendre qui tu es, ce qui t'intéresse, ce que tu sais déjà faire et où tu aimerais aller. Cette mission construit ton premier profil HashCode.",
-  duration: "2-3 jours",
+    "Ton diagnostic est déjà fait — ici, tu le confirmes et tu le complètes en quelques minutes. À la fin, ton profil HashCode officiel est généré.",
+  duration: "~15 minutes",
   xpReward: 150,
   category: "INTRO",
   difficulty: 1,
@@ -118,19 +118,18 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
     { id: "intro-authentic", label: "Ton personnel et authentique (pas générique)", weight: "REQUIRED" },
     { id: "intro-objective", label: "Premier objectif concret et actionnable", weight: "REQUIRED" },
     { id: "intro-coherent", label: "Ambition cohérente avec les intérêts déclarés", weight: "BONUS" },
-    { id: "intro-memorable", label: "Présentation finale mémorable et soignée", weight: "BONUS" },
   ],
   evaluatorNotes:
     "Il ne s'agit PAS d'une évaluation de niveau. Le reviewer vérifie la complétude, la clarté et l'authenticité. Un objectif vague (\"progresser\") = révision demandée. Ne jamais transformer une déclaration en compétence validée.",
   qualityIndicators: {
     good: "Profil complet avec des réponses personnelles et un objectif SMART.",
-    exemplary: "Présentation finale soignée, ambition claire, profil qui inspire confiance immédiatement.",
+    exemplary: "Profil soigné, ambition claire, qui inspire confiance immédiatement.",
   },
   steps: [
     {
       key: "presentation",
-      title: "Présente-toi",
-      shortTitle: "Présentation",
+      title: "Toi",
+      shortTitle: "Toi",
       description:
         "Permets aux autres membres de découvrir la personne derrière le profil. Présente-toi simplement, sans chercher à être parfait.",
       scoreMax: 5,
@@ -143,24 +142,25 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           type: "TEXTAREA",
           required: true,
           placeholder: "Parle de ton parcours, ce qui t'intéresse, une chose que les autres devraient savoir sur toi…",
-          minLines: 5,
-          maxLength: 1500,
-          hint: "5 à 10 lignes recommandées.",
+          minLines: 3,
+          maxLength: 800,
+          hint: "3 à 6 lignes suffisent.",
         },
       ],
     },
     {
       key: "interets",
-      title: "Mon univers technologique",
-      shortTitle: "Intérêts",
+      title: "Tes domaines",
+      shortTitle: "Domaines",
       description:
-        "Sélectionne les domaines qui t'attirent naturellement, puis explique pourquoi.",
+        "On a retenu tes domaines depuis ton diagnostic. Confirme ou ajuste, puis dis-nous pourquoi.",
       fields: [
         {
           key: "domains",
           label: "Domaines qui t'intéressent",
           type: "MULTI_SELECT",
           required: true,
+          hint: "Pré-cochés d'après ton diagnostic — décoche si ce n'est plus toi.",
           options: [
             { value: "web", label: "Développement Web" },
             { value: "cyber", label: "Cybersécurité" },
@@ -183,17 +183,17 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           type: "TEXTAREA",
           required: true,
           minLines: 2,
-          maxLength: 800,
+          maxLength: 600,
           hint: "Réponse courte.",
         },
       ],
     },
     {
       key: "competences",
-      title: "Ce que je sais déjà faire",
-      shortTitle: "Compétences",
+      title: "Ton niveau",
+      shortTitle: "Niveau",
       description:
-        "Indique les technologies, outils ou compétences que tu as déjà utilisés, avec un niveau déclaratif.",
+        "Voici les outils que tu as déclarés. Indique simplement ton niveau actuel pour chacun — c'est déclaratif, pas une évaluation.",
       scoreMax: 5,
       fields: [
         {
@@ -210,10 +210,10 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
     },
     {
       key: "ambition",
-      title: "Mon ambition",
+      title: "Ton ambition",
       shortTitle: "Ambition",
       description:
-        "Comprends où tu souhaites aller. Cette réponse aide HashCode à comprendre la direction que tu prends.",
+        "Tu nous as déjà confié ta rêverie pendant ton diagnostic. Repars de là et raconte comment tu comptes y arriver.",
       scoreMax: 5,
       fields: [
         {
@@ -223,82 +223,24 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           required: true,
           minLines: 3,
           maxLength: 1200,
+          hint: "Ta rêverie du diagnostic est pré-remplie — complète-la ou réécris-la.",
         },
         { key: "metier", label: "Quel métier ou rôle t'intéresse aujourd'hui ?", type: "TEXT", required: false, maxLength: 200, placeholder: "Ex : Développeur full-stack, pentester…" },
-        {
-          key: "competence",
-          label: "Quelle compétence aimerais-tu absolument maîtriser ?",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 1,
-          maxLength: 500,
-        },
-        {
-          key: "projet",
-          label: "Quel type de projet aimerais-tu être capable de construire ?",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 2,
-          maxLength: 800,
-        },
-        {
-          key: "objectifPro",
-          label: "As-tu un objectif professionnel ou entrepreneurial particulier ?",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 1,
-          maxLength: 600,
-        },
-      ],
-    },
-    {
-      key: "apprentissage",
-      title: "Comment j'aime apprendre",
-      shortTitle: "Apprentissage",
-      description:
-        "Identifie tes préférences d'apprentissage pour que HashCode te propose les bonnes ressources.",
-      fields: [
-        {
-          key: "preferences",
-          label: "Comment tu apprends le mieux",
-          type: "MULTI_SELECT",
-          required: true,
-          options: [
-            { value: "docs", label: "Documentation" },
-            { value: "videos", label: "Vidéos" },
-            { value: "cours", label: "Cours structurés" },
-            { value: "exercices", label: "Exercices pratiques" },
-            { value: "projets", label: "Projets" },
-            { value: "challenges", label: "Challenges" },
-            { value: "groupe", label: "Travail en groupe" },
-            { value: "individuel", label: "Travail individuel" },
-            { value: "mentorat", label: "Mentorat" },
-            { value: "experimentation", label: "Expérimentation" },
-            { value: "enseignement", label: "Enseigner à quelqu'un d'autre" },
-          ],
-        },
-        {
-          key: "explique",
-          label: "Qu'est-ce qui t'aide le plus à comprendre quelque chose que tu ne connais pas encore ?",
-          type: "TEXTAREA",
-          required: true,
-          minLines: 2,
-          maxLength: 600,
-        },
       ],
     },
     {
       key: "contribution",
-      title: "Ma manière de contribuer",
-      shortTitle: "Contribution",
+      title: "Ta force",
+      shortTitle: "Force",
       description:
-        "Identifie les formes de contribution qui t'attirent naturellement.",
+        "Ton diagnostic a identifié ta manière naturelle de contribuer. Confirme que ça te ressemble.",
       fields: [
         {
           key: "modes",
           label: "Comment tu aimes contribuer",
           type: "MULTI_SELECT",
           required: true,
+          hint: "Pré-coché d'après ton profil — ajuste si besoin.",
           options: [
             { value: "construire", label: "Construire", description: "Créer des applications, systèmes ou projets." },
             { value: "analyser", label: "Analyser", description: "Chercher, comprendre et résoudre des problèmes." },
@@ -311,84 +253,14 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
             { value: "communiquer", label: "Communiquer", description: "Présenter, écrire, partager et représenter le groupe." },
           ],
         },
-        {
-          key: "priorite",
-          label: "Parmi ces contributions, laquelle aimerais-tu développer en priorité ?",
-          type: "TEXT",
-          required: true,
-          maxLength: 200,
-          placeholder: "Ex : Construire",
-        },
-      ],
-    },
-    {
-      key: "attentes",
-      title: "Ce que j'attends de HashCode",
-      shortTitle: "Attentes",
-      description: "Comprends les attentes du nouveau membre.",
-      fields: [
-        {
-          key: "attentes",
-          label: "Qu'aimerais-tu obtenir de ton expérience chez HashCode ?",
-          type: "MULTI_SELECT",
-          required: true,
-          options: [
-            { value: "competences", label: "Développer mes compétences" },
-            { value: "projets", label: "Construire des projets" },
-            { value: "accompagnement", label: "Être accompagné" },
-            { value: "mentor", label: "Trouver un mentor" },
-            { value: "rencontres", label: "Rencontrer d'autres passionnés" },
-            { value: "reseau", label: "Développer mon réseau" },
-            { value: "confiance", label: "Gagner en confiance" },
-            { value: "opportunites", label: "Trouver des opportunités" },
-            { value: "entreprendre", label: "Entreprendre" },
-            { value: "autre", label: "Autre" },
-          ],
-        },
-        {
-          key: "detail",
-          label: "Précise ce que tu attends de ton expérience chez HashCode",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 2,
-          maxLength: 800,
-        },
-        {
-          key: "risque",
-          label: "Qu'est-ce qui pourrait te faire perdre ta motivation ? (facultatif)",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 1,
-          maxLength: 500,
-        },
-      ],
-    },
-    {
-      key: "environnement",
-      title: "Mon environnement",
-      shortTitle: "Environnement",
-      description:
-        "Ces informations servent uniquement à adapter certaines missions et recommandations à ton environnement. Aucune donnée sensible n'est demandée.",
-      fields: [
-        {
-          key: "env",
-          label: "Environnement technique",
-          type: "ENV",
-          required: true,
-          options: [
-            { value: "systeme", label: "Système principal" },
-            { value: "ide", label: "Environnement de développement" },
-            { value: "connexion", label: "Qualité de connexion" },
-          ],
-        },
       ],
     },
     {
       key: "objectif",
-      title: "Mon premier objectif HashCode",
+      title: "Ton objectif 30 jours",
       shortTitle: "Objectif",
       description:
-        "Choisis un seul objectif concret que tu aimerais atteindre pendant tes premières semaines chez HashCode.",
+        "Ton objectif déclaré est pré-rempli ci-dessous. Rends-le concret : que veux-tu avoir accompli dans tes 30 premiers jours ?",
       scoreMax: 5,
       fields: [
         {
@@ -408,45 +280,6 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           required: false,
           minLines: 1,
           maxLength: 500,
-        },
-      ],
-    },
-    {
-      key: "presentation_finale",
-      title: "Présentation finale",
-      shortTitle: "Final",
-      description:
-        "Transforme tes réponses en une véritable présentation. Tu peux modifier, revenir à une étape, puis soumettre.",
-      scoreMax: 5,
-      fields: [
-        {
-          key: "format",
-          label: "Format de présentation",
-          type: "SELECT",
-          required: false,
-          options: [
-            { value: "texte", label: "Texte" },
-            { value: "video", label: "Vidéo (2-5 min max)" },
-            { value: "audio", label: "Audio + texte" },
-            { value: "autre", label: "Autre format" },
-          ],
-        },
-        {
-          key: "message",
-          label: "Ta présentation finale",
-          type: "TEXTAREA",
-          required: false,
-          minLines: 3,
-          maxLength: 2000,
-          hint: "Qui suis-je ? Ce que je sais faire · Ce qui m'intéresse · Ce que je veux apprendre · Mon ambition · Mon premier objectif · Ce que je peux apporter à la communauté.",
-        },
-        {
-          key: "lien",
-          label: "Lien (vidéo, audio, présentation)",
-          type: "TEXT",
-          required: false,
-          maxLength: 500,
-          placeholder: "https://… (si tu choisis un format autre que texte)",
         },
       ],
     },

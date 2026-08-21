@@ -203,6 +203,19 @@ async function main() {
         select: { key: true },
       });
       const existingKeys = new Set(existingSteps.map((s) => s.key));
+      // Purger d'abord les étapes retirées de la déf (et leurs réponses),
+      // sinon leurs stepOrder entrent en conflit avec la réassignation.
+      const defKeys = new Set(def.steps.map((s) => s.key));
+      const staleSteps = existingSteps.filter((s) => !defKeys.has(s.key));
+      for (const stale of staleSteps) {
+        await prisma.missionStepResponse.deleteMany({
+          where: { step: { missionId: mission.id, key: stale.key } },
+        });
+        await prisma.missionStep.delete({
+          where: { missionId_key: { missionId: mission.id, key: stale.key } },
+        });
+        console.log(`  🗑 [${def.slug}] STEP supprimée (obsolète) — ${stale.key}`);
+      }
       let order = 1;
       for (const step of def.steps) {
         if (!existingKeys.has(step.key)) {

@@ -16,7 +16,7 @@ import { SOLUTION_MISSION } from "../lib/solution-mission";
 describe("mission-engine : résolveur de définition", () => {
   it("résout la Mission 01 par slug", () => {
     expect(getStepMissionDef("mission-01-decouverte")).not.toBeNull();
-    expect(getStepMissionDef("mission-01-decouverte")?.steps.length).toBe(10);
+    expect(getStepMissionDef("mission-01-decouverte")?.steps.length).toBe(6);
   });
 
   it("résout la Mission 02 par slug", () => {

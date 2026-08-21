@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { getStepMissionDef, computeStepCompleteness } from "@/lib/mission-engine";
+import { buildStepPrefill } from "@/lib/mission-prefill";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export const dynamic = "force-dynamic";
@@ -68,6 +69,67 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
     const responseByStep = new Map(attempt.stepResponses.map((r) => [r.stepId, r]));
     const stepDefById = new Map(steps.map((s) => [s.id, def.steps.find((d) => d.key === s.key)]));
+
+    // ── Pré-remplissage (endowed progress) ──────────────────────────────
+    // Pour la mission d'onboarding : matérialiser les données déjà collectées
+    // (onboarding, quiz, spécialisation) comme réponses DRAFT. L'utilisateur
+    // n'a plus qu'à confirmer — la barre démarre donc élevée.
+    if (mission.isOnboarding) {
+      const missingSteps = steps.filter((s) => !responseByStep.has(s.id));
+      if (missingSteps.length > 0) {
+        const [userData, profileData] = await Promise.all([
+          prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { name: true, pseudo: true, mainObjective: true, domains: true, tools: true, class: true },
+          }),
+          prisma.userProfile.findUnique({
+            where: { userId: session.user.id },
+            select: { dreamStatement: true },
+          }),
+        ]);
+        const prefill = buildStepPrefill({
+          name: userData?.name,
+          pseudo: userData?.pseudo,
+          mainObjective: userData?.mainObjective,
+          domains: userData?.domains ?? [],
+          tools: userData?.tools ?? [],
+          class: userData?.class,
+          dreamStatement: profileData?.dreamStatement,
+        });
+        for (const step of missingSteps) {
+          const data = prefill[step.key];
+          const hasValue = !!data && Object.values(data).some((v) =>
+            Array.isArray(v) ? v.length > 0 : (typeof v === "string" ? v.trim().length > 0 : v != null)
+          );
+          if (!hasValue) continue;
+          await prisma.missionStepResponse.upsert({
+            where: { attemptId_stepId: { attemptId: attempt.id, stepId: step.id } },
+            update: {},
+            create: {
+              attemptId: attempt.id,
+              stepId: step.id,
+              stepOrder: step.stepOrder,
+              data: data as object,
+              status: "DRAFT",
+            },
+          });
+          responseByStep.set(step.id, {
+            id: `prefill-${step.id}`,
+            attemptId: attempt.id,
+            stepId: step.id,
+            stepOrder: step.stepOrder,
+            data: data as object,
+            status: "DRAFT",
+            score: null,
+            feedback: null,
+            reviewedAt: null,
+            reviewedById: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          } as typeof attempt.stepResponses[number]);
+        }
+      }
+    }
 
     const serializedSteps = steps.map((step) => {
       const response = responseByStep.get(step.id);

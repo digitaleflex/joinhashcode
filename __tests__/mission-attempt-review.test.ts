@@ -119,29 +119,21 @@ const mission = {
 };
 
 const steps = [
-  { id: "step1", missionId: "mission1", key: "presentation", stepOrder: 1, title: "Présente-toi", description: "", fields: [], scoreMax: 5 },
-  { id: "step2", missionId: "mission1", key: "interets", stepOrder: 2, title: "Mon univers", description: "", fields: [], scoreMax: 5 },
-  { id: "step3", missionId: "mission1", key: "competences", stepOrder: 3, title: "Compétences", description: "", fields: [], scoreMax: 5 },
-  { id: "step4", missionId: "mission1", key: "ambition", stepOrder: 4, title: "Ambition", description: "", fields: [], scoreMax: 5 },
-  { id: "step5", missionId: "mission1", key: "apprentissage", stepOrder: 5, title: "Apprentissage", description: "", fields: [], scoreMax: 5 },
-  { id: "step6", missionId: "mission1", key: "contribution", stepOrder: 6, title: "Contribution", description: "", fields: [], scoreMax: 5 },
-  { id: "step7", missionId: "mission1", key: "attentes", stepOrder: 7, title: "Attentes", description: "", fields: [], scoreMax: 5 },
-  { id: "step8", missionId: "mission1", key: "environnement", stepOrder: 8, title: "Environnement", description: "", fields: [], scoreMax: 5 },
-  { id: "step9", missionId: "mission1", key: "objectif", stepOrder: 9, title: "Objectif", description: "", fields: [], scoreMax: 5 },
-  { id: "step10", missionId: "mission1", key: "presentation_finale", stepOrder: 10, title: "Présentation finale", description: "", fields: [], scoreMax: 5 },
+  { id: "step1", missionId: "mission1", key: "presentation", stepOrder: 1, title: "Toi", description: "", fields: [], scoreMax: 5 },
+  { id: "step2", missionId: "mission1", key: "interets", stepOrder: 2, title: "Tes domaines", description: "", fields: [], scoreMax: 0 },
+  { id: "step3", missionId: "mission1", key: "competences", stepOrder: 3, title: "Ton niveau", description: "", fields: [], scoreMax: 5 },
+  { id: "step4", missionId: "mission1", key: "ambition", stepOrder: 4, title: "Ton ambition", description: "", fields: [], scoreMax: 5 },
+  { id: "step5", missionId: "mission1", key: "contribution", stepOrder: 5, title: "Ta force", description: "", fields: [], scoreMax: 0 },
+  { id: "step6", missionId: "mission1", key: "objectif", stepOrder: 6, title: "Ton objectif 30 jours", description: "", fields: [], scoreMax: 5 },
 ];
 
 const stepData: Record<string, Record<string, unknown>> = {
   presentation: { firstName: "Jean", pseudo: "jeanweb", presentation: "x".repeat(60) },
   interets: { domains: ["web", "ai"], pourquoi: "Pour apprendre le web et l'IA" },
   competences: { skills: [{ name: "React", level: "Intermédiaire" }, { name: "Node", level: "Débutant" }] },
-  ambition: { vision: "x".repeat(80) },
-  apprentissage: { preferences: ["projets", "mentorat"], explique: "En construisant des projets" },
-  contribution: { modes: ["construire", "documenter"], priorite: "Construire" },
-  attentes: { attentes: ["competences", "mentor"] },
-  environnement: { env: { systeme: "Linux", ide: "VS Code", connexion: "bonne" } },
-  objectif: { objectif: "Déployer ma première application web", pourquoi: "Pour valider mes acquis" },
-  presentation_finale: { format: "texte", message: "y".repeat(80), lien: "" },
+  ambition: { vision: "x".repeat(80), metier: "Développeur full-stack" },
+  contribution: { modes: ["construire", "documenter"] },
+  objectif: { objectif: "Déployer ma première application web en 30 jours", pourquoi: "Pour valider mes acquis" },
 };
 
 function completeResponses(attemptId: string) {
@@ -201,7 +193,7 @@ describe("Mission Attempt — Submit API", () => {
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toContain("incomplètes");
-    expect(body.incomplete.length).toBe(10);
+    expect(body.incomplete.length).toBe(6);
   });
 
   it("auto-approves onboarding missions without peer review", async () => {
@@ -401,7 +393,7 @@ describe("Admin Mission Attempt Review API", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.attempt.id).toBe("attempt1");
-    expect(body.attempt.stepResponses.length).toBe(10);
+    expect(body.attempt.stepResponses.length).toBe(6);
     expect(body.attempt.scoringGrid.length).toBe(5);
     expect(body.attempt.maxScore).toBe(25);
   });
