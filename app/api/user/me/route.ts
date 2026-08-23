@@ -10,6 +10,22 @@ export async function GET() {
     const user = await getCachedUser(session.user.id);
     if (!user) return NextResponse.json({ message: "Non trouvé" }, { status: 404 });
 
+    // Récupérer le statut J+7 activation
+    let j7Activated = user.j7Activated ?? false;
+    try {
+      const j7Resp = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL || 'https://joinhashcode.com'}/api/user/j7-activation`,
+        { cache: 'no-store' }
+      );
+      const j7Data = await j7Resp.json();
+      if (j7Data.j7Activated !== undefined) {
+        j7Activated = j7Data.j7Activated;
+      }
+    } catch (e) {
+      console.error("[J7-FETCH]", e);
+      // Garde la valeur par défaut
+    }
+
     // Projeter les champs requis pour le frontend
     const safeUser = {
       id: user.id,
@@ -40,7 +56,9 @@ export async function GET() {
       creatorScore: user.creatorScore ?? 0,
       strategistScore: user.strategistScore ?? 0,
       catalystScore: user.catalystScore ?? 0,
+      j7Activated, // ← ajouté ici
       tools: user.tools,
+      domains: user.domains,
       domains: user.domains,
       primaryDomain: user.primaryDomain,
       subDomain: user.subDomain,
