@@ -150,7 +150,8 @@ export function computeScorePercent(total: number, maxTotal: number): number {
 
 export function createDefaultAttemptData(def: OnboardingMissionDef): Record<string, unknown> {
   const data: Record<string, unknown> = {};
-  for (const step of def.steps) {
+  const steps = def.subMissions ?? def.steps ?? [];
+  for (const step of steps) {
     for (const field of step.fields) {
       if (field.type === "MULTI_SELECT" || field.type === "SKILLS") {
         data[field.key] = [];

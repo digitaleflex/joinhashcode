@@ -1,7 +1,12 @@
-// Définition configurable des missions à étapes (onboarding).
-// Mission 01 — "Fais connaissance avec HashCode" est la première.
-// Chaque mission à étapes définit ses métadonnées, étapes, champs et règles de review.
-// Le moteur (lib/mission-engine.ts) reste générique : rien n'est codé en dur pour Mission 01.
+// Définition des sous-missions M01 — itératives, soummissables une par une
+// L'utilisateur peut revenir à tout moment, aucune étape n'est "verrouillée"
+// Le seuil d'activation J+7 compte le nombre de sous-missions validées (≥ 3 sur 5)
+
+// ✅ Sous-mission 1 — Toi (présentation)
+// ✅ Sous-mission 2 — Tes domaines (intérêts)
+// ✅ Sous-mission 3 — Ton niveau (compétences)
+// ✅ Sous-mission 4 — Ton ambition
+// ✅ Sous-mission 5 — Ton objectif 30 jours
 
 export type StepFieldType =
   | "TEXT"
@@ -66,14 +71,16 @@ export interface StepField {
   }[]
 }
 
-export interface MissionStepDef {
+export interface MissionSubDef {
   key: string
   title: string
   shortTitle: string
   description: string
   fields: StepField[]
-  /** Score max pour la review de cette étape (défaut 0 = non noté séparément). */
+  /** Score max pour la review de cette sous-mission (défaut 0 = noté dans grid global). */
   scoreMax?: number
+  /** Si true, cette sous-mission peut être soumise indépendamment des autres. */
+  independent: boolean
 }
 
 export interface OnboardingMissionDef {
@@ -93,7 +100,12 @@ export interface OnboardingMissionDef {
   acceptanceCriteria: { id: string; label: string; weight: "REQUIRED" | "BONUS" }[]
   evaluatorNotes: string
   qualityIndicators: { good: string; exemplary: string }
-  steps: MissionStepDef[]
+  /** Sous-missions M01 — chaque élément peut être soumis indépendamment. */
+  subMissions: MissionSubDef[]
+  /** Nombre minimum de sous-missions à valider pour considérer M01 "complet" (seuil J+7). */
+  minSubmissionsForCompletion: number
+  /** Si true, l'utilisateur peut soumettre la même sous-mission plusieurs fois. */
+  allowRereview: boolean
   /** Grille de scoring globale (/25). */
   scoringGrid: { key: string; label: string; max: number }[]
 }
@@ -103,7 +115,7 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
   title: "Fais connaissance avec HashCode",
   shortDesc: "Ton premier profil HashCode. Comprends qui tu es, ce qui t'intéresse et où tu veux aller.",
   description:
-    "Ton diagnostic est déjà fait — ici, tu le confirmes et tu le complètes en quelques minutes. À la fin, ton profil HashCode officiel est généré.",
+    "Ton diagnostic est déjà fait — ici, tu le confirms et tu le complètes en quelques minutes. À la fin, ton profil HashCode officiel est généré. Chaque sous-mission peut être soumise indépendamment — pas de pression, tu reviens quand tu veux.",
   duration: "~15 minutes",
   xpReward: 150,
   category: "INTRO",
@@ -114,25 +126,26 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
   deliverables: ["Profil HashCode v1 validé"],
   submissionMethod: "TEXT_RESPONSE",
   acceptanceCriteria: [
-    { id: "intro-complete", label: "Toutes les étapes complétées", weight: "REQUIRED" },
+    { id: "intro-complete", label: "Minimum 3 des 5 sous-missions validées par pairs", weight: "REQUIRED" },
     { id: "intro-authentic", label: "Ton personnel et authentique (pas générique)", weight: "REQUIRED" },
     { id: "intro-objective", label: "Premier objectif concret et actionnable", weight: "REQUIRED" },
     { id: "intro-coherent", label: "Ambition cohérente avec les intérêts déclarés", weight: "BONUS" },
   ],
   evaluatorNotes:
-    "Il ne s'agit PAS d'une évaluation de niveau. Le reviewer vérifie la complétude, la clarté et l'authenticité. Un objectif vague (\"progresser\") = révision demandée. Ne jamais transformer une déclaration en compétence validée.",
+    "Il ne s'agit PAS d'une évaluation de niveau. Le reviewer vérifie la complétude, la clarté et l'authenticité par sous-mission. Un objectif vague (\"progresser\") = révision demandée par sous-mission. Ne jamais transformer une déclaration en compétence validée. L'utilisateur peut corriger/submettre à nouveau n'importe quelle sous-mission.",
   qualityIndicators: {
-    good: "Profil complet avec des réponses personnelles et un objectif SMART.",
-    exemplary: "Profil soigné, ambition claire, qui inspire confiance immédiatement.",
+    good: "Profil complet avec des réponses personnelles et un objectif SMART, minimum 3/5 sous-missions validées.",
+    exemplary: "Profil soigné, ambition claire, qui inspire confiance immédiatement. Toutes les sous-missions validées ou presque.",
   },
-  steps: [
+  // ✅ 5 sous-missions indépendantes, dans un ordre suggéré mais libre
+  subMissions: [
+    // ✅ Sous-mission 1 — Toi (présentation)
     {
       key: "presentation",
       title: "Toi",
       shortTitle: "Toi",
       description:
         "Permets aux autres membres de découvrir la personne derrière le profil. Présente-toi simplement, sans chercher à être parfait.",
-      scoreMax: 5,
       fields: [
         { key: "firstName", label: "Prénom", type: "TEXT", required: true, placeholder: "Ton prénom", maxLength: 80 },
         { key: "pseudo", label: "Pseudo / username", type: "TEXT", required: true, placeholder: "Ton pseudo HashCode", maxLength: 40 },
@@ -147,9 +160,12 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           hint: "3 à 6 lignes suffisent.",
         },
       ],
+      scoreMax: 5,
+      independent: true,
     },
+    // ✅ Sous-mission 2 — Tes domaines (intérêts)
     {
-      key: "interets",
+      key: "domains",
       title: "Tes domaines",
       shortTitle: "Domaines",
       description:
@@ -178,7 +194,7 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           ],
         },
         {
-          key: "pourquoi",
+          key: "pourquoi-domaines",
           label: "Pourquoi ces domaines t'intéressent-ils ?",
           type: "TEXTAREA",
           required: true,
@@ -187,14 +203,16 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           hint: "Réponse courte.",
         },
       ],
+      scoreMax: 5,
+      independent: true,
     },
+    // ✅ Sous-mission 3 — Ton niveau (compétences)
     {
       key: "competences",
       title: "Ton niveau",
       shortTitle: "Niveau",
       description:
         "Voici les outils que tu as déclarés. Indique simplement ton niveau actuel pour chacun — c'est déclaratif, pas une évaluation.",
-      scoreMax: 5,
       fields: [
         {
           key: "skills",
@@ -207,14 +225,16 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           },
         },
       ],
+      scoreMax: 5,
+      independent: true,
     },
+    // ✅ Sous-mission 4 — Ton ambition
     {
       key: "ambition",
       title: "Ton ambition",
       shortTitle: "Ambition",
       description:
         "Tu nous as déjà confié ta rêverie pendant ton diagnostic. Repars de là et raconte comment tu comptes y arriver.",
-      scoreMax: 5,
       fields: [
         {
           key: "vision",
@@ -223,45 +243,20 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           required: true,
           minLines: 3,
           maxLength: 1200,
-          hint: "Ta rêverie du diagnostic est pré-remplie — complète-la ou réécris-la.",
+          hint: "Ta rêverie du diagnostic est pré-remplie — completes-la ou réécris-la.",
         },
         { key: "metier", label: "Quel métier ou rôle t'intéresse aujourd'hui ?", type: "TEXT", required: false, maxLength: 200, placeholder: "Ex : Développeur full-stack, pentester…" },
       ],
+      scoreMax: 5,
+      independent: true,
     },
-    {
-      key: "contribution",
-      title: "Ta force",
-      shortTitle: "Force",
-      description:
-        "Ton diagnostic a identifié ta manière naturelle de contribuer. Confirme que ça te ressemble.",
-      fields: [
-        {
-          key: "modes",
-          label: "Comment tu aimes contribuer",
-          type: "MULTI_SELECT",
-          required: true,
-          hint: "Pré-coché d'après ton profil — ajuste si besoin.",
-          options: [
-            { value: "construire", label: "Construire", description: "Créer des applications, systèmes ou projets." },
-            { value: "analyser", label: "Analyser", description: "Chercher, comprendre et résoudre des problèmes." },
-            { value: "securiser", label: "Sécuriser", description: "Identifier les risques et protéger les systèmes." },
-            { value: "creer", label: "Créer", description: "Imaginer des concepts, interfaces ou contenus." },
-            { value: "organiser", label: "Organiser", description: "Structurer les processus et coordonner les activités." },
-            { value: "documenter", label: "Documenter", description: "Transformer les connaissances en ressources utiles." },
-            { value: "former", label: "Former", description: "Expliquer et aider les autres." },
-            { value: "rechercher", label: "Rechercher", description: "Explorer de nouvelles technologies et méthodes." },
-            { value: "communiquer", label: "Communiquer", description: "Présenter, écrire, partager et représenter le groupe." },
-          ],
-        },
-      ],
-    },
+    // ✅ Sous-mission 5 — Ton objectif 30 jours
     {
       key: "objectif",
       title: "Ton objectif 30 jours",
       shortTitle: "Objectif",
       description:
         "Ton objectif déclaré est pré-rempli ci-dessous. Rends-le concret : que veux-tu avoir accompli dans tes 30 premiers jours ?",
-      scoreMax: 5,
       fields: [
         {
           key: "objectif",
@@ -274,7 +269,7 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           hint: "Un objectif clair, réaliste et suffisamment concret.",
         },
         {
-          key: "pourquoi",
+          key: "pourquoi-objectif",
           label: "Pourquoi cet objectif est-il important pour toi ?",
           type: "TEXTAREA",
           required: false,
@@ -282,6 +277,8 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
           maxLength: 500,
         },
       ],
+      scoreMax: 5,
+      independent: true,
     },
   ],
   scoringGrid: [
@@ -291,4 +288,6 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
     { key: "coherence_objectif", label: "Cohérence de l'objectif", max: 5 },
     { key: "qualite_presentation", label: "Qualité de présentation", max: 5 },
   ],
+  minSubmissionsForCompletion: 3,
+  allowRereview: true,
 }
