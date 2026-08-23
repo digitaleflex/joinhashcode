@@ -21,6 +21,11 @@ function slugify(name: string): string {
     .substring(0, 30);
 }
 
+function randomSuffix(length = 4): string {
+  // Alphabet sûr : pas de tiret initial possible, compatible SLUG_REGEX
+  return Math.random().toString(36).substring(2, 2 + length).padEnd(length, "0");
+}
+
 export async function POST(req: Request) {
   try {
     checkCsrfOrigin(req);
@@ -53,15 +58,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Déjà membre d'une escouade" }, { status: 400 });
     }
 
-    // Generate slug from name, retry on collision
+    // Generate slug from name, retry on collision.
+    // Garde-fou : un nom purement emoji/symboles produit un slug vide —
+    // on génère alors une base aléatoire pour garantir un lien /invite/<slug> valide.
     let squad = null;
     let attempts = 0;
-    const baseSlug = slugify(name);
+    const baseSlug = slugify(name).length >= 3 ? slugify(name) : `squad-${randomSuffix()}`;
 
     while (!squad && attempts < 5) {
       const candidateSlug = attempts === 0
         ? baseSlug
-        : `${baseSlug}-${Math.random().toString(36).substring(2, 4)}`;
+        : `${baseSlug}-${randomSuffix(3)}`.substring(0, 30);
 
       try {
         const orgId = crypto.randomUUID();

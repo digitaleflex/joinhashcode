@@ -95,7 +95,6 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
   const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false)
   const [invites, setInvites] = useState<IncomingInvitation[]>(incomingInvitations)
 
-  const pseudo = user.pseudo || user.name?.split(" ")[0] || "Agent"
   const memberRole = squad?.members?.find((m) => m.userId === user.id)?.role
   const memberCount = squad?.members?.length ?? 0
   const cohesion = squad?.cohesionScore ?? 0
@@ -110,10 +109,12 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
   const completedCount = useMemo(() => phases.filter((p) => p.status === "completed").length, [phases])
 
   const inviteLink = useMemo(
-    () => typeof window !== "undefined" && squad
-      ? `${window.location.origin}/invite/${localSlug || pseudo.toLowerCase()}`
+    // ⚠️ Uniquement le vrai slug d'escouade — /invite/[slug] résout une
+    // Organization par slug ; un pseudo produirait un lien mort.
+    () => typeof window !== "undefined" && squad && localSlug
+      ? `${window.location.origin}/invite/${localSlug}`
       : "",
-    [squad, localSlug, pseudo]
+    [squad, localSlug]
   )
 
   const copyInvite = () => {
