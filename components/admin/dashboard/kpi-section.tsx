@@ -62,10 +62,10 @@ export function KpiSection({
 }: KpiSectionProps) {
   const kpis = [
     { label: "Membres actifs (7j)", value: activeRecently, icon: Activity, color: "text-primary", sub: `sur ${userCount} inscrits` },
-    { label: "Quiz terminés", value: quizTotal, icon: BarChart3, color: "text-[#22D3EE]" },
-    { label: "Parcours démarrés", value: parcoursDemarres, icon: Route, color: "text-[#A855F7]" },
-    { label: "Ateliers suivis (7j)", value: ateliersSuivis, icon: GraduationCap, color: "text-[#F97316]" },
-    { label: "Projets en cours", value: projetsEnCours, icon: Target, color: "text-[#B8FF3B]" },
+    { label: "Quiz terminés", value: quizTotal, icon: BarChart3, color: "text-primary" },
+    { label: "Parcours démarrés", value: parcoursDemarres, icon: Route, color: "text-primary" },
+    { label: "Ateliers suivis (7j)", value: ateliersSuivis, icon: GraduationCap, color: "text-primary" },
+    { label: "Projets en cours", value: projetsEnCours, icon: Target, color: "text-primary" },
     { label: "Évidences validées", value: evidencesValidees, icon: FileCheck, color: "text-emerald-400" },
     { label: "Objectifs 90j atteints", value: objectifsAtteints, icon: Zap, color: "text-yellow-400" },
     { label: "Mentors actifs", value: mentorsActifs, icon: HeartHandshake, color: "text-rose-400" },

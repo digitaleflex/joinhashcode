@@ -46,7 +46,7 @@ const STAGE_CONFIG: Record<ProgressionStage, {
   INIT: {
     label: "INIT",
     sublabel: "Missions de départ",
-    color: "#10B981",
+    color: "text-primary",
     bgColor: "bg-emerald-950/20",
     borderColor: "border-emerald-500/20",
     requiredLevel: 1,
@@ -54,7 +54,7 @@ const STAGE_CONFIG: Record<ProgressionStage, {
   CORE: {
     label: "CORE",
     sublabel: "Missions intermédiaires",
-    color: "#06B6D4",
+    color: "text-primary",
     bgColor: "bg-cyan-950/20",
     borderColor: "border-cyan-500/20",
     requiredLevel: 2,
@@ -62,7 +62,7 @@ const STAGE_CONFIG: Record<ProgressionStage, {
   PRO: {
     label: "PRO",
     sublabel: "Missions avancées",
-    color: "#A855F7",
+    color: "text-primary",
     bgColor: "bg-purple-950/20",
     borderColor: "border-purple-500/20",
     requiredLevel: 4,

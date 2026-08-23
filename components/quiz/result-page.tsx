@@ -171,7 +171,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
             <Button
               onClick={handleStartOrientation}
               className="w-full h-14 rounded-xl font-bold text-base"
-              style={{ background: color, color: '#000' }}
+              style={{ background: color, color: '#1a1a1a' }}
             >
               Commencer l&apos;atelier →
             </Button>
