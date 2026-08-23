@@ -120,6 +120,7 @@ export interface UserProfile {
   creatorScore: number;
   strategistScore: number;
   catalystScore: number;
+  j7Activated: boolean; // J+7 activation: validated >= 3 of 5 M01 sub-missions in 7 days
   behavioralVibrancy?: BehavioralVibrancy | Record<string, number> | null | unknown;
   lastCheckin: Date | string | null;
   currentStreak: number;
