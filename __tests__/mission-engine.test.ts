@@ -16,7 +16,7 @@ import { SOLUTION_MISSION } from "../lib/solution-mission";
 describe("mission-engine : résolveur de définition", () => {
   it("résout la Mission 01 par slug", () => {
     expect(getStepMissionDef("mission-01-decouverte")).not.toBeNull();
-    expect(getStepMissionDef("mission-01-decouverte")?.steps.length).toBe(6);
+    expect(getStepMissionDef("mission-01-decouverte")?.subMissions.length).toBe(5);
   });
 
   it("résout la Mission 02 par slug", () => {
@@ -47,7 +47,7 @@ describe("mission-engine : résolveur de définition", () => {
 });
 
 describe("mission-engine : complétude des étapes", () => {
-  const step = ONBOARDING_MISSION.steps[0]; // Présentation (3 champs requis)
+  const step = ONBOARDING_MISSION.subMissions[0]; // Présentation (3 champs requis)
   it("0 quand vide", () => {
     expect(computeStepCompleteness(step, {})).toBe(0);
     expect(isStepComplete(step, {})).toBe(false);
@@ -65,9 +65,10 @@ describe("mission-engine : complétude des étapes", () => {
   });
 
   it("multi-select : rempli si tableau non vide", () => {
-    const step2 = ONBOARDING_MISSION.steps[1];
-    expect(computeStepCompleteness(step2, { domains: [], pourquoi: "x" })).toBeCloseTo(0.5);
-    expect(computeStepCompleteness(step2, { domains: ["web"], pourquoi: "x" })).toBe(1);
+    const step2 = ONBOARDING_MISSION.subMissions[1];
+    // clés de la sous-mission "domains" : "domains" et "pourquoi-domaines"
+    expect(computeStepCompleteness(step2, { domains: [], "pourquoi-domaines": "x" })).toBeCloseTo(0.5);
+    expect(computeStepCompleteness(step2, { domains: ["web"], "pourquoi-domaines": "x" })).toBe(1);
   });
 });
 
@@ -250,7 +251,7 @@ describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
 
   it("createDefaultAttemptData initialise les DYNAMIC_TABLE avec une ligne vide", () => {
     const data = createDefaultAttemptData(def);
-    const features = def.steps[4].fields.find((f) => f.type === "DYNAMIC_TABLE")!;
+    const features = (def.steps?.[4] ?? def.subMissions?.[4]).fields.find((f) => f.type === "DYNAMIC_TABLE")!;
     const rows = data[features.key] as Record<string, string>[];
     expect(Array.isArray(rows)).toBe(true);
     expect(rows.length).toBe(1);
