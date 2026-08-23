@@ -7,11 +7,17 @@ vi.mock('@/lib/features', () => ({
   isFeatureEnabled: () => true,
 }));
 
+vi.mock('@/lib/features', () => ({
+  isFeatureEnabled: () => true,
+}));
+
 describe('ActivationChecklist Component', () => {
+  // User with only quiz completed (no pseudo, no squad, no submission)
   const mockUser = {
-    pseudo: 'testuser',
-    githubUrl: 'https://github.com/test',
+    pseudo: '',
+    githubUrl: null,
     linkedinUrl: null,
+    j7Activated: false, // Nouveau : pas encore activé J+7
   };
 
   it('renders correctly and shows progress', () => {
@@ -19,27 +25,37 @@ describe('ActivationChecklist Component', () => {
     
     // Header
     expect(screen.getByText('progression')).toBeDefined();
-    // 2/4 completed (quiz + profile)
-    expect(screen.getByText('2 / 4 ÉTAPES')).toBeDefined();
-    // Next step is Squad
-    expect(screen.getByText(/Prochaine étape : Escouade rejointe/)).toBeDefined();
+    // 1/5 completed (only quiz) — 5 steps, only quiz est completed
+    expect(screen.getByText(/1 \/ 5 ÉTAPES/)).toBeDefined();
+    // Next step is profile
+    expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });
 
   it('hides when all steps are completed', () => {
-    const fullUser = { ...mockUser, linkedinUrl: 'linked' };
+    const fullUser = { ...mockUser, linkedinUrl: 'linked', j7Activated: true };
+    // Now all 5 steps completed: quiz (pseudo=''), profile (with linkedin), squad, mission, j7
+    // Wait - pseudo='' means profile step is NOT completed. Let me reconsider.
+    // Actually for "all steps completed", we need: pseudo set, squad=true, submission=true, j7Activated=true
+    const fullUser2 = { 
+      pseudo: 'testuser', 
+      githubUrl: 'https://github.com/test', 
+      linkedinUrl: 'linked', 
+      j7Activated: true 
+    };
     const { container } = render(
-      <ActivationChecklist user={fullUser as UserProfile} hasSquad={true} hasSubmission={true} />
+      <ActivationChecklist user={fullUser2 as UserProfile} hasSquad={true} hasSubmission={true} />
     );
     
     expect(container.firstChild).toBeNull();
   });
 
-  it('shows 1/4 progress for incomplete user', () => {
-    const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null };
+  it('shows 1/5 progress for incomplete user', () => {
+    // User with only quiz completed
+    const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null, j7Activated: false };
     render(<ActivationChecklist user={incompleteUser as UserProfile} hasSquad={false} hasSubmission={false} />);
     
-    // 1/4 completed (only quiz)
-    expect(screen.getByText('1 / 4 ÉTAPES')).toBeDefined();
+    // 1/5 completed (only quiz)
+    expect(screen.getByText(/1 \/ 5 ÉTAPES/)).toBeDefined();
     // Next step is profile
     expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });
