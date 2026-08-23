@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { z } from "zod";
-import { getStepMissionDef, isStepComplete, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
+import { getStepMissionDef, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { awardXp } from "@/lib/experience";
 import { safeAfter as after } from "@/lib/after";
@@ -77,19 +77,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       }
     }
 
-    // Vérifier que toutes les étapes requises sont complètes
-    const responses = await prisma.missionStepResponse.findMany({
-      where: { attemptId },
-    });
-    const responseByStepId = new Map(responses.map((r) => [r.stepId, r.data as Record<string, unknown>]));
-    const stepDefById = new Map(def.steps.map((s) => [s.key, s]));
-    const incomplete: string[] = [];
-    for (const step of steps) {
-      const stepDef = stepDefById.get(step.key);
-      if (!stepDef) continue;
-      const data = responseByStepId.get(step.id) ?? {};
-      if (!isStepComplete(stepDef, data)) incomplete.push(step.title);
-    }
+    // Récupérer les étapes selon le format de la mission (ancien ou nouveau)
+const missionDef = getStepMissionDef(id);
+if (!missionDef) return NextResponse.json({ error: "Mission sans workflow d'étapes" }, { status: 400 });
+
+// Utiliser le format nouveau (subMissions) ou ancien (steps), selon ce qui est disponible
+const missionSteps = missionDef.subMissions 
+  ? missionDef.subMissions
+  : missionDef.steps 
+    ? missionDef.steps 
+    : []; // Fallback: tableau vide si aucun format trouvé
+const stepDefById = new Map(missionSteps.map((s) => [s.key, s]));
 
     if (incomplete.length > 0) {
       return NextResponse.json(
@@ -106,7 +104,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       }),
       prisma.missionAttempt.update({
         where: { id: attemptId },
-        data: { status: "SUBMITTED", submittedAt: new Date(), currentStep: steps.length },
+        data: { status: "SUBMITTED", submittedAt: new Date(), currentStep: missionSteps.length },
       }),
     ]);
 

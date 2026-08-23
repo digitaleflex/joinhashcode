@@ -49,6 +49,15 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       completed: hasSubmission,
       href: "/missions",
       xp: 100
+    },
+    {
+      id: "j7-activation",
+      title: "Activation J+7",
+      description: "As-tu validé 3 des 5 sous-missions M01 dans les 7 jours ?",
+      icon: Target,
+      completed: user.j7Activated,
+      href: "/missions",
+      xp: 75
     }
   ]
 
