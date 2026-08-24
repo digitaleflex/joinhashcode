@@ -18,6 +18,8 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
+        # Install curl for email notifications
+        apk add --no-cache curl > /dev/null 2>&1
         # Install cron job
         echo "0 3 * * * /app/backup-db.sh >> /var/log/backup.log 2>&1" > /etc/crontabs/root
         echo "✅ Cron job installed — next backup at 03:00"
