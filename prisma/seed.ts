@@ -11,7 +11,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Bypass TLS cert validation for certain environments
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 
 const useSSL = process.env.DATABASE_URL?.includes("sslmode=require");
 

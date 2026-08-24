@@ -3,7 +3,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
-const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization"];
+const PROTECTED_PATHS = ["/admin", "/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization"];
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
