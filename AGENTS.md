@@ -21,7 +21,7 @@ npx vitest run __tests__/smoke.test.tsx
 
 ## Architecture
 
-HASHCODE is a Next.js 15 App Router app for AI-driven tech talent profiling and community matching — targeting African tech communities. Users complete an onboarding flow and psychometric quiz, get classified into one of four profiles (Builder, Creator, Strategist, Catalyst), then join a corresponding community (Guild).
+HASHCODE is a Next.js 16 App Router app for AI-driven tech talent profiling and community matching — targeting African tech communities. Users complete an onboarding flow and psychometric quiz, get classified into one of four profiles (Builder, Creator, Strategist, Catalyst), then join a corresponding community (Guild).
 
 ### Routing & Middleware
 
@@ -31,9 +31,9 @@ Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-st
 2. Session but no `currentSituation` → redirect to `/onboarding`
 3. Session but no `class` assigned → redirect to `/quiz`
 
-Protected routes (middleware matcher + `isProtectedPath`): `dashboard`, `missions`, `settings`, `squad`, `dossier`, `reviewer`, `feedback`, `onboarding`, `quiz`.
+Protected routes (middleware matcher + `isProtectedPath`): `admin`, `dashboard`, `missions`, `settings`, `squad`, `dossier`, `reviewer`, `feedback`, `onboarding`, `quiz`, `ateliers`, `specialization`.
 
-`/admin/*` is protected by `app/admin/layout.tsx` (requires role `ADMIN` or `MODERATOR`) — not in the middleware matcher by design since role-checking belongs in the layout.
+`/admin/*` is additionally guarded by `app/admin/layout.tsx` (requires role `ADMIN` or `MODERATOR`) for fine-grained role-based access control beyond the session check.
 
 `/invite/[slug]` is intentionally public — it handles its own auth state internally and redirects to `/signin?callbackURL=/invite/[slug]` when unauthenticated.
 
@@ -75,10 +75,13 @@ REST endpoints under `app/api/`:
 | Route                           | Method    | Auth            | Purpose                                                               |
 | ------------------------------- | --------- | --------------- | --------------------------------------------------------------------- |
 | `quiz/`                         | —         | —               | Quiz uses a Server Action at `app/actions/quiz.ts` (not an API route) |
+| `quiz/feedback/`                | POST      | session         | Submit quiz feedback                                                  |
 | `onboarding/`                   | PATCH     | session         | Save step 1 onboarding (situation, country, objective)                |
 | `onboarding/post-quiz/`         | PATCH     | session         | Save final onboarding step (dream, focus, blocker)                    |
 | `missions/`                     | GET       | session         | List available missions                                               |
 | `missions/[id]/`                | GET       | session         | Mission detail                                                        |
+| `missions/[id]/attempt/`        | GET/PUT   | session         | Get/update mission attempt status                                     |
+| `missions/[id]/attempt/submit/` | POST      | session         | Submit mission attempt with proof                                     |
 | `missions/[id]/review/`         | POST      | session         | Peer-review a submission (claim + submit review)                      |
 | `missions/[id]/claim/`          | POST      | session         | Claim a submission for peer review                                    |
 | `user/update/`                  | PATCH     | session         | Update profile fields                                                 |
@@ -87,19 +90,56 @@ REST endpoints under `app/api/`:
 | `user/notifications/`           | GET       | session         | Fetch notifications                                                   |
 | `user/avatar/`                  | POST      | session         | Update avatar                                                         |
 | `user/delete/`                  | DELETE    | session         | Delete account                                                        |
+| `user/deactivate/`              | POST      | session         | Soft-deactivate account                                               |
+| `user/reactivate/`              | POST      | session         | Reactivate deactivated account                                        |
+| `user/export/`                  | GET       | session         | Export user data (GDPR)                                               |
+| `user/check-pseudo/`            | GET       | session         | Check pseudo availability                                             |
+| `user/j7-activation/`           | POST      | session         | Track J7 activation milestone                                         |
+| `user/quiz-status/`             | GET       | session         | Check if user completed quiz                                          |
 | `squad/create/`                 | POST      | session         | Create a new squad (user becomes LEADER)                              |
 | `squad/join/`                   | POST      | session         | Join squad by slug                                                    |
 | `squad/update/`                 | PATCH     | session, LEADER | Update squad name and invite slug                                     |
+| `squad/leave/`                  | POST      | session         | Leave current squad                                                   |
+| `squad/members/`                | GET       | session         | List squad members                                                    |
+| `squad/message/`                | POST      | session         | Send message to squad                                                 |
+| `squad/invite/`                 | POST      | session, LEADER | Generate invite link                                                  |
+| `squad/join-request/`           | POST      | session         | Request to join a squad                                               |
+| `squad/join-request/respond/`   | POST      | session, LEADER | Accept/reject join request                                            |
+| `squad/public/`                 | GET       | —               | Public squad info                                                     |
 | `feed/`                         | GET       | session         | Activity feed                                                         |
 | `feedback/`                     | POST      | session         | Submit beta feedback                                                  |
 | `contact/`                      | POST      | —               | Contact form                                                          |
 | `status/`                       | GET       | —               | Health check                                                          |
+| `referral/`                     | POST      | session         | Referral tracking                                                     |
+| `reviewer/`                     | GET       | session         | Reviewer dashboard data                                               |
+| `specialization/`               | GET       | session         | Specialization data                                                   |
+| `og/`                           | GET       | —               | OpenGraph image generation                                            |
+| `log/client-error/`             | POST      | —               | Client-side error logging                                             |
+| `webhooks/resend/`              | POST      | —               | Resend email webhooks                                                 |
+| `ux-poll/`                      | GET/POST  | session         | UX poll responses                                                     |
+| `public/talent/`                | GET       | —               | Public talent profiles                                                |
 | `admin/submissions/`            | GET       | ADMIN/MOD       | List all submissions                                                  |
 | `admin/submissions/[id]/`       | PATCH     | ADMIN/MOD       | Approve / request revision / reject                                   |
+| `admin/missions/`               | GET/PATCH | ADMIN/MOD       | Manage missions                                                       |
+| `admin/missions/[id]/`          | GET/PATCH | ADMIN/MOD       | Manage single mission                                                 |
+| `admin/missions/attempts/`      | GET       | ADMIN/MOD       | List all mission attempts                                             |
+| `admin/missions/attempts/[attemptId]/` | GET/PATCH | ADMIN/MOD | Manage single attempt                                           |
+| `admin/users/`                  | GET       | ADMIN/MOD       | List all users                                                        |
+| `admin/users/[id]/export/`      | GET       | ADMIN/MOD       | Export single user data                                               |
+| `admin/users/export/`           | GET       | ADMIN/MOD       | Export all users data                                                 |
 | `admin/feedback/`               | GET/PATCH | ADMIN/MOD       | Manage beta feedback                                                  |
+| `admin/ux-poll/`                | GET       | ADMIN/MOD       | View UX poll results                                                  |
+| `admin/log/`                    | GET       | ADMIN/MOD       | View activity logs                                                    |
+| `admin/keys/`                   | GET/POST  | ADMIN/MOD       | Manage API keys                                                       |
+| `admin/keys/[id]/`              | DELETE    | ADMIN/MOD       | Delete API key                                                        |
+| `admin/squads/disband/`         | POST      | ADMIN/MOD       | Disband a squad                                                       |
+| `admin/squads/transfer/`        | POST      | ADMIN/MOD       | Transfer squad ownership                                              |
+| `admin/notifications/broadcast/`| POST      | ADMIN/MOD       | Broadcast notification to all users                                   |
 | `internal/cron/squad-decay/`    | POST      | internal        | Decay inactive squad cohesion scores                                  |
 | `internal/cron/release-claims/` | POST      | internal        | Release stale peer-review claims                                      |
 | `internal/cron/check-activity/` | POST      | internal        | Send daily reminder to inactive users                                 |
+| `internal/cron/onboarding-drip/`| POST      | internal        | Onboarding drip email sequence                                        |
+| `internal/cron/purge-data/`     | POST      | internal        | Purge stale data                                                      |
 
 ### Squad System
 
@@ -147,7 +187,37 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 | `components/dashboard/app-sidebar.tsx`   | Main nav — add new routes here                               |
 | `components/dashboard/squad-journey.tsx` | Gamified squad page                                          |
 | `components/ui/`                         | shadcn/ui base components                                    |
-| `next.config.mjs`                        | Build error suppression, unoptimized images                  |
+| `next.config.mjs`                        | Standalone output, CSP headers, image domains, redirects            |
+
+### Deployment
+
+The app runs in Docker on a VPS (Hostinger) with Traefik as reverse proxy.
+
+**Key deployment files:**
+
+| File | Purpose |
+| --- | --- |
+| `Dockerfile` | Multi-stage build: Prisma CLI + standalone Node.js server |
+| `compose.app.yml` | Production Docker Compose — single `web` service with Traefik labels |
+| `cluster.mjs` | Node.js cluster wrapper — forks `WEB_CONCURRENCY` workers (1–4), respawns on crash |
+| `deploy.sh` | Deploy script: `npm run build` → `docker compose up -d web --wait` |
+
+**Standalone output structure:**
+
+Next.js builds with `output: "standalone"` in `next.config.mjs`. The Dockerfile CMD runs `node /app/cluster.mjs`, which imports `.next/standalone/server.js`.
+
+Critical bind mounts in `compose.app.yml`:
+- `.next/standalone:/app/.next/standalone:ro` — server code
+- `.next/static:/app/.next/static:ro` — CSS/fonts (via symlink at `.next/standalone/.next/static → ../../static`)
+- `./public:/app/public:rw` — images, uploads
+- `./cluster.mjs:/app/cluster.mjs:ro` — cluster wrapper
+
+**Deploy command:**
+
+```bash
+./deploy.sh              # full build + deploy
+./deploy.sh --skip-build # restart only (no rebuild)
+```
 
 ### Security - VPS Hardening (June 2026)
 
@@ -188,6 +258,7 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 ### Verification
 
 - **Always run `npm run build` before any `git push`.** A successful build is the minimum bar — if it fails, fix it before pushing. This catches type errors, missing imports, and broken pages that lint and tests don't cover.
+- **Node 20+ required** — the host has Node 20.20.2 via nvm. Prisma 7's dev tooling fails with Node 18 ESM errors. Use `~/.nvm/versions/node/v20.20.2/bin/node` if `npx` picks up the wrong version.
 - Run `npm run lint` after any TypeScript changes.
 - Run `npm run test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
 - For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
