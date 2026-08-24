@@ -38,6 +38,13 @@ if [ "$SKIP_BUILD" = false ]; then
   echo "✅ Build complete"
 fi
 
+# ── 1b. Fix static symlink (build wipes it) ───────────────────
+STANDALONE_STATIC=".next/standalone/.next/static"
+if [ ! -L "$STANDALONE_STATIC" ]; then
+  echo "🔗 Recreating .next/standalone/.next/static symlink..."
+  ln -sfn ../../static "$STANDALONE_STATIC"
+fi
+
 # ── 2. Optionnel : rebuild image runtime ──────────────────────
 if [ "$REBUILD_IMAGE" = true ]; then
   echo "🐳 Rebuilding runtime Docker image..."
