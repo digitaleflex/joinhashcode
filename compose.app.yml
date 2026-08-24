@@ -19,7 +19,6 @@ services:
     image: ${HASHCODE_WEB_IMAGE:-hashcode-web:latest}
     container_name: hashcode-web
     restart: always
-    command: ["sh", "-c", "prisma migrate deploy 2>&1; node /app/cluster.mjs"]
     env_file:
       - /home/audest/hashcode-community/.env.production
     environment:

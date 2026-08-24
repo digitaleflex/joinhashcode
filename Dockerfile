@@ -14,6 +14,10 @@ RUN npm install prisma@7.8.0 --no-save --no-package-lock --global && \
 # Répertoires vides montés via bind au runtime
 RUN mkdir -p /app/.next/standalone /app/.next/static /app/prisma /app/generated
 
+# Entry point script (must be before USER nextjs for chmod)
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
 USER nextjs
 
 ENV NODE_ENV=production
@@ -21,4 +25,4 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "prisma migrate deploy 2>&1; node /app/.next/standalone/server.js"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

@@ -2,3 +2,4 @@
 !prisma
 !prisma.config.ts
 !Dockerfile
+!docker-entrypoint.sh
