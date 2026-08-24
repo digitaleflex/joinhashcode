@@ -205,7 +205,7 @@ async function main() {
       const existingKeys = new Set(existingSteps.map((s) => s.key));
       // Purger d'abord les étapes retirées de la déf (et leurs réponses),
       // sinon leurs stepOrder entrent en conflit avec la réassignation.
-      const defKeys = new Set(def.steps.map((s) => s.key));
+      const defKeys = new Set(def.subMissions.map((s) => s.key));
       const staleSteps = existingSteps.filter((s) => !defKeys.has(s.key));
       for (const stale of staleSteps) {
         await prisma.missionStepResponse.deleteMany({
@@ -217,7 +217,7 @@ async function main() {
         console.log(`  🗑 [${def.slug}] STEP supprimée (obsolète) — ${stale.key}`);
       }
       let order = 1;
-      for (const step of def.steps) {
+      for (const step of def.subMissions) {
         if (!existingKeys.has(step.key)) {
           await prisma.missionStep.create({
             data: {
@@ -247,7 +247,7 @@ async function main() {
         }
         order++;
       }
-      console.log(`  ✓ ${def.slug} syncée (${def.steps.length} étapes)`);
+      console.log(`  ✓ ${def.slug} syncée (${def.subMissions.length} étapes)`);
     }
   }
 

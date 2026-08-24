@@ -41,7 +41,7 @@ import {
 import { computeCriteriaScore } from "@/lib/criteria-score";
 import type {
   StepField,
-  MissionStepDef,
+  MissionSubDef,
 } from "@/lib/onboarding-mission";
 
 type StepStatus = "DRAFT" | "APPROVED" | "REVISION_REQUIRED";
@@ -697,7 +697,7 @@ function StepFields({
   data,
   onChange,
 }: {
-  step: MissionStepDef;
+  step: MissionSubDef;
   data: Record<string, unknown>;
   onChange: (key: string, value: unknown) => void;
 }) {

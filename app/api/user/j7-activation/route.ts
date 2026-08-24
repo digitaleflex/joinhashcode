@@ -19,7 +19,7 @@ export async function GET() {
     }
 
     // Compter les sous-missions M01 validées (status != PENDING)
-    const validatedSubmissions = await prisma.mission_submission.count({
+    const validatedSubmissions = await prisma.missionSubmission.count({
       where: {
         userId,
         missionId: 'cmstmwc0e0000x9g7rkc9le41', // mission-01-decouverte

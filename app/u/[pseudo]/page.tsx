@@ -105,6 +105,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     currentStreak: 0,
     lastCheckin: null,
     referralCount: 0,
+    j7Activated: false,
     missionSubmissions: [],
     activityLogs: [],
   };

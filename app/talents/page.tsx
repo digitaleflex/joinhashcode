@@ -69,6 +69,7 @@ export default async function TalentsPage() {
     catalystScore: dbSessionUser.catalystScore ?? 0,
     lastCheckin: dbSessionUser.lastCheckinAt ?? null,
     currentStreak: dbSessionUser.currentStreak ?? 0,
+    j7Activated: false,
   }
 
   const activeOrg = dbSessionUser.members[0]?.organization ?? null

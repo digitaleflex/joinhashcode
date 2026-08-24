@@ -139,6 +139,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
       catalystScore: dbUser.catalystScore ?? 0,
       lastCheckin: dbUser.lastCheckinAt ?? null,
     currentStreak: dbUser.currentStreak ?? 0,
+    j7Activated: false,
     missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,
   };

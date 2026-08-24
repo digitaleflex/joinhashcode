@@ -82,13 +82,17 @@ const missionDef = getStepMissionDef(id);
 if (!missionDef) return NextResponse.json({ error: "Mission sans workflow d'étapes" }, { status: 400 });
 
 // Utiliser le format nouveau (subMissions) ou ancien (steps), selon ce qui est disponible
-const missionSteps = missionDef.subMissions 
-  ? missionDef.subMissions
-  : missionDef.steps 
-    ? missionDef.steps 
-    : []; // Fallback: tableau vide si aucun format trouvé
+const missionSteps = missionDef.subMissions ?? [];
 const stepDefById = new Map(missionSteps.map((s) => [s.key, s]));
 
+    // TODO: define incomplete — should check which missionSteps have no valid stepResponse
+    const incomplete = missionSteps.filter((s) => {
+      const response = attempt?.stepResponses.find((r) => {
+        const step = steps.find((st) => st.key === s.key);
+        return step && r.stepId === step.id;
+      });
+      return !response;
+    });
     if (incomplete.length > 0) {
       return NextResponse.json(
         { error: "Étapes incomplètes", incomplete },

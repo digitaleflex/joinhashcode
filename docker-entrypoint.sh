@@ -10,9 +10,12 @@ if [ ! -L "$STATIC_LINK" ]; then
   ln -sfn ../../static "$STATIC_LINK"
 fi
 
-# Run Prisma migrations + start the app
+# Run Prisma migrations — fail hard if migration fails
 echo "📦 Running Prisma migrations..."
-prisma migrate deploy 2>&1
+if ! prisma migrate deploy 2>&1; then
+  echo "❌ Prisma migration failed — aborting startup"
+  exit 1
+fi
 
 echo "🚀 Starting server..."
 exec node /app/cluster.mjs

@@ -59,7 +59,6 @@ export async function GET() {
       j7Activated, // ← ajouté ici
       tools: user.tools,
       domains: user.domains,
-      domains: user.domains,
       primaryDomain: user.primaryDomain,
       subDomain: user.subDomain,
       learningTools: user.learningTools,

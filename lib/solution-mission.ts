@@ -39,7 +39,7 @@ export const SOLUTION_MISSION: OnboardingMissionDef = {
     good: "Dossier complet avec un prototype testé par 3+ utilisateurs et une itération V2 cohérente avec les retours.",
     exemplary: "Raisonnement fondé sur des preuves, hypothèses explicites, analyse honnête des échecs, itération clairement justifiée.",
   },
-  steps: [
+  subMissions: [
     {
       key: "reformuler",
       title: "Reformuler le problème",

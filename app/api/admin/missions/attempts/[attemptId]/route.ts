@@ -44,7 +44,7 @@ export const GET = withAdminAuth(async (req) => {
     const responseByStepId = new Map(attempt.stepResponses.map((r) => [r.stepId, r]));
     const stepResponses = steps.map((step) => {
       const response = responseByStepId.get(step.id);
-      const stepDef = def?.steps.find((d) => d.key === step.key);
+      const stepDef = def?.subMissions.find((d) => d.key === step.key);
       return {
         stepId: step.id,
         stepOrder: step.stepOrder,

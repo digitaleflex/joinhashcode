@@ -1,0 +1,46 @@
+# ────────────────────────────────────────────────────────────────
+# compose.db-backup.yml — Automated PostgreSQL backup sidecar
+#
+# Lancement:
+#   docker compose -f compose.db-backup.yml up -d
+#
+# Le conteneur tourne Alpine + crond, execute backup-db.sh tous les jours à 03:00.
+# Les backups sont stockées dans le volume nommé `hashcode-db-backups`.
+# ────────────────────────────────────────────────────────────────
+
+services:
+  db-backup:
+    image: postgres:17-alpine
+    container_name: hashcode-db-backup
+    restart: always
+    env_file:
+      - /home/audest/hashcode-community/.env.production
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        # Install cron job
+        echo "0 3 * * * /app/backup-db.sh >> /var/log/backup.log 2>&1" > /etc/crontabs/root
+        echo "✅ Cron job installed — next backup at 03:00"
+        # Run once now, then start crond in foreground
+        /app/backup-db.sh
+        exec crond -f -l 2
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      PGPASSWORD: $DB_PASSWORD
+    volumes:
+      - ./scripts/backup-db.sh:/app/backup-db.sh:ro
+      - db-backups:/backups
+    networks:
+      - db-network
+
+volumes:
+  db-backups:
+    name: hashcode-db-backups
+
+networks:
+  db-network:
+    external: true
+    name: hashcode-db-network

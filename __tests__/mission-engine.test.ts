@@ -21,13 +21,13 @@ describe("mission-engine : résolveur de définition", () => {
 
   it("résout la Mission 02 par slug", () => {
     expect(getStepMissionDef("mission-02-de-l-idee-au-projet")).not.toBeNull();
-    expect(getStepMissionDef("mission-02-de-l-idee-au-projet")?.steps.length).toBe(10);
+    expect(getStepMissionDef("mission-02-de-l-idee-au-projet")?.subMissions.length).toBe(10);
     expect(PROJECT_MISSION.scoringGrid.reduce((s, c) => s + c.max, 0)).toBe(50);
   });
 
   it("résout la Mission 03 par slug", () => {
     expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")).not.toBeNull();
-    expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")?.steps.length).toBe(12);
+    expect(getStepMissionDef("mission-03-du-probleme-a-la-solution")?.subMissions.length).toBe(12);
     expect(SOLUTION_MISSION.scoringGrid.reduce((s, c) => s + c.max, 0)).toBe(50);
     expect(SOLUTION_MISSION.scoringGrid.length).toBe(10);
     expect(SOLUTION_MISSION.requirements[0]).toBe("Recommandé après la Mission 02");
@@ -113,7 +113,7 @@ describe("mission-engine : scoring global", () => {
   });
 
   it("computeCriteriaScore additionne les notes /50", () => {
-    const field = PROJECT_MISSION.steps[3].fields.find((f) => f.type === "SCORED_CRITERIA")!;
+    const field = PROJECT_MISSION.subMissions[3].fields.find((f) => f.type === "SCORED_CRITERIA")!;
     const value = {
       douleur: { score: 8, justification: "x" },
       urgence: { score: 7, justification: "x" },
@@ -134,21 +134,21 @@ describe("mission-engine : complétude des champs complexes Mission 02", () => {
   );
 
   it("validation du problème : complète si tous les critères notés et justifiés", () => {
-    const step = def.steps[3];
+    const step = def.subMissions[3];
     expect(computeStepCompleteness(step, { criteria: {} })).toBe(0);
     expect(computeStepCompleteness(step, { criteria: completeCriteria })).toBe(1);
     expect(isStepComplete(step, { criteria: completeCriteria })).toBe(true);
   });
 
   it("validation du problème : incomplète si un critère manque", () => {
-    const step = def.steps[3];
+    const step = def.subMissions[3];
     const partial = { ...completeCriteria };
     delete partial["douleur"];
     expect(computeStepCompleteness(step, { criteria: partial })).toBe(0);
   });
 
   it("marché : au moins 3 solutions nommées", () => {
-    const step = def.steps[4];
+    const step = def.subMissions[4];
     expect(computeStepCompleteness(step, {})).toBe(0);
     const two = Array.from({ length: 2 }, () => ({ nom: "x", type: "Alternative", public: "", forces: "", faiblesses: "" }));
     const three = [...two, { nom: "y", type: "Concurrent direct", public: "", forces: "", faiblesses: "" }];
@@ -160,13 +160,13 @@ describe("mission-engine : complétude des champs complexes Mission 02", () => {
   });
 
   it("Eisenhower : complète avec au moins une action", () => {
-    const step = def.steps[6];
+    const step = def.subMissions[6];
     const quadrants = { "important-urgent": ["Valider le besoin"], "important-non-urgent": [], "non-important-urgent": [], "non-important-non-urgent": [] };
     expect(computeStepCompleteness(step, { quadrants, actionPrincipale: "Valider le besoin car..." })).toBe(1);
   });
 
   it("roadmap : 6 mois avec objectif rempli", () => {
-    const step = def.steps[7];
+    const step = def.subMissions[7];
     const months = Array.from({ length: 6 }, (_, i) => ({ mois: `Mois ${i + 1}`, objectif: `objectif ${i}`, resultat: "" }));
     const partial = months.map((m, i) => (i === 5 ? { ...m, objectif: "" } : m));
     expect(computeStepCompleteness(step, { months: partial })).toBe(0);
@@ -174,14 +174,14 @@ describe("mission-engine : complétude des champs complexes Mission 02", () => {
   });
 
   it("risques : au moins 5 risques", () => {
-    const step = def.steps[8];
+    const step = def.subMissions[8];
     const risks = Array.from({ length: 5 }, () => ({ nom: "risque", probabilite: 3, impact: 4, attenuation: "mitigation" }));
     expect(computeStepCompleteness(step, { risks: risks.slice(0, 4) })).toBe(0);
     expect(computeStepCompleteness(step, { risks })).toBe(1);
   });
 
   it("objectifs SMART : 3 objectifs avec objectif+indicateur+date", () => {
-    const step = def.steps[5];
+    const step = def.subMissions[5];
     const goal = (type: string) => ({ type, objectif: "obj", indicateur: "ind", date: "2026-12-31" });
     const goals = [goal("Projet"), goal("Personnel"), goal("Apprentissage")];
     expect(computeStepCompleteness(step, { goals: goals.slice(0, 2) })).toBe(0);
@@ -189,7 +189,7 @@ describe("mission-engine : complétude des champs complexes Mission 02", () => {
   });
 
   it("auto-évaluation : complète quand tous les champs de synthèse sont remplis", () => {
-    const step = def.steps[9];
+    const step = def.subMissions[9];
     expect(computeStepCompleteness(step, {})).toBe(0);
     const vision = "x".repeat(40), preuves = "x".repeat(30), test = "x".repeat(40), synthese = "x".repeat(40);
     const base = { vision, preuves, test_realite: test, synthese };
@@ -204,7 +204,7 @@ describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
   const def = SOLUTION_MISSION;
 
   it("reformuler le problème : complet avec les 4 champs + checklist", () => {
-    const step = def.steps[0];
+    const step = def.subMissions[0];
     const data = {
       probleme: "x".repeat(40),
       public: "étudiants",
@@ -218,7 +218,7 @@ describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
   });
 
   it("DYNAMIC_TABLE : fonctionnalités complètes avec >= minItems lignes remplies", () => {
-    const step = def.steps[4];
+    const step = def.subMissions[4];
     const fields = step.fields;
     const features = fields.find((f) => f.type === "DYNAMIC_TABLE")!;
     expect(features.columns?.length).toBe(4);
@@ -235,7 +235,7 @@ describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
   });
 
   it("DYNAMIC_TABLE : ne compte pas les lignes vides", () => {
-    const step = def.steps[7]; // tests utilisateurs, minItems 3
+    const step = def.subMissions[7]; // tests utilisateurs, minItems 3
     const fields = step.fields;
     const testeurs = fields.find((f) => f.type === "DYNAMIC_TABLE")!;
     const base = {
@@ -251,7 +251,7 @@ describe("mission-engine : Mission 03 (Du Problème à la Solution)", () => {
 
   it("createDefaultAttemptData initialise les DYNAMIC_TABLE avec une ligne vide", () => {
     const data = createDefaultAttemptData(def);
-    const features = (def.steps?.[4] ?? def.subMissions?.[4]).fields.find((f) => f.type === "DYNAMIC_TABLE")!;
+    const features = def.subMissions[4].fields.find((f) => f.type === "DYNAMIC_TABLE")!;
     const rows = data[features.key] as Record<string, string>[];
     expect(Array.isArray(rows)).toBe(true);
     expect(rows.length).toBe(1);

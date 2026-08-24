@@ -5,7 +5,7 @@ import { prisma } from "./prisma";
 import { logActivity } from "./activity-log";
 import { triggerNotification } from "./qstash";
 import { ONBOARDING_MISSION } from "./onboarding-mission";
-import type { OnboardingMissionDef, MissionStepDef, StepField } from "./onboarding-mission";
+import type { OnboardingMissionDef, MissionSubDef, StepField } from "./onboarding-mission";
 import { PROJECT_MISSION } from "./project-mission";
 import { SOLUTION_MISSION } from "./solution-mission";
 import type { Prisma } from "@/generated/prisma/client";
@@ -42,7 +42,7 @@ export function isStepMission(slug: string | null | undefined): boolean {
 // ── Progression ─────────────────────────────────────────────────────────────
 
 export function computeStepCompleteness(
-  step: MissionStepDef,
+  step: MissionSubDef,
   data: Record<string, unknown>
 ): number {
   if (!step.fields || step.fields.length === 0) return data && Object.keys(data).length > 0 ? 1 : 0;
@@ -58,7 +58,7 @@ export function computeStepCompleteness(
 }
 
 export function isStepComplete(
-  step: MissionStepDef,
+  step: MissionSubDef,
   data: Record<string, unknown>
 ): boolean {
   return computeStepCompleteness(step, data) >= 1;
@@ -150,7 +150,7 @@ export function computeScorePercent(total: number, maxTotal: number): number {
 
 export function createDefaultAttemptData(def: OnboardingMissionDef): Record<string, unknown> {
   const data: Record<string, unknown> = {};
-  const steps = def.subMissions ?? def.steps ?? [];
+  const steps = def.subMissions ?? [];
   for (const step of steps) {
     for (const field of step.fields) {
       if (field.type === "MULTI_SELECT" || field.type === "SKILLS") {

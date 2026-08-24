@@ -20,7 +20,7 @@ export async function generateProfileV1(opts: {
 
   const dataByStepKey: Record<string, Record<string, unknown>> = {};
   for (const r of responses) {
-    const stepDef = def.steps.find((s) => s.key === r.step.key);
+    const stepDef = def.subMissions.find((s) => s.key === r.step.key);
     if (stepDef) dataByStepKey[r.step.key] = (r.data as Record<string, unknown>) ?? {};
   }
 

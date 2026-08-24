@@ -51,7 +51,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         category: def.category,
         missionLevel: def.missionLevel,
         xpReward: def.xpReward,
-        steps: def.steps.map((s, i) => ({
+        steps: def.subMissions.map((s, i) => ({
           key: s.key,
           title: s.title,
           shortTitle: s.shortTitle,
@@ -68,7 +68,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     }
 
     const responseByStep = new Map(attempt.stepResponses.map((r) => [r.stepId, r]));
-    const stepDefById = new Map(steps.map((s) => [s.id, def.steps.find((d) => d.key === s.key)]));
+    const stepDefById = new Map(steps.map((s) => [s.id, def.subMissions.find((d) => d.key === s.key)]));
 
     // ── Pré-remplissage (endowed progress) ──────────────────────────────
     // Pour la mission d'onboarding : matérialiser les données déjà collectées
@@ -231,7 +231,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       return NextResponse.json({ error: "Soumission déjà envoyée — modification impossible" }, { status: 409 });
     }
 
-    const stepDef = def.steps.find((d) => d.key === parsed.data.stepKey);
+    const stepDef = def.subMissions.find((d) => d.key === parsed.data.stepKey);
     const data = parsed.data.data;
     const completeness = stepDef ? computeStepCompleteness(stepDef, data as Record<string, unknown>) : 0;
 

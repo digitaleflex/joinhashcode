@@ -80,7 +80,7 @@ export interface MissionSubDef {
   /** Score max pour la review de cette sous-mission (défaut 0 = noté dans grid global). */
   scoreMax?: number
   /** Si true, cette sous-mission peut être soumise indépendamment des autres. */
-  independent: boolean
+  independent?: boolean
 }
 
 export interface OnboardingMissionDef {
@@ -103,9 +103,9 @@ export interface OnboardingMissionDef {
   /** Sous-missions M01 — chaque élément peut être soumis indépendamment. */
   subMissions: MissionSubDef[]
   /** Nombre minimum de sous-missions à valider pour considérer M01 "complet" (seuil J+7). */
-  minSubmissionsForCompletion: number
+  minSubmissionsForCompletion?: number
   /** Si true, l'utilisateur peut soumettre la même sous-mission plusieurs fois. */
-  allowRereview: boolean
+  allowRereview?: boolean
   /** Grille de scoring globale (/25). */
   scoringGrid: { key: string; label: string; max: number }[]
 }

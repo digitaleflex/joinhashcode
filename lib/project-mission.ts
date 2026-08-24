@@ -34,7 +34,7 @@ export const PROJECT_MISSION: OnboardingMissionDef = {
     good: "Dossier complet avec un problème précis, des hypothèses explicites et une roadmap cohérente.",
     exemplary: "Raisonnement fondé sur des preuves, différenciation claire, objectifs mesurables, présentation soignée.",
   },
-  steps: [
+  subMissions: [
     {
       key: "ambition",
       title: "Mon ambition",
