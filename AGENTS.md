@@ -218,11 +218,14 @@ Critical bind mounts in `compose.app.yml`:
 **Deploy command:**
 
 ```bash
-./deploy.sh              # full build + deploy
+./deploy.sh              # full build + deploy (mode legacy bind-mount)
 ./deploy.sh --skip-build # restart only (no rebuild)
+./deploy.sh --image      # pull image GHCR + recreate — AUCUN build sur le VPS
 ```
 
-> **Golden rule:** on the VPS, never leave a bare `npm run build` un-deployed. A build wipes `.next/` (new inodes) while the running container stays pinned to the OLD bind-mount inodes → CSS/JS 404 until the container is recreated. `./deploy.sh` always ends with `--force-recreate` plus a CSS asset smoke test; use it for every deploy.
+> **Mode recommandé : `--image`.** GitHub Actions construit l'image (`Dockerfile.prod`) à chaque push sur `main` et la publie sur `ghcr.io/digitaleflex/joinhashcode`. Le VPS ne fait que pull + recreate (~30s, charge quasi nulle). Rollback : `IMAGE_TAG=<sha> ./deploy.sh --image`.
+>
+> **Golden rule:** on the VPS, never leave a bare `npm run build` un-deployed. A build wipes `.next/` (new inodes) while the running container stays pinned to the OLD bind-mount inodes → CSS/JS 404 until the container is recreated. Use `./deploy.sh --image` or `./deploy.sh`, never a bare build.
 
 ### Security - VPS Hardening (June 2026)
 
