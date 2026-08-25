@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Users, UserPlus, UserMinus, Crown, Loader2, X } from "lucide-react"
+import { Users, UserPlus, UserMinus, Crown, Loader2, X, ShieldCheck } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -39,6 +39,30 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
   const [kickingId, setKickingId] = useState<string | null>(null)
   const [transferTargetId, setTransferTargetId] = useState<string | null>(null)
   const [isTransferring, setIsTransferring] = useState(false)
+  const [promotingUserId, setPromotingUserId] = useState<string | null>(null)
+
+  const toggleCoLeader = async (targetUserId: string, currentRole: string) => {
+    setPromotingUserId(targetUserId)
+    try {
+      const res = await fetch("/api/squad/promote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          organizationId: squad.id,
+          targetUserId,
+          role: currentRole === "admin" ? "member" : "admin",
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || "Erreur lors de la promotion.")
+      toast.success(currentRole === "admin" ? "Membre rétrogradé." : "Co-leader nommé — il peut gérer invitations et demandes.")
+      router.refresh()
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Erreur lors de la promotion.")
+    } finally {
+      setPromotingUserId(null)
+    }
+  }
 
   const kickMember = async (memberId: string) => {
     setKickingId(memberId)
@@ -111,6 +135,11 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                       </span>
                     )}
                     {isOwner && !isSelf && <Crown className="size-3 text-amber-400 shrink-0" />}
+                    {!isOwner && member.role === "admin" && (
+                      <span title="Co-leader" className="inline-flex">
+                        <ShieldCheck className="size-3 text-sky-400 shrink-0" />
+                      </span>
+                    )}
                   </div>
                   <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight">
                     LVL {member.user?.level ?? 1} · {isOwner ? "Chef" : member.role === "admin" ? "Admin" : "Membre"}
@@ -118,9 +147,19 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                {canActOn && (
-                  <>
-                    {transferTargetId === member.id ? (
+                    {canActOn && (
+                      <>
+                        <button
+                          onClick={() => toggleCoLeader(member.user?.id ?? "", member.role)}
+                          disabled={promotingUserId === member.user?.id}
+                          title={member.role === "admin" ? "Rétrograder en membre" : "Nommer co-leader"}
+                          className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-zinc-600 hover:text-sky-400 hover:bg-sky-500/10 transition-all"
+                        >
+                          {promotingUserId === member.user?.id
+                            ? <Loader2 className="size-3.5 animate-spin" />
+                            : <ShieldCheck className={cn("size-3.5", member.role === "admin" && "text-sky-400 fill-current")} />}
+                        </button>
+                        {transferTargetId === member.id ? (
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => transferOwnership(member.id)}

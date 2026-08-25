@@ -50,6 +50,7 @@ export interface SquadData {
   discordInviteUrl?: string | null
   cohesionScore?: number | null
   streakCount?: number | null
+  streakFreezes?: number | null
   members?: SquadMemberData[]
 }
 
@@ -371,6 +372,23 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                     </div>
                     <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">streak consécutif</div>
                   </div>
+                  {(() => {
+                    const freezes = squad?.streakFreezes ?? 0
+                    return (
+                      <div
+                        className={cn(
+                          "ml-auto flex flex-col items-center gap-1 px-3 py-2 rounded-2xl border",
+                          freezes > 0 ? "bg-sky-500/10 border-sky-500/30 text-sky-300" : "bg-white/2 border-white/5 text-zinc-700"
+                        )}
+                        title={freezes > 0 ? "Bouclier actif : votre série est protégée en cas de jour manqué" : "Bouclier utilisé — il se recharge dans la semaine"}
+                      >
+                        <ShieldCheck className="size-5" />
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-wider">
+                          {freezes > 0 ? `×${freezes}` : "utilisé"}
+                        </span>
+                      </div>
+                    )
+                  })()}
                 </div>
 
                 {/* Roster */}
