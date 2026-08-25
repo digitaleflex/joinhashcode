@@ -207,10 +207,11 @@ The app runs in Docker on a VPS (Hostinger) with Traefik as reverse proxy.
 Next.js builds with `output: "standalone"` in `next.config.mjs`. The Dockerfile CMD runs `node /app/cluster.mjs`, which imports `.next/standalone/server.js`.
 
 Critical bind mounts in `compose.app.yml`:
-- `.next/standalone:/app/.next/standalone:ro` — server code
-- `.next/static:/app/.next/static:ro` — CSS/fonts (via symlink at `.next/standalone/.next/static → ../../static`)
-- `./public:/app/public:rw` — images, uploads
-- `./cluster.mjs:/app/cluster.mjs:ro` — cluster wrapper
+- `.next/standalone:/app/.next/standalone` — server code
+- `.next/static:/app/.next/standalone/.next/static:ro` — CSS/fonts, mounted directly inside the standalone tree (no symlink)
+- `./public:/app/public:rw` + `uploads_data:/app/public/uploads` — write path for uploads
+- `./public:/app/.next/standalone/public:ro` + `uploads_data:/app/.next/standalone/public/uploads` — serving path for public files
+- `./cluster.mjs:/app/cluster.mjs:ro` and `./docker-entrypoint.sh:/app/docker-entrypoint.sh:ro` — mounted scripts, edits apply without image rebuild
 
 **Deploy command:**
 
@@ -218,6 +219,8 @@ Critical bind mounts in `compose.app.yml`:
 ./deploy.sh              # full build + deploy
 ./deploy.sh --skip-build # restart only (no rebuild)
 ```
+
+> **Golden rule:** on the VPS, never leave a bare `npm run build` un-deployed. A build wipes `.next/` (new inodes) while the running container stays pinned to the OLD bind-mount inodes → CSS/JS 404 until the container is recreated. `./deploy.sh` always ends with `--force-recreate` plus a CSS asset smoke test; use it for every deploy.
 
 ### Security - VPS Hardening (June 2026)
 

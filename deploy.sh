@@ -38,12 +38,10 @@ if [ "$SKIP_BUILD" = false ]; then
   echo "✅ Build complete"
 fi
 
-# ── 1b. Fix static symlink (build wipes it) ───────────────────
-STANDALONE_STATIC=".next/standalone/.next/static"
-if [ ! -L "$STANDALONE_STATIC" ]; then
-  echo "🔗 Recreating .next/standalone/.next/static symlink..."
-  ln -sfn ../../static "$STANDALONE_STATIC"
-fi
+# ── 1b. Cleanup anciens symlinks (remplacés par des mounts compose ─
+#      directs : standalone/.next/static et standalone/public)
+echo "🧹 Removing legacy standalone symlinks..."
+rm -f .next/standalone/.next/static .next/standalone/public
 
 # ── 2. Optionnel : rebuild image runtime ──────────────────────
 if [ "$REBUILD_IMAGE" = true ]; then
@@ -53,6 +51,24 @@ fi
 
 # ── 3. Restart container (rapide — pas de rebuild image) ──────
 echo "🔄 Restarting web container..."
-docker compose -f "$COMPOSE_FILE" $ENV_FILE up -d web --wait --no-build
+# --force-recreate est requis : le code est bind-mounté (.next/standalone),
+# donc compose ne détecte aucun changement et ne redémarrerait jamais le process.
+docker compose -f "$COMPOSE_FILE" $ENV_FILE up -d web --wait --no-build --force-recreate
+
+# ── 4. Vérification assets CSS/JS (garde-fou anti-404) ────────
+# Le healthcheck /api/status ne détecte pas les assets cassés.
+echo "🎨 Verifying static assets..."
+CSS_PATH=$(docker exec hashcode-web sh -c \
+  'wget -qO- http://127.0.0.1:3000/ | grep -o "/_next/static/[^\"]*\.css" | head -n1') || true
+if [ -z "$CSS_PATH" ]; then
+  echo "❌ No CSS asset reference found in homepage HTML"
+  docker logs hashcode-web --tail 30 || true
+  exit 1
+fi
+if ! docker exec hashcode-web wget -q -O /dev/null "http://127.0.0.1:3000${CSS_PATH}"; then
+  echo "❌ Static asset ${CSS_PATH} → HTTP error (404?) — deploy KO"
+  exit 1
+fi
+echo "✅ Static assets OK (${CSS_PATH} → 200)"
 
 echo "✅ Deploy complete — https://joinhashcode.com"

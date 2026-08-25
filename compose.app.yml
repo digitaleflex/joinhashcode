@@ -41,13 +41,24 @@ services:
       - uploads_data:/app/public/uploads
       # Bind mounts — le build host est monté dans le conteneur
       # Pas besoin de rebuild l'image Docker à chaque déploiement
-      - ./.next/standalone:/app/.next/standalone:ro
-      # Cache instable_cache — sous-montage dédié en écriture (le parent est en :ro)
+      #
+      # ⚠️ Un `npm run build` efface .next/ (nouveaux inodes) : le conteneur
+      # qui tourne reste épinglé sur les anciens inodes jusqu'à sa
+      # recréation. Toujours déployer via ./deploy.sh (force-recreate).
+      - ./.next/standalone:/app/.next/standalone
+      # Cache instable_cache — sous-montage dédié en écriture
       - ./.next/standalone/.next/cache:/app/.next/standalone/.next/cache
-      # standalone/.next/static est un symlink hôte → ../../static (résolu vers .next/static)
-      - ./.next/static:/app/.next/static:ro
+      # Assets statiques (CSS/JS/fonts) servis par server.js standalone.
+      # Mount direct dans l'arbre standalone : plus aucun symlink à maintenir.
+      - ./.next/static:/app/.next/standalone/.next/static:ro
+      # Dossier public vu par le serveur standalone (favicon, images…)
+      - ./public:/app/.next/standalone/public:ro
+      # Uploads servis par le standalone — même volume que /app/public/uploads
+      - uploads_data:/app/.next/standalone/public/uploads
       # Wrapper multi-process (cluster Node) — même code que server.js
       - ./cluster.mjs:/app/cluster.mjs:ro
+      # Entrypoint monté : les modifs s'appliquent sans rebuild d'image
+      - ./docker-entrypoint.sh:/app/docker-entrypoint.sh:ro
       - ./prisma:/app/prisma:ro
       - ./prisma.config.ts:/app/prisma.config.ts:ro
       - ./generated:/app/generated:ro

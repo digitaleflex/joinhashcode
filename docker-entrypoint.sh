@@ -2,11 +2,13 @@
 set -e
 
 # Fix: Next.js standalone build doesn't include static files.
-# The symlink .next/standalone/.next/static → ../../static is needed
-# to serve CSS/JS/fonts. Bind mounts or rebuilds can wipe it.
+# compose.app.yml mounts .next/static directly at
+# /app/.next/standalone/.next/static. Only fall back to the legacy
+# symlink when running the image without that mount.
+# NB: never rm -rf the path — if it is a mountpoint, unlink fails
+# (EBUSY) and with set -e the container would crash-loop.
 STATIC_LINK="/app/.next/standalone/.next/static"
-if [ ! -L "$STATIC_LINK" ]; then
-  echo "🔗 Recreating static symlink..."
+if [ ! -d "$STATIC_LINK" ]; then
   ln -sfn ../../static "$STATIC_LINK"
 fi
 

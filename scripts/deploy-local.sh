@@ -31,9 +31,8 @@ source "$ENV_FILE"
 set +a
 pnpm run build
 
-echo "=== 4/6 symlinks standalone ==="
-ln -sfn ../../static .next/standalone/.next/static
-ln -sfn ../../public .next/standalone/public
+echo "=== 4/6 cleanup legacy symlinks (assets via mounts compose) ==="
+rm -f .next/standalone/.next/static .next/standalone/public
 
 echo "=== 4.5/6 cache dir standalone ==="
 mkdir -p .next/standalone/.next/cache
