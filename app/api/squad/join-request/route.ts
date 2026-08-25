@@ -13,9 +13,9 @@ export async function GET(req: NextRequest) {
     const organizationId = searchParams.get("organizationId");
     if (!organizationId) return NextResponse.json({ error: "organizationId requis" }, { status: 400 });
 
-    // Vérifier que l'utilisateur est leader de cette org
+    // Vérifier que l'utilisateur est leader ou co-leader (admin) de cette org
     const member = await prisma.member.findFirst({
-      where: { userId: session.user.id, organizationId, role: "LEADER" },
+      where: { userId: session.user.id, organizationId, role: { in: ["owner", "admin"] } },
     });
     if (!member) return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
 
