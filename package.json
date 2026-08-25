@@ -115,5 +115,13 @@
     "typescript": "5.7.3",
     "vitest": "^3.2.6"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "overrides": {
+    "deepmerge-ts": "^8.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "deepmerge-ts": "^8.0.0"
+    }
+  }
 }
