@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { TOUR_NAMES, type TourName } from "./tour-config"
 import { useNextStepSafe } from "./use-next-step-safe"
 
@@ -35,9 +36,15 @@ export function resetAllTours(userId: string): void {
 
 export function useTourTrigger(userId: string) {
   const { startNextStep } = useNextStepSafe()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (!userId) return
+
+    // TourProvider est monté sur plusieurs pages (dashboard, missions, squad,
+    // dossier). Le tour dashboard ne référence que des sélecteurs du dashboard
+    // → ne le déclencher automatiquement que sur /dashboard.
+    if (pathname !== "/dashboard") return
 
     // Si le WelcomeModal n'a pas encore été vu, ne pas déclencher le tour.
     // Le WelcomeModal lancera le tour après sa fermeture.
@@ -55,7 +62,7 @@ export function useTourTrigger(userId: string) {
       }, 800)
       return () => clearTimeout(timer)
     }
-  }, [userId, startNextStep])
+  }, [userId, startNextStep, pathname])
 
   return {
     startTour: (tourName: TourName) => {
