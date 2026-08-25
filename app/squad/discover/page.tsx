@@ -3,8 +3,7 @@ import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Compass, Users, ArrowLeft, ShieldCheck, Zap, UserPlus } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Compass, Users, ArrowLeft, ShieldCheck, Zap, UserPlus, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { JoinSquadButton } from "@/components/squad/join-squad-button";
 
@@ -30,12 +29,6 @@ export default async function DiscoverSquadsPage() {
         requiredLevel: true,
         createdAt: true,
         _count: { select: { members: true } },
-        members: {
-          select: {
-            id: true,
-            user: { select: { id: true, name: true, image: true } },
-          },
-        },
       },
       orderBy: [{ cohesionScore: "desc" }, { createdAt: "desc" }],
       take: 30,
@@ -133,16 +126,16 @@ export default async function DiscoverSquadsPage() {
                   </p>
                 )}
 
-                {/* Member avatars */}
-                {squad.members.length > 0 && (
+                {/* Members — anonymisés (privacité : pas de noms/avatars) */}
+                {squad._count.members > 0 && (
                   <div className="flex -space-x-2">
-                    {squad.members.slice(0, 5).map((m) => (
-                      <Avatar key={m.id} className="size-6 border-2 border-zinc-950">
-                        <AvatarImage src={m.user.image ?? undefined} />
-                        <AvatarFallback className="text-[8px] bg-zinc-800">
-                          {m.user.name?.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
+                    {Array.from({ length: squad._count.members }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="size-6 rounded-full bg-zinc-900 border-2 border-zinc-950 flex items-center justify-center"
+                      >
+                        <User className="size-3 text-zinc-600" />
+                      </div>
                     ))}
                   </div>
                 )}
