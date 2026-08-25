@@ -62,7 +62,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (stepKey && body.success) {
       const step = steps.find((s) => s.key === stepKey);
       if (step) {
-        const existing = attempt?.stepResponses.find((r) => r.stepId === step.id);
         await prisma.missionStepResponse.upsert({
           where: { attemptId_stepId: { attemptId, stepId: step.id } },
           update: { data: body.data.data as object, status: "DRAFT" },
@@ -77,25 +76,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       }
     }
 
-    // Récupérer les étapes selon le format de la mission (ancien ou nouveau)
-const missionDef = getStepMissionDef(id);
-if (!missionDef) return NextResponse.json({ error: "Mission sans workflow d'étapes" }, { status: 400 });
-
-// Utiliser le format nouveau (subMissions) ou ancien (steps), selon ce qui est disponible
-const missionSteps = missionDef.subMissions ?? [];
-const stepDefById = new Map(missionSteps.map((s) => [s.key, s]));
-
-    // TODO: define incomplete — should check which missionSteps have no valid stepResponse
-    const incomplete = missionSteps.filter((s) => {
-      const response = attempt?.stepResponses.find((r) => {
-        const step = steps.find((st) => st.key === s.key);
-        return step && r.stepId === step.id;
-      });
-      return !response;
+    // Relire les réponses après création/sauvegarde — sinon l'étape venant
+    // d'être enregistrée serait comptée comme manquante.
+    const savedResponses = await prisma.missionStepResponse.findMany({
+      where: { attemptId },
     });
-    if (incomplete.length > 0) {
+    const respondedStepIds = new Set(savedResponses.map((r) => r.stepId));
+
+    const incompleteSteps = steps.filter((s) => !respondedStepIds.has(s.id));
+    if (incompleteSteps.length > 0) {
       return NextResponse.json(
-        { error: "Étapes incomplètes", incomplete },
+        { error: "Étapes incomplètes", incomplete: incompleteSteps.map((s) => s.title || s.key) },
         { status: 400 }
       );
     }
@@ -108,7 +99,7 @@ const stepDefById = new Map(missionSteps.map((s) => [s.key, s]));
       }),
       prisma.missionAttempt.update({
         where: { id: attemptId },
-        data: { status: "SUBMITTED", submittedAt: new Date(), currentStep: missionSteps.length },
+        data: { status: "SUBMITTED", submittedAt: new Date(), currentStep: steps.length },
       }),
     ]);
 
