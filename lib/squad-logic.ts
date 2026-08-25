@@ -57,7 +57,7 @@ export async function updateSquadCohesion(
         organizationId,
         "SQUAD_COHESION_MAX",
         "Cohésion Maximale",
-        `L'escouade ${squad.name} est en synchronisation parfaite ! Continuez sur cette lancée.`,
+        `Toute l'escouade ${squad.name} a validé sa présence aujourd'hui : synchronisation parfaite entre tous les profils.`,
         "/community"
       );
     }
@@ -79,7 +79,7 @@ export async function updateSquadCohesion(
               userId,
               type: "SQUAD_MEMBER_CHECKIN",
               title: "Activité dans l'escouade",
-              message: `${actor.name} vient de booster la cohésion (+${pct}%).`,
+              message: `${actor.name} est là aujourd'hui — l'escouade se resynchronise (+${pct}% de cohésion).`,
               link: "/community",
             })),
             skipDuplicates: true,
@@ -123,7 +123,7 @@ async function updateSquadStreak(organizationId: string, squadName: string) {
       organizationId,
       "SQUAD_STREAK_7",
       "Hyper Link débloqué !",
-      `${squadName} a atteint 7 jours consécutifs de synchronisation. Badge HYPER_LINK accordé à tous les membres.`,
+      `7 jours consécutifs où chacun a été là pour les autres. Cette régularité est votre vraie force — le badge HYPER_LINK en est la trace.`,
       "/community"
     );
   } else if (newCount === 3) {
@@ -131,7 +131,7 @@ async function updateSquadStreak(organizationId: string, squadName: string) {
       organizationId,
       "SQUAD_STREAK_3",
       "3 jours de sync !",
-      `${squadName} enchaîne 3 jours de haute cohésion. Continuez pour décrocher HYPER_LINK à J+7.`,
+      `Trois jours d'affilée où toute l'escouade ${squadName} s'est synchronisée. L'habitude prend — HYPER_LINK vous attend à J+7.`,
       "/community"
     );
   }
@@ -167,5 +167,66 @@ async function rewardSquadMembers(
       }
     }
   });
+}
+
+// ── Bouclier de série (streak freeze) ────────────────────────────────────────
+// Après 48h sans check-in à haute cohésion, la série casse — sauf si l'escouade
+// consomme son bouclier hebdomadaire. Objectif : garder l'aversion à la perte
+// sans l'anxiété qui fait churner les users casuels.
+
+export async function processStreakBreaks(): Promise<{ frozen: number; reset: number }> {
+  const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  const breaking = await prisma.organization.findMany({
+    where: { streakCount: { gt: 0 }, lastStreakAt: { lt: cutoff } },
+    select: { id: true, name: true, streakCount: true, streakFreezes: true },
+    take: 100,
+  });
+
+  let frozen = 0;
+  let reset = 0;
+
+  for (const org of breaking) {
+    if (org.streakFreezes > 0) {
+      await prisma.organization.update({
+        where: { id: org.id },
+        data: { streakFreezes: { decrement: 1 }, lastStreakAt: new Date() },
+      });
+      await notifySquadMembers(
+        org.id,
+        "SQUAD_STREAK_FREEZE",
+        "Bouclier de série activé",
+        `Votre série de ${org.streakCount} jours est protégée aujourd'hui. Un check-in demain relance la synchronisation !`,
+        "/community"
+      );
+      frozen++;
+    } else {
+      await prisma.organization.update({
+        where: { id: org.id },
+        data: { streakCount: 0 },
+      });
+      await notifySquadMembers(
+        org.id,
+        "SQUAD_STREAK_RESET",
+        "Un nouveau départ pour votre escouade",
+        `La série de ${org.name} est retombée à zéro — c'est arrivé à tout le monde. Un premier check-in relance la cohésion et la série repart.`,
+        "/community"
+      );
+      reset++;
+    }
+  }
+
+  return { frozen, reset };
+}
+
+export async function refillStreakFreezes(): Promise<number> {
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const res = await prisma.organization.updateMany({
+    where: {
+      streakFreezes: { lt: 1 },
+      OR: [{ lastStreakFreezeAt: null }, { lastStreakFreezeAt: { lt: weekAgo } }],
+    },
+    data: { streakFreezes: 1, lastStreakFreezeAt: new Date() },
+  });
+  return res.count;
 }
 

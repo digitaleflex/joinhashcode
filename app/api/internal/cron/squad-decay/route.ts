@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
+import { processStreakBreaks, refillStreakFreezes } from "@/lib/squad-logic";
 import { NextResponse } from "next/server";
 
 const BATCH_SIZE = 100;
@@ -74,9 +75,16 @@ export async function POST(req: Request) {
       lastId = orgs[orgs.length - 1].id;
     }
 
+    // Boucliers de série : refill hebdomadaire puis traitement des ruptures
+    const refills = await refillStreakFreezes();
+    const breaks = await processStreakBreaks();
+
     return NextResponse.json({
       decayed: decayedCount,
       totalCohesionLost,
+      streakFreezesRefilled: refills,
+      streaksFrozen: breaks.frozen,
+      streaksReset: breaks.reset,
     });
   } catch (error: unknown) {
     console.error("[CRON_SQUAD_DECAY_ERROR]", error);
