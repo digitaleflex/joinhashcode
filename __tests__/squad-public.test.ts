@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET } from '../app/api/squad/public/route';
 import { prisma } from '../lib/prisma';
+import { AuthError, requireSession } from '@/lib/auth-guard';
 import { NextRequest } from 'next/server';
 
 // Mock dependencies
@@ -12,24 +13,32 @@ vi.mock('../lib/prisma', () => ({
   },
 }));
 
-vi.mock('../lib/auth', () => ({
-  auth: {
-    api: {
-      getSession: vi.fn(),
-    },
+vi.mock('@/lib/auth-guard', () => ({
+  AuthError: class AuthError extends Error {
+    constructor(message: string, public status: number) {
+      super(message);
+    }
   },
-}));
-
-vi.mock('next/headers', () => ({
-  headers: vi.fn(() => Promise.resolve(new Headers())),
+  requireSession: vi.fn(),
 }));
 
 describe('Squad Public API', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (requireSession as any).mockResolvedValue({ user: { id: 'user_1' } });
   });
 
-  it('should return public squads without authentication', async () => {
+  it('should reject unauthenticated requests with 401', async () => {
+    (requireSession as any).mockRejectedValue(new AuthError('Non autorisé', 401));
+
+    const req = new NextRequest('http://localhost:3000/api/squad/public');
+    const res = await GET(req);
+
+    expect(res.status).toBe(401);
+    expect(prisma.organization.findMany).not.toHaveBeenCalled();
+  });
+
+  it('should return only public squads for authenticated users', async () => {
     const mockSquads = [
       {
         id: 'org_1',
@@ -82,6 +91,10 @@ describe('Squad Public API', () => {
     expect(data[0].members[0].name).toBe('John Doe');
     expect(data[0].members[0].level).toBe(5);
     expect(data[1].name).toBe('Signal Omega');
+    // Garde-fou privacité : seules les escouades publiques sont listées
+    expect(prisma.organization.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: expect.objectContaining({ isPrivate: false }) })
+    );
   });
 
   it('should respect limit parameter', async () => {

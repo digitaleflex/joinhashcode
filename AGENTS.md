@@ -103,6 +103,7 @@ REST endpoints under `app/api/`:
 | `squad/members/`                | GET       | session         | List squad members                                                    |
 | `squad/message/`                | POST      | session         | Send message to squad                                                 |
 | `squad/invite/`                 | POST      | session, LEADER | Generate invite link                                                  |
+| `squad/promote/`                | POST      | session, LEADER | Promote/demote member ↔ co-leader (`admin`)                           |
 | `squad/join-request/`           | POST      | session         | Request to join a squad                                               |
 | `squad/join-request/respond/`   | POST      | session, LEADER | Accept/reject join request                                            |
 | `squad/public/`                 | GET       | —               | Public squad info                                                     |
@@ -146,8 +147,9 @@ REST endpoints under `app/api/`:
 Squads are `Organization` records (Better Auth's org model, mapped to `organization` table). The creator is `LEADER`; others are `MEMBER`. Key mechanics:
 
 - **Cohesion score** (0–1): boosted by daily check-ins (`+0.05`) and approved missions (`+0.1`). Decays `−0.02/day` via cron if inactive.
-- **Streak**: incremented when cohesion stays ≥ 0.9 for a new day. Milestones at 3d and 7d trigger badge rewards.
-- **Invite link**: `<origin>/invite/<org.slug>`. Only the LEADER can customize name + slug via `PATCH /api/squad/update`. Slug rules: 3–30 chars, lowercase alphanumeric + hyphens, no leading/trailing hyphens.
+- **Streak**: incremented when cohesion stays ≥ 0.9 for a new day. Breaks after 48h of inactivity — unless the squad consumes its weekly **streak freeze** (`streakFreezes`, refilled to 1/week via cron). Milestones at 3d and 7d trigger badge rewards.
+- **Roles**: `owner` (creator), `admin` (= co-leader: can manage invites + join requests), `member`. Only `owner` can promote/demote via `/api/squad/promote`. Never use the legacy `"LEADER"` value.
+- **Invite link**: `<origin>/invite/<org.slug>`. The LEADER and co-leaders can customize name + slug via `PATCH /api/squad/update`. Slug rules: 3–30 chars, lowercase alphanumeric + hyphens, no leading/trailing hyphens.
 
 Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashboard/squad-journey.tsx`). It shows a 6-phase gamified path; the leader sees a personalization panel.
 

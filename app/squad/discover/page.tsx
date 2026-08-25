@@ -143,9 +143,11 @@ export default async function DiscoverSquadsPage() {
                 {/* Bottom row */}
                 <div className="flex items-end justify-between mt-auto pt-2 border-t border-white/5">
                   <div className="space-y-1">
-                    <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-primary">
-                      <Zap className="size-3" />{Math.round((squad.cohesionScore || 0) * 100)}% SYNC
-                    </div>
+                    {((squad.cohesionScore || 0) >= 0.5) && (
+                      <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-primary">
+                        <Zap className="size-3" />{Math.round(squad.cohesionScore * 100)}% SYNC
+                      </div>
+                    )}
                     {squad.requiredLevel > 1 && (
                       <div className={`text-[9px] font-mono uppercase tracking-wider ${levelOk ? "text-zinc-600" : "text-amber-500"}`}>
                         Niveau {squad.requiredLevel} requis
