@@ -1,6 +1,6 @@
 import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
-import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { DashboardWithTour } from "@/components/dashboard/dashboard-with-tour";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
@@ -260,7 +260,7 @@ export default async function DashboardPage() {
   const featureFlags = getFeatureFlags()
 
   return (
-    <DashboardShell
+    <DashboardWithTour
       user={dbUser}
       quizResult={quizResult}
       submissions={submissionsMap}

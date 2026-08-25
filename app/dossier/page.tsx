@@ -9,7 +9,8 @@ import { BottomNav } from "@/components/dashboard/bottom-nav";
 import { UserTopBar } from "@/components/dashboard/user-topbar";
 import { DossierView } from "@/components/dossier/dossier-view";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
-import { getFeatureFlags } from "@/lib/feature-flags";
+import { getFeatureFlags, isFeatureEnabled } from "@/lib/feature-flags";
+import { TourProvider } from "@/components/tour/tour-provider";
 
 interface PageProps {
   searchParams: Promise<{ userId?: string }>
@@ -221,6 +222,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
   const featureFlags = getFeatureFlags();
 
   return (
+    <TourProvider userId={session.user.id} featureFlag={isFeatureEnabled("tour")}>
     <SidebarProvider>
       <AppSidebar user={user} hasSquad={!!activeOrg} />
       <BottomNav />
@@ -246,5 +248,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
         </main>
       </SidebarInset>
     </SidebarProvider>
+    </TourProvider>
   );
 }

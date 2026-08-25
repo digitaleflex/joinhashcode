@@ -7,7 +7,10 @@ import {
   ShieldAlert,
   ClipboardCheck,
   Activity,
+  CircleHelp,
 } from "lucide-react"
+import { TOUR_NAMES } from "@/components/tour/tour-config"
+import { useNextStepSafe } from "@/components/tour/use-next-step-safe"
 
 import {
   Sidebar,
@@ -35,6 +38,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = (user || session?.user) as NavUser | undefined
+  const { startNextStep } = useNextStepSafe()
 
   // User is eligible for reviewer role if Level >= 2 AND completed missions >= 3, or has admin role.
   const isReviewerEligible = currentUser && (
@@ -140,6 +144,16 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
           <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() => startNextStep(TOUR_NAMES.DASHBOARD)}
+                  tooltip="Revoir le guide interactif du dashboard."
+                  className="h-10 transition-all hover:bg-white/5"
+                >
+                  <CircleHelp className="size-4" />
+                  <span className="font-medium">Revoir le tour</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <BetaFeedbackDialog />
               </SidebarMenuItem>

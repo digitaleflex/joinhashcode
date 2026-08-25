@@ -74,7 +74,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
       <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-[var(--z-header)] px-4 md:px-8 flex items-center justify-between">
       {/* Left: Sidebar Trigger & Logo */}
       <div className="flex items-center gap-4 flex-1">
-        <SidebarTrigger className="md:hidden text-muted-foreground hover:text-white mr-2" />
+        <SidebarTrigger id="tour-sidebar-trigger" className="md:hidden text-muted-foreground hover:text-white mr-2" />
         <Link href="/dashboard" className="flex items-center gap-2 group shrink-0">
           <Image
             src="/hashcodejoin.png"

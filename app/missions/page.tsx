@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { MISSIONS, getCurrentWeeklyChallenge } from "@/lib/missions"
-import { getFeatureFlags } from "@/lib/feature-flags"
+import { getFeatureFlags, isFeatureEnabled } from "@/lib/feature-flags"
 import { daysUntilMonday, getWeekStart } from "@/lib/dates"
 import { MissionsList } from "@/components/missions/missions-list"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
@@ -14,6 +14,7 @@ import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-banner"
 import { Prisma } from "@/generated/prisma/client"
+import { TourProvider } from "@/components/tour/tour-provider"
 
 type MissionsUserPayload = Prisma.UserGetPayload<{
   select: {
@@ -184,6 +185,7 @@ export default async function MissionsPage() {
   // --- END ENRICHMENT ---
 
   return (
+    <TourProvider userId={finalDbUser.id} featureFlag={isFeatureEnabled("tour")}>
     <SidebarProvider>
       <AppSidebar user={finalDbUser} hasSquad={!!userSquad} />
       <BottomNav />
@@ -274,5 +276,6 @@ export default async function MissionsPage() {
         </main>
       </SidebarInset>
     </SidebarProvider>
+    </TourProvider>
   )
 }

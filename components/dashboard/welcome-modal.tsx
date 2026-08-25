@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { X, Zap, ChevronRight, Sparkles, BookOpen } from "lucide-react"
 import Link from "next/link"
+import { TOUR_NAMES } from "@/components/tour/tour-config"
+import { useNextStepSafe } from "@/components/tour/use-next-step-safe"
 
 // ─── Config par classe ─────────────────────────────────────────────────────────
 
@@ -64,6 +66,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
 }) {
   const [visible, setVisible] = useState(false)
   const [phase, setPhase] = useState<"class" | "guide">("class")
+  const { startNextStep } = useNextStepSafe()
 
   const storageKey = `hc_welcomed_${userId}`
   const cfg = CLASS_CONFIG[userClass?.toLowerCase()] ?? CLASS_CONFIG.builder
@@ -77,10 +80,18 @@ export function WelcomeModal({ userId, userName, userClass }: {
     } catch { /* ignore */ }
   }, [userId, userClass, storageKey])
 
-  const dismiss = () => {
+  const dismiss = useCallback(() => {
     try { localStorage.setItem(storageKey, "1") } catch { /* ignore */ }
     setVisible(false)
-  }
+  }, [storageKey])
+
+  const dismissAndStartTour = useCallback(() => {
+    dismiss()
+    // Lancer le tour après la fermeture du modal
+    setTimeout(() => {
+      startNextStep(TOUR_NAMES.DASHBOARD)
+    }, 400)
+  }, [dismiss, startNextStep])
 
   return (
     <AnimatePresence>
@@ -247,7 +258,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
 
                   <Button
                     asChild
-                    onClick={dismiss}
+                    onClick={dismissAndStartTour}
                     className="w-full h-12 rounded-2xl btn-primary-glow text-xs font-bold uppercase tracking-wider group"
                   >
                     <Link href="/missions">
