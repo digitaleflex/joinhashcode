@@ -30,6 +30,7 @@ import {
   Library,
   BookOpen,
   UserRound,
+  ClipboardList,
 } from "lucide-react"
 
 import {
@@ -98,6 +99,7 @@ const navGroups = [
       { title: "Activité",    url: "/admin/activity",       icon: ScrollText },
       { title: "Feedback",    url: "/admin/feedback",       icon: MessageSquare },
       { title: "Escouades",   url: "/admin/squads",         icon: Swords },
+      { title: "Demandes",    url: "/admin/squads/join-requests", icon: ClipboardList },
       { title: "Clés API",    url: "/admin/keys",           icon: KeyRound },
       { title: "Anti-Fraude", url: "/admin/fraud",          icon: ShieldBan },
       { title: "Sondage UX",  url: "/admin/ux-poll",        icon: BarChart3 },

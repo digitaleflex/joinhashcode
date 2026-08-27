@@ -287,6 +287,7 @@ model Mission {
   attempts           MissionAttempt[]
   assignments        MissionAssignment[]
   snapshots          MissionSnapshot[]
+  webhooks           MissionWebhook[]
 
   @@index([category])
   @@index([difficulty])
@@ -666,4 +667,19 @@ model ProfileV1 {
 
   @@index([userId])
   @@map("profile_v1")
+}
+
+model MissionWebhook {
+  id        String   @id @default(cuid())
+  missionId String
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  url       String
+  secret    String
+  events    String[]
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([missionId])
+  @@map("mission_webhook")
 }

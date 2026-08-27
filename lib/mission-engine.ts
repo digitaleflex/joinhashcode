@@ -7,6 +7,7 @@ import { ONBOARDING_MISSION } from "./onboarding-mission";
 import type { OnboardingMissionDef, MissionSubDef, StepField } from "./onboarding-mission";
 import { PROJECT_MISSION } from "./project-mission";
 import { SOLUTION_MISSION } from "./solution-mission";
+import type { MediaFile } from "./mission-media";
 import { Prisma } from "../generated/prisma/client";
 
 export type AttemptStatus =
@@ -124,6 +125,16 @@ function isFieldFilled(field: StepField, value: unknown): boolean {
     const keys = Object.keys(items);
     return keys.length > 0 && keys.some((k) => typeof items[k] === "number" && items[k] > 0);
   }
+  if (field.type === "IMAGE" || field.type === "VIDEO" || field.type === "FILE") {
+    const arr = value as MediaFile[];
+    if (!Array.isArray(arr)) return false;
+    return arr.length > 0;
+  }
+  if (field.type === "LINK") {
+    const arr = value as MediaFile[];
+    if (!Array.isArray(arr)) return false;
+    return arr.length > 0;
+  }
   if (typeof value === "string") return value.trim().length > 0;
   if (Array.isArray(value)) return value.length > 0;
   return true;
@@ -200,6 +211,8 @@ export function createDefaultAttemptData(def: OnboardingMissionDef): Record<stri
           row[col.key] = "";
         }
         data[field.key] = [row];
+      } else if (field.type === "IMAGE" || field.type === "VIDEO" || field.type === "FILE" || field.type === "LINK") {
+        data[field.key] = [];
       } else {
         data[field.key] = "";
       }

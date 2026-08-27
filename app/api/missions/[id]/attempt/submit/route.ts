@@ -4,13 +4,14 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { getStepMissionDef, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
-import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { mutationLimiter, submitLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { awardXp } from "@/lib/experience";
 import { safeAfter as after } from "@/lib/after";
 import { generateProfileV1 } from "@/lib/profile-v1";
 import { logActivity } from "@/lib/activity-log";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       where: { OR: [{ slug: id }, { id }] },
     });
     if (!mission) return NextResponse.json({ error: "Mission introuvable" }, { status: 404 });
+
+    const { limited: submitLimited } = await checkRateLimit(submitLimiter, `${session.user.id}:${mission.id}`);
+    if (submitLimited) return NextResponse.json({ error: "Trop de soumissions pour cette mission. Réessaie dans une heure." }, { status: 429 });
 
     const def = getStepMissionDef(mission.slug);
     if (!def) return NextResponse.json({ error: "Mission sans workflow d'étapes" }, { status: 400 });
@@ -108,6 +112,49 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       actorId: session.user.id,
       action: "SUBMITTED",
       message: "Le membre a soumis sa mission.",
+    });
+
+    // Admin notification + webhook for new submission
+    after(async () => {
+      const admins = await prisma.user.findMany({
+        where: { role: { in: ["ADMIN", "MODERATOR"] } },
+        select: { id: true, email: true, name: true },
+      });
+
+      if (admins.length > 0) {
+        try {
+          await prisma.notification.createMany({
+            data: admins.map((admin) => ({
+              userId: admin.id,
+              type: "SYSTEM",
+              title: `Nouvelle soumission : ${mission.title}`,
+              message: `${session.user.name} a soumis sa mission. En attente de revue.`,
+              link: `/admin/submissions`,
+            })),
+            skipDuplicates: true,
+          });
+        } catch (dbErr) {
+          console.error("[SUBMIT] Failed to bulk write admin notifications:", dbErr);
+        }
+
+        logActivity({
+          userId: session.user.id,
+          action: "ADMIN_SUBMISSION_ALERT",
+          entity: "mission_attempt",
+          entityId: attemptId,
+          metadata: { missionSlug: mission.slug, submitterName: session.user.name },
+          request: req,
+        });
+      }
+
+      await triggerWebhooks(mission.id, "submission.created", {
+        missionId: mission.id,
+        missionTitle: mission.title,
+        attemptId,
+        submitterId: session.user.id,
+        submitterName: session.user.name,
+        submittedAt: new Date().toISOString(),
+      });
     });
 
     // ── Auto-validation : les missions déclaratives (isOnboarding) ne

@@ -11,6 +11,7 @@ import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { awardXp } from "@/lib/experience";
 import { z } from "zod";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 const UpdateSubmissionSchema = z.object({
   action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
@@ -149,6 +150,19 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         request: req,
       });
 
+      triggerWebhooks(submission.missionId, "submission.approved", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        qualityLevel: level,
+        xpAwarded,
+        status: "APPROVED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
+
       // Le client n'attend plus la résolution d'awardXp/emails pour obtenir la réponse
           const submitterLevel = submission.user.level ?? 1;
           const expectedNewXp = (submission.user.experience ?? 0) + xpAwarded;
@@ -200,6 +214,19 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         request: req,
       });
 
+      triggerWebhooks(submission.missionId, "submission.rejected", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        revisionCount: (submission.revisionCount ?? 0) + 1,
+        feedback,
+        status: "NEEDS_REVISION",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
+
       return NextResponse.json({ success: true });
     }
 
@@ -238,6 +265,18 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         metadata: { action: "REJECT", targetUserId: submission.userId },
         request: req,
       });
+
+      triggerWebhooks(submission.missionId, "submission.rejected", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        feedback,
+        status: "REJECTED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
 
       return NextResponse.json({ success: true });
     }

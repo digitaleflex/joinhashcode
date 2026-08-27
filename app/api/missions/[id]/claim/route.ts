@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { claimLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 export async function POST(
   _req: Request,
@@ -27,7 +28,7 @@ export async function POST(
       }),
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { id: true, class: true, role: true, level: true, missionsCompletedCount: true },
+        select: { id: true, name: true, email: true, class: true, role: true, level: true, missionsCompletedCount: true },
       }),
     ]);
 
@@ -78,6 +79,15 @@ export async function POST(
         metadata: { missionId: submission.missionId, missionTitle: submission.mission.title },
         request: _req,
       });
+
+      triggerWebhooks(submission.missionId, "review.started", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId,
+        reviewerId: reviewer.id,
+        reviewerName: reviewer.name ?? reviewer.email,
+        startedAt: new Date().toISOString(),
+      }).catch(() => undefined);
 
       return NextResponse.json({ success: true, submission: updated });
     } catch (error: unknown) {

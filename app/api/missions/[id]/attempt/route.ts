@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { getStepMissionDef, computeStepCompleteness } from "@/lib/mission-engine";
 import { buildStepPrefill } from "@/lib/mission-prefill";
-import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { autosaveLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export const dynamic = "force-dynamic";
 
@@ -210,8 +210,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const parsed = autosaveSchema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: "Données invalides" }, { status: 400 });
 
-    const { limited } = await checkRateLimit(mutationLimiter, session.user.id);
-    if (limited) return NextResponse.json({ error: "Action trop rapide" }, { status: 429 });
+    const { limited } = await checkRateLimit(autosaveLimiter, session.user.id);
+    if (limited) return NextResponse.json({ error: "Trop de sauvegardes automatiques. Réessaie dans une minute." }, { status: 429 });
 
     const mission = await prisma.mission.findFirst({
       where: { OR: [{ slug: id }, { id }] },

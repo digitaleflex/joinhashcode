@@ -18,7 +18,8 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { awardXp } from "@/lib/experience";
-import { reviewLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { reviewLimiterStrict, checkRateLimit } from "@/lib/ratelimit";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -34,7 +35,7 @@ export async function POST(
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
-    const { limited } = await checkRateLimit(reviewLimiter, session.user.id);
+    const { limited } = await checkRateLimit(reviewLimiterStrict, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de reviews. Réessaie dans une heure." }, { status: 429 });
 
     const { id: submissionId } = await params;
@@ -140,6 +141,19 @@ export async function POST(
         } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", error);
         }
+        
+        triggerWebhooks(submission.missionId, "submission.approved", {
+          missionId: submission.missionId,
+          missionTitle: submission.mission.title,
+          submissionId,
+          submitterId: submission.userId,
+          submitterName: submission.user.name,
+          reviewerId: session.user.id,
+          qualityLevel,
+          status: "PENDING_ADMIN",
+          decidedAt: new Date().toISOString(),
+        }).catch(() => undefined);
+
         logActivity({
           userId: session.user.id,
           action: "MISSION_APPROVED",
@@ -241,6 +255,19 @@ export async function POST(
         request: req,
       });
 
+      triggerWebhooks(submission.missionId, "submission.approved", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: session.user.id,
+        qualityLevel,
+        xpAwarded,
+        status: "APPROVED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
+
       return NextResponse.json({ success: true, qualityLevel, xpAwarded });
     }
 
@@ -284,7 +311,7 @@ export async function POST(
       revisionCount: updatedSubmission.revisionCount,
     }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendMissionNeedsRevision", err));
 
-    // Escalate to admin after 3 failed revisions
+// Escalate to admin after 3 failed revisions
     if (updatedSubmission.revisionCount >= 3) {
       const admins = await prisma.user.findMany({
         where: { role: { in: ["ADMIN", "MODERATOR"] } },
@@ -302,9 +329,21 @@ export async function POST(
         } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", error);
         }
-
       }
     }
+
+    triggerWebhooks(submission.missionId, "submission.rejected", {
+      missionId: submission.missionId,
+      missionTitle: submission.mission.title,
+      submissionId,
+      submitterId: submission.userId,
+      submitterName: submission.user.name,
+      reviewerId: session.user.id,
+      revisionCount: updatedSubmission.revisionCount,
+      feedback,
+      status: "NEEDS_REVISION",
+      decidedAt: new Date().toISOString(),
+    }).catch(() => undefined);
 
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
   } catch (error: unknown) {

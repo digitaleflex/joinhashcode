@@ -24,6 +24,10 @@ export type StepFieldType =
   | "SMART_GOALS"
   | "SYNTHESIS"
   | "DYNAMIC_TABLE"
+  | "IMAGE"
+  | "VIDEO"
+  | "FILE"
+  | "LINK";
 
 export interface StepFieldOption {
   value: string
