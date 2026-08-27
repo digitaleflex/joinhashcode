@@ -70,7 +70,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
   }
 
   const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
-  const isAutoApproved = mission.isWeeklyChallenge || mission.slug === "signal-ouverture" || mission.id === "signal-ouverture";
+  const isAutoApproved = mission.isWeeklyChallenge || mission.isAutoApproved;
   const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
   const xpToAward = isAutoApproved ? (mission.xp || 0) : 0;
   const experienceToIncrement = (existingSubmission ? 0 : SYNC_BONUS_XP) + xpToAward;

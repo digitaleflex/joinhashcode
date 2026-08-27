@@ -270,6 +270,7 @@ model Mission {
   isWeeklyChallenge  Boolean             @default(false)
   weeklySlot         Int?
   isOnboarding       Boolean             @default(false)
+  isAutoApproved     Boolean             @default(false)
   submissions        MissionSubmission[]
   steps              MissionStep[]
   attempts           MissionAttempt[]

@@ -1,7 +1,7 @@
 "use client"
 
 import { createAuthClient } from "better-auth/react"
-import { magicLinkClient, emailOTPClient, adminClient, organizationClient, multiSessionClient } from "better-auth/client/plugins"
+import { magicLinkClient, emailOTPClient, adminClient, organizationClient, multiSessionClient, twoFactorClient } from "better-auth/client/plugins"
 
 const client = createAuthClient({
     plugins: [
@@ -10,15 +10,11 @@ const client = createAuthClient({
         adminClient(),
         organizationClient(),
         multiSessionClient(),
+        twoFactorClient(),
     ],
 })
 
 export interface AuthClientExtra {
-  twoFactor: {
-    enable: (args: { password?: string }) => Promise<{ data: { totpURI: string; backupCodes: string[] } | null; error?: { message?: string } | null }>
-    verifyTotp: (args: { code: string; trustDevice?: boolean }) => Promise<{ error?: { message?: string } | null }>
-    disable: (args: { password?: string }) => Promise<{ error?: { message?: string } | null }>
-  }
   admin: {
     setRole: (args: { userId: string; role: string }) => Promise<unknown>
     banUser: (args: { userId: string; banReason?: string; expiresAt?: Date }) => Promise<unknown>

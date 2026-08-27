@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 interface MissionSubmissionFormProps {
   missionId: string;
   submissionMethod: string;
+  isAutoApproved?: boolean;
   revisionNotes?: string | null;
   reviewerFeedback?: string | null;
   revisionCount?: number;
@@ -23,6 +24,7 @@ import { NeuralScanner } from "@/components/missions/neural-scanner";
 export function MissionSubmissionForm({
   missionId,
   submissionMethod,
+  isAutoApproved = false,
   revisionNotes,
   reviewerFeedback,
   revisionCount = 0,
@@ -124,7 +126,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
   }
 
   if (submitSuccess && !showRetroForm) {
-    const isSignalMission = missionId === "signal-ouverture";
+    const isSignalMission = isAutoApproved;
     
     return (
       <div className="space-y-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">

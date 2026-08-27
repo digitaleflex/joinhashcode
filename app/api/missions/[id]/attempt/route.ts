@@ -9,10 +9,15 @@ import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 
 export const dynamic = "force-dynamic";
 
+const MAX_AUTOSAVE_BYTES = 100_000; // 100 KB
+
 const autosaveSchema = z.object({
   stepKey: z.string().min(1),
   data: z.record(z.unknown()),
-});
+}).refine(
+  (val) => Buffer.byteLength(JSON.stringify(val.data), "utf-8") <= MAX_AUTOSAVE_BYTES,
+  { message: `Payload trop volumineux (max ${MAX_AUTOSAVE_BYTES / 1000} KB)` },
+);
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -195,6 +200,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const { id } = await params;
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
+    const contentLength = Number(req.headers.get("content-length") ?? 0);
+    if (contentLength > MAX_AUTOSAVE_BYTES * 2) {
+      return NextResponse.json({ error: "Payload trop volumineux" }, { status: 413 });
+    }
 
     const body = await req.json();
     const parsed = autosaveSchema.safeParse(body);

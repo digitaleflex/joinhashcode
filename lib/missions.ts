@@ -105,7 +105,48 @@ export interface WeeklyChallenge {
   weeklySlot: number | null;
 }
 
-export const WEEKLY_CHALLENGES: WeeklyChallenge[] = [];
+export const WEEKLY_CHALLENGES: WeeklyChallenge[] = [
+  {
+    id: "weekly-code-01",
+    title: "API en une semaine",
+    shortDesc: "Conçois et déploie une API REST fonctionnelle qui résout un problème réel de ta communauté.",
+    xp: 100,
+    type: "CODE",
+    submissionMethod: "GITHUB_LINK",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    weeklySlot: 0,
+  },
+  {
+    id: "weekly-design-01",
+    title: "Design d'un écran principal",
+    shortDesc: "Crée une maquette haute fidélité d'un écran d'accueil pour une application mobile africaine.",
+    xp: 80,
+    type: "DESIGN",
+    submissionMethod: "ANY_LINK",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    weeklySlot: 1,
+  },
+  {
+    id: "weekly-community-01",
+    title: "Organise un mini-atelier",
+    shortDesc: "Anime un atelier de 30 minutes autour d'un sujet tech et partage le compte-rendu.",
+    xp: 120,
+    type: "NETWORK",
+    submissionMethod: "TEXT_RESPONSE",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    weeklySlot: 2,
+  },
+  {
+    id: "weekly-learn-01",
+    title: "Explore un outil IA",
+    shortDesc: "Teste un outil ou framework IA, documente ton expérience et partage un retour honnête.",
+    xp: 70,
+    type: "GENERAL",
+    submissionMethod: "TEXT_RESPONSE",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    weeklySlot: 3,
+  },
+];
 
 export function getCurrentWeeklyChallenge(): WeeklyChallenge | undefined {
   const weekNumber = getWeekNumber(new Date());

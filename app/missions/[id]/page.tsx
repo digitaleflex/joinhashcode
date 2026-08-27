@@ -393,6 +393,7 @@ export default async function MissionBriefingPage({
                       <MissionSubmissionForm
                         missionId={mission.id}
                         submissionMethod={mission.submissionMethod}
+                        isAutoApproved={mission.isAutoApproved}
                         revisionNotes={isNeedsRevision ? (submission?.revisionNotes ?? null) : null}
                         reviewerFeedback={isNeedsRevision ? (submission?.adminFeedback ?? null) : null}
                         revisionCount={submission?.revisionCount ?? 0}
