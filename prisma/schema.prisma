@@ -98,6 +98,7 @@ model User {
   stepResponsesReviewed MissionStepResponse[] @relation("StepReviewer")
   reviewLogs            MissionReviewLog[]    @relation("TimelineActor")
   profileV1             ProfileV1?
+  missionAssignments    MissionAssignment[]
 
   @@index([class])
   @@index([role])
@@ -271,9 +272,15 @@ model Mission {
   weeklySlot         Int?
   isOnboarding       Boolean             @default(false)
   isAutoApproved     Boolean             @default(false)
+  status             String              @default("DRAFT")
+  publishAt          DateTime?
+  deadline           DateTime?
+  closedAt           DateTime?
+  deletedAt          DateTime?
   submissions        MissionSubmission[]
   steps              MissionStep[]
   attempts           MissionAttempt[]
+  assignments        MissionAssignment[]
 
   @@index([category])
   @@index([difficulty])
@@ -611,6 +618,20 @@ model MissionReviewLog {
   @@index([attemptId])
   @@index([createdAt])
   @@map("mission_review_log")
+}
+
+model MissionAssignment {
+  id        String   @id @default(cuid())
+  userId    String
+  missionId String
+  assignedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@index([missionId])
+  @@index([userId])
+  @@map("mission_assignment")
 }
 
 model ProfileV1 {
