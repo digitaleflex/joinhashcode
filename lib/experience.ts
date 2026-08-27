@@ -3,7 +3,7 @@ import { prisma } from "./prisma";
 import { invalidateUserCache } from "./user-cache";
 import { checkAndAwardBadges } from "./badge-engine";
 import { emailService } from "./email";
-import { XP_THRESHOLDS } from "./member-card-constants";
+import { getLevelFromXp, canAccessMission, getRequiredLevelForDifficulty } from "./member-card-constants";
 
 /**
  * Attribue de l'XP à un utilisateur et consigne la transaction dans l'historique
@@ -14,17 +14,36 @@ import { XP_THRESHOLDS } from "./member-card-constants";
  * @param reason Le motif (ex: "MISSION_COMPLETED")
  * @param sourceId L'ID de l'entité source (ex: ID de la mission)
  * @param customTx Instance de transaction Prisma (optionnel)
+ * @param missionDifficulty Difficulté de la mission pour vérification du level gate (optionnel)
  */
 export async function awardXp(
   userId: string,
   amount: number,
   reason: string,
   sourceId?: string,
-  customTx?: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">
+  customTx?: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">,
+  missionDifficulty?: "EASY" | "MEDIUM" | "HARD" | "EXPERT"
 ) {
   const execute = async (tx: Omit<Prisma.TransactionClient, "$transaction" | "$connect" | "$disconnect" | "$on" | "$use" | "$extends">) => {
     let finalAmount = amount;
-    // 1. Enregistrer la transaction XP
+    
+    // 1. Vérifier le level gate pour les missions (AVANT de créer la transaction)
+    if (missionDifficulty) {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: { level: true },
+      });
+      
+      if (!user) {
+        throw new Error(`Utilisateur introuvable : ${userId}`);
+      }
+      
+      if (!canAccessMission(user.level ?? 1, missionDifficulty)) {
+        return { blocked: true, requiredLevel: getRequiredLevelForDifficulty(missionDifficulty), currentLevel: user.level ?? 1 };
+      }
+    }
+
+    // 2. Enregistrer la transaction XP
     await tx.xpTransaction.create({
       data: {
         userId,
@@ -48,15 +67,7 @@ export async function awardXp(
     const currentLevel = user.level ?? 1;
     const nextXp = currentXp + finalAmount;
 
-    const sortedLevels = Object.keys(XP_THRESHOLDS).map(Number).sort((a, b) => b - a);
-    let targetLevel = 1;
-    for (const level of sortedLevels) {
-      if (nextXp >= XP_THRESHOLDS[level]) {
-        targetLevel = level;
-        break;
-      }
-    }
-    const nextLevel = targetLevel > currentLevel ? targetLevel : currentLevel;
+    const nextLevel = getLevelFromXp(nextXp);
 
     // 4. Mettre à jour le progrès de l'utilisateur
     const updatedUser = await tx.user.update({

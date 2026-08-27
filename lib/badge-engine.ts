@@ -14,6 +14,8 @@ export interface ExtendedUserForBadges {
   exemplaryReviewCount: number;
   vibrancy: BehavioralVibrancy;
   squadId?: string | null;
+  missionCategoriesCompleted?: Record<string, number>;
+  fastMissionCompletions?: number;
 }
 
 export type BadgeRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
@@ -225,6 +227,39 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     description: "Atteindre une cohésion de 100% avec ton escouade.",
     rarity: "EPIC",
     criteria: (_user) => false,
+  },
+
+  // --- TIER 7: MISSION-LINKED BADGES ---
+  {
+    id: "FIRST_MISSION",
+    name: "First Mission",
+    description: "Complete your first mission.",
+    rarity: "COMMON",
+    criteria: (user) => user.missionsCompletedCount >= 1,
+  },
+  {
+    id: "MISSION_MASTER",
+    name: "Mission Master",
+    description: "Complete 10 missions.",
+    rarity: "RARE",
+    criteria: (user) => user.missionsCompletedCount >= 10,
+  },
+  {
+    id: "SPECIALIST",
+    name: "Specialist",
+    description: "Complete 5 missions of the same category.",
+    rarity: "EPIC",
+    criteria: (user) => {
+      const categories = user.missionCategoriesCompleted ?? {};
+      return Object.values(categories).some(count => count >= 5);
+    },
+  },
+  {
+    id: "SPEED_RUNNER",
+    name: "Speed Runner",
+    description: "Complete a mission in less than 50% of estimated time.",
+    rarity: "EPIC",
+    criteria: (user) => (user.fastMissionCompletions ?? 0) >= 1,
   }
 ];
 
@@ -249,11 +284,34 @@ export async function checkAndAwardBadges(userId: string) {
     const existingBadges = new Set(user.badges);
     const newBadges: string[] = [];
 
-    const [reviewsCount, missionsWithoutRevisionCount, exemplaryReviewCount] = await Promise.all([
+    const [reviewsCount, missionsWithoutRevisionCount, exemplaryReviewCount, missionCategories, fastCompletions] = await Promise.all([
       prisma.missionReview.count({ where: { reviewerId: userId } }),
       prisma.missionSubmission.count({ where: { userId, revisionCount: 0, status: "APPROVED" } }),
       prisma.missionReview.count({ where: { submission: { userId }, qualityLevel: "EXEMPLARY" } }),
+      prisma.missionSubmission.groupBy({
+        by: ["missionId"],
+        where: { userId, status: "APPROVED" },
+        _count: { missionId: true },
+      }),
+      prisma.missionSubmission.count({
+        where: {
+          userId,
+          status: "APPROVED",
+          userDifficulty: { lt: 3 },
+        },
+      }),
     ]);
+
+    const categoryCounts: Record<string, number> = {};
+    for (const mc of missionCategories) {
+      const mission = await prisma.mission.findUnique({
+        where: { id: mc.missionId },
+        select: { category: true },
+      });
+      if (mission?.category) {
+        categoryCounts[mission.category] = (categoryCounts[mission.category] ?? 0) + mc._count.missionId;
+      }
+    }
 
     const userWithStats: ExtendedUserForBadges = {
       id: user.id,
@@ -271,7 +329,9 @@ export async function checkAndAwardBadges(userId: string) {
         creator: 0,
         strategist: 0,
         catalyst: 0,
-      }
+      },
+      missionCategoriesCompleted: categoryCounts,
+      fastMissionCompletions: fastCompletions,
     };
 
     for (const badge of BADGE_DEFINITIONS) {
@@ -306,6 +366,87 @@ export async function checkAndAwardBadges(userId: string) {
     return newBadges;
   } catch (error: unknown) {
     console.error("[BADGE_ENGINE_ERROR]", error);
+    return [];
+  }
+}
+
+export async function checkMissionBadges(userId: string, missionId: string) {
+  try {
+    const mission = await prisma.mission.findUnique({
+      where: { id: missionId },
+      select: { category: true },
+    });
+
+    if (!mission) return [];
+
+    const submission = await prisma.missionSubmission.findUnique({
+      where: { userId_missionId_cycleKey: { userId, missionId, cycleKey: "PERMANENT" } },
+      select: { userDifficulty: true },
+    });
+
+    if (!submission) return [];
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { badges: true, missionsCompletedCount: true },
+    });
+
+    if (!user) return [];
+
+    const existingBadges = new Set(user.badges);
+    const newBadges: string[] = [];
+
+    if (!existingBadges.has("FIRST_MISSION") && user.missionsCompletedCount >= 1) {
+      newBadges.push("FIRST_MISSION");
+    }
+
+    if (!existingBadges.has("MISSION_MASTER") && user.missionsCompletedCount >= 10) {
+      newBadges.push("MISSION_MASTER");
+    }
+
+    const categoryCompletions = await prisma.missionSubmission.count({
+      where: {
+        userId,
+        status: "APPROVED",
+        mission: { category: mission.category },
+      },
+    });
+
+    if (!existingBadges.has("SPECIALIST") && categoryCompletions >= 5) {
+      newBadges.push("SPECIALIST");
+    }
+
+    if (
+      !existingBadges.has("SPEED_RUNNER") &&
+      submission.userDifficulty !== null &&
+      submission.userDifficulty <= 2
+    ) {
+      newBadges.push("SPEED_RUNNER");
+    }
+
+    if (newBadges.length > 0) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          badges: { push: newBadges },
+        },
+      });
+
+      for (const badgeId of newBadges) {
+        const def = BADGE_DEFINITIONS.find((b) => b.id === badgeId);
+        await triggerNotification({
+          userId,
+          type: "ACHIEVEMENT",
+          title: "Nouveau Badge Débloqué !",
+          message: `Félicitations ! Tu as obtenu le badge : ${def?.name}`,
+          link: "/dashboard",
+        });
+      }
+    }
+
+    return newBadges;
+  } catch (error: unknown) {
+    console.error("[CHECK_MISSION_BADGES_ERROR]", error);
     return [];
   }
 }
