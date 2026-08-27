@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useMissionPermissions } from "@/hooks/use-mission-permissions";
 
 interface MissionRow {
   id: string;
@@ -54,6 +55,7 @@ const STATUS_META: Record<string, { label: string; className: string }> = {
 };
 
 export default function AdminMissionsPage() {
+  const { canCreate, canDelete } = useMissionPermissions();
   const [missions, setMissions] = useState<MissionRow[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
@@ -122,12 +124,16 @@ export default function AdminMissionsPage() {
           </p>
         </div>
 
-        <Link href="/admin/missions/new">
-          <Button className="bg-primary text-black hover:bg-primary/90 font-mono font-bold uppercase tracking-tight">
-            <Plus className="h-4 w-4 mr-2" />
-            Nouvelle Mission
-          </Button>
-        </Link>
+        <div className="flex items-center gap-3">
+          {canCreate && (
+            <Link href="/admin/missions/new">
+              <Button className="bg-primary text-black hover:bg-primary/90 font-mono font-bold uppercase tracking-tight">
+                <Plus className="h-4 w-4 mr-2" />
+                Nouvelle Mission
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -286,17 +292,19 @@ export default function AdminMissionsPage() {
                             <ExternalLink className="h-4 w-4" />
                           </Button>
                         </Link>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-zinc-400 hover:text-red-500 hover:bg-red-500/10"
-                          onClick={() => {
-                            setDeleteId(mission.id);
-                            setDeleteTitle(mission.title);
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        {canDelete && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400 hover:text-red-500 hover:bg-red-500/10"
+                            onClick={() => {
+                              setDeleteId(mission.id);
+                              setDeleteTitle(mission.title);
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>

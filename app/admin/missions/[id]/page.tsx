@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -27,18 +28,26 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { ConfirmDialog as AdminConfirmDialog } from "@/components/admin/confirm-dialog";
 import {
   ChevronLeft,
+  ChevronDown,
+  ChevronRight,
   Save,
   Trash2,
   AlertTriangle,
   Calendar,
   Clock,
   Eye,
+  Copy,
+  History,
+  RotateCcw,
+  Settings2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { getStepMissionDef } from "@/lib/mission-engine";
 import { MissionStepsEditor } from "@/components/admin/mission-steps-editor";
+import { useMissionPermissions } from "@/hooks/use-mission-permissions";
 
 const missionSchema = z.object({
   title: z.string().min(1, "Le titre est requis"),
@@ -60,6 +69,12 @@ const missionSchema = z.object({
   requirements: z.array(z.string()).default([]),
   deliverables: z.array(z.string()).default([]),
   acceptanceCriteria: z.array(z.string()).default([]),
+  fullBriefing: z.string().optional(),
+  evaluatorNotes: z.string().optional(),
+  qualityIndicators: z.string().optional(),
+  resources: z.string().optional(),
+  validationCriteria: z.string().optional(),
+  prerequisites: z.string().optional(),
   status: z.string().default("DRAFT"),
   publishAt: z.string().optional().nullable(),
   deadline: z.string().optional().nullable(),
@@ -73,6 +88,14 @@ interface MissionData extends MissionFormValues {
   createdAt: string;
   deletedAt: string | null;
   _count: { attempts: number; submissions: number };
+}
+
+interface MissionSnapshot {
+  id: string;
+  missionId: string;
+  data: unknown;
+  label: string | null;
+  createdAt: string;
 }
 
 const STATUS_OPTIONS = [
@@ -100,12 +123,20 @@ function toDatetimeLocal(dateStr: string | null | undefined): string {
 export default function MissionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const { canDelete } = useMissionPermissions();
   const [mission, setMission] = useState<MissionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [statusConfirmOpen, setStatusConfirmOpen] = useState(false);
   const [pendingStatus, setPendingStatus] = useState<string | null>(null);
+  const [snapshots, setSnapshots] = useState<MissionSnapshot[]>([]);
+  const [snapshotLabel, setSnapshotLabel] = useState("");
+  const [creatingSnapshot, setCreatingSnapshot] = useState(false);
+  const [restoreOpen, setRestoreOpen] = useState(false);
+  const [pendingRestore, setPendingRestore] = useState<MissionSnapshot | null>(null);
+  const [duplicating, setDuplicating] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const form = useForm<MissionFormValues>({
     resolver: zodResolver(missionSchema),
@@ -129,6 +160,12 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
       requirements: [],
       deliverables: [],
       acceptanceCriteria: [],
+      fullBriefing: "",
+      evaluatorNotes: "",
+      qualityIndicators: "",
+      resources: "",
+      validationCriteria: "",
+      prerequisites: "",
       status: "DRAFT",
       publishAt: null,
       deadline: null,
@@ -169,6 +206,12 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
         requirements: found.requirements ?? [],
         deliverables: found.deliverables ?? [],
         acceptanceCriteria: found.acceptanceCriteria ?? [],
+        fullBriefing: found.fullBriefing ?? "",
+        evaluatorNotes: found.evaluatorNotes ?? "",
+        qualityIndicators: found.qualityIndicators ?? "",
+        resources: found.resources ?? "",
+        validationCriteria: found.validationCriteria ?? "",
+        prerequisites: found.prerequisites ?? "",
         status: found.status,
         publishAt: found.publishAt,
         deadline: found.deadline,
@@ -184,6 +227,78 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
   useEffect(() => {
     fetchMission();
   }, [fetchMission]);
+
+  const fetchSnapshots = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/admin/missions/${id}/snapshots`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setSnapshots(data.snapshots ?? []);
+    } catch {
+      setSnapshots([]);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchSnapshots();
+  }, [fetchSnapshots]);
+
+  const handleCreateSnapshot = async () => {
+    try {
+      setCreatingSnapshot(true);
+      const res = await fetch(`/api/admin/missions/${id}/snapshots`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: snapshotLabel || null }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Snapshot créé");
+      setSnapshotLabel("");
+      fetchSnapshots();
+    } catch {
+      toast.error("Erreur lors de la création du snapshot");
+    } finally {
+      setCreatingSnapshot(false);
+    }
+  };
+
+  const handleRestore = async () => {
+    if (!pendingRestore) return;
+    try {
+      const res = await fetch(`/api/admin/missions/snapshots/${pendingRestore.id}/restore`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Mission restaurée");
+      setRestoreOpen(false);
+      setPendingRestore(null);
+      fetchMission();
+      fetchSnapshots();
+    } catch {
+      toast.error("Erreur lors de la restauration");
+    }
+  };
+
+  const handleDuplicate = async () => {
+    try {
+      setDuplicating(true);
+      const res = await fetch(`/api/admin/missions/${id}/duplicate`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      toast.success("Mission dupliquée");
+      if (data?.mission?.id) {
+        router.push(`/admin/missions/${data.mission.id}`);
+      } else {
+        router.push("/admin/missions");
+      }
+    } catch {
+      toast.error("Erreur lors de la duplication");
+    } finally {
+      setDuplicating(false);
+    }
+  };
 
   const onSubmit = async (values: MissionFormValues) => {
     try {
@@ -311,14 +426,26 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
             </Button>
           </Link>
           <Button
-            variant="destructive"
+            variant="outline"
             size="sm"
-            onClick={() => setDeleteOpen(true)}
-            className="font-mono text-xs gap-1.5"
+            onClick={handleDuplicate}
+            disabled={duplicating}
+            className="font-mono text-xs gap-1.5 border-zinc-700 text-zinc-300 hover:text-primary hover:border-primary/40"
           >
-            <Trash2 className="h-3.5 w-3.5" />
-            Supprimer
+            <Copy className="h-3.5 w-3.5" />
+            {duplicating ? "Duplication..." : "Dupliquer"}
           </Button>
+          {canDelete && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setDeleteOpen(true)}
+              className="font-mono text-xs gap-1.5"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              Supprimer
+            </Button>
+          )}
           <Button
             onClick={form.handleSubmit(onSubmit)}
             disabled={saving}
@@ -823,6 +950,160 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
             ))}
           </div>
 
+          <div className="glass-card rounded-lg p-6 space-y-6">
+            <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+              Critères de validation
+            </h2>
+            <p className="text-xs font-mono text-zinc-500">
+              Critères que les reviewers utilisent pour évaluer les soumissions. Supporte le markdown.
+            </p>
+            <FormField
+              control={form.control}
+              name="validationCriteria"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Décrivez les critères de validation..."
+                      className="bg-zinc-900 border-zinc-800 font-mono min-h-[120px]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="glass-card rounded-lg p-6 space-y-6">
+            <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+              Prérequis
+            </h2>
+            <p className="text-xs font-mono text-zinc-500">
+              Ce dont le membre a besoin avant de commencer cette mission. Supporte le markdown.
+            </p>
+            <FormField
+              control={form.control}
+              name="prerequisites"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Décrivez les prérequis..."
+                      className="bg-zinc-900 border-zinc-800 font-mono min-h-[120px]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="glass-card rounded-lg overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setAdvancedOpen(!advancedOpen)}
+              className="w-full flex items-center justify-between px-6 py-4 hover:bg-zinc-900/50 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Settings2 className="h-4 w-4 text-primary" />
+                <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+                  Champs avancés
+                </h2>
+              </div>
+              {advancedOpen ? (
+                <ChevronDown className="h-4 w-4 text-zinc-500" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-zinc-500" />
+              )}
+            </button>
+            {advancedOpen && (
+              <div className="px-6 pb-6 space-y-6 border-t border-zinc-800 pt-6">
+                <FormField
+                  control={form.control}
+                  name="fullBriefing"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-primary">Briefing Complet (avancé)</FormLabel>
+                      <p className="text-xs font-mono text-zinc-500">
+                        Texte détaillé du briefing, affiché après le briefing principal.
+                      </p>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Briefing détaillé..."
+                          className="bg-zinc-900 border-zinc-800 font-mono min-h-[120px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="evaluatorNotes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-primary">Notes pour les reviewers</FormLabel>
+                      <p className="text-xs font-mono text-zinc-500">
+                        Instructions internes visibles uniquement par les reviewers.
+                      </p>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Notes internes pour les reviewers..."
+                          className="bg-zinc-900 border-zinc-800 font-mono min-h-[100px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="qualityIndicators"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-primary">Indicateurs de qualité</FormLabel>
+                      <p className="text-xs font-mono text-zinc-500">
+                        JSON — indicateurs utilisés pour évaluer la qualité des soumissions.
+                      </p>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder='[{"key": "...", "label": "...", "max": 5}]'
+                          className="bg-zinc-900 border-zinc-800 font-mono min-h-[80px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="resources"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-primary">Ressources externes</FormLabel>
+                      <p className="text-xs font-mono text-zinc-500">
+                        JSON — liens et ressources pour accompagner la mission.
+                      </p>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder='[{"title": "...", "url": "..."}]'
+                          className="bg-zinc-900 border-zinc-800 font-mono min-h-[80px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+          </div>
+
           <div className="flex justify-end gap-4 pt-4">
             <Button
               type="submit"
@@ -836,17 +1117,80 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
         </form>
       </Form>
 
-      <ConfirmDialog
+      <div className="glass-card rounded-lg p-6 space-y-6">
+        <div className="flex items-center gap-2">
+          <History className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+            Snapshots
+          </h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="flex-1">
+            <Label className="text-primary text-xs">Libellé (optionnel)</Label>
+            <Input
+              value={snapshotLabel}
+              onChange={(e) => setSnapshotLabel(e.target.value)}
+              placeholder="ex: Avant publication"
+              className="bg-zinc-900 border-zinc-800 font-mono text-sm mt-1"
+            />
+          </div>
+          <Button
+            onClick={handleCreateSnapshot}
+            disabled={creatingSnapshot}
+            className="self-end bg-primary text-black hover:bg-primary/90 font-mono uppercase tracking-tighter"
+          >
+            <History className="h-4 w-4 mr-2" />
+            {creatingSnapshot ? "Création..." : "Créer un snapshot"}
+          </Button>
+        </div>
+
+        <div className="space-y-2">
+          {snapshots.length === 0 ? (
+            <p className="text-zinc-500 font-mono text-sm">Aucun snapshot pour le moment.</p>
+          ) : (
+            snapshots.map((snap) => (
+              <div
+                key={snap.id}
+                className="flex items-center justify-between border border-zinc-800 rounded-lg p-3"
+              >
+                <div className="flex flex-col">
+                  <span className="text-zinc-100 font-mono text-sm">
+                    {snap.label ?? "Snapshot sans libellé"}
+                  </span>
+                  <span className="text-zinc-500 font-mono text-xs">
+                    {new Date(snap.createdAt).toLocaleString("fr-FR")}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setPendingRestore(snap);
+                    setRestoreOpen(true);
+                  }}
+                  className="font-mono text-xs gap-1.5 border-primary text-primary hover:bg-primary/10"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  Restaurer
+                </Button>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <AdminConfirmDialog
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
         title="Supprimer cette mission ?"
         description={`La mission « ${mission.title} » sera masquée. Cette action est réversible.`}
-        confirmText="Supprimer"
+        confirmLabel="Supprimer"
         variant="destructive"
         onConfirm={handleSoftDelete}
       />
 
-      <ConfirmDialog
+      <AdminConfirmDialog
         open={statusConfirmOpen}
         onOpenChange={setStatusConfirmOpen}
         title={`Changer le statut en ${pendingStatus === "ARCHIVED" ? "Archivée" : "Fermée"} ?`}
@@ -855,9 +1199,21 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
             ? "L'archivage masquera cette mission des utilisateurs. Les tentatives en cours seront bloquées."
             : "La fermeture empêchera les nouvelles soumissions."
         }
-        confirmText="Confirmer"
+        confirmLabel="Confirmer"
         variant={pendingStatus === "ARCHIVED" ? "destructive" : "default"}
         onConfirm={confirmStatusChange}
+        requireTyping={pendingStatus === "ARCHIVED" ? mission.title : undefined}
+      />
+
+      <ConfirmDialog
+        open={restoreOpen}
+        onOpenChange={setRestoreOpen}
+        title="Restaurer cette version ?"
+        description={`La mission sera remplacée par le snapshot « ${
+          pendingRestore?.label ?? "sans libellé"
+        } » (${pendingRestore ? new Date(pendingRestore.createdAt).toLocaleString("fr-FR") : ""}).`}
+        confirmText="Restaurer"
+        onConfirm={handleRestore}
       />
     </div>
   );

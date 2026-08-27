@@ -268,6 +268,9 @@ model Mission {
   acceptanceCriteria Json                @default("[]")
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
+  resources          Json?
+  validationCriteria String?
+  prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)
   weeklySlot         Int?
   isOnboarding       Boolean             @default(false)
@@ -281,11 +284,23 @@ model Mission {
   steps              MissionStep[]
   attempts           MissionAttempt[]
   assignments        MissionAssignment[]
+  snapshots          MissionSnapshot[]
 
   @@index([category])
   @@index([difficulty])
   @@index([isOnboarding])
   @@map("mission")
+}
+
+model MissionSnapshot {
+  id          String   @id @default(cuid())
+  missionId   String
+  mission     Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  data        Json
+  label       String?
+  createdAt   DateTime @default(now())
+
+  @@index([missionId])
 }
 
 model Session {
