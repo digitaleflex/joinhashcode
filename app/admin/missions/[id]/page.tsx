@@ -47,6 +47,10 @@ import {
 import { toast } from "sonner";
 import { getStepMissionDef } from "@/lib/mission-engine";
 import { MissionStepsEditor } from "@/components/admin/mission-steps-editor";
+import { MissionResourcesEditor } from "@/components/admin/mission-resources-editor";
+import type { MissionResource } from "@/components/admin/mission-resources-editor";
+import { MissionRubricEditor } from "@/components/admin/mission-rubric-editor";
+import type { RubricCriterion } from "@/components/admin/mission-rubric-editor";
 import { useMissionPermissions } from "@/hooks/use-mission-permissions";
 
 const missionSchema = z.object({
@@ -73,6 +77,8 @@ const missionSchema = z.object({
   evaluatorNotes: z.string().optional(),
   qualityIndicators: z.string().optional(),
   resources: z.string().optional(),
+  tags: z.string().optional(),
+  evaluationRubric: z.string().optional(),
   validationCriteria: z.string().optional(),
   prerequisites: z.string().optional(),
   status: z.string().default("DRAFT"),
@@ -164,6 +170,8 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
       evaluatorNotes: "",
       qualityIndicators: "",
       resources: "",
+      tags: "",
+      evaluationRubric: "",
       validationCriteria: "",
       prerequisites: "",
       status: "DRAFT",
@@ -210,6 +218,10 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
         evaluatorNotes: found.evaluatorNotes ?? "",
         qualityIndicators: found.qualityIndicators ?? "",
         resources: found.resources ?? "",
+        tags: Array.isArray(found.tags) ? found.tags.join(", ") : "",
+        evaluationRubric: found.evaluationRubric
+          ? JSON.stringify(found.evaluationRubric, null, 2)
+          : "",
         validationCriteria: found.validationCriteria ?? "",
         prerequisites: found.prerequisites ?? "",
         status: found.status,
@@ -992,6 +1004,97 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
                       {...field}
                       placeholder="Décrivez les prérequis..."
                       className="bg-zinc-900 border-zinc-800 font-mono min-h-[120px]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="glass-card rounded-lg p-6 space-y-6">
+            <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+              Tags
+            </h2>
+            <p className="text-xs font-mono text-zinc-500">
+              Tags séparés par des virgules. Utilisés pour le filtrage et la recherche.
+            </p>
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="react, api, design-system, ..."
+                      className="bg-zinc-900 border-zinc-800 font-mono"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="glass-card rounded-lg p-6 space-y-6">
+            <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+              Ressources externes
+            </h2>
+            <p className="text-xs font-mono text-zinc-500">
+              Liens et ressources pour accompagner la mission.
+            </p>
+            <FormField
+              control={form.control}
+              name="resources"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <MissionResourcesEditor
+                      value={(() => {
+                        try {
+                          const parsed = JSON.parse(field.value || "[]");
+                          return Array.isArray(parsed) ? parsed : [];
+                        } catch {
+                          return [];
+                        }
+                      })()}
+                      onChange={(items: MissionResource[]) =>
+                        field.onChange(JSON.stringify(items))
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="glass-card rounded-lg p-6 space-y-6">
+            <h2 className="text-lg font-mono text-primary uppercase tracking-wider">
+              Grille d&apos;évaluation
+            </h2>
+            <p className="text-xs font-mono text-zinc-500">
+              Critères de scoring pour les reviewers. Le poids total recommandé est 1.0.
+            </p>
+            <FormField
+              control={form.control}
+              name="evaluationRubric"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <MissionRubricEditor
+                      value={(() => {
+                        try {
+                          const parsed = JSON.parse(field.value || "[]");
+                          return Array.isArray(parsed) ? parsed : [];
+                        } catch {
+                          return [];
+                        }
+                      })()}
+                      onChange={(items: RubricCriterion[]) =>
+                        field.onChange(JSON.stringify(items))
+                      }
                     />
                   </FormControl>
                   <FormMessage />

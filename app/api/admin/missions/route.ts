@@ -40,10 +40,12 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const statusFilter = searchParams.get("status");
+    const tagFilter = searchParams.get("tag");
 
     const where: Prisma.MissionWhereInput = {
       deletedAt: null,
       ...(statusFilter ? { status: statusFilter } : {}),
+      ...(tagFilter ? { tags: { has: tagFilter } } : {}),
     };
 
     const missions = await prisma.mission.findMany({

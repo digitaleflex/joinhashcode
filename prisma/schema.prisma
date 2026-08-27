@@ -269,6 +269,8 @@ model Mission {
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
   resources          Json?
+  tags               String[]           @default([])
+  evaluationRubric   Json?
   validationCriteria String?
   prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)

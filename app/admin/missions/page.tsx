@@ -20,10 +20,12 @@ import {
   Zap,
   LayoutDashboard,
   ExternalLink,
+  Tag,
 } from "lucide-react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useMissionPermissions } from "@/hooks/use-mission-permissions";
+import { Input } from "@/components/ui/input";
 
 interface MissionRow {
   id: string;
@@ -62,12 +64,14 @@ export default function AdminMissionsPage() {
   const [tab, setTab] = useState("all");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteTitle, setDeleteTitle] = useState("");
+  const [tagFilter, setTagFilter] = useState("");
 
   const fetchMissions = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
       if (tab !== "all") params.set("status", tab);
+      if (tagFilter.trim()) params.set("tag", tagFilter.trim());
       const response = await fetch(`/api/admin/missions?${params}`);
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
@@ -78,7 +82,7 @@ export default function AdminMissionsPage() {
     } finally {
       setLoading(false);
     }
-  }, [tab]);
+  }, [tab, tagFilter]);
 
   useEffect(() => {
     fetchMissions();
@@ -197,6 +201,18 @@ export default function AdminMissionsPage() {
             </Button>
           );
         })}
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 flex-1 max-w-xs">
+          <Tag className="h-4 w-4 text-zinc-500 shrink-0" />
+          <Input
+            value={tagFilter}
+            onChange={(e) => setTagFilter(e.target.value)}
+            placeholder="Filtrer par tag..."
+            className="bg-zinc-900 border-zinc-800 font-mono text-sm"
+          />
+        </div>
       </div>
 
       <div className="glass-card rounded-lg overflow-hidden">
