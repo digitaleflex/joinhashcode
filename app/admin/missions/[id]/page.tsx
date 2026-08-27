@@ -34,8 +34,11 @@ import {
   AlertTriangle,
   Calendar,
   Clock,
+  Eye,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getStepMissionDef } from "@/lib/mission-engine";
+import { MissionStepsEditor } from "@/components/admin/mission-steps-editor";
 
 const missionSchema = z.object({
   title: z.string().min(1, "Le titre est requis"),
@@ -297,6 +300,16 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <Link href={`/admin/missions/${id}/preview`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="font-mono text-xs gap-1.5 border-zinc-700 text-zinc-300 hover:text-primary hover:border-primary/40"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              Aperçu
+            </Button>
+          </Link>
           <Button
             variant="destructive"
             size="sm"
@@ -733,6 +746,12 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
               />
             </div>
           </div>
+
+          {(() => {
+            const stepDef = getStepMissionDef(mission.slug);
+            if (!stepDef) return null;
+            return <MissionStepsEditor slug={mission.slug} steps={stepDef.subMissions} />;
+          })()}
 
           <div className="glass-card rounded-lg p-6 space-y-6">
             <div className="flex items-center justify-between">
