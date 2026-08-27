@@ -98,6 +98,7 @@ model User {
   stepResponsesReviewed MissionStepResponse[] @relation("StepReviewer")
   reviewLogs            MissionReviewLog[]    @relation("TimelineActor")
   profileV1             ProfileV1?
+  missionAssignments    MissionAssignment[]
 
   @@index([class])
   @@index([role])
@@ -267,18 +268,41 @@ model Mission {
   acceptanceCriteria Json                @default("[]")
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
+  resources          Json?
+  tags               String[]           @default([])
+  evaluationRubric   Json?
+  validationCriteria String?
+  prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)
   weeklySlot         Int?
   isOnboarding       Boolean             @default(false)
   isAutoApproved     Boolean             @default(false)
+  status             String              @default("DRAFT")
+  publishAt          DateTime?
+  deadline           DateTime?
+  closedAt           DateTime?
+  deletedAt          DateTime?
   submissions        MissionSubmission[]
   steps              MissionStep[]
   attempts           MissionAttempt[]
+  assignments        MissionAssignment[]
+  snapshots          MissionSnapshot[]
 
   @@index([category])
   @@index([difficulty])
   @@index([isOnboarding])
   @@map("mission")
+}
+
+model MissionSnapshot {
+  id          String   @id @default(cuid())
+  missionId   String
+  mission     Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  data        Json
+  label       String?
+  createdAt   DateTime @default(now())
+
+  @@index([missionId])
 }
 
 model Session {
@@ -611,6 +635,20 @@ model MissionReviewLog {
   @@index([attemptId])
   @@index([createdAt])
   @@map("mission_review_log")
+}
+
+model MissionAssignment {
+  id        String   @id @default(cuid())
+  userId    String
+  missionId String
+  assignedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@index([missionId])
+  @@index([userId])
+  @@map("mission_assignment")
 }
 
 model ProfileV1 {
