@@ -1,4 +1,3 @@
-import { prisma } from "./prisma";
 import { emailService } from "./email";
 
 export interface NotificationPayload {
@@ -20,6 +19,7 @@ export async function triggerNotification(payload: NotificationPayload) {
   const { userId, type, title, message, link, xp, newLevel } = payload;
 
   try {
+    const { prisma } = await import("./prisma");
     // Write notification directly to PostgreSQL
     const notification = await prisma.notification.create({
       data: {

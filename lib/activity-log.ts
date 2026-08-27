@@ -1,7 +1,6 @@
-import { prisma } from "./prisma"
 import { sanitizeMetadata } from "./logger"
 import { getClientIp } from "./utils"
-import type { Prisma } from "@/generated/prisma/client"
+import { Prisma } from "../generated/prisma/client"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
@@ -81,6 +80,7 @@ interface LogOptions {
 export async function logActivity(opts: LogOptions): Promise<void> {
   const { userId, action, entity, entityId, metadata, request } = opts
   try {
+    const { prisma } = await import("./prisma")
     await prisma.activityLog.create({
       data: {
         userId: userId ?? null,

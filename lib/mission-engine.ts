@@ -1,14 +1,13 @@
 // Moteur de mission à étapes (onboarding).
 // Générique : fonctionne pour Mission 01 et toutes les futures missions à étapes.
 
-import { prisma } from "./prisma";
 import { logActivity } from "./activity-log";
 import { triggerNotification } from "./qstash";
 import { ONBOARDING_MISSION } from "./onboarding-mission";
 import type { OnboardingMissionDef, MissionSubDef, StepField } from "./onboarding-mission";
 import { PROJECT_MISSION } from "./project-mission";
 import { SOLUTION_MISSION } from "./solution-mission";
-import type { Prisma } from "@/generated/prisma/client";
+import { Prisma } from "../generated/prisma/client";
 
 export type AttemptStatus =
   | "DRAFT"
@@ -233,6 +232,7 @@ export async function logAttemptAction(opts: {
   message?: string;
   metadata?: Record<string, unknown>;
 }) {
+  const { prisma } = await import("./prisma");
   await prisma.missionReviewLog.create({
     data: {
       attemptId: opts.attemptId,

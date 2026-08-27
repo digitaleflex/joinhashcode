@@ -45,7 +45,7 @@ import {
   Settings2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { getStepMissionDef } from "@/lib/mission-engine";
+import { getStepMissionDef } from "@/lib/mission-defs";
 import { MissionStepsEditor } from "@/components/admin/mission-steps-editor";
 import { MissionResourcesEditor } from "@/components/admin/mission-resources-editor";
 import type { MissionResource } from "@/components/admin/mission-resources-editor";
