@@ -69,13 +69,13 @@ model User {
   twitterUrl             String?
 
   bio                  String?
-  secondaryObjectives  String[]  @default([])
-  currentFocus         String[]  @default([])
-  dreamStatement       String?
-  mainBlocker          String?
-  betaKeyId            String?
-  betaCreatedAt        DateTime? @default(now())
-  betaUpdatedAt        DateTime? @updatedAt
+  secondaryObjectives  String[]  @default([]) @map("secondary_objectives")
+  currentFocus         String[]  @default([]) @map("current_focus")
+  dreamStatement       String?   @map("dream_statement")
+  mainBlocker          String?   @map("main_blocker")
+  betaKeyId            String?   @map("beta_key_id")
+  betaCreatedAt        DateTime? @default(now()) @map("beta_created_at")
+  betaUpdatedAt        DateTime? @updatedAt @map("beta_updated_at")
 
   accounts             Account[]
   dailyCheckins        DailyCheckin[]
