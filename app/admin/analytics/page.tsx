@@ -281,24 +281,24 @@ export default function AdminAnalyticsPage() {
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg space-y-3">
           <div className="flex items-center gap-2 text-primary">
             <Users className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Membres Totaux</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Membres Totaux</span>
           </div>
           <div className="text-3xl font-bold text-white tracking-tight">{users.total.toLocaleString()}</div>
           <div className="flex items-center gap-2 text-emerald-400">
             <TrendingUp className="h-3 w-3" />
-            <span className="text-[10px] font-mono">+{users.new} nouveaux ({data.period.days}j)</span>
+            <span className="text-xs font-mono">+{users.new} nouveaux ({data.period.days}j)</span>
           </div>
         </div>
 
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg space-y-3">
           <div className="flex items-center gap-2 text-amber-400">
             <TrendingUp className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Actifs 7j / 30j</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Actifs 7j / 30j</span>
           </div>
           <div className="text-3xl font-bold text-white tracking-tight">
             {users.active7d} / {users.active30d}
           </div>
-          <div className="flex items-center gap-4 text-[10px] font-mono">
+          <div className="flex items-center gap-4 text-xs font-mono">
             <span className={users.retention7 >= 50 ? "text-emerald-400" : "text-amber-400"}>
               Rétention J7: {users.retention7}%
             </span>
@@ -311,12 +311,12 @@ export default function AdminAnalyticsPage() {
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg space-y-3">
           <div className="flex items-center gap-2 text-violet-400">
             <Target className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Missions</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Missions</span>
           </div>
           <div className="text-3xl font-bold text-white tracking-tight">
             {missions.published} / {missions.total}
           </div>
-          <div className="text-[10px] font-mono text-zinc-500">
+          <div className="text-xs font-mono text-zinc-500">
             Taux completion: {missions.overallCompletionRate}%
           </div>
         </div>
@@ -324,10 +324,10 @@ export default function AdminAnalyticsPage() {
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg space-y-3">
           <div className="flex items-center gap-2 text-emerald-400">
             <Shield className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Escouades</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Escouades</span>
           </div>
           <div className="text-3xl font-bold text-white tracking-tight">{squads.active} / {squads.total}</div>
-          <div className="flex items-center gap-4 text-[10px] font-mono">
+          <div className="flex items-center gap-4 text-xs font-mono">
             <span>Cohésion: {squads.avgCohesion}</span>
             <span>Moy. membres: {squads.avgMembers}</span>
           </div>
@@ -360,7 +360,7 @@ export default function AdminAnalyticsPage() {
         <MissionDropoffSection submissionsByLevel={submissionsByLevel} />
 
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Target className="h-3 w-3" /> Completion par Catégorie
           </h2>
           <div className="space-y-3">
@@ -368,15 +368,15 @@ export default function AdminAnalyticsPage() {
               <div key={cat.category} className="space-y-2 p-4 rounded-xl border border-white/5 bg-white/[0.02]">
                 <div className="flex justify-between">
                   <span className="text-sm font-bold text-white uppercase tracking-wider">{cat.category}</span>
-                  <span className="text-[10px] font-mono text-muted-foreground">{cat.total} soumissions</span>
+                  <span className="text-xs font-mono text-muted-foreground">{cat.total} soumissions</span>
                 </div>
-                <div className="flex justify-between text-[10px] font-mono">
+                <div className="flex justify-between text-xs font-mono">
                   <span className="text-emerald-400">✅ {cat.approved}</span>
                   <span className="text-amber-400">⏳ {cat.pending}</span>
                   <span className="text-red-400">❌ {cat.rejected}</span>
                 </div>
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[10px] font-mono">
+                  <div className="flex justify-between text-xs font-mono">
                     <span className="text-zinc-500">Taux de réussite</span>
                     <span className={cat.completionRate >= 60 ? "text-emerald-400" : cat.completionRate >= 30 ? "text-amber-400" : "text-red-400"}>{cat.completionRate}%</span>
                   </div>
@@ -392,7 +392,7 @@ export default function AdminAnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <TrendingUp className="h-3 w-3" /> Completion par Difficulté
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -400,15 +400,15 @@ export default function AdminAnalyticsPage() {
               <div key={diff.difficulty} className="space-y-2 p-4 rounded-xl border border-white/5 bg-white/[0.02]">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-white uppercase tracking-wider">Niveau {diff.difficulty}</span>
-                  <span className="text-[10px] font-mono text-muted-foreground">{diff.total} soumissions</span>
+                  <span className="text-xs font-mono text-muted-foreground">{diff.total} soumissions</span>
                 </div>
-                <div className="flex justify-between text-[10px] font-mono">
+                <div className="flex justify-between text-xs font-mono">
                   <span className="text-emerald-400">✅ {diff.approved}</span>
                   <span className="text-amber-400">⏳ {diff.pending}</span>
                   <span className="text-red-400">❌ {diff.rejected}</span>
                 </div>
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[10px] font-mono">
+                  <div className="flex justify-between text-xs font-mono">
                     <span className="text-zinc-500">Taux de réussite</span>
                     <span className={diff.completionRate >= 60 ? "text-emerald-400" : diff.completionRate >= 30 ? "text-amber-400" : "text-red-400"}>{diff.completionRate}%</span>
                   </div>
@@ -422,15 +422,15 @@ export default function AdminAnalyticsPage() {
         </div>
 
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-          <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Shield className="h-3 w-3" /> Distribution des Streaks Escouades
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {Object.entries(squads.streakDistribution).map(([range, count]) => (
               <div key={range} className="space-y-2 p-4 rounded-xl border border-white/5 bg-white/[0.02] text-center">
                 <div className="text-2xl font-bold text-white font-mono">{count}</div>
-                <div className="text-[10px] font-mono text-zinc-500 uppercase">{range} jours</div>
-                <div className="text-[10px] font-mono text-muted-foreground">
+                <div className="text-xs font-mono text-zinc-500 uppercase">{range} jours</div>
+                <div className="text-xs font-mono text-muted-foreground">
                   {squads.total > 0 ? Math.round((count / squads.total) * 100) : 0}%
                 </div>
               </div>

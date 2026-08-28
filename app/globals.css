@@ -102,6 +102,25 @@
   --surface-subtle: oklch(0.97 0.003 85);
   --surface-elevated: oklch(1 0 0);
   --surface-overlay: oklch(0 0 0 / 0.04);
+
+  /* ── Semantic light-mode surfaces (replace hardcoded dark utilities) ── */
+  --surface-base: oklch(1 0 0);
+  --surface-raised: oklch(0.97 0 0);
+  --surface-muted: oklch(0.98 0 0);
+  --surface-hover: oklch(0.95 0 0);
+  --text-secondary: oklch(0.5 0 0);
+  --text-tertiary: oklch(0.65 0 0);
+  --text-placeholder: oklch(0.7 0 0);
+  --border-subtle: oklch(0.88 0.005 85);
+  --border-hover: oklch(0.8 0.006 85);
+  --overlay-light: oklch(0 0 0 / 0.04);
+  --overlay-medium: oklch(0 0 0 / 0.08);
+  --overlay-strong: oklch(0 0 0 / 0.16);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 8px 24px oklch(0 0 0 / 0.08);
+  --shadow-glow-primary: 0 0 20px oklch(0.58 0.19 150 / 0.15);
+  --shadow-glow-primary-hover: 0 0 32px oklch(0.58 0.19 150 / 0.25);
 }
 
 /* ── DARK MODE (cyberpunk aesthetic preserved) ── */
@@ -149,6 +168,24 @@
   --surface-subtle: oklch(0.1 0 0);
   --surface-elevated: oklch(0.14 0 0);
   --surface-overlay: oklch(0 0 0 / 0.8);
+
+  --surface-base: oklch(0.1 0 0);
+  --surface-raised: oklch(0.14 0 0);
+  --surface-muted: oklch(0.12 0 0);
+  --surface-hover: oklch(0.18 0 0);
+  --text-secondary: oklch(0.7 0 0);
+  --text-tertiary: oklch(0.55 0 0);
+  --text-placeholder: oklch(0.45 0 0);
+  --border-subtle: oklch(0.2 0 0);
+  --border-hover: oklch(0.25 0 0);
+  --overlay-light: oklch(1 0 0 / 0.04);
+  --overlay-medium: oklch(1 0 0 / 0.08);
+  --overlay-strong: oklch(1 0 0 / 0.16);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 24px oklch(0 0 0 / 0.5);
+  --shadow-glow-primary: 0 0 20px oklch(0.91 0.22 124 / 0.25);
+  --shadow-glow-primary-hover: 0 0 32px oklch(0.91 0.22 124 / 0.4);
 }
 
 @theme inline {
@@ -220,71 +257,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* ── Light mode overrides for hardcoded dark utilities ──
-   Components use bg-zinc-900, border-white/5, text-zinc-400 etc.
-   Consolidated from ~50 selectors down to semantic groups. */
-:root:not(.dark) {
-  --surface-base: oklch(1 0 0);
-  --surface-raised: oklch(0.97 0 0);
-  --surface-subtle: oklch(0.98 0 0);
-  --surface-overlay: oklch(0 0 0 / 0.04);
-  --text-secondary: oklch(0.5 0 0);
-  --text-tertiary: oklch(0.65 0 0);
-}
-
-/* ── Consolidated light-mode utility remapping ───────────────────── */
-
-/* Backgrounds: dark zinc/black/white utilities → light surfaces */
-:root:not(.dark) [class*="bg-zinc-9"] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-zinc-950"] { background-color: var(--sidebar) !important; }
-:root:not(.dark) [class*="bg-white/"],
-:root:not(.dark) [class*="bg-white/["] { background-color: var(--surface-subtle) !important; }
-:root:not(.dark) [class*="bg-black/40"],
-:root:not(.dark) [class*="bg-black/80"] { background-color: var(--surface-overlay) !important; }
-
-/* Borders: white/zinc border utilities → subtle light borders */
-:root:not(.dark) [class*="border-white/"],
-:root:not(.dark) [class*="border-zinc-8"] { border-color: var(--border) !important; }
-
-/* Text: zinc/white text utilities → semantic light text */
-:root:not(.dark) [class*="text-zinc-"],
-:root:not(.dark) [class*="text-white"]:not([class*="text-white/"]) { color: var(--muted-foreground) !important; }
-
-/* Modal / dialog overlays */
-:root:not(.dark) [class*="bg-black/80"] { background-color: oklch(0 0 0 / 0.3) !important; }
-
-/* Background gradient mesh overlay */
-:root:not(.dark) .bg-gradient-mesh { opacity: 0.03; }
-
-/* Scanline effect — hide in light mode */
-:root:not(.dark) .scanline { display: none !important; }
-
-/* Bottom nav in light mode */
-:root:not(.dark) .bottom-nav-glass {
-  background-color: oklch(1 0 0 / 0.85) !important;
-  backdrop-filter: blur(24px) !important;
-  border-color: var(--border) !important;
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.06) !important;
-}
-
-/* Dark placeholder text in inputs */
-:root:not(.dark) input::placeholder,
-:root:not(.dark) textarea::placeholder { color: oklch(0.7 0 0) !important; }
-
-/* Radial gradient background decoration */
-:root:not(.dark) [class*="bg-\\[radial-gradient"] { opacity: 0.3; }
-
-/* Badge variants in light mode */
-:root:not(.dark) [class*="bg-primary/10"] { background-color: var(--accent) !important; }
-:root:not(.dark) [class*="bg-primary/5"] { background-color: oklch(0.58 0.19 150 / 0.06) !important; }
-:root:not(.dark) [class*="bg-emerald-500/10"] { background-color: oklch(0.6 0.2 150 / 0.08) !important; }
-:root:not(.dark) [class*="bg-amber-500/10"] { background-color: oklch(0.7 0.2 85 / 0.08) !important; }
-
-/* Ambient glow decorations */
-:root:not(.dark) [class*="blur-\\[100px\\]"],
-:root:not(.dark) [class*="blur-\\[120px\\]"],
-:root:not(.dark) [class*="blur-\\[60px\\]"] { opacity: 0.15 !important; }
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -309,42 +281,50 @@
 
   /* Global Button Styles */
   .btn-primary-glow {
-    @apply relative overflow-hidden bg-primary text-primary-foreground font-bold shadow-[0_0_20px_rgba(197,244,65,0.2)];
+    @apply relative overflow-hidden bg-primary text-primary-foreground font-bold;
+    box-shadow: var(--shadow-glow-primary);
   }
 
   .btn-primary-glow:hover {
-    @apply shadow-[0_0_35px_rgba(197,244,65,0.4)] scale-[1.02] brightness-105;
+    @apply scale-[1.02] brightness-105;
+    box-shadow: var(--shadow-glow-primary-hover);
   }
-  /* Component-level light-mode overrides — use CSS variables instead of hardcoded colors */
-  :root:not(.dark) .btn-primary-glow {
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
+
+  .glass-card {
+    background-color: var(--surface-raised);
+    border-color: var(--border-subtle);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(24px);
   }
-  :root:not(.dark) .btn-primary-glow:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+
+  .input-premium {
+    background: var(--background);
+    border: 1px solid var(--border);
+    color: var(--foreground);
   }
-  :root:not(.dark) .glass-card {
-    background-color: rgba(255,255,255,0.7) !important;
-    border-color: rgba(0,0,0,0.06) !important;
-    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.04) !important;
+
+  .input-premium:hover {
+    border-color: var(--border-hover);
   }
-  :root:not(.dark) .input-premium {
-    background: var(--background) !important;
-    border: 1px solid var(--border) !important;
-    color: var(--foreground) !important;
+
+  .input-premium:focus {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow-primary);
   }
-  :root:not(.dark) .input-premium:hover {
-    border-color: var(--muted-foreground) !important;
+
+  .custom-scrollbar {
+    scrollbar-color: var(--border) transparent;
   }
-  :root:not(.dark) .input-premium:focus {
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 20px rgba(197, 244, 65, 0.15) !important;
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
   }
-  :root:not(.dark) .holographic-sheen::after { display: none; }
-  :root:not(.dark) .custom-scrollbar { scrollbar-color: oklch(0.8 0 0) transparent; }
-  :root:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb { background: oklch(0.8 0 0); }
-  :root:not(.dark) .low-power .glass-card {
-    background: var(--muted) !important;
-    border-color: var(--border) !important;
+
+  .low-power .glass-card {
+    background: var(--muted);
+    border-color: var(--border);
+    backdrop-filter: none !important;
   }
 
   @keyframes holo-sheen-sweep {
@@ -487,7 +467,9 @@
     backdrop-filter: none !important;
   }
   .low-power .glass-card {
-    @apply bg-zinc-900 border-white/10 shadow-none;
+    background: var(--surface-base);
+    border-color: var(--border-subtle);
+    box-shadow: none;
     backdrop-filter: none !important;
   }
   .low-power .holographic-sheen::after {

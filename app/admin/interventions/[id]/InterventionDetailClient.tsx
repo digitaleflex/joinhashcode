@@ -410,14 +410,14 @@ export function InterventionDetailClient({
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-zinc-500 font-mono text-xs uppercase">Statut</span>
-                <Badge variant="outline" className={`border font-mono text-[9px] uppercase ${sm.className}`}>
+                <Badge variant="outline" className={`border font-mono text-3xs uppercase ${sm.className}`}>
                   {sm.label}
                 </Badge>
               </div>
               <div className="flex flex-col gap-1 md:col-span-2">
                 <span className="text-zinc-500 font-mono text-xs uppercase">Lieu</span>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Badge variant="outline" className="border-zinc-700 font-mono text-[10px] uppercase">
+                  <Badge variant="outline" className="border-zinc-700 font-mono text-xs uppercase">
                     {LOCATION_TYPES.find((l) => l.value === intervention.location)?.label || intervention.location}
                   </Badge>
                   {intervention.locationUrl && (
@@ -502,16 +502,16 @@ export function InterventionDetailClient({
                           </TableCell>
                           <TableCell>
                             {attendee.user.class ? (
-                              <Badge variant="outline" className="border font-mono text-[10px] uppercase" style={{ background: `${({ builder: "#B8FF3B", creator: "#A855F7", strategist: "#22D3EE", catalyst: "#F97316" } as Record<string, string>)[attendee.user.class] ?? "#fff"}15`, color: ({ builder: "#B8FF3B", creator: "#A855F7", strategist: "#22D3EE", catalyst: "#F97316" } as Record<string, string>)[attendee.user.class] ?? "#fff" }}>
+                              <Badge variant="outline" className="border font-mono text-xs uppercase" style={{ background: `${({ builder: "#B8FF3B", creator: "#A855F7", strategist: "#22D3EE", catalyst: "#F97316" } as Record<string, string>)[attendee.user.class] ?? "#fff"}15`, color: ({ builder: "#B8FF3B", creator: "#A855F7", strategist: "#22D3EE", catalyst: "#F97316" } as Record<string, string>)[attendee.user.class] ?? "#fff" }}>
                                 {attendee.user.class}
                               </Badge>
                             ) : (
-                              <span className="text-zinc-500 text-[10px] font-mono">—</span>
+                              <span className="text-zinc-500 text-xs font-mono">—</span>
                             )}
-                            <p className="text-zinc-500 text-[10px] font-mono mt-0.5">LVL {attendee.user.level}</p>
+                            <p className="text-zinc-500 text-xs font-mono mt-0.5">LVL {attendee.user.level}</p>
                           </TableCell>
                           <TableCell className="text-center">
-                            <Badge variant="outline" className={`border font-mono text-[9px] uppercase ${asm.className}`}>
+                            <Badge variant="outline" className={`border font-mono text-3xs uppercase ${asm.className}`}>
                               {asm.label}
                             </Badge>
                           </TableCell>
@@ -581,7 +581,7 @@ export function InterventionDetailClient({
               Lieu
             </h2>
             <div className="space-y-2">
-              <Badge variant="outline" className="border-zinc-700 font-mono text-[10px] uppercase w-full justify-start">
+              <Badge variant="outline" className="border-zinc-700 font-mono text-xs uppercase w-full justify-start">
                 {LOCATION_TYPES.find((l) => l.value === intervention.location)?.label || intervention.location}
               </Badge>
               {intervention.locationUrl && (

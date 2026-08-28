@@ -43,6 +43,39 @@ backups/
 .env.local
 .env.test
 docker-compose.yml
+*.env
+!*.env.example
+
+# Credentials & secrets — ne jamais versionner
+*.secret
+*.credentials
+*.service-account.json
+*service*account*.json
+*credentials*.json
+service_account.json
+*_creds.json
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+*.cer
+*.crt
+*.key
+*.rsa
+*.dsa
+*.ecdsa
+*.id_rsa
+id_rsa
+id_ed25519
+id_ecdsa
+id_dsa
+*.secret.key
+secrets/
+credentials/
+.deploy/
+*.config.local
+settings.local.json
 
 # TypeScript
 *.tsbuildinfo

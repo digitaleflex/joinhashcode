@@ -205,7 +205,7 @@ export default function AdminInterventionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{totalCount}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Interventions Totales</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Interventions Totales</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -214,7 +214,7 @@ export default function AdminInterventionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{counts.PUBLISHED ?? 0}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Publiées</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Publiées</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -225,7 +225,7 @@ export default function AdminInterventionsPage() {
             <div className="text-2xl font-mono font-bold text-white">
               {interventions.reduce((sum, i) => sum + i.attendeeCount, 0)}
             </div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Inscrits Total</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Inscrits Total</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -234,7 +234,7 @@ export default function AdminInterventionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{counts.COMPLETED ?? 0}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Terminées</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Terminées</div>
           </div>
         </div>
       </div>
@@ -355,7 +355,7 @@ export default function AdminInterventionsPage() {
                         <span className="text-zinc-300 font-mono text-sm">{intervention.speaker}</span>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="border-zinc-700 font-mono text-[10px] uppercase">
+                        <Badge variant="outline" className="border-zinc-700 font-mono text-xs uppercase">
                           {LOCATION_TYPES.find((l) => l.value === intervention.location)?.label || intervention.location}
                         </Badge>
                         {intervention.locationUrl && (
@@ -370,7 +370,7 @@ export default function AdminInterventionsPage() {
                       <TableCell className="text-center">
                         <div className="flex flex-col items-center gap-0.5">
                           <span className="text-white font-mono font-bold">{intervention.registeredCount}</span>
-                          <span className="text-zinc-500 text-[10px] font-mono">
+                          <span className="text-zinc-500 text-xs font-mono">
                             {intervention.waitlistCount > 0 ? `+${intervention.waitlistCount} liste d'attente` : ""}
                           </span>
                         </div>
@@ -378,7 +378,7 @@ export default function AdminInterventionsPage() {
                       <TableCell>
                         <Badge
                           variant="outline"
-                          className={`border font-mono text-[9px] uppercase ${getStatusColor(intervention.status)}`}
+                          className={`border font-mono text-3xs uppercase ${getStatusColor(intervention.status)}`}
                         >
                           {sm.label}
                         </Badge>
@@ -454,14 +454,14 @@ export default function AdminInterventionsPage() {
                     {dayInterventions.map((intervention) => (
                       <div
                         key={intervention.id}
-                        className="text-[10px] font-mono px-1.5 py-1 rounded bg-primary/20 text-primary truncate hover:bg-primary/30 cursor-pointer"
+                        className="text-xs font-mono px-1.5 py-1 rounded bg-primary/20 text-primary truncate hover:bg-primary/30 cursor-pointer"
                         title={intervention.title}
                       >
                         {format(new Date(intervention.date), "HH:mm", { locale: fr })} {intervention.title}
                       </div>
                     ))}
                     {dayInterventions.length === 0 && (
-                      <div className="text-[10px] text-zinc-600 h-full flex items-center justify-center">
+                      <div className="text-xs text-zinc-600 h-full flex items-center justify-center">
                         —
                       </div>
                     )}

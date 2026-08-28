@@ -356,14 +356,14 @@ export default function AdminContenusPage() {
                       <TableCell>
                         <Badge
                           variant="outline"
-                          className="border font-mono text-[9px] uppercase"
+                          className="border font-mono text-3xs uppercase"
                           style={{ borderColor: PROFILE_COLORS[atelier.profile], color: PROFILE_COLORS[atelier.profile] }}
                         >
                           {PROFILE_LABELS[atelier.profile]}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="border-zinc-700 font-mono text-[10px]">
+                        <Badge variant="outline" className="border-zinc-700 font-mono text-xs">
                           {atelier.specializationLabel}
                         </Badge>
                       </TableCell>
@@ -441,12 +441,12 @@ export default function AdminContenusPage() {
                         <p className="text-zinc-400 text-xs font-mono line-clamp-2">{content.pain}</p>
                         <div className="flex flex-wrap gap-1">
                           {content.possibleSpecializations.slice(0, 3).map((s: any, i: number) => (
-                            <Badge key={i} variant="outline" className="font-mono text-[9px]">
+                            <Badge key={i} variant="outline" className="font-mono text-3xs">
                               {s.label}
                             </Badge>
                           ))}
                           {content.possibleSpecializations.length > 3 && (
-                            <Badge variant="outline" className="font-mono text-[9px] text-zinc-500">
+                            <Badge variant="outline" className="font-mono text-3xs text-zinc-500">
                               +{content.possibleSpecializations.length - 3}
                             </Badge>
                           )}

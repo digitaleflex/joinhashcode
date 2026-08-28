@@ -382,7 +382,7 @@ export default function AdminParcoursPage() {
                       <div>
                         <CardTitle className="text-lg font-mono flex items-center gap-2">
                           {spec.name}
-                          <Badge variant="outline" className="font-mono text-[9px] uppercase" style={{ borderColor: CLASS_COLORS[spec.class], color: CLASS_COLORS[spec.class] }}>
+                          <Badge variant="outline" className="font-mono text-3xs uppercase" style={{ borderColor: CLASS_COLORS[spec.class], color: CLASS_COLORS[spec.class] }}>
                             {spec.specializationId}
                           </Badge>
                         </CardTitle>
