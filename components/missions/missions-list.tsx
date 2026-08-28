@@ -527,8 +527,8 @@ function MissionCard({
         </div>
 
         <div className="space-y-4 mt-auto pt-4">
-          <div className="flex items-center justify-between pt-3 border-t border-white/5">
-            <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center justify-between pt-3 border-t border-white/5 gap-2">
+            <div className="flex flex-wrap items-center gap-4 flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <div className="size-1.5 rounded-full bg-emerald-500/60" />
                 <span className="text-3xs font-mono text-zinc-500 uppercase">
@@ -566,12 +566,23 @@ function MissionCard({
               )}
             </div>
             
-            <button
-              onClick={onPreview}
-              className="text-3xs font-mono text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2 shrink-0"
-            >
-              Voir le briefing
-            </button>
+            {mission.fullBriefing && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={onPreview}
+                      className="text-3xs font-mono text-primary hover:text-primary/80 transition-colors underline underline-offset-2 shrink-0 flex items-center gap-1"
+                    >
+                      📖 Briefing complet
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-xs">
+                    Ouvre le briefing détaillé avec sommaire et navigation
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
 
           {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
