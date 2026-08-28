@@ -86,7 +86,7 @@ export function PendingInvitations() {
                 <div className="text-sm font-bold text-white uppercase italic">
                   Escouade {invite.organizationName}
                 </div>
-                <div className="text-[10px] text-zinc-500 font-mono">
+                <div className="text-xs text-zinc-500 font-mono">
                   Rôle proposé : {invite.role === "admin" ? "Administrateur" : "Membre"}
                 </div>
               </div>
@@ -102,7 +102,7 @@ export function PendingInvitations() {
                 </Button>
                 <Button 
                   size="sm" 
-                  className="h-8 gap-2 bg-primary text-black hover:bg-primary/90 font-bold text-[10px] uppercase"
+                  className="h-8 gap-2 bg-primary text-black hover:bg-primary/90 font-bold text-xs uppercase"
                   onClick={() => handleAction(invite.id, "accept")}
                 >
                   <Check className="size-4" />

@@ -109,7 +109,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
             
             <Link 
               href="/dashboard" 
-              className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-500 hover:text-primary transition-colors group mb-2"
+              className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-primary transition-colors group mb-2"
             >
               <ChevronLeft className="size-3 group-hover:-translate-x-0.5 transition-transform" />
               RETOUR AU DASHBOARD
@@ -119,7 +119,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                   <Settings className="size-3.5 text-primary" />
-                  <span className="text-[10px] font-mono font-bold text-primary">Paramètres utilisateur</span>
+                  <span className="text-xs font-mono font-bold text-primary">Paramètres utilisateur</span>
                 </div>
                 <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
                   Configuration <span className="text-primary font-bold">du compte</span>
@@ -134,7 +134,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                   <Button
                     onClick={() => { setLoading(true); save(userData).finally(() => setLoading(false)) }}
                     disabled={loading}
-                    className="btn-primary-glow h-12 rounded-xl px-6 text-[11px] uppercase font-black tracking-wide gap-2 cursor-pointer"
+                    className="btn-primary-glow h-12 rounded-xl px-6 text-sm-plus uppercase font-black tracking-wide gap-2 cursor-pointer"
                   >
                     {loading ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
                     Sauvegarder
@@ -142,8 +142,8 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                 )}
                 <div className="flex items-center gap-4 bg-zinc-900/40 border border-white/5 px-5 py-3 rounded-2xl backdrop-blur-xl">
                   <div className="flex flex-col items-end">
-                    <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Statut</span>
-                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-wider", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
+                    <span className="text-3xs font-mono uppercase text-zinc-600 tracking-tighter">Statut</span>
+                    <span className={cn("text-xs font-mono font-black uppercase tracking-wider", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
                       {autoSaving ? "SAUVEGARDE..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
                     </span>
                   </div>
@@ -187,7 +187,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                       </div>
                       <div className="space-y-0.5">
                         <p className={cn("text-xs font-semibold tracking-tight transition-colors", isActive ? "text-white" : "group-hover:text-zinc-300")}>{tab.label}</p>
-                        <p className="text-[10px] opacity-60 leading-tight font-light tracking-tight">{tab.desc}</p>
+                        <p className="text-xs opacity-60 leading-tight font-light tracking-tight">{tab.desc}</p>
                       </div>
                     </button>
                   )
@@ -203,7 +203,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                 <div className="absolute bottom-6 left-6 w-5 h-5 border-b-2 border-l-2 pointer-events-none transition-colors duration-500" style={{ borderColor: `${activeColor.color}35` }} aria-hidden="true" />
                 <div className="absolute bottom-6 right-6 w-5 h-5 border-b-2 border-r-2 pointer-events-none transition-colors duration-500" style={{ borderColor: `${activeColor.color}35` }} aria-hidden="true" />
 
-                <div className="absolute top-6 left-16 font-mono text-[7px] text-zinc-500 uppercase tracking-widest pointer-events-none select-none flex items-center gap-1.5" aria-hidden="true">
+                <div className="absolute top-6 left-16 font-mono text-2xs text-zinc-500 uppercase tracking-widest pointer-events-none select-none flex items-center gap-1.5" aria-hidden="true">
                   <span className="size-1 rounded-full animate-ping" style={{ backgroundColor: activeColor.color }} />
                   [{activeColor.label}]
                 </div>

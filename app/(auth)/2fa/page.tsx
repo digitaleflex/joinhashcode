@@ -75,7 +75,7 @@ export default function TwoFactorPage() {
                 </Button>
             </form>
 
-            <p className="text-center text-[10px] font-mono text-zinc-700 uppercase tracking-widest">
+            <p className="text-center text-xs font-mono text-zinc-700 uppercase tracking-widest">
                 Code de vérification requis
             </p>
         </div>

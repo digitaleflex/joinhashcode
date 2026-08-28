@@ -17,7 +17,7 @@ export function FinalCta() {
         >
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4">
             <Zap className="size-4 text-primary" />
-            <span className="font-mono text-[10px] uppercase font-bold text-zinc-400 tracking-widest">Commence maintenant</span>
+            <span className="font-mono text-xs uppercase font-bold text-zinc-400 tracking-widest">Commence maintenant</span>
           </div>
 
           <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase italic leading-[0.9]">
@@ -31,7 +31,7 @@ export function FinalCta() {
           </p>
 
           {/* Cost reminder — remove friction right before the CTA */}
-          <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-500">
+          <p className="font-mono text-sm-plus font-bold uppercase tracking-widest text-zinc-500">
             Gratuit · 3 minutes · Sans engagement
           </p>
 
@@ -55,15 +55,15 @@ export function FinalCta() {
           >
             <div className="flex flex-col items-center gap-2">
               <span className="text-3xl font-black text-white font-mono">4</span>
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Profils identifiés</span>
+              <span className="font-mono text-xs uppercase font-bold text-zinc-500 tracking-tighter">Profils identifiés</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <span className="text-3xl font-black text-white font-mono">100%</span>
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Gratuit au départ</span>
+              <span className="font-mono text-xs uppercase font-bold text-zinc-500 tracking-tighter">Gratuit au départ</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <span className="text-3xl font-black text-white font-mono">5</span>
-              <span className="font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-tighter">Questions ciblées</span>
+              <span className="font-mono text-xs uppercase font-bold text-zinc-500 tracking-tighter">Questions ciblées</span>
             </div>
           </div>
         </div>

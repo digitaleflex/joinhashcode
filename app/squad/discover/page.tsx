@@ -53,14 +53,14 @@ export default async function DiscoverSquadsPage() {
 
         {/* Header */}
         <div className="space-y-4">
-          <Link href="/squad" className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/squad" className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
             <ArrowLeft className="size-3" /> Retour
           </Link>
           <div className="flex items-end justify-between">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                 <Compass className="size-3.5 text-primary" />
-                <span className="text-[10px] font-mono font-bold text-primary uppercase">Trouve ton unité</span>
+                <span className="text-xs font-mono font-bold text-primary uppercase">Trouve ton unité</span>
               </div>
               <h1 className="text-4xl font-black uppercase italic text-white tracking-tight">
                 Découvrir les <span className="text-primary">Escouades</span>
@@ -104,14 +104,14 @@ export default async function DiscoverSquadsPage() {
                   <div className="flex-1 min-w-0 space-y-1">
                     <p className="text-sm font-black text-white uppercase italic truncate">{squad.name}</p>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-wider">
+                      <span className="text-3xs font-mono text-zinc-600 uppercase tracking-wider">
                         {squad._count.members}/{MAX_MEMBERS} membres
                       </span>
-                      <Badge className="text-[8px] bg-zinc-800 text-zinc-300 border-transparent font-mono gap-1">
+                      <Badge className="text-xs-sm bg-zinc-800 text-zinc-300 border-transparent font-mono gap-1">
                         <UserPlus className="size-2" /> {spotsLeft} place{spotsLeft > 1 ? "s" : ""}
                       </Badge>
                       {squad.streakCount >= 3 && (
-                        <Badge className="text-[8px] bg-primary/10 text-primary border-primary/20 font-mono gap-1">
+                        <Badge className="text-xs-sm bg-primary/10 text-primary border-primary/20 font-mono gap-1">
                           🔥 {squad.streakCount}j
                         </Badge>
                       )}
@@ -121,7 +121,7 @@ export default async function DiscoverSquadsPage() {
 
                 {/* Description */}
                 {squad.description && (
-                  <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2 -mt-1">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed line-clamp-2 -mt-1">
                     {squad.description}
                   </p>
                 )}
@@ -144,12 +144,12 @@ export default async function DiscoverSquadsPage() {
                 <div className="flex items-end justify-between mt-auto pt-2 border-t border-white/5">
                   <div className="space-y-1">
                     {((squad.cohesionScore || 0) >= 0.5) && (
-                      <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-primary">
+                      <div className="flex items-center gap-1 text-xs font-mono font-bold text-primary">
                         <Zap className="size-3" />{Math.round(squad.cohesionScore * 100)}% SYNC
                       </div>
                     )}
                     {squad.requiredLevel > 1 && (
-                      <div className={`text-[9px] font-mono uppercase tracking-wider ${levelOk ? "text-zinc-600" : "text-amber-500"}`}>
+                      <div className={`text-3xs font-mono uppercase tracking-wider ${levelOk ? "text-zinc-600" : "text-amber-500"}`}>
                         Niveau {squad.requiredLevel} requis
                       </div>
                     )}
@@ -167,7 +167,7 @@ export default async function DiscoverSquadsPage() {
           <div className="text-center py-24 border border-dashed border-white/5 rounded-3xl space-y-3">
             <Users className="size-12 text-zinc-700 mx-auto mb-2" />
             <p className="text-zinc-500 font-mono text-xs uppercase">Aucune escouade recrute pour le moment</p>
-            <Link href="/squad" className="inline-block text-[10px] font-mono text-primary hover:underline uppercase tracking-widest">
+            <Link href="/squad" className="inline-block text-xs font-mono text-primary hover:underline uppercase tracking-widest">
               Crée la tienne →
             </Link>
           </div>

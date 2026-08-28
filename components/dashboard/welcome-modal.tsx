@@ -124,7 +124,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                   <div className="space-y-2">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/8 mb-4">
                       <Sparkles className="w-3 h-3 text-primary" />
-                      <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-400">Profil attribué</span>
+                      <span className="text-3xs font-mono uppercase tracking-widest text-zinc-400">Profil attribué</span>
                     </div>
 
                     <motion.div
@@ -196,7 +196,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                 >
                   <div className="text-center space-y-1">
                     <h3 className="text-lg font-black uppercase tracking-tighter text-white">Voici ta feuille de route</h3>
-                    <p className="text-[11px] text-zinc-500 font-mono">Les 90 prochains jours</p>
+                    <p className="text-sm-plus text-zinc-500 font-mono">Les 90 prochains jours</p>
                   </div>
 
                   <div className="space-y-3">
@@ -206,7 +206,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                       transition={{ delay: 0.08 }}
                       className="p-4 rounded-2xl border border-primary/20 bg-primary/5"
                     >
-                      <p className="text-[9px] font-mono text-primary uppercase tracking-widest font-bold mb-1">
+                      <p className="text-3xs font-mono text-primary uppercase tracking-widest font-bold mb-1">
                         Objectif 90 jours
                       </p>
                       <p className="text-sm font-bold text-white">
@@ -224,7 +224,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                         <BookOpen className={`w-4 h-4 ${cfg.color}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Cette semaine</p>
+                        <p className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Cette semaine</p>
                         <p className="text-sm font-bold text-white">Premier atelier de spécialisation (45 min)</p>
                       </div>
                     </motion.div>
@@ -239,7 +239,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                         <Zap className={`w-4 h-4 ${cfg.color}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Aujourd&apos;hui</p>
+                        <p className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Aujourd&apos;hui</p>
                         <p className="text-sm font-bold text-white">Première mission</p>
                       </div>
                     </motion.div>

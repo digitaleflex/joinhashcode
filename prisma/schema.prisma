@@ -12,7 +12,7 @@ model User {
   name                 String
   email                String    @unique
   emailVerified        Boolean
-  emailStatus          String    @default("VALID") // VALID, BOUNCED, COMPLAINED
+  emailStatus          String    @default("VALID")
   emailLastBounced     DateTime?
   image                String?
   createdAt            DateTime
@@ -46,7 +46,6 @@ model User {
   banExpires           DateTime?
   deactivatedAt        DateTime? @map("deactivated_at")
   talentVisible        Boolean   @default(false)
-  // Scores psychométriques calculés par analysis.ts
   builderScore         Int       @default(0)
   creatorScore         Int       @default(0)
   strategistScore      Int       @default(0)
@@ -69,11 +68,17 @@ model User {
   linkedinUrl            String?
   twitterUrl             String?
 
-  // Relations spécialisées
-  beta          UserBeta?
-  profile       UserProfile?
-  accounts      Account[]
-  dailyCheckins DailyCheckin[]
+  bio                  String?
+  secondaryObjectives  String[]  @default([])
+  currentFocus         String[]  @default([])
+  dreamStatement       String?
+  mainBlocker          String?
+  betaKeyId            String?
+  betaCreatedAt        DateTime? @default(now())
+  betaUpdatedAt        DateTime? @updatedAt
+
+  accounts             Account[]
+  dailyCheckins        DailyCheckin[]
 
   missionSubmissions   MissionSubmission[] @relation("SubmissionOwner")
   submissionsInReview  MissionSubmission[] @relation("SubmissionReviewer")
@@ -90,8 +95,8 @@ model User {
   invitations          Invitation[]
   joinRequests         JoinRequest[]
 
-  xpTransactions XpTransaction[]
-  squadMessages  SquadMessage[]
+  xpTransactions       XpTransaction[]
+  squadMessages        SquadMessage[]
 
   missionAttempts       MissionAttempt[]      @relation("AttemptOwner")
   attemptsReviewed      MissionAttempt[]      @relation("AttemptReviewer")
@@ -100,37 +105,18 @@ model User {
   profileV1             ProfileV1?
   missionAssignments    MissionAssignment[]
 
+  interventionAttendees InterventionAttendee[]
+  mentorProfile         MentorProfile?
+  mentorMatches         MentorMatch[]         @relation("MentorMatches")
+  menteeMatches         MentorMatch[]         @relation("MenteeMatches")
+
   @@index([class])
   @@index([role])
   @@index([createdAt])
   @@map("user")
 }
 
-model UserProfile {
-  id                  String   @id @default(cuid())
-  userId              String   @unique
-  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio                 String?
-  secondaryObjectives String[]
-  currentFocus        String[]
-  dreamStatement      String?
-  mainBlocker         String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
 
-  @@map("user_profile")
-}
-
-model UserBeta {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  betaKeyId String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("user_beta")
-}
 
 model Organization {
   id                   String         @id
@@ -667,6 +653,166 @@ model ProfileV1 {
 
   @@index([userId])
   @@map("profile_v1")
+}
+
+model Atelier {
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @db.Text
+  duration     String
+  order        Int      @default(0)
+  icon         String?
+  category     String
+  prerequisites String[] @default([])
+  profile      String
+  specializationId String
+  specializationLabel String
+  xpReward     Int      @default(50)
+  missionSlugs String[] @default([])
+  pourquoi     String?  @db.Text
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([profile])
+  @@index([category])
+  @@index([isActive, order])
+  @@map("atelier")
+}
+
+model ProfileContent {
+  id                  String   @id @default(cuid())
+  profile             String   @unique
+  pain                String   @db.Text
+  painBold            String
+  truths              Json
+  unlockedMissions    Json
+  lockedMissions      Json
+  socialProof         String   @db.Text
+  whatsappText        String
+  ctaLabel            String
+  possibleSpecializations Json
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("profile_content")
+}
+
+model Specialization {
+  id          String   @id @default(cuid())
+  specializationId String @unique
+  class       String
+  name        String
+  description String   @db.Text
+  missions    Json
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([class])
+  @@index([isActive, order])
+  @@map("specialization")
+}
+
+model KnowledgeArticle {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  category    String
+  tags        String[] @default([])
+  visibility  String   @default("PRIVATE")
+  slug        String   @unique
+  authorId    String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([visibility])
+  @@index([isPublished, publishedAt])
+  @@map("knowledge_article")
+}
+
+model Intervention {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  date        DateTime
+  duration    Int
+  speaker     String
+  capacity    Int
+  location    String
+  locationUrl String?
+  recordingUrl String?
+  status      String   @default("DRAFT")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+  attendees   InterventionAttendee[]
+
+  @@index([date])
+  @@index([status])
+  @@map("intervention")
+}
+
+model InterventionAttendee {
+  id            String        @id @default(cuid())
+  interventionId String
+  intervention  Intervention  @relation(fields: [interventionId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status        String        @default("REGISTERED")
+  registeredAt  DateTime      @default(now())
+  attendedAt    DateTime?
+  feedback      String?
+  rating        Int?
+
+  @@unique([interventionId, userId])
+  @@index([userId])
+  @@index([status])
+  @@map("intervention_attendee")
+}
+
+model MentorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?  @db.Text
+  expertise       String[] @default([])
+  domains         String[] @default([])
+  maxMentees      Int      @default(3)
+  currentMentees  Int      @default(0)
+  isActive        Boolean  @default(true)
+  rating          Float    @default(0)
+  totalSessions   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("mentor_profile")
+}
+
+model MentorMatch {
+  id            String   @id @default(cuid())
+  mentorId      String
+  mentor        User     @relation("MentorMatches", fields: [mentorId], references: [id], onDelete: Cascade)
+  menteeId      String
+  mentee        User     @relation("MenteeMatches", fields: [menteeId], references: [id], onDelete: Cascade)
+  status        String   @default("PENDING")
+  matchedAt     DateTime @default(now())
+  startedAt     DateTime?
+  endedAt       DateTime?
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([mentorId, menteeId])
+  @@index([mentorId])
+  @@index([menteeId])
+  @@index([status])
+  @@map("mentor_match")
 }
 
 model MissionWebhook {

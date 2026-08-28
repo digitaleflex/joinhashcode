@@ -40,7 +40,7 @@ export function SquadDiscovery() {
         </div>
         <div>
             <h2 className="text-xl font-bold text-white uppercase italic">Recrutement Actif</h2>
-            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest">Escouades en recherche d"agents</p>
+            <p className="text-xs text-zinc-500 font-mono uppercase tracking-widest">Escouades en recherche d"agents</p>
         </div>
       </div>
 

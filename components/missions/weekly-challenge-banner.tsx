@@ -48,21 +48,21 @@ export function WeeklyChallengeBanner({ mission, isCompleted, daysLeft }: Weekly
           {/* Texte */}
           <div className="space-y-0.5 text-left">
             <div className="flex items-center gap-2">
-              <span className="text-[8px] font-mono font-black uppercase tracking-widest text-primary">
+              <span className="text-xs-sm font-mono font-black uppercase tracking-widest text-primary">
                 Challenge de la semaine
               </span>
-              <span className="text-[7px] font-mono text-zinc-600">
+              <span className="text-2xs font-mono text-zinc-600">
                 {isCompleted ? "Complété" : `Reset dans ${daysLeft}j`}
               </span>
               {!isCompleted && (
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div className="flex items-center gap-1 text-[7px] font-mono text-zinc-600 hover:text-primary transition-colors cursor-help border-l border-white/5 pl-2 ml-1">
+                      <div className="flex items-center gap-1 text-2xs font-mono text-zinc-600 hover:text-primary transition-colors cursor-help border-l border-white/5 pl-2 ml-1">
                         <Clock className="size-2" /> ~14h
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[9px] text-zinc-300 font-mono">
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-3xs text-zinc-300 font-mono">
                       Délai de validation estimé.
                     </TooltipContent>
                   </Tooltip>
@@ -70,14 +70,14 @@ export function WeeklyChallengeBanner({ mission, isCompleted, daysLeft }: Weekly
               )}
             </div>
             <p className="text-sm font-semibold text-white">{mission.title}</p>
-            <p className="text-[10px] text-zinc-400 font-light">{mission.shortDesc}</p>
+            <p className="text-xs text-zinc-400 font-light">{mission.shortDesc}</p>
           </div>
         </div>
 
         {/* XP + flèche */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="text-right">
-            <span className="text-[8px] font-mono text-zinc-600 block">Récompense</span>
+            <span className="text-xs-sm font-mono text-zinc-600 block">Récompense</span>
             <span className="text-sm font-black text-primary">+{mission.xp} XP</span>
           </div>
           {!isCompleted && (

@@ -193,7 +193,7 @@ export default async function AnalyticsPage({
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{analytics.totalMissions}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Missions totales</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Missions totales</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -204,7 +204,7 @@ export default async function AnalyticsPage({
             <div className="text-2xl font-mono font-bold text-white">
               {Object.values(analytics.statusCounts).reduce((a, b) => a + b, 0)}
             </div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Total</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Total</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -215,7 +215,7 @@ export default async function AnalyticsPage({
             <div className="text-2xl font-mono font-bold text-white">
               {analytics.avgCompletionTime.toFixed(1)}j
             </div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Temps moyen</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Temps moyen</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -224,7 +224,7 @@ export default async function AnalyticsPage({
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{analytics.topMissions.length}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Avec soumissions</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Avec soumissions</div>
           </div>
         </div>
       </div>
@@ -242,7 +242,7 @@ export default async function AnalyticsPage({
                   <div className="flex items-center justify-between">
                     <Badge
                       variant="outline"
-                      className="border font-mono text-[9px] uppercase"
+                      className="border font-mono text-3xs uppercase"
                     >
                       {STATUS_LABELS[status] ?? status}
                     </Badge>
@@ -276,7 +276,7 @@ export default async function AnalyticsPage({
                     height: `${analytics.maxWeeklyCount > 0 ? (w.count / analytics.maxWeeklyCount) * 100 : 0}%`,
                   }}
                 />
-                <span className="text-[8px] font-mono text-zinc-500 truncate w-full text-center">
+                <span className="text-xs-sm font-mono text-zinc-500 truncate w-full text-center">
                   {w.week}
                 </span>
               </div>
@@ -305,7 +305,7 @@ export default async function AnalyticsPage({
                 </div>
                 <div className="text-right shrink-0">
                   <div className="text-primary font-mono text-sm font-bold">{m.submissionCount}</div>
-                  <div className="text-zinc-500 font-mono text-[9px]">soumissions</div>
+                  <div className="text-zinc-500 font-mono text-3xs">soumissions</div>
                 </div>
               </Link>
             ))}

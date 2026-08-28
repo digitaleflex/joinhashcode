@@ -201,7 +201,7 @@ export default async function MissionsPage() {
           <div className="max-w-6xl mx-auto space-y-10">
             <Link 
               href="/dashboard" 
-              className="inline-flex items-center gap-2 text-[10px] font-mono font-bold text-muted-foreground hover:text-primary transition-all mb-4 group"
+              className="inline-flex items-center gap-2 text-xs font-mono font-bold text-muted-foreground hover:text-primary transition-all mb-4 group"
             >
               <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               RETOUR AU TABLEAU DE BORD
@@ -210,7 +210,7 @@ export default async function MissionsPage() {
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                 <Zap className="size-3.5 text-primary animate-pulse" />
-                <span className="text-[10px] font-mono font-black uppercase text-primary">Centre de Commandement</span>
+                <span className="text-xs font-mono font-black uppercase text-primary">Centre de Commandement</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
                 Mes <span className="text-primary">Missions</span>
@@ -237,7 +237,7 @@ export default async function MissionsPage() {
                 </div>
                 <div className="flex justify-between items-end mb-6">
                    <div className="space-y-1">
-                      <div className="text-[10px] font-mono text-zinc-500 uppercase">Données d'évolution</div>
+                      <div className="text-xs font-mono text-zinc-500 uppercase">Données d'évolution</div>
                       <div className="text-sm font-bold text-white uppercase tracking-tight">Expérience Globale Accumulée</div>
                    </div>
                      <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience ?? 0} <span className="text-xs not-italic text-zinc-600">XP</span></div>
@@ -248,14 +248,14 @@ export default async function MissionsPage() {
                          style={{ width: `${Math.min(100, ((finalDbUser.experience ?? 0) % 1000) / 10)}%` }}
                     />
                 </div>
-                <div className="text-[10px] text-zinc-500 mt-4 font-mono uppercase tracking-wider flex items-center gap-2">
+                <div className="text-xs text-zinc-500 mt-4 font-mono uppercase tracking-wider flex items-center gap-2">
                    <span className="size-1 rounded-full bg-primary animate-pulse" />
                    Status: Mise à jour de ton niveau {finalDbUser.level ?? 1} en cours...
                 </div>
               </div>
               
               <div className="hidden md:flex p-8 rounded-4xl border border-dashed border-white/5 bg-white/1 items-center justify-center text-center">
-                 <p className="text-[9px] font-mono text-zinc-700 uppercase leading-relaxed">
+                 <p className="text-3xs font-mono text-zinc-700 uppercase leading-relaxed">
                    [ Accès prioritaire ]<br/>
                    Prêt pour la prochaine<br/>
                    mission à venir

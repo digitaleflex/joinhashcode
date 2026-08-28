@@ -38,7 +38,7 @@ export function BottomNav() {
               )}
 
               <Icon className={`w-6 h-6 relative z-[var(--z-content)] transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
-              <span className="text-[9px] font-bold uppercase tracking-wider relative z-[var(--z-content)]">
+              <span className="text-3xs font-bold uppercase tracking-wider relative z-[var(--z-content)]">
                 {item.name}
               </span>
 

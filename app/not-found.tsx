@@ -44,12 +44,12 @@ export default function NotFound() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-border/40 flex items-center justify-center gap-6">
-          <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             Page non trouvée
           </div>
           <div className="w-px h-3 bg-border/40" />
-          <div className="text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="text-xs font-mono text-muted-foreground uppercase">
             HASHCODE v4.0.1
           </div>
         </div>

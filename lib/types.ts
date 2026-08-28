@@ -134,6 +134,10 @@ export interface UserProfile {
   twoFactorEnabled?: boolean;
   badges: string[];
   bio?: string | null;
+  secondaryObjectives?: string[];
+  currentFocus?: string[];
+  dreamStatement?: string | null;
+  mainBlocker?: string | null;
 }
 
 export interface DetailedMissionSubmission {

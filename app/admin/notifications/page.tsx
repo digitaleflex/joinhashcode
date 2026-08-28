@@ -79,12 +79,12 @@ export default function AdminNotificationsPage() {
                         <Send className="size-4 text-primary" />
                         Nouvelle Annonce
                     </CardTitle>
-                    <CardDescription className="text-[10px] font-mono uppercase">L'impact est global et immédiat.</CardDescription>
+                    <CardDescription className="text-xs font-mono uppercase">L'impact est global et immédiat.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-8">
                     <form onSubmit={handleBroadcast} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Type_Notification</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase font-black">Type_Notification</label>
                             <Select value={type} onValueChange={setType}>
                                 <SelectTrigger className="bg-black/40 border-white/10 font-mono text-white h-12 rounded-xl">
                                     <SelectValue />
@@ -104,7 +104,7 @@ export default function AdminNotificationsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Titre</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase font-black">Titre</label>
                             <Input 
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -115,7 +115,7 @@ export default function AdminNotificationsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Message</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase font-black">Message</label>
                             <Textarea 
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
@@ -126,7 +126,7 @@ export default function AdminNotificationsPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase font-black">Redirection_URL (Optionnel)</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase font-black">Redirection_URL (Optionnel)</label>
                             <Input 
                                 value={link}
                                 onChange={(e) => setLink(e.target.value)}
@@ -169,7 +169,7 @@ export default function AdminNotificationsPage() {
                     ].map((text, i) => (
                         <li key={i} className="flex gap-3 items-start">
                             <div className="size-1 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_#C5F441]" />
-                            <p className="text-[11px] text-zinc-400 font-mono leading-tight uppercase">{text}</p>
+                            <p className="text-sm-plus text-zinc-400 font-mono leading-tight uppercase">{text}</p>
                         </li>
                     ))}
                 </ul>
@@ -181,7 +181,7 @@ export default function AdminNotificationsPage() {
                 </div>
                 <div className="space-y-1">
                     <h4 className="text-sm font-black uppercase text-white tracking-wide text-opacity-80">Portée Maximale</h4>
-                    <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider italic">Annonce prête à être envoyée.</p>
+                    <p className="text-xs text-zinc-600 font-mono uppercase tracking-wider italic">Annonce prête à être envoyée.</p>
                 </div>
             </div>
         </div>

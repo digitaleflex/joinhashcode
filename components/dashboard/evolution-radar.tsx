@@ -285,7 +285,7 @@ export function EvolutionRadar({
                   textAnchor={textAnchor}
                   dy={dy}
                   className={cn(
-                    "text-[10px] font-mono font-bold tracking-widest transition-all duration-300",
+                    "text-xs font-mono font-bold tracking-widest transition-all duration-300",
                     hoveredAxis === axis.key
                       ? cn("text-white fill-white scale-105")
                       : "text-zinc-500 fill-zinc-500"
@@ -304,7 +304,7 @@ export function EvolutionRadar({
         <div className="flex items-center justify-between border-b border-white/5 pb-2">
           <div className="flex items-center gap-2">
             <Zap className="size-3 text-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-tight uppercase">
+            <span className="text-xs font-mono text-zinc-500 font-bold tracking-tight uppercase">
               Détail des compétences
             </span>
           </div>
@@ -315,7 +315,7 @@ export function EvolutionRadar({
                   <HelpCircle className="size-3.5" />
                 </button>
               </TooltipTrigger>
-              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] font-mono font-bold tracking-tight text-zinc-400 max-w-50">
+              <TooltipContent className="bg-zinc-900 border-white/10 text-xs font-mono font-bold tracking-tight text-zinc-400 max-w-50">
                 Survole les sommets du graphique pour analyser chaque facette de tes compétences comportementales.
               </TooltipContent>
             </Tooltip>
@@ -345,7 +345,7 @@ export function EvolutionRadar({
                     <axis.icon className={cn("size-3.5", axis.color)} />
                   </div>
                   <div className="text-left leading-none">
-                    <div className={cn("text-[9px] font-mono font-bold tracking-tight uppercase transition-colors", isActive ? "text-white" : "text-zinc-500")}>
+                    <div className={cn("text-3xs font-mono font-bold tracking-tight uppercase transition-colors", isActive ? "text-white" : "text-zinc-500")}>
                       {axis.label}
                     </div>
                   </div>
@@ -377,11 +377,11 @@ export function EvolutionRadar({
               className="space-y-1.5 relative z-[var(--z-content)]"
             >
               <div className="flex items-center gap-1.5">
-                <span className={cn("text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-sm bg-zinc-900 border border-white/5 uppercase", activeAxis.color)}>
+                <span className={cn("text-3xs font-mono font-bold px-1.5 py-0.5 rounded-sm bg-zinc-900 border border-white/5 uppercase", activeAxis.color)}>
                   {activeAxis.label}
                 </span>
                 {userClass?.toLowerCase() === activeAxis.key && (
-                  <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-sm bg-primary/10 text-primary border border-primary/20 uppercase tracking-wider">
+                  <span className="text-xs-sm font-mono font-bold px-1.5 py-0.5 rounded-sm bg-primary/10 text-primary border border-primary/20 uppercase tracking-wider">
                     Force principale
                   </span>
                 )}

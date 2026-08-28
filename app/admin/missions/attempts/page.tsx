@@ -126,7 +126,7 @@ export default function AdminAttemptsPage() {
             <s.icon className={`h-6 w-6 ${s.color}`} />
             <div>
               <div className="text-2xl font-mono font-bold text-white">{s.value}</div>
-              <div className="text-zinc-500 text-[10px] font-mono uppercase">{s.label}</div>
+              <div className="text-zinc-500 text-xs font-mono uppercase">{s.label}</div>
             </div>
           </div>
         ))}
@@ -198,7 +198,7 @@ export default function AdminAttemptsPage() {
                       <span className="text-zinc-300 font-mono text-sm">{pct}%</span>
                     </TableCell>
                     <TableCell className="text-center">
-                      <Badge variant="outline" className={`text-[9px] uppercase font-mono ${meta.className}`}>{meta.label}</Badge>
+                      <Badge variant="outline" className={`text-3xs uppercase font-mono ${meta.className}`}>{meta.label}</Badge>
                     </TableCell>
                     <TableCell className="text-center">
                       <span className={`font-mono text-sm ${a.score != null ? "text-primary" : "text-zinc-600"}`}>

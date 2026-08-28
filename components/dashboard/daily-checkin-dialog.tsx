@@ -22,7 +22,7 @@ export function DailyCheckinDialog({ trigger }: { trigger?: React.ReactNode }) {
             className="w-full flex items-center justify-start gap-2 border-primary/20 bg-primary/5 hover:bg-primary/10 text-primary h-9 rounded-xl px-3 group"
           >
             <Zap className="size-4 group-hover:animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-wider">Neural Check-in</span>
+            <span className="text-sm-plus font-bold uppercase tracking-wider">Neural Check-in</span>
           </Button>
         )}
       </DialogTrigger>

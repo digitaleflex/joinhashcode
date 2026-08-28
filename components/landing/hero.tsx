@@ -31,7 +31,7 @@ export function Hero({
             className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-sm mb-8 sm:mb-12"
           >
             <span className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#B8FF3B]" />
-            <span className="font-mono text-[10px] font-black text-primary tracking-tight">
+            <span className="font-mono text-xs font-black text-primary tracking-tight">
               la tech africaine a besoin de toi
             </span>
           </div>
@@ -59,7 +59,7 @@ export function Hero({
             <Button
               asChild
               size="lg"
-              className="btn-primary-glow group h-14 rounded-2xl px-10 text-[11px] font-black uppercase"
+              className="btn-primary-glow group h-14 rounded-2xl px-10 text-sm-plus font-black uppercase"
             >
               <Link href="/quiz">
                 Découvrir ma voie
@@ -86,7 +86,7 @@ export function Hero({
                   </div>
                 ))}
               </div>
-              <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-zinc-400">
+              <span className="text-xs font-mono font-black uppercase tracking-tighter text-zinc-400">
                 <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> {totalMembers > 1 ? "Builders synchronisés" : "Builder synchronisé"}
               </span>
             </div>
@@ -94,7 +94,7 @@ export function Hero({
 
           {/* Meta */}
           <div
-            className="mt-6 flex items-center gap-4 font-mono text-[10px] font-bold text-zinc-700 tracking-tight"
+            className="mt-6 flex items-center gap-4 font-mono text-xs font-bold text-zinc-700 tracking-tight"
           >
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes</span>
             <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">4 profils</span>

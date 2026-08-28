@@ -68,7 +68,7 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
         <UserTopBar user={user} />
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12">
           <div className="max-w-4xl mx-auto">
-            <Link href="/ateliers" className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group">
+            <Link href="/ateliers" className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group">
               <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
               TOUS LES ATELIERS
             </Link>
@@ -79,7 +79,7 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
                     <GraduationCap className="w-5 h-5" style={{ color }} />
                   </div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color }}>
+                  <span className="text-xs font-mono uppercase tracking-wider" style={{ color }}>
                     Guild {profileLabel}
                   </span>
                 </div>
@@ -130,7 +130,7 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-white group-hover:text-primary transition-colors truncate">{mission.title}</p>
                           {mission.shortDesc && (
-                            <p className="text-[11px] text-zinc-500 mt-0.5 truncate">{mission.shortDesc}</p>
+                            <p className="text-sm-plus text-zinc-500 mt-0.5 truncate">{mission.shortDesc}</p>
                           )}
                         </div>
                       </div>

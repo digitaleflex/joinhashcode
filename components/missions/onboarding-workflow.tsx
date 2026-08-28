@@ -267,7 +267,7 @@ export function OnboardingWorkflow({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm"
+            className="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 24 }}
@@ -301,7 +301,7 @@ export function OnboardingWorkflow({
                   transition={{ delay: 0.3 }}
                   className="space-y-2"
                 >
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">
+                  <p className="text-xs font-mono uppercase tracking-widest text-primary/70">
                     Mission validée{userName ? `, ${userName.split(" ")[0]}` : ""}
                   </p>
                   <h2 className="text-3xl font-black tracking-tighter text-white uppercase italic leading-tight">
@@ -360,7 +360,7 @@ export function OnboardingWorkflow({
       <div className="rounded-2xl border border-border/40 bg-card/30 p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">
+            <div className="text-xs font-mono text-primary/60 uppercase tracking-widest">
               {state.missionLevel ?? "MISSION"} · {state.category ?? "MISSION"}
             </div>
             <h1 className="text-xl md:text-2xl font-bold tracking-tight mt-1">{state.title}</h1>
@@ -369,14 +369,14 @@ export function OnboardingWorkflow({
             </p>
           </div>
           {attempt && (
-            <Badge variant="outline" className={`text-[10px] uppercase font-mono ${STATUS_BADGE[attempt.status]?.className}`}>
+            <Badge variant="outline" className={`text-xs uppercase font-mono ${STATUS_BADGE[attempt.status]?.className}`}>
               {STATUS_BADGE[attempt.status]?.label}
             </Badge>
           )}
         </div>
 
         <div className="space-y-2">
-          <div className="flex justify-between text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="flex justify-between text-xs font-mono text-muted-foreground uppercase">
             <span>Progression</span>
             <span>{completedSteps} / {state.steps.length} étapes</span>
           </div>
@@ -401,7 +401,7 @@ export function OnboardingWorkflow({
 
           {(attempt.stepResponses?.some((r) => r.score != null || r.feedback)) && (
             <div className="max-w-2xl mx-auto text-left space-y-2">
-              <p className="text-[10px] font-mono uppercase tracking-wider text-emerald-400/60">Détail par étape</p>
+              <p className="text-xs font-mono uppercase tracking-wider text-emerald-400/60">Détail par étape</p>
               {state.steps.map((step) => {
                 const resp = attempt.stepResponses?.find((r) => r.stepKey === step.key);
                 if (!resp || (resp.score == null && !resp.feedback)) return null;
@@ -412,13 +412,13 @@ export function OnboardingWorkflow({
                       {stepApproved ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> : <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
                       <span className="text-xs font-medium text-white">{step.title}</span>
                       {resp.score != null && (
-                        <span className={`ml-auto text-[10px] font-mono ${stepApproved ? "text-emerald-400/70" : "text-amber-400/70"}`}>
+                        <span className={`ml-auto text-xs font-mono ${stepApproved ? "text-emerald-400/70" : "text-amber-400/70"}`}>
                           {resp.score}/{step.scoreMax || 5}
                         </span>
                       )}
                     </div>
                     {resp.feedback && (
-                      <p className="text-[11px] text-zinc-300 mt-1.5 whitespace-pre-wrap leading-relaxed">{resp.feedback}</p>
+                      <p className="text-sm-plus text-zinc-300 mt-1.5 whitespace-pre-wrap leading-relaxed">{resp.feedback}</p>
                     )}
                   </div>
                 );
@@ -496,7 +496,7 @@ export function OnboardingWorkflow({
                       {done ? (
                         <Check className="w-4 h-4 text-emerald-400" />
                       ) : (
-                        <span className={`text-[10px] font-mono w-4 h-4 inline-flex items-center justify-center rounded-full border ${active ? "border-primary text-primary" : "border-zinc-600 text-zinc-500"}`}>
+                        <span className={`text-xs font-mono w-4 h-4 inline-flex items-center justify-center rounded-full border ${active ? "border-primary text-primary" : "border-zinc-600 text-zinc-500"}`}>
                           {i + 1}
                         </span>
                       )}
@@ -552,7 +552,7 @@ export function OnboardingWorkflow({
                     {done ? (
                       <Check className="w-4 h-4 text-emerald-400" />
                     ) : (
-                      <span className={`text-[10px] font-mono w-4 h-4 inline-flex items-center justify-center rounded-full border ${active ? "border-primary text-primary" : "border-zinc-600 text-zinc-500"}`}>
+                      <span className={`text-xs font-mono w-4 h-4 inline-flex items-center justify-center rounded-full border ${active ? "border-primary text-primary" : "border-zinc-600 text-zinc-500"}`}>
                         {i + 1}
                       </span>
                     )}
@@ -578,7 +578,7 @@ export function OnboardingWorkflow({
             {activeStep && (
               <div key={activeStep.key} className="rounded-2xl border border-border/40 bg-card/30 p-6 space-y-6 animate-in fade-in duration-300">
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-mono text-primary/50">ÉTAPE {activeStep.stepOrder + 1}</span>
+                  <span className="text-xs font-mono text-primary/50">ÉTAPE {activeStep.stepOrder + 1}</span>
                   <div className="flex-1 h-px bg-border/30" />
                   <SaveIndicator state={saveState} />
                 </div>
@@ -601,11 +601,11 @@ export function OnboardingWorkflow({
                         ) : (
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                         )}
-                        <p className={`text-[10px] font-mono uppercase tracking-wider ${isRevisionStep ? "text-amber-400" : "text-emerald-400"}`}>
+                        <p className={`text-xs font-mono uppercase tracking-wider ${isRevisionStep ? "text-amber-400" : "text-emerald-400"}`}>
                           {isRevisionStep ? "À corriger" : "Retour du reviewer"}
                         </p>
                         {activeResponse.score != null && (
-                          <span className={`ml-auto text-[10px] font-mono ${isRevisionStep ? "text-amber-400/70" : "text-emerald-400/70"}`}>
+                          <span className={`ml-auto text-xs font-mono ${isRevisionStep ? "text-amber-400/70" : "text-emerald-400/70"}`}>
                             Score : {activeResponse.score}/{activeStep.scoreMax || 5}
                           </span>
                         )}
@@ -685,9 +685,9 @@ export function OnboardingWorkflow({
 
 function SaveIndicator({ state }: { state: "idle" | "saving" | "saved" | "error" }) {
   if (state === "idle") return null;
-  if (state === "saving") return <span className="text-[10px] font-mono text-zinc-500 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Enregistrement...</span>;
-  if (state === "saved") return <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1"><Check className="w-3 h-3" /> Enregistré</span>;
-  return <span className="text-[10px] font-mono text-red-400 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Impossible d'enregistrer — réessaie</span>;
+  if (state === "saving") return <span className="text-xs font-mono text-zinc-500 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Enregistrement...</span>;
+  if (state === "saved") return <span className="text-xs font-mono text-emerald-400 flex items-center gap-1"><Check className="w-3 h-3" /> Enregistré</span>;
+  return <span className="text-xs font-mono text-red-400 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Impossible d'enregistrer — réessaie</span>;
 }
 
 // ── Rendu des champs ─────────────────────────────────────────────────────────
@@ -744,7 +744,7 @@ function FieldRenderer({
             className="bg-zinc-900/60 border-border/60 min-h-[100px]"
           />
           {field.maxLength && (
-            <p className="text-[10px] font-mono text-zinc-600 text-right">{(value as string)?.length ?? 0}/{field.maxLength}</p>
+            <p className="text-xs font-mono text-zinc-600 text-right">{(value as string)?.length ?? 0}/{field.maxLength}</p>
           )}
         </FieldShell>
       );
@@ -771,7 +771,7 @@ function FieldRenderer({
                   <div className="min-w-0">
                     <span className="block font-medium">{opt.label}</span>
                     {opt.description ? (
-                      <span className="block text-[10px] text-zinc-600 mt-0.5 leading-snug">{opt.description}</span>
+                      <span className="block text-xs text-zinc-600 mt-0.5 leading-snug">{opt.description}</span>
                     ) : null}
                   </div>
                 </button>
@@ -779,7 +779,7 @@ function FieldRenderer({
             })}
           </div>
           {Array.isArray(value) && (
-            <p className="text-[10px] font-mono text-primary/60 mt-2">{value.length} sélectionné{(value.length > 1) ? "s" : ""}</p>
+            <p className="text-xs font-mono text-primary/60 mt-2">{value.length} sélectionné{(value.length > 1) ? "s" : ""}</p>
           )}
         </FieldShell>
       );
@@ -834,7 +834,7 @@ function SliderField({ field, value, onChange }: { field: StepField; value: unkn
   return (
     <FieldShell field={field}>
       <div className="space-y-3">
-        <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500">
+        <div className="flex items-center justify-between text-xs font-mono text-zinc-500">
           <span>{min}</span>
           <span className="text-sm font-bold text-white">{num}/{max}</span>
           <span>{max}</span>
@@ -875,13 +875,13 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
     <FieldShell field={field}>
       <div className="space-y-4">
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center space-y-1">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">Score du problème</p>
+          <p className="text-xs font-mono uppercase tracking-widest text-primary/70">Score du problème</p>
           <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/{max}</span></p>
           <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
             <div className="h-full bg-primary transition-all" style={{ width: `${max > 0 ? Math.min(100, (total / max) * 100) : 0}%` }} />
           </div>
           <p className="text-xs font-medium text-primary">{interpretation(total)}</p>
-          <p className="text-[10px] text-zinc-500 leading-snug">
+          <p className="text-xs text-zinc-500 leading-snug">
             Ce score ne prouve pas que ton projet est viable. Il représente uniquement la force actuelle de ton hypothèse.
           </p>
         </div>
@@ -892,8 +892,8 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
             <div key={c.key} className="rounded-xl border border-border/40 bg-card/20 p-4 space-y-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-white uppercase tracking-wide text-[11px]">{c.label}</p>
-                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug">{c.question}</p>
+                  <p className="text-sm font-bold text-white uppercase tracking-wide text-sm-plus">{c.label}</p>
+                  <p className="text-sm-plus text-zinc-400 mt-0.5 leading-snug">{c.question}</p>
                 </div>
                 <div className="shrink-0 text-right">
                   <p className="text-lg font-mono font-bold text-white">{entry.score}/10</p>
@@ -901,7 +901,7 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
               </div>
 
               {(c.reflect ?? []).length > 0 && (
-                <p className="text-[10px] text-zinc-600 flex flex-wrap gap-1">
+                <p className="text-xs text-zinc-600 flex flex-wrap gap-1">
                   {(c.reflect ?? []).map((r) => (
                     <span key={r} className="rounded-full bg-zinc-800/60 border border-zinc-700/50 px-2 py-0.5">{r}</span>
                   ))}
@@ -909,7 +909,7 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
               )}
 
               <div className="space-y-1.5">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase">Note</p>
+                <p className="text-xs font-mono text-zinc-500 uppercase">Note</p>
                 <input
                   type="range"
                   min={0}
@@ -921,7 +921,7 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
               </div>
 
               <div className="space-y-1.5">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase">Justification</p>
+                <p className="text-xs font-mono text-zinc-500 uppercase">Justification</p>
                 <Textarea
                   value={entry.justification}
                   onChange={(e) => setCriterion(c.key, { justification: e.target.value })}
@@ -931,7 +931,7 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
               </div>
 
               <div className="space-y-1.5">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase">Preuves / sources</p>
+                <p className="text-xs font-mono text-zinc-500 uppercase">Preuves / sources</p>
                 <Input
                   value={entry.preuves}
                   onChange={(e) => setCriterion(c.key, { preuves: e.target.value })}
@@ -941,7 +941,7 @@ function ScoredCriteriaField({ field, value, onChange }: { field: StepField; val
               </div>
 
               <div className="space-y-1.5">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase">Niveau de confiance</p>
+                <p className="text-xs font-mono text-zinc-500 uppercase">Niveau de confiance</p>
                 <RadioGroup value={entry.confiance} onValueChange={(v) => setCriterion(c.key, { confiance: v })} className="flex gap-2">
                   {CONFIDENCE_OPTIONS.map((opt) => (
                     <label key={opt} className="flex items-center gap-1.5 cursor-pointer">
@@ -976,7 +976,7 @@ function SolutionsTableField({ field, value, onChange }: { field: StepField; val
   return (
     <FieldShell field={field}>
       <div className="space-y-3">
-        <div className="hidden md:grid grid-cols-[1.2fr_0.8fr_1fr_1fr_1fr] gap-2 text-[10px] font-mono text-zinc-500 uppercase">
+        <div className="hidden md:grid grid-cols-[1.2fr_0.8fr_1fr_1fr_1fr] gap-2 text-xs font-mono text-zinc-500 uppercase">
           <span>Solution</span><span>Type</span><span>Public</span><span>Forces</span><span>Faiblesses</span>
         </div>
         {rows.map((row, i) => (
@@ -1024,8 +1024,8 @@ function EisenhowerField({ field, value, onChange }: { field: StepField; value: 
           return (
             <div key={q.key} className={`rounded-xl border p-3 space-y-2 min-h-[120px] ${q.accent}`}>
               <div>
-                <p className="text-[10px] font-mono font-bold uppercase tracking-wider">{q.label}</p>
-                <p className="text-[10px] text-zinc-500">{q.sub}</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider">{q.label}</p>
+                <p className="text-xs text-zinc-500">{q.sub}</p>
               </div>
               <ul className="space-y-1">
                 {items.map((item, i) => (
@@ -1033,12 +1033,12 @@ function EisenhowerField({ field, value, onChange }: { field: StepField; value: 
                     <span className="flex-1">{item}</span>
                     <div className="flex gap-1">
                       {q.key !== "important-urgent" && (
-                        <button type="button" title="Monter" className="text-[10px] text-zinc-500 hover:text-white" onClick={() => move(q.key, "important-urgent", item)}>↑</button>
+                        <button type="button" title="Monter" className="text-xs text-zinc-500 hover:text-white" onClick={() => move(q.key, "important-urgent", item)}>↑</button>
                       )}
                       {q.key !== "non-important-non-urgent" && (
-                        <button type="button" title="Descendre" className="text-[10px] text-zinc-500 hover:text-white" onClick={() => move(q.key, "non-important-non-urgent", item)}>↓</button>
+                        <button type="button" title="Descendre" className="text-xs text-zinc-500 hover:text-white" onClick={() => move(q.key, "non-important-non-urgent", item)}>↓</button>
                       )}
-                      <button type="button" title="Supprimer" className="text-[10px] text-zinc-500 hover:text-red-400" onClick={() => setQuadrant(q.key, items.filter((x) => x !== item))}>✕</button>
+                      <button type="button" title="Supprimer" className="text-xs text-zinc-500 hover:text-red-400" onClick={() => setQuadrant(q.key, items.filter((x) => x !== item))}>✕</button>
                     </div>
                   </li>
                 ))}
@@ -1078,15 +1078,15 @@ function RoadmapField({ field, value, onChange }: { field: StepField; value: unk
         {months.map((m, i) => (
           <div key={i} className="rounded-xl border border-border/40 bg-card/20 p-4 space-y-2.5">
             <div className="flex items-center gap-2">
-              <span className="rounded-lg bg-primary/10 text-primary text-[10px] font-mono font-bold px-2 py-1">M{i + 1}</span>
+              <span className="rounded-lg bg-primary/10 text-primary text-xs font-mono font-bold px-2 py-1">M{i + 1}</span>
               <span className="text-xs font-semibold text-white">{labels[i]}</span>
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] font-mono text-zinc-500 uppercase">Objectif</p>
+              <p className="text-xs font-mono text-zinc-500 uppercase">Objectif</p>
               <Textarea value={m.objectif} onChange={(e) => setMonth(i, { objectif: e.target.value })} rows={2} className="bg-zinc-900/60 border-border/60 min-h-[50px]" placeholder="Objectif du mois" />
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] font-mono text-zinc-500 uppercase">Résultat attendu</p>
+              <p className="text-xs font-mono text-zinc-500 uppercase">Résultat attendu</p>
               <Textarea value={m.resultat} onChange={(e) => setMonth(i, { resultat: e.target.value })} rows={2} className="bg-zinc-900/60 border-border/60 min-h-[50px]" placeholder="Résultat observable" />
             </div>
           </div>
@@ -1115,21 +1115,21 @@ function RiskTableField({ field, value, onChange }: { field: StepField; value: u
             <div key={i} className="rounded-xl border border-border/40 bg-card/20 p-3 space-y-2">
               <div className="flex items-center gap-2">
                 <Input value={row.nom} placeholder="Risque (ex : Manque d'utilisateurs pilotes)" onChange={(e) => updateRow(i, { nom: e.target.value })} className="bg-zinc-900/60 border-border/60 flex-1" />
-                <span className={`shrink-0 rounded-lg px-2 py-1 text-[10px] font-mono font-bold ${score >= 20 ? "bg-red-500/10 text-red-400" : score >= 12 ? "bg-amber-500/10 text-amber-400" : "bg-zinc-700/30 text-zinc-400"}`}>
+                <span className={`shrink-0 rounded-lg px-2 py-1 text-xs font-mono font-bold ${score >= 20 ? "bg-red-500/10 text-red-400" : score >= 12 ? "bg-amber-500/10 text-amber-400" : "bg-zinc-700/30 text-zinc-400"}`}>
                   {score}
                 </span>
                 <button type="button" className="text-zinc-500 hover:text-red-400 text-xs" onClick={() => setRows(rows.filter((_, j) => j !== i))}>✕</button>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-mono text-zinc-500 uppercase">Probabilité /5</p>
+                  <p className="text-xs font-mono text-zinc-500 uppercase">Probabilité /5</p>
                   <input type="range" min={1} max={5} value={row.probabilite} onChange={(e) => updateRow(i, { probabilite: Number(e.target.value) })} className="w-full accent-primary" />
-                  <p className="text-[10px] font-mono text-zinc-400 text-right">{row.probabilite}/5</p>
+                  <p className="text-xs font-mono text-zinc-400 text-right">{row.probabilite}/5</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-mono text-zinc-500 uppercase">Impact /5</p>
+                  <p className="text-xs font-mono text-zinc-500 uppercase">Impact /5</p>
                   <input type="range" min={1} max={5} value={row.impact} onChange={(e) => updateRow(i, { impact: Number(e.target.value) })} className="w-full accent-primary" />
-                  <p className="text-[10px] font-mono text-zinc-400 text-right">{row.impact}/5</p>
+                  <p className="text-xs font-mono text-zinc-400 text-right">{row.impact}/5</p>
                 </div>
               </div>
               <Input value={row.attenuation} placeholder="Stratégie d'atténuation" onChange={(e) => updateRow(i, { attenuation: e.target.value })} className="bg-zinc-900/60 border-border/60" />
@@ -1163,9 +1163,9 @@ function SmartGoalsField({ field, value, onChange }: { field: StepField; value: 
           return (
             <div key={i} className={`rounded-xl border p-4 space-y-2.5 ${isComplete ? "border-emerald-500/30 bg-emerald-500/5" : "border-border/40 bg-card/20"}`}>
               <div className="flex items-center justify-between">
-                <span className="rounded-lg bg-primary/10 text-primary text-[10px] font-mono font-bold px-2 py-1">OBJECTIF {i + 1}</span>
+                <span className="rounded-lg bg-primary/10 text-primary text-xs font-mono font-bold px-2 py-1">OBJECTIF {i + 1}</span>
                 <Select value={g.type} onValueChange={(v) => updateGoal(i, { type: v })}>
-                  <SelectTrigger className="h-8 w-32 text-[11px] bg-zinc-900/60 border-border/60"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="h-8 w-32 text-sm-plus bg-zinc-900/60 border-border/60"><SelectValue /></SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-border/60 text-white">
                     {GOAL_TYPES.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
                   </SelectContent>
@@ -1174,7 +1174,7 @@ function SmartGoalsField({ field, value, onChange }: { field: StepField; value: 
               <Textarea value={g.objectif} onChange={(e) => updateGoal(i, { objectif: e.target.value })} rows={2} placeholder="Objectif SMART" className="bg-zinc-900/60 border-border/60 min-h-[50px]" />
               <Input value={g.indicateur} onChange={(e) => updateGoal(i, { indicateur: e.target.value })} placeholder="Indicateur de réussite" className="bg-zinc-900/60 border-border/60" />
               <Input value={g.date} onChange={(e) => updateGoal(i, { date: e.target.value })} placeholder="Date limite" className="bg-zinc-900/60 border-border/60" />
-              <p className={`text-[10px] font-mono ${isComplete ? "text-emerald-400" : "text-zinc-500"}`}>
+              <p className={`text-xs font-mono ${isComplete ? "text-emerald-400" : "text-zinc-500"}`}>
                 {isComplete ? "✓ Objectif suffisamment structuré" : "○ Objectif incomplet"}
               </p>
             </div>
@@ -1211,9 +1211,9 @@ function SynthesisField({ field, value, onChange }: { field: StepField; value: u
     <FieldShell field={field}>
       <div className="space-y-4">
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center space-y-1">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-primary/70">Auto-évaluation</p>
+          <p className="text-xs font-mono uppercase tracking-widest text-primary/70">Auto-évaluation</p>
           <p className="text-3xl font-bold font-mono text-white">{total}<span className="text-base text-zinc-500">/{itemMax}</span></p>
-          <p className="text-[10px] text-zinc-500 leading-snug">
+          <p className="text-xs text-zinc-500 leading-snug">
             Cette note sert à te faire réfléchir sur la qualité de ton propre travail. Elle ne remplace pas la note du reviewer.
           </p>
         </div>
@@ -1227,7 +1227,7 @@ function SynthesisField({ field, value, onChange }: { field: StepField; value: u
                     key={n}
                     type="button"
                     onClick={() => onChange({ ...scores, [it.key]: n })}
-                    className={`w-6 h-6 rounded-md text-[10px] font-mono transition-all ${(scores[it.key] ?? 0) >= n ? "bg-primary/20 text-primary border border-primary/40" : "bg-zinc-800/60 text-zinc-500 border border-transparent hover:border-zinc-600"}`}
+                    className={`w-6 h-6 rounded-md text-xs font-mono transition-all ${(scores[it.key] ?? 0) >= n ? "bg-primary/20 text-primary border border-primary/40" : "bg-zinc-800/60 text-zinc-500 border border-transparent hover:border-zinc-600"}`}
                   >
                     {n}
                   </button>
@@ -1334,7 +1334,7 @@ function DynamicTableField({ field, value, onChange }: { field: StepField; value
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
           Ajouter une ligne
         </button>
-        <p className="text-[10px] font-mono text-zinc-600">{rows.filter((r) => Object.values(r).some((v) => (v ?? "").trim().length > 0)).length} ligne(s) remplie(s)</p>
+        <p className="text-xs font-mono text-zinc-600">{rows.filter((r) => Object.values(r).some((v) => (v ?? "").trim().length > 0)).length} ligne(s) remplie(s)</p>
       </div>
     </FieldShell>
   );
@@ -1348,7 +1348,7 @@ function FieldShell({ field, children }: { field: StepField; children: React.Rea
         {field.required && <span className="text-primary ml-0.5">*</span>}
       </Label>
       {children}
-      {field.hint && <p className="text-[10px] text-zinc-600 leading-relaxed">{field.hint}</p>}
+      {field.hint && <p className="text-xs text-zinc-600 leading-relaxed">{field.hint}</p>}
     </div>
   );
 }

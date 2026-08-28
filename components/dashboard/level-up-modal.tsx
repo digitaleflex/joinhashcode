@@ -98,7 +98,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
 
           <div className="p-8 text-center space-y-8">
             <div className="space-y-3">
-              <p className="text-[10px] font-mono font-black text-primary uppercase tracking-[0.3em]">Grade_Supérieur_Débloqué</p>
+              <p className="text-xs font-mono font-black text-primary uppercase tracking-[0.3em]">Grade_Supérieur_Débloqué</p>
               <h2 className="text-4xl font-black italic tracking-tighter uppercase leading-none">
                 {levelName}
               </h2>
@@ -112,14 +112,14 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
               <div className="p-4 rounded-2xl bg-white/2 border border-white/5 flex flex-col items-center gap-1.5 group hover:bg-white/5 transition-colors">
                 <Zap className="size-5 text-primary" />
                 <div className="text-center">
-                  <p className="text-[8px] font-mono text-zinc-500 uppercase">Gain XP Boost</p>
+                  <p className="text-xs-sm font-mono text-zinc-500 uppercase">Gain XP Boost</p>
                   <p className="text-sm font-black text-white">+{(currentLevel-1)*10}%</p>
                 </div>
               </div>
               <div className="p-4 rounded-2xl bg-white/2 border border-white/5 flex flex-col items-center gap-1.5 group hover:bg-white/5 transition-colors">
                 <Sparkles className="size-5 text-purple-400" />
                 <div className="text-center">
-                  <p className="text-[8px] font-mono text-zinc-500 uppercase">Habilitation</p>
+                  <p className="text-xs-sm font-mono text-zinc-500 uppercase">Habilitation</p>
                   <p className="text-sm font-black text-white">RANG {currentLevel}</p>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export function LevelUpModal({ currentLevel, userClass }: LevelUpModalProps) {
               <Button 
                 variant="ghost"
                 onClick={shareProgression}
-                className="text-[10px] font-mono text-zinc-600 hover:text-zinc-400 uppercase tracking-[0.2em] gap-2 py-4"
+                className="text-xs font-mono text-zinc-600 hover:text-zinc-400 uppercase tracking-[0.2em] gap-2 py-4"
               >
                 <Share2 className="size-3" /> Transmettre ma réussite
               </Button>

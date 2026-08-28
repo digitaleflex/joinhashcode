@@ -102,7 +102,7 @@ export default async function AdminSquadsJoinRequestsPage() {
           <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
             <div className={`flex items-center gap-2 ${kpi.color}`}>
               <kpi.icon className="h-4 w-4" />
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
           </div>
@@ -114,7 +114,7 @@ export default async function AdminSquadsJoinRequestsPage() {
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-zinc-500" />
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Filtres</span>
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Filtres</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <select
@@ -154,7 +154,7 @@ export default async function AdminSquadsJoinRequestsPage() {
               className="flex items-center gap-1.5 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
             >
               <X className="h-3.5 w-3.5" />
-              <span className="font-mono text-[10px] uppercase">Effacer</span>
+              <span className="font-mono text-xs uppercase">Effacer</span>
             </button>
           </div>
         </div>
@@ -169,7 +169,7 @@ export default async function AdminSquadsJoinRequestsPage() {
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
           <div className="grid grid-cols-[1fr_1fr_120px_100px_140px_120px] gap-0 px-6 py-3 border-b border-white/5">
             {["Utilisateur", "Escouade", "Classe", "Statut", "Demandé le", "Actions"].map((h) => (
-              <span key={h} className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
+              <span key={h} className="text-3xs font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
             ))}
           </div>
           {requests.map((request) => {
@@ -187,17 +187,17 @@ export default async function AdminSquadsJoinRequestsPage() {
                       {request.user.image ? (
                         <img src={request.user.image} alt={request.user.name} className="h-full w-full object-cover" />
                       ) : (
-                        <span className="text-[10px] font-bold text-zinc-500">{request.user.name.substring(0, 2).toUpperCase()}</span>
+                        <span className="text-xs font-bold text-zinc-500">{request.user.name.substring(0, 2).toUpperCase()}</span>
                       )}
                     </div>
                     <div className="flex flex-col min-w-0">
                       <p className="text-sm font-semibold text-white truncate">
                         {request.user.name}
                         {request.user.pseudo && (
-                          <span className="text-zinc-500 ml-2 font-mono text-[10px] font-normal">@{request.user.pseudo}</span>
+                          <span className="text-zinc-500 ml-2 font-mono text-xs font-normal">@{request.user.pseudo}</span>
                         )}
                       </p>
-                      <p className="text-[10px] font-mono text-zinc-500 truncate">{request.user.email}</p>
+                      <p className="text-xs font-mono text-zinc-500 truncate">{request.user.email}</p>
                     </div>
                   </div>
                 </div>
@@ -205,23 +205,23 @@ export default async function AdminSquadsJoinRequestsPage() {
                 {/* Squad */}
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-white truncate">{request.organization.name}</p>
-                  <p className="text-[10px] font-mono text-zinc-600 truncate">
+                  <p className="text-xs font-mono text-zinc-600 truncate">
                     {request.organization.slug ? `/invite/${request.organization.slug}` : "Sans slug"}
                   </p>
                 </div>
 
                 {/* Class */}
-                <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${classColor(request.user.class)}`}>
+                <span className={`text-xs font-mono uppercase tracking-wider font-bold ${classColor(request.user.class)}`}>
                   {request.user.class ?? "—"}
                 </span>
 
                 {/* Status */}
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider w-fit ${badge.bg} ${badge.color}`}>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-xs font-mono font-bold uppercase tracking-wider w-fit ${badge.bg} ${badge.color}`}>
                   {badge.label}
                 </span>
 
                 {/* Date */}
-                <span className="text-[10px] font-mono text-zinc-500">
+                <span className="text-xs font-mono text-zinc-500">
                   {formatRelativeTime(request.createdAt)}
                 </span>
 
@@ -232,21 +232,21 @@ export default async function AdminSquadsJoinRequestsPage() {
                       <button
                         data-request-id={request.id}
                         data-action="accept"
-                        className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:bg-emerald-500/20 transition-colors"
+                        className="px-3 py-1.5 text-xs font-mono font-bold uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:bg-emerald-500/20 transition-colors"
                       >
                         Accepter
                       </button>
                       <button
                         data-request-id={request.id}
                         data-action="reject"
-                        className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-lg hover:bg-rose-500/20 transition-colors"
+                        className="px-3 py-1.5 text-xs font-mono font-bold uppercase text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-lg hover:bg-rose-500/20 transition-colors"
                       >
                         Rejeter
                       </button>
                     </>
                   )}
                   {request.status !== "PENDING" && (
-                    <span className="text-[10px] font-mono text-zinc-600">Traitée</span>
+                    <span className="text-xs font-mono text-zinc-600">Traitée</span>
                   )}
                 </div>
               </div>

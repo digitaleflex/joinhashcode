@@ -94,14 +94,14 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
             i <= currentStep ? "text-primary" : "text-zinc-600"
           )}>
             <div className={cn(
-              "size-5 rounded-full flex items-center justify-center text-[9px] font-black border",
+              "size-5 rounded-full flex items-center justify-center text-3xs font-black border",
               i < currentStep ? "bg-primary text-black border-primary" :
               i === currentStep ? "bg-primary/10 text-primary border-primary/40" :
               "bg-zinc-900 border-white/10"
             )}>
               {i < currentStep ? <Check className="size-2.5" /> : i + 1}
             </div>
-            <span className="text-[8px] font-mono uppercase tracking-wider hidden sm:block">{step.label}</span>
+            <span className="text-xs-sm font-mono uppercase tracking-wider hidden sm:block">{step.label}</span>
           </div>
           {i < STEPS.length - 1 && (
             <div className={cn("flex-1 h-px mx-1.5", i < currentStep ? "bg-primary/40" : "bg-white/5")} />
@@ -153,18 +153,18 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         <div className="p-4 bg-zinc-900/40 border border-white/5 rounded-2xl text-left space-y-3">
             <div className="flex items-center gap-2">
               <MessageSquare className="size-3.5 text-primary shrink-0" />
-              <p className="text-[10px] font-mono font-bold text-primary uppercase tracking-wider">
+              <p className="text-xs font-mono font-bold text-primary uppercase tracking-wider">
                 Partage ton expérience — optionnel
               </p>
             </div>
-            <p className="text-[9px] text-zinc-500 leading-relaxed">
+            <p className="text-3xs text-zinc-500 leading-relaxed">
               Tes retours aident à améliorer les missions pour tous les membres.
               Ça prend 30 secondes.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowRetroForm(true)}
-                className="flex-1 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider hover:bg-primary/20 transition-all"
               >
                 Donner mon avis
               </button>
@@ -172,7 +172,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
                 onClick={() => {
                   setShowScanner(true);
                 }}
-                className="px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/5 text-zinc-400 text-[10px] font-bold hover:text-white transition-all"
+                className="px-4 py-2.5 rounded-xl bg-zinc-900 border border-white/5 text-zinc-400 text-xs font-bold hover:text-white transition-all"
               >
                 Plus tard
               </button>
@@ -191,7 +191,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         <StepIndicator />
         {hasRevision && (
           <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 space-y-3">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-amber-400">
+            <p className="text-xs font-mono uppercase tracking-wider text-amber-400">
               Révision #{revisionCount} — Points à corriger
             </p>
             {reviewerFeedback && (
@@ -209,7 +209,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         )}
         <form onSubmit={handleSubmitStep1} className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+            <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
               {isTextResponse
                 ? (missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Ta réponse_")
                 : "Lien de soumission_"}
@@ -263,11 +263,11 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <span className="text-[10px] font-mono uppercase tracking-wider text-primary">Rétrospection_</span>
+        <span className="text-xs font-mono uppercase tracking-wider text-primary">Rétrospection_</span>
       </div>
 
       <div className="space-y-2">
-        <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Explique ton projet (Brief)_</Label>
+        <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Explique ton projet (Brief)_</Label>
         <Textarea
           placeholder="Qu'as-tu mis en place ? Quels outils as-tu utilisés ?"
           value={projectDescription}
@@ -279,14 +279,14 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Difficulté_</Label>
+          <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Difficulté_</Label>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((val) => (
               <button
                 key={val}
                 type="button"
                 onClick={() => setUserDifficulty(val)}
-                className={`flex-1 h-7 rounded-lg text-[10px] font-mono border transition-all ${userDifficulty === val ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:border-primary/50"}`}
+                className={`flex-1 h-7 rounded-lg text-xs font-mono border transition-all ${userDifficulty === val ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground hover:border-primary/50"}`}
               >
                 {val}
               </button>
@@ -294,7 +294,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
           </div>
         </div>
         <div className="space-y-2">
-          <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Note_</Label>
+          <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Note_</Label>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((val) => (
               <button
@@ -311,7 +311,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
       </div>
 
       <div className="space-y-2">
-        <Label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Ton avis global_</Label>
+        <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Ton avis global_</Label>
         <Textarea
           placeholder="Qu'as-tu pensé de cet exercice ?"
           value={userFeedback}

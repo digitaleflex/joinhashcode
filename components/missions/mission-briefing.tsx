@@ -91,7 +91,7 @@ export function MissionBriefing({ content }: MissionBriefingProps) {
           <thead className="bg-primary/5 border-b border-border/30">{children}</thead>
         ),
         th: ({ children }) => (
-          <th className="px-4 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <th className="px-4 py-2 text-left font-mono text-xs uppercase tracking-wider text-muted-foreground">
             {children}
           </th>
         ),

@@ -111,9 +111,9 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="size-4 text-primary animate-pulse" />
-          <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">Audit de compatibilité</span>
+          <span className="text-sm-plus font-mono font-bold text-zinc-400 uppercase tracking-wide">Audit de compatibilité</span>
         </div>
-        {auditDone && <span className="text-[10px] font-mono text-primary font-bold">Analyse complétée</span>}
+        {auditDone && <span className="text-xs font-mono text-primary font-bold">Analyse complétée</span>}
       </div>
 
       {!auditDone ? (
@@ -127,7 +127,7 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
               setTimeout(() => { setIsAuditing(false); setAuditDone(true); toast.success("Audit généré !") }, 1200)
             }}
             disabled={isAuditing}
-            className="w-full h-10 text-[11px] font-bold uppercase tracking-wide btn-primary-glow"
+            className="w-full h-10 text-sm-plus font-bold uppercase tracking-wide btn-primary-glow"
           >
             {isAuditing ? (
               <><Loader2 className="size-3.5 mr-2 animate-spin" />Calcul de synchronicité...</>
@@ -143,10 +143,10 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
               <div className="text-3xl font-extrabold text-white tracking-tight">
                 {auditResult?.score}<span className="text-primary text-lg">%</span>
               </div>
-              <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider mt-0.5">Taux de compatibilité</div>
+              <div className="text-3xs font-mono text-zinc-500 uppercase tracking-wider mt-0.5">Taux de compatibilité</div>
             </div>
             <span className={cn(
-              "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono tracking-wide",
+              "px-2.5 py-1 rounded-full text-xs font-bold uppercase font-mono tracking-wide",
               (auditResult?.score ?? 0) >= 80 ? "bg-primary/10 text-primary border border-primary/20" :
               (auditResult?.score ?? 0) >= 50 ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
               "bg-red-500/10 text-red-400 border border-red-500/20"
@@ -157,7 +157,7 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
 
           {auditResult?.strengths && auditResult.strengths.length > 0 && (
             <div className="space-y-2">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Points forts</h4>
+              <h4 className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">Points forts</h4>
               <ul className="space-y-1.5">
                 {auditResult.strengths.map((str, idx) => (
                   <li key={idx} className="text-xs text-zinc-300 flex items-start gap-2 leading-relaxed">
@@ -170,7 +170,7 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
 
           {auditResult?.warnings && auditResult.warnings.length > 0 && (
             <div className="space-y-2 border-t border-white/5 pt-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Points d&apos;attention</h4>
+              <h4 className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">Points d&apos;attention</h4>
               <ul className="space-y-1.5">
                 {auditResult.warnings.map((warn, idx) => (
                   <li key={idx} className="text-xs text-amber-400 flex items-start gap-2 leading-relaxed">
@@ -183,7 +183,7 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
 
           {auditResult?.advices && auditResult.advices.length > 0 && (
             <div className="space-y-2 border-t border-white/5 pt-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Conseils de recrutement</h4>
+              <h4 className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">Conseils de recrutement</h4>
               <ul className="space-y-1.5">
                 {auditResult.advices.map((adv, idx) => (
                   <li key={idx} className="text-xs text-zinc-400 flex items-start gap-2 leading-relaxed">
@@ -198,9 +198,9 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
             <div className="border-t border-white/5 pt-4 space-y-3">
               <div className="flex items-center gap-1.5">
                 <AlertTriangle className="size-3 text-amber-400 shrink-0" />
-                <h4 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Rééquilibrage suggéré</h4>
+                <h4 className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">Rééquilibrage suggéré</h4>
               </div>
-              <p className="text-[11px] text-zinc-500 leading-relaxed">
+              <p className="text-sm-plus text-zinc-500 leading-relaxed">
                 Ces membres ont un profil sur-représenté. Tu peux leur suggérer d&apos;explorer d&apos;autres escouades.
               </p>
               <div className="space-y-2">
@@ -210,13 +210,13 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
                     <div key={em.userId} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-amber-500/10 bg-amber-500/3">
                       <div className="min-w-0">
                         <span className="text-sm font-bold text-white">@{em.pseudo}</span>
-                        <span className="text-[9px] font-mono text-amber-400/70 ml-2 uppercase">{em.class}</span>
+                        <span className="text-3xs font-mono text-amber-400/70 ml-2 uppercase">{em.class}</span>
                       </div>
                       <button
                         onClick={() => suggestMove(em.userId)}
                         disabled={sent || suggestingSendId === em.userId}
                         className={cn(
-                          "shrink-0 text-[10px] font-mono font-bold px-3 py-1.5 rounded-lg border transition-all",
+                          "shrink-0 text-xs font-mono font-bold px-3 py-1.5 rounded-lg border transition-all",
                           sent ? "border-emerald-500/20 text-emerald-400 bg-emerald-500/5 cursor-default" : "border-amber-500/20 text-amber-400 hover:bg-amber-500/10"
                         )}
                       >
@@ -230,7 +230,7 @@ export function SquadAuditPanel({ squad, isLeader }: SquadAuditPanelProps) {
           )}
 
           <div className="pt-2">
-            <button onClick={() => setAuditDone(false)} className="text-[10px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors underline">
+            <button onClick={() => setAuditDone(false)} className="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors underline">
               Réanalyser l&apos;équipe
             </button>
           </div>

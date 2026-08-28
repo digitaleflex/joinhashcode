@@ -53,7 +53,7 @@ export function AmbassadorGoal({ referralCount }: AmbassadorGoalProps) {
                         <div className="space-y-1">
                             <div className="flex items-center justify-center md:justify-start gap-2">
                                 <span className={cn(
-                                    "text-[10px] font-black uppercase tracking-[0.3em]",
+                                    "text-xs font-black uppercase tracking-[0.3em]",
                                     isUnlocked ? "text-primary" : "text-zinc-600"
                                 )}>
                                     Mission Prioritaire
@@ -72,7 +72,7 @@ export function AmbassadorGoal({ referralCount }: AmbassadorGoalProps) {
 
                         {!isUnlocked && (
                             <div className="space-y-2">
-                                <div className="flex justify-between items-end text-[10px] font-mono uppercase font-bold">
+                                <div className="flex justify-between items-end text-xs font-mono uppercase font-bold">
                                     <span className="text-zinc-500">Recrutement en cours</span>
                                     <span className="text-primary">{referralCount} / {target}</span>
                                 </div>
@@ -88,7 +88,7 @@ export function AmbassadorGoal({ referralCount }: AmbassadorGoalProps) {
 
                     <div className="shrink-0">
                         {isUnlocked ? (
-                            <div className="px-6 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                            <div className="px-6 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                 <Star className="size-3 fill-primary" />
                                 Rang Atteint
                             </div>
@@ -98,7 +98,7 @@ export function AmbassadorGoal({ referralCount }: AmbassadorGoalProps) {
                                 onClick={() => {
                                     document.getElementById('referral-card')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                className="h-11 px-6 border-white/10 bg-white/2 hover:bg-white/5 text-white font-bold uppercase text-[10px] tracking-widest gap-2 rounded-xl group/btn"
+                                className="h-11 px-6 border-white/10 bg-white/2 hover:bg-white/5 text-white font-bold uppercase text-xs tracking-widest gap-2 rounded-xl group/btn"
                             >
                                 Partager mon lien
                                 <ArrowRight className="size-3 group-hover:translate-x-1 transition-transform" />

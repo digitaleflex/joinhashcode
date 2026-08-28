@@ -38,16 +38,9 @@ export async function PATCH(req: Request) {
     const data = parsed.data;
 
     if (data.dreamStatement || data.mainBlocker || data.currentFocus) {
-      await prisma.userProfile.upsert({
-        where: { userId: session.user.id },
-        create: {
-          userId: session.user.id,
-          dreamStatement: data.dreamStatement ?? null,
-          mainBlocker: data.mainBlocker ?? null,
-          currentFocus: data.currentFocus ?? [],
-          secondaryObjectives: [],
-        },
-        update: {
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: {
           ...(data.dreamStatement !== undefined && { dreamStatement: data.dreamStatement }),
           ...(data.mainBlocker !== undefined && { mainBlocker: data.mainBlocker }),
           ...(data.currentFocus !== undefined && { currentFocus: data.currentFocus }),

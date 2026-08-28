@@ -73,7 +73,7 @@ export function AcceptInvitationClient({
           ) : (
             <>
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Invitation à rejoindre</p>
+                <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Invitation à rejoindre</p>
                 <h2 className="text-2xl font-extrabold text-white uppercase italic tracking-tight">{squadName}</h2>
                 {squadDescription && (
                   <p className="text-sm text-zinc-400 leading-relaxed">{squadDescription}</p>
@@ -105,7 +105,7 @@ export function AcceptInvitationClient({
           )}
         </div>
 
-        <p className="text-center text-[10px] font-mono text-zinc-700">
+        <p className="text-center text-xs font-mono text-zinc-700">
           HASHCODE · Système d&apos;invitation
         </p>
       </div>

@@ -166,21 +166,21 @@ export function TwoFactorSetup({ user }: { user: { twoFactorEnabled?: boolean } 
                 </div>
                 <div className="text-center space-y-2">
                     <p className="text-sm font-bold text-primary italic">Scanne ce code avec ton App</p>
-                    <p className="text-[10px] text-zinc-500 max-w-[250px] mx-auto">
+                    <p className="text-xs text-zinc-500 max-w-[250px] mx-auto">
                         Ouvre Google Authenticator, Authy ou FreeOTP et ajoute un nouveau compte.
                     </p>
                 </div>
                 
                 <div className="w-full p-4 bg-zinc-900 rounded-xl border border-white/5 space-y-2">
-                    <p className="text-[10px] font-mono text-amber-500 uppercase flex items-center gap-2">
+                    <p className="text-xs font-mono text-amber-500 uppercase flex items-center gap-2">
                         <Key className="size-3" /> Codes de secours (Unique)
                     </p>
                     <div className="grid grid-cols-2 gap-1">
                         {totpData.backupCodes.slice(0, 4).map((code, i) => (
-                            <code key={i} className="text-[10px] font-mono text-zinc-400 bg-black/40 p-1 rounded text-center">{code}</code>
+                            <code key={i} className="text-xs font-mono text-zinc-400 bg-black/40 p-1 rounded text-center">{code}</code>
                         ))}
                     </div>
-                    <p className="text-[8px] text-zinc-600 italic">Sauvegarde ces codes en lieu sûr.</p>
+                    <p className="text-xs-sm text-zinc-600 italic">Sauvegarde ces codes en lieu sûr.</p>
                 </div>
 
                 <Button className="w-full h-12 uppercase font-bold" onClick={() => setStep("verify")}>
@@ -206,7 +206,7 @@ export function TwoFactorSetup({ user }: { user: { twoFactorEnabled?: boolean } 
                 <Button type="submit" className="w-full h-12 uppercase font-bold" disabled={isPending}>
                     {isPending ? "Activation..." : "Finaliser l&apos;activation"}
                 </Button>
-                <button type="button" className="w-full text-[10px] text-zinc-600 hover:text-zinc-400 underline" onClick={() => setStep("setup")}>
+                <button type="button" className="w-full text-xs text-zinc-600 hover:text-zinc-400 underline" onClick={() => setStep("setup")}>
                     Retour au QR Code
                 </button>
               </form>

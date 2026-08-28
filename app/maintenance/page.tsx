@@ -18,7 +18,7 @@ export default function MaintenancePage() {
         </div>
 
         <div className="space-y-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
             [ MAINTENANCE_EN_COURS ]
           </p>
           <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter italic">
@@ -31,7 +31,7 @@ export default function MaintenancePage() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-2 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-wider">
+        <div className="flex items-center justify-center gap-2 font-mono text-xs text-muted-foreground/60 uppercase tracking-wider">
           <span className="size-1.5 rounded-full bg-primary animate-pulse" />
           Réessaie dans quelques minutes
         </div>

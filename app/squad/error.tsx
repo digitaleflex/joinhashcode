@@ -18,7 +18,7 @@ export default function SquadError({ error, reset }: { error: Error; reset: () =
             Impossible de charger les données de ton escouade. Vérifie ta connexion et réessaie.
           </p>
           {process.env.NODE_ENV === "development" && error?.message && (
-            <p className="text-[10px] font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
+            <p className="text-xs font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
           )}
         </div>
         <Button onClick={reset} className="btn-primary-glow w-full">

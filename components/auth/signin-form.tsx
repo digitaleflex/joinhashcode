@@ -173,7 +173,7 @@ export function SignInForm() {
                         <>
                             <form onSubmit={handleSendOtp} className="space-y-4">
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="email" className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+                                    <Label htmlFor="email" className="font-mono text-3xs font-bold text-zinc-500 uppercase tracking-widest">
                                         Adresse Email
                                     </Label>
                                     <Input
@@ -188,7 +188,7 @@ export function SignInForm() {
                                 </div>
                                 <Button 
                                     type="submit" 
-                                    className="w-full btn-primary-glow h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
+                                    className="w-full btn-primary-glow h-11 text-sm-plus uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
                                     disabled={!!loadingProvider}
                                 >
                                     {loadingProvider === "email" ? (
@@ -206,7 +206,7 @@ export function SignInForm() {
                                 <div className="absolute inset-0 flex items-center">
                                     <span className="w-full border-t border-white/5"></span>
                                 </div>
-                                <div className="relative flex justify-center text-[9px] uppercase font-mono text-zinc-600 bg-transparent px-2">
+                                <div className="relative flex justify-center text-3xs uppercase font-mono text-zinc-600 bg-transparent px-2">
                                     Ou accès rapide
                                 </div>
                             </div>
@@ -214,7 +214,7 @@ export function SignInForm() {
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInGoogle}
-                                className="w-full h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-3"
+                                className="w-full h-11 text-sm-plus uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-3"
                                 disabled={!!loadingProvider}
                             >
                                 {loadingProvider === "google" ? (
@@ -236,7 +236,7 @@ export function SignInForm() {
                             <Button 
                                 variant="outline"
                                 onClick={handleSignInGitHub}
-                                className="w-full h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-3"
+                                className="w-full h-11 text-sm-plus uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-3"
                                 disabled={!!loadingProvider}
                             >
                                 {loadingProvider === "github" ? (
@@ -251,7 +251,7 @@ export function SignInForm() {
                                 )}
                             </Button>
 
-                                <p className="text-[10px] leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
+                                <p className="text-xs leading-normal text-zinc-500 font-medium text-center px-1 pt-2 select-none">
                                     En continuant, tu acceptes nos{" "}
                                     <Link href="/terms" className="text-primary hover:underline font-bold transition-colors">Conditions</Link> et notre{" "}
                                     <Link href="/privacy" className="text-primary hover:underline font-bold transition-colors">Politique de confidentialité</Link>, et tu autorises HASHCODE à analyser tes réponses pour établir ton diagnostic.
@@ -260,7 +260,7 @@ export function SignInForm() {
                     ) : (
                         <form onSubmit={handleVerifyOtp} className="space-y-4">
                             <div className="space-y-2">
-                                <Label htmlFor="otp" className="font-mono text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+                                <Label htmlFor="otp" className="font-mono text-3xs font-bold text-zinc-500 uppercase tracking-widest">
                                     Code de sécurité (8 caractères)
                                 </Label>
                                 <Input
@@ -276,7 +276,7 @@ export function SignInForm() {
                             </div>
                             <Button 
                                 type="submit" 
-                                className="w-full btn-primary-glow h-11 text-[11px] uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
+                                className="w-full btn-primary-glow h-11 text-sm-plus uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer"
                                 disabled={!!loadingProvider || otp.length !== 8}
                             >
                                 {loadingProvider === "otp" ? (
@@ -291,7 +291,7 @@ export function SignInForm() {
                                     variant="outline"
                                     disabled={resendCooldown > 0 || loadingProvider === "email"}
                                     onClick={() => handleSendOtp()}
-                                    className="flex-1 text-[10px] font-mono uppercase tracking-widest h-10 border-white/10 bg-white/1 hover:bg-white/5 cursor-pointer"
+                                    className="flex-1 text-xs font-mono uppercase tracking-widest h-10 border-white/10 bg-white/1 hover:bg-white/5 cursor-pointer"
                                 >
                                     {loadingProvider === "email" ? (
                                         <Loader2 className="h-3 w-3 animate-spin" />
@@ -305,7 +305,7 @@ export function SignInForm() {
                                     type="button"
                                     variant="ghost"
                                     onClick={() => setStep("initial")}
-                                    className="flex-1 text-[10px] font-mono uppercase tracking-widest h-10 text-zinc-500 hover:text-white transition-colors duration-200 cursor-pointer"
+                                    className="flex-1 text-xs font-mono uppercase tracking-widest h-10 text-zinc-500 hover:text-white transition-colors duration-200 cursor-pointer"
                                 >
                                     Annuler et revenir
                                 </Button>
@@ -315,7 +315,7 @@ export function SignInForm() {
                 </CardContent>
                 
                 <CardFooter className="bg-white/1 border-t border-white/4 py-4 px-6">
-                    <p className="text-[9px] text-center w-full text-zinc-500 font-mono uppercase tracking-wider leading-relaxed">
+                    <p className="text-3xs text-center w-full text-zinc-500 font-mono uppercase tracking-wider leading-relaxed">
                         Tes données sont traitées conformément à notre{" "}
                         <Link href="/privacy" className="text-zinc-400 hover:text-primary underline transition-colors">politique de confidentialité</Link>.
                     </p>

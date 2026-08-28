@@ -57,14 +57,14 @@ export function SubmissionTimeline({ submission }: TimelineProps) {
 
   return (
     <div className="space-y-3">
-      <p className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">
+      <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest">
         Suivi de la soumission
       </p>
 
       {submission.revisionCount > 0 && (
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/20 border border-amber-500/20">
           <RefreshCw className="size-3 text-amber-500 shrink-0" />
-          <span className="text-[9px] font-mono text-amber-400">
+          <span className="text-3xs font-mono text-amber-400">
             {submission.revisionCount} révision{submission.revisionCount > 1 ? "s" : ""} effectuée{submission.revisionCount > 1 ? "s" : ""}
           </span>
         </div>
@@ -91,7 +91,7 @@ export function SubmissionTimeline({ submission }: TimelineProps) {
                 )}>
                   {step.label}
                 </p>
-                <p className="text-[9px] text-zinc-600 font-mono leading-relaxed max-w-[200px]">
+                <p className="text-3xs text-zinc-600 font-mono leading-relaxed max-w-[200px]">
                   {step.sublabel}
                 </p>
               </div>

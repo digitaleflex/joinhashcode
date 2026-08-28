@@ -71,7 +71,7 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
                     <MessageSquareText className="size-4 text-primary" />
                     Verdict de l'agent
                 </CardTitle>
-                <CardDescription className="text-[10px] text-zinc-500 uppercase font-mono">Validation du diagnostic de profilage</CardDescription>
+                <CardDescription className="text-xs text-zinc-500 uppercase font-mono">Validation du diagnostic de profilage</CardDescription>
             </CardHeader>
 
             <CardContent className="relative space-y-6">
@@ -82,14 +82,14 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
                             <Button 
                                 onClick={() => handleInitialResponse(true)}
                                 variant="outline" 
-                                className="flex-1 h-11 border-white/10 bg-white/1 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all gap-2 font-bold uppercase text-[10px] tracking-widest rounded-xl"
+                                className="flex-1 h-11 border-white/10 bg-white/1 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all gap-2 font-bold uppercase text-xs tracking-widest rounded-xl"
                             >
                                 <Check className="size-4" /> Oui, totalement
                             </Button>
                             <Button 
                                 onClick={() => handleInitialResponse(false)}
                                 variant="outline" 
-                                className="flex-1 h-11 border-white/10 bg-white/1 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all gap-2 font-bold uppercase text-[10px] tracking-widest rounded-xl"
+                                className="flex-1 h-11 border-white/10 bg-white/1 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all gap-2 font-bold uppercase text-xs tracking-widest rounded-xl"
                             >
                                 <X className="size-4" /> Pas vraiment
                             </Button>
@@ -98,7 +98,7 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
                 ) : (
                     <div className="space-y-6 animate-in slide-in-from-right duration-300">
                         <div className="space-y-3">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Utilité globale du quiz (1-5)</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Utilité globale du quiz (1-5)</label>
                             <div className="flex gap-2">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <button
@@ -123,7 +123,7 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Un commentaire ? (Optionnel)</label>
+                            <label className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Un commentaire ? (Optionnel)</label>
                             <Textarea 
                                 placeholder="Dis-nous ce que tu en penses..."
                                 value={comment}
@@ -135,7 +135,7 @@ export function QuizFeedbackCard({ quizResultId }: QuizFeedbackCardProps) {
                         <Button 
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            className="w-full btn-primary-glow h-11 font-bold uppercase text-[10px] tracking-[0.2em] rounded-xl"
+                            className="w-full btn-primary-glow h-11 font-bold uppercase text-xs tracking-[0.2em] rounded-xl"
                         >
                             {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : "Envoyer mon avis"}
                         </Button>

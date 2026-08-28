@@ -82,6 +82,16 @@
   --h3-size: clamp(1.15rem, 3vw, 1.85rem);
   --body-lg: clamp(0.95rem, 1.5vw, 1.15rem);
 
+  /* ── Semantic text sizes (for contrast audit compliance) ── */
+  --text-caption: 0.75rem;
+  --text-caption-sm: 0.625rem;
+  --text-xs: 0.625rem;
+  --text-xs-sm: 0.5rem;
+  --text-2xs: 0.4375rem;
+  --text-3xs: 0.5625rem;
+  --text-sm-plus: 0.6875rem;
+  --text-base-sm: 0.8125rem;
+
   --radius: 0.75rem;
   --bottom-nav-height: 5rem;
 
@@ -159,6 +169,17 @@
   --font-size-7xl: 3.5rem;      /* 56px (au lieu de 72px) */
   --font-size-8xl: 4.5rem;      /* 72px (au lieu de 96px) */
   --font-size-9xl: 5.5rem;      /* 88px (au lieu de 128px) */
+
+  /* Semantic text sizes for contrast audit compliance */
+  --font-size-caption: var(--text-caption);
+  --font-size-caption-sm: var(--text-caption-sm);
+  --font-size-xs: var(--text-xs);
+  --font-size-xs-sm: var(--text-xs-sm);
+  --font-size-2xs: var(--text-2xs);
+  --font-size-3xs: var(--text-3xs);
+  --font-size-sm-plus: var(--text-sm-plus);
+  --font-size-base-sm: var(--text-base-sm);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

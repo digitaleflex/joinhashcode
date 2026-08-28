@@ -36,7 +36,7 @@ export function SquadDisbandPanel({ localName }: SquadDisbandPanelProps) {
       <div className="rounded-3xl border border-red-500/15 bg-red-500/3 p-5 space-y-3">
         <div className="flex items-center gap-2">
           <AlertTriangle className="size-3.5 text-red-400" />
-          <span className="text-[10px] font-mono font-bold text-red-400/70 uppercase tracking-wider">Zone de danger</span>
+          <span className="text-xs font-mono font-bold text-red-400/70 uppercase tracking-wider">Zone de danger</span>
         </div>
         <Button
           variant="outline"

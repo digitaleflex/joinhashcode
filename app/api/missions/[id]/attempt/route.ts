@@ -82,16 +82,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     if (mission.isOnboarding) {
       const missingSteps = steps.filter((s) => !responseByStep.has(s.id));
       if (missingSteps.length > 0) {
-        const [userData, profileData] = await Promise.all([
-          prisma.user.findUnique({
-            where: { id: session.user.id },
-            select: { name: true, pseudo: true, mainObjective: true, domains: true, tools: true, class: true },
-          }),
-          prisma.userProfile.findUnique({
-            where: { userId: session.user.id },
-            select: { dreamStatement: true },
-          }),
-        ]);
+        const userData = await prisma.user.findUnique({
+          where: { id: session.user.id },
+          select: { name: true, pseudo: true, mainObjective: true, domains: true, tools: true, class: true, dreamStatement: true },
+        });
         const prefill = buildStepPrefill({
           name: userData?.name,
           pseudo: userData?.pseudo,
@@ -99,7 +93,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
           domains: userData?.domains ?? [],
           tools: userData?.tools ?? [],
           class: userData?.class,
-          dreamStatement: profileData?.dreamStatement,
+          dreamStatement: userData?.dreamStatement,
         });
         for (const step of missingSteps) {
           const data = prefill[step.key];

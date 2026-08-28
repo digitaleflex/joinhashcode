@@ -118,12 +118,12 @@ function MiniPsychoBars({ scores }: { scores: { builderScore: number; creatorSco
               style={{ height: `${scores[p.key]}%` }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[9px] font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              <span className="text-3xs font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                 {scores[p.key]}
               </span>
             </div>
           </div>
-          <span className="block text-[7px] font-mono text-zinc-600 text-center uppercase tracking-wider">
+          <span className="block text-2xs font-mono text-zinc-600 text-center uppercase tracking-wider">
             {p.label.slice(0, 3)}
           </span>
         </div>
@@ -278,14 +278,14 @@ function InviteAnalysisDialog({
           <DialogHeader className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
               <Send className="size-3 text-primary" />
-              <span className="text-[9px] font-mono font-black uppercase text-primary">Analyse de Recrutement</span>
+              <span className="text-3xs font-mono font-black uppercase text-primary">Analyse de Recrutement</span>
             </div>
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <DialogTitle className="text-xl font-black uppercase italic tracking-tight text-white">
                   {talent.name}
                 </DialogTitle>
-                <DialogDescription className="text-[10px] font-mono text-zinc-500 flex items-center gap-2 mt-1">
+                <DialogDescription className="text-xs font-mono text-zinc-500 flex items-center gap-2 mt-1">
                   <span className={cfg.color}>{cfg.label}</span>
                   <span>· LV.{talent.level}</span>
                   <span>· {talent.experience.toLocaleString()} XP</span>
@@ -320,12 +320,12 @@ function InviteAnalysisDialog({
                     style={{ height: `${talent[p.key]}%` }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[10px] font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    <span className="text-xs font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                       {talent[p.key]}
                     </span>
                   </div>
                 </div>
-                <span className="block text-[7px] font-mono text-zinc-600 text-center uppercase tracking-wider">
+                <span className="block text-2xs font-mono text-zinc-600 text-center uppercase tracking-wider">
                   {p.label.slice(0, 3)}
                 </span>
               </div>
@@ -334,7 +334,7 @@ function InviteAnalysisDialog({
 
           {/* Squad composition */}
           <div className="space-y-2">
-            <span className="text-[9px] font-mono font-black uppercase text-zinc-500 tracking-wider">
+            <span className="text-3xs font-mono font-black uppercase text-zinc-500 tracking-wider">
               Composition de l&apos;escouade · {viewerSquad.memberCount}/5
             </span>
             <div className="space-y-1.5">
@@ -342,7 +342,7 @@ function InviteAnalysisDialog({
                 const count = classCounts[key] || 0
                 const barWidth = Math.min((count / 2) * 100, 100)
                 return (
-                  <div key={key} className="flex items-center gap-2 text-[10px] font-mono">
+                  <div key={key} className="flex items-center gap-2 text-xs font-mono">
                     <span className={`w-16 ${c.color} font-bold uppercase tracking-wider`}>{c.label}</span>
                     <div className="flex-1 h-3 rounded-full bg-zinc-900 border border-white/5 overflow-hidden">
                       <div
@@ -360,7 +360,7 @@ function InviteAnalysisDialog({
           {/* Tool overlap */}
           {talentTools.length > 0 && (
             <div className="space-y-2">
-              <span className="text-[9px] font-mono font-black uppercase text-zinc-500 tracking-wider">
+              <span className="text-3xs font-mono font-black uppercase text-zinc-500 tracking-wider">
                 Compétences {newTools.length > 0 ? `· +${newTools.length} nouvelle${newTools.length > 1 ? "s" : ""}` : ""}
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -369,14 +369,14 @@ function InviteAnalysisDialog({
                   return (
                     <span
                       key={tool}
-                      className={`px-2 py-0.5 rounded-md text-[9px] font-mono border ${
+                      className={`px-2 py-0.5 rounded-md text-3xs font-mono border ${
                         isNew
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                           : "bg-zinc-800/80 text-zinc-400 border-white/5"
                       }`}
                     >
                       {tool}
-                      {isNew && <span className="ml-1 text-[7px] opacity-60">nouveau</span>}
+                      {isNew && <span className="ml-1 text-2xs opacity-60">nouveau</span>}
                     </span>
                   )
                 })}
@@ -402,7 +402,7 @@ function InviteAnalysisDialog({
                  <AlertTriangle className="size-5" />}
               </div>
               <div className="space-y-1 min-w-0">
-                <p className={`text-[11px] font-black uppercase tracking-wider ${
+                <p className={`text-sm-plus font-black uppercase tracking-wider ${
                   sent ? "text-primary" :
                   synergyScore >= 70 ? "text-emerald-400" :
                   synergyScore >= 45 ? "text-amber-400" :
@@ -413,7 +413,7 @@ function InviteAnalysisDialog({
                    synergyScore >= 45 ? "À considérer avec précaution" :
                    "Déconseillé par le Coach IA"}
                 </p>
-                <p className="text-[10px] text-zinc-400 leading-relaxed font-light">
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">
                   {coachAdvice}
                 </p>
               </div>
@@ -423,7 +423,7 @@ function InviteAnalysisDialog({
           {/* Synergy bar */}
           {talent.class && (
             <div className="space-y-1">
-              <div className="flex justify-between text-[8px] font-mono text-zinc-600 uppercase tracking-wider">
+              <div className="flex justify-between text-xs-sm font-mono text-zinc-600 uppercase tracking-wider">
                 <span>Synergie cognitive</span>
                 <span className={synergyColor}>{synergyScore}%</span>
               </div>
@@ -443,14 +443,14 @@ function InviteAnalysisDialog({
               <DialogClose asChild>
                 <Button
                   variant="outline"
-                  className="flex-1 h-11 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
+                  className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
                 >
                   Fermer
                 </Button>
               </DialogClose>
               <Button
                 asChild
-                className="flex-1 h-11 rounded-xl text-[10px] font-bold uppercase tracking-wider btn-primary-glow gap-2"
+                className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider btn-primary-glow gap-2"
               >
                 <Link href={`/dossier?userId=${talent.id}`}>
                   <Info className="size-4" />
@@ -463,7 +463,7 @@ function InviteAnalysisDialog({
               <DialogClose asChild>
                 <Button
                   variant="outline"
-                  className="flex-1 h-11 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
+                  className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
                 >
                   Annuler
                 </Button>
@@ -471,7 +471,7 @@ function InviteAnalysisDialog({
               <Button
                 onClick={handleConfirm}
                 disabled={sending || sent}
-                className={`flex-1 h-11 rounded-xl text-[10px] font-bold uppercase tracking-wider gap-2 ${
+                className={`flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider gap-2 ${
                   synergyScore < 45
                     ? "bg-red-500 hover:bg-red-600 text-white"
                     : synergyScore < 70
@@ -531,7 +531,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                     <h3 className="font-extrabold text-base text-white uppercase italic tracking-tight truncate max-w-36">
                       {talent.name}
                     </h3>
-                    <p className="font-mono text-[9px] text-zinc-500 uppercase">
+                    <p className="font-mono text-3xs text-zinc-500 uppercase">
                       @{talent.pseudo || "talent"}
                     </p>
                   </div>
@@ -540,7 +540,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                   {!talent.inSquad && (
                     <Badge
                       variant="outline"
-                      className="font-mono text-[8px] uppercase tracking-wider py-1 px-2 rounded-lg border-emerald-500/20 text-emerald-400 bg-emerald-500/5"
+                      className="font-mono text-xs-sm uppercase tracking-wider py-1 px-2 rounded-lg border-emerald-500/20 text-emerald-400 bg-emerald-500/5"
                     >
                       <Users className="size-2.5 mr-0.5" />
                       Free
@@ -548,7 +548,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                   )}
                   <Badge
                     variant="outline"
-                    className={`font-mono text-[8px] uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
+                    className={`font-mono text-xs-sm uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
                       isHybrid ? "text-[#C5F441] border-[#C5F441]/30" : cfg.color
                     }`}
                   >
@@ -560,12 +560,12 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
               <MiniPsychoBars scores={scores} />
 
               <div className="flex items-center justify-between pt-1">
-                <div className="flex items-center gap-3 text-[10px] font-mono">
+                <div className="flex items-center gap-3 text-xs font-mono">
                   <span className="text-zinc-600">LV.{talent.level}</span>
                   <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
                 </div>
                 {(talent.city || talent.country) && (
-                  <div className="flex items-center gap-1 text-[9px] text-zinc-500">
+                  <div className="flex items-center gap-1 text-3xs text-zinc-500">
                     <Globe className="size-2.5 shrink-0" />
                     <span className="truncate max-w-20">
                       {[talent.city, talent.country].filter(Boolean).join(", ")}
@@ -581,7 +581,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                   asChild
                   variant="outline"
                   size="sm"
-                  className="w-full h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"
+                  className="w-full h-10 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"
                 >
                   <Link href={`/dossier?userId=${talent.id}`}>
                     Voir le Dossier <ChevronRight className="size-3 ml-0.5" />
@@ -605,23 +605,23 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
             </Avatar>
             <div>
               <p className="font-bold text-sm text-white">{talent.name}</p>
-              <p className="font-mono text-[9px] text-zinc-500">{displayLabel} · LV.{talent.level}</p>
+              <p className="font-mono text-3xs text-zinc-500">{displayLabel} · LV.{talent.level}</p>
             </div>
           </div>
           {talent.bio && (
-            <p className="text-[11px] text-zinc-400 font-light leading-relaxed line-clamp-2 italic">
+            <p className="text-sm-plus text-zinc-400 font-light leading-relaxed line-clamp-2 italic">
               &ldquo;{talent.bio}&rdquo;
             </p>
           )}
           {(talent.tools?.length ?? 0) > 0 && (
             <div className="flex flex-wrap gap-1">
               {(talent.tools ?? []).slice(0, 4).map((tool) => (
-                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
+                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-3xs font-mono text-zinc-400 border border-white/5">
                   {tool}
                 </span>
               ))}
               {(talent.tools?.length ?? 0) > 4 && (
-                <span className="text-[9px] font-mono text-zinc-600">+{talent.tools.length - 4}</span>
+                <span className="text-3xs font-mono text-zinc-600">+{talent.tools.length - 4}</span>
               )}
             </div>
           )}
@@ -640,7 +640,7 @@ function InviteDialogForCard({ talent, viewerSquad }: { talent: Talent; viewerSq
         variant="outline"
         size="sm"
         onClick={() => setOpen(true)}
-        className="w-full h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 gap-1.5"
+        className="w-full h-10 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 gap-1.5"
       >
         <Send className="size-3" />
         Inviter dans mon escouade
@@ -680,9 +680,9 @@ function TalentRow({ talent, viewerSquad }: { talent: Talent; viewerSquad?: View
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="font-extrabold text-sm text-white uppercase italic truncate">{talent.name}</h3>
-                <span className="font-mono text-[9px] text-zinc-500 hidden sm:inline">@{talent.pseudo || "talent"}</span>
+                <span className="font-mono text-3xs text-zinc-500 hidden sm:inline">@{talent.pseudo || "talent"}</span>
               </div>
-              <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600">
+              <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                 <span className="flex items-center gap-1"><Icon className="size-3" />{displayLabel}</span>
                 <span>LV.{talent.level}</span>
                 <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
@@ -695,7 +695,7 @@ function TalentRow({ talent, viewerSquad }: { talent: Talent; viewerSquad?: View
             </div>
             <div className="hidden sm:flex items-center gap-2">
               {(talent.tools ?? []).slice(0, 3).map((tool) => (
-                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-[9px] font-mono text-zinc-400 border border-white/5">
+                <span key={tool} className="px-2 py-0.5 rounded-md bg-zinc-800/80 text-3xs font-mono text-zinc-400 border border-white/5">
                   {tool}
                 </span>
               ))}
@@ -766,7 +766,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
               <TrendingUp className="size-3.5 text-primary" />
-              <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-primary">Annuaire</span>
+              <span className="text-3xs sm:text-xs font-mono font-black uppercase text-primary">Annuaire</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase italic leading-none">
               Carte des <span className="text-primary">Talents</span>
@@ -800,7 +800,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
                 </div>
                 <div className="min-w-0">
                   <div className="text-lg font-black text-white font-mono tabular-nums">{stat.value}</div>
-                  <div className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider truncate">{stat.label}</div>
+                  <div className="text-xs-sm font-mono text-zinc-600 uppercase tracking-wider truncate">{stat.label}</div>
                 </div>
               </div>
             )
@@ -813,7 +813,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <Trophy className="size-4 text-amber-400" />
-            <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
               Top Talents de la Semaine
             </span>
           </div>
@@ -836,7 +836,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
                       </Avatar>
                       <div className="min-w-0">
                         <h3 className="font-extrabold text-sm text-white uppercase italic truncate">{talent.name}</h3>
-                        <div className="flex items-center gap-2 text-[9px] font-mono text-zinc-500">
+                        <div className="flex items-center gap-2 text-3xs font-mono text-zinc-500">
                           <Icon className="size-3" />
                           <span>{cfg.label}</span>
                           <span>· LV.{talent.level}</span>
@@ -866,7 +866,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
         <div className="flex flex-wrap gap-2 items-center">
           <button
             onClick={() => setSelectedClass("all")}
-            className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
+            className={`h-10 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border ${
               selectedClass === "all"
                 ? "bg-primary text-black border-primary"
                 : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
@@ -876,7 +876,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
             </button>
           <button
             onClick={() => setSelectedClass("free")}
-            className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+            className={`h-10 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
               selectedClass === "free"
                 ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
                 : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
@@ -893,7 +893,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
               <button
                 key={key}
                 onClick={() => setSelectedClass(key)}
-                className={`h-10 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+                className={`h-10 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
                   isActive
                     ? `${cfg.color} ${cfg.bg} ${cfg.border}`
                     : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
@@ -901,7 +901,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
               >
                 <Icon className="size-3.5" />
                 {cfg.label}
-                <span className="text-[9px] opacity-50">({count})</span>
+                <span className="text-3xs opacity-50">({count})</span>
               </button>
             )
           })}
@@ -909,7 +909,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
           <div className="flex rounded-xl border border-white/10 overflow-hidden">
             <button
               onClick={() => setViewMode("grid")}
-              className={`h-10 px-3 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+              className={`h-10 px-3 text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
                 viewMode === "grid"
                   ? "bg-primary text-black"
                   : "bg-transparent text-zinc-400 hover:text-white"
@@ -920,7 +920,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`h-10 px-3 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+              className={`h-10 px-3 text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
                 viewMode === "list"
                   ? "bg-primary text-black"
                   : "bg-transparent text-zinc-400 hover:text-white"
@@ -955,7 +955,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
               variant="outline"
               size="lg"
               onClick={() => setVisibleCount((c) => c + STEP)}
-              className="h-12 px-8 rounded-2xl text-[11px] font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5 hover:border-white/20"
+              className="h-12 px-8 rounded-2xl text-sm-plus font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5 hover:border-white/20"
             >
               Afficher plus ({filteredTalents.length - visibleCount} restant{filteredTalents.length - visibleCount > 1 ? "s" : ""})
             </Button>
@@ -981,7 +981,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
             variant="outline"
             size="sm"
             onClick={() => { setSearch(""); setSelectedClass("all") }}
-            className="rounded-xl text-[10px] uppercase font-bold tracking-wider"
+            className="rounded-xl text-xs uppercase font-bold tracking-wider"
           >
             Réinitialiser les filtres
           </Button>

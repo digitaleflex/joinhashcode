@@ -126,7 +126,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
           </div>
           <div className="flex flex-col">
             <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
-            <span className="text-[10px] font-mono text-primary font-bold tracking-tight">administration_</span>
+            <span className="text-xs font-mono text-primary font-bold tracking-tight">administration_</span>
           </div>
         </div>
         <div className="group-data-[collapsible=icon]:mx-auto">
@@ -137,7 +137,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
       <SidebarContent>
         {navGroups.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">
+            <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>

@@ -53,7 +53,7 @@ export default function Error({
           Une erreur inattendue a compromis l'exécution actuelle.
         </h2>
         
-        <div className="p-4 mb-10 rounded-2xl bg-red-500/5 border border-red-500/10 font-mono text-[11px] text-red-400/80 text-left overflow-auto max-h-32">
+        <div className="p-4 mb-10 rounded-2xl bg-red-500/5 border border-red-500/10 font-mono text-sm-plus text-red-400/80 text-left overflow-auto max-h-32">
           <code>
             {error.message || "Erreur d'exécution fatale détectée dans le noyau HASHCODE."}
             <br />
@@ -80,12 +80,12 @@ export default function Error({
         </div>
 
         <div className="mt-16 pt-8 border-t border-border/40 flex items-center justify-center gap-6">
-          <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
             Erreur interne
           </div>
           <div className="w-px h-3 bg-border/40" />
-          <div className="text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="text-xs font-mono text-muted-foreground uppercase">
             Erreur serveur
           </div>
         </div>

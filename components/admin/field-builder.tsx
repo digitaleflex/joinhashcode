@@ -228,12 +228,12 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                   <span className="font-mono text-xs text-zinc-300 truncate block">
                     {form.watch(`fields.${index}.label`) || "Nouveau champ"}
                   </span>
-                  <span className="font-mono text-[10px] text-zinc-600 truncate block">
+                  <span className="font-mono text-xs text-zinc-600 truncate block">
                     {form.watch(`fields.${index}.key`) || "key"} · {currentType}
                   </span>
                 </div>
                 {form.watch(`fields.${index}.required`) && (
-                  <Badge variant="outline" className="text-[9px] border-amber-500/30 text-amber-400">
+                  <Badge variant="outline" className="text-3xs border-amber-500/30 text-amber-400">
                     Requis
                   </Badge>
                 )}
@@ -269,7 +269,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                       name={`fields.${index}.key`}
                       render={({ field: f }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono text-zinc-400">
+                          <FormLabel className="text-xs font-mono text-zinc-400">
                             Clé
                           </FormLabel>
                           <FormControl>
@@ -288,7 +288,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                       name={`fields.${index}.label`}
                       render={({ field: f }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono text-zinc-400">
+                          <FormLabel className="text-xs font-mono text-zinc-400">
                             Libellé
                           </FormLabel>
                           <FormControl>
@@ -307,7 +307,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                       name={`fields.${index}.type`}
                       render={({ field: f }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono text-zinc-400">
+                          <FormLabel className="text-xs font-mono text-zinc-400">
                             Type
                           </FormLabel>
                           <Select
@@ -342,7 +342,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                       name={`fields.${index}.placeholder`}
                       render={({ field: f }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono text-zinc-400">
+                          <FormLabel className="text-xs font-mono text-zinc-400">
                             Placeholder
                           </FormLabel>
                           <FormControl>
@@ -360,7 +360,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                       name={`fields.${index}.hint`}
                       render={({ field: f }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-mono text-zinc-400">
+                          <FormLabel className="text-xs font-mono text-zinc-400">
                             Indice
                           </FormLabel>
                           <FormControl>
@@ -402,7 +402,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                         name={`fields.${index}.maxLength`}
                         render={({ field: f }) => (
                           <FormItem className="flex items-center gap-2">
-                            <FormLabel className="text-[10px] font-mono text-zinc-500">
+                            <FormLabel className="text-xs font-mono text-zinc-500">
                               Max
                             </FormLabel>
                             <FormControl>
@@ -425,7 +425,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                           name={`fields.${index}.min`}
                           render={({ field: f }) => (
                             <FormItem className="flex items-center gap-2">
-                              <FormLabel className="text-[10px] font-mono text-zinc-500">
+                              <FormLabel className="text-xs font-mono text-zinc-500">
                                 Min
                               </FormLabel>
                               <FormControl>
@@ -445,7 +445,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                           name={`fields.${index}.max`}
                           render={({ field: f }) => (
                             <FormItem className="flex items-center gap-2">
-                              <FormLabel className="text-[10px] font-mono text-zinc-500">
+                              <FormLabel className="text-xs font-mono text-zinc-500">
                                 Max
                               </FormLabel>
                               <FormControl>
@@ -468,7 +468,7 @@ export function FieldBuilder({ initialFields = [], onChange }: FieldBuilderProps
                         name={`fields.${index}.minItems`}
                         render={({ field: f }) => (
                           <FormItem className="flex items-center gap-2">
-                            <FormLabel className="text-[10px] font-mono text-zinc-500">
+                            <FormLabel className="text-xs font-mono text-zinc-500">
                               Min items
                             </FormLabel>
                             <FormControl>
@@ -535,7 +535,7 @@ function OptionsEditor({
 
   return (
     <div className="space-y-2">
-      <FormLabel className="text-[10px] font-mono text-zinc-400">Options</FormLabel>
+      <FormLabel className="text-xs font-mono text-zinc-400">Options</FormLabel>
       <FormField
         control={control}
         name={name}
@@ -588,7 +588,7 @@ function OptionsEditor({
                 onClick={() => {
                   field.onChange([...options, { value: "", label: "" }]);
                 }}
-                className="text-[10px] font-mono text-zinc-500 hover:text-primary"
+                className="text-xs font-mono text-zinc-500 hover:text-primary"
               >
                 <Plus className="h-3 w-3 mr-1" />
                 Ajouter une option
@@ -614,7 +614,7 @@ function ColumnsEditor({
 
   return (
     <div className="space-y-2">
-      <FormLabel className="text-[10px] font-mono text-zinc-400">Colonnes</FormLabel>
+      <FormLabel className="text-xs font-mono text-zinc-400">Colonnes</FormLabel>
       <FormField
         control={control}
         name={name}
@@ -685,7 +685,7 @@ function ColumnsEditor({
                 onClick={() => {
                   field.onChange([...columns, { key: "", label: "", type: "text" }]);
                 }}
-                className="text-[10px] font-mono text-zinc-500 hover:text-primary"
+                className="text-xs font-mono text-zinc-500 hover:text-primary"
               >
                 <Plus className="h-3 w-3 mr-1" />
                 Ajouter une colonne

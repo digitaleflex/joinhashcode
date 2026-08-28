@@ -59,7 +59,7 @@ export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
   if (!isMounted) {
     return (
       <div className="h-[200px] w-full mt-4 bg-white/1 rounded-2xl animate-pulse border border-white/5 flex items-center justify-center">
-        <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Initialisation du flux d'évolution...</span>
+        <span className="text-3xs font-mono uppercase text-zinc-600 tracking-tighter">Initialisation du flux d'évolution...</span>
       </div>
     )
   }
@@ -163,7 +163,7 @@ export function XPGrowthChart({ logs, currentXP }: XPGrowthChartProps) {
           className="absolute pointer-events-none bg-zinc-900 border border-white/10 p-2 rounded-lg shadow-xl -translate-x-1/2 -translate-y-full"
           style={{ left: `${(tooltip.x / width) * 100}%`, top: `max(${(tooltip.y / height) * 100}%, 50px)` }}
         >
-          <p className="text-[10px] font-mono text-zinc-500 uppercase">{tooltip.date}</p>
+          <p className="text-xs font-mono text-zinc-500 uppercase">{tooltip.date}</p>
           <p className="text-sm font-black text-white font-mono">{tooltip.xp} XP</p>
         </div>
       )}

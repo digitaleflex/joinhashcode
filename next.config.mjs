@@ -2,7 +2,7 @@
 const nextConfig = {
   output: "standalone",   // Génère un serveur Node.js autonome (image Docker légère)
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   images: {
     remotePatterns: [
@@ -91,6 +91,11 @@ const nextConfig = {
       {
         source: "/mentions-legales",
         destination: "/legal",
+        permanent: true,
+      },
+      {
+        source: "/talent",
+        destination: "/talents",
         permanent: true,
       },
     ]

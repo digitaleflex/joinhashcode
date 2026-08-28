@@ -132,10 +132,10 @@ export function DossierView({
             <ShieldCheck className="size-5 text-amber-500 animate-pulse" />
             <div className="text-left">
               <p className="text-xs font-black uppercase tracking-wider font-mono">Mode Inspection Administrateur</p>
-              <p className="text-[10px] font-mono text-amber-500/60 uppercase">Vous visualisez le profil de {user.name} (Pseudo: {user.pseudo || "aucun"}).</p>
+              <p className="text-xs font-mono text-amber-500/60 uppercase">Vous visualisez le profil de {user.name} (Pseudo: {user.pseudo || "aucun"}).</p>
             </div>
           </div>
-          <Badge variant="outline" className="border-amber-500/30 text-amber-500 font-mono text-[9px] uppercase tracking-widest bg-amber-500/5">
+          <Badge variant="outline" className="border-amber-500/30 text-amber-500 font-mono text-3xs uppercase tracking-widest bg-amber-500/5">
             ADMIN_PREVIEW
           </Badge>
         </div>
@@ -148,7 +148,7 @@ export function DossierView({
           </div>
           <div className="space-y-1">
             <h3 className="text-sm font-black uppercase tracking-wider text-zinc-400">Profil Privé</h3>
-            <p className="text-[11px] text-zinc-600 max-w-md mx-auto">
+            <p className="text-sm-plus text-zinc-600 max-w-md mx-auto">
               {user.name} a choisi de rendre son profil invisible. Seuls les administrateurs peuvent consulter les dossiers complets.
             </p>
           </div>
@@ -158,7 +158,7 @@ export function DossierView({
       {isPublic && !isPrivate && !isInspecting && (
         <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 text-primary flex items-center gap-3">
           <Info className="size-4 shrink-0" />
-          <p className="text-[10px] font-mono font-bold uppercase tracking-wider">
+          <p className="text-xs font-mono font-bold uppercase tracking-wider">
             Profil public — certaines données sensibles sont masquées.
           </p>
         </div>
@@ -172,19 +172,19 @@ export function DossierView({
               </h1>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                   {user.pseudo && (
-                    <Badge variant="outline" className="font-mono text-[9px] sm:text-[10px] border-white/10 text-zinc-500 uppercase tracking-wider">
+                    <Badge variant="outline" className="font-mono text-3xs sm:text-xs border-white/10 text-zinc-500 uppercase tracking-wider">
                         @{user.pseudo}
                     </Badge>
                   )}
                   {user.technicalLevel && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
-                        <span className="text-[9px] font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
+                        <span className="text-3xs font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
                     </div>
                   )}
                   {user.currentStreak > 0 && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/10 border border-orange-500/20">
                         <Flame className="size-3 text-orange-500" />
-                        <span className="text-[10px] font-mono font-bold text-orange-500">{user.currentStreak} Jours</span>
+                        <span className="text-xs font-mono font-bold text-orange-500">{user.currentStreak} Jours</span>
                     </div>
                   )}
               </div>
@@ -195,7 +195,7 @@ export function DossierView({
           
           <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
               <div className="text-left md:text-right">
-                  <div className="text-[9px] sm:text-[10px] font-mono text-zinc-600 uppercase tracking-wider mb-1">Membre depuis</div>
+                  <div className="text-3xs sm:text-xs font-mono text-zinc-600 uppercase tracking-wider mb-1">Membre depuis</div>
                   <div className="text-sm font-bold text-white font-mono bg-white/5 px-4 py-2 rounded-xl border border-white/5">
                       {new Date(user.createdAt).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}
                   </div>
@@ -209,7 +209,7 @@ export function DossierView({
           <div className="lg:col-span-4 space-y-8 sm:space-y-12 lg:order-2">
 
               {isPublic && (
-                <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px]">
+                <Button asChild className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-xs">
                   <Link href="/signin">Rejoindre HASHCODE</Link>
                 </Button>
               )}
@@ -217,11 +217,11 @@ export function DossierView({
                   {viewerSquad && (
                     <div className="pt-2">
                       {activeOrg ? (
-                        <Button disabled className="w-full bg-zinc-800 border-white/5 text-zinc-500 font-bold uppercase h-12 rounded-xl text-[10px]">
+                        <Button disabled className="w-full bg-zinc-800 border-white/5 text-zinc-500 font-bold uppercase h-12 rounded-xl text-xs">
                           Déjà dans une escouade
                         </Button>
                       ) : alreadyInvited ? (
-                        <Button disabled className="w-full bg-primary/10 border border-primary/20 text-primary/60 font-bold uppercase h-12 rounded-xl text-[10px] gap-2">
+                        <Button disabled className="w-full bg-primary/10 border border-primary/20 text-primary/60 font-bold uppercase h-12 rounded-xl text-xs gap-2">
                           <Check className="size-4" />
                           Invitation envoyée
                         </Button>
@@ -229,7 +229,7 @@ export function DossierView({
                         <Button
                           onClick={handleInvite}
                           disabled={sendingInvite}
-                          className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-[10px] gap-2"
+                          className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-xs gap-2"
                         >
                           {sendingInvite ? (
                             <Loader2 className="size-4 animate-spin" />
@@ -246,7 +246,7 @@ export function DossierView({
 
               {!isPublic && engagementTips.length > 0 && (
               <div className="space-y-4" id="tour-dossier-tips">
-                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                   <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
                        Conseils d&apos;évolution
                        <div className="h-px bg-white/5 flex-1" />
                    </p>
@@ -255,7 +255,7 @@ export function DossierView({
                              {engagementTips.map((tip, i) => (
                                  <div key={i} className="flex gap-3 items-start p-3 rounded-xl bg-primary/5 border border-primary/10">
                                      <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_5px_#C5F441]" />
-                                     <p className="text-[9px] sm:text-[10px] text-zinc-300 font-bold leading-tight">{tip}</p>
+                                     <p className="text-3xs sm:text-xs text-zinc-300 font-bold leading-tight">{tip}</p>
                                  </div>
                              ))}
                          </div>
@@ -265,7 +265,7 @@ export function DossierView({
 
               {/* Squad Intel Area */}
               <div className="space-y-4">
-                  <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                  <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
                       Infos Équipe
                       <div className="h-px bg-white/5 flex-1" />
                   </p>
@@ -277,15 +277,15 @@ export function DossierView({
                                       <Users className="size-5 sm:size-6 text-primary" />
                                   </div>
                                   <div className="space-y-0.5 min-w-0">
-                                      <div className="text-[8px] sm:text-[9px] font-mono text-zinc-500 uppercase">Équipe Active</div>
+                                      <div className="text-xs-sm sm:text-3xs font-mono text-zinc-500 uppercase">Équipe Active</div>
                                       <div className="text-base sm:text-lg font-black text-white uppercase tracking-tighter italic truncate">{activeOrg.name}</div>
                                   </div>
                               </div>
                               
                               <div className="space-y-2">
                                   <div className="flex justify-between items-end">
-                                      <span className="text-[8px] sm:text-[9px] font-mono text-zinc-600 uppercase font-black">Cohésion de groupe</span>
-                                      <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black">{((activeOrg.cohesionScore ?? 0) * 100).toFixed(0)}%</span>
+                                      <span className="text-xs-sm sm:text-3xs font-mono text-zinc-600 uppercase font-black">Cohésion de groupe</span>
+                                      <span className="text-3xs sm:text-xs font-mono text-primary font-black">{((activeOrg.cohesionScore ?? 0) * 100).toFixed(0)}%</span>
                                    </div>
                                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                                        <div className="h-full bg-primary" style={{ width: `${(activeOrg.cohesionScore ?? 0) * 100}%` }} />
@@ -298,8 +298,8 @@ export function DossierView({
                                   <Users className="size-5" />
                               </div>
                               <div className="space-y-1">
-                                   <p className="text-[9px] font-mono text-zinc-600 uppercase">Aucune Squad</p>
-                                   <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Pas encore d&apos;escouade.</p>
+                                   <p className="text-3xs font-mono text-zinc-600 uppercase">Aucune Squad</p>
+                                   <p className="text-xs text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Pas encore d&apos;escouade.</p>
                                </div>
                           </div>
                       )}
@@ -310,14 +310,14 @@ export function DossierView({
               <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                   <div className="space-y-6">
                           <div className="space-y-2">
-                           <div className="text-[9px] font-mono text-primary font-black uppercase">Objectif Principal</div>
+                           <div className="text-3xs font-mono text-primary font-black uppercase">Objectif Principal</div>
                            <div className="text-base font-bold text-white uppercase tracking-tight italic">
                                {user.mainObjective || "Pas encore défini"}
                            </div>
                        </div>
                       
                           <div className="space-y-2">
-                           <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Localisation</div>
+                           <div className="text-3xs font-mono text-zinc-600 font-black uppercase">Localisation</div>
                            <div className="text-sm font-medium text-zinc-300 flex items-center gap-2">
                                <Globe className="size-3.5 text-primary" />
                                {user.city || user.country ? (
@@ -329,7 +329,7 @@ export function DossierView({
                        </div>
                       
                       <div className="space-y-2">
-                          <div className="text-[9px] font-mono text-zinc-600 font-black uppercase">Réseaux Sociaux</div>
+                          <div className="text-3xs font-mono text-zinc-600 font-black uppercase">Réseaux Sociaux</div>
                           <div className="flex items-center gap-3">
                               {user.githubUrl && (
                                 <Link href={user.githubUrl} target="_blank" className="p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all group/link">
@@ -371,7 +371,7 @@ export function DossierView({
                                   <div className="p-6 rounded-3xl sm:rounded-4xl bg-linear-to-br from-primary/10 via-transparent to-transparent border border-primary/20 shadow-inner">
                                        <div className="flex items-center justify-between gap-4 mb-4">
                                            <div className="space-y-1">
-                                               <span className="text-[9px] sm:text-[10px] font-mono text-primary font-black uppercase">Ton profil</span>
+                                               <span className="text-3xs sm:text-xs font-mono text-primary font-black uppercase">Ton profil</span>
                                                <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">
                                                    {quizResult?.profileType || "Pas encore calibré"}
                                                </h3>
@@ -386,7 +386,7 @@ export function DossierView({
                                    </div>
 
                                   <div className="space-y-4">
-                                       <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 flex items-center gap-3">
+                                       <h4 className="text-3xs sm:text-xs font-mono uppercase text-zinc-500 flex items-center gap-3">
                                            Tes scores
                                            <div className="h-px bg-white/5 flex-1" />
                                        </h4>
@@ -401,11 +401,11 @@ export function DossierView({
                                                   <Tooltip>
                                                       <TooltipTrigger asChild>
                                                           <div className="p-3 rounded-xl bg-white/2 border border-white/5 cursor-help">
-                                                              <div className="text-[7px] sm:text-[8px] font-mono text-zinc-600 uppercase mb-0.5">{stat.label}</div>
+                                                              <div className="text-2xs sm:text-xs-sm font-mono text-zinc-600 uppercase mb-0.5">{stat.label}</div>
                                                               <div className={cn("text-base sm:text-lg font-black font-mono italic", stat.color)}>{stat.value}%</div>
                                                           </div>
                                                       </TooltipTrigger>
-                                                      <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                                      <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-48">
                                                           {stat.desc}
                                                       </TooltipContent>
                                                   </Tooltip>
@@ -429,7 +429,7 @@ export function DossierView({
                   
                   <Card className="glass-card rounded-3xl sm:rounded-5xl p-5 sm:p-8 overflow-hidden relative">
                       <div className="absolute top-0 right-0 p-4 sm:p-6 text-right">
-                          <div className="text-[9px] sm:text-[10px] font-mono text-zinc-600 uppercase">Total accumulé</div>
+                          <div className="text-3xs sm:text-xs font-mono text-zinc-600 uppercase">Total accumulé</div>
                           <div className="text-xl sm:text-2xl font-black text-white font-mono">{user.experience}<span className="text-primary text-xs ml-1">XP</span></div>
                       </div>
                       <XPGrowthChart logs={user.activityLogs} currentXP={user.experience} />
@@ -448,11 +448,11 @@ export function DossierView({
                        {user.missionSubmissions.map((sub) => (
                            <div key={sub.id} className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/2 border border-white/5 flex items-center justify-between group hover:border-primary/20 transition-all">
                                <div className="space-y-1 min-w-0">
-                                   <div className="text-[9px] font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>
+                                   <div className="text-3xs font-mono text-zinc-500 uppercase truncate">{sub.mission.category}</div>
                                    <div className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-primary transition-colors truncate pr-2">{sub.mission.title}</div>
                                </div>
                                <Badge variant="outline" className={cn(
-                                   "text-[8px] sm:text-[9px] font-mono border-white/5 shrink-0",
+                                   "text-xs-sm sm:text-3xs font-mono border-white/5 shrink-0",
                                    (STATUS_LABELS[sub.status] ?? STATUS_LABELS.PENDING).className
                                )}>
                                    {(STATUS_LABELS[sub.status] ?? STATUS_LABELS.PENDING).label}
@@ -475,10 +475,10 @@ export function DossierView({
                       {user.domains?.length > 0 && (
                       <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                           <div className="space-y-2">
-                              <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-primary font-black">Domaines d'expertise</h4>
+                              <h4 className="text-3xs sm:text-xs font-mono uppercase text-primary font-black">Domaines d'expertise</h4>
                               <div className="flex flex-wrap gap-2 pt-2">
                                   {user.domains.map((d: string) => (
-                                          <Badge key={d} className="bg-primary/10 text-primary border-primary/20 text-[9px] sm:text-[10px] font-black uppercase py-1 px-3">
+                                          <Badge key={d} className="bg-primary/10 text-primary border-primary/20 text-3xs sm:text-xs font-black uppercase py-1 px-3">
                                               {d}
                                           </Badge>
                                       ))}
@@ -490,10 +490,10 @@ export function DossierView({
                       {user.tools?.length > 0 && (
                       <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">
                           <div className="space-y-2">
-                              <h4 className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 font-black">Outils favoris</h4>
+                              <h4 className="text-3xs sm:text-xs font-mono uppercase text-zinc-500 font-black">Outils favoris</h4>
                               <div className="flex flex-wrap gap-2 pt-2">
                                   {user.tools.map((t: string) => (
-                                          <Badge key={t} variant="outline" className="border-white/10 text-zinc-400 text-[9px] sm:text-[10px] font-bold uppercase py-1 px-3">
+                                          <Badge key={t} variant="outline" className="border-white/10 text-zinc-400 text-3xs sm:text-xs font-bold uppercase py-1 px-3">
                                               {t}
                                           </Badge>
                                       ))}
@@ -510,13 +510,13 @@ export function DossierView({
 
               {featureFlags.badges !== false && (user.badges?.length > 0) && (
               <div className="space-y-4">
-                   <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+                   <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
                        Badges & Distinctions
                        <div className="h-px bg-white/5 flex-1" />
                    </p>
                    <div className="flex flex-wrap gap-2">
                        {user.badges.map((badge: string) => (
-                           <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-[9px] font-black uppercase py-1 px-3 rounded-lg">
+                           <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-3xs font-black uppercase py-1 px-3 rounded-lg">
                                {badge}
                            </Badge>
                        ))}

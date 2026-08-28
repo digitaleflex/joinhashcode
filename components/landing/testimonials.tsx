@@ -35,10 +35,10 @@ function MemberCard({ m }: { m: typeof MEMBERS[number] }) {
       </div>
       <div className="text-center">
         <p className="text-sm font-black text-white">{m.name}</p>
-        <p className={`text-[10px] font-bold uppercase tracking-tight mt-1 ${PROFILE_COLORS[m.profile] ?? "text-zinc-400"}`}>
+        <p className={`text-xs font-bold uppercase tracking-tight mt-1 ${PROFILE_COLORS[m.profile] ?? "text-zinc-400"}`}>
           {m.profile}
         </p>
-        <p className="text-[10px] text-zinc-600 mt-1">{m.city}</p>
+        <p className="text-xs text-zinc-600 mt-1">{m.city}</p>
       </div>
     </div>
   )
@@ -95,7 +95,7 @@ export function Testimonials() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase text-primary">La voix de la cohorte</span>
+            <span className="font-mono text-sm-plus uppercase text-primary">La voix de la cohorte</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
 
@@ -147,7 +147,7 @@ export function Testimonials() {
 
         {/* Members Continuous Carousel — 3 visible */}
         <div className="border-t border-white/5 pt-12">
-          <p className="text-center text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
+          <p className="text-center text-xs font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
             7 membres — Cohorte 01, Bénin
           </p>
 

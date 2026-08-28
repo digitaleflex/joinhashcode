@@ -64,9 +64,9 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Bell className="size-4 text-primary" />
-          <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">Candidatures</span>
+          <span className="text-sm-plus font-mono font-bold text-zinc-400 uppercase tracking-wide">Candidatures</span>
           {joinRequests.length > 0 && (
-            <span className="text-[9px] font-bold bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-mono">
+            <span className="text-3xs font-bold bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-mono">
               {joinRequests.length}
             </span>
           )}
@@ -74,7 +74,7 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
         <button
           onClick={fetchJoinRequests}
           disabled={loadingRequests}
-          className="text-[10px] font-mono text-zinc-600 hover:text-primary transition-colors"
+          className="text-xs font-mono text-zinc-600 hover:text-primary transition-colors"
         >
           {loadingRequests ? <Loader2 className="size-3.5 animate-spin" /> : "↻"}
         </button>
@@ -85,7 +85,7 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
           <Loader2 className="size-5 animate-spin text-zinc-600" />
         </div>
       ) : joinRequests.length === 0 ? (
-        <p className="text-[11px] text-zinc-600 font-mono">Aucune demande en attente.</p>
+        <p className="text-sm-plus text-zinc-600 font-mono">Aucune demande en attente.</p>
       ) : (
         <div className="space-y-2.5">
           {joinRequests.map((req) => (
@@ -99,7 +99,7 @@ export function SquadJoinRequestsPanel({ squad, isLeader, memberCount }: SquadJo
                 </Avatar>
                 <div className="min-w-0">
                   <div className="text-sm font-bold text-white truncate">{req.user.name}</div>
-                  <div className="text-[9px] font-mono text-zinc-500 uppercase">
+                  <div className="text-3xs font-mono text-zinc-500 uppercase">
                     LVL {req.user.level ?? 1} · {req.user.class || "Agent"}
                   </div>
                 </div>

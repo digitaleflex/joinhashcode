@@ -31,7 +31,7 @@ function AnalyzingScreen() {
     <div className="max-w-md mx-auto py-32 px-4 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in-95 duration-1000 relative">
       <div className="absolute inset-0 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       
-      <p className="text-[10px] font-mono uppercase text-primary/60 mb-12 relative">
+      <p className="text-xs font-mono uppercase text-primary/60 mb-12 relative">
         [ ANALYSE_DE_TON_PROFIL ]
       </p>
 
@@ -59,7 +59,7 @@ function AnalyzingScreen() {
         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
           <div className="h-full bg-primary shadow-[0_0_20px_#C5F441] animate-pulse" style={{ width: "60%" }} />
         </div>
-        <div className="flex justify-between text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
+        <div className="flex justify-between text-xs font-mono text-zinc-600 uppercase tracking-wider">
           <span>Analyse en cours</span>
           <span className="text-primary font-bold">patiente...</span>
         </div>
@@ -174,7 +174,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
           <div className="space-y-4 relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-[10px] font-mono font-black text-primary uppercase tracking-widest">Évaluation de Profil</span>
+              <span className="text-xs font-mono font-black text-primary uppercase tracking-widest">Évaluation de Profil</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-white italic leading-[0.95]">
               Définis ton <span className="text-primary drop-shadow-[0_0_15px_rgba(197,244,65,0.3)]">Identité de Build</span>
@@ -219,12 +219,12 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             <div className="p-5 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between gap-4 animate-pulse">
               <div className="flex items-center gap-3">
                 <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_#C5F441]" />
-                <p className="text-[10px] font-black text-primary">Session active détectée</p>
+                <p className="text-xs font-black text-primary">Session active détectée</p>
               </div>
               <Button
                 size="sm"
                 variant="outline"
-                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-[10px] font-black tracking-wider px-6"
+                className="h-9 border-primary/40 text-primary hover:bg-primary/20 text-xs font-black tracking-wider px-6"
                 onClick={() => {
                   setHasResumable(false)
                   setIsStarted(true)
@@ -249,7 +249,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             >
               Débuter l'évaluation <ChevronRight className="w-6 h-6" />
             </Button>
-            <div className="flex justify-center items-center gap-6 text-[10px] text-zinc-600 font-mono">
+            <div className="flex justify-center items-center gap-6 text-xs text-zinc-600 font-mono">
               <span>[ 5 questions ]</span>
               <span className="size-1 rounded-full bg-zinc-800" />
               <span>[ ~1 minute ]</span>
@@ -292,11 +292,11 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono font-black uppercase text-zinc-500 block">
+                <span className="text-xs font-mono font-black uppercase text-zinc-500 block">
                     Découverte de profil
                 </span>
             </div>
-            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wide">
+            <span className="text-sm-plus font-mono text-zinc-400 uppercase tracking-wide">
               Question [{currentStep + 1} / {questions.length}]
             </span>
           </div>
@@ -320,7 +320,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
             <h2 className="text-xl sm:text-2xl font-bold mb-2 leading-snug text-white tracking-tight">
                 {currentQuestion.text}
             </h2>
-            <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-wider mt-3">
+            <p className="text-zinc-500 font-mono text-xs uppercase tracking-wider mt-3">
               -- Scénario pratique --
             </p>
         </div>
@@ -335,7 +335,7 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
               <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
               
               <div className="flex items-center gap-6 relative z-[var(--z-content)]">
-                <span className="text-[10px] font-mono text-zinc-600 group-hover:text-primary transition-colors font-bold">
+                <span className="text-xs font-mono text-zinc-600 group-hover:text-primary transition-colors font-bold">
                     {String.fromCharCode(65 + idx)}
                 </span>
                 <span className="text-base sm:text-lg text-zinc-300 font-medium group-hover:text-white transition-colors pr-8">
@@ -360,17 +360,17 @@ export function Quiz({ user, pendingSquad }: QuizProps) {
           size="sm"
           onClick={goBack}
           disabled={currentStep === 0}
-          className="h-11 px-6 text-zinc-500 hover:text-white hover:bg-white/5 font-mono text-[10px] uppercase disabled:opacity-0 rounded-xl border border-transparent hover:border-white/10"
+          className="h-11 px-6 text-zinc-500 hover:text-white hover:bg-white/5 font-mono text-xs uppercase disabled:opacity-0 rounded-xl border border-transparent hover:border-white/10"
         >
           <ChevronLeft className="mr-2 size-4" />
           Précédent_
         </Button>
         
         <div className="flex flex-col items-end gap-1">
-            <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
+            <span className="text-xs font-mono text-zinc-600 uppercase tracking-wider">
               [ CONNEXION_SECURISEE ]
             </span>
-            <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-wider">
+            <span className="text-xs font-mono text-zinc-700 uppercase tracking-wider">
               HASHCODE
             </span>
           </div>

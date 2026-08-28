@@ -54,7 +54,7 @@ export default async function AdminFeedbackPage() {
         </div>
         <div className="text-right">
           <div className="text-xl font-bold text-primary">{feedbacks.length}</div>
-          <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">total</div>
+          <div className="text-xs text-zinc-600 font-mono uppercase tracking-wider">total</div>
         </div>
       </div>
 
@@ -70,9 +70,9 @@ export default async function AdminFeedbackPage() {
                 <div className="flex md:flex-col gap-3 md:w-32 shrink-0">
                    <div className={`flex items-center gap-2 ${type.color}`}>
                      <Icon className="size-4" />
-                     <span className="text-[10px] font-black uppercase tracking-wider">{type.label}</span>
+                     <span className="text-xs font-black uppercase tracking-wider">{type.label}</span>
                    </div>
-                   <Badge className={`w-fit text-[9px] uppercase font-bold ${statusColors[f.status]}`}>
+                   <Badge className={`w-fit text-3xs uppercase font-bold ${statusColors[f.status]}`}>
                      {f.status}
                    </Badge>
                 </div>
@@ -89,7 +89,7 @@ export default async function AdminFeedbackPage() {
                         href={f.attachmentUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-all font-mono text-[9px] uppercase tracking-wider"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-all font-mono text-3xs uppercase tracking-wider"
                       >
                         <Paperclip className="size-3.5" />
                         Voir la pièce jointe
@@ -97,7 +97,7 @@ export default async function AdminFeedbackPage() {
                     </div>
                   )}
                   
-                  <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-zinc-500 border-t border-white/5 pt-4">
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-500 border-t border-white/5 pt-4">
                     <div className="flex items-center gap-1.5">
                       <User className="size-3" />
                       <span className="text-zinc-300">{f.user.name}</span>

@@ -40,7 +40,7 @@ export function Faq() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[10px] font-black uppercase tracking-widest text-primary">
+            <span className="font-mono text-xs font-black uppercase tracking-widest text-primary">
               Questions fréquentes
             </span>
           </div>
@@ -103,7 +103,7 @@ export function Faq() {
           </div>
           <a 
             href="/contact" 
-            className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-white transition-colors py-2 px-4 border border-primary/20 rounded-xl bg-primary/5 hover:bg-primary/20"
+            className="text-xs font-black uppercase tracking-widest text-primary hover:text-white transition-colors py-2 px-4 border border-primary/20 rounded-xl bg-primary/5 hover:bg-primary/20"
           >
             Contact_Support
           </a>

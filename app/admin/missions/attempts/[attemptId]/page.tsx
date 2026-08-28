@@ -69,7 +69,7 @@ function renderFieldValue(field: StepField, value: unknown) {
     if (!Array.isArray(value) || value.length === 0) return <span className="text-zinc-700">—</span>;
     return (
       <div className="overflow-x-auto rounded-lg border border-border/40">
-        <table className="w-full text-left text-[10px]">
+        <table className="w-full text-left text-xs">
           <thead>
             <tr className="border-b border-border/40 bg-card/20">
               {(field.columns ?? []).map((col) => (
@@ -96,7 +96,7 @@ function renderFieldValue(field: StepField, value: unknown) {
       return (
         <div className="flex flex-wrap gap-1.5">
           {(value as { name?: string; level?: string }[]).map((s, i) => (
-            <Badge key={i} variant="outline" className="text-[10px] font-mono bg-primary/5 border-primary/20 text-zinc-300">
+            <Badge key={i} variant="outline" className="text-xs font-mono bg-primary/5 border-primary/20 text-zinc-300">
               {s.name} · {s.level}
             </Badge>
           ))}
@@ -107,7 +107,7 @@ function renderFieldValue(field: StepField, value: unknown) {
     return (
       <div className="flex flex-wrap gap-1.5">
         {(value as string[]).map((v, i) => (
-          <Badge key={i} variant="outline" className="text-[10px] font-mono bg-primary/5 border-primary/20 text-zinc-300">
+          <Badge key={i} variant="outline" className="text-xs font-mono bg-primary/5 border-primary/20 text-zinc-300">
             {v}
           </Badge>
         ))}
@@ -120,7 +120,7 @@ function renderFieldValue(field: StepField, value: unknown) {
       <div className="text-xs text-zinc-300 space-y-1">
         {Object.entries(obj).map(([k, v]) => (
           <div key={k}>
-            <span className="text-zinc-500 font-mono text-[10px] uppercase">{k.replace(/_/g, " ")} : </span>
+            <span className="text-zinc-500 font-mono text-xs uppercase">{k.replace(/_/g, " ")} : </span>
             {typeof v === "object" && v ? JSON.stringify(v) : String(v ?? "—")}
           </div>
         ))}
@@ -222,7 +222,7 @@ export default function AdminAttemptDetailPage() {
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
         <div>
-          <Link href="/admin/missions/attempts" className="inline-flex items-center gap-1.5 text-[10px] font-mono text-zinc-500 hover:text-primary mb-2">
+          <Link href="/admin/missions/attempts" className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-primary mb-2">
             <ChevronLeft className="w-3.5 h-3.5" /> RETOUR AUX REVIEWS
           </Link>
           <h1 className="text-2xl font-mono font-bold text-primary tracking-tighter uppercase">
@@ -230,7 +230,7 @@ export default function AdminAttemptDetailPage() {
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">{detail.mission.title}</p>
         </div>
-        <Badge variant="outline" className={`text-[10px] uppercase font-mono ${STATUS_META[detail.status]}`}>
+        <Badge variant="outline" className={`text-xs uppercase font-mono ${STATUS_META[detail.status]}`}>
           {STATUS_META[detail.status]}
         </Badge>
       </div>
@@ -251,14 +251,14 @@ export default function AdminAttemptDetailPage() {
                 <AccordionItem key={step.stepId} value={step.stepId} className="rounded-xl border border-zinc-800 bg-zinc-900/30 overflow-hidden px-0">
                   <AccordionTrigger className="px-4 py-3 hover:no-underline text-left">
                     <div className="flex items-center gap-3 w-full">
-                      <span className="text-[10px] font-mono text-primary/50">ÉTAPE {step.stepOrder + 1}</span>
+                      <span className="text-xs font-mono text-primary/50">ÉTAPE {step.stepOrder + 1}</span>
                       <span className="text-sm font-semibold text-white flex-1">{step.title}</span>
                       {step.status === "REVISION_REQUIRED" ? (
-                        <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 text-[9px] font-mono">RÉVISION</Badge>
+                        <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 text-3xs font-mono">RÉVISION</Badge>
                       ) : step.status === "APPROVED" ? (
-                        <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[9px] font-mono">VALIDÉE</Badge>
+                        <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-3xs font-mono">VALIDÉE</Badge>
                       ) : (
-                        <Badge className="bg-zinc-500/10 text-zinc-400 border-zinc-500/20 text-[9px] font-mono">{step.status}</Badge>
+                        <Badge className="bg-zinc-500/10 text-zinc-400 border-zinc-500/20 text-3xs font-mono">{step.status}</Badge>
                       )}
                     </div>
                   </AccordionTrigger>
@@ -266,7 +266,7 @@ export default function AdminAttemptDetailPage() {
                     <div className="space-y-4">
                       {step.fields.map((field) => (
                         <div key={field.key} className="rounded-lg border border-zinc-800/80 bg-zinc-900/40 p-3">
-                          <Label className="text-[10px] font-mono text-zinc-500 uppercase">{field.label}</Label>
+                          <Label className="text-xs font-mono text-zinc-500 uppercase">{field.label}</Label>
                           <div className="mt-1.5 text-sm text-zinc-300">{renderFieldValue(field, step.data[field.key])}</div>
                         </div>
                       ))}
@@ -274,7 +274,7 @@ export default function AdminAttemptDetailPage() {
                       {canReview && (
                         <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-3 space-y-3">
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-[10px] font-mono text-zinc-500 uppercase">Review de l'étape</span>
+                            <span className="text-xs font-mono text-zinc-500 uppercase">Review de l'étape</span>
                             {step.scoreMax > 0 && (
                               <div className="flex items-center gap-1">
                                 <Star className="w-3.5 h-3.5 text-amber-400" />
@@ -286,7 +286,7 @@ export default function AdminAttemptDetailPage() {
                                   onChange={(e) => setStepScores((p) => ({ ...p, [step.stepId]: { ...p[step.stepId], score: Number(e.target.value) } }))}
                                   className="w-16 h-8 text-xs text-center"
                                 />
-                                <span className="text-[10px] font-mono text-zinc-500">/5</span>
+                                <span className="text-xs font-mono text-zinc-500">/5</span>
                               </div>
                             )}
                           </div>
@@ -297,11 +297,11 @@ export default function AdminAttemptDetailPage() {
                           >
                             <label className="flex items-center gap-1.5 cursor-pointer">
                               <RadioGroupItem value="APPROVED" id={`ok-${step.stepId}`} className="peer sr-only" />
-                              <span className={`rounded-lg border px-2.5 py-1 text-[10px] font-mono ${review.status === "APPROVED" ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400" : "border-zinc-700 text-zinc-500"}`}>✓ Valider</span>
+                              <span className={`rounded-lg border px-2.5 py-1 text-xs font-mono ${review.status === "APPROVED" ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400" : "border-zinc-700 text-zinc-500"}`}>✓ Valider</span>
                             </label>
                             <label className="flex items-center gap-1.5 cursor-pointer">
                               <RadioGroupItem value="REVISION_REQUIRED" id={`rev-${step.stepId}`} className="peer sr-only" />
-                              <span className={`rounded-lg border px-2.5 py-1 text-[10px] font-mono ${review.status === "REVISION_REQUIRED" ? "border-amber-500/40 bg-amber-500/10 text-amber-400" : "border-zinc-700 text-zinc-500"}`}>Demander correction</span>
+                              <span className={`rounded-lg border px-2.5 py-1 text-xs font-mono ${review.status === "REVISION_REQUIRED" ? "border-amber-500/40 bg-amber-500/10 text-amber-400" : "border-zinc-700 text-zinc-500"}`}>Demander correction</span>
                             </label>
                           </RadioGroup>
                           <Textarea
@@ -317,7 +317,7 @@ export default function AdminAttemptDetailPage() {
                         <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-3">
                           <div className="flex items-center gap-2 mb-1.5">
                             <MessageSquare className="w-3.5 h-3.5 text-zinc-500" />
-                            <span className="text-[10px] font-mono text-zinc-500 uppercase">Commentaire</span>
+                            <span className="text-xs font-mono text-zinc-500 uppercase">Commentaire</span>
                           </div>
                           <p className="text-xs text-zinc-300 whitespace-pre-wrap">{step.feedback}</p>
                         </div>
@@ -338,7 +338,7 @@ export default function AdminAttemptDetailPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-amber-400" />
-                  <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">Score global</span>
+                  <span className="text-xs font-mono uppercase text-zinc-400 tracking-wider">Score global</span>
                 </div>
                 <Badge variant="outline" className="font-mono text-primary text-xs">{computeTotal()}/{detail.maxScore}</Badge>
               </div>
@@ -355,7 +355,7 @@ export default function AdminAttemptDetailPage() {
                       onChange={(e) => setGridScores((p) => ({ ...p, [c.key]: Number(e.target.value) }))}
                       className="w-16 h-8 text-xs text-center"
                     />
-                    <span className="text-[10px] font-mono text-zinc-600 w-4">/{c.max}</span>
+                    <span className="text-xs font-mono text-zinc-600 w-4">/{c.max}</span>
                   </div>
                 ))}
               </div>
@@ -371,7 +371,7 @@ export default function AdminAttemptDetailPage() {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 space-y-4">
               <div className="flex items-center gap-2">
                 <Send className="w-4 h-4 text-primary" />
-                <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">Décision</span>
+                <span className="text-xs font-mono uppercase text-zinc-400 tracking-wider">Décision</span>
               </div>
               <RadioGroup value={action} onValueChange={(v) => setAction(v as typeof action)} className="space-y-2">
                 {[
@@ -384,7 +384,7 @@ export default function AdminAttemptDetailPage() {
                     <opt.icon className={`w-4 h-4 mt-0.5 ${opt.color}`} />
                     <div className="min-w-0">
                       <span className="block text-xs font-semibold text-white">{opt.label}</span>
-                      <span className="block text-[10px] text-zinc-500 mt-0.5">{opt.desc}</span>
+                      <span className="block text-xs text-zinc-500 mt-0.5">{opt.desc}</span>
                     </div>
                   </label>
                 ))}
@@ -424,7 +424,7 @@ export default function AdminAttemptDetailPage() {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
               <div className="flex items-center gap-2 mb-4">
                 <History className="w-4 h-4 text-primary" />
-                <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">Historique</span>
+                <span className="text-xs font-mono uppercase text-zinc-400 tracking-wider">Historique</span>
               </div>
               <div className="space-y-3">
                 {detail.timeline.map((t, i) => (
@@ -432,7 +432,7 @@ export default function AdminAttemptDetailPage() {
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/60 mt-1.5 shrink-0" />
                     <div className="min-w-0">
                       <p className="text-xs text-zinc-300">{t.message ?? t.action}</p>
-                      <p className="text-[10px] font-mono text-zinc-600 mt-0.5">
+                      <p className="text-xs font-mono text-zinc-600 mt-0.5">
                         {t.createdAt ? new Date(t.createdAt).toLocaleString("fr-FR") : ""}
                       </p>
                     </div>

@@ -98,7 +98,7 @@ export function MissionStepTimeline({
                 )}
                 {!isCompleted && !isRevision && (
                   <span className={cn(
-                    "text-[9px] font-mono font-bold",
+                    "text-3xs font-mono font-bold",
                     isActive ? "text-primary" : "text-zinc-500"
                   )}>
                     {index + 1}
@@ -115,7 +115,7 @@ export function MissionStepTimeline({
                     {step.shortTitle}
                   </span>
                   <span className={cn(
-                    "text-[9px] font-mono uppercase tracking-wider shrink-0",
+                    "text-3xs font-mono uppercase tracking-wider shrink-0",
                     config.color
                   )}>
                     {config.label}

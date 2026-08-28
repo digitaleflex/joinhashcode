@@ -61,7 +61,7 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full" />
             <div className="absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-ping opacity-50" />
           </div>
-          <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-tight text-primary font-black">
+          <span className="font-mono text-3xs sm:text-xs uppercase tracking-tight text-primary font-black">
             Activité récente
           </span>
         </div>
@@ -77,16 +77,16 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
                   animate={{ opacity: 1, y: 0 }}
                   className="shrink-0 flex items-center gap-2"
                 >
-                  <span className={`font-mono text-[9px] sm:text-[10px] font-black uppercase ${getColor(log.action)}`}>
+                  <span className={`font-mono text-3xs sm:text-xs font-black uppercase ${getColor(log.action)}`}>
                     {getPrefix(log.action)}
                   </span>
-                  <span className="font-mono text-[9px] sm:text-[10px] text-zinc-500 font-bold tracking-tight">
+                  <span className="font-mono text-3xs sm:text-xs text-zinc-500 font-bold tracking-tight">
                     {log.user.name} · {getActionLabel(log.action, log.user.class)} · {log.user.city || 'Nexus'}
                   </span>
                 </motion.div>
               ))
             ) : (
-              <span className="font-mono text-[10px] text-zinc-700 italic">Chargement de l'activité...</span>
+              <span className="font-mono text-xs text-zinc-700 italic">Chargement de l'activité...</span>
             )}
           </AnimatePresence>
         </div>

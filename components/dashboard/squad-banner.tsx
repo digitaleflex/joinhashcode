@@ -82,7 +82,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
           <Users className="size-5 text-amber-400" />
         </div>
         <div>
-          <div className="text-[9px] font-mono font-black uppercase text-amber-500">
+          <div className="text-3xs font-mono font-black uppercase text-amber-500">
             Escouade requise
           </div>
           <TooltipProvider>
@@ -93,7 +93,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
                   <span className="text-zinc-600 font-light">/5 membres</span>
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+              <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-48">
                 Une escouade complète (5) débloque des missions avancées et multiplie la vitalité de chaque membre.
               </TooltipContent>
             </Tooltip>
@@ -114,7 +114,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
             />
           ))}
         </div>
-        <p className="text-[11px] text-zinc-500 leading-snug">
+        <p className="text-sm-plus text-zinc-500 leading-snug">
           {!squad
             ? "Crée ton escouade pour débloquer les missions avancées et les récompenses collectives."
             : `Encore ${remaining} membre${remaining > 1 ? "s" : ""} pour activer la cohésion et les bonus de groupe.`}
@@ -131,13 +131,13 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
               onChange={(e) => setSquadName(e.target.value)}
               placeholder="Nom de l'escouade"
               maxLength={40}
-              className="w-full px-3 py-2 rounded-lg border border-white/10 bg-white/5 text-white text-[10px] font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 transition-all"
+              className="w-full px-3 py-2 rounded-lg border border-white/10 bg-white/5 text-white text-xs font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 transition-all"
             />
             <Button
               onClick={createSquad}
               disabled={isCreating || !squadName.trim()}
               size="sm"
-              className="btn-primary-glow h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider"
+              className="btn-primary-glow h-9 rounded-xl px-5 text-xs font-black uppercase tracking-wider"
             >
               {isCreating ? (
                 <Loader2 className="size-3 animate-spin" />
@@ -151,7 +151,7 @@ export function SquadBanner({ user, squad }: SquadBannerProps) {
             onClick={copyInvite}
             size="sm"
             variant="outline"
-            className="h-9 rounded-xl px-5 text-[10px] font-black uppercase tracking-wider border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+            className="h-9 rounded-xl px-5 text-xs font-black uppercase tracking-wider border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
           >
             {copied ? (
               <Check className="size-3 mr-1.5" />

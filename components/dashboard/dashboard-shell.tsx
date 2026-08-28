@@ -124,7 +124,7 @@ export function DashboardShell({
             <div className="p-6 sm:p-8 rounded-3xl glass-card relative overflow-hidden border-white/5">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-[var(--z-content)]">
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1">Mon Parcours</p>
+                  <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-1">Mon Parcours</p>
                   <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">
                     Bienvenue sur ton Parcours, <span className={config.color}>{user.name.split(' ')[0]}</span>.
                   </h2>
@@ -139,12 +139,12 @@ export function DashboardShell({
 
                 <div className="flex items-center gap-4 shrink-0">
                   <div className="text-right">
-                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
+                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
                     <p className="text-lg font-bold text-white">{user.experience} XP</p>
                   </div>
                   <div className="h-8 w-px bg-white/10" />
                   <div className="text-right">
-                    <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Série</p>
+                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Série</p>
                     <p className="text-sm font-bold text-primary flex items-center gap-1">
                       <Zap className="h-3 w-3 fill-current" />
                       {user.currentStreak ?? 0}
@@ -168,7 +168,7 @@ export function DashboardShell({
 
                 {/* Prochaine étape — the single most important CTA */}
                 <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
-                  <p className="text-[10px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
+                  <p className="text-xs font-mono text-primary uppercase font-bold tracking-widest mb-2">
                     Ta première mission t&apos;attend
                   </p>
                   <p className="text-lg font-bold text-white">
@@ -224,7 +224,7 @@ export function DashboardShell({
                 {user.mainObjective && (
                   <div className="space-y-5">
                     <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
-                      <p className="text-[10px] font-mono text-primary uppercase font-bold tracking-widest mb-2">
+                      <p className="text-xs font-mono text-primary uppercase font-bold tracking-widest mb-2">
                         Objectif 90 jours
                       </p>
                       <p className="text-lg font-bold text-white">
@@ -235,7 +235,7 @@ export function DashboardShell({
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500">
+                    <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
                       <span className="text-primary font-bold">Apprendre</span>
                       <span className="text-zinc-700">→</span>
                       <span className={user.missionsCompletedCount > 0 ? "text-primary font-bold" : "text-zinc-600"}>Pratiquer</span>
@@ -277,7 +277,7 @@ export function DashboardShell({
                         <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                           <TrendingUp className="h-5 w-5" />
                         </div>
-                        <Badge variant="outline" className="font-mono text-[10px] font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
+                        <Badge variant="outline" className="font-mono text-xs font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
                       </div>
                       <div className="flex items-center gap-2">
                         <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
@@ -286,7 +286,7 @@ export function DashboardShell({
                             <TooltipTrigger asChild>
                               <Info className="size-3.5 text-zinc-700 cursor-help hover:text-primary transition-colors mt-1" />
                             </TooltipTrigger>
-                            <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-56">
+                            <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-56">
                               Accumule de l&apos;XP via les missions et les check-ins pour monter en grade.
                             </TooltipContent>
                           </Tooltip>
@@ -297,22 +297,22 @@ export function DashboardShell({
                     <CardContent className="pt-2">
                       <div className="space-y-6">
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between text-[11px] font-mono font-bold tracking-tight">
+                          <div className="flex items-center justify-between text-sm-plus font-mono font-bold tracking-tight">
                             <span className="text-muted-foreground uppercase">Niveau {levelName}</span>
                             <span className="text-primary">{user.experience} XP</span>
                           </div>
                           <Progress value={percent} variant="glow" className="h-2" />
-                          <p className="text-[10px] text-zinc-600 font-mono">
+                          <p className="text-xs text-zinc-600 font-mono">
                             {xpNeededForNext > 0 ? `${xpNeededForNext} XP pour le niveau suivant` : "Niveau Max"}
                           </p>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
                             <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                           </div>
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
                             <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
                           </div>
                         </div>
@@ -328,7 +328,7 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <Users className="h-5 w-5" />
                           </div>
-                          <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight uppercase">identité_numérique</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight uppercase">identité_numérique</span>
                         </div>
                         <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">connectivité_</CardTitle>
                         <CardDescription className="text-zinc-500 font-medium tracking-tight">Montre ton travail. Les recruteurs vérifient ces liens.</CardDescription>
@@ -377,7 +377,7 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <UserIcon className="h-5 w-5" />
                           </div>
-                          <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">profil_personnel</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">profil_personnel</span>
                         </div>
                         <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">status_</CardTitle>
                         <CardDescription className="text-zinc-500 font-medium tracking-tight">Un profil complet = plus de visibilité.</CardDescription>
@@ -386,10 +386,10 @@ export function DashboardShell({
                         {user.pseudo && (
                           <div className="flex items-center justify-between p-4 rounded-2xl bg-white/2 border border-white/5">
                             <div className="space-y-1">
-                              <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
+                              <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight uppercase">Pseudo</div>
                               <div className="text-sm font-bold text-white tracking-tight">@{user.pseudo}</div>
                             </div>
-                            <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+                            <Button asChild variant="ghost" size="sm" className="h-8 text-xs font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
                               <Link href="/settings">Modifier</Link>
                             </Button>
                           </div>
@@ -399,7 +399,7 @@ export function DashboardShell({
                             <div className="absolute top-0 right-0 p-3 opacity-20 group-hover/objective:opacity-40 transition-opacity">
                               <Target className="h-8 w-8 text-primary" />
                             </div>
-                            <div className="text-[10px] font-mono font-bold tracking-tight text-primary">Objectif principal</div>
+                            <div className="text-xs font-mono font-bold tracking-tight text-primary">Objectif principal</div>
                             <div className="text-sm font-medium text-zinc-300 leading-relaxed relative z-[var(--z-content)]">
                               {user.mainObjective}
                             </div>
@@ -417,7 +417,7 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <Award className="h-5 w-5" />
                           </div>
-                          <span className="text-[10px] font-mono text-muted-foreground font-bold tracking-tight">spécialisation</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">spécialisation</span>
                         </div>
                         <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">arsenal_</CardTitle>
                         <CardDescription className="text-zinc-500 font-medium tracking-tight">Les outils que tu maîtrises.</CardDescription>
@@ -425,20 +425,20 @@ export function DashboardShell({
                       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
                         {user.domains?.length > 0 && (
                           <div className="space-y-4">
-                            <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">domaines_d_expertise</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">domaines_d_expertise</div>
                             <div className="flex flex-wrap gap-2">
                               {user.domains.map((d: string) => (
-                                <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-[10px] font-mono border border-primary/10 font-bold tracking-tight uppercase">{d}</span>
+                                <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-xs font-mono border border-primary/10 font-bold tracking-tight uppercase">{d}</span>
                               ))}
                             </div>
                           </div>
                         )}
                         {user.tools?.length > 0 && (
                           <div className="space-y-4">
-                            <div className="text-[10px] text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">outils_favoris</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">outils_favoris</div>
                             <div className="flex flex-wrap gap-2.5">
                               {user.tools.slice(0, 10).map((tool: string) => (
-                                <div key={tool} className="text-[10px] text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors font-medium">{tool}</div>
+                                <div key={tool} className="text-xs text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors font-medium">{tool}</div>
                               ))}
                             </div>
                           </div>

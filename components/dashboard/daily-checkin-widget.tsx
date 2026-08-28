@@ -118,7 +118,7 @@ export function DailyCheckinWidget({
         <div className="space-y-1 mb-6">
           <div className="flex items-center gap-2 mb-1">
             <div className="size-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
+            <span className="text-xs font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">Check-in Quotidien</h2>
           <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta progression.</p>
@@ -142,7 +142,7 @@ export function DailyCheckinWidget({
               <p className={cn("text-lg font-black uppercase tracking-tighter italic", surgeActive ? "text-primary" : "text-white")}>
                 {surgeActive ? "BOOST DÉTECTÉ !" : "Trace enregistrée"}
               </p>
-              <p className="text-[10px] font-mono text-zinc-400 uppercase leading-relaxed">
+              <p className="text-xs font-mono text-zinc-400 uppercase leading-relaxed">
                 {checkin.data?.finalMessage || "Signal stabilisé."}
               </p>
               <div className="pt-2">
@@ -161,7 +161,7 @@ export function DailyCheckinWidget({
               /* ── SIMPLIFIED: domain only ── */
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Dans quel domaine as-tu bossé aujourd&apos;hui ?</label>
+                  <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Dans quel domaine as-tu bossé aujourd&apos;hui ?</label>
                   <div className="flex flex-wrap gap-1.5">
                     {DOMAINS.map((d) => (
                       <button
@@ -202,7 +202,7 @@ export function DailyCheckinWidget({
               /* ── FULL FORM: note + domain + energy + duration ── */
               <>
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
+              <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
               <Textarea
                 placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
                 value={formData.note}
@@ -215,7 +215,7 @@ export function DailyCheckinWidget({
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
+                <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
                 <div className="flex flex-wrap gap-1.5">
                   {DOMAINS.map((d) => (
                     <button
@@ -236,7 +236,7 @@ export function DailyCheckinWidget({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
+                <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
                 <div className="flex gap-1.5 h-full items-center">
                   {ENERGIES.map((e) => (
                     <button
@@ -265,7 +265,7 @@ export function DailyCheckinWidget({
                       key={d.val}
                       type="button"
                       onClick={() => setFormData({ ...formData, duration: d.val })}
-                      className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
+                      className={`px-2 py-1 rounded text-xs font-mono border transition-all ${
                         formData.duration === d.val
                           ? "bg-muted border-primary/40 text-primary"
                           : "border-transparent text-muted-foreground hover:bg-muted/50"
@@ -311,7 +311,7 @@ export function DailyCheckinWidget({
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 mb-1">
               <div className="size-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono text-zinc-500 uppercase">Mon Check-in</span>
+                <span className="text-xs font-mono text-zinc-500 uppercase">Mon Check-in</span>
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
@@ -322,7 +322,7 @@ export function DailyCheckinWidget({
           </div>
           <Button
             onClick={() => setIsOpen(true)}
-            className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
+            className="btn-primary-glow h-12 rounded-2xl px-6 text-sm-plus uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
           >
             DÉMARRER LE CHECK-IN
           </Button>

@@ -32,7 +32,7 @@ export async function AdminRoleBanner({ role }: { role: string }) {
           </p>
         </div>
         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/5 bg-zinc-900/60">
-          <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${config.accent}`}>
+          <span className={`text-xs font-mono font-bold uppercase tracking-wider ${config.accent}`}>
             {config.label}
           </span>
         </div>

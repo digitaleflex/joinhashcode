@@ -141,7 +141,7 @@ export default function JoinTeamPage() {
           <div className="text-center mb-12 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
               <Sparkles className="size-3.5 text-primary" />
-              <span className="text-[9px] font-mono font-black uppercase text-primary">Recrutement</span>
+              <span className="text-3xs font-mono font-black uppercase text-primary">Recrutement</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black tracking-tight uppercase italic">
               Rejoins la <span className="text-primary">Team</span>
@@ -169,7 +169,7 @@ export default function JoinTeamPage() {
                   `}
                 >
                   <Icon className="size-4" />
-                  <span className="hidden sm:inline text-[10px] font-mono font-bold uppercase">{s.title}</span>
+                  <span className="hidden sm:inline text-xs font-mono font-bold uppercase">{s.title}</span>
                 </button>
               )
             })}
@@ -195,7 +195,7 @@ export default function JoinTeamPage() {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500">Nom / Pseudo</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500">Nom / Pseudo</label>
                         <Input
                           placeholder="Ton nom ou pseudo"
                           required
@@ -205,7 +205,7 @@ export default function JoinTeamPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500">Email</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500">Email</label>
                         <Input
                           placeholder="ton@email.com"
                           type="email"
@@ -218,7 +218,7 @@ export default function JoinTeamPage() {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500">GitHub</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500">GitHub</label>
                         <Input
                           placeholder="github.com/tonpseudo"
                           value={form.github}
@@ -227,7 +227,7 @@ export default function JoinTeamPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500">Portfolio / LinkedIn</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500">Portfolio / LinkedIn</label>
                         <Input
                           placeholder="linkedin.com/in/tonprofil"
                           value={form.portfolio}
@@ -252,7 +252,7 @@ export default function JoinTeamPage() {
                           key={s}
                           type="button"
                           onClick={() => form.skills.includes(s) ? removeSkill(s) : addSkill(s)}
-                          className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border transition-all
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider border transition-all
                             ${form.skills.includes(s)
                               ? "bg-primary/15 border-primary/40 text-primary"
                               : "bg-zinc-900/60 border-white/10 text-zinc-400 hover:border-white/30"
@@ -277,7 +277,7 @@ export default function JoinTeamPage() {
                     {form.skills.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
                         {form.skills.filter(s => !SKILL_OPTIONS.includes(s)).map((s) => (
-                          <Badge key={s} variant="outline" className="text-[9px] font-mono border-indigo-500/30 text-indigo-400">
+                          <Badge key={s} variant="outline" className="text-3xs font-mono border-indigo-500/30 text-indigo-400">
                             {s}
                             <button type="button" onClick={() => removeSkill(s)} className="ml-1.5 hover:text-white">&times;</button>
                           </Badge>
@@ -295,7 +295,7 @@ export default function JoinTeamPage() {
                       <p className="text-xs text-zinc-500">Montre-nous ce que tu as déjà construit. Pas de CV, du concret.</p>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase text-zinc-500">Liens vers tes réalisations</label>
+                      <label className="text-xs font-mono uppercase text-zinc-500">Liens vers tes réalisations</label>
                       <Textarea
                         placeholder={
                           "https://github.com/tonpseudo/projet-x\n" +
@@ -307,7 +307,7 @@ export default function JoinTeamPage() {
                         required
                         value={form.proofOfWork}
                         onChange={(e) => setForm({ ...form, proofOfWork: e.target.value })}
-                        className="bg-black/40 border-white/10 rounded-xl text-sm resize-none font-mono text-[12px]"
+                        className="bg-black/40 border-white/10 rounded-xl text-sm resize-none font-mono text-sm"
                       />
                     </div>
                   </div>
@@ -321,7 +321,7 @@ export default function JoinTeamPage() {
                       <p className="text-xs text-zinc-500">On veut entendre ta voix, pas une lettre de motivation générique.</p>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase text-zinc-500">Ta motivation</label>
+                      <label className="text-xs font-mono uppercase text-zinc-500">Ta motivation</label>
                       <Textarea
                         placeholder={
                           "Ce qui te passionne dans la tech africaine\n" +
@@ -336,7 +336,7 @@ export default function JoinTeamPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase text-zinc-500">
+                      <label className="text-xs font-mono uppercase text-zinc-500">
                         Comment nous as-tu connus ? <span className="text-zinc-700">(optionnel)</span>
                       </label>
                       <Input
@@ -364,7 +364,7 @@ export default function JoinTeamPage() {
                 Retour
               </Button>
 
-              <div className="text-[10px] font-mono text-zinc-600">
+              <div className="text-xs font-mono text-zinc-600">
                 {step + 1} / {steps.length}
               </div>
 
@@ -397,7 +397,7 @@ export default function JoinTeamPage() {
 
           {/* Trust footer */}
           <div className="mt-8 text-center">
-            <p className="text-[10px] font-mono text-zinc-700">
+            <p className="text-xs font-mono text-zinc-700">
               <Globe className="size-3 inline mr-1 text-zinc-600" />
               Toutes les candidatures sont lues par un humain. Pas d&apos;IA, pas de ATS.
             </p>

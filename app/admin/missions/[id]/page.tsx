@@ -418,7 +418,7 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
               Édition de Mission
               <Badge
                 variant="outline"
-                className={`border font-mono text-[9px] uppercase ${statusMeta.className}`}
+                className={`border font-mono text-3xs uppercase ${statusMeta.className}`}
               >
                 {currentStatus}
               </Badge>

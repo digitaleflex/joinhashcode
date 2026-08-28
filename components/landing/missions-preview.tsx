@@ -54,7 +54,7 @@ export function MissionsPreview() {
         >
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase text-primary">Le diagnostic</span>
+            <span className="font-mono text-sm-plus uppercase text-primary">Le diagnostic</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
@@ -92,7 +92,7 @@ export function MissionsPreview() {
                 style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
               >
                 <div
-                  className="text-[11px] font-mono font-bold uppercase px-3 py-1.5 rounded-md inline-block mb-6"
+                  className="text-sm-plus font-mono font-bold uppercase px-3 py-1.5 rounded-md inline-block mb-6"
                   style={{ color: profile.color, background: `${profile.color}15`, border: `1px solid ${profile.color}30` }}
                 >
                   {profile.label}
@@ -103,7 +103,7 @@ export function MissionsPreview() {
                   {profile.traits.map(t => (
                     <span
                       key={t}
-                      className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
+                      className="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
                       style={{ color: `${profile.color}90`, background: `${profile.color}0d`, border: `1px solid ${profile.color}20` }}
                     >
                       {t}
@@ -170,7 +170,7 @@ export function MissionsPreview() {
             >
               <div className="flex items-start justify-between">
                 <div
-                  className="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md"
+                  className="text-xs font-mono font-bold uppercase px-2.5 py-1 rounded-md"
                   style={{ color: p.color, background: `${p.color}15`, border: `1px solid ${p.color}30` }}
                 >
                   {p.label}
@@ -185,7 +185,7 @@ export function MissionsPreview() {
                 {p.traits.map(t => (
                   <span
                     key={t}
-                    className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded"
+                    className="text-3xs font-mono uppercase tracking-wider px-2 py-0.5 rounded"
                     style={{ color: `${p.color}80`, background: `${p.color}0d`, border: `1px solid ${p.color}15` }}
                   >
                     {t}

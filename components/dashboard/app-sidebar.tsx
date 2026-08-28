@@ -58,7 +58,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
           </div>
           <div className="flex flex-col">
             <span className="font-sans font-extrabold text-base tracking-tighter text-white uppercase truncate">HASHCODE</span>
-            <span className="text-[11px] font-mono text-primary font-bold tracking-tight">réseau_actif</span>
+            <span className="text-sm-plus font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
         </Link>
         <div className="group-data-[collapsible=icon]:mx-auto">
@@ -72,7 +72,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
         </div>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainNavItems.map((item) => (
@@ -99,7 +99,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
         {/* LEADERSHIP SECTION (CONDITIONAL) */}
         {(isReviewerEligible || ["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser?.role ?? "")) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Leadership</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Leadership</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {/* REVIEWER */}
@@ -141,7 +141,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
         )}
 
         <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Général</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>

@@ -72,7 +72,7 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
 
       <div className="text-center space-y-4">
         <div className="space-y-1">
-          <p className="text-[10px] font-mono text-primary uppercase animate-pulse">
+          <p className="text-xs font-mono text-primary uppercase animate-pulse">
             Analyse en cours...
           </p>
           <h3 className="text-xl font-bold tracking-tighter text-white">
@@ -101,7 +101,7 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary"
               >
                 <Zap className="size-3" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">
                   Bonus : +{bonusXp} XP
                 </span>
               </motion.div>
@@ -111,7 +111,7 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
       </div>
 
       <div className="w-full max-w-xs space-y-2">
-        <p className="text-[9px] font-mono text-zinc-600 text-center uppercase tracking-wider">
+        <p className="text-3xs font-mono text-zinc-600 text-center uppercase tracking-wider">
           Envoi des données en cours...
         </p>
         <div className="h-0.5 w-full bg-zinc-900 rounded-full overflow-hidden">

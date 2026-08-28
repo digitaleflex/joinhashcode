@@ -57,7 +57,7 @@ export function MissionRubricEditor({ value, onChange }: MissionRubricEditorProp
           className="border border-zinc-800 rounded-lg p-4 space-y-3"
         >
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] text-zinc-600">
+            <span className="font-mono text-xs text-zinc-600">
               Critère #{i + 1}
             </span>
             <Button

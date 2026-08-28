@@ -71,7 +71,7 @@ function ActionBadge({ action }: { action: string }) {
   const style = ACTION_COLORS[action] ?? { bg: "bg-zinc-700/40 border-zinc-600/30", color: "text-zinc-400", hex: "#71717a" }
   const label = ACTION_LABELS[action] ?? action
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider w-fit ${style.bg} ${style.color}`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-xs font-mono font-bold uppercase tracking-wider w-fit ${style.bg} ${style.color}`}>
       {label}
     </span>
   )
@@ -90,7 +90,7 @@ function MetadataCell({ metadata }: { metadata: Prisma.JsonValue }) {
   return (
     <div className="flex flex-wrap gap-1">
       {entries.map(([k, v]) => (
-        <span key={k} className="text-[9px] font-mono text-zinc-500">
+        <span key={k} className="text-3xs font-mono text-zinc-500">
           <span className="text-zinc-600">{k}:</span>{" "}
           <span className="text-zinc-400">{String(v).slice(0, 30)}</span>
         </span>
@@ -144,14 +144,14 @@ export default async function AdminActivityPage({
 
       {/* Action filters */}
       <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-4 space-y-3">
-        <div className="flex items-center gap-2 text-[9px] font-mono uppercase tracking-wider text-zinc-500">
+        <div className="flex items-center gap-2 text-3xs font-mono uppercase tracking-wider text-zinc-500">
           <Filter className="h-3 w-3" />
           Filtrer par action
         </div>
         <div className="flex flex-wrap gap-2">
           <a
             href="/admin/activity"
-            className={`px-3 py-1 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors ${
+            className={`px-3 py-1 rounded-full border text-xs font-mono font-bold uppercase tracking-wider transition-colors ${
               !filterAction
                 ? "bg-primary/20 border-primary/40 text-primary"
                 : "bg-zinc-800 border-white/5 text-zinc-400 hover:text-white hover:border-white/20"
@@ -167,7 +167,7 @@ export default async function AdminActivityPage({
               <a
                 key={ac.action}
                 href={`/admin/activity?action=${encodeURIComponent(ac.action)}`}
-                className={`px-3 py-1 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors ${
+                className={`px-3 py-1 rounded-full border text-xs font-mono font-bold uppercase tracking-wider transition-colors ${
                   isActive ? `${style.bg} ${style.color}` : "bg-zinc-800 border-white/5 text-zinc-500 hover:text-zinc-300 hover:border-white/20"
                 }`}
               >
@@ -187,7 +187,7 @@ export default async function AdminActivityPage({
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
           <div className="grid grid-cols-[120px_1fr_160px_1fr_120px] gap-0 px-6 py-3 border-b border-white/5">
             {["Heure", "Utilisateur", "Action", "Détails", "IP"].map(h => (
-              <span key={h} className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
+              <span key={h} className="text-3xs font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
             ))}
           </div>
 
@@ -199,10 +199,10 @@ export default async function AdminActivityPage({
             >
               {/* Timestamp */}
               <div className="space-y-0.5">
-                <p className="text-[10px] font-mono text-zinc-400">
+                <p className="text-xs font-mono text-zinc-400">
                   {formatRelativeTime(log.createdAt)}
                 </p>
-                <p className="text-[9px] font-mono text-zinc-700">
+                <p className="text-3xs font-mono text-zinc-700">
                   {format(new Date(log.createdAt), "dd/MM HH:mm:ss")}
                 </p>
               </div>
@@ -214,12 +214,12 @@ export default async function AdminActivityPage({
                     <p className="text-xs font-medium text-white truncate">
                       {log.user.pseudo || log.user.name || "—"}
                     </p>
-                    <p className="text-[9px] font-mono text-zinc-600 truncate">{log.user.email}</p>
+                    <p className="text-3xs font-mono text-zinc-600 truncate">{log.user.email}</p>
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 text-zinc-700">
                     <User className="h-3 w-3" />
-                    <span className="text-[9px] font-mono">Anonyme</span>
+                    <span className="text-3xs font-mono">Anonyme</span>
                   </div>
                 )}
               </div>
@@ -233,7 +233,7 @@ export default async function AdminActivityPage({
               <MetadataCell metadata={log.metadata} />
 
               {/* IP */}
-              <span className="text-[9px] font-mono text-zinc-700 truncate">{log.ip ?? "—"}</span>
+              <span className="text-3xs font-mono text-zinc-700 truncate">{log.ip ?? "—"}</span>
             </div>
           ))}
         </div>
@@ -242,7 +242,7 @@ export default async function AdminActivityPage({
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-[10px] font-mono text-zinc-600">
+          <p className="text-xs font-mono text-zinc-600">
             Page {page} / {totalPages} · {total} entrées
           </p>
           <div className="flex gap-2">
@@ -268,7 +268,7 @@ export default async function AdminActivityPage({
 
       {/* Summary stats */}
       <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
-        <h2 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 flex items-center gap-2">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-zinc-500 flex items-center gap-2">
           <Clock className="h-3 w-3" /> Répartition par événement
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -280,8 +280,8 @@ export default async function AdminActivityPage({
             return (
               <div key={ac.action} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className={`text-[9px] font-mono font-bold uppercase tracking-wider ${style.color}`}>{label}</span>
-                  <span className="text-[9px] font-mono text-zinc-500">{ac._count.action}</span>
+                  <span className={`text-3xs font-mono font-bold uppercase tracking-wider ${style.color}`}>{label}</span>
+                  <span className="text-3xs font-mono text-zinc-500">{ac._count.action}</span>
                 </div>
                 <div className="h-1 w-full rounded-full bg-white/5 overflow-hidden">
                   <div

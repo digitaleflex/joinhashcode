@@ -279,7 +279,7 @@ export function NotificationsShell({
                         <span>Boîte de réception</span>
                       </div>
                       {data?.unreadCount > 0 && (
-                        <span className="px-2 py-0.5 rounded-full bg-primary text-black font-mono font-black text-[9px]">
+                        <span className="px-2 py-0.5 rounded-full bg-primary text-black font-mono font-black text-3xs">
                           {data.unreadCount}
                         </span>
                       )}
@@ -318,7 +318,7 @@ export function NotificationsShell({
                 {/* Filtres par Type */}
                 {uniqueTypes.length > 0 && (
                   <Card variant="premium" className="p-4 border-white/5 space-y-3">
-                    <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">
                       <Filter className="size-3" />
                       <span>Filtrer par type</span>
                     </div>
@@ -390,7 +390,7 @@ export function NotificationsShell({
                           size="sm" 
                           variant="ghost" 
                           onClick={() => handleBulkRead(true)}
-                          className="h-8 text-[10px] font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
+                          className="h-8 text-xs font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
                         >
                           <Check className="size-3 mr-1.5" />
                           Marquer lu
@@ -399,7 +399,7 @@ export function NotificationsShell({
                           size="sm" 
                           variant="ghost" 
                           onClick={() => handleBulkArchive(true)}
-                          className="h-8 text-[10px] font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
+                          className="h-8 text-xs font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
                         >
                           <CheckSquare className="size-3 mr-1.5" />
                           Archiver
@@ -412,7 +412,7 @@ export function NotificationsShell({
                         size="sm" 
                         variant="ghost" 
                         onClick={() => handleBulkSave(false)}
-                        className="h-8 text-[10px] font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
+                        className="h-8 text-xs font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
                       >
                         <Trash2 className="size-3 mr-1.5" />
                         Retirer des favoris
@@ -424,7 +424,7 @@ export function NotificationsShell({
                         size="sm" 
                         variant="ghost" 
                         onClick={() => handleBulkArchive(false)}
-                        className="h-8 text-[10px] font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
+                        className="h-8 text-xs font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
                       >
                         <RotateCcw className="size-3 mr-1.5" />
                         Restaurer
@@ -435,7 +435,7 @@ export function NotificationsShell({
                       size="sm" 
                       variant="ghost" 
                       onClick={() => handleBulkSave(true)}
-                      className="h-8 text-[10px] font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
+                      className="h-8 text-xs font-bold uppercase hover:bg-white/5 rounded-lg text-zinc-300 hover:text-white"
                     >
                       <Bookmark className="size-3 mr-1.5" />
                       Sauvegarder
@@ -454,7 +454,7 @@ export function NotificationsShell({
                       onChange={(e) => handleSelectAll(e.target.checked)}
                       className="rounded border-white/10 text-primary focus:ring-primary/40 size-3.5 bg-zinc-850"
                     />
-                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider font-bold ml-4">
+                    <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider font-bold ml-4">
                       {notifications.length} Notification{notifications.length > 1 ? "s" : ""}
                     </span>
                   </div>
@@ -533,7 +533,7 @@ export function NotificationsShell({
                                       notif.title
                                     )}
                                   </h4>
-                                  <span className="text-[10px] text-zinc-500 font-mono whitespace-nowrap shrink-0 flex items-center gap-1.5">
+                                  <span className="text-xs text-zinc-500 font-mono whitespace-nowrap shrink-0 flex items-center gap-1.5">
                                     <Calendar className="size-3" />
                                     {formatRelativeTime(notif.createdAt)}
                                   </span>
@@ -547,7 +547,7 @@ export function NotificationsShell({
                                       size="sm"
                                       disabled={isProcessing}
                                       onClick={() => handleSquadInvitation(invitationId, 'accept', notif.id)}
-                                      className="h-8 px-4 bg-primary/20 hover:bg-primary text-primary hover:text-black text-[10px] font-black uppercase rounded-xl transition-all flex-1"
+                                      className="h-8 px-4 bg-primary/20 hover:bg-primary text-primary hover:text-black text-xs font-black uppercase rounded-xl transition-all flex-1"
                                     >
                                       {isProcessing ? <Loader2 className="size-3.5 animate-spin" /> : <Check className="size-3.5 mr-1.5" />}
                                       Accepter
@@ -557,7 +557,7 @@ export function NotificationsShell({
                                       variant="ghost"
                                       disabled={isProcessing}
                                       onClick={() => handleSquadInvitation(invitationId, 'reject', notif.id)}
-                                      className="h-8 px-4 hover:bg-destructive/20 text-muted-foreground hover:text-destructive text-[10px] font-bold uppercase rounded-xl transition-all"
+                                      className="h-8 px-4 hover:bg-destructive/20 text-muted-foreground hover:text-destructive text-xs font-bold uppercase rounded-xl transition-all"
                                     >
                                       Refuser
                                     </Button>

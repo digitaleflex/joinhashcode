@@ -147,7 +147,7 @@ export default function AdminMissionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{totalCount}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Missions Totales</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Missions Totales</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -156,7 +156,7 @@ export default function AdminMissionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{counts.PUBLISHED ?? 0}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Publiées</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Publiées</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -165,7 +165,7 @@ export default function AdminMissionsPage() {
           </div>
           <div>
             <div className="text-2xl font-mono font-bold text-white">{counts.DRAFT ?? 0}</div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Brouillons</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Brouillons</div>
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg flex items-center gap-4">
@@ -176,7 +176,7 @@ export default function AdminMissionsPage() {
             <div className="text-2xl font-mono font-bold text-white">
               {(counts.CLOSED ?? 0) + (counts.ARCHIVED ?? 0)}
             </div>
-            <div className="text-zinc-500 text-[10px] font-mono uppercase">Fermées / Archivées</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase">Fermées / Archivées</div>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ export default function AdminMissionsPage() {
                     <TableCell>
                       <Badge
                         variant="outline"
-                        className={`border font-mono text-[9px] uppercase ${sm.className}`}
+                        className={`border font-mono text-3xs uppercase ${sm.className}`}
                       >
                         {sm.label}
                       </Badge>
@@ -272,7 +272,7 @@ export default function AdminMissionsPage() {
                     <TableCell>
                       <Badge
                         variant="outline"
-                        className="border-zinc-700 font-mono text-[10px] uppercase"
+                        className="border-zinc-700 font-mono text-xs uppercase"
                       >
                         {mission.category}
                       </Badge>

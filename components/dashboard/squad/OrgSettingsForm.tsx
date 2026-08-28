@@ -53,7 +53,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
       {/* Identité */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="org-name" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">Nom de l'unité</Label>
+          <Label htmlFor="org-name" className="text-xs font-mono uppercase text-zinc-500 font-bold">Nom de l'unité</Label>
           <Input
             id="org-name"
             value={name}
@@ -63,7 +63,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="org-slug" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">Fréquence de lien (Slug)</Label>
+          <Label htmlFor="org-slug" className="text-xs font-mono uppercase text-zinc-500 font-bold">Fréquence de lien (Slug)</Label>
           <Input
             id="org-slug"
             value={slug}
@@ -76,7 +76,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
 
       {/* Description */}
       <div className="space-y-2">
-        <Label htmlFor="org-description" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">
+        <Label htmlFor="org-description" className="text-xs font-mono uppercase text-zinc-500 font-bold">
           Description <span className="text-zinc-600 normal-case font-normal">(visible publiquement · max 300 car.)</span>
         </Label>
         <textarea
@@ -87,12 +87,12 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
           rows={3}
           className="w-full bg-black/20 border border-white/5 rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/40 resize-none"
         />
-        <p className="text-[9px] font-mono text-zinc-600 text-right">{description.length}/300</p>
+        <p className="text-3xs font-mono text-zinc-600 text-right">{description.length}/300</p>
       </div>
 
       {/* Annonce */}
       <div className="space-y-2">
-        <Label htmlFor="org-announcement" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">
+        <Label htmlFor="org-announcement" className="text-xs font-mono uppercase text-zinc-500 font-bold">
           Annonce du leader <span className="text-zinc-600 normal-case font-normal">(épinglée pour les membres · max 200 car.)</span>
         </Label>
         <textarea
@@ -103,7 +103,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
           rows={2}
           className="w-full bg-black/20 border border-white/5 rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/40 resize-none"
         />
-        <p className="text-[9px] font-mono text-zinc-600 text-right">{announcement.length}/200</p>
+        <p className="text-3xs font-mono text-zinc-600 text-right">{announcement.length}/200</p>
       </div>
 
       {/* Paramètres tactiques */}
@@ -111,7 +111,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="org-private" className="text-sm font-bold text-white uppercase tracking-tight italic">Escouade Privée</Label>
-            <p className="text-[10px] text-zinc-500 font-medium">Masque l'unité des radars de recherche publics.</p>
+            <p className="text-xs text-zinc-500 font-medium">Masque l'unité des radars de recherche publics.</p>
           </div>
           <Switch id="org-private" checked={isPrivate} onCheckedChange={setIsPrivate} />
         </div>
@@ -120,7 +120,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label className="text-sm font-bold text-white uppercase tracking-tight italic">Habilitation Requise</Label>
-              <p className="text-[10px] text-zinc-500 font-medium">Niveau minimum pour postuler à l'unité.</p>
+              <p className="text-xs text-zinc-500 font-medium">Niveau minimum pour postuler à l'unité.</p>
             </div>
             <div className="px-3 py-1 rounded bg-primary/10 border border-primary/20 text-primary font-mono font-black text-xs italic">
               LVL_{requiredLevel}
@@ -143,7 +143,7 @@ export function OrgSettingsForm({ organization }: OrgSettingsFormProps) {
         <Button
           type="button"
           variant="destructive"
-          className="w-full font-bold uppercase text-[10px]"
+          className="w-full font-bold uppercase text-xs"
           disabled={isPending}
           onClick={async () => {
             if (!confirm("ATTENTION : Es-tu certain de vouloir DISSOUDRE l'escouade ? Cette action est définitive.")) return;

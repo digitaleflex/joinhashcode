@@ -77,9 +77,9 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       <div className="flex items-center justify-between mb-4 px-2">
         <div className="flex items-center gap-2">
           <div className="size-2 rounded-full bg-primary animate-pulse" />
-          <h3 className="text-[10px] font-mono font-black uppercase text-zinc-500 tracking-widest">progression</h3>
+          <h3 className="text-xs font-mono font-black uppercase text-zinc-500 tracking-widest">progression</h3>
         </div>
-        <span className="text-[10px] font-mono text-primary font-bold">
+        <span className="text-xs font-mono text-primary font-bold">
           {completedCount} / {steps.length} ÉTAPES
         </span>
       </div>
@@ -98,7 +98,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
                 {step.completed ? (
                   <Check className="size-3" />
                 ) : (
-                  <span className="text-[9px] font-mono font-bold">{i + 1}</span>
+                  <span className="text-3xs font-mono font-bold">{i + 1}</span>
                 )}
               </div>
               {i < steps.length - 1 && (
@@ -117,10 +117,10 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
               <nextStep.icon className="size-4 text-zinc-500" />
               <div>
                 <p className="text-xs font-bold text-white">Prochaine étape : {nextStep.title}</p>
-                <p className="text-[10px] text-zinc-500">{nextStep.description}</p>
+                <p className="text-xs text-zinc-500">{nextStep.description}</p>
               </div>
             </div>
-            <Button asChild variant="ghost" size="sm" className="h-8 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
+            <Button asChild variant="ghost" size="sm" className="h-8 text-xs font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
               <Link href={nextStep.href}>
                 +{nextStep.xp} XP
                 <ChevronRight className="size-3 ml-1" />

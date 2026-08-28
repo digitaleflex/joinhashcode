@@ -18,7 +18,7 @@ export default function OnboardingError({ error, reset }: { error: Error; reset:
             Une erreur est survenue pendant l&apos;onboarding. Ta progression est sauvegardée — réessaie pour continuer.
           </p>
           {process.env.NODE_ENV === "development" && error?.message && (
-            <p className="text-[10px] font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
+            <p className="text-xs font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
           )}
         </div>
         <Button onClick={reset} className="btn-primary-glow w-full">

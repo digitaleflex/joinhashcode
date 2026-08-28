@@ -120,7 +120,7 @@ export default function AdminSubmissionsPage() {
       <div className="flex items-center gap-1 p-1 bg-zinc-900/60 border border-white/5 rounded-xl w-fit">
         <button
           onClick={() => setActiveTab("pending")}
-          className={`px-4 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${
+          className={`px-4 py-1.5 rounded-lg text-sm-plus font-mono uppercase tracking-wider transition-all ${
             activeTab === "pending"
               ? "bg-primary text-primary-foreground font-bold"
               : "text-muted-foreground hover:text-white"
@@ -130,7 +130,7 @@ export default function AdminSubmissionsPage() {
         </button>
         <button
           onClick={() => setActiveTab("history")}
-          className={`px-4 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${
+          className={`px-4 py-1.5 rounded-lg text-sm-plus font-mono uppercase tracking-wider transition-all ${
             activeTab === "history"
               ? "bg-primary text-primary-foreground font-bold"
               : "text-muted-foreground hover:text-white"
@@ -151,7 +151,7 @@ export default function AdminSubmissionsPage() {
           title={activeTab === "pending" ? "Aucune soumission en attente" : "Aucun historique"}
           description={activeTab === "pending" ? "Tout est à jour. Bon travail !" : "Pas encore de décisions enregistrées."}
           action={
-            <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-[10px] uppercase font-mono tracking-wider">
+            <Button variant="outline" size="sm" onClick={fetchSubmissions} className="border-white/10 text-xs uppercase font-mono tracking-wider">
               Actualiser
             </Button>
           }
@@ -172,7 +172,7 @@ export default function AdminSubmissionsPage() {
           {/* Pagination (history only) */}
           {activeTab === "history" && totalPages > 1 && (
             <div className="flex items-center justify-between">
-              <p className="text-[10px] text-muted-foreground font-mono">
+              <p className="text-xs text-muted-foreground font-mono">
                 {(page - 1) * limit + 1}–{Math.min(page * limit, total)} sur {total}
               </p>
               <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function AdminSubmissionsPage() {
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </Button>
-                <span className="text-[10px] font-mono text-muted-foreground">
+                <span className="text-xs font-mono text-muted-foreground">
                   {page} / {totalPages}
                 </span>
                 <Button

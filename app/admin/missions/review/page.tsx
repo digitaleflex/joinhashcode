@@ -179,7 +179,7 @@ export default function ReviewDashboardPage() {
 
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2">
-          <label className="text-zinc-500 font-mono text-[10px] uppercase">Statut</label>
+          <label className="text-zinc-500 font-mono text-xs uppercase">Statut</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -193,7 +193,7 @@ export default function ReviewDashboardPage() {
           </select>
         </div>
         <div className="flex items-center gap-2">
-          <label className="text-zinc-500 font-mono text-[10px] uppercase">Mission</label>
+          <label className="text-zinc-500 font-mono text-xs uppercase">Mission</label>
           <select
             value={missionFilter}
             onChange={(e) => setMissionFilter(e.target.value)}
@@ -257,7 +257,7 @@ export default function ReviewDashboardPage() {
                         <span className="text-white font-mono text-sm">
                           {s.userName || "Anonyme"}
                         </span>
-                        <span className="text-zinc-500 text-[10px] font-mono">{s.userEmail}</span>
+                        <span className="text-zinc-500 text-xs font-mono">{s.userEmail}</span>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -271,7 +271,7 @@ export default function ReviewDashboardPage() {
                     <TableCell>
                       <Badge
                         variant="outline"
-                        className={`border font-mono text-[9px] uppercase ${sm.className}`}
+                        className={`border font-mono text-3xs uppercase ${sm.className}`}
                       >
                         {sm.label}
                       </Badge>

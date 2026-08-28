@@ -36,12 +36,12 @@ function KpiCard({
     <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3 shadow-sm hover:border-white/10 transition-colors cursor-pointer">
       <div className={`flex items-center gap-2 ${color}`}>
         <Icon className="h-4 w-4" />
-        <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{label}</span>
+        <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{label}</span>
       </div>
       <div className="flex items-end gap-3">
         <div className="text-3xl font-bold text-white tracking-tight">{displayValue}</div>
       </div>
-      {sub && <p className="text-[10px] font-mono text-muted-foreground">{sub}</p>}
+      {sub && <p className="text-xs font-mono text-muted-foreground">{sub}</p>}
     </div>
   )
 }

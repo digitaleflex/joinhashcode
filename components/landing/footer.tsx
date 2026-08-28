@@ -25,14 +25,14 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <div className="size-2 rounded-full bg-emerald-500/50 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <span className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-tighter">en ligne</span>
+              <span className="text-xs font-mono font-bold text-zinc-600 uppercase tracking-tighter">en ligne</span>
             </div>
           </div>
 
           {/* Links Section */}
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-wider">Navigation</h4>
+              <h4 className="text-xs font-mono font-bold text-zinc-700 uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
                 <li><Link href="/quiz" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Lancer le quiz</Link></li>
                 <li><Link href="/signin" className="text-xs font-bold text-zinc-500 hover:text-primary transition-colors">Accès membre</Link></li>
@@ -41,7 +41,7 @@ export function Footer() {
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="text-[10px] font-mono font-bold text-zinc-700 uppercase tracking-wider">Protocoles</h4>
+              <h4 className="text-xs font-mono font-bold text-zinc-700 uppercase tracking-wider">Protocoles</h4>
               <ul className="space-y-2">
                 <li><Link href="/privacy" className="text-xs font-bold text-zinc-500 hover:text-white transition-colors">Confidentialité</Link></li>
                 <li><Link href="/terms" className="text-xs font-bold text-zinc-500 hover:text-white transition-colors">Conditions</Link></li>
@@ -53,19 +53,19 @@ export function Footer() {
           {/* Technical Info / CTA */}
           <div className="bg-white/2 border border-white/5 rounded-2xl p-6 space-y-4">
             <div className="space-y-1">
-              <span className="text-[10px] font-mono text-primary font-black uppercase">HASHCODE</span>
+              <span className="text-xs font-mono text-primary font-black uppercase">HASHCODE</span>
               <p className="text-xs text-zinc-400 font-bold uppercase tracking-tight">Afrique & Diaspora Connectée</p>
             </div>
             <div className="h-px bg-white/5" />
             <div className="flex justify-between items-center">
-              <span className="text-[10px] font-mono text-zinc-600 font-bold">2026</span>
-              <span className="text-[10px] font-mono text-zinc-600 font-bold">v1.1</span>
+              <span className="text-xs font-mono text-zinc-600 font-bold">2026</span>
+              <span className="text-xs font-mono text-zinc-600 font-bold">v1.1</span>
             </div>
           </div>
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-[10px] font-mono font-bold text-zinc-600 tracking-tight">
+          <p className="text-xs font-mono font-bold text-zinc-600 tracking-tight">
             © 2026 HASHCODE // LE PROGRAMME DE LA NOUVELLE ÈRE
           </p>
           <div className="flex items-center gap-4 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all">

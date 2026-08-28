@@ -85,10 +85,10 @@ export function UserSearch({ onClose }: UserSearchProps) {
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-white truncate">{user.name}</span>
                       {user.pseudo && (
-                        <span className="text-zinc-500 font-mono text-[10px]">@{user.pseudo}</span>
+                        <span className="text-zinc-500 font-mono text-xs">@{user.pseudo}</span>
                       )}
                     </div>
-                    <div className="flex items-center gap-3 mt-1 text-[10px] font-mono text-zinc-500">
+                    <div className="flex items-center gap-3 mt-1 text-xs font-mono text-zinc-500">
                       <span className="flex items-center gap-1">
                         <Mail className="h-3 w-3" />
                         {user.email}
@@ -108,7 +108,7 @@ export function UserSearch({ onClose }: UserSearchProps) {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-right">
-                    <span className="text-[10px] font-mono text-zinc-500">
+                    <span className="text-xs font-mono text-zinc-500">
                       {user.currentStreak > 0 ? `🔥 ${user.currentStreak}j` : "—"}
                     </span>
                     <ChevronRight className="h-4 w-4 text-zinc-600" />

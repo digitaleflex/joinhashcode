@@ -118,7 +118,7 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
     <div id="tour-squad-chat" className="rounded-3xl border border-white/5 bg-zinc-900/60 flex flex-col overflow-hidden">
       <div className="flex items-center gap-2 px-6 py-4 border-b border-white/5">
         <MessageSquare className="size-4 text-primary" />
-        <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">Chat Escouade</span>
+        <span className="text-sm-plus font-mono font-bold text-zinc-400 uppercase tracking-wide">Chat Escouade</span>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[300px] max-h-[400px] scrollbar-thin">
@@ -129,8 +129,8 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
             <MessageSquare className="size-8 text-zinc-700" />
-            <p className="text-[11px] text-zinc-600 font-mono">Aucun message pour le moment</p>
-            <p className="text-[10px] text-zinc-700">Sois le premier à écrire dans le canal !</p>
+            <p className="text-sm-plus text-zinc-600 font-mono">Aucun message pour le moment</p>
+            <p className="text-xs text-zinc-700">Sois le premier à écrire dans le canal !</p>
           </div>
         ) : (
           messages.map((msg) => {
@@ -144,17 +144,17 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
                   {msg.user?.image ? (
                     <img src={msg.user.image} alt="" className="size-full object-cover" />
                   ) : (
-                    <div className="size-full flex items-center justify-center text-[10px] font-bold text-zinc-500 uppercase">
+                    <div className="size-full flex items-center justify-center text-xs font-bold text-zinc-500 uppercase">
                       {msg.user?.name?.charAt(0) || "?"}
                     </div>
                   )}
                 </div>
                 <div className={cn("space-y-1 max-w-[80%]", isOwn && "items-end flex flex-col")}>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-zinc-400 font-mono">
+                    <span className="text-xs font-bold text-zinc-400 font-mono">
                       {msg.user.pseudo || msg.user.name}
                     </span>
-                    <span className="text-[9px] text-zinc-700 flex items-center gap-1">
+                    <span className="text-3xs text-zinc-700 flex items-center gap-1">
                       <Clock className="size-2.5" />
                       {formatTime(msg.createdAt)}
                     </span>
@@ -173,7 +173,7 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
                     <button
                       onClick={() => deleteMessage(msg.id)}
                       disabled={deletingId === msg.id}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-red-500 hover:text-red-400 font-mono flex items-center gap-1"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-red-500 hover:text-red-400 font-mono flex items-center gap-1"
                     >
                       {deletingId === msg.id ? (
                         <Loader2 className="size-3 animate-spin" />
@@ -212,7 +212,7 @@ export function SquadChat({ organizationId, userId, userRole = "member" }: Squad
             {sending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
           </Button>
         </div>
-        <p className="text-[9px] text-zinc-700 mt-2 font-mono">Entrée pour envoyer · Shift+Entrée pour sauter une ligne</p>
+        <p className="text-3xs text-zinc-700 mt-2 font-mono">Entrée pour envoyer · Shift+Entrée pour sauter une ligne</p>
       </div>
     </div>
   )

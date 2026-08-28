@@ -106,7 +106,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
     <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-4">
       <div className="flex items-center gap-2 mb-4">
         <Users className="size-4 text-primary" />
-        <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">
+        <span className="text-sm-plus font-mono font-bold text-zinc-400 uppercase tracking-wide">
           Roster · {memberCount}/5
         </span>
       </div>
@@ -130,7 +130,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                   <div className="text-sm font-bold text-white truncate flex items-center gap-1.5">
                     @{member.user?.pseudo || member.user?.name?.split(" ")[0]}
                     {isSelf && (
-                      <span className="text-[7px] font-bold font-mono bg-primary/20 text-primary px-1.5 py-0.2 rounded-md uppercase shrink-0">
+                      <span className="text-2xs font-bold font-mono bg-primary/20 text-primary px-1.5 py-0.2 rounded-md uppercase shrink-0">
                         Moi
                       </span>
                     )}
@@ -141,7 +141,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                       </span>
                     )}
                   </div>
-                  <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-tight">
+                  <div className="text-3xs font-mono text-zinc-500 uppercase tracking-tight">
                     LVL {member.user?.level ?? 1} · {isOwner ? "Chef" : member.role === "admin" ? "Admin" : "Membre"}
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                         <button
                           onClick={() => transferOwnership(member.id)}
                           disabled={isTransferring}
-                          className="text-[9px] font-mono font-bold text-amber-400 border border-amber-500/30 rounded-lg px-2 py-1 hover:bg-amber-500/10 transition-colors"
+                          className="text-3xs font-mono font-bold text-amber-400 border border-amber-500/30 rounded-lg px-2 py-1 hover:bg-amber-500/10 transition-colors"
                         >
                           {isTransferring ? <Loader2 className="size-3 animate-spin" /> : "Confirmer"}
                         </button>
@@ -192,7 +192,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
                   </>
                 )}
                 <span className={cn(
-                  "text-[8px] font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider",
+                  "text-xs-sm font-bold font-mono border px-2 py-0.5 rounded-full uppercase tracking-wider",
                   getClassStyle(member.user?.class)
                 )}>
                   {member.user?.class || "Agent"}
@@ -206,7 +206,7 @@ export function SquadRosterPanel({ squad, user, isLeader, memberCount }: SquadRo
             <div className="size-9 rounded-xl border border-dashed border-white/15 flex items-center justify-center shrink-0">
               <UserPlus className="size-4 text-zinc-500" />
             </div>
-            <div className="text-[11px] font-mono text-zinc-500 uppercase tracking-wide">Emplacement libre</div>
+            <div className="text-sm-plus font-mono text-zinc-500 uppercase tracking-wide">Emplacement libre</div>
           </div>
         ))}
       </div>

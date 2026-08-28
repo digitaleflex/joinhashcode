@@ -42,7 +42,7 @@ export function FirstDayWidget({
           <div className="text-xl font-black text-white leading-none">
             {activeMembers > 0 ? activeMembers : "—"}
           </div>
-          <div className="text-[10px] font-mono text-zinc-500 uppercase mt-1">
+          <div className="text-xs font-mono text-zinc-500 uppercase mt-1">
             {activeMembers > 0 ? "membres actifs aujourd'hui" : "pas encore de données"}
           </div>
         </div>
@@ -57,7 +57,7 @@ export function FirstDayWidget({
           <div className="text-xl font-black text-white leading-none">
             #{userRank > 0 && totalMembers > 0 ? `${userRank}` : "—"}
           </div>
-          <div className="text-[10px] font-mono text-zinc-500 uppercase mt-1">
+          <div className="text-xs font-mono text-zinc-500 uppercase mt-1">
             sur {totalMembers > 0 ? totalMembers : "—"} membres
           </div>
         </div>
@@ -68,7 +68,7 @@ export function FirstDayWidget({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Flame className="size-4 text-primary" />
-            <span className="text-[10px] font-mono text-primary uppercase font-bold">
+            <span className="text-xs font-mono text-primary uppercase font-bold">
               Objectif semaine
             </span>
           </div>
@@ -85,11 +85,11 @@ export function FirstDayWidget({
           />
         </div>
         {checkinProgress >= CHECKIN_GOAL ? (
-          <p className="text-[10px] text-primary font-bold">
+          <p className="text-xs text-primary font-bold">
             {firstName}, tu as atteint l&apos;objectif ! Badge Streak débloqué.
           </p>
         ) : (
-          <p className="text-[10px] text-zinc-500">
+          <p className="text-xs text-zinc-500">
             {firstName}, fais {CHECKIN_GOAL - checkinProgress} check-in{CHECKIN_GOAL - checkinProgress > 1 ? "s" : ""} de plus pour débloquer le badge Streak.
           </p>
         )}
@@ -97,7 +97,7 @@ export function FirstDayWidget({
           asChild
           variant="ghost"
           size="sm"
-          className="h-7 text-[10px] font-mono font-bold text-primary hover:text-primary hover:bg-primary/10 self-start mt-auto"
+          className="h-7 text-xs font-mono font-bold text-primary hover:text-primary hover:bg-primary/10 self-start mt-auto"
         >
           <Link href="/missions">
             Voir les missions <ArrowRight className="size-3 ml-1" />

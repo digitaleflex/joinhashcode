@@ -36,7 +36,7 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
           <Layers className="h-4 w-4" />
           Étapes de la mission
         </h2>
-        <Badge variant="outline" className="font-mono text-[10px] text-zinc-400 border-zinc-700">
+        <Badge variant="outline" className="font-mono text-xs text-zinc-400 border-zinc-700">
           {steps.length} étape{steps.length > 1 ? "s" : ""}
         </Badge>
       </div>
@@ -69,7 +69,7 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
                   }
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-zinc-900/50 transition-colors text-left"
                 >
-                  <span className="font-mono text-[10px] text-zinc-600 w-6">
+                  <span className="font-mono text-xs text-zinc-600 w-6">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   {isExpanded ? (
@@ -82,25 +82,25 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
                       <span className="font-mono text-xs text-zinc-200 font-medium">
                         {step.title}
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-600">
+                      <span className="font-mono text-xs text-zinc-600">
                         ({step.shortTitle})
                       </span>
                     </div>
-                    <p className="text-[10px] text-zinc-500 truncate mt-0.5">
+                    <p className="text-xs text-zinc-500 truncate mt-0.5">
                       {step.description}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Badge
                       variant="outline"
-                      className="font-mono text-[9px] text-zinc-400 border-zinc-700"
+                      className="font-mono text-3xs text-zinc-400 border-zinc-700"
                     >
                       {fieldCount} champ{fieldCount > 1 ? "s" : ""}
                     </Badge>
                     {requiredCount > 0 && (
                       <Badge
                         variant="outline"
-                        className="font-mono text-[9px] text-amber-400 border-amber-500/30"
+                        className="font-mono text-3xs text-amber-400 border-amber-500/30"
                       >
                         {requiredCount} requis
                       </Badge>
@@ -108,7 +108,7 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
                     {step.independent && (
                       <Badge
                         variant="outline"
-                        className="font-mono text-[9px] text-emerald-400 border-emerald-500/30"
+                        className="font-mono text-3xs text-emerald-400 border-emerald-500/30"
                       >
                         Indépendant
                       </Badge>
@@ -118,7 +118,7 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
 
                 {isExpanded && (
                   <div className="px-4 pb-4 border-t border-zinc-800 pt-4 space-y-4">
-                    <div className="flex items-center gap-4 text-[10px] text-zinc-500 font-mono">
+                    <div className="flex items-center gap-4 text-xs text-zinc-500 font-mono">
                       <span className="flex items-center gap-1">
                         <Pencil className="h-3 w-3" />
                         key: {step.key}
@@ -152,9 +152,9 @@ export function MissionStepsEditor({ slug, steps }: MissionStepsEditorProps) {
         >
           <Plus className="h-3.5 w-3.5 mr-2" />
           Ajouter une étape
-          <span className="ml-2 text-[9px] text-zinc-600">(bientôt disponible)</span>
+          <span className="ml-2 text-3xs text-zinc-600">(bientôt disponible)</span>
         </Button>
-        <p className="text-[9px] text-zinc-600 font-mono text-center mt-2">
+        <p className="text-3xs text-zinc-600 font-mono text-center mt-2">
           Les étapes sont actuellement définies dans TypeScript ({`lib/${slug.replace(/-/g, "-")}-mission.ts`})
         </p>
       </div>

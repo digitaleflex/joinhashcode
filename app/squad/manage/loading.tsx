@@ -9,7 +9,7 @@ export default function SquadManageLoading() {
           <div className="max-w-6xl mx-auto space-y-10">
             {/* Header */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-zinc-500 uppercase">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-500 uppercase">
                 <Skeleton className="h-3 w-3 bg-muted rounded-full" />
                 <Skeleton className="h-3 w-40 bg-muted rounded-full" />
               </div>

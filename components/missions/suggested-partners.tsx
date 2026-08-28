@@ -74,14 +74,14 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
       <div className="px-5 py-4 border-b border-border/30">
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-primary" />
-          <span className="text-[10px] font-mono uppercase text-muted-foreground tracking-wider">
+          <span className="text-xs font-mono uppercase text-muted-foreground tracking-wider">
             Partenaires suggérés
           </span>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
-        <p className="text-[10px] font-mono text-zinc-500 uppercase leading-relaxed tracking-wide">
+        <p className="text-xs font-mono text-zinc-500 uppercase leading-relaxed tracking-wide">
           Renforce ton équipage pour cette mission hybride. Profils complémentaires recommandés :
         </p>
 
@@ -100,7 +100,7 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
                   <div className="text-xs font-mono font-bold text-zinc-200">
                     @{partner.pseudo || "agent_anonyme"}
                   </div>
-                  <div className={cn("flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-wide", config.color)}>
+                  <div className={cn("flex items-center gap-1.5 text-3xs font-mono font-bold tracking-wide", config.color)}>
                     <Icon className="w-3 h-3" />
                     {config.label}
                   </div>
@@ -112,7 +112,7 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-7 text-[9px] font-mono uppercase tracking-widest border-border/60 hover:border-primary hover:bg-primary/10 transition-colors"
+                      className="h-7 text-3xs font-mono uppercase tracking-widest border-border/60 hover:border-primary hover:bg-primary/10 transition-colors"
                       onClick={() => setActivePartner(partner)}
                     >
                       Contacter
@@ -121,7 +121,7 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
 
                   <DialogContent className="border-border/40 bg-zinc-950/95 max-w-sm">
                     <DialogHeader className="space-y-2.5">
-                      <div className="flex items-center gap-2 text-[10px] font-mono text-primary/50 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-xs font-mono text-primary/50 uppercase tracking-widest">
                         <span>Matchmaking // HASHCODE</span>
                       </div>
                       <DialogTitle className="text-base font-bold tracking-tight text-white flex items-center gap-2">
@@ -136,19 +136,19 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
                     {/* Partner role info */}
                     <div className="mt-2 p-3.5 rounded-xl border border-border/30 bg-zinc-900/40 space-y-2">
                       <div className="flex items-center gap-2">
-                        <span className={cn("inline-flex items-center gap-1 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border", config.borderColor, config.bgColor, config.color)}>
+                        <span className={cn("inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-0.5 rounded-md border", config.borderColor, config.bgColor, config.color)}>
                           <Icon className="w-3.5 h-3.5" />
                           {config.label}
                         </span>
                       </div>
-                      <p className="text-[11px] text-zinc-400 leading-relaxed font-sans">
+                      <p className="text-sm-plus text-zinc-400 leading-relaxed font-sans">
                         Fais équipe avec cet agent pour maximiser l&apos;XP, débloquer le badge <span className="font-mono text-primary">Partenaire</span> et partager vos retours de build.
                       </p>
                     </div>
 
                     {/* Social networks & links */}
                     <div className="space-y-3 pt-3">
-                      <div className="text-[9px] font-mono uppercase tracking-widest text-zinc-500">
+                      <div className="text-3xs font-mono uppercase tracking-widest text-zinc-500">
                         Canaux de communication
                       </div>
 
@@ -201,7 +201,7 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
                         {!partner.githubUrl && !partner.linkedinUrl && !partner.twitterUrl && (
                           <div className="p-4 rounded-lg border border-yellow-500/20 bg-yellow-500/5 text-center space-y-2">
                             <MessageSquare className="w-6 h-6 text-yellow-500/70 mx-auto" />
-                            <p className="text-[10px] font-mono text-yellow-500/80 leading-normal">
+                            <p className="text-xs font-mono text-yellow-500/80 leading-normal">
                               Aucun réseau externe configuré par cet agent. Encourage-le à ajouter ses contacts sur Discord !
                             </p>
                           </div>

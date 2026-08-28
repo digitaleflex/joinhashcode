@@ -39,7 +39,7 @@ export function LinksTab({ userData, updateData }: LinksTabProps) {
                   <span className="text-xs font-semibold text-zinc-400 block">{link.label}</span>
                   <div className="flex items-center gap-2">
                     <div className={cn("size-1.5 rounded-full", isLinked ? "bg-cyan-400 shadow-[0_0_10px_#06b6d4]" : "bg-zinc-600")} />
-                    <span className={cn("text-[9px] font-mono font-bold uppercase tracking-wider", isLinked ? "text-cyan-400" : "text-zinc-500")}>
+                    <span className={cn("text-3xs font-mono font-bold uppercase tracking-wider", isLinked ? "text-cyan-400" : "text-zinc-500")}>
                       {isLinked ? "Connecté" : "Non connecté"}
                     </span>
                   </div>

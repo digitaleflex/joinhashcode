@@ -35,7 +35,7 @@ export default async function AdminUxPollPage() {
         </div>
         <div className="text-right">
           <div className="text-xl font-bold text-primary">{stats.total}</div>
-          <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">réponses</div>
+          <div className="text-xs text-zinc-600 font-mono uppercase tracking-wider">réponses</div>
         </div>
       </div>
 
@@ -44,7 +44,7 @@ export default async function AdminUxPollPage() {
         <div className="rounded-2xl border border-white/5 bg-zinc-900/40 p-5">
           <div className="flex items-center gap-2 text-zinc-500 mb-3">
             <Users className="size-4" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Total réponses</span>
+            <span className="text-xs font-black uppercase tracking-wider">Total réponses</span>
           </div>
           <div className="text-2xl font-bold text-white">{stats.total}</div>
         </div>
@@ -52,28 +52,28 @@ export default async function AdminUxPollPage() {
         <div className="rounded-2xl border border-white/5 bg-zinc-900/40 p-5">
           <div className="flex items-center gap-2 text-zinc-500 mb-3">
             <Star className="size-4" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Note moyenne</span>
+            <span className="text-xs font-black uppercase tracking-wider">Note moyenne</span>
           </div>
           <div className="text-2xl font-bold text-white">{stats.modernity.average}<span className="text-zinc-600 text-base">/5</span></div>
-          <div className="text-[10px] text-zinc-600 mt-1">min {stats.modernity.min} · max {stats.modernity.max}</div>
+          <div className="text-xs text-zinc-600 mt-1">min {stats.modernity.min} · max {stats.modernity.max}</div>
         </div>
 
         <div className="rounded-2xl border border-white/5 bg-zinc-900/40 p-5">
           <div className="flex items-center gap-2 text-zinc-500 mb-3">
             <Moon className="size-4" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Mode sombre</span>
+            <span className="text-xs font-black uppercase tracking-wider">Mode sombre</span>
           </div>
           <div className="text-2xl font-bold text-white">{darkModePct}%</div>
-          <div className="text-[10px] text-zinc-600 mt-1">{stats.darkMode.yes} oui · {stats.darkMode.no} non</div>
+          <div className="text-xs text-zinc-600 mt-1">{stats.darkMode.yes} oui · {stats.darkMode.no} non</div>
         </div>
 
         <div className="rounded-2xl border border-white/5 bg-zinc-900/40 p-5">
           <div className="flex items-center gap-2 text-zinc-500 mb-3">
             <TrendingUp className="size-4" />
-            <span className="text-[10px] font-black uppercase tracking-wider">Tendance</span>
+            <span className="text-xs font-black uppercase tracking-wider">Tendance</span>
           </div>
           <div className="text-2xl font-bold text-white">{stats.dailyTrend.length}</div>
-          <div className="text-[10px] text-zinc-600 mt-1">jours avec réponses</div>
+          <div className="text-xs text-zinc-600 mt-1">jours avec réponses</div>
         </div>
       </div>
 
@@ -132,7 +132,7 @@ export default async function AdminUxPollPage() {
         <div className="flex items-center gap-2 text-white">
           <MessageSquareText className="size-4 text-primary" />
           <h2 className="text-sm font-bold tracking-tight">Retours sur la lisibilité</h2>
-          <span className="ml-auto text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+          <span className="ml-auto text-xs font-mono text-zinc-500 uppercase tracking-wider">
             {stats.issues.length} commentaire{stats.issues.length > 1 ? "s" : ""}
           </span>
         </div>
@@ -149,7 +149,7 @@ export default async function AdminUxPollPage() {
                 <p className="text-zinc-200 leading-relaxed whitespace-pre-wrap text-sm">
                   &quot;{issue.text}&quot;
                 </p>
-                <div className="flex flex-wrap items-center gap-3 mt-3 text-[10px] font-mono text-zinc-500">
+                <div className="flex flex-wrap items-center gap-3 mt-3 text-xs font-mono text-zinc-500">
                   {issue.user && (
                     <span className="text-zinc-400">
                       {issue.user.name} ({issue.user.email})

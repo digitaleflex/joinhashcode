@@ -41,21 +41,21 @@ export default async function AdminFraudPage() {
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-2">
           <div className="flex items-center gap-2 text-rose-400">
             <Ban className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Bannis</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-zinc-500">Bannis</span>
           </div>
           <p className="text-2xl font-bold text-white">{bannedUsers.length}</p>
         </div>
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-2">
           <div className="flex items-center gap-2 text-orange-400">
             <RotateCcw className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Révisions</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-zinc-500">Révisions</span>
           </div>
           <p className="text-2xl font-bold text-white">0</p>
         </div>
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-2">
           <div className="flex items-center gap-2 text-amber-400">
             <AlertTriangle className="h-4 w-4" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Alertes (7j)</span>
+            <span className="text-xs font-mono uppercase tracking-wider text-zinc-500">Alertes (7j)</span>
           </div>
           <p className="text-2xl font-bold text-white">{suspiciousLogs.length}</p>
         </div>
@@ -64,7 +64,7 @@ export default async function AdminFraudPage() {
       {/* Banned users */}
       <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
         <div className="px-6 py-4 border-b border-white/5">
-          <h2 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Utilisateurs bannis</h2>
+          <h2 className="text-xs font-mono uppercase tracking-wider text-zinc-500">Utilisateurs bannis</h2>
         </div>
         {bannedUsers.length === 0 ? (
           <div className="p-12 text-center">
@@ -82,12 +82,12 @@ export default async function AdminFraudPage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-white truncate">{u.pseudo || u.name || "—"}</p>
-                    <p className="text-[10px] font-mono text-zinc-600 truncate">{u.email}</p>
+                    <p className="text-xs font-mono text-zinc-600 truncate">{u.email}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-mono text-rose-400/60 uppercase tracking-wider">Banni</p>
-                  <p className="text-[9px] font-mono text-zinc-700">
+                  <p className="text-xs font-mono text-rose-400/60 uppercase tracking-wider">Banni</p>
+                  <p className="text-3xs font-mono text-zinc-700">
                     {formatRelativeTime(sec.updatedAt)}
                   </p>
                 </div>
@@ -101,7 +101,7 @@ export default async function AdminFraudPage() {
       {/* Audit log */}
       <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
         <div className="px-6 py-4 border-b border-white/5">
-          <h2 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Journal de modération</h2>
+          <h2 className="text-xs font-mono uppercase tracking-wider text-zinc-500">Journal de modération</h2>
         </div>
         {suspiciousLogs.length === 0 ? (
           <div className="p-12 text-center">
@@ -112,7 +112,7 @@ export default async function AdminFraudPage() {
             {suspiciousLogs.map((log) => (
               <div key={log.id} className="flex items-center justify-between px-6 py-3 hover:bg-white/[0.015] transition-colors">
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${
+                  <span className={`text-xs font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${
                     log.action === "ADMIN_USER_BANNED"
                       ? "bg-rose-400/10 border-rose-400/20 text-rose-400"
                       : log.action === "ADMIN_USER_UNBANNED"
@@ -123,11 +123,11 @@ export default async function AdminFraudPage() {
                      log.action === "ADMIN_USER_UNBANNED" ? "Ban levé" :
                      "Impersonation"}
                   </span>
-                  <span className="text-[10px] font-mono text-zinc-500">
+                  <span className="text-xs font-mono text-zinc-500">
                     par {log.user?.pseudo || log.user?.name || "Admin"}
                   </span>
                 </div>
-                <span className="text-[9px] font-mono text-zinc-700">
+                <span className="text-3xs font-mono text-zinc-700">
                   {formatRelativeTime(log.createdAt)}
                 </span>
               </div>

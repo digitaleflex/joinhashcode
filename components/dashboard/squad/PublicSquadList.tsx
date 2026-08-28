@@ -75,7 +75,7 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
                   <Users className="size-6 text-zinc-600" />
                 )}
               </div>
-              <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 font-mono text-[9px] uppercase">
+              <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 font-mono text-3xs uppercase">
                 {squad.members.length}/5 Agents
               </Badge>
             </div>
@@ -88,7 +88,7 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
                 </Link>
               </div>
               {squad.description && (
-                <p className="text-[10px] text-zinc-500 leading-relaxed line-clamp-2">{squad.description}</p>
+                <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2">{squad.description}</p>
               )}
               <div className="flex items-center gap-2">
                 <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
@@ -97,7 +97,7 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
                     style={{ width: `${Math.round((squad.cohesionScore || 0.1) * 100)}%` }}
                   />
                 </div>
-                <span className="text-[10px] font-bold text-primary/60 font-mono">{Math.round((squad.cohesionScore || 0.1) * 100)}% SYNC</span>
+                <span className="text-xs font-bold text-primary/60 font-mono">{Math.round((squad.cohesionScore || 0.1) * 100)}% SYNC</span>
               </div>
             </div>
 
@@ -105,11 +105,11 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
               {squad.members.slice(0, 3).map((m) => (
                 <Avatar key={m.id} className="size-6 border border-zinc-900">
                   <AvatarImage src={m.user?.image ?? ""} />
-                  <AvatarFallback className="text-[8px]">{m.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
+                  <AvatarFallback className="text-xs-sm">{m.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
                 </Avatar>
               ))}
               {squad.members.length > 3 && (
-                <div className="size-6 rounded-full bg-zinc-800 border border-zinc-900 flex items-center justify-center text-[8px] text-zinc-500">
+                <div className="size-6 rounded-full bg-zinc-800 border border-zinc-900 flex items-center justify-center text-xs-sm text-zinc-500">
                   +{squad.members.length - 3}
                 </div>
               )}
@@ -119,7 +119,7 @@ export function PublicSquadList({ squads }: PublicSquadListProps) {
               onClick={() => handleJoinRequest(squad.id)}
               disabled={pendingIds.includes(squad.id) || squad.members.length >= 5}
               className={cn(
-                "w-full h-11 uppercase font-bold text-[10px] tracking-widest transition-all duration-500",
+                "w-full h-11 uppercase font-bold text-xs tracking-widest transition-all duration-500",
                 pendingIds.includes(squad.id) ? "bg-zinc-800" : "bg-white text-black hover:bg-primary hover:text-black"
               )}
             >

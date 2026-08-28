@@ -195,7 +195,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">protocol_escouade_</span>
+                  <span className="text-xs font-mono font-bold text-zinc-500 uppercase">protocol_escouade_</span>
                 </div>
                 <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase leading-[0.9]">
                   {squad ? <>{localName || "Mon"}{" "}<span className="text-primary italic">Escouade</span></> : <>Lance ton{" "}<span className="text-primary italic">Réseau</span></>}
@@ -206,7 +206,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
               </div>
 
               {squad && isLeader && (
-                <Button asChild className="btn-primary-glow h-12 px-8 text-[11px] font-bold uppercase tracking-wider rounded-2xl group">
+                <Button asChild className="btn-primary-glow h-12 px-8 text-sm-plus font-bold uppercase tracking-wider rounded-2xl group">
                   <a href="/squad/manage">
                     <Settings className="size-4 mr-2 group-hover:rotate-90 transition-transform duration-500" />
                     Gérer l&apos;unité
@@ -221,12 +221,12 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                 {squad.description && <p className="text-sm text-zinc-400 max-w-lg leading-relaxed">{squad.description}</p>}
                 <div className="flex items-center gap-2 flex-wrap">
                   {squad.isPrivate && (
-                    <span className="flex items-center gap-1 text-[9px] font-mono font-bold bg-zinc-800 border border-white/10 text-zinc-400 px-2 py-0.5 rounded-full uppercase">
+                    <span className="flex items-center gap-1 text-3xs font-mono font-bold bg-zinc-800 border border-white/10 text-zinc-400 px-2 py-0.5 rounded-full uppercase">
                       <EyeOff className="size-2.5" /> Privée
                     </span>
                   )}
                   {squad.requiredLevel && squad.requiredLevel > 1 && (
-                    <span className="flex items-center gap-1 text-[9px] font-mono font-bold bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded-full uppercase">
+                    <span className="flex items-center gap-1 text-3xs font-mono font-bold bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded-full uppercase">
                       <ShieldCheck className="size-2.5" /> Niv. {squad.requiredLevel}+ requis
                     </span>
                   )}
@@ -248,7 +248,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
             {/* Incoming invitations inbox */}
             {!squad && invites.length > 0 && (
               <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-primary uppercase">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-primary uppercase">
                   <Mail className="size-3 text-primary animate-pulse" />
                   invitations_recues ({invites.length})
                 </div>
@@ -256,12 +256,12 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                   {invites.map((invite) => (
                     <Card key={invite.id} className="glass-card border-white/5 bg-zinc-900/60 rounded-3xl p-6 flex flex-col justify-between gap-4">
                       <div className="space-y-2">
-                        <div className="text-[9px] font-mono text-zinc-500 uppercase">Invitation à rejoindre l&apos;unité</div>
+                        <div className="text-3xs font-mono text-zinc-500 uppercase">Invitation à rejoindre l&apos;unité</div>
                         <h3 className="text-lg font-black text-white uppercase italic tracking-tight">{invite.organizationName}</h3>
                         {invite.organizationDescription && (
                           <p className="text-zinc-500 text-xs line-clamp-2 leading-relaxed">{invite.organizationDescription}</p>
                         )}
-                        <p className="text-[10px] text-zinc-400 font-mono mt-2">
+                        <p className="text-xs text-zinc-400 font-mono mt-2">
                           Envoyée par <span className="text-white font-bold">{invite.inviterName}</span>
                         </p>
                       </div>
@@ -277,7 +277,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                         <Button
                           size="sm"
                           onClick={() => handleAcceptOrRejectInvitation(invite.id, "accept")}
-                          className="h-9 px-4 bg-primary text-black hover:bg-primary/95 font-black text-[10px] uppercase tracking-wider rounded-xl flex items-center gap-1.5 flex-1"
+                          className="h-9 px-4 bg-primary text-black hover:bg-primary/95 font-black text-xs uppercase tracking-wider rounded-xl flex items-center gap-1.5 flex-1"
                         >
                           <Check className="size-4" />
                           Rejoindre l&apos;escouade
@@ -294,7 +294,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
 
               {/* Journey path */}
               <div className="space-y-0">
-                <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase mb-6 flex items-center gap-3">
+                <div className="text-xs font-mono font-bold text-zinc-600 uppercase mb-6 flex items-center gap-3">
                   <span className="h-px w-8 bg-zinc-800" />
                   chemin_d_ascension
                   <span className="text-primary">{completedCount}/6 phases</span>
@@ -322,7 +322,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Activity className="size-4 text-primary" />
-                      <span className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wide">Cohésion</span>
+                      <span className="text-sm-plus font-mono font-bold text-zinc-400 uppercase tracking-wide">Cohésion</span>
                     </div>
                     <span className="text-lg font-extrabold text-white tabular-nums">
                       {Math.round(cohesion * 100)}<span className="text-primary text-base">%</span>
@@ -334,7 +334,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                       style={{ width: `${Math.round(cohesion * 100)}%` }}
                     />
                   </div>
-                  <p className="text-[10px] text-zinc-600 font-mono">
+                  <p className="text-xs text-zinc-600 font-mono">
                     {cohesion < 0.5 ? "Complète l'escouade pour booster la cohésion" : cohesion < 0.9 ? "Restez actifs pour maintenir la dynamique" : "Synchronisation quasi-parfaite !"}
                   </p>
                 </div>
@@ -352,7 +352,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Rejoindre le Discord</div>
-                      <div className="text-[10px] font-mono text-zinc-500">Canal privé de l&apos;escouade</div>
+                      <div className="text-xs font-mono text-zinc-500">Canal privé de l&apos;escouade</div>
                     </div>
                     <svg className="size-4 text-indigo-400/60 group-hover:text-indigo-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                   </a>
@@ -370,7 +370,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                     <div className="text-xl font-extrabold text-white tabular-nums">
                       {streak}<span className="text-zinc-500 text-sm font-medium ml-1">jours</span>
                     </div>
-                    <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">streak consécutif</div>
+                    <div className="text-xs font-mono text-zinc-600 uppercase tracking-wider">streak consécutif</div>
                   </div>
                   {(() => {
                     const freezes = squad?.streakFreezes ?? 0
@@ -383,7 +383,7 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                         title={freezes > 0 ? "Bouclier actif : votre série est protégée en cas de jour manqué" : "Bouclier utilisé — il se recharge dans la semaine"}
                       >
                         <ShieldCheck className="size-5" />
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-wider">
+                        <span className="text-3xs font-mono font-bold uppercase tracking-wider">
                           {freezes > 0 ? `×${freezes}` : "utilisé"}
                         </span>
                       </div>
@@ -417,13 +417,13 @@ export function SquadJourney({ user, squad, incomingInvitations = [] }: { user: 
                 <div className="rounded-3xl border border-white/4 bg-white/1 p-5 space-y-3">
                   <div className="flex items-center gap-2">
                     <Sparkles className="size-3.5 text-zinc-700" />
-                    <span className="text-[9px] font-mono font-bold text-zinc-700 uppercase">Prochainement — V2</span>
+                    <span className="text-3xs font-mono font-bold text-zinc-700 uppercase">Prochainement — V2</span>
                   </div>
                   <div className="space-y-2">
                     {["Missions collectives", "Défis inter-escouades", "Classement hebdo"].map((feat) => (
                       <div key={feat} className="flex items-center gap-2 text-zinc-700">
                         <Lock className="size-3 shrink-0" />
-                        <span className="text-[10px] font-mono">{feat}</span>
+                        <span className="text-xs font-mono">{feat}</span>
                       </div>
                     ))}
                   </div>

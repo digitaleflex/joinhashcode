@@ -104,7 +104,7 @@ export function UserManagementTable() {
           <Button
             onClick={() => window.open("/api/admin/users/export", "_blank")}
             variant="outline"
-            className="h-10 border-white/10 bg-zinc-900 text-white font-mono text-[10px] uppercase hover:bg-white/5"
+            className="h-10 border-white/10 bg-zinc-900 text-white font-mono text-xs uppercase hover:bg-white/5"
           >
             <Download className="mr-2 h-4 w-4" />
             Exporter CSV
@@ -124,12 +124,12 @@ export function UserManagementTable() {
       {/* Filters */}
       <div className="flex items-center gap-6 flex-wrap">
         <div className="flex items-center gap-1">
-          <span className="text-[9px] font-mono text-zinc-600 uppercase mr-2">Rôle</span>
+          <span className="text-3xs font-mono text-zinc-600 uppercase mr-2">Rôle</span>
           {ROLES.map(r => (
             <button
               key={r}
               onClick={() => setRoleFilter(r)}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold uppercase transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-all ${
                 roleFilter === r
                   ? "bg-primary text-primary-foreground"
                   : "text-zinc-500 hover:text-white hover:bg-white/5"
@@ -140,12 +140,12 @@ export function UserManagementTable() {
           ))}
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-[9px] font-mono text-zinc-600 uppercase mr-2">Statut</span>
+          <span className="text-3xs font-mono text-zinc-600 uppercase mr-2">Statut</span>
           {STATUSES.map(s => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold uppercase transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-all ${
                 statusFilter === s
                   ? "bg-primary text-primary-foreground"
                   : "text-zinc-500 hover:text-white hover:bg-white/5"
@@ -162,13 +162,13 @@ export function UserManagementTable() {
         <Table>
           <TableHeader className="bg-white/5">
             <TableRow className="border-white/5 hover:bg-transparent">
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Utilisateur</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Rôle</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Classe</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Niv. / XP</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Inscription</TableHead>
-              <TableHead className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Statut</TableHead>
-              <TableHead className="text-right text-[10px] uppercase tracking-wider font-bold text-zinc-500 py-4">Actions</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Utilisateur</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Rôle</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Classe</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Niv. / XP</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Inscription</TableHead>
+              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Statut</TableHead>
+              <TableHead className="text-right text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -177,7 +177,7 @@ export function UserManagementTable() {
                 <TableCell colSpan={8} className="h-64 text-center">
                   <div className="flex flex-col items-center justify-center gap-3 text-zinc-500">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    <span className="font-mono text-[10px] uppercase tracking-wider">Chargement...</span>
+                    <span className="font-mono text-xs uppercase tracking-wider">Chargement...</span>
                   </div>
                 </TableCell>
               </TableRow>
@@ -201,7 +201,7 @@ export function UserManagementTable() {
                         <Link href={`/admin/users/${user.id}`} className="transition-opacity hover:opacity-80">
                           <Avatar className="h-9 w-9 border border-white/10 group-hover:border-primary/30 transition-colors">
                             <AvatarImage src={user.image ?? ""} />
-                            <AvatarFallback className="bg-zinc-900 text-zinc-400 text-[10px] font-bold">
+                            <AvatarFallback className="bg-zinc-900 text-zinc-400 text-xs font-bold">
                               {user.name.substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
@@ -211,16 +211,16 @@ export function UserManagementTable() {
                             <span className="text-sm font-bold text-white leading-none mb-1">
                               {user.name}
                               {user.pseudo && (
-                                <span className="text-zinc-500 ml-2 font-mono text-[10px] font-normal">@{user.pseudo}</span>
+                                <span className="text-zinc-500 ml-2 font-mono text-xs font-normal">@{user.pseudo}</span>
                               )}
                             </span>
                           </Link>
-                          <span className="text-[10px] font-mono text-zinc-500">{user.email}</span>
+                          <span className="text-xs font-mono text-zinc-500">{user.email}</span>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={`font-mono text-[10px] px-2 py-0 border-white/10 ${
+                      <Badge variant="outline" className={`font-mono text-xs px-2 py-0 border-white/10 ${
                         user.role === "ADMIN" ? "bg-primary/10 text-primary border-primary/20" :
                         user.role === "MODERATOR" ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
                         "bg-white/5 text-zinc-400"
@@ -230,30 +230,30 @@ export function UserManagementTable() {
                     </TableCell>
                     <TableCell>
                       {user.class ? (
-                        <span className="text-[10px] font-mono uppercase tracking-wider font-bold" style={{ color: classColor }}>
+                        <span className="text-xs font-mono uppercase tracking-wider font-bold" style={{ color: classColor }}>
                           {user.class}
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono text-zinc-600 uppercase">—</span>
+                        <span className="text-xs font-mono text-zinc-600 uppercase">—</span>
                       )}
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="text-[11px] font-bold text-white font-mono">LVL {user.level}</span>
-                        <span className="text-[9px] text-zinc-500 font-mono">{user.experience.toLocaleString()} XP</span>
+                        <span className="text-sm-plus font-bold text-white font-mono">LVL {user.level}</span>
+                        <span className="text-3xs text-zinc-500 font-mono">{user.experience.toLocaleString()} XP</span>
                       </div>
                     </TableCell>
 
                     <TableCell>
-                      <span className="text-[10px] font-mono text-zinc-500">
+                      <span className="text-xs font-mono text-zinc-500">
                         {new Date(user.createdAt).toLocaleDateString("fr-FR")}
                       </span>
                     </TableCell>
                     <TableCell>
                       {user.banned ? (
-                        <Badge variant="outline" className="bg-rose-500/10 text-rose-500 border-rose-500/20 font-mono text-[10px]">BANNI</Badge>
+                        <Badge variant="outline" className="bg-rose-500/10 text-rose-500 border-rose-500/20 font-mono text-xs">BANNI</Badge>
                       ) : (
-                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 font-mono text-[10px]">ACTIF</Badge>
+                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 font-mono text-xs">ACTIF</Badge>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
@@ -270,7 +270,7 @@ export function UserManagementTable() {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-[10px] text-muted-foreground font-mono">
+          <p className="text-xs text-muted-foreground font-mono">
             {(page - 1) * limit + 1}–{Math.min(page * limit, total)} sur {total}
           </p>
           <div className="flex items-center gap-2">
@@ -283,7 +283,7 @@ export function UserManagementTable() {
             >
               <ChevronLeft className="h-3.5 w-3.5" />
             </Button>
-            <span className="text-[10px] font-mono text-muted-foreground">{page} / {totalPages}</span>
+            <span className="text-xs font-mono text-muted-foreground">{page} / {totalPages}</span>
             <Button
               variant="outline"
               size="sm"

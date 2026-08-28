@@ -66,6 +66,8 @@ if [ "$IMAGE_MODE" = false ]; then
   docker compose -f "$COMPOSE_FILE" $ENV_FILE up -d web --wait --no-build --force-recreate
 fi
 
+fi
+
 # ── 4. Vérification assets CSS/JS (garde-fou anti-404) ────────
 # Le healthcheck /api/status ne détecte pas les assets cassés.
 echo "🎨 Verifying static assets..."

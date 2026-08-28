@@ -22,13 +22,13 @@ export function TourCard({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           {step.icon && <span className="text-lg">{step.icon}</span>}
-          <span className="text-[10px] font-mono text-primary uppercase tracking-widest font-bold">
+          <span className="text-xs font-mono text-primary uppercase tracking-widest font-bold">
             Étape {currentStep + 1}/{totalSteps}
           </span>
         </div>
         <button
           onClick={skipTour}
-          className="text-[10px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className="text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
         >
           Passer
         </button>
@@ -62,7 +62,7 @@ export function TourCard({
       <div className="flex items-center justify-between">
         <button
           onClick={prevStep}
-          className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-[10px] font-mono font-bold uppercase tracking-widest transition-colors ${
+          className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-xs font-mono font-bold uppercase tracking-widest transition-colors ${
             currentStep > 0
               ? "text-zinc-400 hover:text-white hover:bg-white/5"
               : "text-zinc-700 cursor-not-allowed"
@@ -73,7 +73,7 @@ export function TourCard({
         </button>
         <button
           onClick={nextStep}
-          className="min-h-[44px] px-5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-widest bg-primary text-black hover:bg-primary/90 transition-all shadow-[0_0_10px_rgba(197,244,65,0.3)] hover:shadow-[0_0_20px_rgba(197,244,65,0.5)]"
+          className="min-h-[44px] px-5 rounded-lg text-xs font-mono font-bold uppercase tracking-widest bg-primary text-black hover:bg-primary/90 transition-all shadow-[0_0_10px_rgba(197,244,65,0.3)] hover:shadow-[0_0_20px_rgba(197,244,65,0.5)]"
         >
           {currentStep === totalSteps - 1 ? "Terminer" : "Suivant →"}
         </button>

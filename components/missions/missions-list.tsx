@@ -135,15 +135,15 @@ export function MissionsList({
                       "flex-1 py-3 px-4 flex flex-col items-center gap-0.5 rounded-2xl border transition-all duration-500 cursor-help",
                       isActive ? `${config.bgColor} ${config.borderColor}` : isDone ? "bg-zinc-900/30 border-white/5" : "bg-transparent border-transparent"
                     )}>
-                      <span className="text-[8px] font-mono font-black uppercase tracking-widest" style={{ color: isActive ? config.color : isDone ? "#6b7280" : "#374151" }}>
+                      <span className="text-xs-sm font-mono font-black uppercase tracking-widest" style={{ color: isActive ? config.color : isDone ? "#6b7280" : "#374151" }}>
                         {config.label}
                       </span>
-                      <span className="text-[7px] text-zinc-600 font-mono text-center hidden md:block">{config.sublabel}</span>
-                      {isDone && <span className="text-[7px] text-emerald-500 font-mono mt-0.5">✓ Complété</span>}
+                      <span className="text-2xs text-zinc-600 font-mono text-center hidden md:block">{config.sublabel}</span>
+                      {isDone && <span className="text-2xs text-emerald-500 font-mono mt-0.5">✓ Complété</span>}
                       {isActive && <div className="size-1.5 rounded-full mt-0.5 animate-pulse" style={{ backgroundColor: config.color }} />}
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-xs">
+                  <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-xs">
                     {stage === "INIT" && "Missions d'initiation pour maîtriser les outils de base du réseau."}
                     {stage === "CORE" && "Le cœur de ton expertise technique. Valide tes compétences fondamentales."}
                     {stage === "PRO" && "Défis complexes simulant des environnements de production réels."}
@@ -165,7 +165,7 @@ export function MissionsList({
           <button
             onClick={() => setTypeFilter(null)}
             className={cn(
-              "px-3 py-1.5 rounded-full text-[9px] font-mono uppercase tracking-wider border transition-all",
+              "px-3 py-1.5 rounded-full text-3xs font-mono uppercase tracking-wider border transition-all",
               !typeFilter 
                 ? "bg-primary/10 border-primary/30 text-primary" 
                 : "bg-white/5 border-white/10 text-zinc-500 hover:text-white hover:border-white/20"
@@ -178,7 +178,7 @@ export function MissionsList({
               key={type}
               onClick={() => setTypeFilter(type === typeFilter ? null : type)}
               className={cn(
-                "px-3 py-1.5 rounded-full text-[9px] font-mono uppercase tracking-wider border transition-all",
+                "px-3 py-1.5 rounded-full text-3xs font-mono uppercase tracking-wider border transition-all",
                 typeFilter === type 
                   ? "bg-primary/10 border-primary/30 text-primary" 
                   : "bg-white/5 border-white/10 text-zinc-500 hover:text-white hover:border-white/20"
@@ -206,10 +206,10 @@ export function MissionsList({
               <div className="h-px flex-1 bg-white/5" />
               <div className="flex items-center gap-2 px-3 py-1 rounded-full border" style={{ borderColor: `${config.color}30`, backgroundColor: `${config.color}08` }}>
                 <div className="size-1.5 rounded-full" style={{ backgroundColor: config.color }} />
-                <span className="text-[9px] font-mono font-black uppercase tracking-widest" style={{ color: config.color }}>
+                <span className="text-3xs font-mono font-black uppercase tracking-widest" style={{ color: config.color }}>
                   {config.label}
                 </span>
-                <span className="text-[8px] text-zinc-600 font-mono hidden md:inline">— {stageCompleted}/{stageTotal}</span>
+                <span className="text-xs-sm text-zinc-600 font-mono hidden md:inline">— {stageCompleted}/{stageTotal}</span>
               </div>
               <div className="h-px flex-1 bg-white/5" />
             </div>
@@ -226,7 +226,7 @@ export function MissionsList({
                     }} 
                   />
                 </div>
-                <span className="text-[9px] font-mono text-zinc-600">
+                <span className="text-3xs font-mono text-zinc-600">
                   {stageCompleted}/{stageTotal}
                 </span>
               </div>
@@ -236,11 +236,11 @@ export function MissionsList({
               <div className="px-4 py-3 bg-zinc-900/40 rounded-xl border border-white/5 space-y-2">
                 <div className="flex items-center gap-2">
                   <Lock className="size-3 text-zinc-600" />
-                  <span className="text-[9px] text-zinc-500 font-mono uppercase tracking-widest">
+                  <span className="text-3xs text-zinc-500 font-mono uppercase tracking-widest">
                     Niveau {config.requiredLevel} requis (niveau {userLevel} actuel)
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-[8px] font-mono text-zinc-600">
+                <div className="flex items-center gap-2 text-xs-sm font-mono text-zinc-600">
                   <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
                     <div className="h-full bg-primary/50 rounded-full" style={{ width: `${(userXp % 1000) / 10}%` }} />
                   </div>
@@ -376,7 +376,7 @@ function MissionCard({
         <div className="flex items-start justify-between mb-4">
           <div className="flex flex-wrap gap-2">
             {isRecommended && !isCompleted && !isPending && (
-              <Badge className="text-[9px] uppercase font-black tracking-wider bg-sky-500/10 text-sky-400 border-sky-500/20">
+              <Badge className="text-3xs uppercase font-black tracking-wider bg-sky-500/10 text-sky-400 border-sky-500/20">
                 Recommandé
               </Badge>
             )}
@@ -384,7 +384,7 @@ function MissionCard({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Badge className={cn(
-                    "text-[9px] uppercase font-black tracking-wider cursor-help",
+                    "text-3xs uppercase font-black tracking-wider cursor-help",
                     isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
                     isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
                     'bg-primary/10 text-primary border-primary/20'
@@ -392,14 +392,14 @@ function MissionCard({
                     {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
                   </Badge>
                 </TooltipTrigger>
-                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                   {isCompleted ? "Récompense déjà acquise." : isPending ? "En attente de validation par un reviewer." : "XP à gagner pour cette mission."}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
             {mission.duration && (
-              <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500">
+              <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">
                 {mission.duration}
               </Badge>
             )}
@@ -407,11 +407,11 @@ function MissionCard({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge variant="outline" className="text-[9px] font-mono border-white/10 text-zinc-500 cursor-help">
+                  <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500 cursor-help">
                     {mission.type}
                   </Badge>
                 </TooltipTrigger>
-                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                   {mission.type === "CODE" && "Mission technique (Build)"}
                   {mission.type === "DESIGN" && "Mission créative (UX/UI)"}
                   {mission.type === "BUSINESS" && "Mission stratégique (Growth)"}
@@ -448,39 +448,39 @@ function MissionCard({
           <div className="text-xs text-zinc-400 bg-black/40 p-4 rounded-2xl border border-white/5 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-16 h-16 bg-white/2 -rotate-45 translate-x-8 -translate-y-8" />
             
-            <p className="font-mono text-[9px] uppercase text-zinc-500 mb-2 font-bold">Protocole_Validation</p>
+            <p className="font-mono text-3xs uppercase text-zinc-500 mb-2 font-bold">Protocole_Validation</p>
             
             {mission.id === "social-connection-protocol" ? (
               <div className="space-y-2 mt-3">
                 {/* Step 1 — join the 3 channels */}
                 <div className="grid gap-2">
                   <a href={COMMUNITY_LINKS.telegram} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('telegram')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-xs font-bold uppercase",
                       socialClicks.telegram ? 'bg-[#0088cc]/10 border-[#0088cc]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#0088cc]/20 text-[#0088cc]'
                     )}>
                     <div className="flex items-center gap-2"><Globe className="h-3.5 w-3.5" />Telegram</div>
-                    {socialClicks.telegram ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                    {socialClicks.telegram ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-xs-sm text-zinc-600">Clic pour rejoindre</span>}
                   </a>
                   <a href={COMMUNITY_LINKS.discord} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('discord')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-xs font-bold uppercase",
                       socialClicks.discord ? 'bg-[#5865F2]/10 border-[#5865F2]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#5865F2]/20 text-[#5865F2]'
                     )}>
                     <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />Discord</div>
-                    {socialClicks.discord ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                    {socialClicks.discord ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-xs-sm text-zinc-600">Clic pour rejoindre</span>}
                   </a>
                   <a href={COMMUNITY_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => handleSocialClick('whatsapp')}
-                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-[10px] font-bold uppercase",
+                    className={cn("flex items-center justify-between p-2.5 rounded-xl border transition-all text-xs font-bold uppercase",
                       socialClicks.whatsapp ? 'bg-[#25D366]/10 border-[#25D366]/50 text-white' : 'bg-white/5 border-white/10 hover:bg-[#25D366]/20 text-[#25D366]'
                     )}>
                     <div className="flex items-center gap-2"><MessageSquare className="h-3.5 w-3.5" />WhatsApp</div>
-                    {socialClicks.whatsapp ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-[8px] text-zinc-600">Clic pour rejoindre</span>}
+                    {socialClicks.whatsapp ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <span className="text-xs-sm text-zinc-600">Clic pour rejoindre</span>}
                   </a>
                 </div>
 
                 {/* Step 2 — identify yourself for admin review */}
                 {allLinksClicked && !isPending && !isCompleted && (
                   <div className="mt-3 space-y-2 p-3 rounded-xl bg-white/3 border border-white/10">
-                    <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Étape 2 — Confirme tes identifiants</p>
+                    <p className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Étape 2 — Confirme tes identifiants</p>
                     <Input
                       value={socialForm.telegram}
                       onChange={e => setSocialForm(f => ({ ...f, telegram: e.target.value }))}
@@ -502,7 +502,7 @@ function MissionCard({
                     <Button
                       onClick={handleSocialSubmit}
                       disabled={isSubmitting || !socialForm.telegram.trim() || !socialForm.discord.trim() || !socialForm.whatsapp.trim()}
-                      className="w-full h-10 rounded-xl btn-primary-glow text-[10px] uppercase font-black tracking-wider gap-2"
+                      className="w-full h-10 rounded-xl btn-primary-glow text-xs uppercase font-black tracking-wider gap-2"
                     >
                       <Send className="h-3.5 w-3.5" />
                       {isSubmitting ? "Envoi..." : "Envoyer pour validation admin"}
@@ -515,11 +515,11 @@ function MissionCard({
                 {mission.requirements?.slice(0, 3).map((req, i) => (
                   <li key={i} className="flex items-start gap-2">
                       <div className="size-1 rounded-full bg-primary/40 mt-1.5 shrink-0" />
-                      <span className="text-[11px] leading-tight text-zinc-500 line-clamp-1">{req}</span>
+                      <span className="text-sm-plus leading-tight text-zinc-500 line-clamp-1">{req}</span>
                   </li>
                 ))}
                 {mission.requirements?.length > 3 && (
-                   <li className="text-[10px] font-mono text-zinc-600 pt-1">+ {mission.requirements.length - 3} autres pré-requis</li>
+                   <li className="text-xs font-mono text-zinc-600 pt-1">+ {mission.requirements.length - 3} autres pré-requis</li>
                 )}
               </ul>
             )}
@@ -531,7 +531,7 @@ function MissionCard({
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="size-1.5 rounded-full bg-emerald-500/60" />
-                <span className="text-[9px] font-mono text-zinc-500 uppercase">
+                <span className="text-3xs font-mono text-zinc-500 uppercase">
                   {mission.completionsCount > 0
                     ? `${mission.completionsCount} complét${mission.completionsCount > 1 ? "ions" : "ion"}`
                     : "Nouveau · parmi les premiers"}
@@ -543,12 +543,12 @@ function MissionCard({
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-1.5 cursor-help group/delay">
                       <Clock className="size-2.5 text-zinc-600 group-hover/delay:text-primary transition-colors" />
-                      <span className="text-[9px] font-mono text-zinc-500 uppercase">
+                      <span className="text-3xs font-mono text-zinc-500 uppercase">
                         ~{mission.avgDelay}h
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                  <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                     Délai moyen de validation par le réseau.
                   </TooltipContent>
                 </Tooltip>
@@ -556,10 +556,10 @@ function MissionCard({
 
               {mission.avgRating !== null && mission.ratingsCount >= 3 && (
                 <div className="hidden sm:flex items-center gap-1">
-                  <span className="text-[9px] font-mono text-amber-400">
+                  <span className="text-3xs font-mono text-amber-400">
                     {"★".repeat(Math.round(mission.avgRating))}{"☆".repeat(5 - Math.round(mission.avgRating))}
                   </span>
-                  <span className="text-[8px] text-zinc-600 font-mono">
+                  <span className="text-xs-sm text-zinc-600 font-mono">
                     {mission.avgRating.toFixed(1)}
                   </span>
                 </div>
@@ -568,14 +568,14 @@ function MissionCard({
             
             <button
               onClick={onPreview}
-              className="text-[9px] font-mono text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2 shrink-0"
+              className="text-3xs font-mono text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2 shrink-0"
             >
               Voir le briefing
             </button>
           </div>
 
           {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
-            <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-[10px] uppercase font-black tracking-wider gap-2">
+            <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-xs uppercase font-black tracking-wider gap-2">
               <Link href={`/missions/${mission.id}`}>
                 {mission.type === "INTRO" ? "Me présenter" : "Commencer"}
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -584,14 +584,14 @@ function MissionCard({
           )}
 
           {isPending && (
-            <Button variant="secondary" className="w-full h-12 rounded-xl bg-white/5 border border-white/10 text-zinc-500 text-[10px] uppercase font-black tracking-wider" disabled>
+            <Button variant="secondary" className="w-full h-12 rounded-xl bg-white/5 border border-white/10 text-zinc-500 text-xs uppercase font-black tracking-wider" disabled>
               Analyse en cours...
             </Button>
           )}
           
           {isCompleted && (
             <div className="text-center py-2 h-12 flex items-center justify-center">
-                <span className="text-[10px] font-mono text-emerald-500/60 uppercase">-- Mission Terminée --</span>
+                <span className="text-xs font-mono text-emerald-500/60 uppercase">-- Mission Terminée --</span>
             </div>
           )}
         </div>

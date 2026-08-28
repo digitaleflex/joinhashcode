@@ -63,13 +63,13 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
       <Table>
         <TableHeader className="bg-white/5">
           <TableRow className="border-white/5 hover:bg-transparent">
-            <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Membre</TableHead>
-            <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Mission</TableHead>
-            <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Contenu</TableHead>
+            <TableHead className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Membre</TableHead>
+            <TableHead className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Mission</TableHead>
+            <TableHead className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Contenu</TableHead>
             {activeTab === "history" && (
-              <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Décision</TableHead>
+              <TableHead className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Décision</TableHead>
             )}
-            <TableHead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground text-right">
+            <TableHead className="text-xs font-mono uppercase tracking-wider text-muted-foreground text-right">
               {activeTab === "pending" ? "Actions" : "Date"}
             </TableHead>
           </TableRow>
@@ -89,7 +89,7 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                     >
                       {s.user.name}
                     </Link>
-                    <p className="text-[10px] text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
+                    <p className="text-xs text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
                   </div>
                 </div>
               </TableCell>
@@ -97,10 +97,10 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                 <div>
                   <p className="text-sm font-medium">{s.mission.title}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="outline" className="text-[9px] uppercase tracking-tighter bg-primary/5 text-primary border-primary/20 font-mono">
+                    <Badge variant="outline" className="text-3xs uppercase tracking-tighter bg-primary/5 text-primary border-primary/20 font-mono">
                       {s.mission.category}
                     </Badge>
-                    <span className="text-[10px] text-[#B8FF3B] font-mono">+{s.mission.xp} XP</span>
+                    <span className="text-xs text-[#B8FF3B] font-mono">+{s.mission.xp} XP</span>
                   </div>
                 </div>
               </TableCell>
@@ -111,11 +111,11 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                     submissionMethod={s.mission.submissionMethod}
                   />
                   {s.projectDescription && (
-                    <p className="text-[11px] text-muted-foreground line-clamp-2 italic">
+                    <p className="text-sm-plus text-muted-foreground line-clamp-2 italic">
                       &ldquo;{s.projectDescription}&rdquo;
                     </p>
                   )}
-                  <p className="text-[9px] text-muted-foreground/60 font-mono">
+                  <p className="text-3xs text-muted-foreground/60 font-mono">
                     Soumis le {new Date(s.createdAt).toLocaleDateString()} à {new Date(s.createdAt).toLocaleTimeString()}
                   </p>
                 </div>
@@ -125,16 +125,16 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                   <div className="space-y-1.5">
                     <StatusBadge status={s.status} />
                     {s.status === "APPROVED" && s.qualityLevel && s.qualityLevel !== "STANDARD" && (
-                      <p className="text-[9px] font-mono text-primary/70">
+                      <p className="text-3xs font-mono text-primary/70">
                         {s.qualityLevel === "EXEMPLARY" ? "⭐ Exemplaire" : "✦ Très bon"}
                         {s.xpAwarded != null && ` · +${s.xpAwarded} XP`}
                       </p>
                     )}
                     {s.status === "APPROVED" && s.xpAwarded != null && s.qualityLevel === "STANDARD" && (
-                      <p className="text-[9px] font-mono text-zinc-500">+{s.xpAwarded} XP</p>
+                      <p className="text-3xs font-mono text-zinc-500">+{s.xpAwarded} XP</p>
                     )}
                     {s.adminFeedback && (
-                      <p className="text-[10px] text-zinc-400 line-clamp-2 italic max-w-[200px]">
+                      <p className="text-xs text-zinc-400 line-clamp-2 italic max-w-[200px]">
                         &ldquo;{s.adminFeedback}&rdquo;
                       </p>
                     )}
@@ -146,14 +146,14 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-[9px] uppercase tracking-wider"
+                    className="h-8 border-primary/20 text-primary hover:bg-primary/10 font-mono text-3xs uppercase tracking-wider"
                     onClick={() => onReview(s)}
                     disabled={processingId === s.id}
                   >
                     Réviser
                   </Button>
                 ) : (
-                  <p className="text-[10px] text-muted-foreground font-mono whitespace-nowrap">
+                  <p className="text-xs text-muted-foreground font-mono whitespace-nowrap">
                     {new Date(s.updatedAt).toLocaleDateString()}
                   </p>
                 )}

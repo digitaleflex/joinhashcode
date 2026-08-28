@@ -106,13 +106,13 @@ export function ActiveSessions() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                     <h3 className="text-sm font-bold text-white uppercase tracking-wider">Appareils connectés</h3>
-                    <p className="text-[10px] text-zinc-500 font-medium">Gère les appareils qui ont actuellement accès à ton compte.</p>
+                    <p className="text-xs text-zinc-500 font-medium">Gère les appareils qui ont actuellement accès à ton compte.</p>
                 </div>
                 {sessions.length > 1 && (
                     <Button 
                         variant="outline"
                         onClick={handleRevokeOtherSessions} 
-                        className="h-9 px-4 text-[10px] uppercase font-bold tracking-wider rounded-xl border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+                        className="h-9 px-4 text-xs uppercase font-bold tracking-wider rounded-xl border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
                     >
                         <ShieldAlert className="mr-2 size-3" />
                         Déconnecter les autres
@@ -145,16 +145,16 @@ export function ActiveSessions() {
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-2">
-                                        <div className="text-[12px] font-bold text-zinc-200">
+                                        <div className="text-sm font-bold text-zinc-200">
                                             {getDeviceInfo(session.userAgent).label} • {browser}
                                         </div>
                                         {isCurrentSession && (
-                                            <span className="px-2 py-0.5 rounded-md bg-primary/20 text-primary text-[8px] font-black uppercase tracking-wider border border-primary/30">
+                                            <span className="px-2 py-0.5 rounded-md bg-primary/20 text-primary text-xs-sm font-black uppercase tracking-wider border border-primary/30">
                                                 Appareil actuel
                                             </span>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-500 uppercase tracking-tighter">
+                                    <div className="flex items-center gap-3 text-xs font-mono text-zinc-500 uppercase tracking-tighter">
                                         <span className="flex items-center gap-1">
                                             <Globe className="size-3" />
                                             {session.ipAddress || "IP masquée"}
@@ -173,7 +173,7 @@ export function ActiveSessions() {
                                     size="sm"
                                     onClick={() => handleRevokeSession(session.token, session.id)}
                                     disabled={revokingId === session.id}
-                                    className="h-8 text-[10px] uppercase font-bold tracking-widest text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors w-full sm:w-auto"
+                                    className="h-8 text-xs uppercase font-bold tracking-widest text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors w-full sm:w-auto"
                                 >
                                     {revokingId === session.id ? (
                                         <Loader2 className="size-3.5 animate-spin" />

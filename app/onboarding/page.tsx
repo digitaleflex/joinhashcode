@@ -277,14 +277,14 @@ export default function OnboardingPage() {
             {PHASES.map((phase, i) => (
               <span
                 key={phase.id}
-                className={`text-[10px] font-mono uppercase tracking-widest transition-colors ${
+                className={`text-xs font-mono uppercase tracking-widest transition-colors ${
                   i === currentPhaseIndex ? "text-primary" : "text-muted-foreground/40"
                 }`}
               >
                 {phase.id}
               </span>
             ))}
-            <span className="text-[10px] font-mono text-muted-foreground/60">
+            <span className="text-xs font-mono text-muted-foreground/60">
               {Math.min(step, totalInteractiveSteps)}/{totalInteractiveSteps}
             </span>
           </div>
@@ -325,15 +325,15 @@ export default function OnboardingPage() {
                   ].map(item => (
                     <div key={item.label} className="p-3 rounded-2xl bg-white/2 border border-white/5 text-center space-y-1">
                       <div className="text-xl">{item.icon}</div>
-                      <div className="text-[10px] font-bold text-white uppercase tracking-wide">{item.label}</div>
-                      <div className="text-[10px] text-zinc-500 leading-tight">{item.sub}</div>
+                      <div className="text-xs font-bold text-white uppercase tracking-wide">{item.label}</div>
+                      <div className="text-xs text-zinc-500 leading-tight">{item.sub}</div>
                     </div>
                   ))}
                 </div>
 
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10">
                   <Loader2 className="w-3 h-3 text-primary" style={{ animation: "none" }} />
-                  <span className="text-[10px] font-mono text-primary uppercase tracking-wider">~5 minutes pour créer ton profil</span>
+                  <span className="text-xs font-mono text-primary uppercase tracking-wider">~5 minutes pour créer ton profil</span>
                 </div>
 
                 <Button
@@ -389,7 +389,7 @@ export default function OnboardingPage() {
                   {pseudoError && (
                     <p className="text-xs text-red-400 font-mono">{pseudoError}</p>
                   )}
-                  <p className="text-[10px] text-muted-foreground/60">3-20 caractères · lettres, chiffres et _ uniquement</p>
+                  <p className="text-xs text-muted-foreground/60">3-20 caractères · lettres, chiffres et _ uniquement</p>
 
                   {formData.pseudo.length >= 3 && (
                     <motion.div
@@ -453,7 +453,7 @@ export default function OnboardingPage() {
                           <span className="text-2xl">{opt.icon}</span>
                           <div className="flex-1">
                             <p className={`font-bold text-sm ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{opt.title}</p>
-                            <p className="text-[11px] text-muted-foreground/70 mt-0.5">{opt.desc}</p>
+                            <p className="text-sm-plus text-muted-foreground/70 mt-0.5">{opt.desc}</p>
                           </div>
                           {isSelected && <Check className="w-4 h-4 text-primary shrink-0" />}
                         </div>
@@ -575,14 +575,14 @@ export default function OnboardingPage() {
                     <div key={cls.name} className="p-4 rounded-2xl bg-white/2 border border-white/5 text-left space-y-2">
                       <div className="text-2xl">{cls.icon}</div>
                       <div className="font-black text-sm text-white uppercase tracking-wide">{cls.name}</div>
-                      <div className="text-[10px] text-zinc-500 leading-relaxed">{cls.desc}</div>
+                      <div className="text-xs text-zinc-500 leading-relaxed">{cls.desc}</div>
                     </div>
                   ))}
                 </div>
 
                 <div className="flex items-center gap-3 p-4 rounded-2xl bg-primary/5 border border-primary/10 text-left">
                   <Sparkles className="w-4 h-4 text-primary shrink-0" />
-                  <p className="text-[11px] text-zinc-400 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-400 leading-relaxed">
                     <span className="text-primary font-bold">~3 minutes.</span>{" "}
                     Réponds instinctivement — il n'y a pas de bonne ou mauvaise réponse.
                   </p>

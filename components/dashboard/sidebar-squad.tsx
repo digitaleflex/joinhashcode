@@ -41,7 +41,7 @@ export function SidebarSquad({ hasSquad }: { hasSquad?: boolean }) {
             className="h-9 transition-all hover:bg-white/5 pl-10 text-zinc-500 hover:text-white"
           >
             <Link href="/squad/discover">
-              <span className="font-medium text-[12px] uppercase tracking-wider">Découvrir</span>
+              <span className="font-medium text-sm uppercase tracking-wider">Découvrir</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

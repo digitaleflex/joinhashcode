@@ -36,7 +36,7 @@ export function JoinSquadButton({ slug, name }: { slug: string; name: string }) 
     <button
       onClick={handleJoin}
       disabled={loading}
-      className="inline-flex items-center gap-2 px-4 h-9 rounded-xl text-[10px] font-mono font-bold uppercase tracking-widest bg-primary text-black hover:bg-primary/90 transition-all shadow-[0_0_10px_rgba(197,244,65,0.25)] hover:shadow-[0_0_18px_rgba(197,244,65,0.45)] disabled:opacity-50 disabled:cursor-not-allowed shrink-0 min-h-[44px]"
+      className="inline-flex items-center gap-2 px-4 h-9 rounded-xl text-xs font-mono font-bold uppercase tracking-widest bg-primary text-black hover:bg-primary/90 transition-all shadow-[0_0_10px_rgba(197,244,65,0.25)] hover:shadow-[0_0_18px_rgba(197,244,65,0.45)] disabled:opacity-50 disabled:cursor-not-allowed shrink-0 min-h-[44px]"
     >
       {loading ? <Loader2 className="size-3.5 animate-spin" /> : <LogIn className="size-3.5" />}
       Rejoindre

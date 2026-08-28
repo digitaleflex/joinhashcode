@@ -57,7 +57,7 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
   };
 
   if (isLoading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin text-zinc-800" /></div>;
-  if (logs.length === 0) return <div className="text-center py-8 text-[10px] font-mono text-zinc-600 uppercase">Aucune activité récente</div>;
+  if (logs.length === 0) return <div className="text-center py-8 text-xs font-mono text-zinc-600 uppercase">Aucune activité récente</div>;
 
   return (
     <div className="space-y-4">
@@ -67,18 +67,18 @@ export function SquadActivityFeed({ organizationId }: { organizationId: string }
             <div className="size-8 rounded-full border border-white/5 bg-zinc-900 flex items-center justify-center overflow-hidden shrink-0">
                <Avatar className="size-full">
                    <AvatarImage src={log.user?.image ?? ""} />
-                   <AvatarFallback className="text-[10px]">{log.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
+                   <AvatarFallback className="text-xs">{log.user?.name?.charAt(0) ?? "?"}</AvatarFallback>
                </Avatar>
             </div>
             <div className="w-px flex-1 bg-white/5 my-1 group-last:hidden" />
           </div>
           
           <div className="pb-4 space-y-1">
-            <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+            <div className="flex items-center gap-2 text-sm-plus text-zinc-400">
                 {getIcon(log.action)}
                 <div className="flex-1">{getLabel(log)}</div>
             </div>
-            <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-tighter">
+            <div className="text-3xs font-mono text-zinc-600 uppercase tracking-tighter">
                 {formatRelativeTime(log.createdAt)}
             </div>
           </div>

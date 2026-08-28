@@ -49,10 +49,10 @@ export function SubmissionContent({
       <div className="space-y-3">
         {deliverables && deliverables.length > 0 && (
           <div className="space-y-1">
-            <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Livrables attendus</p>
+            <p className="text-3xs font-mono uppercase tracking-wider text-muted-foreground/60">Livrables attendus</p>
             <ul className="space-y-0.5">
               {deliverables.map((d, i) => (
-                <li key={i} className="text-[11px] text-zinc-500 font-mono">— {d}</li>
+                <li key={i} className="text-sm-plus text-zinc-500 font-mono">— {d}</li>
               ))}
             </ul>
           </div>

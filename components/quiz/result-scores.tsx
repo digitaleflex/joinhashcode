@@ -64,7 +64,7 @@ export function ResultScores({ analysis, user }: Props) {
                     }}
                   >
                     <p
-                      className="text-[11px] tracking-wide uppercase mb-2"
+                      className="text-sm-plus tracking-wide uppercase mb-2"
                       style={{ color: isPrimary ? color : '#555' }}
                     >
                       {PROFILE_LABELS[type]}
@@ -86,7 +86,7 @@ export function ResultScores({ analysis, user }: Props) {
                     </div>
                   </motion.div>
                 </TooltipTrigger>
-                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-48">
                   {profileDescriptions[type]}
                 </TooltipContent>
               </Tooltip>
@@ -110,7 +110,7 @@ export function ResultScores({ analysis, user }: Props) {
           </p>
         </div>
         <span
-          className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase flex-shrink-0"
+          className="px-3 py-1 rounded-full text-sm-plus font-semibold tracking-wide uppercase flex-shrink-0"
           style={{ background: `${color}18`, color }}
         >
           {PROFILE_LABELS[primary]}

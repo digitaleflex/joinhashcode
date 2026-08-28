@@ -60,7 +60,7 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
             <History className="h-5 w-5" />
           </div>
-          <Badge variant="outline" className="font-mono text-[10px] font-bold border-primary/30 text-primary px-3 py-1">
+          <Badge variant="outline" className="font-mono text-xs font-bold border-primary/30 text-primary px-3 py-1">
             {sortedSubmissions.length} COMPLÉTÉE{sortedSubmissions.length > 1 ? 'S' : ''}
           </Badge>
         </div>
@@ -85,12 +85,12 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
                     {s.mission.title}
                   </p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] font-mono text-zinc-500 uppercase flex items-center gap-1">
+                    <span className="text-xs font-mono text-zinc-500 uppercase flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {format(new Date(s.createdAt), "dd MMM yyyy", { locale: fr })}
                     </span>
                     <span className="h-1 w-1 rounded-full bg-zinc-700" />
-                    <span className="text-[10px] font-mono text-primary font-bold">
+                    <span className="text-xs font-mono text-primary font-bold">
                       +{s.xpAwarded} XP
                     </span>
                   </div>
@@ -100,7 +100,7 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
               <Badge 
                 variant="outline" 
                 className={cn(
-                  "font-mono text-[9px] font-bold px-2 py-0.5 border-white/10 bg-white/2 shrink-0",
+                  "font-mono text-3xs font-bold px-2 py-0.5 border-white/10 bg-white/2 shrink-0",
                   s.mission.missionLevel === "INIT" && "text-blue-400 border-blue-400/20 bg-blue-400/5",
                   s.mission.missionLevel === "CORE" && "text-emerald-400 border-emerald-400/20 bg-emerald-400/5",
                   s.mission.missionLevel === "PRO" && "text-purple-400 border-purple-400/20 bg-purple-400/5"

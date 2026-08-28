@@ -119,7 +119,7 @@ export default async function MissionPreviewPage({
         <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-8">
           <div className="space-y-4 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[10px] font-mono text-primary/50 uppercase">
+              <span className="text-xs font-mono text-primary/50 uppercase">
                 MISSION // {mission.slug.toUpperCase().replace(/-/g, "_")}
               </span>
             </div>
@@ -129,19 +129,19 @@ export default async function MissionPreviewPage({
             </h1>
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <Badge className="bg-primary/10 text-primary border-primary/20 uppercase font-mono tracking-wider text-[10px] rounded-md px-2 py-0.5">
+              <Badge className="bg-primary/10 text-primary border-primary/20 uppercase font-mono tracking-wider text-xs rounded-md px-2 py-0.5">
                 {mission.category}
               </Badge>
               <Badge
                 variant="outline"
-                className="text-zinc-400 border-zinc-700 font-mono text-[10px] rounded-md px-2 py-0.5"
+                className="text-zinc-400 border-zinc-700 font-mono text-xs rounded-md px-2 py-0.5"
               >
                 NIV. {mission.difficulty}
               </Badge>
               {mission.status && (
                 <Badge
                   variant="outline"
-                  className="font-mono text-[10px] rounded-md px-2 py-0.5 border-zinc-700 text-zinc-400"
+                  className="font-mono text-xs rounded-md px-2 py-0.5 border-zinc-700 text-zinc-400"
                 >
                   {mission.status}
                 </Badge>
@@ -150,7 +150,7 @@ export default async function MissionPreviewPage({
           </div>
 
           <div className="shrink-0 flex flex-col items-end justify-start">
-            <div className="text-[10px] font-mono text-zinc-500 uppercase mb-1">
+            <div className="text-xs font-mono text-zinc-500 uppercase mb-1">
               Récompense
             </div>
             <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none">
@@ -165,7 +165,7 @@ export default async function MissionPreviewPage({
         <div className="relative flex flex-wrap gap-6 mt-8">
           <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
             <Clock className="w-3.5 h-3.5 text-primary/40" />
-            <span className="uppercase tracking-wider text-[10px]">
+            <span className="uppercase tracking-wider text-xs">
               Délai Review
             </span>
             <span className="text-zinc-300">~{avgDelay}h</span>
@@ -174,7 +174,7 @@ export default async function MissionPreviewPage({
           {mission.duration && (
             <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
               <Clock className="w-3.5 h-3.5 text-primary/40" />
-              <span className="uppercase tracking-wider text-[10px]">
+              <span className="uppercase tracking-wider text-xs">
                 Durée
               </span>
               <span className="text-zinc-300">{mission.duration}</span>
@@ -183,7 +183,7 @@ export default async function MissionPreviewPage({
 
           <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
             {methodIcon}
-            <span className="uppercase tracking-wider text-[10px]">
+            <span className="uppercase tracking-wider text-xs">
               Méthode
             </span>
             <span className="text-zinc-300">
@@ -193,7 +193,7 @@ export default async function MissionPreviewPage({
 
           <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
             <Layers className="w-3.5 h-3.5 text-primary/40" />
-            <span className="uppercase tracking-wider text-[10px]">
+            <span className="uppercase tracking-wider text-xs">
               Livrables
             </span>
             <span className="text-zinc-300">
@@ -208,7 +208,7 @@ export default async function MissionPreviewPage({
         <div className="space-y-12">
           <section>
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-[10px] font-mono text-primary/40">01</span>
+              <span className="text-xs font-mono text-primary/40">01</span>
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-primary" />
                 <h2 className="text-xs font-mono uppercase text-primary">
@@ -226,7 +226,7 @@ export default async function MissionPreviewPage({
 
           <section>
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-[10px] font-mono text-primary/40">02</span>
+              <span className="text-xs font-mono text-primary/40">02</span>
               <div className="flex items-center gap-2">
                 <Rocket className="w-4 h-4 text-primary" />
                 <h2 className="text-xs font-mono uppercase text-primary">
@@ -274,7 +274,7 @@ export default async function MissionPreviewPage({
             <div className="px-5 py-4 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-primary" />
-                <span className="text-[10px] font-mono uppercase text-zinc-500">
+                <span className="text-xs font-mono uppercase text-zinc-500">
                   Statut de la mission
                 </span>
               </div>
@@ -288,7 +288,7 @@ export default async function MissionPreviewPage({
                   <p className="text-xs font-mono text-zinc-400">
                     Mode aperçu
                   </p>
-                  <p className="text-[10px] text-zinc-600 mt-1">
+                  <p className="text-xs text-zinc-600 mt-1">
                     La soumission n&apos;est pas disponible en mode aperçu
                   </p>
                 </div>
@@ -301,7 +301,7 @@ export default async function MissionPreviewPage({
               <div className="px-5 py-4 border-b border-zinc-800">
                 <div className="flex items-center gap-2">
                   <Lock className="w-4 h-4 text-zinc-500/60" />
-                  <span className="text-[10px] font-mono uppercase text-zinc-500">
+                  <span className="text-xs font-mono uppercase text-zinc-500">
                     Pré-requis
                   </span>
                 </div>

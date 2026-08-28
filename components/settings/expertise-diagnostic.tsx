@@ -97,7 +97,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
                 </div>
                 <div className="space-y-1">
                     <p className="text-sm font-bold text-white tracking-tight">Calibration du profil</p>
-                    <p className="text-[10px] text-zinc-500">Analyse du profil technique en cours...</p>
+                    <p className="text-xs text-zinc-500">Analyse du profil technique en cours...</p>
                 </div>
             </div>
         )
@@ -119,7 +119,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
                         </div>
                         <div className="space-y-6 relative z-[var(--z-content)]">
                             <div className="space-y-2">
-                                <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-semibold normal-case tracking-wide">Diagnostic disponible</Badge>
+                                <Badge className="bg-primary/10 text-primary border-primary/20 text-xs font-semibold normal-case tracking-wide">Diagnostic disponible</Badge>
                                 <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">Définissez votre spécialisation</h3>
                                 <p className="text-zinc-400 text-sm font-light leading-relaxed max-w-lg">
                                     Répondez à 3 questions rapides pour cartographier vos domaines d&apos;expertise et obtenir des suggestions d&apos;outils adaptées à votre profil.
@@ -145,7 +145,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
                         <div className="space-y-2">
                             <div className="flex justify-between items-end">
                                 <span className="text-xs font-semibold text-zinc-400">Question {currentQuestion + 1} sur 3</span>
-                                <span className="text-primary font-mono text-[10px] font-bold">{Math.round(((currentQuestion + 1) / 3) * 100)}%</span>
+                                <span className="text-primary font-mono text-xs font-bold">{Math.round(((currentQuestion + 1) / 3) * 100)}%</span>
                             </div>
                             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
                                 <div className="h-full bg-primary transition-all duration-500" style={{ width: `${((currentQuestion + 1) / 3) * 100}%` }} />
