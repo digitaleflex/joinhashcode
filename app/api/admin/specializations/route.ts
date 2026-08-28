@@ -3,9 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { Prisma } from "@/generated/prisma/client";
 
 const specializationSchema = z.object({
-  id: z.string().min(1),
+  specializationId: z.string().min(1),
   class: z.enum(["BUILDER", "CREATOR", "STRATEGIST", "CATALYST"]),
   name: z.string().min(1),
   description: z.string().min(1),
@@ -48,11 +49,11 @@ export async function POST(req: Request) {
 
     const specialization = await prisma.specialization.create({
       data: {
-        id: validatedData.id,
+        specializationId: validatedData.specializationId,
         class: validatedData.class,
         name: validatedData.name,
         description: validatedData.description,
-        missions: validatedData.missions as any,
+        missions: validatedData.missions as Prisma.JsonNullValueInput | Prisma.InputJsonValue,
         order: (maxOrder?.order ?? -1) + 1,
       },
     });

@@ -2,6 +2,7 @@ import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { adminOpsLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function GET(req: Request) {
   const admin = await checkAdmin();
@@ -246,17 +247,17 @@ async function getProfileStats() {
     quizResults,
     vibrancyData,
   ] = await Promise.all([
-    prisma.quizResult.groupBy({ by: ["profileType"], _count: true }),
+    prisma.quizResult.groupBy({ by: ["profileType"], _count: { _all: true } }),
     prisma.user.findMany({
-      where: { behavioralVibrancy: { not: null } },
+      where: { behavioralVibrancy: { not: Prisma.DbNull } },
       select: { behavioralVibrancy: true, class: true },
     }),
   ]);
 
-  const totalQuizzes = quizResults.reduce((a, b) => a + b._count.profileType, 0);
+  const totalQuizzes = quizResults.reduce((a, b) => a + b._count._all, 0);
 
   const profileDistribution = ["builder", "creator", "strategist", "catalyst"].map((p) => {
-    const count = quizResults.find((q) => q.profileType === p)?._count.profileType ?? 0;
+    const count = quizResults.find((q) => q.profileType === p)?._count._all ?? 0;
     return { profile: p, count, percentage: totalQuizzes > 0 ? Math.round((count / totalQuizzes) * 100) : 0 };
   });
 
@@ -268,10 +269,10 @@ async function getFunnelStats(startDate: Date, endDate: Date) {
     { stage: "landing", action: "USER_SIGNUP" as const },
     { stage: "signin", action: "USER_SIGNIN" as const },
     { stage: "quiz", model: "quizResult" as const },
-    { stage: "profile_choice", condition: { class: { not: null } } as const },
+    { stage: "profile_choice", condition: { class: { not: null } } as { class: { not: null } } },
     { stage: "orientation", action: "POST_QUIZ_COMPLETED" as const },
-    { stage: "first_atelier", condition: { status: { in: ["SUBMITTED", "APPROVED"] }, mission: { isOnboarding: true } } as const },
-    { stage: "first_evidence", condition: { status: "APPROVED", mission: { isOnboarding: true } } as const },
+    { stage: "first_atelier", condition: { status: { in: ["SUBMITTED", "APPROVED"] as const }, mission: { isOnboarding: true } } as { status: { in: readonly ["SUBMITTED", "APPROVED"] }; mission: { isOnboarding: true } } },
+    { stage: "first_evidence", condition: { status: "APPROVED", mission: { isOnboarding: true } } as { status: "APPROVED"; mission: { isOnboarding: true } } },
   ];
 
   const counts: Record<string, number> = {};
@@ -288,15 +289,15 @@ async function getFunnelStats(startDate: Date, endDate: Date) {
     } else if ("condition" in s) {
       if (s.stage === "profile_choice") {
         counts[s.stage] = await prisma.user.count({
-          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } } as Prisma.UserWhereInput,
         });
       } else if (s.stage === "first_atelier") {
         counts[s.stage] = await prisma.missionAttempt.count({
-          where: { ...s.condition, submittedAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, submittedAt: { gte: startDate, lte: endDate } } as Prisma.MissionAttemptWhereInput,
         });
       } else if (s.stage === "first_evidence") {
         counts[s.stage] = await prisma.missionSubmission.count({
-          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } } as Prisma.MissionSubmissionWhereInput,
         });
       }
     }

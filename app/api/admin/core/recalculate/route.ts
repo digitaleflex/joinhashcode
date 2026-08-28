@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
 import { updateUserEvolution } from "@/lib/evolution-engine";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function POST(req: Request) {
   const admin = await checkAdmin();
@@ -14,12 +15,12 @@ export async function POST(req: Request) {
     let users;
     if (scope === "unassigned") {
       users = await prisma.user.findMany({
-        where: { class: null, behavioralVibrancy: { not: null } },
+        where: { class: null, behavioralVibrancy: { not: Prisma.DbNull } },
         select: { id: true, behavioralVibrancy: true },
       });
     } else {
       users = await prisma.user.findMany({
-        where: { behavioralVibrancy: { not: null } },
+        where: { behavioralVibrancy: { not: Prisma.DbNull } },
         select: { id: true, behavioralVibrancy: true },
       });
     }

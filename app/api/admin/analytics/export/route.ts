@@ -2,6 +2,7 @@ import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { formatYYYYMMDD } from "@/lib/dates";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function GET(req: Request) {
   const admin = await checkAdmin();
@@ -53,7 +54,7 @@ export async function GET(req: Request) {
   }
 }
 
-function escapeCSV(value: string | number | Date | null | undefined): string {
+function escapeCSV(value: string | number | boolean | Date | null | undefined): string {
   if (value === null || value === undefined) return "";
   const str = value instanceof Date ? value.toISOString() : String(value);
   if (str.includes(",") || str.includes('"') || str.includes("\n")) {
@@ -186,10 +187,10 @@ async function exportFunnelCsv(startDate: Date, endDate: Date): Promise<string> 
     { stage: "landing", action: "USER_SIGNUP" as const },
     { stage: "signin", action: "USER_SIGNIN" as const },
     { stage: "quiz", model: "quizResult" as const },
-    { stage: "profile_choice", condition: { class: { not: null } } as const },
+    { stage: "profile_choice", condition: { class: { not: null } } as { class: { not: null } } },
     { stage: "orientation", action: "POST_QUIZ_COMPLETED" as const },
-    { stage: "first_atelier", condition: { status: { in: ["SUBMITTED", "APPROVED"] }, mission: { isOnboarding: true } } as const },
-    { stage: "first_evidence", condition: { status: "APPROVED", mission: { isOnboarding: true } } as const },
+    { stage: "first_atelier", condition: { status: { in: ["SUBMITTED", "APPROVED"] as const }, mission: { isOnboarding: true } } as { status: { in: readonly ["SUBMITTED", "APPROVED"] }; mission: { isOnboarding: true } } },
+    { stage: "first_evidence", condition: { status: "APPROVED", mission: { isOnboarding: true } } as { status: "APPROVED"; mission: { isOnboarding: true } } },
   ];
 
   const counts: Record<string, number> = {};
@@ -206,15 +207,15 @@ async function exportFunnelCsv(startDate: Date, endDate: Date): Promise<string> 
     } else if ("condition" in s) {
       if (s.stage === "profile_choice") {
         counts[s.stage] = await prisma.user.count({
-          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } } as Prisma.UserWhereInput,
         });
       } else if (s.stage === "first_atelier") {
         counts[s.stage] = await prisma.missionAttempt.count({
-          where: { ...s.condition, submittedAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, submittedAt: { gte: startDate, lte: endDate } } as Prisma.MissionAttemptWhereInput,
         });
       } else if (s.stage === "first_evidence") {
         counts[s.stage] = await prisma.missionSubmission.count({
-          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } },
+          where: { ...s.condition, createdAt: { gte: startDate, lte: endDate } } as Prisma.MissionSubmissionWhereInput,
         });
       }
     }

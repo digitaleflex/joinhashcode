@@ -1,6 +1,7 @@
 import { checkAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function GET() {
   const admin = await checkAdmin();
@@ -20,7 +21,7 @@ export async function GET() {
         where: { class: { not: null } },
       }),
       prisma.user.findMany({
-        where: { behavioralVibrancy: { not: null } },
+        where: { behavioralVibrancy: { not: Prisma.DbNull } },
         select: { behavioralVibrancy: true, class: true },
       }),
       prisma.user.findMany({
