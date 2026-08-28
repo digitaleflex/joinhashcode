@@ -62,7 +62,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
       domains: true,
       tools: true,
       badges: true,
-      profile: { select: { bio: true } },
+      bio: true,
       currentSituation: true,
       technicalLevel: true,
       mainObjective: true,
@@ -81,7 +81,8 @@ export default async function DossierPage({ searchParams }: PageProps) {
       referralCount: true,
       quizResults: {
         orderBy: { createdAt: 'desc' },
-        take: 1
+        take: 1,
+        select: { profileType: true, createdAt: true },
       },
       missionSubmissions: {
         orderBy: { createdAt: 'desc' },
@@ -117,7 +118,43 @@ export default async function DossierPage({ searchParams }: PageProps) {
         }
       }
     },
-  });
+  }) as {
+    id: string;
+    name: string;
+    email: string;
+    image: string | null;
+    class: string | null;
+    behavioralVibrancy: unknown;
+    pseudo: string | null;
+    role: string;
+    language: string;
+    memberNumber: number;
+    createdAt: Date;
+    domains: string[];
+    tools: string[];
+    badges: string[];
+    bio: string | null;
+    currentSituation: string | null;
+    technicalLevel: string | null;
+    mainObjective: string | null;
+    country: string | null;
+    city: string | null;
+    builderScore: number;
+    creatorScore: number;
+    strategistScore: number;
+    catalystScore: number;
+    lastCheckinAt: Date | null;
+    currentStreak: number;
+    level: number;
+    experience: number;
+    missionsCompletedCount: number;
+    referralCode: string | null;
+    referralCount: number;
+    quizResults: { createdAt: Date }[];
+    missionSubmissions: any[];
+    activityLogs: { id: string; action: string; createdAt: Date }[];
+    members: { organization: { slug: string; name: string; members: { userId: string; user: { id: string; name: string; pseudo: string; image: string | null; class: string | null; level: number } }[] } }[];
+  };
 
   if (!dbUser) return null;
 
@@ -128,7 +165,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
 
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
-    bio: dbUser.profile?.bio,
+    bio: dbUser.bio,
     level: dbUser.level ?? 1,
     experience: dbUser.experience ?? 0,
     missionsCompletedCount: dbUser.missionsCompletedCount ?? 0,
@@ -146,7 +183,7 @@ export default async function DossierPage({ searchParams }: PageProps) {
   };
 
   const activeOrg = dbUser.members[0]?.organization ?? null;
-  const quizResult = dbUser.quizResults?.[0];
+  const quizResult = dbUser.quizResults?.[0] as { profileType?: string | null; createdAt: Date } | undefined;
 
   // Fetch squad activity logs if in a squad
   let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];

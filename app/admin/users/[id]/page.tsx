@@ -39,8 +39,6 @@ export default async function UserDossierPage({ params }: PageProps) {
   const user = await prisma.user.findUnique({
     where: { id },
     include: {
-      profile: true,
-      beta: true,
       quizResults: {
         orderBy: { createdAt: 'desc' },
         take: 1
@@ -322,13 +320,13 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
 
               {/* Objectifs Secondaires */}
-              {user.profile?.secondaryObjectives && user.profile.secondaryObjectives.length > 0 && (
+              {user?.secondaryObjectives && user.secondaryObjectives.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-xs font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <BookOpen className="h-3 w-3 text-zinc-600" /> Objectifs Secondaires
                   </p>
                   <div className="flex flex-wrap gap-1.5 pl-4">
-                    {user.profile!.secondaryObjectives.map((obj) => (
+                    {user!.secondaryObjectives.map((obj) => (
                       <Badge key={obj} variant="secondary" className="text-xs bg-zinc-800 text-zinc-300 border-white/5 font-normal">
                         {obj}
                       </Badge>
@@ -338,25 +336,25 @@ export default async function UserDossierPage({ params }: PageProps) {
               )}
 
               {/* Principal Obstacle */}
-              {user.profile?.mainBlocker && (
+              {user?.mainBlocker && (
                 <div className="space-y-1">
                   <p className="text-xs font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <AlertCircle className="h-3 w-3 text-zinc-600" /> Obstacle Principal
                   </p>
                   <p className="text-sm text-zinc-200 font-medium pl-4">
-                    {blockerLabels[user.profile!.mainBlocker] || user.profile!.mainBlocker}
+                    {blockerLabels[user!.mainBlocker] || user!.mainBlocker}
                   </p>
                 </div>
               )}
 
               {/* Domaines de Focus */}
-              {user.profile?.currentFocus && user.profile.currentFocus.length > 0 && (
+              {user?.currentFocus && user.currentFocus.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-xs font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                     <Layers className="h-3 w-3 text-zinc-600" /> Domaines de Focus
                   </p>
                   <div className="flex flex-wrap gap-1.5 pl-4">
-                    {user.profile!.currentFocus.map((foc) => (
+                    {user!.currentFocus.map((foc) => (
                       <Badge key={foc} variant="outline" className="text-xs bg-primary/5 text-primary border-primary/20 font-mono uppercase tracking-wider font-bold">
                         {focusLabels[foc] || foc}
                       </Badge>
@@ -366,13 +364,13 @@ export default async function UserDossierPage({ params }: PageProps) {
               )}
 
               {/* Rêve à 12 Mois */}
-              {user.profile?.dreamStatement && (
+              {user?.dreamStatement && (
                 <div className="space-y-2 pt-2 border-t border-white/5">
                     <p className="text-xs font-mono text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
                       <Sparkles className="h-3 w-3 text-zinc-600" /> Rêve à 12 Mois
                     </p>
                     <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 relative overflow-hidden italic text-xs text-zinc-400 font-light leading-relaxed pl-4">
-                      &ldquo;{user.profile!.dreamStatement}&rdquo;
+                      &ldquo;{user!.dreamStatement}&rdquo;
                   </div>
                 </div>
               )}

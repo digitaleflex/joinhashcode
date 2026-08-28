@@ -195,7 +195,7 @@ export default function NewInterventionPage() {
                 <Label htmlFor="location" className="text-sm font-medium text-zinc-300">
                   Type de lieu *
                 </Label>
-                <Select value={formData.location} onValueChange={handleChange}>
+                <Select value={formData.location} onValueChange={(v) => setFormData({ ...formData, location: v })}>
                   <SelectTrigger className="bg-zinc-900 border-zinc-800">
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
@@ -276,7 +276,7 @@ export default function NewInterventionPage() {
             <Label htmlFor="status" className="text-sm font-medium text-zinc-300">
               Statut initial
             </Label>
-            <Select value={formData.status} onValueChange={handleChange}>
+            <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v })}>
               <SelectTrigger className="bg-zinc-900 border-zinc-800">
                 <SelectValue placeholder="Sélectionner" />
               </SelectTrigger>

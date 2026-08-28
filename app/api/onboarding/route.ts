@@ -49,12 +49,7 @@ export async function PATCH(req: Request) {
       where: { id: session.user.id },
       data: {
         ...parsed.data,
-        profile: {
-          upsert: {
-            create: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
-            update: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
-          }
-        }
+        secondaryObjectives: parsed.data.secondaryObjectives || [],
       },
       select: {
         id: true,
@@ -67,7 +62,7 @@ export async function PATCH(req: Request) {
         mainObjective: true,
         language: true,
         updatedAt: true,
-        profile: { select: { secondaryObjectives: true } },
+        secondaryObjectives: true,
       }
     }).catch((err: unknown) => {
       if (err instanceof Error && (err as { code?: string }).code === "P2002" && (err as { meta?: { target?: string[] } }).meta?.target?.includes("pseudo")) {
@@ -146,10 +141,9 @@ export async function PATCH(req: Request) {
 
     await invalidateUserCache(session.user.id);
 
-    const { profile, ...userBase } = updatedUser;
     return NextResponse.json({
-      ...userBase,
-      secondaryObjectives: profile?.secondaryObjectives ?? [],
+      ...updatedUser,
+      secondaryObjectives: updatedUser.secondaryObjectives ?? [],
     });
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "PSEUDO_TAKEN") {

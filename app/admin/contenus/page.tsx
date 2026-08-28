@@ -77,7 +77,7 @@ export default function AdminContenusPage() {
     title: "",
     duration: "45 min",
     description: "",
-    profile: "builder" as const,
+    profile: "builder" as "builder" | "creator" | "strategist" | "catalyst",
     specializationId: "",
     specializationLabel: "",
     order: 0,
@@ -91,7 +91,7 @@ export default function AdminContenusPage() {
   const [profileDialogOpen, setProfileDialogOpen] = useState(false);
   const [editingProfile, setEditingProfile] = useState<ProfileContent | null>(null);
   const [profileForm, setProfileForm] = useState({
-    profile: "builder" as const,
+    profile: "builder" as "builder" | "creator" | "strategist" | "catalyst",
     pain: "",
     painBold: "",
     truths: [{ icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }],
@@ -290,7 +290,7 @@ export default function AdminContenusPage() {
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "profiles" | "ateliers")} className="space-y-6">
         <TabsList className="grid w-full grid-cols-2 bg-zinc-900/50 border border-zinc-800">
           <TabsTrigger value="ateliers" className="font-mono text-xs">
             <BookOpen className="h-4 w-4 mr-2" />
@@ -496,7 +496,7 @@ export default function AdminContenusPage() {
               </div>
               <div className="space-y-2">
                 <Label className="font-mono text-xs">Profil *</Label>
-                <Select value={atelierForm.profile} onValueChange={setAtelierForm}>
+                <Select value={atelierForm.profile} onValueChange={(v) => setAtelierForm({ ...atelierForm, profile: v as "builder" | "creator" | "strategist" | "catalyst" })}>
                   <SelectTrigger className="font-mono text-xs">
                     <SelectValue />
                   </SelectTrigger>

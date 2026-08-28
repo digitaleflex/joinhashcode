@@ -29,7 +29,7 @@ export default async function TalentsPage() {
       role: true,
       createdAt: true,
       memberNumber: true,
-      profile: { select: { bio: true } },
+      bio: true,
       tools: true,
       domains: true,
       country: true,
@@ -57,20 +57,57 @@ export default async function TalentsPage() {
   if (!dbSessionUser) return null
 
   const sessionUser: UserProfile = {
-    ...dbSessionUser,
-    bio: dbSessionUser.profile?.bio,
-    level: dbSessionUser.level ?? 1,
+    id: dbSessionUser.id,
+    name: dbSessionUser.name,
+    pseudo: dbSessionUser.pseudo,
+    email: dbSessionUser.email,
+    image: dbSessionUser.image,
+    role: dbSessionUser.role,
+    country: dbSessionUser.country ?? null,
+    city: dbSessionUser.city ?? null,
+    language: dbSessionUser.language,
+    currentSituation: null,
+    technicalLevel: null,
+    domains: dbSessionUser.domains ?? [],
+    tools: dbSessionUser.tools ?? [],
+    githubUrl: null,
+    portfolioUrl: null,
+    linkedinUrl: null,
+    twitterUrl: null,
+    mainObjective: null,
+    primaryDomain: null,
+    subDomain: null,
+    learningTools: [],
+    practiceMode: null,
+    certifications: [],
+    specializationAt: null,
+    class: dbSessionUser.class,
     experience: dbSessionUser.experience ?? 0,
+    level: dbSessionUser.level ?? 1,
     missionsCompletedCount: dbSessionUser.missionsCompletedCount ?? 0,
-    referralCount: dbSessionUser.referralCount ?? 0,
     builderScore: dbSessionUser.builderScore ?? 0,
     creatorScore: dbSessionUser.creatorScore ?? 0,
     strategistScore: dbSessionUser.strategistScore ?? 0,
     catalystScore: dbSessionUser.catalystScore ?? 0,
+    j7Activated: false,
+    behavioralVibrancy: null,
     lastCheckin: dbSessionUser.lastCheckinAt ?? null,
     currentStreak: dbSessionUser.currentStreak ?? 0,
-    j7Activated: false,
-  }
+    memberNumber: dbSessionUser.memberNumber ?? 0,
+    createdAt: dbSessionUser.createdAt,
+    referralCode: null,
+    referralCount: dbSessionUser.referralCount ?? 0,
+    betaKeyId: null,
+    twoFactorEnabled: false,
+    badges: dbSessionUser.badges ?? [],
+    bio: dbSessionUser.bio ?? null,
+    secondaryObjectives: [],
+    currentFocus: [],
+    dreamStatement: null,
+    mainBlocker: null,
+    members: dbSessionUser.members as unknown as UserProfile['members'],
+    quizResults: [],
+  };
 
   const activeOrg = dbSessionUser.members[0]?.organization ?? null
 
@@ -137,7 +174,7 @@ export default async function TalentsPage() {
       class: true,
       city: true,
       country: true,
-      profile: { select: { bio: true } },
+      bio: true,
       tools: true,
       builderScore: true,
       creatorScore: true,
@@ -149,11 +186,31 @@ export default async function TalentsPage() {
       members: { select: { id: true } },
     },
     orderBy: [{ experience: "desc" }, { level: "desc" }],
-  })
+  }) as unknown as Array<{
+    id: string;
+    name: string;
+    pseudo: string | null;
+    image: string | null;
+    class: string | null;
+    city: string | null;
+    country: string | null;
+    bio: string | null;
+    tools: string[];
+    domains: string[];
+    builderScore: number;
+    creatorScore: number;
+    strategistScore: number;
+    catalystScore: number;
+    level: number;
+    experience: number;
+    missionsCompletedCount: number;
+    referralCount: number;
+    members: { organization: { members: { userId: string }[] } }[];
+  }>
 
   const talents = talentsRaw.map((t) => ({
     ...t,
-    bio: t.profile?.bio ?? null,
+    bio: t.bio ?? null,
     tools: t.tools ?? [],
     level: t.level ?? 1,
     experience: t.experience ?? 0,

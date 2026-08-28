@@ -68,7 +68,7 @@ export default async function NotificationsPage() {
         mainObjective: true,
         country: true,
         city: true,
-        profile: { select: { bio: true } },
+        bio: true,
         members: {
           take: 1,
           include: {
@@ -111,7 +111,7 @@ export default async function NotificationsPage() {
       domains: userData.domains || [],
       tools: userData.tools || [],
       badges: userData.badges || [],
-      bio: userData.profile?.bio,
+      bio: userData.bio,
       currentSituation: userData.currentSituation,
       technicalLevel: userData.technicalLevel,
       mainObjective: userData.mainObjective,

@@ -122,7 +122,7 @@ export default function AdminParcoursPage() {
   const [editingSpec, setEditingSpec] = useState<Specialization | null>(null);
   const [specForm, setSpecForm] = useState({
     specializationId: "",
-    class: "BUILDER" as const,
+    class: "BUILDER" as "BUILDER" | "CREATOR" | "STRATEGIST" | "CATALYST",
     name: "",
     description: "",
     missions: [] as SpecializationMission[],
@@ -191,7 +191,7 @@ export default function AdminParcoursPage() {
       const missions = specForm.missions.map((m, i) => ({
         ...m,
         order: i,
-        prerequisites: m.prerequisites.split(",").map((p: string) => p.trim()).filter(Boolean),
+        prerequisites: m.prerequisites,
       }));
 
       const res = await fetch(url, {
@@ -242,7 +242,7 @@ export default function AdminParcoursPage() {
       description: spec.description,
       missions: spec.missions.map((m) => ({
         ...m,
-        prerequisites: m.prerequisites.join(", "),
+        prerequisites: m.prerequisites,
       })),
       order: spec.order,
       isActive: spec.isActive,
@@ -322,7 +322,7 @@ export default function AdminParcoursPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <Tabs value={activeClass} onValueChange={setActiveClass} className="flex gap-1 bg-zinc-900/50 border border-zinc-800 rounded-lg p-1">
+          <Tabs value={activeClass} onValueChange={(v) => setActiveClass(v as "BUILDER" | "CREATOR" | "STRATEGIST" | "CATALYST")} className="flex gap-1 bg-zinc-900/50 border border-zinc-800 rounded-lg p-1">
             {(["BUILDER", "CREATOR", "STRATEGIST", "CATALYST"] as const).map((cls) => (
               <TabsTrigger
                 key={cls}

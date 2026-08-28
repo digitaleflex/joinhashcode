@@ -138,6 +138,8 @@ export interface UserProfile {
   currentFocus?: string[];
   dreamStatement?: string | null;
   mainBlocker?: string | null;
+  members?: { organization: { slug: string; name: string; members: { user: { id: string; name: string; pseudo: string; image: string | null; class: string | null } }[] } }[];
+  quizResults?: { createdAt: Date }[];
 }
 
 export interface DetailedMissionSubmission {

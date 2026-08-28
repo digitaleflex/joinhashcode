@@ -95,11 +95,11 @@ export default function AdminSubmissionsPage() {
         setCheckedCriteria({})
       } else {
         const err = await res.text()
-        toast({ title: "Erreur", description: err, variant: "destructive" })
+        toast({ title: "Erreur", description: err })
       }
     } catch (e) {
       console.error(e)
-      toast({ title: "Erreur réseau", variant: "destructive" })
+      toast({ title: "Erreur réseau" })
     } finally {
       setProcessingId(null)
     }
