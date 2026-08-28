@@ -67,10 +67,10 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-lg bg-zinc-950 border-l border-white/5 overflow-y-auto scrollbar-none p-0"
+        className="w-full sm:max-w-2xl bg-zinc-950 border-l border-white/5 overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="sticky top-0 z-[var(--z-content)] bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
+        <div className="shrink-0 bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2 flex-1 min-w-0">
               {/* Badges */}
@@ -158,7 +158,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
         </div>
 
         {/* Corps */}
-        <div className="p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto scrollbar-none p-6 space-y-6">
           {/* Description courte */}
           <p className="text-sm text-zinc-400 font-light leading-relaxed">
             {mission.shortDesc || mission.description}
@@ -182,16 +182,18 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
           {/* Briefing complet si disponible */}
           {(mission.fullBriefing || mission.description) && (
             <div className="space-y-2">
-              <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest">Briefing</p>
-              <div className="prose-sm max-h-60 overflow-y-auto scrollbar-none">
-                <MissionBriefing content={(mission.fullBriefing ?? mission.description) ?? ""} />
-              </div>
+              <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest sticky top-0 bg-zinc-950/95 backdrop-blur-sm py-2 z-10 -mx-6 px-6">Briefing</p>
+              <MissionBriefing
+                content={(mission.fullBriefing ?? mission.description) ?? ""}
+                showToc={true}
+                showProgress={true}
+              />
             </div>
           )}
         </div>
 
         {/* Footer avec CTA */}
-        <div className="sticky bottom-0 bg-zinc-950/95 backdrop-blur-xl border-t border-white/5 p-6">
+        <div className="shrink-0 bg-zinc-950/95 backdrop-blur-xl border-t border-white/5 p-6">
           {isLocked ? (
             <div className="flex items-center gap-3 p-4 bg-zinc-900/60 rounded-2xl border border-white/5">
               <Lock className="size-4 text-zinc-600 shrink-0" />
