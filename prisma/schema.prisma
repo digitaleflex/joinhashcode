@@ -63,6 +63,7 @@ model User {
   referralCode           String?   @unique
   referralCount          Int       @default(0)
   referrerId             String?
+  j7Activated            Boolean   @default(false)
   githubUrl              String?
   portfolioUrl           String?
   linkedinUrl            String?
@@ -113,6 +114,8 @@ model User {
   @@index([class])
   @@index([role])
   @@index([createdAt])
+  @@index([class, role])
+  @@index([createdAt, class])
   @@map("user")
 }
 

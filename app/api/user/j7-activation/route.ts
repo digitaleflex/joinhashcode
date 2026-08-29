@@ -36,6 +36,10 @@ export async function GET() {
     // Le seuil J+7 : >= 3 des 5 sous-missions validées dans les 7 jours
     const j7Activated = validatedSubmissions >= 3 && isWithinJ7Window;
 
+    if (j7Activated) {
+      prisma.user.update({ where: { id: userId }, data: { j7Activated: true } }).catch(() => {});
+    }
+
     return NextResponse.json({ j7Activated });
   } catch (error) {
     console.error("[J7-ACTIVATION]", error);
