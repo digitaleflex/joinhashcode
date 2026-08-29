@@ -12,6 +12,15 @@ export async function PATCH(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { deactivatedAt: true },
+  });
+
+  if (!user?.deactivatedAt) {
+    return NextResponse.json({ message: "Compte déjà actif" }, { status: 409 });
+  }
+
   const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id);
   if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie demain." }, { status: 429 });
 

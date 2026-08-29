@@ -86,10 +86,6 @@ export async function POST(req: Request) {
 
     await invalidateUserCache(session.user.id);
 
-    const mockRequest = {
-      headers: req.headers,
-    } as unknown as Request;
-
     logActivity({
       userId: session.user.id,
       action: "QUIZ_RETRY_INITIATED",
@@ -105,7 +101,7 @@ export async function POST(req: Request) {
           catalyst: user.catalystScore,
         },
       },
-      request: mockRequest,
+      request: req,
     });
 
     return NextResponse.json({
