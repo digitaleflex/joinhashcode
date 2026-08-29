@@ -63,7 +63,7 @@ model User {
   referralCode           String?   @unique
   referralCount          Int       @default(0)
   referrerId             String?
-  j7Activated            Boolean   @default(false)
+  j7Activated            Boolean   @default(false) @map("j7_activated")
   githubUrl              String?
   portfolioUrl           String?
   linkedinUrl            String?
