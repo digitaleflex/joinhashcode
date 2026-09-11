@@ -165,7 +165,8 @@ model User {
   level                Int       @default(1)
   experience           Int       @default(0)
   missionsCompletedCount Int     @default(0)
-  currentStreak        Int       @default(0)
+  reviewsCompleted     Int      @default(0)
+  currentStreak       Int      @default(0)
   longestStreak        Int       @default(0)
   lastCheckinAt        DateTime?
   lastStreakDate       DateTime?
