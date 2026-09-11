@@ -44,12 +44,12 @@
 | 0.9 | Routes shell /acquisition + /academy | 11/09 | Commit `2172861` |
 | 0.10 | Audit code community complet | 11/09 | Score 5.2/10, 10/18 admin OK |
 | **0.11** | **Unifier schema Prisma** | 11/09 | Commit `3e85688` — 24→61 models, `prisma validate` ✅, `tsc` ✅ |
+| **0.12** | **Migration Prisma + seed** | 11/09 | DB `hashcode_dev` opérationnelle, `prisma db push` ✅, seed ✅, `tsc` ✅ |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.12 | Migration Prisma + seed | 🔴 HAUTE | 🔴 | `prisma db push` + seed |
 | 0.13 | Pointer les models auth (better-auth) vers les nouveaux | 🔴 HAUTE | 🟠 | Session/Account/Verification peuvent changer |
 | 0.14 | Config better-auth cross-domain | 🟠 MOYENNE | 🟠 | `cookies.parentDomain: joinhashcode.com` |
 
