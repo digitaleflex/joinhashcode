@@ -38,6 +38,14 @@ const buildTrustedOrigins = () => {
     } catch {}
   }
 
+  // Trust the reboot funnel subdomain (acquisition) — cross-domain sessions
+  const rebootUrl = process.env.NEXT_PUBLIC_REBOOT_URL;
+  if (rebootUrl) {
+    try {
+      origins.add(new URL(rebootUrl).origin);
+    } catch {}
+  }
+
   return Array.from(origins);
 };
 
@@ -271,6 +279,10 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true, // Prevents JS access to session cookies (XSS mitigation)
     },
+    // Cross-domain sessions: reboot.joinhashcode.com → joinhashcode.com
+    ...(process.env.NODE_ENV === "production"
+      ? { parentDomain: ".joinhashcode.com" }
+      : {}),
   },
   rateLimit: {
     enabled: true,
