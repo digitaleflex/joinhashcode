@@ -4,14 +4,17 @@
  * Can be easily connected to PostHog, Umami, or Google Analytics.
  */
 
+import { logError, logInfo } from "./logger"
+import type { Prisma } from "@/generated/prisma/client";
+
 export async function trackEvent(
   userId: string,
   event: string,
   properties: Record<string, unknown> = {}
 ) {
-  // 1. Console logging for development
+  // 1. Structured logging for development
   if (process.env.NODE_ENV !== "production") {
-    console.log(`[ANALYTICS] User ${userId}: ${event}`, properties);
+    logInfo("Analytics", `User ${userId}: ${event}`, { properties } as Record<string, Prisma.InputJsonValue>);
   }
 
   // 2. Integration with External Service (e.g. PostHog)
@@ -35,9 +38,9 @@ export async function trackEvent(
           timestamp: new Date().toISOString()
         }),
       });
-    } catch (error: unknown) {
-      console.error("[ANALYTICS_CAPTURE_FAILED]", error);
-    }
+     } catch (error: unknown) {
+       logError("Analytics Capture", error);
+     }
   }
 }
 

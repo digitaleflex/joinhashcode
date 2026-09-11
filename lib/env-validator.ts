@@ -1,3 +1,5 @@
+import { logError, logInfo } from "./logger";
+
 const CRITICAL_ENV_VARS = [
   "BETTER_AUTH_SECRET",
   "DATABASE_URL",
@@ -22,15 +24,11 @@ export function validateEnv() {
   }
 
   if (missing.length > 0) {
-    console.error("")
-    console.error("🔴 [ENV] Variables d'environnement critiques manquantes :")
     for (const name of missing) {
-      console.error(`  - ${name}`)
+      logError("Env Validator", `Variable manquante: ${name}`);
     }
-    console.error("🔴 [ENV] Le processus va s'arrêter.")
-    console.error("")
     throw new Error(`Variables d'environnement manquantes : ${missing.join(", ")}`)
   }
 
-  console.log("🟢 [ENV] Toutes les variables critiques sont présentes.")
+  logInfo("Env Validator", "Toutes les variables critiques sont présentes.")
 }

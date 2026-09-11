@@ -28,8 +28,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { type SquadData } from "@/components/dashboard/squad-journey";
+import { type UserProfile } from "@/lib/types";
 
-export function SquadLobby({ user, squad }: { user: any, squad: any }) {
+export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadData | null }) {
     const router = useRouter()
     const [isCopying, setIsLocked] = useState(false)
     const [isCreating, setIsCreating] = useState(false)
@@ -42,8 +44,8 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
     const memberCount = members.length
     const slots = [0, 1, 2, 3, 4] // 5 slots total
 
-    // Find current user membership
-    const currentUserMember = members.find((m: any) => m.userId === user.id)
+     // Find current user membership
+     const currentUserMember = members.find((m) => m.userId === user.id)
     const isOwner = currentUserMember?.role === "owner"
 
     // Neuromarketing: Progress-based visual state
@@ -69,9 +71,8 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
             }
             toast.success("Escouade créée avec succès !")
             router.refresh()
-        } catch (error: any) {
-            toast.error(error.message || "Erreur lors de la création de l'escouade.")
-            console.error(error)
+        } catch (error: unknown) {
+            toast.error(error instanceof Error ? error.message : "Erreur lors de la création de l'escouade.")
         } finally {
             setIsCreating(false)
         }
@@ -126,16 +127,16 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                         <MemberList members={members} currentUserId={user.id} />
                                     </TabsContent>
                                     <TabsContent value="journal" className="mt-6">
-                                        <SquadActivityFeed organizationId={squad.id} />
+                                         <SquadActivityFeed organizationId={squad?.id || ""} />
                                     </TabsContent>
                                     <TabsContent value="requests" className="mt-6">
-                                        <JoinRequestsManager organizationId={squad.id} />
+                                         <JoinRequestsManager organizationId={squad?.id || ""} />
                                     </TabsContent>
                                     <TabsContent value="invite" className="mt-6">
                                         <InviteMemberForm />
                                     </TabsContent>
                                     <TabsContent value="settings" className="mt-6">
-                                        <OrgSettingsForm organization={squad} />
+                                         <OrgSettingsForm organization={squad!} />
                                     </TabsContent>
                                 </Tabs>
                             </DialogContent>
@@ -191,10 +192,10 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                         </div>
                                         <div className="text-center">
                                             <div className="text-base font-bold text-white uppercase tracking-tight italic truncate max-w-30">
-                                                {member.user.pseudo || member.user.name.split(" ")[0]}
+                                                 {member.user?.pseudo || member.user?.name?.split(" ")[0] || "?"}
                                             </div>
                                             <div className="text-[9px] font-mono text-primary/70 uppercase tracking-wider mt-1 font-bold">
-                                                {member.user.class || "Agent_Core"}
+                                                 {member.user?.class || "Agent_Core"}
                                             </div>
                                         </div>
                                     </>
@@ -305,7 +306,7 @@ export function SquadLobby({ user, squad }: { user: any, squad: any }) {
                                     </div>
                                     <span className="text-[10px] font-bold text-primary">{Math.round((squad.cohesionScore || 0.1) * 100)}%</span>
                                 </div>
-                                {squad.streakCount > 0 && (
+                                 {squad?.streakCount && squad.streakCount > 0 && (
                                     <div className="mt-2 flex items-center gap-2 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                                         <Zap className="size-3 text-primary fill-primary" />
                                         <span className="text-[10px] font-bold text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>

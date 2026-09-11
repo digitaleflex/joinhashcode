@@ -1,5 +1,6 @@
 import { prisma } from "./prisma";
 import { awardXp } from "./experience";
+import { logError, logInfo } from "./logger";
 
 const MIN_DAYS_BEFORE_REWARD = 7
 const MIN_CHECKINS_BEFORE_REWARD = 3
@@ -25,19 +26,19 @@ export async function processReferralReward(newUserId: string) {
 
     // Anti-fraud: minimum account age
     const accountAgeDays = (Date.now() - user.createdAt.getTime()) / (1000 * 60 * 60 * 24)
-    if (accountAgeDays < MIN_DAYS_BEFORE_REWARD) {
-      console.log(`[REFERRAL_DEFERRED] ${newUserId} account age ${accountAgeDays.toFixed(1)}d < ${MIN_DAYS_BEFORE_REWARD}d`)
-      return
-    }
+     if (accountAgeDays < MIN_DAYS_BEFORE_REWARD) {
+       logInfo("Referral Deferred", `${newUserId} account age ${accountAgeDays.toFixed(1)}d < ${MIN_DAYS_BEFORE_REWARD}d`);
+       return
+     }
 
     // Anti-fraud: minimum check-ins
     const checkinCount = await prisma.dailyCheckin.count({
       where: { userId: newUserId },
     })
-    if (checkinCount < MIN_CHECKINS_BEFORE_REWARD) {
-      console.log(`[REFERRAL_DEFERRED] ${newUserId} check-ins ${checkinCount} < ${MIN_CHECKINS_BEFORE_REWARD}`)
-      return
-    }
+     if (checkinCount < MIN_CHECKINS_BEFORE_REWARD) {
+       logInfo("Referral Deferred", `${newUserId} check-ins ${checkinCount} < ${MIN_CHECKINS_BEFORE_REWARD}`);
+       return
+     }
 
     const rewardXp = 50;
 
@@ -74,8 +75,8 @@ export async function processReferralReward(newUserId: string) {
       });
     });
 
-    console.log(`[REFERRAL] Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
-  } catch (error: unknown) {
-    console.error("[REFERRAL_REWARD_ERROR]", error);
-  }
+    logInfo("Referral Reward", `Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
+   } catch (error: unknown) {
+     logError("Referral Reward", error);
+   }
 }

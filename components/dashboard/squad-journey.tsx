@@ -36,7 +36,7 @@ export interface SquadMemberData {
   id: string
   userId: string
   role: string
-  user?: { id: string; name: string; email: string; image: string | null }
+  user?: { id: string; name: string; email: string; image: string | null; pseudo?: string; class?: string }
 }
 
 export interface SquadData {

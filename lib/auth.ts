@@ -8,6 +8,7 @@ import { emailService } from "./email";
 import { randomInt } from "crypto";
 import { redis } from "./ratelimit";
 import { invalidateUserCache } from "./user-cache";
+import { logError } from "./logger";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
@@ -187,12 +188,12 @@ export const auth = betterAuth({
               email: userEmail,
               name: userName,
               profileType: userClass,
-            }).catch((err) => console.error("🔴 [Welcome Email Error] sendWelcomeProfileEmail:", err));
-          } else {
+            }).catch((err) => logError("Welcome Email", err));
+           } else {
             emailService.sendWelcomePendingQuiz({
-              email: userEmail,
-              name: userName,
-            }).catch((err) => console.error("🔴 [Welcome Email Error] sendWelcomePendingQuiz:", err));
+               email: userEmail,
+               name: userName,
+             }).catch((err) => logError("Welcome Email", err));
           }
 
           const referralCode = userPseudo?.toLowerCase() ||
@@ -217,17 +218,17 @@ export const auth = betterAuth({
             },
           });
 
-          await invalidateUserCache(userId).catch((err) =>
-            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${userId} lors de la création :`, err)
-          );
+           await invalidateUserCache(userId).catch((err) =>
+             logError("Auth Hooks Cache Invalidation", `Échec pour ${userId} lors de la création : ${err}`)
+           );
         },
       },
       update: {
         after: async (user: Record<string, unknown>) => {
           const userId = user.id as string;
-          await invalidateUserCache(userId).catch((err) =>
-            console.error(`🟢 [Auth Hooks] Échec de l'invalidation du cache de ${userId} lors de la modification :`, err)
-          );
+           await invalidateUserCache(userId).catch((err) =>
+             logError("Auth Hooks Cache Invalidation", `Échec pour ${userId} lors de la modification : ${err}`)
+           );
         },
       },
     },
@@ -238,28 +239,28 @@ export const auth = betterAuth({
     return {
       secondaryStorage: {
         get: async (key: string) => {
-          try {
-            const val = await r.get(key);
-            return val ?? null;
-          } catch (err) {
-            console.error("[AUTH][redis] get failed:", err);
-            return null;
-          }
+           try {
+             const val = await r.get(key);
+             return val ?? null;
+           } catch (err) {
+             logError("Auth Redis Get", err);
+             return null;
+           }
         },
         set: async (key: string, value: string, ttl?: number) => {
-          try {
-            if (ttl) await r.set(key, value, { ex: ttl });
-            else await r.set(key, value);
-          } catch (err) {
-            console.error("[AUTH][redis] set failed:", err);
-          }
+           try {
+             if (ttl) await r.set(key, value, { ex: ttl });
+             else await r.set(key, value);
+           } catch (err) {
+             logError("Auth Redis Set", err);
+           }
         },
         delete: async (key: string) => {
-          try {
-            await r.del(key);
-          } catch (err) {
-            console.error("[AUTH][redis] del failed:", err);
-          }
+           try {
+             await r.del(key);
+           } catch (err) {
+             logError("Auth Redis Del", err);
+           }
         },
       },
     };
@@ -299,7 +300,7 @@ export const auth = betterAuth({
         if (!result.success && "error" in result) {
           const err = result.error;
           const errorMessage = err instanceof Error ? err.message : String(err);
-          console.error("[AUTH][emailOTP] Failed to send OTP:", errorMessage);
+           logError("Auth OTP", errorMessage);
         }
       },
       otpLength: 8,

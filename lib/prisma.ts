@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
+import { logError, logInfo } from "./logger";
 
 // Global variable to maintain a singleton Prisma Client/Pool across hot reloads in development.
 const globalForPrisma = globalThis as unknown as {
@@ -49,8 +50,8 @@ globalForPrisma.pool = pool;
 globalForPrisma.prisma = prisma;
 
 if (process.env.NODE_ENV !== "production") {
-  // Database connection logging (only in development)
-  pool.connect()
-    .then(() => console.log("🟢 [Prisma] Connected to Database"))
-    .catch((err) => console.error("🔴 [Prisma] Database connection error:", err));
-}
+   // Database connection logging (only in development)
+   pool.connect()
+     .then(() => logInfo("Prisma", "Connected to Database"))
+     .catch((err) => logError("Prisma DB Connection", err));
+ }

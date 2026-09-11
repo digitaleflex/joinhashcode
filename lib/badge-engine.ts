@@ -1,6 +1,7 @@
 ﻿import { prisma } from "./prisma";
 import { triggerNotification } from "./qstash";
 import { BehavioralVibrancy } from "./types";
+import { logError } from "./logger";
 export interface ExtendedUserForBadges {
   id: string;
   level: number;
@@ -304,9 +305,9 @@ export async function checkAndAwardBadges(userId: string) {
     }
 
     return newBadges;
-  } catch (error: unknown) {
-    console.error("[BADGE_ENGINE_ERROR]", error);
-    return [];
-  }
+   } catch (error: unknown) {
+     logError("Badge Engine", error);
+     return [];
+   }
 }
 
