@@ -46,12 +46,14 @@
 | **0.11** | **Unifier schema Prisma** | 11/09 | Commit `3e85688` — 24→61 models, `prisma validate` ✅, `tsc` ✅ |
 | **0.12** | **Migration Prisma + seed** | 11/09 | DB `hashcode_dev` opérationnelle, `prisma db push` ✅, seed ✅, `tsc` ✅ |
 | **0.13** | **Vérification better-auth** | 11/09 | Config OK, client généré, middleware OK, dev server OK, `tsc` ✅ |
+| **0.14** | **Config better-auth cross-domain** | 11/09 | Commit `d3174a8` — parentDomain `.joinhashcode.com` + trusted origins reboot |
+| **0.15** | **Migrer funnel reboot → /acquisition** | 11/09 | Commit `829719a` — landing + profiling 6 étapes + invite, 14 fichiers, `tsc` ✅ |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.14 | Config better-auth cross-domain | 🟠 MOYENNE | 🟠 | `cookies.parentDomain: joinhashcode.com` |
+| 0.16 | Migrer academy hashskills → /academy | 🟠 MOYENNE | 🟠 | Cours, quiz, HEF |
 
 ### ⬜ À faire dans la Phase 0
 
