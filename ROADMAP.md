@@ -48,23 +48,24 @@
 | **0.13** | **Vérification better-auth** | 11/09 | Config OK, client généré, middleware OK, dev server OK, `tsc` ✅ |
 | **0.14** | **Config better-auth cross-domain** | 11/09 | Commit `d3174a8` — parentDomain `.joinhashcode.com` + trusted origins reboot |
 | **0.15** | **Migrer funnel reboot → /acquisition** | 11/09 | Commit `829719a` — landing + profiling 6 étapes + invite, 14 fichiers, `tsc` ✅ |
+| **0.16** | **Migrer academy hashskills → /academy** | 11/09 | Commit `850bd6e` — courses, programme, paths, diplomas, my-courses, certificates, 13 fichiers, `tsc` ✅ |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.16 | Migrer academy hashskills → /academy | 🟠 MOYENNE | 🟠 | Cours, quiz, HEF |
+| 0.20 | Seed academy (courses, pillars, sections, contents) | 🟠 MOYENNE | 🟢 | Suite 0.16 |
+| 0.21 | Server actions academy (createCourse, getContextTopics) | 🟠 MOYENNE | 🟢 | Suite 0.16 |
+| 0.22 | Navigation layout → liens /academy, /acquisition | 🟠 MOYENNE | 🟢 | Suite 0.16 |
 
 ### ⬜ À faire dans la Phase 0
 
 | # | Action | Priorité | Risque |
 |---|---|---|---|
-| 0.15 | Migrer funnel reboot → /acquisition/* | 🟠 MOYENNE | 🟠 |
-| 0.16 | Migrer academy hashskills → /academy/* | 🟠 MOYENNE | 🟠 |
 | 0.17 | Absorber pôles/portal → admin | 🟡 BASSE | 🟢 |
 | 0.18 | Feature flags | 🟡 BASSE | 🟢 |
 | 0.19 | Redirects reboot.joinhashcode.com → 301 | 🟡 BASSE | 🟢 |
-| 0.20 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
+| 0.23 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
 
 ---
 
