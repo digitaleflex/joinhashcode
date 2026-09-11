@@ -1,0 +1,131 @@
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { ArrowLeft, Check, Clock, GraduationCap, Star, PlayCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export const dynamic = "force-dynamic";
+
+interface CoursePageProps {
+    params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: CoursePageProps): Promise<Metadata> {
+    const { slug } = await params;
+    const course = await prisma.course.findUnique({ where: { slug } });
+    if (!course) return {};
+    return {
+        title: `${course.title} | HASHCODE Academy`,
+        description: course.description || undefined,
+    };
+}
+
+export default async function AcademyCoursePage({ params }: CoursePageProps) {
+    const { slug } = await params;
+
+    const course = await prisma.course.findUnique({
+        where: { slug },
+        include: {
+            instructor: { select: { name: true, image: true } },
+            category: true,
+            sections: {
+                orderBy: { order: "asc" },
+                include: { contents: { orderBy: { order: "asc" } } }
+            }
+        }
+    });
+
+    if (!course) notFound();
+
+    const totalLessons = course.sections.reduce((acc: number, s: { contents: unknown[] }) => acc + s.contents.length, 0);
+
+    return (
+        <div className="max-w-7xl mx-auto px-6 py-12">
+            <Link
+                href="/academy/courses"
+                className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors mb-8"
+            >
+                <ArrowLeft className="size-4" /> Retour au catalogue
+            </Link>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="lg:col-span-2">
+                    <div className="mb-6 flex items-center gap-3">
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-primary bg-primary/10 px-4 py-1.5 rounded-full">
+                            {course.category?.name || "Formation"}
+                        </span>
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                            {totalLessons} leçons
+                        </span>
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
+                        {course.title}
+                    </h1>
+                    {course.description && (
+                        <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-8">
+                            {course.description}
+                        </p>
+                    )}
+
+                    <div className="mb-8 flex items-center gap-3">
+                        <div className="size-10 rounded-full bg-muted flex items-center justify-center">
+                            <span className="text-sm font-black text-muted-foreground">{course.instructor.name?.charAt(0) || "H"}</span>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Formateur</p>
+                            <p className="text-sm font-black text-foreground">{course.instructor.name || "HashCode Team"}</p>
+                        </div>
+                    </div>
+
+                    <h2 className="text-2xl font-black text-foreground mb-6">Programme</h2>
+                    <div className="space-y-4">
+                        {course.sections.map((section: { id: string; title: string; contents: unknown[] }, idx: number) => (
+                            <div key={section.id} className="p-6 border border-border rounded-3xl bg-card flex items-center justify-between gap-4 hover:shadow-lg transition-shadow">
+                                <div className="flex items-center gap-4">
+                                    <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                                        <PlayCircle className="size-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="font-black text-foreground">{section.title}</p>
+                                        <p className="text-xs font-bold text-muted-foreground">{section.contents.length} leçons</p>
+                                    </div>
+                                </div>
+                                <span className="text-sm font-black text-muted-foreground">Section {idx + 1}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div>
+                    <div className="sticky top-8 p-8 border border-border rounded-[2.5rem] bg-card shadow-xl shadow-slate-100/50">
+                        <div className="text-center mb-8 space-y-1">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Note moyenne</p>
+                            <div className="flex items-center justify-center gap-2">
+                                <Star className="size-6 text-primary fill-primary" />
+                                <p className="text-3xl font-black text-foreground">
+                                    {course.averageRating ? `${course.averageRating.toFixed(1)} / 5` : "Nouveau"}
+                                </p>
+                            </div>
+                            <p className="text-xs font-bold text-muted-foreground">{course.totalLearners} élèves inscrits</p>
+                        </div>
+
+                        <Button asChild className="w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest">
+                            <Link href={`/academy/my-courses/${course.id}`}>
+                                Commencer le cours
+                            </Link>
+                        </Button>
+
+                        <ul className="mt-8 space-y-3 text-sm font-bold text-muted-foreground">
+                            <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Accès à vie</li>
+                            <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Certificat reconnu</li>
+                            <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Support des formateurs</li>
+                            <li className="flex items-center gap-3"><Clock className="size-4 text-primary" /> Rythme flexible</li>
+                            <li className="flex items-center gap-3"><GraduationCap className="size-4 text-primary" /> Niveau {course.level === "BEGINNER" ? "débutant" : course.level === "INTERMEDIATE" ? "intermédiaire" : "avancé"}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
