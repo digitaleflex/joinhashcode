@@ -3,6 +3,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
 import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
+import { seedAcademy } from "./seed-academy";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -122,6 +123,9 @@ async function main() {
   }
 
 
+  console.log("\n🎓 Lancement du seed Academy...");
+  const academyCounts = await seedAcademy();
+
   console.log("\n🛡️ Synchronizing administrators...");
   for (const email of ADMIN_EMAILS) {
     const user = await prisma.user.findUnique({ where: { email } });
@@ -140,6 +144,9 @@ async function main() {
   console.log(`   ${MISSIONS.length} missions processed`);
   console.log(`   ${WEEKLY_CHALLENGES.length} weekly challenges processed`);
   console.log(`   ${ADMIN_EMAILS.length} admin accounts checked`);
+  console.log(`   Academy: ${academyCounts.program} program, ${academyCounts.phases} phases, ${academyCounts.pillars} pillars`);
+  console.log(`            ${academyCounts.courses} courses, ${academyCounts.sections} sections, ${academyCounts.contents} contents`);
+  console.log(`            ${academyCounts.categories} categories, ${academyCounts.tags} tags, ${academyCounts.badges} badges`);
 }
 
 main()
