@@ -52,21 +52,23 @@
 | **0.20** | **Seed academy (HEF + cours)** | 11/09 | Commit `9d2c6ab` — 1 program, 4 phases, 17 pillars, 5 catégories, 8 tags, 3 cours, 18 contenus, 3 quiz, 4 badges |
 | **0.21** | **Câbler pages academy → Prisma** | 11/09 | Commit `dca7385` — 5 pages + fix proxy/middleware + fix stub profiling. Live 9/9 routes 200 |
 | **0.22** | **Navigation /academy + hub** | 11/09 | Commit `120d960` — sidebar, bottom-nav, landing nav + hub /academy (cours DB). Live 200 ✅ |
+| **0.21b** | **Server actions academy** | 12/09 | Commit `6c4d5e6` — `createCourse` + `getContextTopics` + `requireRole`, composants câblés. `tsc` ✅ `eslint` ✅ |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.21b | Server actions academy (createCourse, getContextTopics) | 🟠 MOYENNE | 🟢 | Stubs restants |
+| 0.21c | Monter les composants academy dans des pages | 🟠 MOYENNE | 🟢 | `CourseCreateForm` + `ModuleDiscussions` ne sont montés nulle part |
+| 0.21d | Server actions restantes (createTopic, enrollInCourse) | 🟡 BASSE | 🟢 | Le placeholder "Formulaire de création de sujet" reste |
 
 ### ⬜ À faire dans la Phase 0
 
 | # | Action | Priorité | Risque |
 |---|---|---|---|
+| 0.23 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
 | 0.17 | Absorber pôles/portal → admin | 🟡 BASSE | 🟢 |
 | 0.18 | Feature flags | 🟡 BASSE | 🟢 |
 | 0.19 | Redirects reboot.joinhashcode.com → 301 | 🟡 BASSE | 🟢 |
-| 0.23 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
 
 ### 🔧 Dettes techniques identifiées
 
