@@ -10,6 +10,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  // Dev server Turbopack : la 1re compilation d'une route peut dépasser 45 s.
+  // En CI (build de prod) on garde un timeout serré.
+  timeout: process.env.CI ? 60_000 : 120_000,
+  expect: { timeout: 15_000 },
   use: {
     baseURL,
     trace: 'on-first-retry',

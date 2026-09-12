@@ -14,10 +14,10 @@ test('has title and landing content', async ({ page }) => {
 test('can navigate to login page', async ({ page }) => {
   await page.goto('/');
 
-  // Find login link or button and click it
-  const loginLink = page.getByRole('link', { name: /Se connecter|Login/i }).first();
+  // Le lien de connexion de la nav pointe vers /signin
+  const loginLink = page.getByRole('link', { name: /connexion|se connecter|login/i }).first();
   if (await loginLink.isVisible()) {
     await loginLink.click();
-    await expect(page).toHaveURL(/\/login|\/sign-in/);
+    await expect(page).toHaveURL(/\/signin/);
   }
 });
