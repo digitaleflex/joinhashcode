@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PROGRESSION_STEPS, MASTERY_LEVELS } from "@/lib/academy/program";
+import { prisma } from "@/lib/prisma";
 
 const PHASE_ICONS = [
     { phase: 1, icon: Brain },
@@ -30,28 +31,20 @@ function phaseIcon(number: number) {
 }
 
 export default async function AcademyProgrammePage() {
-    // Static programme data — in production this would come from a CMS or API
-    const program = {
-        name: "HEF — HashCode Engineering Foundations",
-        description: "Le socle des ingénieurs. Un programme complet pour passer de débutant à architecte.",
-        phases: [] as Array<{
-            id: string;
-            number: number;
-            title: string;
-            description: string;
-            finality?: string;
-            pillars: Array<{
-                id: string;
-                slug: string;
-                level: number;
-                title: string;
-                objective: string;
-                concepts: string[];
-                project: string;
-            }>;
-        }>,
-        durationMonths: 12,
-    } as const;
+    const program = await prisma.program.findUnique({
+        where: { slug: "hef" },
+        include: {
+            phases: {
+                orderBy: { number: "asc" as const },
+                include: {
+                    pillars: {
+                        where: { isPublished: true },
+                        orderBy: { order: "asc" as const },
+                    },
+                },
+            },
+        },
+    });
 
     if (!program) notFound();
 
@@ -72,7 +65,7 @@ export default async function AcademyProgrammePage() {
                         Le socle des <span className="text-primary">ingénieurs</span>.
                     </h1>
                     <p className="text-xl text-muted-foreground max-w-3xl font-medium leading-relaxed">
-                        {program.description}
+                        {program.description ?? "Un programme complet pour passer de débutant à architecte."}
                     </p>
                     <div className="flex flex-wrap items-center gap-6 text-sm font-bold text-muted-foreground">
                         <span className="flex items-center gap-2 bg-card px-4 py-2 rounded-full shadow-sm border border-border">
@@ -114,7 +107,7 @@ export default async function AcademyProgrammePage() {
                                             </h2>
                                         </div>
                                     </div>
-                                    <p className="text-muted-foreground font-medium leading-relaxed">{phase.description}</p>
+                                    <p className="text-muted-foreground font-medium leading-relaxed">{phase.description ?? "—"}</p>
                                     {phase.finality && (
                                         <p className="inline-flex items-center gap-2 text-sm font-bold text-foreground bg-card border border-border px-4 py-2 rounded-full">
                                             <Target className="size-4 text-primary" />
@@ -143,7 +136,7 @@ export default async function AcademyProgrammePage() {
                                             <h3 className="text-xl font-black text-foreground leading-snug group-hover:text-primary transition-colors">
                                                 {pillar.title}
                                             </h3>
-                                            <p className="text-sm text-muted-foreground font-medium">{pillar.objective}</p>
+                                            <p className="text-sm text-muted-foreground font-medium">{pillar.objective ?? "—"}</p>
                                             <div className="flex flex-wrap gap-1.5 pt-1">
                                                 {pillar.concepts.slice(0, 4).map((concept) => (
                                                     <span
@@ -157,7 +150,7 @@ export default async function AcademyProgrammePage() {
                                         </div>
                                         <div className="flex items-center justify-between mt-auto pt-2 border-t border-border">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                Projet : {pillar.project}
+                                                Projet : {pillar.project ?? "—"}
                                             </span>
                                             <ArrowRight className="size-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
                                         </div>

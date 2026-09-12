@@ -3,7 +3,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
-const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization"];
+const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization", "/admin"];
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
@@ -78,6 +78,14 @@ export async function proxy(request: NextRequest) {
   const session = sessionData?.session;
   const user = sessionData?.user;
   let nextResponse = NextResponse.next();
+
+  // /admin/* requires the ADMIN role
+  if (pathname.startsWith("/admin") && session && user) {
+    const role = (user as Record<string, unknown>).role;
+    if (role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
 
   if (session && user) {
     const isDeactivated = user.deactivatedAt && new Date(user.deactivatedAt as string) <= new Date();

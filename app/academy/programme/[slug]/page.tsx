@@ -13,6 +13,10 @@ import {
     FolderGit2,
     ShieldCheck,
     BadgeCheck,
+    Target,
+    Brain,
+    Cpu,
+    Rocket,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +26,7 @@ import {
     PROGRESSION_STEPS,
     MASTERY_LEVELS,
 } from "@/lib/academy/program";
+import { prisma } from "@/lib/prisma";
 
 function formatDuration(minutes: number) {
     const h = Math.floor(minutes / 60);
@@ -31,22 +36,143 @@ function formatDuration(minutes: number) {
 
 const WORKSHOP_TOTAL_MINUTES = WORKSHOP_FORMAT.reduce((acc, part) => acc + part.duration, 0);
 
-export default async function AcademyPillarPage({ params }: { params: Promise<{ slug: string }> }) {
-    await params;
-    // Static pillar data — in production this would come from a CMS or API
-    const pillar = null as unknown as {
-        id: string;
-        slug: string;
-        level: number;
-        title: string;
-        objective: string;
-        concepts: string[];
-        workshop: string;
-        project: string;
-        deliverable: string;
-        phase: { number: number; title: string };
-        course?: { slug: string };
-    } | null;
+const PHASE_ICONS = [
+    { phase: 1, icon: Brain },
+    { phase: 2, icon: Cpu },
+    { phase: 3, icon: ShieldCheck },
+    { phase: 4, icon: Rocket },
+];
+
+function phaseIcon(number: number) {
+    return PHASE_ICONS.find((p) => p.phase === number)?.icon ?? Brain;
+}
+
+/**
+ * Sémantique du slug :
+ * - slug numérique ("1".."4") → Phase du programme HEF (number = parseInt(slug))
+ * - slug non numérique → Pillar par son slug unique
+ * Fallback : program "hef" pour le contexte.
+ */
+
+/* ── Sous-composant : rendu phase ─────────────────────────────────── */
+
+async function PhaseView({ number }: { number: number }) {
+    const phase = await prisma.programPhase.findFirst({
+        where: { program: { slug: "hef" }, number },
+        include: {
+            pillars: {
+                where: { isPublished: true },
+                orderBy: { order: "asc" as const },
+            },
+        },
+    });
+
+    if (!phase) notFound();
+
+    const Icon = phaseIcon(phase.number);
+
+    return (
+        <div className="bg-background">
+            {/* Hero */}
+            <section className="bg-secondary py-20 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-8">
+                    <Link
+                        href="/academy/programme"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
+                    >
+                        <ArrowLeft className="size-4" />
+                        Retour au programme
+                    </Link>
+                    <div className="flex items-center gap-3">
+                        <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white">
+                            <Icon className="size-6" />
+                        </div>
+                        <div className="space-y-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                                Phase {phase.number}
+                            </span>
+                            <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight">
+                                {phase.title}
+                            </h1>
+                        </div>
+                    </div>
+                    <p className="text-xl text-muted-foreground max-w-3xl font-medium leading-relaxed">
+                        {phase.description ?? "—"}
+                    </p>
+                    {phase.finality && (
+                        <p className="inline-flex items-center gap-2 text-sm font-bold text-foreground bg-card border border-border px-4 py-2 rounded-full">
+                            <Target className="size-4 text-primary" />
+                            {phase.finality}
+                        </p>
+                    )}
+                    <p className="text-sm text-muted-foreground font-medium">
+                        {phase.pillars.length} piliers de compétences
+                    </p>
+                </div>
+            </section>
+
+            {/* Pillars grid */}
+            <section className="py-24 max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {phase.pillars.map((pillar) => (
+                        <Link
+                            key={pillar.id}
+                            href={`/academy/programme/${pillar.slug}`}
+                            className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-6"
+                        >
+                            <div className="flex items-center justify-between">
+                                <span className="text-5xl font-black text-primary/20 group-hover:text-primary/40 transition-colors">
+                                    {String(pillar.level).padStart(2, "0")}
+                                </span>
+                                <span className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                                    <Wrench className="size-5" />
+                                </span>
+                            </div>
+                            <div className="space-y-3">
+                                <h3 className="text-xl font-black text-foreground leading-snug group-hover:text-primary transition-colors">
+                                    {pillar.title}
+                                </h3>
+                                <p className="text-sm text-muted-foreground font-medium">{pillar.objective ?? "—"}</p>
+                                <div className="flex flex-wrap gap-1.5 pt-1">
+                                    {pillar.concepts.slice(0, 4).map((concept) => (
+                                        <span
+                                            key={concept}
+                                            className="text-[10px] font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
+                                        >
+                                            {concept}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between mt-auto pt-2 border-t border-border">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                    Projet : {pillar.project ?? "—"}
+                                </span>
+                                <ArrowRight className="size-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+                {phase.pillars.length === 0 && (
+                    <p className="text-center text-muted-foreground font-medium py-12">
+                        Aucun pilier publié pour cette phase.
+                    </p>
+                )}
+            </section>
+        </div>
+    );
+}
+
+/* ── Sous-composant : rendu pillar ────────────────────────────────── */
+
+async function PillarView({ slug }: { slug: string }) {
+    const pillar = await prisma.pillar.findUnique({
+        where: { slug },
+        include: {
+            phase: { select: { number: true, title: true } },
+            program: { select: { name: true } },
+        },
+    });
 
     if (!pillar) notFound();
 
@@ -76,7 +202,7 @@ export default async function AcademyPillarPage({ params }: { params: Promise<{ 
                         </div>
                     </div>
                     <p className="text-xl text-muted-foreground max-w-3xl font-medium leading-relaxed">
-                        {pillar.objective}
+                        {pillar.objective ?? "—"}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {pillar.concepts.map((concept) => (
@@ -108,7 +234,7 @@ export default async function AcademyPillarPage({ params }: { params: Promise<{ 
                             <div className="flex flex-wrap items-center gap-3">
                                 <span className="inline-flex items-center gap-2 text-sm font-bold bg-secondary text-foreground px-4 py-2 rounded-full">
                                     <CalendarClock className="size-4 text-primary" />
-                                    {pillar.workshop} — ≈ {formatDuration(WORKSHOP_TOTAL_MINUTES)}
+                                    {pillar.workshop ?? "—"} — ≈ {formatDuration(WORKSHOP_TOTAL_MINUTES)}
                                 </span>
                                 <span className="text-sm text-muted-foreground font-medium">
                                     ou découpée en 2 à 3 séances
@@ -145,13 +271,13 @@ export default async function AcademyPillarPage({ params }: { params: Promise<{ 
                                 <span className="text-[10px] font-black uppercase tracking-widest text-primary">
                                     Projet
                                 </span>
-                                <p className="text-lg font-black text-foreground leading-snug">{pillar.project}</p>
+                                <p className="text-lg font-black text-foreground leading-snug">{pillar.project ?? "—"}</p>
                             </div>
                             <div className="bg-card rounded-3xl border border-border p-8 space-y-3">
                                 <span className="text-[10px] font-black uppercase tracking-widest text-primary">
                                     Livrable attendu
                                 </span>
-                                <p className="text-lg font-black text-foreground leading-snug">{pillar.deliverable}</p>
+                                <p className="text-lg font-black text-foreground leading-snug">{pillar.deliverable ?? "—"}</p>
                             </div>
                         </div>
                     </section>
@@ -273,12 +399,12 @@ export default async function AcademyPillarPage({ params }: { params: Promise<{ 
                     </div>
 
                     {/* CTA */}
-                    {pillar.course ? (
+                    {pillar.courseId ? (
                         <Button
                             asChild
                             className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black text-xs uppercase tracking-widest border-none"
                         >
-                            <Link href={`/academy/courses/${pillar.course.slug}`}>
+                            <Link href={`/academy/courses/${pillar.courseId}`}>
                                 Accéder au contenu <ArrowRight className="size-4" />
                             </Link>
                         </Button>
@@ -294,4 +420,20 @@ export default async function AcademyPillarPage({ params }: { params: Promise<{ 
             </div>
         </div>
     );
+}
+
+/* ── Page principale ──────────────────────────────────────────────── */
+
+export default async function AcademySlugPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+
+    const isNumeric = /^\d+$/.test(slug);
+
+    if (isNumeric) {
+        const number = parseInt(slug, 10);
+        if (number < 1 || number > 4) notFound();
+        return <PhaseView number={number} />;
+    }
+
+    return <PillarView slug={slug} />;
 }
