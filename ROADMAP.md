@@ -51,12 +51,12 @@
 | **0.16** | **Migrer academy hashskills → /academy** | 11/09 | Commit `850bd6e` — courses, programme, paths, diplomas, my-courses, certificates, 13 fichiers, `tsc` ✅ |
 | **0.20** | **Seed academy (HEF + cours)** | 11/09 | Commit `9d2c6ab` — 1 program, 4 phases, 17 pillars, 5 catégories, 8 tags, 3 cours, 18 contenus, 3 quiz, 4 badges |
 | **0.21** | **Câbler pages academy → Prisma** | 11/09 | Commit `dca7385` — 5 pages + fix proxy/middleware + fix stub profiling. Live 9/9 routes 200 |
+| **0.22** | **Navigation /academy + hub** | 11/09 | Commit `120d960` — sidebar, bottom-nav, landing nav + hub /academy (cours DB). Live 200 ✅ |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.22 | Navigation layout → liens /academy, /acquisition | 🟠 MOYENNE | 🟢 | Suite 0.16 |
 | 0.21b | Server actions academy (createCourse, getContextTopics) | 🟠 MOYENNE | 🟢 | Stubs restants |
 
 ### ⬜ À faire dans la Phase 0
@@ -74,6 +74,8 @@
 |---|---|---|
 | D1 | Conteneur DB initialisé avec `hashcode_prod` + PgBouncer ne sert que `hashcode_prod` → dev utilise la connexion directe `hashcode_dev@5433` | Config locale incohérente avec la doc compose.db.yml |
 | D2 | Fichiers parasites `C:UsersPCDocumentshashcode_reboot...` dans `hashcode_reboot/` (générés par un worker avec des backslashes) | Pollution du repo reboot |
+| D3 | `.next/dev/types/*.d.ts` se corrompt quand un dev server est interrompu → `tsc` échoue (TS1005/TS1109). Fix: supprimer `.next/dev` et relancer | Faux positifs tsc |
+| D4 | `next-env.d.ts` est tracké et bascule `.next/types` ↔ `.next/dev/types` selon dev/build | Churn git |
 
 ---
 
