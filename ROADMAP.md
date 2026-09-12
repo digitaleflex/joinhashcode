@@ -49,14 +49,15 @@
 | **0.14** | **Config better-auth cross-domain** | 11/09 | Commit `d3174a8` — parentDomain `.joinhashcode.com` + trusted origins reboot |
 | **0.15** | **Migrer funnel reboot → /acquisition** | 11/09 | Commit `829719a` — landing + profiling 6 étapes + invite, 14 fichiers, `tsc` ✅ |
 | **0.16** | **Migrer academy hashskills → /academy** | 11/09 | Commit `850bd6e` — courses, programme, paths, diplomas, my-courses, certificates, 13 fichiers, `tsc` ✅ |
+| **0.20** | **Seed academy (HEF + cours)** | 11/09 | Commit `9d2c6ab` — 1 program, 4 phases, 17 pillars, 5 catégories, 8 tags, 3 cours, 18 contenus, 3 quiz, 4 badges |
+| **0.21** | **Câbler pages academy → Prisma** | 11/09 | Commit `dca7385` — 5 pages + fix proxy/middleware + fix stub profiling. Live 9/9 routes 200 |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.20 | Seed academy (courses, pillars, sections, contents) | 🟠 MOYENNE | 🟢 | Suite 0.16 |
-| 0.21 | Server actions academy (createCourse, getContextTopics) | 🟠 MOYENNE | 🟢 | Suite 0.16 |
 | 0.22 | Navigation layout → liens /academy, /acquisition | 🟠 MOYENNE | 🟢 | Suite 0.16 |
+| 0.21b | Server actions academy (createCourse, getContextTopics) | 🟠 MOYENNE | 🟢 | Stubs restants |
 
 ### ⬜ À faire dans la Phase 0
 
@@ -66,6 +67,13 @@
 | 0.18 | Feature flags | 🟡 BASSE | 🟢 |
 | 0.19 | Redirects reboot.joinhashcode.com → 301 | 🟡 BASSE | 🟢 |
 | 0.23 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
+
+### 🔧 Dettes techniques identifiées
+
+| # | Dette | Impact |
+|---|---|---|
+| D1 | Conteneur DB initialisé avec `hashcode_prod` + PgBouncer ne sert que `hashcode_prod` → dev utilise la connexion directe `hashcode_dev@5433` | Config locale incohérente avec la doc compose.db.yml |
+| D2 | Fichiers parasites `C:UsersPCDocumentshashcode_reboot...` dans `hashcode_reboot/` (générés par un worker avec des backslashes) | Pollution du repo reboot |
 
 ---
 
