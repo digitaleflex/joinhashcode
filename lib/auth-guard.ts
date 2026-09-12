@@ -61,7 +61,16 @@ export function checkCsrfOrigin(req: Request): void {
     try { return new URL(url!).host; } catch { return null; }
   }).filter(Boolean) as string[];
 
-  if (trusted.includes(originHost)) return;
+    if (trusted.includes(originHost)) return;
 
   throw new AuthError("Origine non autorisée", 403);
+}
+
+export async function requireRole(allowed: string[]) {
+  const session = await requireSession();
+  const role = (session.user as { role?: string }).role ?? "MEMBER";
+  if (!allowed.includes(role)) {
+    throw new AuthError("Accès refusé", 403);
+  }
+  return session;
 }

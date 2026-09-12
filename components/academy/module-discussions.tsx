@@ -7,13 +7,14 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
+import { getContextTopics } from "@/app/actions/academy/forum";
 
 interface Topic {
     id: string;
     title: string;
-    author: { name?: string };
+    author: { name: string | null; image: string | null };
     createdAt: Date;
-    _count: { posts: number };
+    _count: { posts: number; likes: number };
 }
 
 interface ModuleDiscussionsProps {
@@ -32,11 +33,10 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
     const fetchTopics = async () => {
         setLoading(true);
         try {
-            // TODO: implement API call to fetch topics
-            // const data = await getContextTopics({ courseId, sectionId, lessonId });
+            const data = await getContextTopics({ courseId, sectionId, lessonId });
+            setTopics(data);
+        } catch {
             setTopics([]);
-        } catch (err) {
-            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -47,11 +47,6 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
             fetchTopics();
         }
     }, [isOpen, courseId, sectionId, lessonId, showTrigger]);
-
-    const _handleTopicCreated = (_topicId: string) => {
-        setView("list");
-        fetchTopics();
-    };
 
     const Content = () => (
         <div className="h-full flex flex-col p-6">

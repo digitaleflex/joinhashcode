@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Sparkles, Globe, AlignLeft, Type, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { createCourse } from "@/app/actions/academy/course";
 
 export function CourseCreateForm() {
     const [isPending, startTransition] = useTransition();
@@ -19,9 +20,16 @@ export function CourseCreateForm() {
         setError(null);
 
         startTransition(async () => {
-            // TODO: implement server action for course creation
-            console.log("Create course:", { title, description, language });
-            router.push("/academy/my-courses");
+            const result = await createCourse({
+                title,
+                description,
+                language: language as "FR" | "EN",
+            });
+            if (result.success) {
+                router.push("/academy/my-courses");
+            } else {
+                setError(result.error ?? "Échec de la création");
+            }
         });
     }
 
