@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, LayoutDashboard } from "lucide-react"
+import { ArrowRight, LayoutDashboard, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
@@ -21,6 +21,13 @@ function NavActions() {
     <div className="flex items-center gap-1.5 sm:gap-3">
       {session ? (
         <>
+          <Link
+            href="/academy"
+            className="hidden sm:flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-2"
+          >
+            <BookOpen className="h-3.5 w-3.5" />
+            Academy
+          </Link>
           <Link
             href="/dashboard"
             className="hidden sm:flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-2"
@@ -53,6 +60,13 @@ function NavActions() {
         </>
       ) : (
         <>
+          <Link
+            href="/academy"
+            className="hidden sm:inline-flex text-xs font-mono font-bold tracking-tight text-muted-foreground hover:text-primary transition-colors items-center gap-1.5"
+          >
+            <BookOpen className="h-3.5 w-3.5" />
+            Academy
+          </Link>
           <Button
             asChild
             variant="ghost"
