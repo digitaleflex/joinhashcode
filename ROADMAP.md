@@ -53,6 +53,7 @@
 | **0.21** | **Câbler pages academy → Prisma** | 11/09 | Commit `dca7385` — 5 pages + fix proxy/middleware + fix stub profiling. Live 9/9 routes 200 |
 | **0.22** | **Navigation /academy + hub** | 11/09 | Commit `120d960` — sidebar, bottom-nav, landing nav + hub /academy (cours DB). Live 200 ✅ |
 | **0.21b** | **Server actions academy** | 12/09 | Commit `6c4d5e6` — `createCourse` + `getContextTopics` + `requireRole`, composants câblés. `tsc` ✅ `eslint` ✅ |
+| **0.23** | **Tests E2E parcours critique** | 12/09 | Commit `8a3b246` — 14 tests Playwright **14/14 ✅** ; Vitest **128 passed / 1 skipped** |
 
 ### 🟡 En cours (NOW)
 
@@ -65,7 +66,6 @@
 
 | # | Action | Priorité | Risque |
 |---|---|---|---|
-| 0.23 | Tests E2E parcours critique | 🟠 MOYENNE | 🟢 |
 | 0.17 | Absorber pôles/portal → admin | 🟡 BASSE | 🟢 |
 | 0.18 | Feature flags | 🟡 BASSE | 🟢 |
 | 0.19 | Redirects reboot.joinhashcode.com → 301 | 🟡 BASSE | 🟢 |
@@ -78,6 +78,8 @@
 | D2 | Fichiers parasites `C:UsersPCDocumentshashcode_reboot...` dans `hashcode_reboot/` (générés par un worker avec des backslashes) | Pollution du repo reboot |
 | D3 | `.next/dev/types/*.d.ts` se corrompt quand un dev server est interrompu → `tsc` échoue (TS1005/TS1109). Fix: supprimer `.next/dev` et relancer | Faux positifs tsc |
 | D4 | `next-env.d.ts` est tracké et bascule `.next/types` ↔ `.next/dev/types` selon dev/build | Churn git |
+| D5 | Vitest n'injecte pas `DATABASE_URL` → warning `SASL: client password must be a string` (les tests passent car ils mockent Prisma, mais tout test Prisma réel échouerait) | Tests unitaires DB impossibles |
+| D6 | `/academy/paths` met 44 s à froid (compilation Turbopack + Prisma) — ~1 s au chaud | Lenteur dev, faux positifs E2E (atténué par timeout 120 s local) |
 
 ---
 
