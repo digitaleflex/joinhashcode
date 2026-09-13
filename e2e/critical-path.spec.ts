@@ -89,3 +89,20 @@ test.describe('Garde d’authentification (proxy.ts)', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 });
+
+test.describe('Academy — routes protégées', () => {
+  test('/academy/my-courses redirige un visiteur vers /signin', async ({ page }) => {
+    await page.goto('/academy/my-courses');
+    await expect(page).toHaveURL(/\/signin/);
+  });
+
+  test('/academy/my-courses/new redirige un visiteur vers /signin', async ({ page }) => {
+    await page.goto('/academy/my-courses/new');
+    await expect(page).toHaveURL(/\/signin/);
+  });
+
+  test('/academy/my-courses/xxx/forum/yyy redirige un visiteur vers /signin', async ({ page }) => {
+    await page.goto('/academy/my-courses/xxx/forum/yyy');
+    await expect(page).toHaveURL(/\/signin/);
+  });
+});

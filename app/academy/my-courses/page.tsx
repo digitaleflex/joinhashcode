@@ -35,8 +35,8 @@ function EmptyState({ isInstructor }: { isInstructor: boolean }) {
       </p>
       {isInstructor && (
         <Button asChild className="rounded-full px-8 font-black text-xs uppercase tracking-widest">
-          <Link href="/academy/courses">
-            <Plus className="size-4" /> Parcourir les cours
+          <Link href="/academy/my-courses/new">
+            <Plus className="size-4" /> Créer mon premier cours
           </Link>
         </Button>
       )}
@@ -109,6 +109,13 @@ export default async function AcademyMyCoursesPage() {
             {isInstructor ? "Gérez vos cours" : "Continuez votre apprentissage"}
           </p>
         </div>
+        {isInstructor && (
+          <Button asChild className="rounded-full px-8 font-black text-xs uppercase tracking-widest h-11">
+            <Link href="/academy/my-courses/new">
+              <Plus className="size-4" /> Nouveau cours
+            </Link>
+          </Button>
+        )}
       </div>
 
       <Suspense fallback={<CoursesListSkeleton />}>

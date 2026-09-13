@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MessageSquare, Plus, Loader2 } from "lucide-react";
+import { MessageSquare, Plus, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
-import { getContextTopics } from "@/app/actions/academy/forum";
+import { getContextTopics, createTopic } from "@/app/actions/academy/forum";
 
 interface Topic {
     id: string;
@@ -137,8 +137,16 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                             ← Retour aux discussions
                         </Button>
                     </div>
-                    {/* CreateTopicForm would go here */}
-                    <p className="text-sm text-muted-foreground">Formulaire de création de sujet — à implémenter.</p>
+                    {/* CreateTopicForm */}
+                    <CreateTopicForm
+                      courseId={courseId}
+                      sectionId={sectionId}
+                      lessonId={lessonId}
+                      onSuccess={() => {
+                        setView("list");
+                        fetchTopics();
+                      }}
+                    />
                 </div>
             )}
         </div>
@@ -168,4 +176,99 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
     }
 
     return <Content />;
+}
+
+function CreateTopicForm({
+  courseId,
+  sectionId,
+  lessonId,
+  onSuccess,
+}: {
+  courseId: string;
+  sectionId?: string;
+  lessonId?: string;
+  onSuccess: () => void;
+}) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  if (!sectionId && !lessonId) {
+    return (
+      <p className="text-sm text-muted-foreground font-medium text-center py-8">
+        Sélectionnez un module pour démarrer une discussion.
+      </p>
+    );
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    const result = await createTopic({
+      courseId,
+      sectionId,
+      lessonId,
+      title,
+      content,
+    });
+    setSubmitting(false);
+    if (result.success) {
+      onSuccess();
+    } else {
+      setError(result.error ?? "Échec de la création");
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {error && (
+        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-widest text-center">
+          {error}
+        </div>
+      )}
+      <div>
+        <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">
+          Titre du sujet
+        </label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          minLength={3}
+          placeholder="Ex: Question sur le module 3"
+          className="w-full h-12 px-4 bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm font-medium"
+        />
+      </div>
+      <div>
+        <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">
+          Contenu
+        </label>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          minLength={1}
+          rows={4}
+          placeholder="Décrivez votre question en détail..."
+          className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm font-medium resize-none"
+        />
+      </div>
+      <Button
+        type="submit"
+        disabled={submitting}
+        className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all hover:scale-105"
+      >
+        {submitting ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <>
+            <Send className="size-3 mr-2" /> Publier
+          </>
+        )}
+      </Button>
+    </form>
+  );
 }
