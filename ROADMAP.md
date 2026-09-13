@@ -58,18 +58,34 @@
 
 ### 🟡 En cours (NOW)
 
-| # | Action | Priorité | Risque | Détail |
+> Toutes les issues ouvertes : **[EPIC #347](https://github.com/digitaleflex/joinhashcode/issues/347)**
+
+| # | Action | Issue | Priorité | Risque |
 |---|---|---|---|---|
-| 0.24 | Vérifier le flux forum authentifié | 🟠 MOYENNE | 🟢 | Aucun test E2E avec session réelle (créer cours, poster, répondre) |
-| 0.25 | `enrollInCourse` (inscription apprenant) | 🟡 BASSE | 🟢 | Le catalogue public ne permet pas encore de s'inscrire |
+| 0.24 | Vérifier le flux forum authentifié (E2E session réelle) | [#348](https://github.com/digitaleflex/joinhashcode/issues/348) | 🟠 MOYENNE | 🟢 |
+| 0.25 | `enrollInCourse` (inscription apprenant) | [#349](https://github.com/digitaleflex/joinhashcode/issues/349) | 🟡 BASSE | 🟢 |
+| D7 | **Sécurité** : une page levant `AuthError` rend un HTTP 200 | [#353](https://github.com/digitaleflex/joinhashcode/issues/353) | 🔴 **CRITIQUE** | 🔴 |
 
 ### ⬜ À faire dans la Phase 0
 
-| # | Action | Priorité | Risque |
-|---|---|---|---|
-| 0.17 | Absorber pôles/portal → admin | 🟡 BASSE | 🟢 |
-| 0.18 | Feature flags | 🟡 BASSE | 🟢 |
-| 0.19 | Redirects reboot.joinhashcode.com → 301 | 🟡 BASSE | 🟢 |
+| # | Action | Issue | Priorité | Risque |
+|---|---|---|---|---|
+| 0.17 | Localiser/absorber `hashcode-community-portal` | [#350](https://github.com/digitaleflex/joinhashcode/issues/350) | 🟡 BASSE | 🚫 **bloqué** |
+| 0.18 | Feature flags | [#351](https://github.com/digitaleflex/joinhashcode/issues/351) | 🟡 BASSE | 🟢 |
+| 0.19 | Redirects 301 des domaines absorbés | [#352](https://github.com/digitaleflex/joinhashcode/issues/352) | 🟡 BASSE | 🟢 |
+
+### 🔌 Connexions des repos sources (à brancher)
+
+| Action | Issue | Priorité |
+|---|---|---|
+| Funnel acquisition → onboarding academy | [#368](https://github.com/digitaleflex/joinhashcode/issues/368) | 🟠 **HAUTE** |
+| Absorber les modules admin de `hashcode_reboot` | [#361](https://github.com/digitaleflex/joinhashcode/issues/361) | 🟠 **HAUTE** |
+| Absorber la gestion du programme HEF de `hashskills` | [#362](https://github.com/digitaleflex/joinhashcode/issues/362) | 🟠 **HAUTE** |
+| Unifier les services email des 3 repos | [#367](https://github.com/digitaleflex/joinhashcode/issues/367) | 🟠 MOYENNE |
+| Gestion des médias/contenus (Drive ou R2) | [#363](https://github.com/digitaleflex/joinhashcode/issues/363) | 🟠 MOYENNE |
+| Tuteur IA (`hashskills/lib/ai.ts`) | [#364](https://github.com/digitaleflex/joinhashcode/issues/364) | 🟡 BASSE |
+| Unifier Arcjet vs ratelimit community | [#365](https://github.com/digitaleflex/joinhashcode/issues/365) | 🟡 BASSE |
+| Tâches planifiées (cron hashskills) | [#366](https://github.com/digitaleflex/joinhashcode/issues/366) | 🟡 BASSE |
 
 ### 🔧 Dettes techniques identifiées
 
