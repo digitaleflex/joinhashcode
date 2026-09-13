@@ -54,13 +54,14 @@
 | **0.22** | **Navigation /academy + hub** | 11/09 | Commit `120d960` — sidebar, bottom-nav, landing nav + hub /academy (cours DB). Live 200 ✅ |
 | **0.21b** | **Server actions academy** | 12/09 | Commit `6c4d5e6` — `createCourse` + `getContextTopics` + `requireRole`, composants câblés. `tsc` ✅ `eslint` ✅ |
 | **0.23** | **Tests E2E parcours critique** | 12/09 | Commit `8a3b246` — 14 tests Playwright **14/14 ✅** ; Vitest **128 passed / 1 skipped** |
+| **0.21c** | **Monter composants + forum** | 12/09 | Commit `846a9e0` — 3 pages + `createTopic`/`createPost`/`getTopicWithPosts` + `ReplyForm`. **17/17 E2E ✅** |
 
 ### 🟡 En cours (NOW)
 
 | # | Action | Priorité | Risque | Détail |
 |---|---|---|---|---|
-| 0.21c | Monter les composants academy dans des pages | 🟠 MOYENNE | 🟢 | `CourseCreateForm` + `ModuleDiscussions` ne sont montés nulle part |
-| 0.21d | Server actions restantes (createTopic, enrollInCourse) | 🟡 BASSE | 🟢 | Le placeholder "Formulaire de création de sujet" reste |
+| 0.24 | Vérifier le flux forum authentifié | 🟠 MOYENNE | 🟢 | Aucun test E2E avec session réelle (créer cours, poster, répondre) |
+| 0.25 | `enrollInCourse` (inscription apprenant) | 🟡 BASSE | 🟢 | Le catalogue public ne permet pas encore de s'inscrire |
 
 ### ⬜ À faire dans la Phase 0
 
@@ -80,6 +81,8 @@
 | D4 | `next-env.d.ts` est tracké et bascule `.next/types` ↔ `.next/dev/types` selon dev/build | Churn git |
 | D5 | Vitest n'injecte pas `DATABASE_URL` → warning `SASL: client password must be a string` (les tests passent car ils mockent Prisma, mais tout test Prisma réel échouerait) | Tests unitaires DB impossibles |
 | D6 | `/academy/paths` met 44 s à froid (compilation Turbopack + Prisma) — ~1 s au chaud | Lenteur dev, faux positifs E2E (atténué par timeout 120 s local) |
+| D7 | Une page qui lève `AuthError` hors proxy rend un **HTTP 200** (page d'erreur) au lieu d'un 4xx/redirect — vérifié sur `/academy/my-courses` avant ajout au proxy | Fausse impression de protection ; toute route privée DOIT être dans `PROTECTED_PATHS` de `proxy.ts` |
+| D8 | Turbopack peut servir un module périmé (`"use client"` supprimé restait actif après fix) | Purger `.next/dev` + `.next/cache` avant de conclure sur un comportement suspect |
 
 ---
 
