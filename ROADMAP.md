@@ -55,6 +55,8 @@
 | **0.21b** | **Server actions academy** | 12/09 | Commit `6c4d5e6` — `createCourse` + `getContextTopics` + `requireRole`, composants câblés. `tsc` ✅ `eslint` ✅ |
 | **0.23** | **Tests E2E parcours critique** | 12/09 | Commit `8a3b246` — 14 tests Playwright **14/14 ✅** ; Vitest **128 passed / 1 skipped** |
 | **0.21c** | **Monter composants + forum** | 12/09 | Commit `846a9e0` — 3 pages + `createTopic`/`createPost`/`getTopicWithPosts` + `ReplyForm`. **17/17 E2E ✅** |
+| **D7 / #353** | **Sécurité : gardes de page auto-redirigeantes** | 13/09 | Commit `e17d028` — `requirePageSession`/`requirePageRole` + test d'invariant falsifiable. Issue **#353 fermée**. `GATE VERT` |
+| — | **Gate `npm run verify` + agents `verifier`/`integrator`** | 13/09 | Commit `1cf4554` + `~/.config/opencode/agent/`. 15 sondes + 17 E2E |
 
 ### 🟡 En cours (NOW)
 
@@ -64,7 +66,6 @@
 |---|---|---|---|---|
 | 0.24 | Vérifier le flux forum authentifié (E2E session réelle) | [#348](https://github.com/digitaleflex/joinhashcode/issues/348) | 🟠 MOYENNE | 🟢 |
 | 0.25 | `enrollInCourse` (inscription apprenant) | [#349](https://github.com/digitaleflex/joinhashcode/issues/349) | 🟡 BASSE | 🟢 |
-| D7 | **Sécurité** : une page levant `AuthError` rend un HTTP 200 | [#353](https://github.com/digitaleflex/joinhashcode/issues/353) | 🔴 **CRITIQUE** | 🔴 |
 
 ### ⬜ À faire dans la Phase 0
 
