@@ -9,6 +9,8 @@
     "build": "npm run clean && prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
+    "verify": "bash scripts/verify.sh",
+    "verify:fast": "bash scripts/verify.sh --fast",
     "db:seed": "tsx prisma/seed.ts",
     "test": "vitest",
     "test:e2e": "playwright test",
