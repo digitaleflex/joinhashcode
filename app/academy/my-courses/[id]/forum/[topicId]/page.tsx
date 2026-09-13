@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
-import { redirect, notFound } from "next/navigation";
-import { requireSession, AuthError } from "@/lib/auth-guard";
+import { notFound } from "next/navigation";
+import { requirePageSession } from "@/lib/auth-guard";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import { ArrowLeft, User, MessageSquare, Clock } from "lucide-react";
@@ -24,12 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ForumTopicPage({ params }: PageProps) {
-  try {
-    await requireSession();
-  } catch (error) {
-    if (error instanceof AuthError) redirect("/signin");
-    throw error;
-  }
+  await requirePageSession();
 
   const { id, topicId } = await params;
 

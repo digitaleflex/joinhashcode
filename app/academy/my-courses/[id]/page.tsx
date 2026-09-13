@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
-import { redirect, notFound } from "next/navigation";
-import { requireSession, AuthError } from "@/lib/auth-guard";
+import { notFound } from "next/navigation";
+import { requirePageSession } from "@/lib/auth-guard";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import { ModuleDiscussions } from "@/components/academy/module-discussions";
@@ -49,12 +49,7 @@ function ContentIcon(type: string) {
 }
 
 export default async function CourseDetailPage({ params }: PageProps) {
-  try {
-    await requireSession();
-  } catch (error) {
-    if (error instanceof AuthError) redirect("/signin");
-    throw error;
-  }
+  await requirePageSession();
 
   const { id } = await params;
   const course = await getCourse(id);

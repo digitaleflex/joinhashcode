@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { Suspense } from "react";
-import { requireSession } from "@/lib/auth-guard";
+import { requirePageSession } from "@/lib/auth-guard";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -93,7 +93,7 @@ async function CoursesList({ isInstructor }: { isInstructor: boolean }) {
 }
 
 export default async function AcademyMyCoursesPage() {
-  const session = await requireSession();
+  const session = await requirePageSession();
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { role: true },

@@ -1,6 +1,7 @@
 import { auth } from "./auth";
 import { prisma } from "./prisma";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export class AuthError extends Error {
   constructor(message: string, public status: number) {
@@ -34,6 +35,24 @@ export async function requireSession() {
   }
 
   return session;
+}
+
+export async function requirePageSession() {
+  try {
+    return await requireSession();
+  } catch (error) {
+    if (error instanceof AuthError) redirect("/signin");
+    throw error;
+  }
+}
+
+export async function requirePageRole(allowed: string[]) {
+  try {
+    return await requireRole(allowed);
+  } catch (error) {
+    if (error instanceof AuthError) redirect("/signin");
+    throw error;
+  }
 }
 
 export function checkCsrfOrigin(req: Request): void {

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { requireSession } from "@/lib/auth-guard";
+import { requirePageSession } from "@/lib/auth-guard";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,11 +37,9 @@ function EmptyState() {
   );
 }
 
-async function CertificatesList() {
-  const session = await requireSession();
-
+async function CertificatesList({ userId }: { userId: string }) {
   const certificates = await prisma.certificate.findMany({
-    where: { userId: session.user.id },
+    where: { userId },
     include: {
       course: { select: { id: true, title: true, slug: true } },
     },
@@ -72,7 +70,9 @@ async function CertificatesList() {
   );
 }
 
-export default function AcademyCertificatesPage() {
+export default async function AcademyCertificatesPage() {
+  const session = await requirePageSession();
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="mb-10">
@@ -84,7 +84,7 @@ export default function AcademyCertificatesPage() {
       </div>
 
       <Suspense fallback={<CertificatesListSkeleton />}>
-        <CertificatesList />
+        <CertificatesList userId={session.user.id} />
       </Suspense>
     </div>
   );

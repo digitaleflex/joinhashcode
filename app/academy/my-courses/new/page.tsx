@@ -1,19 +1,13 @@
 export const dynamic = "force-dynamic";
 
-import { redirect } from "next/navigation";
-import { requireRole, AuthError } from "@/lib/auth-guard";
+import { requirePageRole } from "@/lib/auth-guard";
 import { Metadata } from "next";
 import { CourseCreateForm } from "@/components/academy/course-create-form";
 
 export const metadata: Metadata = { title: "Nouveau cours — Academy" };
 
 export default async function AcademyNewCoursePage() {
-  try {
-    await requireRole(["ADMIN", "INSTRUCTOR"]);
-  } catch (error) {
-    if (error instanceof AuthError) redirect("/signin");
-    throw error;
-  }
+  await requirePageRole(["ADMIN", "INSTRUCTOR"]);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">

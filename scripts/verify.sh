@@ -78,11 +78,15 @@ step "4/5 — Sondes HTTP live ($BASE_URL)"
 if ! curl -s --noproxy '*' -o /dev/null --max-time 8 "$BASE_URL/" 2>/dev/null; then
   skip "serveur absent sur $BASE_URL → sondes NON exécutées (lancer: npm run dev)"
 else
-  # "route attendu" — 200 = publique, 307 = privée (doit rediriger)
+  # "route attendu [jeton de contenu]"
+  #   200 = publique, 307 = privée (doit rediriger)
+  #   Le jeton optionnel vérifie que la page rend VRAIMENT son contenu :
+  #   un 200 peut être une page d'erreur (incident réellement vécu — la DB était
+  #   injoignable et /academy renvoyait 200 avec « Anomalie Système »).
   PROBES=(
-    "/ 200"
+    "/ 200 HASHCODE"
     "/signin 200"
-    "/academy 200"
+    "/academy 200 Apprends"
     "/academy/courses 200"
     "/academy/programme 200"
     "/academy/paths 200"
@@ -97,17 +101,39 @@ else
     "/academy/certificates 307"
   )
   for p in "${PROBES[@]}"; do
-    route="${p% *}"; want="${p##* }"
-    got=$(curl -s --noproxy '*' -o /dev/null -w '%{http_code}' --max-time 90 "$BASE_URL$route" 2>/dev/null || echo "000")
-    if [[ "$got" == "$want" ]]; then
-      ok "$route → $got"
-    elif [[ "$got" == "000" ]]; then
-      ko "$route → timeout/refus (attendu $want)"
-    elif [[ "$want" == "307" && "$got" == "200" ]]; then
-      ko "$route → 200 mais route PRIVÉE (faille D7 : non protégée dans proxy.ts)"
-    else
-      ko "$route → $got (attendu $want)"
+    route="${p%% *}"; rest="${p#* }"; want="${rest%% *}"
+    token="${rest#* }"; [[ "$token" == "$want" ]] && token=""
+
+    body_file=$(mktemp)
+    got=$(curl -s --noproxy '*' -o "$body_file" -w '%{http_code}' --max-time 90 "$BASE_URL$route" 2>/dev/null || echo "000")
+    html=$(cat "$body_file" 2>/dev/null); rm -f "$body_file"
+
+    if [[ "$got" != "$want" ]]; then
+      if [[ "$got" == "000" ]]; then
+        ko "$route → timeout/refus (attendu $want)"
+      elif [[ "$want" == "307" && "$got" == "200" ]]; then
+        ko "$route → 200 mais route PRIVÉE (faille D7 : non protégée dans proxy.ts)"
+      else
+        ko "$route → $got (attendu $want)"
+      fi
+      continue
     fi
+
+    # Angle mort : un 200 peut être une page d'erreur
+    # NB: matching natif bash, PAS de `grep -q` — avec `set -o pipefail`, grep -q
+    # sortant au 1er match envoie SIGPIPE à printf et ferait échouer la pipeline
+    # (faux négatif constaté sur `/`).
+    if [[ "$html" == *"Anomalie Système"* ]]; then
+      ko "$route → $got mais rend la PAGE D'ERREUR (« Anomalie Système ») — DB ou runtime en panne"
+      continue
+    fi
+
+    if [[ -n "$token" && "$html" != *"$token"* ]]; then
+      ko "$route → $got mais le contenu attendu « $token » est ABSENT"
+      continue
+    fi
+
+    ok "$route → $got${token:+ (contient « $token »)}"
   done
 fi
 
