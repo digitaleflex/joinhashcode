@@ -61,6 +61,9 @@
 | **#348 p2** | **Scénarios E2E authentifiés** | 14/09 | Commit `9ce011e` — création de cours prouvée. Issue **#348 fermée** |
 | **#349** | **`enrollInCourse` — inscription apprenant** | 14/09 | Commits `d7a2f64` + `8eb308c` + `bdd54a8`. Issue **#349 fermée** |
 | **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → boucle vers `/specialization`. Issue **#369 fermée** |
+| **#368** | **Funnel acquisition → academy** | 14/09 | **5 commits** (`8e0050c`, `d2acb38`, `5e06891`, `87ebf0e`, `1c701aa`). Issue **#368 fermée** — le tunnel passe de **mort** à **vivant** |
+| **#356/#357/#360** | **Hygiène (VAGUE 0)** | 14/09 | Commit `2c9eba0` + commit reboot. 3 issues fermées |
+| **#370** | *Trou de contenu : catégories `web`/`securite` vides* | 14/09 | Issue créée — 2 profils sur 3 sans recommandation |
 | **D11** | **Timeout DB configurable** | 14/09 | Commit `d902412` — `DATABASE_CONNECT_TIMEOUT_MS`. Échecs E2E : 6 → 0 |
 | — | **Gate `npm run verify` + agents `verifier`/`integrator`** | 13/09 | Commit `1cf4554` + `~/.config/opencode/agent/`. 15 sondes + 17 E2E |
 
