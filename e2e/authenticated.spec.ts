@@ -135,7 +135,61 @@ test.describe("Contrôle d'accès — MEMBER", () => {
   });
 });
 
-test.describe("Visiteur non authentifié", () => {
+test.describe("Apprenant MEMBER — inscription à un cours", () => {
+   test.use({ storageState: "e2e/.auth/member.json" });
+
+   test("s'inscrire à un cours publié et le voir dans mes cours", async ({
+     page,
+   }) => {
+     // 1. Crée un cours publié via Prisma (contournement : le member ne peut pas créer)
+     //    `instructorId` est une clé étrangère vers User : il faut le VRAI uuid,
+     //    pas un libellé. On le résout depuis l'utilisateur de test.
+     const instructor = await prisma.user.findUniqueOrThrow({
+       where: { email: "e2e-instructor@hashcode.test" },
+       select: { id: true },
+     });
+
+     const courseTitle = `${PREFIX}Cours Inscrit ${Date.now()}`;
+     const course = await prisma.course.create({
+       data: {
+         id: crypto.randomUUID(),
+         title: courseTitle,
+         slug: `e2e-enroll-${Date.now()}`,
+         description: "Cours de test E2E pour l'inscription.",
+         language: "FR",
+         level: "BEGINNER",
+         isPublished: true,
+         averageRating: 0,
+         totalLearners: 0,
+         instructorId: instructor.id,
+       },
+     });
+
+     // 2. Va sur le catalogue et clique sur le cours
+     await page.goto("/academy/courses");
+     await page.getByRole("link", { name: courseTitle }).first().click();
+
+     // 3. Clique sur « S'inscrire au cours »
+     await page
+       .getByRole("button", { name: /s'inscrire au cours/i })
+       .click();
+
+     // 4. Vérifie que le bouton devient « Déjà inscrit »
+     await expect(
+       page.getByRole("button", { name: /déjà inscrit/i })
+     ).toBeVisible({ timeout: 15_000 });
+
+     // 5. Va sur /academy/my-courses et vérifie que le cours apparaît
+     await page.goto("/academy/my-courses");
+     await expect(page.getByText(courseTitle)).toBeVisible({ timeout: 15_000 });
+
+     // Nettoyage
+     await prisma.enrollment.deleteMany({ where: { courseId: course.id } });
+     await prisma.course.deleteMany({ where: { id: course.id } });
+   });
+ });
+
+ test.describe("Visiteur non authentifié", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test("est redirigé vers /signin avec le motif", async ({ page }) => {
