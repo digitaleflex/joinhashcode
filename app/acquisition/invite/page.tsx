@@ -19,9 +19,20 @@ export default function InvitePage() {
           Rejoins la communauté
         </h1>
         <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
-          Ton profil est prêt. Rejoins le groupe WhatsApp pour recevoir ton
-          parcours et ton premier challenge.
+          Ton profil est prêt. <strong className="text-foreground">Vérifie ta
+          boîte mail</strong> : ton lien d&apos;accès vient de t&apos;être
+          envoyé. Rejoins aussi le groupe WhatsApp pour ne rien manquer.
         </p>
+
+        <div className="mt-6 rounded-lg border border-primary/30 bg-primary/5 p-4 text-left">
+          <p className="text-sm font-medium text-foreground">
+            📬 Ton lien d&apos;accès est en route
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Un seul clic et tu arrives dans l&apos;academy, déjà identifié.
+            Pense à regarder tes spams si tu ne le vois pas.
+          </p>
+        </div>
 
         <div className="mt-8 rounded-lg border border-border bg-card p-6 space-y-4 text-left">
           <div className="flex items-start gap-3">
@@ -59,7 +70,7 @@ export default function InvitePage() {
                 Reçois ton parcours
               </p>
               <p className="text-muted-foreground text-xs mt-0.5">
-                Un mentor t&apos;oriente vers les cours adaptés à ton profil.
+                Ton lien d&apos;accès mène directement à ton parcours academy.
               </p>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { ProfilingFlow } from "./components/profiling-flow";
 import { track } from "@/lib/acquisition/analytics";
 import { recordProfilingConsent } from "@/app/actions/acquisition/consent";
 import { createProspectFromProfiling } from "@/app/actions/acquisition/prospect";
+import { sendAccessMagicLink } from "@/app/actions/acquisition/access";
 import type { ProfileAnswers } from "@/lib/acquisition/types";
 
 const PROFILE_STORAGE_KEY = "hashcode:acq:profile";
@@ -49,9 +50,16 @@ export default function AcquisitionProfilingPage() {
         availabilityTimes: answers.availabilityTimes,
         learningStyle: answers.learningStyle,
         mentoringInterest: answers.mentoringInterest === "yes",
-      }).catch(() => {
-        // idem — le parcours ne doit pas casser si la base est indisponible
-      });
+      })
+        // Le lien d'accès part UNE SEULE FOIS, après la création du profil
+        // (jamais au chargement d'une page — sinon un simple rafraîchissement
+        // enverrait un email de plus).
+        .then(() =>
+          sendAccessMagicLink({ email: answers.email, callbackURL: "/academy" })
+        )
+        .catch(() => {
+          // idem — le parcours ne doit pas casser si la base ou l'email échoue
+        });
     }
 
     track({ type: "profiling_completed" });
