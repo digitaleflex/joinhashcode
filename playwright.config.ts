@@ -40,6 +40,10 @@ export default defineConfig({
     command: 'pnpm dev',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
+    // Dette D6 : la 1re compilation Turbopack de ce projet peut dépasser 60 s
+    // (prisma generate + compile à froid). Le défaut de 60 s produisait des
+    // échecs « Timed out waiting from config.webServer » sans rapport avec le code.
+    timeout: 180_000,
     stdout: 'pipe',
     stderr: 'pipe',
   },
