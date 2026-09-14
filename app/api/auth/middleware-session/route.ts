@@ -42,9 +42,11 @@ export async function GET() {
       id: user.id,
       banned: user.banned ?? false,
       banExpires: user.banExpires,
+      deactivatedAt: user.deactivatedAt,
       betaKeyId: user.beta?.betaKeyId ?? null,
       currentSituation: user.currentSituation,
       class: user.class,
+      primaryDomain: user.primaryDomain,
       role: user.role,
     };
 
