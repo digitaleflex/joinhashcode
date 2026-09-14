@@ -95,7 +95,6 @@
 | Tâches planifiées (cron hashskills) | [#366](https://github.com/digitaleflex/joinhashcode/issues/366) | 🟡 BASSE |
 
 ### 🔧 Dettes techniques identifiées
-
 | # | Dette | Impact |
 |---|---|---|
 | D1 | Conteneur DB initialisé avec `hashcode_prod` + PgBouncer ne sert que `hashcode_prod` → dev utilise la connexion directe `hashcode_dev@5433` | Config locale incohérente avec la doc compose.db.yml |
@@ -107,10 +106,67 @@
 | D7 | Une page qui lève `AuthError` hors proxy rend un **HTTP 200** (page d'erreur) au lieu d'un 4xx/redirect — vérifié sur `/academy/my-courses` avant ajout au proxy | Fausse impression de protection ; toute route privée DOIT être dans `PROTECTED_PATHS` de `proxy.ts` |
 | D8 | Turbopack peut servir un module périmé (`"use client"` supprimé restait actif après fix) | Purger `.next/dev` + `.next/cache` avant de conclure sur un comportement suspect |
 | D9 | Une redirection Next levée **pendant le rendu** produit `200 + <meta refresh>`, pas un 3xx. Invisible pour un monitoring qui ne lit que le statut — `curl` ne peut pas distinguer « bloqué » de « autorisé » | Les sondes du gate ne sont fiables que pour les redirections du **proxy** (`PROTECTED_PATHS`). Toute protection doit vivre dans `proxy.ts`, pas dans les pages |
-| D10 | Contrat **implicite** entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse ni le build ni les tests (cause racine de l'issue #369) | Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
-| D10 | Contrat implicite entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse **ni le build ni les tests** (cause de #369) | 🔴 Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
+| D10 | Contrat **implicite** entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse ni le build ni les tests (cause racine de l'issue #369) | 🔴 Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
+| D11 | `connectionTimeoutMillis` codé en dur à 5 s : sous disque plein, Postgres swap → « Connection terminated » intermittents | ✅ **corrigé** — surchargeable via `DATABASE_CONNECT_TIMEOUT_MS` |
 
 ---
+
+## 🔬 ENVIRONNEMENT DE DÉVELOPPEMENT — cause racine des instabilités (2026-09-14)
+
+**Découverte : la majorité des « bugs » de la session n'étaient pas des bugs.**
+
+| Constat mesuré | Cause | Effet observé |
+|---|---|---|
+| Disque C: à **99 %** (6,1 Go libres sur 325) | `opencode.db` **17 Go** + Docker 20 Go + Kali WSL 15 Go | Windows ne peut plus agrandir son pagefile |
+| RAM à **4 %** (0,6 Go libres sur 15,9) | Conséquence du disque plein | Thrashing général |
+| `Connection terminated` Postgres | Docker en swap | Pages academy → 200 avec page d'erreur |
+| Chromium `code=3221225794` | `STATUS_INSUFFICIENT_RESOURCES` | Tests E2E en crash |
+| Turbopack 44 s à froid | Swap disque | Faux positifs E2E |
+| Tests passant seuls, échouant en lot | Contention système | Non reproductible |
+
+### 🐛 Bug d'opencode découvert
+
+`opencode session delete` nettoie `message`, `part` et `todo` (cascade depuis `session`),
+mais **PAS** la table `event` : ses events cascadent depuis `event_sequence`
+(`aggregate_id`), qui n'a **aucun lien vers `session`**.
+
+→ Les events restent **orphelins** et la base grossit sans fin.
+Mesuré : **`event` = 14,2 Go sur 17,3 Go** (82 % de la base), 924 999 lignes.
+
+**Remède** : supprimer aussi la ligne `event_sequence` correspondante → cascade sur `event`.
+Automatisé dans `scripts/cleanup-opencode-db.mjs`.
+
+### 🧰 Outils créés
+
+| Script | Rôle |
+|---|---|
+| `cleanup-opencode-db.mjs` | Supprime sessions anciennes + events orphelins, puis `VACUUM` (dry-run par défaut) |
+| `compact-docker-vhdx.ps1` | Compacte `docker_data.vhdx` (libérer l'espace Docker sur l'hôte, nécessite admin) |
+| `finish-cleanup.ps1` | Enchaîne les deux + redémarre Docker (à lancer opencode **fermé**, en admin) |
+| `session-review.mjs` | Bilan de session : coût/tokens par agent et par modèle, taux de cache, recommandations |
+
+### 📊 Économie de tokens — mesuré sur 2 jours
+
+```
+Coût total        : $6,52
+eurinhash (moi)   : $3,66  (56 %)   14,59 M tokens in
+orchestrator      : $2,73  (42 %)   10,75 M tokens in
+worker-novita     : $0,00  ( 0 %)    1,13 M tokens     ← gratuit
+worker-codestral  : $0,00  ( 0 %)    1,49 M tokens     ← gratuit
+Cache             : 97 % des entrées
+```
+
+**Leçon : 98 % du coût vient de l'orchestrateur, pas des modèles.**
+Le levier n'est pas de changer de modèle, c'est **de réduire le contexte transmis**
+et **de déléguer davantage aux workers gratuits**.
+
+Réglages appliqués dans `opencode.jsonc` pour y répondre :
+`compaction.prune: true`, `tool_output.max_bytes: 51200 → 16000`,
+`tail_turns: 10`, `batch_tool: true`, `continue_loop_on_deny: true`,
+`subagent_depth: 1 → 3`.
+
+---
+
 
 ## 0.11 — Unification Schema Prisma (DÉTAIL)
 
