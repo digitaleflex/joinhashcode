@@ -56,6 +56,8 @@
 | **0.23** | **Tests E2E parcours critique** | 12/09 | Commit `8a3b246` — 14 tests Playwright **14/14 ✅** ; Vitest **128 passed / 1 skipped** |
 | **0.21c** | **Monter composants + forum** | 12/09 | Commit `846a9e0` — 3 pages + `createTopic`/`createPost`/`getTopicWithPosts` + `ReplyForm`. **17/17 E2E ✅** |
 | **D7 / #353** | **Sécurité : gardes de page auto-redirigeantes** | 13/09 | Commit `e17d028` — `requirePageSession`/`requirePageRole` + test d'invariant falsifiable. Issue **#353 fermée**. `GATE VERT` |
+| **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → **boucle vers `/specialization`** pour tout user avec un `class`. Issue **#369** |
+| **#348 p1** | **Infra session E2E authentifiée** | 14/09 | Commit `753d594` — `testUtils` de better-auth + global-setup + storageState. Instructeur → 200 ✅ |
 | — | **Gate `npm run verify` + agents `verifier`/`integrator`** | 13/09 | Commit `1cf4554` + `~/.config/opencode/agent/`. 15 sondes + 17 E2E |
 
 ### 🟡 En cours (NOW)
@@ -100,6 +102,9 @@
 | D6 | `/academy/paths` met 44 s à froid (compilation Turbopack + Prisma) — ~1 s au chaud | Lenteur dev, faux positifs E2E (atténué par timeout 120 s local) |
 | D7 | Une page qui lève `AuthError` hors proxy rend un **HTTP 200** (page d'erreur) au lieu d'un 4xx/redirect — vérifié sur `/academy/my-courses` avant ajout au proxy | Fausse impression de protection ; toute route privée DOIT être dans `PROTECTED_PATHS` de `proxy.ts` |
 | D8 | Turbopack peut servir un module périmé (`"use client"` supprimé restait actif après fix) | Purger `.next/dev` + `.next/cache` avant de conclure sur un comportement suspect |
+| D9 | Une redirection Next levée **pendant le rendu** produit `200 + <meta refresh>`, pas un 3xx. Invisible pour un monitoring qui ne lit que le statut — `curl` ne peut pas distinguer « bloqué » de « autorisé » | Les sondes du gate ne sont fiables que pour les redirections du **proxy** (`PROTECTED_PATHS`). Toute protection doit vivre dans `proxy.ts`, pas dans les pages |
+| D10 | Contrat **implicite** entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse ni le build ni les tests (cause racine de l'issue #369) | Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
+| D10 | Contrat implicite entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse **ni le build ni les tests** (cause de #369) | 🔴 Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
 
 ---
 
