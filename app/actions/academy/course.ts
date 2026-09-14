@@ -1,6 +1,6 @@
 "use server";
 
-import { requireRole, AuthError } from "@/lib/auth-guard";
+import { requireRole, requireSession, AuthError } from "@/lib/auth-guard";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "../../../generated/prisma/client";
 import { revalidatePath } from "next/cache";
@@ -75,22 +75,80 @@ export async function createCourse(input: z.infer<typeof createCourseSchema>) {
  * ADMIN voit tout ; INSTRUCTOR ne voit que ses propres cours.
  */
 export async function getCourses() {
-  try {
-    const session = await requireRole(["ADMIN", "INSTRUCTOR"]);
-    const role = (session.user as { role?: string }).role;
+   try {
+     const session = await requireRole(["ADMIN", "INSTRUCTOR"]);
+     const role = (session.user as { role?: string }).role;
+ 
+     const courses = await prisma.course.findMany({
+       where: role === "ADMIN" ? {} : { instructorId: session.user.id },
+       orderBy: { createdAt: "desc" },
+       include: {
+         _count: { select: { sections: true, enrollments: true } },
+       },
+     });
+     return { success: true, data: courses };
+   } catch (error: unknown) {
+     if (error instanceof AuthError) {
+       return { success: false, error: error.message };
+     }
+     return { success: false, error: "Erreur lors du chargement des cours" };
+   }
+ }
 
-    const courses = await prisma.course.findMany({
-      where: role === "ADMIN" ? {} : { instructorId: session.user.id },
-      orderBy: { createdAt: "desc" },
-      include: {
-        _count: { select: { sections: true, enrollments: true } },
-      },
-    });
-    return { success: true, data: courses };
-  } catch (error: unknown) {
-    if (error instanceof AuthError) {
-      return { success: false, error: error.message };
-    }
-    return { success: false, error: "Erreur lors du chargement des cours" };
-  }
-}
+ const enrollSchema = z.object({
+   courseId: z.string().min(1),
+ });
+
+ export async function enrollInCourse(input: z.infer<typeof enrollSchema>) {
+   try {
+     const session = await requireSession();
+     const data = enrollSchema.parse(input);
+
+     const course = await prisma.course.findUnique({
+       where: { id: data.courseId },
+       select: { id: true, isPublished: true },
+     });
+
+     if (!course || !course.isPublished) {
+       return { success: false, error: "Cours introuvable" };
+     }
+
+     await prisma.enrollment.upsert({
+       where: { userId_courseId: { userId: session.user.id, courseId: data.courseId } },
+       update: {},
+       create: { userId: session.user.id, courseId: data.courseId },
+     });
+
+     revalidatePath("/academy/my-courses");
+     revalidatePath(`/academy/courses/${data.courseId}`);
+
+     await logActivity({
+       userId: session.user.id,
+       action: "ENROLL_COURSE",
+       entity: "Course",
+       entityId: data.courseId,
+     });
+
+     return { success: true };
+   } catch (error: unknown) {
+     if (error instanceof z.ZodError) {
+       return { success: false, error: "Données invalides" };
+     }
+     if (error instanceof AuthError) {
+       return { success: false, error: error.message };
+     }
+     return { success: false, error: "Erreur lors de l'inscription" };
+   }
+ }
+
+ export async function isEnrolled(courseId: string) {
+   try {
+     const session = await requireSession();
+     const enrollment = await prisma.enrollment.findUnique({
+       where: { userId_courseId: { userId: session.user.id, courseId } },
+     });
+     return enrollment !== null;
+   } catch {
+     return false;
+   }
+ }
