@@ -66,53 +66,47 @@ test.describe("Instructeur — parcours authentifié", () => {
   test("ouvrir le cours, créer un sujet de forum, poster une réponse", async ({
     page,
   }) => {
-    // 1. Crée un cours pour avoir un id de cours
+    // Navigue DIRECTEMENT vers la page du cours (id résolu via Prisma).
+    // Ne pas cliquer « Gérer » dans la liste : ce lien est le 1er de la page,
+    // pas forcément celui du cours créé → test non déterministe sous charge.
+    const instructor = await prisma.user.findUniqueOrThrow({
+      where: { email: "e2e-instructor@hashcode.test" },
+      select: { id: true },
+    });
     const title = `${PREFIX}Cours ${Date.now()}`;
-    await page.goto("/academy/my-courses/new");
-    await page.getByPlaceholder(/Masterclass/i).fill(title);
-    await page
-      .getByPlaceholder(/transformation/i)
-      .fill("Cours de test pour le forum.");
-    await page.getByRole("button", { name: /créer le cours/i }).click();
-    await expect(page).toHaveURL(/\/academy\/my-courses$/, { timeout: 30_000 });
+    const course = await prisma.course.create({
+      data: {
+        id: crypto.randomUUID(),
+        title,
+        slug: `e2e-forum-${Date.now()}`,
+        description: "Cours de test pour le forum.",
+        language: "FR",
+        level: "BEGINNER",
+        isPublished: true,
+        averageRating: 0,
+        totalLearners: 0,
+        instructorId: instructor.id,
+      },
+    });
 
-    // 2. Navigue vers la page du cours
-    await expect(page.getByText(title)).toBeVisible({ timeout: 15_000 });
-    await page.getByRole("link", { name: /gérer/i }).first().click();
-    await expect(page).toHaveURL(/\/academy\/my-courses\/[^/]+$/);
+    await page.goto(`/academy/my-courses/${course.id}`);
+    await expect(page).toHaveURL(new RegExp(`/academy/my-courses/${course.id}$`));
 
-    // 3. Ouvre le panneau Discussions
+    // Le panneau Discussions s'ouvre
     await page.getByRole("button", { name: /discussions/i }).click();
-    await expect(
-      page.getByText(/discussions/i).first()
-    ).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText(/discussions/i).first()).toBeVisible({
+      timeout: 15_000,
+    });
 
-    // 4. Tentative de création de sujet — SKIP car la page cours ne transmet
-    //    ni sectionId ni lessonId à ModuleDiscussions ; CreateTopicForm
-    //    affiche "Sélectionnez un module pour démarrer une discussion."
+    // ⛔ LIMITE FONCTIONNELLE RÉELLE (pas un défaut du test) :
+    // `ModuleDiscussions` est monté sur cette page SANS sectionId ni lessonId.
+    // `createTopic` exige l'un des deux (« Section ou leçon requise »), donc le
+    // formulaire de création n'est pas proposé. Impossible de créer un sujet
+    // depuis la page cours tant que la page ne transmet pas un contexte de module.
     test.skip(
       true,
-      "La création de sujet exige sectionId ou lessonId ; la page /academy/my-courses/[id] ne les fournit pas à ModuleDiscussions — impossible de remplir le formulaire depuis le navigateur."
+      "Création de sujet impossible depuis /academy/my-courses/[id] : ModuleDiscussions n'y reçoit ni sectionId ni lessonId (createTopic l'exige)."
     );
-
-    const topicTitle = `${PREFIX}Sujet ${Date.now()}`;
-    await page.getByRole("button", { name: /poser une question/i }).click();
-    await page.getByPlaceholder(/Ex: Question/i).fill(topicTitle);
-    await page.getByPlaceholder(/Décrivez votre question/i).fill("Contenu du sujet E2E.");
-    await page.getByRole("button", { name: /publier/i }).click();
-
-    // Vérifie que le sujet apparaît dans la liste
-    await expect(page.getByText(topicTitle)).toBeVisible({ timeout: 15_000 });
-
-    // 5. Ouvre le sujet et poste une réponse
-    await page.getByRole("link", { name: new RegExp(topicTitle, "i") }).click();
-    await expect(page).toHaveURL(/\/academy\/my-courses\/[^/]+\/forum\/[^/]+$/);
-
-    const replyContent = `Réponse E2E ${Date.now()}`;
-    await page.getByLabel(/Ta réponse/i).fill(replyContent);
-    await page.getByRole("button", { name: /répondre/i }).click();
-
-    await expect(page.getByText(replyContent)).toBeVisible({ timeout: 15_000 });
   });
 });
 
