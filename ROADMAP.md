@@ -58,6 +58,10 @@
 | **D7 / #353** | **Sécurité : gardes de page auto-redirigeantes** | 13/09 | Commit `e17d028` — `requirePageSession`/`requirePageRole` + test d'invariant falsifiable. Issue **#353 fermée**. `GATE VERT` |
 | **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → **boucle vers `/specialization`** pour tout user avec un `class`. Issue **#369** |
 | **#348 p1** | **Infra session E2E authentifiée** | 14/09 | Commit `753d594` — `testUtils` de better-auth + global-setup + storageState. Instructeur → 200 ✅ |
+| **#348 p2** | **Scénarios E2E authentifiés** | 14/09 | Commit `9ce011e` — création de cours prouvée. Issue **#348 fermée** |
+| **#349** | **`enrollInCourse` — inscription apprenant** | 14/09 | Commits `d7a2f64` + `8eb308c` + `bdd54a8`. Issue **#349 fermée** |
+| **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → boucle vers `/specialization`. Issue **#369 fermée** |
+| **D11** | **Timeout DB configurable** | 14/09 | Commit `d902412` — `DATABASE_CONNECT_TIMEOUT_MS`. Échecs E2E : 6 → 0 |
 | — | **Gate `npm run verify` + agents `verifier`/`integrator`** | 13/09 | Commit `1cf4554` + `~/.config/opencode/agent/`. 15 sondes + 17 E2E |
 
 ### 🟡 En cours (NOW)
