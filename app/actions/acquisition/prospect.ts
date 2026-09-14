@@ -86,7 +86,12 @@ export async function createProspectFromProfiling(input: ProspectInput) {
     const user = await prisma.user.upsert({
       where: { email: data.email },
       // Ne JAMAIS écraser le rôle ni les champs sensibles d'un compte existant.
-      update: { name: data.firstName },
+      // `primaryDomain` sert aux recommandations de cours sur /academy ; on ne
+      // l'écrase que s'il est fourni.
+      update: {
+        name: data.firstName,
+        ...(data.primaryDomain ? { primaryDomain: data.primaryDomain } : {}),
+      },
       create: {
         id: crypto.randomUUID(),
         name: data.firstName,
@@ -94,6 +99,7 @@ export async function createProspectFromProfiling(input: ProspectInput) {
         emailVerified: false, // confirmé au clic du magic link
         role: "MEMBER",
         language: "fr",
+        primaryDomain: data.primaryDomain ?? null,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

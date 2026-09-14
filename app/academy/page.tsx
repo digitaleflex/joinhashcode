@@ -11,6 +11,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { getRecommendedCourses } from "@/lib/academy/recommendations";
 
 /* ── Metadata ──────────────────────────────────────────────── */
 
@@ -53,6 +56,27 @@ export default async function AcademyHubPage() {
     orderBy: { createdAt: "desc" as const },
     take: 3,
   });
+
+  // Recommandations personnalisées à partir du profil d'acquisition.
+  // La page est PUBLIQUE : on lit la session en best-effort (jamais de throw)
+  // pour ne pas casser l'accès visiteur.
+  //
+  // NB: `primaryDomain` n'est PAS dans les `additionalFields` de better-auth,
+  // donc absent de `session.user` — il faut le lire en base.
+  const session = await auth.api
+    .getSession({ headers: await headers() })
+    .catch(() => null);
+  const profile = session?.user
+    ? await prisma.user
+        .findUnique({
+          where: { id: session.user.id },
+          select: { primaryDomain: true },
+        })
+        .catch(() => null)
+    : null;
+  const recommended = profile?.primaryDomain
+    ? await getRecommendedCourses(profile.primaryDomain).catch(() => null)
+    : null;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -166,6 +190,66 @@ export default async function AcademyHubPage() {
           </Link>
         </div>
       </section>
+
+      {/* ── Recommandé pour toi ──────────────────────────────── */}
+      {/* Affiché uniquement si le visiteur est connecté ET que son profil
+          d'acquisition a permis de matcher une catégorie. On ne montre pas
+          un repli générique ici : il ferait doublon avec « Cours à la une »
+          juste en dessous. */}
+      {recommended?.matched && recommended.courses.length > 0 && (
+        <section className="border-y border-border bg-card py-20">
+          <div className="max-w-7xl mx-auto px-6 space-y-10">
+            <div>
+              <span className="text-[12px] font-black uppercase tracking-[0.2em] text-primary">
+                Recommandé pour toi
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
+                D&apos;après ton profil
+              </h2>
+              <p className="mt-3 text-muted-foreground font-medium max-w-2xl">
+                Tu as indiqué que ce domaine t&apos;attirait le plus. Voici par
+                où commencer.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recommended.courses.map((course) => (
+                <Link
+                  key={course.id}
+                  href={`/academy/courses/${course.slug}`}
+                  className="group flex flex-col gap-3 rounded-2xl border border-border bg-background p-6 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+                >
+                  {course.categoryName && (
+                    <span className="text-[10px] font-black uppercase tracking-wider text-primary">
+                      {course.categoryName}
+                    </span>
+                  )}
+                  <h3 className="text-lg font-black text-foreground leading-tight group-hover:text-primary transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm font-medium line-clamp-2 leading-relaxed">
+                    {course.description ??
+                      "Découvrez les fondamentaux de ce parcours."}
+                  </p>
+                  <div className="mt-auto flex items-center gap-3 pt-2 text-[11px] font-bold text-muted-foreground">
+                    <span>{levelLabel(course.level)}</span>
+                    {course.averageRating > 0 && (
+                      <span>★ {course.averageRating.toFixed(1)}</span>
+                    )}
+                    {course.totalLearners > 0 && (
+                      <span>{course.totalLearners} inscrits</span>
+                    )}
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-black text-primary">
+                    Voir le cours
+                    <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Cours à la une ───────────────────────────────────── */}
       <section className="bg-secondary py-24">
