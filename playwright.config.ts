@@ -1,9 +1,20 @@
+// Charge les .env EN PREMIER — Playwright ne les charge pas automatiquement.
+// Indispensable : le globalSetup lit BETTER_AUTH_SECRET (signature des cookies de
+// session) et @/lib/prisma lit DATABASE_URL. Sans ça, les sessions de test sont
+// signées avec un mauvais secret et rejetées par l'application.
+// NB: en ES modules, tous les `import` sont évalués avant le corps du module —
+// charger dotenv dans un module importé ne suffit donc pas.
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
+
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = process.env.PORT || 3000;
 const baseURL = `http://localhost:${PORT}`;
 
 export default defineConfig({
+  globalSetup: "./e2e/global-setup.ts",
   testDir: './e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

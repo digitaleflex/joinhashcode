@@ -81,6 +81,9 @@ DOCS/typedoc/
 # Fichiers uploadés localement (servis par VPS, pas versionnés)
 public/uploads/
 
+# Playwright auth state (session tokens — never commit)
+e2e/.auth/
+
 # Playwright (sorties de test)
 test-results/
 playwright-report/
