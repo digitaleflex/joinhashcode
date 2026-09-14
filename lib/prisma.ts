@@ -26,7 +26,12 @@ const pool =
       connectionString: url,
       max: 10,                       // Limit concurrent connections to avoid overwhelming remote DB
       idleTimeoutMillis: 60000,      // Keep idle connections alive longer for reuse
-      connectionTimeoutMillis: 5000, // 5s timeout — loading.tsx gère l'attente utilisateur
+      // 5s par défaut (adapté à un VPS dédié). Sur une machine de dev chargée
+      // (RAM saturée → Postgres en Docker swap), 5s provoque des
+      // « Connection terminated due to connection timeout » intermittents qui
+      // font échouer des tests de façon non reproductible.
+      // Surchargeable via DATABASE_CONNECT_TIMEOUT_MS dans .env.local.
+      connectionTimeoutMillis: Number(process.env.DATABASE_CONNECT_TIMEOUT_MS ?? 5000),
       ssl: isLocalDb || sslDisabled
         ? false
         : {
