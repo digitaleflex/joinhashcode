@@ -4,6 +4,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft, Check, Clock, GraduationCap, Star, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EnrollButton } from "@/components/academy/enroll-button";
+import { requireSession } from "@/lib/auth-guard";
+import { isEnrolled } from "@/app/actions/academy/course";
 
 export const dynamic = "force-dynamic";
 
@@ -21,26 +24,38 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
     };
 }
 
-export default async function AcademyCoursePage({ params }: CoursePageProps) {
-    const { slug } = await params;
-
-    const course = await prisma.course.findUnique({
-        where: { slug },
-        include: {
-            instructor: { select: { name: true, image: true } },
-            category: true,
-            sections: {
-                orderBy: { order: "asc" },
-                include: { contents: { orderBy: { order: "asc" } } }
-            }
-        }
-    });
-
-    if (!course) notFound();
-
-    const totalLessons = course.sections.reduce((acc: number, s: { contents: unknown[] }) => acc + s.contents.length, 0);
-
-    return (
+ export default async function AcademyCoursePage({ params }: CoursePageProps) {
+     const { slug } = await params;
+ 
+     const course = await prisma.course.findUnique({
+         where: { slug },
+         include: {
+             instructor: { select: { name: true, image: true } },
+             category: true,
+             sections: {
+                 orderBy: { order: "asc" },
+                 include: { contents: { orderBy: { order: "asc" } } }
+             }
+         }
+     });
+ 
+     if (!course) notFound();
+ 
+     const totalLessons = course.sections.reduce((acc: number, s: { contents: unknown[] }) => acc + s.contents.length, 0);
+ 
+    // Vérifie l'état d'inscription côté serveur.
+    // Si pas de session, requireSession() throw → on affiche un lien /signin.
+    let isAuthenticated = false;
+    let enrolled = false;
+    try {
+      await requireSession();
+      isAuthenticated = true;
+      enrolled = await isEnrolled(course.id);
+    } catch {
+      isAuthenticated = false;
+    }
+ 
+     return (
         <div className="max-w-7xl mx-auto px-6 py-12">
             <Link
                 href="/academy/courses"
@@ -110,11 +125,18 @@ export default async function AcademyCoursePage({ params }: CoursePageProps) {
                             <p className="text-xs font-bold text-muted-foreground">{course.totalLearners} élèves inscrits</p>
                         </div>
 
-                        <Button asChild className="w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest">
-                            <Link href={`/academy/my-courses/${course.id}`}>
-                                Commencer le cours
-                            </Link>
-                        </Button>
+                                                {/* 
+    Mode FREE : pas d'appel réseau externe, pas d'email.
+    Si l'utilisateur n'est pas authentifié, on affiche un lien vers /signin 
+    au lieu du bouton d'inscription (le server action renverrait 401).
+  */}
+  {isAuthenticated ? (
+    <EnrollButton courseId={course.id} initiallyEnrolled={enrolled} />
+  ) : (
+    <Button asChild className="w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest">
+      <Link href="/signin">Se connecter pour s'inscrire</Link>
+    </Button>
+  )}
 
                         <ul className="mt-8 space-y-3 text-sm font-bold text-muted-foreground">
                             <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Accès à vie</li>

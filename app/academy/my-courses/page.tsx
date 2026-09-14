@@ -44,12 +44,14 @@ function EmptyState({ isInstructor }: { isInstructor: boolean }) {
   );
 }
 
-async function CoursesList({ isInstructor }: { isInstructor: boolean }) {
+async function CoursesList({ isInstructor, userId }: { isInstructor: boolean; userId?: string }) {
   let courses: { id: string; title: string; isPublished: boolean; updatedAt: Date }[] = [];
 
   try {
     courses = await prisma.course.findMany({
-      where: isInstructor ? {} : { isPublished: true },
+      where: isInstructor
+        ? {}
+        : { isPublished: true, enrollments: { some: { userId: userId! } } },
       select: {
         id: true,
         title: true,
@@ -119,7 +121,7 @@ export default async function AcademyMyCoursesPage() {
       </div>
 
       <Suspense fallback={<CoursesListSkeleton />}>
-        <CoursesList isInstructor={isInstructor} />
+        <CoursesList isInstructor={isInstructor} userId={session.user.id} />
       </Suspense>
     </div>
   );
