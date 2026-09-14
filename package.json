@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "prisma generate && next dev",
     "clean": "rm -rf .next/cache",
+    "dev:clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && npm run dev",
     "build": "npm run clean && prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
