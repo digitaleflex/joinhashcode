@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { RotateCcw } from "lucide-react";
 import { HashSymbol } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -366,6 +367,32 @@ export function ProfilingFlow({ onComplete, onBack }: ProfilingFlowProps) {
           advance(current);
         }}
       />
+
+      {/* Consentement — affiché sur la DERNIÈRE question uniquement.
+          Réutilise le pattern déjà en place dans components/auth/signin-form.tsx
+          (« En continuant, tu acceptes… ») pour rester cohérent.
+          Couvre : CGU + traitement du profil + envoi de l'email d'accès
+          (transactionnel). Le marketing exigerait un opt-in séparé. */}
+      {step === visible.length - 1 && (
+        <p className="mt-6 max-w-md mx-auto text-[10px] leading-normal text-muted-foreground font-medium text-center px-1 select-none">
+          En continuant, tu acceptes nos{" "}
+          <Link
+            href="/terms"
+            className="text-primary hover:underline font-bold transition-colors"
+          >
+            Conditions d&apos;utilisation
+          </Link>{" "}
+          et notre{" "}
+          <Link
+            href="/privacy"
+            className="text-primary hover:underline font-bold transition-colors"
+          >
+            Politique de confidentialité
+          </Link>
+          , et tu autorises HASHCODE à traiter tes réponses pour établir ton
+          profil et t&apos;envoyer ton accès.
+        </p>
+      )}
     </ProfilingShell>
   );
 }
