@@ -1,3 +1,19 @@
+# ⚠️ DOCUMENT ARCHIVÉ — NE PLUS UTILISER COMME RÉFÉRENCE
+
+> **Archivé le 2026-09-16** (commit `831e8e1`).
+>
+> Ce fichier a été remplacé par **`ROADMAP.md`** à la racine, seule source de vérité
+> pour l'avancement et les priorités du projet.
+>
+> **Pourquoi l'archivage :** ce roadmap a été auto-généré et a fini par rivaliser avec
+> la constitution du produit (`PRODUCT_VISION.md`). Il contient notamment du périmètre
+> **explicitement éliminé** (Guildes, finance/B2C, i18n complète, Sentry…).
+> Voir la section « Périmètre ÉLIMINÉ » de `ROADMAP.md`.
+>
+> Conservé uniquement comme **trace historique**. Ne pas s'en servir pour décider.
+
+---
+
 # Roadmap Production — HASHCODE
 
 **Statut:** Bêta fonctionnelle (~70%) → Production ready (100%)

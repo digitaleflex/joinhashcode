@@ -226,10 +226,7 @@ model User {
   aiConversations   AIConversation[]
   certificates      Certificate[]
   userBadges        UserBadge[]
-  auditLogs         LearningAuditLog[]
   blogPosts         BlogPost[]
-  profilingDraft    ProfilingDraft?
-  adminAuditLogs    AdminAuditLog[]
   analyticsEvents   AnalyticsEvent[]
 
   missionAttempts       MissionAttempt[]      @relation("AttemptOwner")
@@ -357,9 +354,6 @@ model Member {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  eventRsvps   EventRsvp[]
-  memberEmailLogs MemberEmailLog[]
-  memberSessions  MemberSession[]
 
   @@index([userId])
   @@index([organizationId])
@@ -700,34 +694,6 @@ model Notification {
 // REBOOT — AdminKey, AuditLog→AdminAuditLog, AnalyticsEvent, etc.
 // ============================================================
 
-model AdminKey {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  isUsed    Boolean  @default(false)
-  usedBy    String?  @unique
-  expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@map("admin_key")
-}
-
-model AdminAuditLog {
-  id         String   @id @default(cuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  action     String
-  entityType String
-  entityId   String?
-  metadata   Json?
-  ipAddress  String?
-  createdAt  DateTime @default(now())
-
-  @@index([userId])
-  @@index([action])
-  @@map("admin_audit_log")
-}
-
 model AnalyticsEvent {
   id        String   @id @default(cuid())
   userId    String?
@@ -740,107 +706,6 @@ model AnalyticsEvent {
   @@index([event])
   @@index([createdAt])
   @@map("analytics_event")
-}
-
-model EmailEvent {
-  id        String   @id @default(cuid())
-  type      String
-  recipient String
-  subject   String?
-  status    String   @default("PENDING")
-  createdAt DateTime @default(now())
-
-  @@index([recipient])
-  @@index([status])
-  @@map("email_event")
-}
-
-model MemberEmailLog {
-  id        String   @id @default(cuid())
-  memberId  String
-  email     String
-  status    String   @default("SENT")
-  sentAt    DateTime?
-  openedAt  DateTime?
-  createdAt DateTime @default(now())
-  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
-
-  @@index([memberId])
-  @@map("member_email_log")
-}
-
-model ProfilingDraft {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  data      Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId])
-  @@map("profiling_draft")
-}
-
-model MemberSession {
-  id        String   @id @default(cuid())
-  memberId  String
-  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  token     String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  @@index([memberId])
-  @@map("member_session")
-}
-
-model MemberBlacklist {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  reason    String?
-  createdAt DateTime @default(now())
-
-  @@map("member_blacklist")
-}
-
-model Event {
-  id             String      @id @default(cuid())
-  title          String
-  description    String?
-  startsAt       DateTime?
-  endsAt         DateTime?
-  location       String?
-  maxAttendees   Int?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-  rsvps          EventRsvp[]
-
-  @@map("event")
-}
-
-model EventRsvp {
-  id        String   @id @default(cuid())
-  eventId   String
-  memberId  String
-  status    String   @default("PENDING")
-  createdAt DateTime @default(now())
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, memberId])
-  @@index([memberId])
-  @@map("event_rsvp")
-}
-
-model EmailProviderMetric {
-  id         String @id @default(cuid())
-  provider   String
-  deliveries Int    @default(0)
-  bounces    Int    @default(0)
-  complaints Int    @default(0)
-  createdAt  DateTime @default(now())
-
-  @@unique([provider])
-  @@map("email_provider_metric")
 }
 
 // ============================================================
@@ -1257,22 +1122,6 @@ model BlogPost {
 
   @@index([authorId])
   @@map("blog_post")
-}
-
-model LearningAuditLog {
-  id         String   @id @default(cuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  action     String
-  resource   String
-  resourceId String?
-  metadata   Json?
-  ipAddress  String?
-  createdAt  DateTime @default(now())
-
-  @@index([userId])
-  @@index([action])
-  @@map("audit_log")
 }
 
 model MissionStep {

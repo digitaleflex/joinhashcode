@@ -1,5 +1,66 @@
 # Spécification fonctionnelle — Evidence & Portfolio Manager
 
+> ## ⚠️ NOTE DE CADRAGE — 2026-09-16 (à lire AVANT d'implémenter)
+>
+> Ce spec est bon et complet. Confronté au code réel et à `PRODUCT_VISION.md`,
+> **trois écarts** ont été identifiés. À trancher **avant** d'écrire la migration.
+
+### Écart 1 — Le spec créerait un 3ᵉ système de validation
+
+`MissionSubmission` + `MissionReview` portent **déjà 5 des 6 attributs** de l'Evidence :
+
+| Attribut exigé par `PRODUCT_VISION.md` | Où il existe déjà |
+|---|---|
+| **Compétence validée** | ❌ **le seul qui manque** |
+| Projet / mission réalisé | `MissionSubmission.missionId` |
+| Validation du mentor (avec feedback) | `MissionSubmission.reviewerId`, `.reviewerFeedback`, `MissionReview.criteria` |
+| Date de validation | `MissionReview.createdAt` |
+| Lien vers le livrable | `MissionSubmission.content`, `.projectDescription` |
+
+Le projet a **déjà 2 moteurs de mission en parallèle** et un **double-écrit** à chaque
+soumission (`app/api/missions/route.ts:79` **et** `app/api/missions/[id]/attempt/submit/route.ts:169`).
+Le spec tel quel en ajouterait un **troisième**.
+
+> **Règle à graver :** l'approbation d'une mission crée l'`Evidence` **dans la même
+> transaction** — un seul geste, un seul écrivain, jamais une 2ᵉ saisie manuelle.
+> Ensuite l'`Evidence` devient **la seule source du portfolio**
+> (*« Le portfolio = une collection d'evidences, pas une liste de projets »*).
+
+### Écart 2 — `skill String` ne permet pas les niveaux de maturité
+
+Le spec propose `skill String` (ex. `"html_css_responsive"`). Or la constitution exige :
+
+- **Specialist** = « 3+ evidences **dans une spécialisation** »
+- **Mentor** = « 5+ evidences + recommandation pairs »
+
+Impossible de compter « dans une spécialisation » avec une chaîne libre.
+
+→ Ajouter une FK vers `Specialization.specializationId` (**modèle déjà existant**).
+Convention : `skill` = la compétence précise (outil / techno) ; `specializationId` = le regroupement.
+
+### Écart 3 — Les niveaux de maturité ne sont pas modélisés
+
+La constitution définit `Explorer → Learner → Practitioner → Verified → Specialist → Mentor`.
+Aucun n'existe dans le schéma. Ce sont des niveaux **dérivés**, pas des champs :
+
+| Niveau | Déclencheur | Source de vérité |
+|---|---|---|
+| Explorer | inscription | `User` existe |
+| Learner | objectif 90 jours défini | à câbler |
+| Practitioner | 1er projet terminé | 1 `MissionSubmission` non `PENDING` |
+| **Verified** | **1ʳᵉ evidence validée** | `count(Evidence where status=approved) >= 1` |
+| Specialist | 3+ evidences dans une spécialisation | `groupBy(specializationId)` |
+| Mentor | 5+ + recommandation des pairs | à définir |
+
+→ **Fonction dérivée** (`lib/maturity.ts`), pas de champ à maintenir à la main.
+
+### Ce qui est conservé tel quel
+
+Le modèle, les 8 routes API, la vue portfolio et l'export (PDF / lien public) sont **bons**.
+Coût réel : **11 h + 4 h de tests** (estimation du spec) **+ ~3 h** pour les 3 écarts ci-dessus.
+
+---
+
 > Module du Command Center dédié à la validation des compétences et au portfolio des membres.
 
 ---

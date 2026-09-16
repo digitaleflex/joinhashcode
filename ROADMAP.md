@@ -1,351 +1,167 @@
-# Roadmap HashCode — Vue Maître
+# ROADMAP — Source unique de vérité
 
-> **Document de référence principal.** Toute avancée est tracée ici.
-> **Références :** `RAPPORT_STRATEGIQUE.md` (analyse marché), `VISION_UNIFIEE.md` (vision), `ADMIN_VISION.md` (admin), `DOCS/COMMAND_CENTER_VISION.md` (centre de commande)
-> **Dernière mise à jour :** 11 septembre 2026
-
----
-
-## Résumé du projet
-
-**Projet :** HashCode — plateforme de talents tech vérifiés d'Afrique francophone
-**Base :** `hashcode-community` (joinhashcode.com) — monolithe modulaire
-**À absorber :** `hashcode_reboot` (funnel) + `hashskills` (academy) + `hashcode-community-portal` (admin/pôles)
-**Vision :** Débutant → Academy → Communauté → Evidences → Certification → Talent Pool → Entreprises
-**Monétisation :** B2B — jamais de paiement membre (pouvoir d'achat faible en Afrique francophone)
+> **Ce document remplace les 3 anciens ROADMAP.** Il est le seul à faire foi pour
+> l'avancement du projet. Les deux autres sont archivés :
+> `DOCS/archive/ROADMAP_ISSUES.md` et `DOCS/archive/ROADMAP_PRODUCTION.md`
+> (conservés pour l'historique, **ne plus les utiliser comme référence**).
+>
+> **Document de référence produit :** `PRODUCT_VISION.md` — *la constitution*.
+> Elle est supérieure à ce fichier. En cas de contradiction, **`PRODUCT_VISION.md` gagne.**
+>
+> **Dernière mise à jour :** 2026-09-16, commit `831e8e1` — chiffres **mesurés**, pas estimés.
 
 ---
 
-## État de l'avancement
+## 0. Les 4 documents de référence (et rien d'autre)
 
-| Phase | Statut | Dates | Détail |
-|---|---|---|---|
-| **0 — Unification** | 🟡 En cours | Semaines 1-4 | Un codebase, 1 schema, 1 auth |
-| 1 — Communauté | ⬜ À faire | Semaines 5-10 | Discord, parcours guidé, 500 membres |
-| 2 — Certification | ⬜ À faire | Semaines 11-18 | 10 certifiés, 1er contrat agence |
-| 3 — Scale | ⬜ À faire | Semaines 19-26 | 1000 membres, 25 certifiés |
-
----
-
-## Phase 0 — Unification (EN COURS)
-
-### ✅ Terminé
-
-| # | Action | Fait le | Preuve |
-|---|---|---|---|
-| 0.1 | Audit responsive UI/UX (L1+L2) | 11/09 | 11 commits sur hashcode_reboot |
-| 0.2 | Micro-polish UI (empty states, typo, spacing) | 11/09 | Commit `5ddb7c4` |
-| 0.3 | Bottom navbar mobile | 11/09 | Commit `f6b5cb5` |
-| 0.4 | Refactor labels/Card/OptionCard | 11/09 | Commit `0e73716` |
-| 0.5 | Analyse concurrentielle complète | 11/09 | `RAPPORT_STRATEGIQUE.md` |
-| 0.6 | Vision unifiée documentée | 11/09 | `VISION_UNIFIEE.md` |
-| 0.7 | Nettoyage code community (console.log→logger, types any) | 11/09 | Commit `2172861` |
-| 0.8 | Middleware.ts (auth guard /dashboard /admin) | 11/09 | Commit `2172861` |
-| 0.9 | Routes shell /acquisition + /academy | 11/09 | Commit `2172861` |
-| 0.10 | Audit code community complet | 11/09 | Score 5.2/10, 10/18 admin OK |
-| **0.11** | **Unifier schema Prisma** | 11/09 | Commit `3e85688` — 24→61 models, `prisma validate` ✅, `tsc` ✅ |
-| **0.12** | **Migration Prisma + seed** | 11/09 | DB `hashcode_dev` opérationnelle, `prisma db push` ✅, seed ✅, `tsc` ✅ |
-| **0.13** | **Vérification better-auth** | 11/09 | Config OK, client généré, middleware OK, dev server OK, `tsc` ✅ |
-| **0.14** | **Config better-auth cross-domain** | 11/09 | Commit `d3174a8` — parentDomain `.joinhashcode.com` + trusted origins reboot |
-| **0.15** | **Migrer funnel reboot → /acquisition** | 11/09 | Commit `829719a` — landing + profiling 6 étapes + invite, 14 fichiers, `tsc` ✅ |
-| **0.16** | **Migrer academy hashskills → /academy** | 11/09 | Commit `850bd6e` — courses, programme, paths, diplomas, my-courses, certificates, 13 fichiers, `tsc` ✅ |
-| **0.20** | **Seed academy (HEF + cours)** | 11/09 | Commit `9d2c6ab` — 1 program, 4 phases, 17 pillars, 5 catégories, 8 tags, 3 cours, 18 contenus, 3 quiz, 4 badges |
-| **0.21** | **Câbler pages academy → Prisma** | 11/09 | Commit `dca7385` — 5 pages + fix proxy/middleware + fix stub profiling. Live 9/9 routes 200 |
-| **0.22** | **Navigation /academy + hub** | 11/09 | Commit `120d960` — sidebar, bottom-nav, landing nav + hub /academy (cours DB). Live 200 ✅ |
-| **0.21b** | **Server actions academy** | 12/09 | Commit `6c4d5e6` — `createCourse` + `getContextTopics` + `requireRole`, composants câblés. `tsc` ✅ `eslint` ✅ |
-| **0.23** | **Tests E2E parcours critique** | 12/09 | Commit `8a3b246` — 14 tests Playwright **14/14 ✅** ; Vitest **128 passed / 1 skipped** |
-| **0.21c** | **Monter composants + forum** | 12/09 | Commit `846a9e0` — 3 pages + `createTopic`/`createPost`/`getTopicWithPosts` + `ReplyForm`. **17/17 E2E ✅** |
-| **D7 / #353** | **Sécurité : gardes de page auto-redirigeantes** | 13/09 | Commit `e17d028` — `requirePageSession`/`requirePageRole` + test d'invariant falsifiable. Issue **#353 fermée**. `GATE VERT` |
-| **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → **boucle vers `/specialization`** pour tout user avec un `class`. Issue **#369** |
-| **#348 p1** | **Infra session E2E authentifiée** | 14/09 | Commit `753d594` — `testUtils` de better-auth + global-setup + storageState. Instructeur → 200 ✅ |
-| **#348 p2** | **Scénarios E2E authentifiés** | 14/09 | Commit `9ce011e` — création de cours prouvée. Issue **#348 fermée** |
-| **#349** | **`enrollInCourse` — inscription apprenant** | 14/09 | Commits `d7a2f64` + `8eb308c` + `bdd54a8`. Issue **#349 fermée** |
-| **#369** | **Bug prod : session middleware incomplète** | 14/09 | Commit `341345d` — `primaryDomain` + `deactivatedAt` manquants → boucle vers `/specialization`. Issue **#369 fermée** |
-| **#368** | **Funnel acquisition → academy** | 14/09 | **5 commits** (`8e0050c`, `d2acb38`, `5e06891`, `87ebf0e`, `1c701aa`). Issue **#368 fermée** — le tunnel passe de **mort** à **vivant** |
-| **#356/#357/#360** | **Hygiène (VAGUE 0)** | 14/09 | Commit `2c9eba0` + commit reboot. 3 issues fermées |
-| **#370** | *Trou de contenu : catégories `web`/`securite` vides* | 14/09 | Issue créée — 2 profils sur 3 sans recommandation |
-| **D11** | **Timeout DB configurable** | 14/09 | Commit `d902412` — `DATABASE_CONNECT_TIMEOUT_MS`. Échecs E2E : 6 → 0 |
-| — | **Gate `npm run verify` + agents `verifier`/`integrator`** | 13/09 | Commit `1cf4554` + `~/.config/opencode/agent/`. 15 sondes + 17 E2E |
-
-### 🟡 En cours (NOW)
-
-> Toutes les issues ouvertes : **[EPIC #347](https://github.com/digitaleflex/joinhashcode/issues/347)**
-
-| # | Action | Issue | Priorité | Risque |
-|---|---|---|---|---|
-| 0.24 | Vérifier le flux forum authentifié (E2E session réelle) | [#348](https://github.com/digitaleflex/joinhashcode/issues/348) | 🟠 MOYENNE | 🟢 |
-| 0.25 | `enrollInCourse` (inscription apprenant) | [#349](https://github.com/digitaleflex/joinhashcode/issues/349) | 🟡 BASSE | 🟢 |
-
-### ⬜ À faire dans la Phase 0
-
-| # | Action | Issue | Priorité | Risque |
-|---|---|---|---|---|
-| 0.17 | Localiser/absorber `hashcode-community-portal` | [#350](https://github.com/digitaleflex/joinhashcode/issues/350) | 🟡 BASSE | 🚫 **bloqué** |
-| 0.18 | Feature flags | [#351](https://github.com/digitaleflex/joinhashcode/issues/351) | 🟡 BASSE | 🟢 |
-| 0.19 | Redirects 301 des domaines absorbés | [#352](https://github.com/digitaleflex/joinhashcode/issues/352) | 🟡 BASSE | 🟢 |
-
-### 🔌 Connexions des repos sources (à brancher)
-
-| Action | Issue | Priorité |
+| Document | Rôle | Statut |
 |---|---|---|
-| Funnel acquisition → onboarding academy | [#368](https://github.com/digitaleflex/joinhashcode/issues/368) | 🟠 **HAUTE** |
-| Absorber les modules admin de `hashcode_reboot` | [#361](https://github.com/digitaleflex/joinhashcode/issues/361) | 🟠 **HAUTE** |
-| Absorber la gestion du programme HEF de `hashskills` | [#362](https://github.com/digitaleflex/joinhashcode/issues/362) | 🟠 **HAUTE** |
-| Unifier les services email des 3 repos | [#367](https://github.com/digitaleflex/joinhashcode/issues/367) | 🟠 MOYENNE |
-| Gestion des médias/contenus (Drive ou R2) | [#363](https://github.com/digitaleflex/joinhashcode/issues/363) | 🟠 MOYENNE |
-| Tuteur IA (`hashskills/lib/ai.ts`) | [#364](https://github.com/digitaleflex/joinhashcode/issues/364) | 🟡 BASSE |
-| Unifier Arcjet vs ratelimit community | [#365](https://github.com/digitaleflex/joinhashcode/issues/365) | 🟡 BASSE |
-| Tâches planifiées (cron hashskills) | [#366](https://github.com/digitaleflex/joinhashcode/issues/366) | 🟡 BASSE |
+| `PRODUCT_VISION.md` | **La constitution** — 6 piliers, vocabulaire, anti-patterns | 🔒 **ne plus évoluer** pendant l'implémentation |
+| `RAPPORT_STRATEGIQUE.md` | Marché, moat, modèle économique | vivant, revue mensuelle |
+| `ABSORPTION.md` | Décommission des 4 codebases | vivant — checklist active |
+| `ROADMAP.md` | **ce fichier** — avancement et priorités | vivant |
 
-### 🔧 Dettes techniques identifiées
-| # | Dette | Impact |
-|---|---|---|
-| D1 | Conteneur DB initialisé avec `hashcode_prod` + PgBouncer ne sert que `hashcode_prod` → dev utilise la connexion directe `hashcode_dev@5433` | Config locale incohérente avec la doc compose.db.yml |
-| D2 | Fichiers parasites `C:UsersPCDocumentshashcode_reboot...` dans `hashcode_reboot/` (générés par un worker avec des backslashes) | Pollution du repo reboot |
-| D3 | `.next/dev/types/*.d.ts` se corrompt quand un dev server est interrompu → `tsc` échoue (TS1005/TS1109). Fix: supprimer `.next/dev` et relancer | Faux positifs tsc |
-| D4 | `next-env.d.ts` est tracké et bascule `.next/types` ↔ `.next/dev/types` selon dev/build | Churn git |
-| D5 | Vitest n'injecte pas `DATABASE_URL` → warning `SASL: client password must be a string` (les tests passent car ils mockent Prisma, mais tout test Prisma réel échouerait) | Tests unitaires DB impossibles |
-| D6 | `/academy/paths` met 44 s à froid (compilation Turbopack + Prisma) — ~1 s au chaud | Lenteur dev, faux positifs E2E (atténué par timeout 120 s local) |
-| D7 | Une page qui lève `AuthError` hors proxy rend un **HTTP 200** (page d'erreur) au lieu d'un 4xx/redirect — vérifié sur `/academy/my-courses` avant ajout au proxy | Fausse impression de protection ; toute route privée DOIT être dans `PROTECTED_PATHS` de `proxy.ts` |
-| D8 | Turbopack peut servir un module périmé (`"use client"` supprimé restait actif après fix) | Purger `.next/dev` + `.next/cache` avant de conclure sur un comportement suspect |
-| D9 | Une redirection Next levée **pendant le rendu** produit `200 + <meta refresh>`, pas un 3xx. Invisible pour un monitoring qui ne lit que le statut — `curl` ne peut pas distinguer « bloqué » de « autorisé » | Les sondes du gate ne sont fiables que pour les redirections du **proxy** (`PROTECTED_PATHS`). Toute protection doit vivre dans `proxy.ts`, pas dans les pages |
-| D10 | Contrat **implicite** entre `proxy.ts` et `/api/auth/middleware-session` : une divergence de champs ne casse ni le build ni les tests (cause racine de l'issue #369) | 🔴 Un type partagé + un test d'invariant éviteraient la prochaine omission silencieuse |
-| D11 | `connectionTimeoutMillis` codé en dur à 5 s : sous disque plein, Postgres swap → « Connection terminated » intermittents | ✅ **corrigé** — surchargeable via `DATABASE_CONNECT_TIMEOUT_MS` |
+> ❌ Les roadmaps auto-générés (92 issues, phases Guildes/i18n/Sentry) ont été archivés
+> parce qu'ils **rivalisaient avec la constitution**. Voir §4.
 
 ---
 
-## 🔬 ENVIRONNEMENT DE DÉVELOPPEMENT — cause racine des instabilités (2026-09-14)
+## 1. Où on en est — mesuré le 2026-09-16
 
-**Découverte : la majorité des « bugs » de la session n'étaient pas des bugs.**
-
-| Constat mesuré | Cause | Effet observé |
-|---|---|---|
-| Disque C: à **99 %** (6,1 Go libres sur 325) | `opencode.db` **17 Go** + Docker 20 Go + Kali WSL 15 Go | Windows ne peut plus agrandir son pagefile |
-| RAM à **4 %** (0,6 Go libres sur 15,9) | Conséquence du disque plein | Thrashing général |
-| `Connection terminated` Postgres | Docker en swap | Pages academy → 200 avec page d'erreur |
-| Chromium `code=3221225794` | `STATUS_INSUFFICIENT_RESOURCES` | Tests E2E en crash |
-| Turbopack 44 s à froid | Swap disque | Faux positifs E2E |
-| Tests passant seuls, échouant en lot | Contention système | Non reproductible |
-
-### 🐛 Bug d'opencode découvert
-
-`opencode session delete` nettoie `message`, `part` et `todo` (cascade depuis `session`),
-mais **PAS** la table `event` : ses events cascadent depuis `event_sequence`
-(`aggregate_id`), qui n'a **aucun lien vers `session`**.
-
-→ Les events restent **orphelins** et la base grossit sans fin.
-Mesuré : **`event` = 14,2 Go sur 17,3 Go** (82 % de la base), 924 999 lignes.
-
-**Remède** : supprimer aussi la ligne `event_sequence` correspondante → cascade sur `event`.
-Automatisé dans `scripts/cleanup-opencode-db.mjs`.
-
-### 🧰 Outils créés
-
-| Script | Rôle |
-|---|---|
-| `cleanup-opencode-db.mjs` | Supprime sessions anciennes + events orphelins, puis `VACUUM` (dry-run par défaut) |
-| `compact-docker-vhdx.ps1` | Compacte `docker_data.vhdx` (libérer l'espace Docker sur l'hôte, nécessite admin) |
-| `finish-cleanup.ps1` | Enchaîne les deux + redémarre Docker (à lancer opencode **fermé**, en admin) |
-| `session-review.mjs` | Bilan de session : coût/tokens par agent et par modèle, taux de cache, recommandations |
-
-### 📊 Économie de tokens — mesuré sur 2 jours
-
-```
-Coût total        : $6,52
-eurinhash (moi)   : $3,66  (56 %)   14,59 M tokens in
-orchestrator      : $2,73  (42 %)   10,75 M tokens in
-worker-novita     : $0,00  ( 0 %)    1,13 M tokens     ← gratuit
-worker-codestral  : $0,00  ( 0 %)    1,49 M tokens     ← gratuit
-Cache             : 97 % des entrées
-```
-
-**Leçon : 98 % du coût vient de l'orchestrateur, pas des modèles.**
-Le levier n'est pas de changer de modèle, c'est **de réduire le contexte transmis**
-et **de déléguer davantage aux workers gratuits**.
-
-Réglages appliqués dans `opencode.jsonc` pour y répondre :
-`compaction.prune: true`, `tool_output.max_bytes: 51200 → 16000`,
-`tail_turns: 10`, `batch_tool: true`, `continue_loop_on_deny: true`,
-`subagent_depth: 1 → 3`.
-
----
-
-
-## 0.11 — Unification Schema Prisma (DÉTAIL)
-
-### Les 3 schemas existants
-
-#### hashcode-community (BASE — 24 models, 517 lignes)
-```
-User, UserProfile, UserBeta, Organization, SquadMessage, Member,
-Invitation, ActivityLog, DailyCheckin, Mission, Session, Account,
-Verification, QuizResult, QuizFeedback, UXPollResponse,
-MissionSubmission, MissionReview, ContactMessage, Notification,
-BetaFeedback, JoinRequest, BetaKey, XpTransaction
-```
-
-#### hashcode_reboot (À ABSORBER — 12 models, 383 lignes)
-```
-Member, AdminKey, AuditLog, AnalyticsEvent, EmailEvent,
-MemberEmailLog, ProfilingDraft, MemberSession, MemberBlacklist,
-Event, EventRsvp, EmailProviderMetric
-```
-
-#### hashskills (À ABSORBER — 31 models, 598 lignes)
-```
-User, Session, Account, Verification, Course, Category, Tag,
-Program, ProgramPhase, Pillar, Section, Content, Enrollment,
-Progress, Quiz, Question, Option, QuizAttempt, Resource,
-Forum, ForumTopic, ForumPost, ForumLike,
-AIConversation, AIMessage, Certificate, Notification,
-Badge, UserBadge, AuditLog, BlogPost
-```
-
-### Conflits identifiés (MÊME NOM, modèles différents)
-
-| Model | Community | Reboot | Hashskills | Décision |
-|---|---|---|---|---|
-| **User** | ✅ 50+ champs | ❌ (appelle ça Member) | ✅ 10 champs | Garder Community (source de vérité), absorber les champs utiles de hashskills |
-| **Member** | ✅ (org ↔ user) | ✅ (membre complet: profil, archétype) | ❌ | Garder Community Member + ajouter les champs profil de reboot Member |
-| **Session/Account/Verification** | ✅ better-auth | ❌ (MemberSession custom) | ✅ better-auth | Garder Community (identique à hashskills), supprimer MemberSession reboot |
-| **AuditLog** | ❌ | ✅ (action, adminKey) | ✅ (action, userId) | Fusionner les 2 en 1 AuditLog unifié |
-| **Notification** | ✅ | ❌ | ✅ | Garder Community, enrichir si besoin |
-
-### Models À AJOUTER (de reboot → community)
-
-| Model reboot | Champ utile pour community | Action |
-|---|---|---|
-| **AdminKey** | Clés API admin | → Ajouter comme model |
-| **AuditLog** | Logs d'audit | → Fusionner avec ActivityLog ou garder séparé |
-| **AnalyticsEvent** | Événements analytics | → Ajouter |
-| **EmailEvent** | Tracking emails | → Ajouter |
-| **MemberEmailLog** | Logs email membres | → Ajouter |
-| **ProfilingDraft** | Brouillon profiling 6 étapes | → Ajouter (pour funnel /acquisition) |
-| **MemberBlacklist** | Blacklist membres | → Ajouter |
-| **Event** | Événements communautaires | → Ajouter |
-| **EventRsvp** | RSVP événements | → Ajouter |
-| **EmailProviderMetric** | Métriques Resend/Brevo | → Ajouter |
-
-### Models À AJOUTER (de hashskills → community)
-
-| Model hashskills | Champ utile pour community | Action |
-|---|---|---|
-| **Course** | Cours academy | → Ajouter |
-| **Category** | Catégories cours | → Ajouter |
-| **Tag** | Tags cours | → Ajouter |
-| **Program** | Programme HEF | → Ajouter |
-| **ProgramPhase** | Phases programme | → Ajouter |
-| **Pillar** | Piliers programme | → Ajouter |
-| **Section** | Sections cours | → Ajouter |
-| **Content** | Contenus cours | → Ajouter |
-| **Enrollment** | Inscriptions cours | → Ajouter |
-| **Progress** | Progression apprenant | → Ajouter |
-| **Quiz** | Quiz cours (différent de QuizResult community) | → Renommer → CourseQuiz |
-| **Question** | Questions quiz cours | → Ajouter |
-| **Option** | Options quiz cours | → Ajouter |
-| **QuizAttempt** | Tentatives quiz cours | → Ajouter |
-| **Resource** | Ressources cours | → Ajouter |
-| **Forum** | Forum contextuel | → Ajouter |
-| **ForumTopic** | Topics forum | → Ajouter |
-| **ForumPost** | Posts forum | → Ajouter |
-| **ForumLike** | Likes forum | → Ajouter |
-| **AIConversation** | Conversations IA tutor | → Ajouter |
-| **AIMessage** | Messages IA tutor | → Ajouter |
-| **Certificate** | Certificats | → Ajouter |
-| **Badge** | Badges gamification | → Ajouter (⚠️ peut merger avec XpTransaction) |
-| **UserBadge** | Badges utilisateur | → Ajouter |
-| **BlogPost** | Articles blog | → Ajouter |
-
-### Ordre d'implémentation
-
-1. **Lire les 3 schemas** (FAIT — on a les listings)
-2. **Écrire le schema unifié** dans `schema.prisma` (Community = base + ajouts)
-3. **Ajouter les enums** manquants
-4. **Vérifier** : `npx prisma validate`
-5. **Adapter better-auth** si les models Session/Account changent
-6. **Tester** : `npx prisma db push` (dev) + vérifier que le site tourne
-
-### Risques critiques
-- ⚠️ better-auth dépend de Session, Account, Verification — ne PAS changer ces noms
-- ⚠️ Les relations Many-to-Many peuvent changer si les models s'ajoutent
-- ⚠️ Le seed existant peut casser si les champs changent
-- ⚠️ Les API routes existantes lisent des models — vérifier les imports
-
----
-
-## Phase 1 — Communauté (Semaines 5-10)
-
-| # | Action | Priorité | KPI |
+| Phase | Statut | Score mesuré | Base du calcul |
 |---|---|---|---|
-| 1.1 | Réactivation Discord (squads/projets) | HAUTE | Membres Discord actifs |
-| 1.2 | Pont WhatsApp → plateforme | HAUTE | % actions sync |
-| 1.3 | Parcours guidé (roadmap perso par domaine) | HAUTE | +40% complétion |
-| 1.4 | Dashboard membre (XP, skills, prochaine étape) | HAUTE | DAU/WAU |
-| 1.5 | Première contribution (micro-challenge) | MOYENNE | % conversion observateurs |
-| 1.6 | Modules admin squelettes (analytics, parcours, mentorat) | MOYENNE | 12→18 modules OK |
+| **0 — Unification** | 🟡 **en cours** | **74 %** | les 5 actions exigées par `RAPPORT_STRATEGIQUE.md` §8 |
+| 1 — Communauté & Progression | ⬜ à faire | ~10 % | squads/missions/check-in existent déjà (héritage) |
+| 2 — Certification & revenus | ⬜ à faire | ~0 % | — |
+| 3 — Scale | ⬜ à faire | ~0 % | — |
+| **Conformité à la constitution** | ⚠️ | **58 %** | moyenne des 6 piliers |
+| **Production-ready** | ⚠️ | **~50 %** | tests/sécu/monitoring/qualité |
 
----
+**Phase 0 a démarré le 2026-09-11. Nous sommes en semaine 1 sur 4.**
 
-## Phase 2 — Certification (Semaines 11-18)
+### Détail des 5 actions de la Phase 0
 
-| # | Action | Priorité | KPI |
+| # | Action exigée | Statut | Preuve |
 |---|---|---|---|
-| 2.1 | Workflow certification (mentors valident evidences) | HAUTE | Profils certifiés |
-| 2.2 | Espace recruteur (filtrer profils certifiés) | HAUTE | 10 entreprises test |
-| 2.3 | Premier contrat agence (1 client, 3-4 membres) | HAUTE | Revenu |
-| 2.4 | Talent pool v1 (liste publique) | MOYENNE | Visites / nombre |
-| 2.5 | Feedback entreprises → adapter parcours | MOYENNE | NPS |
+| 1 | 1 schema Prisma unifié | ✅ **100 %** | 64 modèles, `prisma validate` ✅ |
+| 2 | Import funnel reboot → `/acquisition` | ✅ **100 %** | `/`, `/profiling`, `/invite` → 200 |
+| 3 | 1 auth better-auth | ✅ **100 %** | `lib/auth.ts` |
+| 4 | Redirects 301 « zéro dispersion » | 🟡 **30 %** | 3 redirects (`/cgu`, `/mentions-legales`, `/talent`) ; `reboot.joinhashcode.com → /acquisition` **non câblé** |
+| 5 | **Import academy hashskills → `/academy`** | 🟡 **40 %** | catalogue + inscription OK ; **moteur LMS absent** |
 
 ---
 
-## Phase 3 — Scale (Semaines 19-26)
+## 2. 🔴 Les bloqueurs de la Phase 0 (par ordre d'impact)
 
-| # | Action | Priorité | KPI |
+| # | Bloqueur | Constat mesuré | Effort |
 |---|---|---|---|
-| 3.1 | Matching IA (CORE/Kalman étendu) | HAUTE | Taux matching |
-| 3.2 | Webinars/events live | MOYENNE | Participants |
-| 3.3 | Boucle feedback → ajustement | MOYENNE | Délai ajustement |
-| 3.4 | Analyse rétention J30/J60/J90 | HAUTE | Rétention |
-| 3.5 | Expansion géographique | BASSE | Pays actifs |
+| **B1** | **Moteur LMS absent** | la page leçon (`app/academy/my-courses/[id]/page.tsx`) affiche une **liste de titres** — aucun lecteur, aucun contenu accessible. `Progress` = **0 usage**, `CourseQuiz`/`CourseQuestion`/`CourseOption` = **0**, `Resource` = **0** | 2-3 j |
+| **B2** | **L'Evidence n'existe pas** | `grep -ci "evidence" prisma/schema.prisma` → **0**. Aucune route `/evidences`. Or la constitution : *« Une compétence n'est pas acquise tant qu'elle n'est pas prouvée »* | 3-4 j |
+| **B3** | **CORE / Kalman supprimé** | **zéro trace** de Kalman dans le code. Or c'est le **pilier n°3 du moat** | décision |
+| **B4** | **Vocabulaire non appliqué** | la nav affiche « Console », « Mon Dossier », « Guide de l'Agent ». La constitution impose « Mon Parcours », « Diagnostic », « Portfolio d'evidences » et **rejette** le jargon « Agent » | 1 j |
+| **B5** | **Admin academy absent** | aucun course builder → **aucun cours ne peut être créé**, la base est figée au seed. 3 modules admin encore en « Module en construction » (ateliers, knowledge-hub, mentorat) | 3-4 j |
+
+> ⚠️ **B2 et B3 sont plus graves que B1.** B1 est un manque fonctionnel ; B2 et B3
+> sont des **atteintes à la raison d'être du produit** — sans Evidence il n'y a ni
+> portfolio, ni certification, ni talent pool, donc **pas de modèle B2B**.
 
 ---
 
-## KPIs à suivre chaque semaine
+## 3. Décision structurante : **parcours, pas catalogue**
+
+`PRODUCT_VISION.md` tranche explicitement :
+
+> *« Chaque atelier est une **étape d'un parcours**, pas un contenu isolé. »*
+> *« ❌ Vendre des ateliers comme des cours isolés »*
+> *« ❌ Demander à l'utilisateur de choisir quoi faire sans guidance »*
+> *« CORE retourne une décision unique : **la prochaine meilleure étape** »*
+
+| | ❌ Catalogue / LMS | ✅ Parcours (la vision) |
+|---|---|---|
+| L'unité | le cours | **l'étape** |
+| Qui décide | l'utilisateur | **CORE prescrit**, l'utilisateur valide |
+| Le point d'entrée | `/academy` | **`Mon Parcours`** |
+| Fin d'une leçon | « cours suivant » | **« Prouver » → Evidence** |
+
+**Conséquence :** le contenu de `hashskills` est le **réservoir**, il n'est pas à jeter.
+Ce qui manque, c'est la **couche parcours** au-dessus. Et **l'ordre de construction
+s'inverse** : l'**Evidence d'abord** (B2), le lecteur d'étape ensuite (B1).
+
+> ⚠️ Enjeu business : un cadrage « LMS » ramène mécaniquement le modèle **B2C**
+> (cours payants) que la constitution interdit. Voir §4.
+
+---
+
+## 4. ⛔ Périmètre ÉLIMINÉ — décisions acquises, ne pas rouvrir
+
+Toute proposition qui retombe ici doit être **refusée** avec un lien vers cette section.
+
+| Élément éliminé | Motif | Référence |
+|---|---|---|
+| **Guildes** (`Guild`/`GuildMember`, `/guilds`) | Absentes des 6 piliers. Squad/Organization couvrent déjà le besoin. L'ancien roadmap **affirmait à tort** qu'elles étaient dans le schéma | constitution |
+| **`finance`, `transactions`, `revenue`, `subscriptions`** (hashskills) | **B2C** — « jamais de paiement membre ». Aucun Stripe dans la source | constitution §5 |
+| **Blog, Events, RSVP** | Absents des 6 piliers | constitution |
+| **i18n complète** (`next-intl`, FR→EN) | « Expansion géographique » = Phase 3 | `RAPPORT_STRATEGIQUE` §8 |
+| **Sentry, audit a11y complet, Lighthouse, bundle-analyzer** | Industrialisation, pas produit | — |
+| **Les 92 issues de l'ancien `ROADMAP_ISSUES.md`** | Backlog auto-généré rivalisant avec la constitution | `DOCS/archive/` |
+| **6 modèles/moteurs morts** | `AdminKey`, `AdminAuditLog`, `LearningAuditLog`, `EmailProviderMetric`, `MemberEmailLog`, `EmailEvent`, `MemberBlacklist`, `ProfilingDraft`, `MemberSession`, `Event`, `EventRsvp` → **supprimés du schéma le 2026-09-16** | — |
+
+---
+
+## 5. Phases suivantes (rappel — `PRODUCT_VISION.md` fait foi)
+
+### Phase 1 — Communauté & Progression (semaines 5-10)
+Discord squads/projets · pont WhatsApp → plateforme · **parcours guidé** (roadmap perso par domaine) · dashboard membre (progression visible) · micro-challenge à l'inscription
+**Cible :** 500 membres actifs · 25 % actifs/semaine · +40 % missions complétées
+
+### Phase 2 — Certification & premiers revenus (semaines 11-18)
+Workflow de certification (mentors valident les evidences) · espace recruteur · **1er contrat agence** · talent pool v1
+**Cible :** 25 profils certifiés · 3 contrats · 10 entreprises
+
+### Phase 3 — Scale (semaines 19-26)
+Matching IA (CORE étendu) · webinars/events live · boucle feedback entreprises · rétention J30/J60/J90
+**Cible :** 1000 membres · unité économique en vue
+
+---
+
+## 6. KPIs — à suivre chaque semaine
 
 | KPI | Cible 6 mois |
 |---|---|
-| Membres actifs (7 jours) | 500 |
-| Complétion profiling | +30% |
-| Missions complétées | +40% |
-| Profils certifiés | 25 |
-| Contrats agence | 3 |
-| Entreprises en contact | 10 |
-| Rétention J30 | >40% |
+| Membres actifs (7 jours) | **500** |
+| Complétion profiling | **+30 %** |
+| Missions complétées | **+40 %** |
+| Profils certifiés | **25** |
+| Contrats agence | **3** |
+| Entreprises en contact | **10** |
+| Rétention J30 | **> 40 %** |
 
 ---
 
-## Documents de référence
+## 7. Règles non négociables
 
-| Document | Contenu | Emplacement |
-|---|---|---|
-| Vision unifiée | Architecture, features, roadmap | `VISION_UNIFIEE.md` |
-| Rapport stratégique | Analyse concurrentielle, moat, stratégie 6 mois | `RAPPORT_STRATEGIQUE.md` |
-| Vision admin | Talent Operations Center, 14 modules | `ADMIN_VISION.md` |
-| Vision Command Center | Centre de pilotage, 10 modules | `DOCS/COMMAND_CENTER_VISION.md` |
-| Audit code | Score santé, top 15 problèmes | En cours de mise à jour |
-| Specs techniques | ATELIER, EVIDENCE, MENTOR, etc. | `DOCS/specs/*.md` |
-
----
-
-## Règles de contribution
-
-1. **1 codebase** — pas de second projet
-2. **1 schema Prisma** — pas de duplication
+1. **1 codebase** — pas de second projet Next.js
+2. **1 schema Prisma** — pas de duplication de modèles
 3. **1 auth** — better-auth unique
-4. **1 branche main** — feature flags
-5. Chaque avancée → mettre à jour CE DOCUMENT
-6. Chaque commit → message Conventional Commits
+4. **1 branche `main`** — feature flags pour les expérimentations
+5. Nouvelle feature → **PR avec test + doc**
+6. Import → **dossier module** (`/acquisition/`, `/academy/`), **jamais à la racine**
+7. Décision architecturale → documentée
+8. **`PRODUCT_VISION.md` ne se modifie plus.** On exécute, on teste, on mesure.
 
 ---
 
-*Roadmap vivante — mise à jour à chaque phase. Prochaine revue : fin Phase 0.*
+## 8. Le gate — aucune avancée sans preuve
+
+```bash
+npm run verify        # gate complet : types → lint → prisma → 15 sondes HTTP → E2E
+npm run verify:fast   # types + lint + prisma (sans réseau)
+```
+
+Dernier passage **GATE VERT** : 2026-09-16 sur `831e8e1` — types ✅ · lint ✅ · prisma ✅ ·
+15/15 sondes ✅ · **22 E2E passés** ✅.
+
+> ⚠️ **Prérequis du gate :** Docker Desktop doit tourner (la base Postgres est dans WSL2)
+> et la RAM doit être disponible (~2-3 Go libres pour `tsc`).
+> Piège connu : `.next/dev/types` se corrompt quand le dev server est tué → `tsc` échoue.
+> **Réflexe : purger `.next` avant de diagnostiquer.**
