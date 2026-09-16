@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, Check, Clock, GraduationCap, Star, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnrollButton } from "@/components/academy/enroll-button";
-import { requireSession } from "@/lib/auth-guard";
+import { getSessionSafe } from "@/lib/get-session-safe";
 import { isEnrolled } from "@/app/actions/academy/course";
 
 export const dynamic = "force-dynamic";
@@ -44,16 +44,11 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
      const totalLessons = course.sections.reduce((acc: number, s: { contents: unknown[] }) => acc + s.contents.length, 0);
  
     // Vérifie l'état d'inscription côté serveur.
-    // Si pas de session, requireSession() throw → on affiche un lien /signin.
-    let isAuthenticated = false;
-    let enrolled = false;
-    try {
-      await requireSession();
-      isAuthenticated = true;
-      enrolled = await isEnrolled(course.id);
-    } catch {
-      isAuthenticated = false;
-    }
+    // Page publique : on lit la session de façon optionnelle (getSessionSafe).
+    // Sans session → lien /signin ; avec session → bouton d'inscription.
+    const session = await getSessionSafe();
+    const isAuthenticated = Boolean(session);
+    const enrolled = await isEnrolled(course.id);
  
      return (
         <div className="max-w-7xl mx-auto px-6 py-12">
