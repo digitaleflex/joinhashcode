@@ -13,9 +13,9 @@ async function wrapHandler(
     response = await handler(request);
   } catch (error) {
     console.error("[auth/catch-all] Unhandled error:", error);
-    const message = error instanceof Error ? error.message : String(error);
+    // SEC-346: never leak internal error details to the client.
     return Response.json(
-      { error: "Internal Server Error", message },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -25,7 +25,7 @@ async function wrapHandler(
     if (!body) {
       console.error("[auth/catch-all] Empty 500 response from Better Auth");
       return Response.json(
-        { error: "Internal Server Error", message: "Empty 500 response from auth handler" },
+        { error: "Internal Server Error" },
         { status: 500 }
       );
     }
