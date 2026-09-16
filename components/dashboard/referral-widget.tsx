@@ -41,7 +41,7 @@ export function ReferralWidget() {
 
   return (
     <div className="space-y-4">
-      <p className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-600 flex items-center gap-3">
+      <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
         Programme de Parrainage
         <div className="h-px bg-white/5 flex-1" />
         {xpEarned > 0 && (
@@ -54,15 +54,15 @@ export function ReferralWidget() {
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded-2xl bg-white/3 border border-white/5 p-3 text-center space-y-1">
             <div className="text-xl font-extrabold text-white tabular-nums">{data?.referralCount ?? 0}</div>
-            <div className="text-[9px] font-mono text-zinc-600 uppercase">Filleuls</div>
+            <div className="text-3xs font-mono text-zinc-600 uppercase">Filleuls</div>
           </div>
           <div className="rounded-2xl bg-primary/5 border border-primary/10 p-3 text-center space-y-1">
             <div className="text-xl font-extrabold text-primary tabular-nums">{xpPerReferral}</div>
-            <div className="text-[9px] font-mono text-zinc-600 uppercase">XP / filleul</div>
+            <div className="text-3xs font-mono text-zinc-600 uppercase">XP / filleul</div>
           </div>
           <div className="rounded-2xl bg-white/3 border border-white/5 p-3 text-center space-y-1">
             <div className="text-xl font-extrabold text-white tabular-nums">{xpEarned}</div>
-            <div className="text-[9px] font-mono text-zinc-600 uppercase">XP total</div>
+            <div className="text-3xs font-mono text-zinc-600 uppercase">XP total</div>
           </div>
         </div>
 
@@ -80,8 +80,8 @@ export function ReferralWidget() {
         ) : (
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0 bg-zinc-950 border border-white/8 rounded-2xl px-3 py-2.5 flex items-center gap-2">
-              <span className="text-[10px] font-mono text-zinc-600 shrink-0">{typeof window !== "undefined" ? window.location.host : "joinhashcode.com"}/signin?ref=</span>
-              <span className="text-[11px] font-mono font-bold text-primary truncate">{data?.referralCode}</span>
+              <span className="text-xs font-mono text-zinc-600 shrink-0">{typeof window !== "undefined" ? window.location.host : "joinhashcode.com"}/signin?ref=</span>
+              <span className="text-sm-plus font-mono font-bold text-primary truncate">{data?.referralCode}</span>
             </div>
             <button
               onClick={copyLink}
@@ -100,7 +100,7 @@ export function ReferralWidget() {
         {/* Referral list */}
         {data && data.referrals.length > 0 && (
           <div className="space-y-2.5 border-t border-white/5 pt-4">
-            <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase">
+            <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 uppercase">
               <Users className="size-3" /> Tes filleuls
             </div>
             <div className="space-y-2">
@@ -115,10 +115,10 @@ export function ReferralWidget() {
                     </Avatar>
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-white truncate">@{r.pseudo || r.name?.split(" ")[0]}</div>
-                      <div className="text-[9px] font-mono text-zinc-600 uppercase">LVL {r.level} · {r.class || "Agent"}</div>
+                      <div className="text-3xs font-mono text-zinc-600 uppercase">LVL {r.level} · {r.class || "Agent"}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-[9px] font-mono text-primary font-bold shrink-0">
+                  <div className="flex items-center gap-1 text-3xs font-mono text-primary font-bold shrink-0">
                     <Zap className="size-3" /> +100 XP
                   </div>
                 </div>

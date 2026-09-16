@@ -48,7 +48,7 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 text-primary">
                             <Gift className="size-4" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Programme Ambassadeur</span>
+                            <span className="text-xs font-black uppercase tracking-[0.2em]">Programme Ambassadeur</span>
                         </div>
                         <h3 className="text-xl font-bold text-white uppercase tracking-tight italic">
                             Invite tes alliés. <span className="text-primary">Gagne du XP.</span>
@@ -62,7 +62,7 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                         <div className="text-2xl font-black text-white font-mono leading-none">
                             {referralCount}
                         </div>
-                        <div className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-1">
+                        <div className="text-3xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
                             Recrues validées
                         </div>
                         <Users className="size-4 text-zinc-700 mt-3" />
@@ -72,9 +72,9 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                     <div className="flex-1 relative group/input">
                         <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                            <span className="text-zinc-600 font-mono text-[10px] uppercase">Lien :</span>
+                            <span className="text-zinc-600 font-mono text-xs uppercase">Lien :</span>
                         </div>
-                        <div className="w-full h-11 bg-black/60 border border-white/10 rounded-xl pl-16 pr-4 flex items-center text-[11px] font-mono text-zinc-300 truncate">
+                        <div className="w-full h-11 bg-black/60 border border-white/10 rounded-xl pl-16 pr-4 flex items-center text-sm-plus font-mono text-zinc-300 truncate">
                             {referralLink}
                         </div>
                         <div className="absolute inset-0 rounded-xl bg-primary/5 opacity-0 group-hover/input:opacity-100 transition-opacity pointer-events-none" />
@@ -84,7 +84,7 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                         <Button 
                             onClick={copyLink}
                             variant="outline"
-                            className="h-11 px-6 border-white/10 bg-white/1 hover:bg-white/5 text-white font-bold uppercase text-[10px] tracking-widest gap-2 rounded-xl"
+                            className="h-11 px-6 border-white/10 bg-white/1 hover:bg-white/5 text-white font-bold uppercase text-xs tracking-widest gap-2 rounded-xl"
                         >
                             {copied ? <Check className="size-3.5 text-primary" /> : <Copy className="size-3.5" />}
                             {copied ? "Copié" : "Copier"}
@@ -92,7 +92,7 @@ export function ReferralCard({ referralCode, referralCount }: ReferralCardProps)
                         
                         <Button 
                             onClick={shareLink}
-                            className="h-11 px-6 btn-primary-glow text-black font-bold uppercase text-[10px] tracking-widest gap-2 rounded-xl"
+                            className="h-11 px-6 btn-primary-glow text-black font-bold uppercase text-xs tracking-widest gap-2 rounded-xl"
                         >
                             <Share2 className="size-3.5" />
                             Partager

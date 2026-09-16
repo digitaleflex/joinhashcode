@@ -76,8 +76,9 @@ export async function POST(req: Request) {
       });
 
       if (lastCheckin) {
-        const hoursSince = (Date.now() - lastCheckin.createdAt.getTime()) / (1000 * 60 * 60);
-        if (hoursSince < 24) {
+        const lastDay = lastCheckin.createdAt.toISOString().slice(0, 10);
+        const today = new Date().toISOString().slice(0, 10);
+        if (lastDay === today) {
           throw new Error("COOLDOWN_ACTIVE");
         }
       }
@@ -100,15 +101,23 @@ export async function POST(req: Request) {
       });
 
       const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
       let newStreak = 1;
 
       if (currentStats?.lastCheckinAt) {
-        const hoursSince = (now.getTime() - currentStats.lastCheckinAt.getTime()) / (1000 * 60 * 60);
-        if (hoursSince > 24) {
-          streakBroken = true;
-          newStreak = 1;
+        const lastDayStr = currentStats.lastCheckinAt.toISOString().slice(0, 10);
+        if (lastDayStr === todayStr) {
+          newStreak = currentStats.currentStreak ?? 1;
         } else {
-          newStreak = (currentStats.currentStreak ?? 0) + 1;
+          const lastDate = new Date(lastDayStr);
+          const todayDate = new Date(todayStr);
+          const daysDiff = Math.round((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+          if (daysDiff === 1) {
+            newStreak = (currentStats.currentStreak ?? 0) + 1;
+          } else {
+            streakBroken = true;
+            newStreak = 1;
+          }
         }
       } else {
         newStreak = 1;

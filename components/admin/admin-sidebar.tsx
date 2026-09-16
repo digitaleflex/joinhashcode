@@ -29,6 +29,8 @@ import {
   BrainCircuit,
   Library,
   BookOpen,
+  UserRound,
+  ClipboardList,
 } from "lucide-react"
 
 import {
@@ -71,6 +73,7 @@ const navGroups = [
       { title: "Ateliers",    url: "/admin/ateliers",       icon: GraduationCap },
       { title: "Projets",     url: "/admin/missions",       icon: Target },
       { title: "Évidences",   url: "/admin/submissions",    icon: FileCheck },
+      { title: "Onboarding",  url: "/admin/missions/attempts", icon: UserRound },
     ],
   },
   {
@@ -96,6 +99,7 @@ const navGroups = [
       { title: "Activité",    url: "/admin/activity",       icon: ScrollText },
       { title: "Feedback",    url: "/admin/feedback",       icon: MessageSquare },
       { title: "Escouades",   url: "/admin/squads",         icon: Swords },
+      { title: "Demandes",    url: "/admin/squads/join-requests", icon: ClipboardList },
       { title: "Clés API",    url: "/admin/keys",           icon: KeyRound },
       { title: "Anti-Fraude", url: "/admin/fraud",          icon: ShieldBan },
       { title: "Sondage UX",  url: "/admin/ux-poll",        icon: BarChart3 },
@@ -122,7 +126,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
           </div>
           <div className="flex flex-col">
             <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
-            <span className="text-[10px] font-mono text-primary font-bold tracking-tight">administration_</span>
+            <span className="text-xs font-mono text-primary font-bold tracking-tight">administration_</span>
           </div>
         </div>
         <div className="group-data-[collapsible=icon]:mx-auto">
@@ -133,7 +137,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
       <SidebarContent>
         {navGroups.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-[10px] font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">
+            <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -142,7 +146,7 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      isActive={pathname === item.url}
+                      isActive={pathname === item.url || pathname.startsWith(`${item.url}/`)}
                       tooltip={item.title}
                       className="h-10 transition-all hover:bg-white/5 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                     >

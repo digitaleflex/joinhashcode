@@ -96,20 +96,8 @@ export async function PATCH(req: Request) {
         portfolioUrl: portfolioUrl || null,
         twitterUrl: twitterUrl || null,
         linkedinUrl: linkedinUrl || null,
-        ...(bio !== undefined || secondaryObjectives !== undefined ? {
-          profile: {
-            upsert: {
-              create: {
-                ...(bio !== undefined ? { bio } : {}),
-                ...(secondaryObjectives !== undefined ? { secondaryObjectives } : {}),
-              },
-              update: {
-                ...(bio !== undefined ? { bio } : {}),
-                ...(secondaryObjectives !== undefined ? { secondaryObjectives } : {}),
-              }
-            }
-          }
-        } : {}),
+        ...(bio !== undefined ? { bio } : {}),
+        ...(secondaryObjectives !== undefined ? { secondaryObjectives } : {}),
       },
       select: {
         id: true,
@@ -136,7 +124,8 @@ export async function PATCH(req: Request) {
         portfolioUrl: true,
         twitterUrl: true,
         linkedinUrl: true,
-        profile: { select: { bio: true, secondaryObjectives: true } },
+        bio: true,
+        secondaryObjectives: true,
         level: true,
         experience: true,
       }
@@ -154,7 +143,7 @@ export async function PATCH(req: Request) {
       class: updatedUser.class,
       role: updatedUser.role,
       pseudo: updatedUser.pseudo,
-      bio: updatedUser.profile?.bio,
+      bio: updatedUser.bio,
       country: updatedUser.country,
       city: updatedUser.city,
       language: updatedUser.language,
@@ -171,7 +160,7 @@ export async function PATCH(req: Request) {
       certifications: updatedUser.certifications,
       specializationAt: updatedUser.specializationAt,
       mainObjective: updatedUser.mainObjective,
-      secondaryObjectives: updatedUser.profile?.secondaryObjectives ?? [],
+      secondaryObjectives: updatedUser.secondaryObjectives ?? [],
       updatedAt: updatedUser.updatedAt,
     };
 

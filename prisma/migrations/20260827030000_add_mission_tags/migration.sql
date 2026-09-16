@@ -1,0 +1,1 @@
+ALTER TABLE "mission" ADD COLUMN "tags" TEXT[] NOT NULL DEFAULT '{}';

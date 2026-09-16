@@ -11,6 +11,7 @@ import { getOtpEmailContent } from "./email-templates/otp";
 import { getQuizResultsEmailContent } from "./email-templates/quiz-results";
 import { getMissionApprovedEmailContent } from "./email-templates/mission-approved";
 import { getDailyReminderEmailContent } from "./email-templates/daily-reminder";
+import { getReactivationEmailContent } from "./email-templates/reactivation";
 import { getContactNotificationEmailContent } from "./email-templates/contact-notification";
 import { getFeedbackReceiptEmailContent } from "./email-templates/feedback-receipt";
 import { getFeedbackUpdateEmailContent } from "./email-templates/feedback-update";
@@ -149,6 +150,12 @@ export const emailService = {
   async sendDailyReminder({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
     const { subject, html, text } = getDailyReminderEmailContent({ name });
+    return this._send({ to: email, subject, html, text });
+  },
+
+  async sendReactivation({ email, name }: { email: string; name: string }) {
+    if (!resend) return { success: true, mocked: true };
+    const { subject, html, text } = getReactivationEmailContent({ name });
     return this._send({ to: email, subject, html, text });
   },
 

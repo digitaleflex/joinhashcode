@@ -106,7 +106,7 @@ export function SquadRowActions({ squad }: SquadRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-zinc-950 border-white/10 text-zinc-400">
-          <DropdownMenuLabel className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+          <DropdownMenuLabel className="font-mono text-xs uppercase tracking-wider text-zinc-500">
             Force Admin
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="bg-white/5" />

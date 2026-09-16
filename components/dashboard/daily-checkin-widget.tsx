@@ -42,10 +42,12 @@ const ENERGIES = [
 
 export function DailyCheckinWidget({ 
   isModal = false, 
-  onClose 
+  onClose,
+  isFirstTime = false,
 }: { 
   isModal?: boolean; 
-  onClose?: () => void 
+  onClose?: () => void;
+  isFirstTime?: boolean;
 }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(isModal)
@@ -96,6 +98,12 @@ export function DailyCheckinWidget({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (isFirstTime) {
+      // First time: just pick a domain, auto-fill the rest
+      if (!formData.domain) return
+      checkin.mutate({ note: "Mon premier check-in", domain: formData.domain, energy: 3, duration: 30 })
+      return
+    }
     if (!formData.note || !formData.domain) return
     if (formData.note.length < 20) {
       toast.error("Ta note est trop courte. Détaille un peu plus tes progrès (min 20 car.).")
@@ -110,9 +118,9 @@ export function DailyCheckinWidget({
         <div className="space-y-1 mb-6">
           <div className="flex items-center gap-2 mb-1">
             <div className="size-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
+            <span className="text-xs font-mono text-zinc-500 uppercase">Check-in Quotidien</span>
           </div>
-          <h2 className="text-xl font-bold tracking-tight text-white">Neural Check-in</h2>
+          <h2 className="text-xl font-bold tracking-tight text-white">Check-in Quotidien</h2>
           <p className="text-zinc-400 text-xs font-light">Ancre tes progrès et maintiens ta progression.</p>
         </div>
       )}
@@ -134,7 +142,7 @@ export function DailyCheckinWidget({
               <p className={cn("text-lg font-black uppercase tracking-tighter italic", surgeActive ? "text-primary" : "text-white")}>
                 {surgeActive ? "BOOST DÉTECTÉ !" : "Trace enregistrée"}
               </p>
-              <p className="text-[10px] font-mono text-zinc-400 uppercase leading-relaxed">
+              <p className="text-xs font-mono text-zinc-400 uppercase leading-relaxed">
                 {checkin.data?.finalMessage || "Signal stabilisé."}
               </p>
               <div className="pt-2">
@@ -149,8 +157,52 @@ export function DailyCheckinWidget({
             animate={{ opacity: 1, y: 0 }}
             className="space-y-5"
           >
+            {isFirstTime ? (
+              /* ── SIMPLIFIED: domain only ── */
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Dans quel domaine as-tu bossé aujourd&apos;hui ?</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {DOMAINS.map((d) => (
+                      <button
+                        key={d.id}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, domain: d.id })}
+                        className={`p-2 rounded-lg border transition-all ${
+                          formData.domain === d.id
+                            ? "bg-primary/10 border-primary text-primary"
+                            : "bg-background/40 border-border/40 text-muted-foreground hover:border-primary/30"
+                        }`}
+                        title={d.id}
+                      >
+                        <d.icon className="h-4 w-4" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => isModal ? onClose?.() : setIsOpen(false)}
+                    className="h-9 text-xs font-mono uppercase"
+                  >
+                    Plus tard
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={checkin.isPending || !formData.domain}
+                    className="btn-primary-glow h-9 rounded-xl px-6 text-xs font-bold"
+                  >
+                    {checkin.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "C'est parti"}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              /* ── FULL FORM: note + domain + energy + duration ── */
+              <>
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
+              <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Qu&apos;as-tu avancé aujourd&apos;hui ?</label>
               <Textarea
                 placeholder="Ex: J'ai fini le refactoring du schéma Prisma, j'ai envoyé 3 emails à des clients..."
                 value={formData.note}
@@ -163,7 +215,7 @@ export function DailyCheckinWidget({
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
+                <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Domaine</label>
                 <div className="flex flex-wrap gap-1.5">
                   {DOMAINS.map((d) => (
                     <button
@@ -184,7 +236,7 @@ export function DailyCheckinWidget({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
+                <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Énergie</label>
                 <div className="flex gap-1.5 h-full items-center">
                   {ENERGIES.map((e) => (
                     <button
@@ -213,7 +265,7 @@ export function DailyCheckinWidget({
                       key={d.val}
                       type="button"
                       onClick={() => setFormData({ ...formData, duration: d.val })}
-                      className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
+                      className={`px-2 py-1 rounded text-xs font-mono border transition-all ${
                         formData.duration === d.val
                           ? "bg-muted border-primary/40 text-primary"
                           : "border-transparent text-muted-foreground hover:bg-muted/50"
@@ -242,6 +294,8 @@ export function DailyCheckinWidget({
                 </Button>
               </div>
             </div>
+              </>
+            )}
           </motion.form>
         )}
       </AnimatePresence>
@@ -257,7 +311,7 @@ export function DailyCheckinWidget({
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 mb-1">
               <div className="size-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono text-zinc-500 uppercase">Mon Check-in</span>
+                <span className="text-xs font-mono text-zinc-500 uppercase">Mon Check-in</span>
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               Check-in Quotidien
@@ -268,7 +322,7 @@ export function DailyCheckinWidget({
           </div>
           <Button
             onClick={() => setIsOpen(true)}
-            className="btn-primary-glow h-12 rounded-2xl px-6 text-[11px] uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
+            className="btn-primary-glow h-12 rounded-2xl px-6 text-sm-plus uppercase font-bold tracking-wide shrink-0 w-full sm:w-auto"
           >
             DÉMARRER LE CHECK-IN
           </Button>

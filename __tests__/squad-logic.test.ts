@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
-import { updateSquadCohesion } from "../lib/squad-logic"
+import { updateSquadCohesion, processStreakBreaks } from "../lib/squad-logic"
 
-const { mockOrgFindUnique, mockOrgUpdate, mockMemberFindMany, mockNotifCreateMany, mockUserFindUnique, mockUserUpdate, mockAwardXp } = vi.hoisted(() => ({
+const { mockOrgFindUnique, mockOrgUpdate, mockMemberFindMany, mockNotifCreateMany, mockUserFindUnique, mockUserUpdate, mockAwardXp, mockOrgFindMany, mockOrgUpdateMany } = vi.hoisted(() => ({
   mockOrgFindUnique: vi.fn(),
   mockOrgUpdate: vi.fn(),
   mockMemberFindMany: vi.fn(),
@@ -9,6 +9,8 @@ const { mockOrgFindUnique, mockOrgUpdate, mockMemberFindMany, mockNotifCreateMan
   mockUserFindUnique: vi.fn(),
   mockUserUpdate: vi.fn(),
   mockAwardXp: vi.fn(),
+  mockOrgFindMany: vi.fn(),
+  mockOrgUpdateMany: vi.fn(),
 }))
 
 vi.mock("../lib/prisma", () => ({
@@ -16,6 +18,8 @@ vi.mock("../lib/prisma", () => ({
     organization: {
       findUnique: mockOrgFindUnique,
       update: mockOrgUpdate,
+      findMany: mockOrgFindMany,
+      updateMany: mockOrgUpdateMany,
     },
     member: {
       findMany: mockMemberFindMany,
@@ -133,5 +137,54 @@ describe("updateSquadCohesion", () => {
   it("catches errors internally without throwing", async () => {
     mockOrgFindUnique.mockRejectedValue(new Error("DB crash"))
     await expect(updateSquadCohesion(ORG_ID, 0.05)).resolves.toBeUndefined()
+  })
+})
+
+describe("processStreakBreaks", () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockNotifCreateMany.mockResolvedValue({ count: 0 })
+  })
+
+  it("consumes a freeze and protects the streak after 48h of inactivity", async () => {
+    mockOrgFindMany.mockResolvedValue([
+      { id: ORG_ID, name: "Test Squad", streakCount: 5, streakFreezes: 1 },
+    ])
+    mockOrgUpdate.mockResolvedValue({})
+
+    const result = await processStreakBreaks()
+
+    expect(result).toEqual({ frozen: 1, reset: 0 })
+    expect(mockOrgUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: ORG_ID },
+        data: expect.objectContaining({ streakFreezes: { decrement: 1 } }),
+      })
+    )
+    const freezeNotif = mockNotifCreateMany.mock.calls.some(([args]) =>
+      args.data?.some((n: { type: string }) => n.type === "SQUAD_STREAK_FREEZE")
+    )
+    expect(freezeNotif).toBe(true)
+  })
+
+  it("resets the streak to 0 when no freeze is available", async () => {
+    mockOrgFindMany.mockResolvedValue([
+      { id: ORG_ID, name: "Test Squad", streakCount: 5, streakFreezes: 0 },
+    ])
+    mockOrgUpdate.mockResolvedValue({})
+
+    const result = await processStreakBreaks()
+
+    expect(result).toEqual({ frozen: 0, reset: 1 })
+    expect(mockOrgUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { id: ORG_ID }, data: { streakCount: 0 } })
+    )
+  })
+
+  it("does nothing when no squad is breaking", async () => {
+    mockOrgFindMany.mockResolvedValue([])
+    const result = await processStreakBreaks()
+    expect(result).toEqual({ frozen: 0, reset: 0 })
+    expect(mockOrgUpdate).not.toHaveBeenCalled()
   })
 })

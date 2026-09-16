@@ -154,7 +154,7 @@ export default function FeedbackForm() {
                                         />
                                     </button>
                                 ))}
-                                <span className="ml-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                                <span className="ml-4 text-xs font-mono text-zinc-500 uppercase tracking-widest">
                                     {rating === 1 && "Décevant"}
                                     {rating === 2 && "À améliorer"}
                                     {rating === 3 && "Correct"}
@@ -233,7 +233,7 @@ export default function FeedbackForm() {
                                     className="min-h-[160px] bg-black/40 border-white/10 focus:ring-primary/20 resize-none p-4 text-base leading-relaxed"
                                     maxLength={2000}
                                 />
-                                <div className="absolute bottom-3 right-3 text-[10px] text-zinc-600 font-mono bg-black/40 px-2 py-1 rounded">
+                                <div className="absolute bottom-3 right-3 text-xs text-zinc-600 font-mono bg-black/40 px-2 py-1 rounded">
                                     {content.length}/2000
                                 </div>
                             </div>
@@ -250,12 +250,12 @@ export default function FeedbackForm() {
                                 ) : (
                                     <>
                                         <Send className="mr-2 size-4" />
-                                        Envoyer la transmission
+                                        Envoyer le message
                                     </>
                                 )}
                             </Button>
-                            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
-                                [ Protocol: Secure_Transmission_V2 ]
+                            <p className="text-xs text-zinc-500 font-mono uppercase tracking-tighter">
+                                Envoi sécurisé
                             </p>
                         </div>
                     </form>

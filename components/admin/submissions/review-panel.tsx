@@ -81,7 +81,7 @@ export function ReviewPanel({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {submission.projectDescription && (
               <div className="p-4 rounded-xl bg-white/3 border border-white/5 space-y-2">
-                <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Description du projet</p>
+                <p className="text-3xs font-mono uppercase tracking-wider text-muted-foreground/60">Description du projet</p>
                 <p className="text-sm text-zinc-300 leading-relaxed italic">
                   &ldquo;{submission.projectDescription}&rdquo;
                 </p>
@@ -89,16 +89,16 @@ export function ReviewPanel({
             )}
             {submission.userFeedback && (
               <div className="p-4 rounded-xl bg-white/3 border border-white/5 space-y-2">
-                <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground/60">Feedback membre</p>
+                <p className="text-3xs font-mono uppercase tracking-wider text-muted-foreground/60">Feedback membre</p>
                 <p className="text-sm text-zinc-300 leading-relaxed italic">
                   &ldquo;{submission.userFeedback}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 pt-1">
                   {submission.userDifficulty && (
-                    <span className="text-[10px] font-mono text-amber-400">DIFF: {submission.userDifficulty}/5</span>
+                    <span className="text-xs font-mono text-amber-400">DIFF: {submission.userDifficulty}/5</span>
                   )}
                   {submission.userRating && (
-                    <span className="text-[10px] font-mono text-primary">RATING: {submission.userRating}/5</span>
+                    <span className="text-xs font-mono text-primary">RATING: {submission.userRating}/5</span>
                   )}
                 </div>
               </div>
@@ -107,7 +107,7 @@ export function ReviewPanel({
 
           {/* Main Deliverable */}
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-3">Livrable principal</p>
+            <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">Livrable principal</p>
             <SubmissionContent
               content={submission.content}
               submissionMethod={submission.mission.submissionMethod}
@@ -118,7 +118,7 @@ export function ReviewPanel({
 
           {submission.improvementSuggestions && (
             <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 space-y-2">
-              <p className="text-[9px] font-mono uppercase tracking-wider text-blue-400/60">Suggestions d&apos;amélioration système</p>
+              <p className="text-3xs font-mono uppercase tracking-wider text-blue-400/60">Suggestions d&apos;amélioration système</p>
               <p className="text-xs text-zinc-400 leading-relaxed italic">
                 &ldquo;{submission.improvementSuggestions}&rdquo;
               </p>
@@ -128,7 +128,7 @@ export function ReviewPanel({
       )}
 
       <div className="space-y-3">
-        <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Rubrique d&apos;évaluation</p>
+        <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Rubrique d&apos;évaluation</p>
         {getCriteriaForMission(submission.mission.category).map(criterion => (
           <button
             key={criterion.id}
@@ -146,14 +146,14 @@ export function ReviewPanel({
             }
             {criterion.label}
             {criterion.weight === "BONUS" && (
-              <span className="ml-auto text-[9px] font-mono text-primary/40 uppercase tracking-wider">bonus</span>
+              <span className="ml-auto text-3xs font-mono text-primary/40 uppercase tracking-wider">bonus</span>
             )}
           </button>
         ))}
       </div>
 
       <div className="space-y-2">
-        <label className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Feedback</label>
+        <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Feedback</label>
         <Textarea
           placeholder="Commentaire pour le membre..."
           className="bg-black/40 border-white/5 min-h-[100px] text-sm"

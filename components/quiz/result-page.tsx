@@ -90,7 +90,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
                   <p className="text-sm font-bold text-white mb-1">{spec.label}</p>
                   <p className="text-xs text-zinc-400">{spec.reason}</p>
                   {i === 0 && (
-                    <p className="text-[10px] mt-2 font-semibold" style={{ color }}>
+                    <p className="text-xs mt-2 font-semibold" style={{ color }}>
                       Recommandé pour toi
                     </p>
                   )}
@@ -111,7 +111,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
             className="w-full max-w-2xl mx-auto"
           >
             <div className="p-6 rounded-3xl border mb-8" style={{ borderColor: `${color}33`, background: `${color}08` }}>
-              <p className="text-[9px] font-mono uppercase tracking-widest mb-1" style={{ color }}>
+              <p className="text-3xs font-mono uppercase tracking-widest mb-1" style={{ color }}>
                 Objectif 90 jours
               </p>
               <p className="text-xl font-bold text-white mb-3">{selectedSpec.goal90days}</p>
@@ -149,7 +149,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
                         {step.weekRange} : {step.title}
                       </p>
                     </div>
-                    <span className="text-[10px] uppercase text-zinc-600 shrink-0">{step.type}</span>
+                    <span className="text-xs uppercase text-zinc-600 shrink-0">{step.type}</span>
                   </div>
                 ))}
               </div>
@@ -157,7 +157,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
 
             {/* Première étape */}
             <div className="p-5 rounded-2xl border border-white/10 bg-white/5 mb-8">
-              <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 mb-2">
+              <p className="text-3xs font-mono uppercase tracking-widest text-zinc-500 mb-2">
                 Première étape
               </p>
               <p className="text-base font-bold text-white mb-1">
@@ -171,7 +171,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
             <Button
               onClick={handleStartOrientation}
               className="w-full h-14 rounded-xl font-bold text-base"
-              style={{ background: color, color: '#000' }}
+              style={{ background: color, color: '#1a1a1a' }}
             >
               Commencer l&apos;atelier →
             </Button>
@@ -181,7 +181,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
 
       <div ref={scoresRef} className="flex items-center gap-4 px-6 max-w-2xl mx-auto py-2">
         <div className="flex-1 h-px bg-zinc-800" />
-        <span className="text-[11px] text-zinc-600 uppercase whitespace-nowrap">
+        <span className="text-sm-plus text-zinc-600 uppercase whitespace-nowrap">
           Analyse du diagnostic
         </span>
         <div className="flex-1 h-px bg-zinc-800" />
@@ -201,7 +201,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
 
       <div className="flex items-center gap-4 px-6 max-w-2xl mx-auto py-2">
         <div className="flex-1 h-px bg-zinc-800" />
-        <span className="text-[11px] text-zinc-600 uppercase whitespace-nowrap">
+        <span className="text-sm-plus text-zinc-600 uppercase whitespace-nowrap">
           Ton parcours t&apos;attend
         </span>
         <div className="flex-1 h-px bg-zinc-800" />

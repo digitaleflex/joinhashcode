@@ -49,14 +49,14 @@ export function AdminLiveFeed() {
             <Icon className={`size-4 shrink-0 ${cfg.color}`} />
             <div className="flex-1 min-w-0">
               <span className="text-xs font-medium text-white">{e.user.name} </span>
-              <span className="text-[10px] text-zinc-500">
+              <span className="text-xs text-zinc-500">
                 {e.type === "USER_SIGNUP" ? "vient de rejoindre" :
                  e.type === "MISSION_APPROVED" ? "a validé une mission" :
                  e.type === "SQUAD_CREATED" ? "a créé une escouade" :
                  e.type.replace(/_/g, " ").toLowerCase()}
               </span>
             </div>
-            <span className="text-[9px] font-mono text-zinc-700 shrink-0">
+            <span className="text-3xs font-mono text-zinc-700 shrink-0">
               {new Date(e.timestamp).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
             </span>
           </div>

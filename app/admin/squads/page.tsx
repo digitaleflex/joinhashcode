@@ -43,7 +43,7 @@ export default async function AdminSquadsPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
       <div className="space-y-1">
-        <h1 className="text-lg font-bold tracking-tight text-white">Santé des Escouades</h1>
+        <h1 className="text-lg font-bold tracking-tight text-white">État des Escouades</h1>
         <p className="text-sm text-muted-foreground font-mono">
           {total} escouade{total !== 1 ? "s" : ""} · triées par cohésion croissante (les plus à risque en premier)
         </p>
@@ -60,7 +60,7 @@ export default async function AdminSquadsPage() {
           <div key={kpi.label} className="rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
             <div className={`flex items-center gap-2 ${kpi.color}`}>
               <kpi.icon className="h-4 w-4" />
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{kpi.label}</span>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">{kpi.value}</div>
           </div>
@@ -76,7 +76,7 @@ export default async function AdminSquadsPage() {
         <div className="rounded-2xl border border-white/5 bg-zinc-900/60 overflow-hidden">
           <div className="grid grid-cols-[1fr_100px_120px_100px_100px_140px] gap-0 px-6 py-3 border-b border-white/5">
             {["Escouade", "Membres", "Cohésion", "Streak", "Statut", "Dernière activité"].map(h => (
-              <span key={h} className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
+              <span key={h} className="text-3xs font-mono uppercase tracking-wider text-muted-foreground">{h}</span>
             ))}
           </div>
           {squads.map(squad => {
@@ -96,9 +96,9 @@ export default async function AdminSquadsPage() {
                 {/* Name + slug */}
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-white truncate">{squad.name}</p>
-                  <p className="text-[10px] font-mono text-zinc-600 truncate">
+                  <p className="text-xs font-mono text-zinc-600 truncate">
                     /invite/{squad.slug}
-                    {leader && <> · chef: {leader.user.pseudo || leader.user.name}</>}
+                    {leader && <> · responsable: {leader.user.pseudo || leader.user.name}</>}
                   </p>
                 </div>
 
@@ -121,7 +121,7 @@ export default async function AdminSquadsPage() {
                       }}
                     />
                   </div>
-                  <p className="text-[10px] font-mono text-zinc-500 tabular-nums">
+                  <p className="text-xs font-mono text-zinc-500 tabular-nums">
                     {Math.round(squad.cohesionScore * 100)}%
                   </p>
                 </div>
@@ -133,12 +133,12 @@ export default async function AdminSquadsPage() {
                 </div>
 
                 {/* Health badge */}
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider w-fit ${health.bg} ${health.color}`}>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full border text-xs font-mono font-bold uppercase tracking-wider w-fit ${health.bg} ${health.color}`}>
                   {health.label}
                 </span>
 
                 {/* Last activity */}
-                <span className="text-[10px] font-mono text-zinc-600">
+                <span className="text-xs font-mono text-zinc-600">
                   {lastCheckin
                     ? formatRelativeTime(lastCheckin)
                     : "Jamais"}

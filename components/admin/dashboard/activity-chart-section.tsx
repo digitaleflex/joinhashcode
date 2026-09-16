@@ -18,15 +18,15 @@ export function ActivityChartSection({ activeNow, weeklyData }: ActivityChartSec
       <div className="md:col-span-1 rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
         <div className="flex items-center gap-2 text-emerald-400">
           <Activity className="h-4 w-4" />
-          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Actifs maintenant</span>
+          <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Actifs maintenant</span>
         </div>
         <div className="text-4xl font-bold text-white tracking-tight">{activeNow}</div>
-        <p className="text-[10px] font-mono text-zinc-600">sessions actives &lt; 15 min</p>
+        <p className="text-xs font-mono text-zinc-600">sessions actives &lt; 15 min</p>
       </div>
       <div className="md:col-span-3 rounded-2xl border border-white/5 bg-zinc-900/60 p-5 space-y-3">
         <div className="flex items-center gap-2 text-primary">
           <BarChart2 className="h-4 w-4" />
-          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Activité hebdomadaire</span>
+          <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Activité hebdomadaire</span>
         </div>
         <div className="flex items-end gap-2 h-28 pt-2">
           {weeklyData.map((day, i) => {
@@ -39,12 +39,12 @@ export function ActivityChartSection({ activeNow, weeklyData }: ActivityChartSec
                   <div className="w-2 rounded-t-sm bg-primary/70 transition-all" style={{ height: `${(day.signups / max) * 100}%` }} title="Inscriptions" />
                   <div className="w-2 rounded-t-sm bg-violet-500/70 transition-all" style={{ height: `${(day.missions / max) * 100}%` }} title="Missions" />
                 </div>
-                <span className="text-[8px] font-mono text-zinc-600 uppercase mt-auto">{dayName}</span>
+                <span className="text-xs-sm font-mono text-zinc-600 uppercase mt-auto">{dayName}</span>
               </div>
             )
           })}
         </div>
-        <div className="flex items-center gap-4 text-[9px] font-mono text-zinc-600">
+        <div className="flex items-center gap-4 text-3xs font-mono text-zinc-600">
           <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-amber-500/70" /> Check-ins</span>
           <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-primary/70" /> Inscriptions</span>
           <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-violet-500/70" /> Missions</span>

@@ -35,6 +35,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
     const router = useRouter()
     const [isCopying, setIsLocked] = useState(false)
     const [isCreating, setIsCreating] = useState(false)
+    const [squadName, setSquadName] = useState("")
     
     // Fallback pseudo if not set
     const pseudo = user.pseudo || user.name.split(" ")[0]
@@ -62,12 +63,20 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
     }
 
     const createSquad = async () => {
+        if (!squadName.trim()) {
+            toast.error("Donne un nom à ton escouade.")
+            return
+        }
         setIsCreating(true)
         try {
-            const res = await fetch("/api/squad/create", { method: "POST" })
+            const res = await fetch("/api/squad/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: squadName.trim() }),
+            })
             if (!res.ok) {
-                const text = await res.text()
-                throw new Error(text || "Erreur lors de la création de l'escouade.")
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.message || data.error || "Erreur lors de la création de l'escouade.")
             }
             toast.success("Escouade créée avec succès !")
             router.refresh()
@@ -98,7 +107,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                         "bg-primary/10 border-primary/20 text-primary"
                     )}>
                         {memberCount < 5 ? <ShieldAlert className="size-3.5" /> : <ShieldCheck className="size-3.5" />}
-                        <span className="text-[10px] font-mono font-bold uppercase">
+                        <span className="text-xs font-mono font-bold uppercase">
                             {memberCount < 5 ? "Escouade incomplète" : "Escouade active !"}
                         </span>
                     </div>
@@ -106,7 +115,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                     {isOwner && (
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="h-8 gap-2 bg-zinc-900/50 border-white/10 hover:border-primary/50 text-[10px] font-bold uppercase font-mono">
+                                <Button variant="outline" size="sm" className="h-8 gap-2 bg-zinc-900/50 border-white/10 hover:border-primary/50 text-xs font-bold uppercase font-mono">
                                     <Settings className="size-3" />
                                     Gestion
                                 </Button>
@@ -184,7 +193,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                                                 </Avatar>
                                             </div>
                                             <div className={cn(
-                                                "absolute -bottom-2 -right-2 px-2 py-0.5 text-black text-[8px] font-bold uppercase tracking-tight -rotate-2 shadow-lg",
+                                                "absolute -bottom-2 -right-2 px-2 py-0.5 text-black text-xs-sm font-bold uppercase tracking-tight -rotate-2 shadow-lg",
                                                 member.role === "owner" ? "bg-primary" : "bg-zinc-400"
                                             )}>
                                                 {member.role === "owner" ? "Chef" : "Actif"}
@@ -205,14 +214,14 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                                             <UserPlus className="size-6 text-zinc-800 group-hover:text-primary transition-colors" />
                                         </div>
                                         <div className="text-center space-y-4 w-full">
-                                            <div className="text-[9px] font-mono text-zinc-600 uppercase group-hover:text-zinc-400 transition-colors">
+                                            <div className="text-3xs font-mono text-zinc-600 uppercase group-hover:text-zinc-400 transition-colors">
                                                 Place libre
                                             </div>
                                             {(!squad && isUser === false) ? null : (
                                                 <Button 
                                                     variant="outline" 
                                                     onClick={copyInvite}
-                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-[9px] font-bold uppercase tracking-wider transition-all active:scale-95"
+                                                    className="w-full border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/30 h-10 text-3xs font-bold uppercase tracking-wider transition-all active:scale-95"
                                                 >
                                                     {isCopying ? <Check className="size-3 mr-2" /> : <Copy className="size-3 mr-2" />}
                                                     Recruter
@@ -233,12 +242,20 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                     <div className="flex flex-col items-center gap-8 pt-6">
                         <div className="space-y-2 text-center">
                             <h3 className="text-xl font-bold text-white uppercase">Prêt à diriger ?</h3>
-                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Lance ton escouade</p>
+                            <p className="text-xs text-zinc-500 font-mono tracking-wider uppercase">Choisis un nom pour ton escouade</p>
                         </div>
+                        <input
+                            type="text"
+                            value={squadName}
+                            onChange={(e) => setSquadName(e.target.value)}
+                            placeholder="Ex: Équipe Fulgor, Circuit Nova..."
+                            maxLength={40}
+                            className="w-full max-w-sm px-5 py-4 rounded-2xl border border-white/10 bg-white/5 text-white text-center text-sm font-bold placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+                        />
                         <Button 
                             size="lg" 
                             onClick={createSquad}
-                            disabled={isCreating}
+                            disabled={isCreating || !squadName.trim()}
                             className="btn-primary-glow px-12 h-16 text-base font-bold uppercase group"
                         >
                             {isCreating ? <Loader2 className="animate-spin" /> : (
@@ -276,7 +293,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                                         <Info className="size-3 text-zinc-600 group-hover/sync:text-primary transition-colors md:hidden" />
                                     </div>
                                 </TooltipTrigger>
-                                <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                                <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                                     Le niveau de remplissage de ton escouade. Requis : 5 membres.
                                 </TooltipContent>
                             </Tooltip>
@@ -288,11 +305,11 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <div className="flex items-center gap-1.5 cursor-help group/unit">
-                                                <div className="text-[9px] text-primary/60 font-mono uppercase">Cohésion de l&apos;unité</div>
+                                                <div className="text-3xs text-primary/60 font-mono uppercase">Cohésion de l&apos;unité</div>
                                                 <Info className="size-2 text-zinc-700 group-hover/unit:text-primary transition-colors md:hidden" />
                                             </div>
                                         </TooltipTrigger>
-                                        <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono max-w-48">
+                                        <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-48">
                                             Reflète l&apos;activité globale du groupe. Si un membre s&apos;arrête de build, ce score baisse.
                                         </TooltipContent>
                                     </Tooltip>
@@ -304,17 +321,17 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                                             style={{ width: `${Math.round((squad.cohesionScore || 0.1) * 100)}%` }}
                                         />
                                     </div>
-                                    <span className="text-[10px] font-bold text-primary">{Math.round((squad.cohesionScore || 0.1) * 100)}%</span>
+                                    <span className="text-xs font-bold text-primary">{Math.round((squad.cohesionScore || 0.1) * 100)}%</span>
                                 </div>
                                  {squad?.streakCount && squad.streakCount > 0 && (
                                     <div className="mt-2 flex items-center gap-2 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                                         <Zap className="size-3 text-primary fill-primary" />
-                                        <span className="text-[10px] font-bold text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>
+                                        <span className="text-xs font-bold text-white uppercase font-mono">{squad.streakCount} JOURS DE SYNC</span>
                                     </div>
                                 )}
                             </div>
                         )}
-                        <p className="text-[11px] text-zinc-500 font-mono uppercase">
+                        <p className="text-sm-plus text-zinc-500 font-mono uppercase">
                             {memberCount < 5 ? "En attente de nouveaux membres..." : "Escouade complète. Accès aux missions débloqué !"}
                         </p>
                     </div>
@@ -323,7 +340,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
                             <div className="pt-4 relative z-[var(--z-content)]">
                                 <Button 
                                     onClick={copyInvite}
-                                    className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-bold uppercase tracking-wider text-[10px]"
+                                    className="bg-white text-black hover:bg-zinc-200 h-12 px-8 font-bold uppercase tracking-wider text-xs"
                                 >
                                     {isCopying ? "Code Copié !" : "Partager mon lien de recrutement"}
                                 </Button>
@@ -335,7 +352,7 @@ export function SquadLobby({ user, squad }: { user: UserProfile; squad: SquadDat
 
             {/* FOMO Section */}
             <div className="text-center py-6 border-t border-white/5 opacity-50 relative z-[var(--z-content)]">
-                <p className="text-[9px] font-mono text-zinc-600 uppercase">
+                <p className="text-3xs font-mono text-zinc-600 uppercase">
                     Phase_Bêta_En_Cours // Écosystème_En_Expansion
                 </p>
             </div>

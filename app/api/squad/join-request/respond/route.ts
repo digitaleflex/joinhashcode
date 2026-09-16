@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateSquadCohesion } from "@/lib/squad-logic";
 import { joinRequestRespondSchema } from "@/lib/validation";
 import { squadManagementLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { triggerNotification } from "@/lib/qstash";
 import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
@@ -27,11 +28,11 @@ export async function POST(req: NextRequest) {
     });
     if (!request || request.status !== "PENDING") return NextResponse.json({ error: "Demande introuvable ou déjà traitée" }, { status: 404 });
 
-    // Vérifier que l'utilisateur est leader de cette org
+    // Vérifier que l'utilisateur est leader ou co-leader (admin) de cette org
     const member = await prisma.member.findFirst({
-      where: { userId: session.user.id, organizationId: request.organizationId, role: "LEADER" },
+      where: { userId: session.user.id, organizationId: request.organizationId, role: { in: ["owner", "admin"] } },
     });
-    if (!member) return NextResponse.json({ error: "Seul le leader peut répondre aux demandes" }, { status: 403 });
+    if (!member) return NextResponse.json({ error: "Seul le leader ou un co-leader peut répondre aux demandes" }, { status: 403 });
 
     if (action === "accept") {
       if (request.organization._count.members >= 5) {
@@ -64,6 +65,13 @@ export async function POST(req: NextRequest) {
       await updateSquadCohesion(request.organizationId, 0.05);
     } else {
       await prisma.joinRequest.update({ where: { id: requestId }, data: { status: "REJECTED" } });
+      await triggerNotification({
+        userId: request.userId,
+        type: "SQUAD_JOIN_REQUEST_REJECTED",
+        title: "Demande d'escouade",
+        message: `L'escouade ${request.organization.name} n'a pas pu t'accueillir pour le moment — souvent une question de composition d'équipe. De nombreuses escouades recrutent : jette un œil à la découverte !`,
+        link: "/squad/discover",
+      }).catch(() => undefined);
     }
 
     return NextResponse.json({ success: true });

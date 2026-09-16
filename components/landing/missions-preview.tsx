@@ -10,7 +10,7 @@ const PROFILES = [
     id: "builder",
     label: "Builder",
     tagline: "Tu construis.",
-    color: "#B8FF3B",
+    color: "text-primary",
     desc: "Code, systèmes, produits. Tu t'épanouis quand une idée tourne en production. Le débogage ne te décourage pas — il t'intrigue.",
     traits: ["Développeur", "Ingénieur", "Maker", "Architecte"],
   },
@@ -18,7 +18,7 @@ const PROFILES = [
     id: "creator",
     label: "Créateur",
     tagline: "Tu imagines.",
-    color: "#A855F7",
+    color: "text-primary",
     desc: "Design, contenu, narration. Tu crées ce que les autres n'ont pas encore eu l'idée de voir. L'esthétique n'est pas un détail pour toi.",
     traits: ["Designer", "UI/UX", "Rédacteur", "Vidéaste"],
   },
@@ -26,7 +26,7 @@ const PROFILES = [
     id: "strategist",
     label: "Stratège",
     tagline: "Tu structures.",
-    color: "#22D3EE",
+    color: "text-primary",
     desc: "Business, produit, croissance. Tu vois les systèmes derrière les événements et tu construis pour durer. Les chiffres parlent avant les intuitions.",
     traits: ["Product", "Growth", "Business Dev", "Analyste"],
   },
@@ -34,7 +34,7 @@ const PROFILES = [
     id: "catalyst",
     label: "Catalyseur",
     tagline: "Tu connectes.",
-    color: "#F97316",
+    color: "text-primary",
     desc: "Réseau, communauté, impact. Tu amplifies ce qui existe autour de toi — les gens, les idées, les projets. Sans toi, l'énergie ne circule pas.",
     traits: ["Community", "Mentor", "Ambassadeur", "Networker"],
   },
@@ -50,19 +50,36 @@ export function MissionsPreview() {
 
         {/* Header */}
         <div
-          className="flex flex-col items-center text-center mb-16"
+          className="flex flex-col items-center text-center mb-12"
         >
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-8 bg-primary/50" />
-            <span className="font-mono text-[11px] uppercase text-primary">Les 4 profils</span>
+            <span className="font-mono text-sm-plus uppercase text-primary">Le diagnostic</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
-            Qui es-tu dans la tech ?
+            4 profils. Lequel es-tu ?
           </h2>
           <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
-            L'algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
+            L&apos;algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
           </p>
+        </div>
+
+        {/* Compact process — 3 steps */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 max-w-4xl mx-auto">
+          {[
+            { n: "01", title: "Profile-toi", body: "Réponds à 5 questions ciblées. Identité, parcours, objectifs, mode de travail." },
+            { n: "02", title: "Découvre ton profil", body: "Ton type dominant se révèle parmi les quatre ci-dessous. Beaucoup de membres sont hybrides." },
+            { n: "03", title: "Rejoins ta guilde", body: "Accède à un dashboard personnalisé, des missions adaptées et une communauté de pairs." },
+          ].map((s) => (
+            <div key={s.n} className="flex gap-4 items-start rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5">
+              <span className="font-mono text-xs font-black text-primary shrink-0 mt-0.5">{s.n}</span>
+              <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-tight mb-1">{s.title}</h3>
+                <p className="text-xs text-zinc-500 leading-relaxed font-medium">{s.body}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Desktop: two columns */}
@@ -75,7 +92,7 @@ export function MissionsPreview() {
                 style={{ borderColor: `${profile.color}25`, background: `${profile.color}06` }}
               >
                 <div
-                  className="text-[11px] font-mono font-bold uppercase px-3 py-1.5 rounded-md inline-block mb-6"
+                  className="text-sm-plus font-mono font-bold uppercase px-3 py-1.5 rounded-md inline-block mb-6"
                   style={{ color: profile.color, background: `${profile.color}15`, border: `1px solid ${profile.color}30` }}
                 >
                   {profile.label}
@@ -86,7 +103,7 @@ export function MissionsPreview() {
                   {profile.traits.map(t => (
                     <span
                       key={t}
-                      className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
+                      className="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded-md"
                       style={{ color: `${profile.color}90`, background: `${profile.color}0d`, border: `1px solid ${profile.color}20` }}
                     >
                       {t}
@@ -153,7 +170,7 @@ export function MissionsPreview() {
             >
               <div className="flex items-start justify-between">
                 <div
-                  className="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-md"
+                  className="text-xs font-mono font-bold uppercase px-2.5 py-1 rounded-md"
                   style={{ color: p.color, background: `${p.color}15`, border: `1px solid ${p.color}30` }}
                 >
                   {p.label}
@@ -168,7 +185,7 @@ export function MissionsPreview() {
                 {p.traits.map(t => (
                   <span
                     key={t}
-                    className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded"
+                    className="text-3xs font-mono uppercase tracking-wider px-2 py-0.5 rounded"
                     style={{ color: `${p.color}80`, background: `${p.color}0d`, border: `1px solid ${p.color}15` }}
                   >
                     {t}
@@ -187,7 +204,7 @@ export function MissionsPreview() {
             href="/quiz"
             className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
-            Découvrir mon profil en 3 minutes
+            Découvrir mon profil
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

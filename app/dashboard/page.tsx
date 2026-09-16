@@ -1,6 +1,6 @@
 import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
-import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { DashboardWithTour } from "@/components/dashboard/dashboard-with-tour";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
@@ -53,9 +53,10 @@ export default async function DashboardPage() {
   let submissions: DetailedMissionSubmission[] = [];
   let member: MemberPayload | null = null;
   let feedActivities: Activity[] = [];
+  let socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 };
 
   try {
-    const [userData, submissionsData, memberData, feedData] = await Promise.all([
+    const [userData, submissionsData, memberData, feedData, activeCount, weeklyCount, totalMembersCount] = await Promise.all([
       // Requête 1 : Profil utilisateur (champs stricts uniquement)
       prisma.user.findUnique({
         where: { id: session.user.id },
@@ -66,7 +67,7 @@ export default async function DashboardPage() {
           image: true,
           class: true,
           pseudo: true,
-          profile: { select: { bio: true } },
+          bio: true,
           country: true,
           city: true,
           currentSituation: true,
@@ -148,6 +149,24 @@ export default async function DashboardPage() {
         orderBy: { createdAt: "desc" },
         include: { user: { select: { name: true, city: true, class: true } } },
       }),
+      // Requête 5 : Membres actifs (check-in dans les dernières 24h)
+      prisma.activityLog.findMany({
+        where: {
+          action: "CHECKIN_COMPLETED",
+          createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        },
+        select: { userId: true },
+        distinct: ["userId"],
+      }).catch(() => []),
+      // Requête 6 : Check-ins de l'utilisateur cette semaine
+      prisma.dailyCheckin.count({
+        where: {
+          userId: session.user.id,
+          createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        },
+      }).catch(() => 0),
+      // Requête 7 : Total membres
+      prisma.user.count().catch(() => 0),
     ]);
 
     if (!userData) {
@@ -174,7 +193,7 @@ export default async function DashboardPage() {
       domains: userData.domains || [],
       tools: userData.tools || [],
       badges: userData.badges || [],
-      bio: userData.profile?.bio,
+      bio: userData.bio,
       currentSituation: userData.currentSituation,
       technicalLevel: userData.technicalLevel,
       mainObjective: userData.mainObjective,
@@ -197,6 +216,19 @@ export default async function DashboardPage() {
       action: a.action,
       createdAt: a.createdAt.toISOString(),
     }));
+
+    // Rang de l'utilisateur (après Promise.all car dépend de userData)
+    const userExperience = userData.experience ?? 0;
+    const rankData = await prisma.user.count({
+      where: { experience: { gt: userExperience } },
+    }).catch(() => 0);
+
+    socialProof = {
+      activeMembers: Array.isArray(activeCount) ? activeCount.length : 0,
+      userRank: (typeof rankData === "number" ? rankData : 0) + 1,
+      weeklyCheckins: typeof weeklyCount === "number" ? weeklyCount : 0,
+      totalMembers: typeof totalMembersCount === "number" ? totalMembersCount : 0,
+    };
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error);
     throw error;
@@ -228,7 +260,7 @@ export default async function DashboardPage() {
   const featureFlags = getFeatureFlags()
 
   return (
-    <DashboardShell
+    <DashboardWithTour
       user={dbUser}
       quizResult={quizResult}
       submissions={submissionsMap}
@@ -237,6 +269,7 @@ export default async function DashboardPage() {
       memberRole={member?.role ?? undefined}
       feedActivities={feedActivities}
       featureFlags={featureFlags}
+      socialProof={socialProof}
     />
   );
 }

@@ -12,13 +12,13 @@ export default function SquadError({ error, reset }: { error: Error; reset: () =
         </div>
         <div className="space-y-2">
           <h2 className="text-lg font-black uppercase tracking-tight text-white italic">
-            Signal de l&apos;Escouade Perdu
+            Impossible de charger l&apos;escouade
           </h2>
           <p className="text-sm text-muted-foreground font-light leading-relaxed">
             Impossible de charger les données de ton escouade. Vérifie ta connexion et réessaie.
           </p>
           {process.env.NODE_ENV === "development" && error?.message && (
-            <p className="text-[10px] font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
+            <p className="text-xs font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
           )}
         </div>
         <Button onClick={reset} className="btn-primary-glow w-full">

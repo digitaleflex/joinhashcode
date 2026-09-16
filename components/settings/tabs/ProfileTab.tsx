@@ -220,7 +220,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
                 <p className="text-sm font-medium text-white">
                   {userData?.talentVisible ? "Visible dans l'annuaire" : "Masqué de l'annuaire"}
                 </p>
-                <p className="text-[11px] text-zinc-500">
+                <p className="text-sm-plus text-zinc-500">
                   {userData?.talentVisible
                     ? "Les recruteurs peuvent découvrir ton profil"
                     : "Ton profil n'apparaît pas dans les recherches"}
@@ -269,7 +269,7 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
               <div className="space-y-2 max-w-xl">
                 {quizStatus?.canRetake ? (
                   <>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                       ÉLIGIBLE AU RECALIBRAGE
                     </span>
                     <p className="text-xs text-zinc-400 leading-relaxed font-light">
@@ -280,14 +280,14 @@ export function ProfileTab({ userData, updateData }: ProfileTabProps) {
                   </>
                 ) : (
                   <>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500">
                       RECALIBRAGE VERROUILLÉ
                     </span>
                     <p className="text-xs text-zinc-400 leading-relaxed font-light">
                       Vous avez déjà passé le quiz. Pour garantir la stabilité de ton équipe et privilégier l'évolution par l'action, un délai de 14 jours est requis entre chaque tentative.
                     </p>
                     {quizStatus?.nextAvailableDate && (
-                      <p className="text-[10px] font-mono text-zinc-500">
+                      <p className="text-xs font-mono text-zinc-500">
                         Prochain recalibrage disponible le :{" "}
                         <span className="text-zinc-300">
                           {new Date(quizStatus.nextAvailableDate).toLocaleDateString("fr-FR", {

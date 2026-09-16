@@ -2,13 +2,12 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, GraduationCap, Zap, Users, BookOpen } from "lucide-react"
+import { LayoutDashboard, Zap, Users, BookOpen } from "lucide-react"
 export function BottomNav() {
   const pathname = usePathname()
 
   const navItems = [
     { name: "Console", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Ateliers", href: "/ateliers", icon: GraduationCap },
     { name: "Missions", href: "/missions", icon: Zap },
     { name: "Squad", href: "/squad", icon: Users },
     { name: "Academy", href: "/academy", icon: BookOpen },
@@ -39,7 +38,7 @@ export function BottomNav() {
               )}
 
               <Icon className={`w-6 h-6 relative z-[var(--z-content)] transition-transform duration-300 ${isActive ? "scale-110" : "scale-100"}`} />
-              <span className="text-[9px] font-bold uppercase tracking-wider relative z-[var(--z-content)]">
+              <span className="text-3xs font-bold uppercase tracking-wider relative z-[var(--z-content)]">
                 {item.name}
               </span>
 

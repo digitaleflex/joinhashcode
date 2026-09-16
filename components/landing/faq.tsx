@@ -7,7 +7,7 @@ import { Plus, Minus, HelpCircle } from "lucide-react"
 const faqs = [
   {
     question: "C'est quoi exactement HASHCODE ?",
-    answer: "HASHCODE est une plateforme d'évolution pour les bâtisseurs tech. Ce n'est pas juste une communauté, c'est un système qui évalue tes compétences réelles via des missions concrètes et t'oriente vers des écosystèmes où tu peux avoir un impact immédiat."
+    answer: "Tu commences par un quiz rapide. HASHCODE t'identifie parmi 4 profils : Builder, Créateur, Stratège ou Catalyseur. Ensuite, tu reçois des missions adaptées à ton niveau, des pairs au même niveau que toi, et un chemin concret pour évoluer dans la tech africaine."
   },
   {
     question: "Comment fonctionne le diagnostic ?",
@@ -40,7 +40,7 @@ export function Faq() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[10px] font-black uppercase tracking-widest text-primary">
+            <span className="font-mono text-xs font-black uppercase tracking-widest text-primary">
               Questions fréquentes
             </span>
           </div>
@@ -103,7 +103,7 @@ export function Faq() {
           </div>
           <a 
             href="/contact" 
-            className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-white transition-colors py-2 px-4 border border-primary/20 rounded-xl bg-primary/5 hover:bg-primary/20"
+            className="text-xs font-black uppercase tracking-widest text-primary hover:text-white transition-colors py-2 px-4 border border-primary/20 rounded-xl bg-primary/5 hover:bg-primary/20"
           >
             Contact_Support
           </a>

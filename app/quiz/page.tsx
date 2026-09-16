@@ -66,7 +66,7 @@ export default async function QuizPage() {
         <div className="w-full max-w-4xl px-4">
           <Link
             href="/onboarding"
-            className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors mb-12 group"
+            className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-12 group"
           >
             <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
             RETOUR AU PROFIL

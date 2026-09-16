@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { emailService } from "@/lib/email";
@@ -29,7 +28,93 @@ export async function DELETE(req: Request) {
       request: req,
     });
 
-    await prisma.user.delete({ where: { id: session.user.id } });
+    // RGPD purge: anonymize mission attempts and submissions
+    await prisma.$transaction(async (tx) => {
+      // Get user's mission attempts
+      const attempts = await tx.missionAttempt.findMany({
+        where: { userId: session.user.id },
+        select: { id: true },
+      });
+
+      const attemptIds = attempts.map((a) => a.id);
+
+      // Anonymize step responses: clear data, set userId to null via cascade
+      if (attemptIds.length > 0) {
+        await tx.missionStepResponse.updateMany({
+          where: { attemptId: { in: attemptIds } },
+          data: {
+            data: {},
+            status: "DRAFT",
+            score: null,
+            feedback: null,
+            reviewedById: null,
+            reviewedAt: null,
+          },
+        });
+
+        // Update attempts: anonymize
+        await tx.missionAttempt.updateMany({
+          where: { id: { in: attemptIds } },
+          data: {
+            status: "DRAFT",
+            currentStep: 0,
+            submittedAt: null,
+            reviewerId: null,
+            score: null,
+            decision: null,
+          },
+        });
+      }
+
+      // Anonymize mission submissions: clear PII, keep aggregated stats
+      await tx.missionSubmission.updateMany({
+        where: { userId: session.user.id },
+        data: {
+          content: null,
+          projectDescription: null,
+          reviewerFeedback: null,
+          userDifficulty: null,
+          userFeedback: null,
+          userRating: null,
+          improvementSuggestions: null,
+          adminFeedback: null,
+          qualityLevel: null,
+          revisionNotes: null,
+          reviewerType: null,
+        },
+      });
+
+      // Anonymize mission reviews given by this user
+      await tx.missionReview.updateMany({
+        where: { reviewerId: session.user.id },
+        data: {
+          reviewerId: null,
+          feedback: "[Anonymisé suite à suppression du compte]",
+        },
+      });
+
+      // Anonymize review logs
+      await tx.missionReviewLog.updateMany({
+        where: { actorId: session.user.id },
+        data: {
+          actorId: null,
+          message: "[Anonymisé suite à suppression du compte]",
+        },
+      });
+
+      // Delete user (cascades to related records)
+      await tx.user.delete({ where: { id: session.user.id } });
+    });
+
+    // Log RGPD purge activity
+    logActivity({
+      userId: null,
+      action: "USER_DATA_PURGED",
+      entity: "user",
+      entityId: session.user.id,
+      metadata: { memberNumber: user?.memberNumber, level: user?.level, missionsCompletedCount: user?.missionsCompletedCount },
+      request: req,
+    });
 
     if (user) {
       // Confirmation to the user

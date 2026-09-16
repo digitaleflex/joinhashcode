@@ -10,14 +10,14 @@ export function ProfileDistributionSection({ quizByProfile, profileColors }: Pro
 
   return (
     <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-      <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-2"><TrendingUp className="h-3 w-3" /> Distribution des Profils</h2>
+      <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2"><TrendingUp className="h-3 w-3" /> Distribution des Profils</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {["builder", "creator", "strategist", "catalyst"].map((p) => {
           const count = quizByProfile.find(q => q.profileType === p)?._count.profileType ?? 0
           const pct = Math.round((count / total) * 100)
           return (
             <div key={p} className="space-y-3">
-              <div className="flex justify-between text-[10px] font-mono">
+              <div className="flex justify-between text-xs font-mono">
                 <span className="capitalize" style={{ color: profileColors[p] }}>{p}</span>
                 <span className="text-muted-foreground">{count} ({pct}%)</span>
               </div>

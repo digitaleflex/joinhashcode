@@ -1,7 +1,6 @@
-import { prisma } from "./prisma"
 import { sanitizeMetadata } from "./logger"
 import { getClientIp } from "./utils"
-import type { Prisma } from "@/generated/prisma/client"
+import { Prisma } from "../generated/prisma/client"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
@@ -15,6 +14,7 @@ export type ActivityAction =
   | "ONBOARDING_COMPLETED"
   | "QUIZ_COMPLETED"
   | "POST_QUIZ_COMPLETED"
+  | "QUIZ_RETRY_INITIATED"
   // Squad
   | "SQUAD_CREATED"
   | "SQUAD_JOINED"
@@ -31,12 +31,21 @@ export type ActivityAction =
   | "MISSION_REJECTED"
   | "MISSION_REVISION_REQUESTED"
   | "CLAIM_RELEASED"
+  | "ATTEMPT_STARTED"
+  | "ATTEMPT_STEP_SAVED"
+  | "ATTEMPT_SUBMITTED"
+  | "ATTEMPT_REVIEWED"
+  | "ATTEMPT_REVISION_REQUESTED"
+  | "ATTEMPT_APPROVED"
+  | "ATTEMPT_REJECTED"
+  | "PROFILE_V1_CREATED"
   // Profile / settings
   | "PROFILE_UPDATED"
   | "CHECKIN_COMPLETED"
   | "ACCOUNT_DEACTIVATED"
   | "ACCOUNT_REACTIVATED"
   | "ACCOUNT_DELETED"
+  | "USER_DATA_PURGED"
   // Admin
   | "ADMIN_SUBMISSION_REVIEWED"
   | "ADMIN_USER_BANNED"
@@ -45,11 +54,29 @@ export type ActivityAction =
   | "ADMIN_MISSION_CREATED"
   | "ADMIN_MISSION_UPDATED"
   | "ADMIN_MISSION_DELETED"
+  | "ADMIN_MISSION_PUBLISHED"
+  | "ADMIN_MISSION_CLOSED"
+  | "ADMIN_MISSION_ARCHIVED"
+  | "ADMIN_MISSION_ASSIGNED"
+  | "ADMIN_MISSION_UNASSIGNED"
   | "ADMIN_BETA_KEY_GENERATED"
   | "ADMIN_BETA_KEY_DELETED"
   | "ADMIN_BROADCAST_SENT"
   | "ADMIN_USER_IMPERSONATED"
   | "ADMIN_ROLE_UPDATED"
+  | "ADMIN_ATELIER_CREATED"
+  | "ADMIN_ATELIER_UPDATED"
+  | "ADMIN_ATELIER_DELETED"
+  | "ADMIN_KNOWLEDGE_CREATED"
+  | "ADMIN_KNOWLEDGE_UPDATED"
+  | "ADMIN_KNOWLEDGE_DELETED"
+  | "ADMIN_KNOWLEDGE_PUBLISHED"
+  | "ADMIN_MENTOR_PROFILE_CREATED"
+  | "ADMIN_MENTOR_PROFILE_UPDATED"
+  | "ADMIN_MENTOR_MATCH_CREATED"
+  | "ADMIN_MENTOR_MATCH_UPDATED"
+  | "ADMIN_MENTOR_MATCH_DELETED"
+  | "ADMIN_MENTOR_NOTIFICATION_SENT"
 
 interface LogOptions {
   userId?: string | null
@@ -68,6 +95,7 @@ interface LogOptions {
 export async function logActivity(opts: LogOptions): Promise<void> {
   const { userId, action, entity, entityId, metadata, request } = opts
   try {
+    const { prisma } = await import("./prisma")
     await prisma.activityLog.create({
       data: {
         userId: userId ?? null,

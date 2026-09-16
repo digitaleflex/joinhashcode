@@ -35,10 +35,10 @@ export function ImpersonationBanner() {
                     <ShieldAlert className="size-4 animate-pulse" />
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-tighter leading-none sm:leading-normal">
+                    <span className="text-xs font-black uppercase tracking-tighter leading-none sm:leading-normal">
                         Mode Impersonification Actif
                     </span>
-                    <span className="text-[10px] font-medium opacity-80 font-mono hidden sm:inline">
+                    <span className="text-xs font-medium opacity-80 font-mono hidden sm:inline">
                         — Tu navigues en tant que <span className="font-bold">{session.user.name}</span> ({session.user.email})
                     </span>
                 </div>
@@ -49,7 +49,7 @@ export function ImpersonationBanner() {
                 size="sm" 
                 onClick={stopImpersonation}
                 disabled={isStopping}
-                className="h-8 bg-black text-white hover:bg-zinc-800 border-none rounded-lg text-[9px] font-black uppercase tracking-widest gap-2 shadow-lg cursor-pointer"
+                className="h-8 bg-black text-white hover:bg-zinc-800 border-none rounded-lg text-3xs font-black uppercase tracking-widest gap-2 shadow-lg cursor-pointer"
             >
                 {isStopping ? <Loader2 className="size-3 animate-spin" /> : <LogOut className="size-3" />}
                 Arrêter

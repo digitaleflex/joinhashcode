@@ -33,8 +33,8 @@ interface SubDomainOption {
 }
 
 const CYBERSEC_SUBDOMAINS: SubDomainOption[] = [
-  { value: "offensive", label: "Offensif (Red Team)", description: "Tests d'intrusion, exploitation de vulnérabilités" },
-  { value: "defensive", label: "Défensif (Blue Team)", description: "Surveillance, réponse aux incidents" },
+  { value: "offensive", label: "Sécurité offensive", description: "Tests d'intrusion, exploitation de vulnérabilités" },
+  { value: "defensive", label: "Sécurité défensive", description: "Surveillance, réponse aux incidents" },
   { value: "appsec", label: "AppSec", description: "Sécurité des applications, code review" },
   { value: "crypto", label: "Cryptographie", description: "Chiffrement, protocoles, analyse" },
 ]
@@ -54,7 +54,7 @@ const CLOUD_SUBDOMAINS: SubDomainOption[] = [
 ]
 
 const IA_SUBDOMAINS: SubDomainOption[] = [
-  { value: "ml", label: "ML Engineering", description: "Modèles, pipelines, déploiement" },
+  { value: "ml", label: "ML Engineering", description: "Modèles, pipelines, mise en production" },
   { value: "llm", label: "LLM & Agents", description: "LLM, RAG, agents autonomes" },
   { value: "data-eng", label: "Data Engineering", description: "ETL, data pipelines, stockage" },
   { value: "analytics", label: "Analytics", description: "Analyse de données, visualisation" },
@@ -285,10 +285,10 @@ export function SpecializationQuiz({ pseudo, existingData }: SpecializationQuizP
     <div className="max-w-lg mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[10px] font-mono uppercase text-primary/60">
+          <span className="text-xs font-mono uppercase text-primary/60">
             [ SPÉCIALISATION ]
           </span>
-          <span className="text-[10px] font-mono text-zinc-500">
+          <span className="text-xs font-mono text-zinc-500">
             Q{state.currentStep + 1}/{steps}
           </span>
         </div>
@@ -493,7 +493,7 @@ export function SpecializationQuiz({ pseudo, existingData }: SpecializationQuizP
             </div>
             {state.domain === "Cybersecurity" && state.practiceMode === "ctf_platform" && (
               <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
-                <p className="text-[10px] font-mono uppercase text-primary/60 mb-2">Plateformes recommandées</p>
+                <p className="text-xs font-mono uppercase text-primary/60 mb-2">Plateformes recommandées</p>
                 <div className="flex flex-wrap gap-2">
                   {cybersecPlatforms.map(p => (
                     <span key={p} className="text-xs px-2 py-1 rounded bg-white/5 text-zinc-400">{p}</span>

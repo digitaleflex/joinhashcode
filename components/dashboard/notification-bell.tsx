@@ -127,11 +127,11 @@ export function NotificationBell() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 bg-card/95 backdrop-blur-xl border-border/40 rounded-2xl p-2 z-[var(--z-dropdown)]">
         <div className="flex items-center justify-between p-3">
-          <DropdownMenuLabel className="font-mono text-[10px] uppercase text-muted-foreground p-0">Notifications</DropdownMenuLabel>
+          <DropdownMenuLabel className="font-mono text-xs uppercase text-muted-foreground p-0">Notifications</DropdownMenuLabel>
           {unreadCount > 0 && (
             <button
               onClick={(e) => { e.preventDefault(); markAllRead.mutate() }}
-              className="text-[10px] text-primary hover:underline font-medium"
+              className="text-xs text-primary hover:underline font-medium"
             >
               Tout marquer comme lu
             </button>
@@ -184,8 +184,8 @@ export function NotificationBell() {
                           </p>
                           {!notif.isRead && <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />}
                         </div>
-                        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">{notif.message}</p>
-                        <p className="text-[9px] text-muted-foreground font-mono mt-0.5">
+                        <p className="text-xs text-muted-foreground line-clamp-2 leading-tight">{notif.message}</p>
+                        <p className="text-3xs text-muted-foreground font-mono mt-0.5">
                           {formatRelativeTime(notif.createdAt)}
                         </p>
                       </div>
@@ -197,7 +197,7 @@ export function NotificationBell() {
                           size="sm"
                           disabled={isProcessing}
                           onClick={() => handleSquadInvitation(invitationId, 'accept', notif.id)}
-                          className="h-7 px-3 bg-primary/20 hover:bg-primary text-primary hover:text-black text-[9px] font-black uppercase rounded-lg transition-all flex-1"
+                          className="h-7 px-3 bg-primary/20 hover:bg-primary text-primary hover:text-black text-3xs font-black uppercase rounded-lg transition-all flex-1"
                         >
                           {isProcessing ? <Loader2 className="size-3 animate-spin" /> : <Check className="size-3 mr-1" />}
                           Accepter
@@ -207,7 +207,7 @@ export function NotificationBell() {
                           variant="ghost"
                           disabled={isProcessing}
                           onClick={() => handleSquadInvitation(invitationId, 'reject', notif.id)}
-                          className="h-7 px-3 hover:bg-destructive/20 text-muted-foreground hover:text-destructive text-[9px] font-bold uppercase rounded-lg transition-all"
+                          className="h-7 px-3 hover:bg-destructive/20 text-muted-foreground hover:text-destructive text-3xs font-bold uppercase rounded-lg transition-all"
                         >
                           {isProcessing ? <Loader2 className="size-3 animate-spin" /> : <X className="size-3 mr-1" />}
                           Refuser
@@ -222,7 +222,7 @@ export function NotificationBell() {
         </div>
         <DropdownMenuSeparator className="bg-border/40" />
         <div className="p-1 text-center">
-          <Button asChild variant="ghost" className="w-full text-[10px] font-bold uppercase tracking-wider text-primary hover:text-primary hover:bg-primary/5 rounded-xl h-8">
+          <Button asChild variant="ghost" className="w-full text-xs font-bold uppercase tracking-wider text-primary hover:text-primary hover:bg-primary/5 rounded-xl h-8">
             <Link href="/dashboard/notifications">
               Voir toutes les notifications
             </Link>

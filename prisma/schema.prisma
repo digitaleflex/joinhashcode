@@ -162,23 +162,33 @@ model User {
   creatorScore         Int       @default(0)
   strategistScore      Int       @default(0)
   catalystScore        Int       @default(0)
-  level                Int       @default(1)
-  experience           Int       @default(0)
-  missionsCompletedCount Int     @default(0)
-  reviewsCompleted     Int      @default(0)
-  currentStreak       Int      @default(0)
-  longestStreak        Int       @default(0)
-  lastCheckinAt        DateTime?
-  lastStreakDate       DateTime?
-  twoFactorEnabled     Boolean   @default(false)
-  twoFactorSecret      String?
-  referralCode         String?   @unique
-  referralCount        Int       @default(0)
-  referrerId           String?
-  githubUrl            String?
-  portfolioUrl         String?
-  linkedinUrl          String?
-  twitterUrl           String?
+  level                  Int       @default(1)
+  experience             Int       @default(0)
+  missionsCompletedCount Int       @default(0)
+  reviewsCompleted       Int       @default(0)
+  currentStreak          Int       @default(0)
+  longestStreak          Int       @default(0)
+  lastCheckinAt          DateTime?
+  lastStreakDate         DateTime?
+  twoFactorEnabled       Boolean   @default(false)
+  twoFactorSecret        String?
+  referralCode           String?   @unique
+  referralCount          Int       @default(0)
+  referrerId             String?
+  j7Activated            Boolean   @default(false) @map("j7_activated")
+  githubUrl              String?
+  portfolioUrl           String?
+  linkedinUrl            String?
+  twitterUrl             String?
+
+  bio                  String?
+  secondaryObjectives  String[]  @default([]) @map("secondary_objectives")
+  currentFocus         String[]  @default([]) @map("current_focus")
+  dreamStatement       String?   @map("dream_statement")
+  mainBlocker          String?   @map("main_blocker")
+  betaKeyId            String?   @map("beta_key_id")
+  betaCreatedAt        DateTime? @default(now()) @map("beta_created_at")
+  betaUpdatedAt        DateTime? @updatedAt @map("beta_updated_at")
   twoFactorBackupCodes String?
 
   // --- hashskills additions ---
@@ -189,8 +199,6 @@ model User {
   xp              Int       @default(0)
 
   // Relations
-  beta              UserBeta?
-  profile           UserProfile?
   accounts          Account[]
   dailyCheckins     DailyCheckin[]
   missionSubmissions MissionSubmission[] @relation("SubmissionOwner")
@@ -224,60 +232,53 @@ model User {
   adminAuditLogs    AdminAuditLog[]
   analyticsEvents   AnalyticsEvent[]
 
+  missionAttempts       MissionAttempt[]      @relation("AttemptOwner")
+  attemptsReviewed      MissionAttempt[]      @relation("AttemptReviewer")
+  stepResponsesReviewed MissionStepResponse[] @relation("StepReviewer")
+  reviewLogs            MissionReviewLog[]    @relation("TimelineActor")
+  profileV1             ProfileV1?
+  missionAssignments    MissionAssignment[]
+
+  interventionAttendees InterventionAttendee[]
+  mentorProfile         MentorProfile?
+  mentorMatches         MentorMatch[]         @relation("MentorMatches")
+  menteeMatches         MentorMatch[]         @relation("MenteeMatches")
+
   @@index([class])
   @@index([role])
   @@index([createdAt])
+  @@index([class, role])
+  @@index([createdAt, class])
   @@map("user")
 }
 
-model UserProfile {
-  id                 String   @id @default(cuid())
-  userId             String   @unique
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio                String?
-  secondaryObjectives String[]
-  currentFocus       String[]
-  dreamStatement     String?
-  mainBlocker        String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+// --- UserProfile removed: fields merged into User (bio, secondaryObjectives, etc.) ---
 
-  @@map("user_profile")
-}
-
-model UserBeta {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  betaKeyId String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("user_beta")
-}
 
 // ============================================================
 // ORGANIZATION & MEMBER — fusion Community + reboot
 // ============================================================
 
 model Organization {
-  id                String         @id
-  name              String
-  slug              String?        @unique
-  logo              String?
-  createdAt         DateTime
-  metadata          String?
-  cohesionScore     Float          @default(0.1)
-  streakCount       Int            @default(0)
-  lastStreakAt      DateTime?
-  requiredLevel     Int            @default(1)
-  isPrivate         Boolean        @default(false)
-  description       String?
-  announcement      String?
-  discordInviteUrl  String?
-  members           Member[]
-  twoFactorEnabled  Boolean        @default(false)
-  twoFactorSecret   String?
+  id                   String         @id
+  name                 String
+  slug                 String?        @unique
+  logo                 String?
+  createdAt            DateTime
+  metadata             String?
+  cohesionScore        Float          @default(0.1)
+  streakCount          Int            @default(0)
+  lastStreakAt         DateTime?
+  streakFreezes        Int            @default(1)
+  lastStreakFreezeAt   DateTime?
+  requiredLevel        Int            @default(1)
+  isPrivate            Boolean        @default(false)
+  description          String?
+  announcement         String?
+  discordInviteUrl     String?
+  members              Member[]
+  twoFactorEnabled     Boolean        @default(false)
+  twoFactorSecret      String?
   twoFactorBackupCodes String?
   invitations       Invitation[]
   joinRequests      JoinRequest[]
@@ -447,13 +448,42 @@ model Mission {
   acceptanceCriteria Json                @default("[]")
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
+  resources          Json?
+  tags               String[]           @default([])
+  evaluationRubric   Json?
+  validationCriteria String?
+  prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)
   weeklySlot         Int?
+  isOnboarding       Boolean             @default(false)
+  isAutoApproved     Boolean             @default(false)
+  status             String              @default("DRAFT")
+  publishAt          DateTime?
+  deadline           DateTime?
+  closedAt           DateTime?
+  deletedAt          DateTime?
   submissions        MissionSubmission[]
+  steps              MissionStep[]
+  attempts           MissionAttempt[]
+  assignments        MissionAssignment[]
+  snapshots          MissionSnapshot[]
+  webhooks           MissionWebhook[]
 
   @@index([category])
   @@index([difficulty])
+  @@index([isOnboarding])
   @@map("mission")
+}
+
+model MissionSnapshot {
+  id          String   @id @default(cuid())
+  missionId   String
+  mission     Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  data        Json
+  label       String?
+  createdAt   DateTime @default(now())
+
+  @@index([missionId])
 }
 
 model MissionSubmission {
@@ -1243,4 +1273,294 @@ model LearningAuditLog {
   @@index([userId])
   @@index([action])
   @@map("audit_log")
+}
+
+model MissionStep {
+  id          String                @id @default(cuid())
+  missionId   String
+  stepOrder   Int
+  key         String
+  title       String
+  description String
+  fields      Json                  @default("[]")
+  required    Boolean               @default(true)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  mission     Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  responses   MissionStepResponse[]
+
+  @@unique([missionId, stepOrder])
+  @@unique([missionId, key])
+  @@index([missionId])
+  @@map("mission_step")
+}
+
+model MissionAttempt {
+  id            String                @id @default(cuid())
+  userId        String
+  missionId     String
+  status        String                @default("DRAFT")
+  currentStep   Int                   @default(0)
+  submittedAt   DateTime?
+  reviewerId    String?
+  score         Int?
+  decision      String?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  user          User                  @relation("AttemptOwner", fields: [userId], references: [id], onDelete: Cascade)
+  mission       Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  reviewer      User?                 @relation("AttemptReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  stepResponses MissionStepResponse[]
+  reviewLogs    MissionReviewLog[]
+  profileV1     ProfileV1?
+
+  @@unique([userId, missionId])
+  @@index([missionId])
+  @@index([status])
+  @@index([userId, status])
+  @@map("mission_attempt")
+}
+
+model MissionStepResponse {
+  id           String         @id @default(cuid())
+  attemptId    String
+  stepId       String
+  stepOrder    Int
+  data         Json           @default("{}")
+  status       String         @default("DRAFT")
+  score        Int?
+  feedback     String?
+  reviewedById String?
+  reviewedAt   DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  attempt      MissionAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  step         MissionStep    @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  reviewedBy   User?          @relation("StepReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@unique([attemptId, stepId])
+  @@index([attemptId])
+  @@map("mission_step_response")
+}
+
+model MissionReviewLog {
+  id        String         @id @default(cuid())
+  attemptId String
+  actorId   String?
+  action    String
+  message   String?
+  metadata  Json?
+  createdAt DateTime       @default(now())
+  attempt   MissionAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  actor     User?          @relation("TimelineActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([attemptId])
+  @@index([createdAt])
+  @@map("mission_review_log")
+}
+
+model MissionAssignment {
+  id        String   @id @default(cuid())
+  userId    String
+  missionId String
+  assignedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@index([missionId])
+  @@index([userId])
+  @@map("mission_assignment")
+}
+
+model ProfileV1 {
+  id             String          @id @default(cuid())
+  userId         String          @unique
+  attemptId      String?         @unique
+  data           Json
+  declaredSkills Json            @default("[]")
+  observed       Json            @default("{}")
+  demonstrated   Json            @default("[]")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempt        MissionAttempt? @relation(fields: [attemptId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@map("profile_v1")
+}
+
+model Atelier {
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @db.Text
+  duration     String
+  order        Int      @default(0)
+  icon         String?
+  category     String
+  prerequisites String[] @default([])
+  profile      String
+  specializationId String
+  specializationLabel String
+  xpReward     Int      @default(50)
+  missionSlugs String[] @default([])
+  pourquoi     String?  @db.Text
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([profile])
+  @@index([category])
+  @@index([isActive, order])
+  @@map("atelier")
+}
+
+model ProfileContent {
+  id                  String   @id @default(cuid())
+  profile             String   @unique
+  pain                String   @db.Text
+  painBold            String
+  truths              Json
+  unlockedMissions    Json
+  lockedMissions      Json
+  socialProof         String   @db.Text
+  whatsappText        String
+  ctaLabel            String
+  possibleSpecializations Json
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("profile_content")
+}
+
+model Specialization {
+  id          String   @id @default(cuid())
+  specializationId String @unique
+  class       String
+  name        String
+  description String   @db.Text
+  missions    Json
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([class])
+  @@index([isActive, order])
+  @@map("specialization")
+}
+
+model KnowledgeArticle {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  category    String
+  tags        String[] @default([])
+  visibility  String   @default("PRIVATE")
+  slug        String   @unique
+  authorId    String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([visibility])
+  @@index([isPublished, publishedAt])
+  @@map("knowledge_article")
+}
+
+model Intervention {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  date        DateTime
+  duration    Int
+  speaker     String
+  capacity    Int
+  location    String
+  locationUrl String?
+  recordingUrl String?
+  status      String   @default("DRAFT")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+  attendees   InterventionAttendee[]
+
+  @@index([date])
+  @@index([status])
+  @@map("intervention")
+}
+
+model InterventionAttendee {
+  id            String        @id @default(cuid())
+  interventionId String
+  intervention  Intervention  @relation(fields: [interventionId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status        String        @default("REGISTERED")
+  registeredAt  DateTime      @default(now())
+  attendedAt    DateTime?
+  feedback      String?
+  rating        Int?
+
+  @@unique([interventionId, userId])
+  @@index([userId])
+  @@index([status])
+  @@map("intervention_attendee")
+}
+
+model MentorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?  @db.Text
+  expertise       String[] @default([])
+  domains         String[] @default([])
+  maxMentees      Int      @default(3)
+  currentMentees  Int      @default(0)
+  isActive        Boolean  @default(true)
+  rating          Float    @default(0)
+  totalSessions   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("mentor_profile")
+}
+
+model MentorMatch {
+  id            String   @id @default(cuid())
+  mentorId      String
+  mentor        User     @relation("MentorMatches", fields: [mentorId], references: [id], onDelete: Cascade)
+  menteeId      String
+  mentee        User     @relation("MenteeMatches", fields: [menteeId], references: [id], onDelete: Cascade)
+  status        String   @default("PENDING")
+  matchedAt     DateTime @default(now())
+  startedAt     DateTime?
+  endedAt       DateTime?
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([mentorId, menteeId])
+  @@index([mentorId])
+  @@index([menteeId])
+  @@index([status])
+  @@map("mentor_match")
+}
+
+model MissionWebhook {
+  id        String   @id @default(cuid())
+  missionId String
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  url       String
+  secret    String
+  events    String[]
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([missionId])
+  @@map("mission_webhook")
 }

@@ -11,6 +11,7 @@ import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { awardXp } from "@/lib/experience";
 import { z } from "zod";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 const UpdateSubmissionSchema = z.object({
   action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
@@ -77,29 +78,34 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      // 1. Mise à jour de statut synchrone ultra-rapide
-      await prisma.missionSubmission.update({
-        where: { id },
-        data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
+      // 1. Transaction atomique — status + XP + missionsCompletedCount
+      await prisma.$transaction(async (tx) => {
+        await tx.missionSubmission.update({
+          where: { id },
+          data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
+        });
+
+        // XP & progression pour le submitter — dans la même transaction
+        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
+        await tx.user.update({
+          where: { id: submission.userId },
+          data: { missionsCompletedCount: { increment: 1 } },
+        });
       });
 
-      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      // 2. Traitements post-réponse asynchrones (non-critiques)
       await after(async () => {
         try {
           // Évolution du profil comportemental
           await updateUserEvolution(submission.userId, missionWeights);
 
-          // Attribution XP & progression pour le submitter
-          const updatedUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId);
-
-          await prisma.user.update({
+          // Vérifier level up
+          const submitterAfter = await prisma.user.findUnique({
             where: { id: submission.userId },
-            data: { missionsCompletedCount: { increment: 1 } },
+            select: { level: true }
           });
-
-          // Validation du passage de niveau
           const submitterLevel = submission.user.level ?? 1;
-          const newLevel = updatedUser?.level ?? submitterLevel;
+          const newLevel = submitterAfter?.level ?? submitterLevel;
           const leveledUp = newLevel > submitterLevel;
 
           // Notifications
@@ -143,6 +149,19 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         metadata: { action: "APPROVE", qualityLevel: level, xpAwarded, targetUserId: submission.userId },
         request: req,
       });
+
+      triggerWebhooks(submission.missionId, "submission.approved", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        qualityLevel: level,
+        xpAwarded,
+        status: "APPROVED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
 
       // Le client n'attend plus la résolution d'awardXp/emails pour obtenir la réponse
           const submitterLevel = submission.user.level ?? 1;
@@ -195,6 +214,19 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         request: req,
       });
 
+      triggerWebhooks(submission.missionId, "submission.rejected", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        revisionCount: (submission.revisionCount ?? 0) + 1,
+        feedback,
+        status: "NEEDS_REVISION",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
+
       return NextResponse.json({ success: true });
     }
 
@@ -233,6 +265,18 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         metadata: { action: "REJECT", targetUserId: submission.userId },
         request: req,
       });
+
+      triggerWebhooks(submission.missionId, "submission.rejected", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId: id,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: userId,
+        feedback,
+        status: "REJECTED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
 
       return NextResponse.json({ success: true });
     }

@@ -1,5 +1,17 @@
 // Next.js 15 Proxy middleware
 // File named proxy.ts per Next.js 15 convention; exported as `middleware`
+// 
+// ROUTING STRATEGY (Single Middleware Architecture):
+// - This file (proxy.ts) is the ONLY middleware handling auth redirects
+// - No separate middleware.ts exists in source (Next.js 15 uses this convention)
+// - Three-stage funnel enforced here:
+//   1. No session → redirect to /signin
+//   2. Session but no currentSituation → redirect to /onboarding
+//   3. Session but no class assigned → redirect to /quiz
+//   4. Session but no primaryDomain → redirect to /specialization
+// - Protected routes defined in PROTECTED_PATHS array
+// - /admin/* additionally guarded by app/admin/layout.tsx (requires ADMIN/MODERATOR role)
+// - /invite/[slug] is intentionally public — handles its own auth internally
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
@@ -15,7 +27,8 @@ export async function proxy(request: NextRequest) {
   const host = request.headers.get("host") || "";
   if (host.startsWith("www.")) {
     const url = new URL(request.url);
-    url.host = host.replace("www.", "");
+    url.host = host.replace("www.", "").replace(/:.*/, "");
+    url.port = "";
     return NextResponse.redirect(url, 308);
   }
 
@@ -46,32 +59,37 @@ export async function proxy(request: NextRequest) {
   let sessionData: { session?: unknown; user?: Record<string, unknown> } | null = null;
 
   if (sessionCookie) {
+    // Le cookie cache JWE (maxAge 2 min) reste périmé pendant le funnel
+    // (onboarding → quiz → specialization) : la DB est à jour mais pas le
+    // cookie. L'utiliser pour le funnel provoquait des boucles de redirection
+    // /onboarding <-> /quiz, /quiz <-> /missions et /specialization <-> /dashboard.
+    // On privilégie donc TOUJOURS la source fraîche (middleware-session → DB,
+    // cache Redis invalidé après chaque étape du funnel) et on ne garde le JWE
+    // qu'en repli si le fetch échoue (résilience, pas de boucle).
+    let jweFallback: { session?: unknown; user?: Record<string, unknown> } | null = null;
     try {
       const decoded = await getCookieCache(request, {
         secret: process.env.BETTER_AUTH_SECRET,
       });
-      if (decoded) {
-        sessionData = decoded;
-      }
+      if (decoded) jweFallback = decoded;
     } catch {
-      // Fallback HTTP si le décodage JWE échoue
+      // Décodage JWE échoue → on ignore le repli
     }
 
-    if (!sessionData) {
-      try {
-        const requestHeaders = new Headers(request.headers);
-        const baseUrl = `${request.nextUrl.protocol}//${request.headers.get("host") || "127.0.0.1:3000"}`;
-        const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
-          headers: requestHeaders,
-          cache: "no-store",
-          signal: AbortSignal.timeout(5000),
-        });
-        if (response.ok) {
-          sessionData = await response.json();
-        }
-      } catch {
-        // Session indisponible — la route gérera l'auth elle-même
+    try {
+      const requestHeaders = new Headers(request.headers);
+      const baseUrl = `${request.nextUrl.protocol}//${request.headers.get("host") || "127.0.0.1:3000"}`;
+      const response = await fetch(`${baseUrl}/api/auth/middleware-session`, {
+        headers: requestHeaders,
+        cache: "no-store",
+        signal: AbortSignal.timeout(5000),
+      });
+      if (response.ok) {
+        sessionData = await response.json();
       }
+    } catch {
+      // Source fraîche indisponible → repli sur le JWE
+      sessionData = jweFallback;
     }
   }
 
@@ -119,7 +137,9 @@ export async function proxy(request: NextRequest) {
       if (isSpecializationPath && !needsSpecialization) {
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       } else if (isOnboardingPath && !needsOnboarding) {
-        nextResponse = NextResponse.redirect(new URL(user.class ? "/quiz" : "/dashboard", request.url));
+        // Onboarding terminé → quiz si pas encore de class, sinon dashboard.
+        // (évite le détour /dashboard → /quiz qui peut faire penser à une boucle)
+        nextResponse = NextResponse.redirect(new URL(user.class ? "/dashboard" : "/quiz", request.url));
       } else if (isQuizPath && !needsQuiz) {
         nextResponse = NextResponse.redirect(new URL("/missions", request.url));
       }

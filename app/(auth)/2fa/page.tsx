@@ -75,8 +75,8 @@ export default function TwoFactorPage() {
                 </Button>
             </form>
 
-            <p className="text-center text-[10px] font-mono text-zinc-700 uppercase tracking-widest">
-                Agent_Authorization_Required // Protocole_V2.0
+            <p className="text-center text-xs font-mono text-zinc-700 uppercase tracking-widest">
+                Code de vérification requis
             </p>
         </div>
     </div>

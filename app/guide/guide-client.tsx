@@ -85,7 +85,7 @@ export function GuideClient() {
         <div className="space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
             <BookOpen className="size-3.5 text-primary" />
-            <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase text-primary">Manuel de l&apos;Agent</span>
+            <span className="text-3xs sm:text-xs font-mono font-black uppercase text-primary">Manuel de l&apos;Agent</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase italic leading-none">
             Guide de <span className="text-primary">l&apos;Utilisateur</span>
@@ -101,7 +101,7 @@ export function GuideClient() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.01)_1px,transparent_1px)] bg-size-[20px_20px] pointer-events-none" />
         <HudCorners className="border-emerald-500/25" />
         <div className="space-y-4 relative z-[var(--z-content)]">
-          <span className="text-[9px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
+          <span className="text-3xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
             // MANIFESTE_DE_L_AGENT
           </span>
           <h2 className="text-xl md:text-2xl font-black tracking-tight text-white uppercase italic">
@@ -116,22 +116,22 @@ export function GuideClient() {
       {/* Tabs Container */}
       <Tabs defaultValue="fondations" onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-zinc-900/80 border border-white/5 p-1 h-auto flex flex-wrap gap-1 rounded-2xl w-full">
-          <TabsTrigger value="fondations" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="fondations" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <Sparkles className="size-3.5 mr-1.5" /> Débuter
           </TabsTrigger>
-          <TabsTrigger value="evolution" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="evolution" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <Activity className="size-3.5 mr-1.5" /> Évolution
           </TabsTrigger>
-          <TabsTrigger value="squads" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="squads" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <Users className="size-3.5 mr-1.5" /> Escouades
           </TabsTrigger>
-          <TabsTrigger value="missions" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="missions" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <Target className="size-3.5 mr-1.5" /> Missions
           </TabsTrigger>
-          <TabsTrigger value="cohesion" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="cohesion" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <Zap className="size-3.5 mr-1.5" /> Cohésion & Réputation
           </TabsTrigger>
-          <TabsTrigger value="entraide" className="h-10 px-4 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all">
+          <TabsTrigger value="entraide" className="h-10 px-4 rounded-xl text-sm-plus font-bold uppercase tracking-wider transition-all">
             <LifeBuoy className="size-3.5 mr-1.5" /> Communauté & Entraide
           </TabsTrigger>
         </TabsList>
@@ -143,7 +143,7 @@ export function GuideClient() {
               <button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
-                className="h-7 px-3 rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider border border-white/10 bg-zinc-900/80 text-zinc-400 hover:text-white hover:border-white/20 transition-all shrink-0"
+                className="h-7 px-3 rounded-lg text-3xs font-mono font-bold uppercase tracking-wider border border-white/10 bg-zinc-900/80 text-zinc-400 hover:text-white hover:border-white/20 transition-all shrink-0"
               >
                 {section.label}
               </button>
@@ -201,7 +201,7 @@ export function GuideClient() {
 
           {/* Mon premier jour sur JoinHashcode */}
           <div id="premier-jour" className="space-y-4 scroll-mt-24">
-            <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase flex items-center gap-3">
+            <div className="text-xs font-mono font-bold text-zinc-600 uppercase flex items-center gap-3">
               <span className="h-px w-8 bg-zinc-800" />
               Mon premier jour (Parcours d'Ancrage & Focus Flow)
             </div>
@@ -210,9 +210,9 @@ export function GuideClient() {
             <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <ShieldAlert className="size-4 text-primary" />
-                <h4 className="text-[11px] font-black uppercase text-primary font-mono tracking-tighter">Activation du Tunnel Attentionnel (Focus Flow)</h4>
+                <h4 className="text-sm-plus font-black uppercase text-primary font-mono tracking-tighter">Activation du Tunnel Attentionnel (Focus Flow)</h4>
               </div>
-              <p className="text-[10px] text-zinc-400 font-light leading-relaxed">
+              <p className="text-xs text-zinc-400 font-light leading-relaxed">
                 Pour garantir une immersion optimale, l&apos;interface HASHCODE utilise le <strong className="text-white">Focus Flow</strong>. Certaines sections avancées seront estompées jusqu&apos;à ce que vous complétiez votre première mission d&apos;ancrage. Concentrez-vous sur l&apos;essentiel pour débloquer votre plein potentiel.
               </p>
             </div>
@@ -220,12 +220,12 @@ export function GuideClient() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 01</span>
-                  <span className="text-[9px] font-mono text-zinc-600">MANDATAIRE</span>
+                  <span className="text-3xs font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">ÉTAPE 01</span>
+                  <span className="text-3xs font-mono text-zinc-600">MANDATAIRE</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight">Configuration de l&apos;Identité</h4>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Complétez votre profil (technos, réseaux, ville). C&apos;est la base de votre carte de membre HASHCODE.
                   </p>
                 </div>
@@ -233,12 +233,12 @@ export function GuideClient() {
 
               <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-[#C5F441] bg-[#C5F441]/10 border border-[#C5F441]/20 px-2 py-0.5 rounded">ÉTAPE 02</span>
-                  <span className="text-[9px] font-mono text-zinc-600">COMPORTEMENT</span>
+                  <span className="text-3xs font-mono font-bold text-[#C5F441] bg-[#C5F441]/10 border border-[#C5F441]/20 px-2 py-0.5 rounded">ÉTAPE 02</span>
+                  <span className="text-3xs font-mono text-zinc-600">COMPORTEMENT</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight">Diagnostic Psychométrique</h4>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Répondez au quiz pour évaluer votre profil dominant (Builder, Créateur, Stratège ou Catalyseur).
                   </p>
                 </div>
@@ -246,12 +246,12 @@ export function GuideClient() {
 
               <div className="p-5 rounded-2xl border border-white/5 bg-primary/10 border-primary/30 space-y-3 relative overflow-hidden group shadow-[0_0_20px_rgba(var(--primary),0.05)]">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-white bg-primary px-2 py-0.5 rounded">ÉTAPE 03</span>
-                  <span className="text-[9px] font-mono text-primary/70 italic">CRITIQUE</span>
+                  <span className="text-3xs font-mono font-bold text-white bg-primary px-2 py-0.5 rounded">ÉTAPE 03</span>
+                  <span className="text-3xs font-mono text-primary/70 italic">CRITIQUE</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight italic">Mission: &quot;Signal d&apos;Ouverture&quot;</h4>
-                  <p className="text-[10px] text-primary-foreground/70 leading-relaxed font-medium">
+                  <p className="text-xs text-primary-foreground/70 leading-relaxed font-medium">
                     Validez cette micro-mission à succès immédiat pour lever le Focus Flow et débloquer l&apos;intégralité de la console.
                   </p>
                 </div>
@@ -259,12 +259,12 @@ export function GuideClient() {
 
               <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-blue-400 bg-blue-400/10 border border-blue-400/20 px-2 py-0.5 rounded">ÉTAPE 04</span>
-                  <span className="text-[9px] font-mono text-zinc-600">COOPÉRATION</span>
+                  <span className="text-3xs font-mono font-bold text-blue-400 bg-blue-400/10 border border-blue-400/20 px-2 py-0.5 rounded">ÉTAPE 04</span>
+                  <span className="text-3xs font-mono text-zinc-600">COOPÉRATION</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight">Recrutement de Squad</h4>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Rejoignez une unité complémentaire de 5 agents pour activer les bonus de cohésion et les missions Co-op.
                   </p>
                 </div>
@@ -272,12 +272,12 @@ export function GuideClient() {
 
               <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">ÉTAPE 05</span>
-                  <span className="text-[9px] font-mono text-zinc-600">ACTION</span>
+                  <span className="text-3xs font-mono font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">ÉTAPE 05</span>
+                  <span className="text-3xs font-mono text-zinc-600">ACTION</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight">Défi de Spécialisation</h4>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Lancez votre première mission technique ou stratégique pour commencer à faire grimper votre XP.
                   </p>
                 </div>
@@ -285,12 +285,12 @@ export function GuideClient() {
 
               <div className="p-5 rounded-2xl border border-white/5 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors space-y-3 relative overflow-hidden group">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-mono font-bold text-purple-400 bg-purple-400/10 border border-purple-400/20 px-2 py-0.5 rounded">ÉTAPE 06</span>
-                  <span className="text-[9px] font-mono text-zinc-600">ASCENSION</span>
+                  <span className="text-3xs font-mono font-bold text-purple-400 bg-purple-400/10 border border-purple-400/20 px-2 py-0.5 rounded">ÉTAPE 06</span>
+                  <span className="text-3xs font-mono text-zinc-600">ASCENSION</span>
                 </div>
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-white uppercase tracking-tight">Validation & Grade</h4>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Soumettez vos livrables, recevez les feedbacks des Reviewers et montez en grade (Opérateur → Légende).
                   </p>
                 </div>
@@ -313,7 +313,7 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl border border-blue-500/10 bg-blue-500/3 space-y-2">
                   <div className="flex justify-between items-center">
                     <h4 className="font-mono font-black text-blue-400 uppercase">Builder</h4>
-                    <span className="text-[10px] font-mono text-blue-500/70 italic">&ldquo;Je construis&rdquo;</span>
+                    <span className="text-xs font-mono text-blue-500/70 italic">&ldquo;Je construis&rdquo;</span>
                   </div>
                   <p className="text-zinc-400 font-light leading-relaxed">
                     L&apos;artisan technique. Vous vous concentrez sur l&apos;implémentation du code, le fonctionnement des bases de données et la solidité opérationnelle des systèmes.
@@ -323,7 +323,7 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl border border-purple-500/10 bg-purple-500/3 space-y-2">
                   <div className="flex justify-between items-center">
                     <h4 className="font-mono font-black text-purple-400 uppercase">Créateur</h4>
-                    <span className="text-[10px] font-mono text-purple-500/70 italic">&ldquo;Je conçois&rdquo;</span>
+                    <span className="text-xs font-mono text-purple-500/70 italic">&ldquo;Je conçois&rdquo;</span>
                   </div>
                   <p className="text-zinc-400 font-light leading-relaxed">
                     Le designer d&apos;expérience. Vous soignez les interfaces, l&apos;ergonomie visuelle, l&apos;harmonie esthétique et l&apos;impact interactif (effet &quot;wow&quot;) sur les utilisateurs.
@@ -333,7 +333,7 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl border border-amber-500/10 bg-amber-500/3 space-y-2">
                   <div className="flex justify-between items-center">
                     <h4 className="font-mono font-black text-amber-400 uppercase">Stratège</h4>
-                    <span className="text-[10px] font-mono text-amber-500/70 italic">&ldquo;J&apos;organise&rdquo;</span>
+                    <span className="text-xs font-mono text-amber-500/70 italic">&ldquo;J&apos;organise&rdquo;</span>
                   </div>
                   <p className="text-zinc-400 font-light leading-relaxed">
                     L&apos;architecte produit. Vous analysez la viabilité d&apos;un projet par rapport au marché, structurez les priorités logiques et cadrez l&apos;alignement stratégique des solutions.
@@ -343,7 +343,7 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl border border-emerald-500/10 bg-emerald-500/3 space-y-2">
                   <div className="flex justify-between items-center">
                     <h4 className="font-mono font-black text-emerald-400 uppercase">Catalyseur</h4>
-                    <span className="text-[10px] font-mono text-emerald-500/70 italic">&ldquo;Je rassemble&rdquo;</span>
+                    <span className="text-xs font-mono text-emerald-500/70 italic">&ldquo;Je rassemble&rdquo;</span>
                   </div>
                   <p className="text-zinc-400 font-light leading-relaxed">
                     Le ciment de la communauté. Vous fédérez les énergies, facilitez l&apos;entraide, coordonnez la communication et valorisez les projets au sein du réseau d&apos;utilisateurs.
@@ -352,7 +352,7 @@ export function GuideClient() {
               </div>
 
               <div className="border-t border-white/5 pt-5 space-y-2 text-xs font-light text-zinc-400 leading-relaxed">
-                <h4 className="font-mono font-bold text-white uppercase text-[10px]">Quel profil êtes-vous ?</h4>
+                <h4 className="font-mono font-bold text-white uppercase text-xs">Quel profil êtes-vous ?</h4>
                 <p>
                   Votre profil initial est estimé lors du quiz de diagnostic. Cependant, JoinHashcode mesure continuellement les actions et les types de livrables que vous validez. Si un Visionnaire se met à livrer majoritairement du code, son radar évoluera naturellement pour refléter ses nouvelles capacités réelles.
                 </p>
@@ -382,8 +382,8 @@ export function GuideClient() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">Les 4 profils possibles</h4>
-                  <ul className="text-[10px] text-zinc-400 font-light space-y-1">
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">Les 4 profils possibles</h4>
+                  <ul className="text-xs text-zinc-400 font-light space-y-1">
                     <li><strong className="text-blue-400">Builder</strong> — orienté construction et exécution</li>
                     <li><strong className="text-purple-400">Créateur</strong> — orienté design et expérience</li>
                     <li><strong className="text-amber-400">Stratège</strong> — orienté analyse et planification</li>
@@ -391,8 +391,8 @@ export function GuideClient() {
                   </ul>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">Profil hybride</h4>
-                  <p className="text-[10px] text-zinc-400 font-light leading-relaxed">
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">Profil hybride</h4>
+                  <p className="text-xs text-zinc-400 font-light leading-relaxed">
                     Si l&apos;écart entre votre profil principal et secondaire est inférieur à 15%, le système vous reconnaît comme <strong className="text-primary">profil hybride</strong> (ex: Builder × Créateur). Vous recevez alors des recommandations de missions adaptées à vos deux spécialités.
                   </p>
                 </div>
@@ -400,21 +400,21 @@ export function GuideClient() {
 
               <div className="border-t border-white/5 pt-5 space-y-4">
                 <h4 className="text-xs font-mono font-bold text-white uppercase">Quand repasser le quiz ?</h4>
-                <div className="space-y-3 text-[11px] text-zinc-400 font-light leading-relaxed">
+                <div className="space-y-3 text-sm-plus text-zinc-400 font-light leading-relaxed">
                   <div className="flex gap-3">
-                    <span className="size-5 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-emerald-400 shrink-0 mt-0.5">1</span>
+                    <span className="size-5 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-3xs font-mono font-bold text-emerald-400 shrink-0 mt-0.5">1</span>
                     <div>
                       <strong className="text-white">Compte de moins de 24h :</strong> Vous pouvez repasser le quiz immédiatement et sans limite pour corriger une erreur de diagnostic. Aucun cooldown n&apos;est appliqué.
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <span className="size-5 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-amber-400 shrink-0 mt-0.5">2</span>
+                    <span className="size-5 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-3xs font-mono font-bold text-amber-400 shrink-0 mt-0.5">2</span>
                     <div>
                       <strong className="text-white">Évolution naturelle constatée :</strong> Si vous sentez que vos centres d&apos;intérêt ou votre façon de travailler ont changé (vous validez des missions d&apos;un autre profil, votre radar se déforme), vous pouvez repasser le quiz pour officialiser ce changement. Un <strong className="text-zinc-300">cooldown de 14 jours</strong> s&apos;applique entre chaque recalibrage.
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <span className="size-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-[9px] font-mono font-bold text-blue-400 shrink-0 mt-0.5">3</span>
+                    <span className="size-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-3xs font-mono font-bold text-blue-400 shrink-0 mt-0.5">3</span>
                     <div>
                       <strong className="text-white">Doute sur votre profil actuel :</strong> Vous avez été classé dans un profil qui ne vous correspond pas ou le résultat vous a surpris. Dans ce cas, repassez le quiz durant vos premières 24h (gratuit) ou attendez le reset de 14 jours.
                     </div>
@@ -423,7 +423,7 @@ export function GuideClient() {
               </div>
 
               <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
-                <p className="text-[10px] text-zinc-400 font-light leading-relaxed flex items-start gap-2">
+                <p className="text-xs text-zinc-400 font-light leading-relaxed flex items-start gap-2">
                   <AlertCircle className="size-3.5 text-primary shrink-0 mt-0.5" />
                   <span>
                     <strong className="text-white">Important :</strong> Repasser le quiz change votre classe et donc votre affectation de guild. Si vous êtes dans une escouade, prévenez vos coéquipiers avant de recalibrer — votre départ peut impacter l&apos;équilibre cognitif du groupe.
@@ -437,7 +437,7 @@ export function GuideClient() {
           <Card id="glossaire" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
-                <BookOpen className="size-5 text-primary" /> Glossaire Tactique des Concepts
+                <BookOpen className="size-5 text-primary" /> Glossaire des Concepts
               </CardTitle>
               <CardDescription className="text-xs text-zinc-500 font-light">
                 Le vocabulaire indispensable pour décoder la console et naviguer dans l&apos;écosystème HASHCODE.
@@ -446,58 +446,58 @@ export function GuideClient() {
             <CardContent className="p-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8">
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <Activity className="size-3 text-primary" /> Vibrance
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Représente votre <strong className="text-zinc-300">énergie vitale</strong> sur la plateforme. Elle augmente par l&apos;action (missions, check-ins) et diminue par l&apos;inaction. Une vibrance élevée augmente vos gains d&apos;XP.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <ShieldAlert className="size-3 text-blue-400" /> Confiance
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Votre <strong className="text-zinc-300">cote de fiabilité</strong> communautaire. Elle se bâtit par la régularité et la qualité de vos livrables. Une confiance basse peut restreindre l&apos;accès à certaines unités d&apos;élite.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <TrendingUp className="size-3 text-emerald-400" /> Alignement
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Mesure l&apos;adéquation entre vos <strong className="text-zinc-300">intentions déclarées</strong> (profil) et vos <strong className="text-zinc-300">actions réelles</strong>. Un alignement parfait débloque des bonus de synergie uniques.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <Zap className="size-3 text-[#C5F441]" /> Cohésion
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     La force de <strong className="text-zinc-300">votre escouade</strong>. Elle exprime la capacité du groupe à rester synchronisé. Une cohésion de 100% active des multiplicateurs de gains massifs pour toute l&apos;équipe.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <CheckCircle2 className="size-3 text-primary" /> Check-in
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     L&apos;acte quotidien de <strong className="text-zinc-300">signaler sa présence</strong> et sa disponibilité. C&apos;est le carburant principal de la cohésion de votre escouade.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <Award className="size-3 text-amber-500" /> Reviewer
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Un agent de grade supérieur habilité à <strong className="text-zinc-300">auditer et valider</strong> les livrables de ses pairs. C&apos;est le garant de la qualité sur la plateforme.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h5 className="text-[11px] font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-white uppercase font-mono tracking-tight flex items-center gap-1.5">
                     <Trophy className="size-3 text-purple-400" /> Dossier
                   </h5>
-                  <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-500 leading-relaxed font-light">
                     Votre <strong className="text-zinc-300">archive centrale</strong> d&apos;évolution. Il regroupe votre carte de membre, vos badges, vos rapports de missions et votre historique de carrière.
                   </p>
                 </div>
@@ -507,10 +507,10 @@ export function GuideClient() {
 
           {/* Conseils pour les Agents Nomades (Mobile) */}
           <div id="mobile" className="p-5 rounded-2xl bg-blue-500/5 border border-blue-500/10 space-y-3 scroll-mt-24">
-            <h4 className="text-[11px] font-black text-blue-400 uppercase font-mono flex items-center gap-1.5">
+            <h4 className="text-sm-plus font-black text-blue-400 uppercase font-mono flex items-center gap-1.5">
               <Compass className="size-3.5" /> Guide de l&apos;Agent Nomade (Optimisation Mobile)
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[10px] text-zinc-500 font-light leading-relaxed">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-zinc-500 font-light leading-relaxed">
               <p>
                 <strong className="text-zinc-300">Aide au toucher :</strong> Sur mobile, les tooltips classiques sont remplacés par des icônes <strong className="text-primary">(i)</strong>. Touchez-les pour faire apparaître les explications tactiques de chaque métrique.
               </p>
@@ -563,7 +563,7 @@ export function GuideClient() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-[10px] font-mono uppercase">
+                    <div className="flex justify-between text-xs font-mono uppercase">
                       <span className="text-blue-400 font-bold">Artisan (Principal)</span>
                       <span className="text-white">78%</span>
                     </div>
@@ -572,7 +572,7 @@ export function GuideClient() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-[10px] font-mono uppercase">
+                    <div className="flex justify-between text-xs font-mono uppercase">
                       <span className="text-amber-400 font-bold">Visionnaire (Secondaire)</span>
                       <span className="text-white">62%</span>
                     </div>
@@ -582,10 +582,10 @@ export function GuideClient() {
                   </div>
                 </div>
                 <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 flex flex-col justify-center">
-                  <h5 className="text-[11px] font-black text-primary uppercase font-mono mb-2 flex items-center gap-1.5">
+                  <h5 className="text-sm-plus font-black text-primary uppercase font-mono mb-2 flex items-center gap-1.5">
                     <Sparkles className="size-3" /> Impact de l&apos;Hybridité
                   </h5>
-                  <p className="text-[10px] text-zinc-400 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
                     Les profils hybrides bénéficient d&apos;un <strong className="text-white">Matching Intelligent</strong> : vous recevez des recommandations de missions pour vos deux classes et votre profil est mis en avant auprès des escouades recherchant l&apos;une ou l&apos;autre de vos spécialités.
                   </p>
                 </div>
@@ -628,10 +628,10 @@ export function GuideClient() {
               <CardContent className="p-0 space-y-6">
                 <div className="space-y-4">
                   <div className="p-3 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
-                    <div className="text-[10px] font-bold text-primary uppercase font-mono flex items-center gap-1.5">
+                    <div className="text-xs font-bold text-primary uppercase font-mono flex items-center gap-1.5">
                       <TrendingUp className="size-3" /> Formule de l&apos;Impact Score
                     </div>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[9px] font-mono text-zinc-500">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-3xs font-mono text-zinc-500">
                       <div className="flex justify-between border-b border-white/5 pb-0.5">
                         <span>Production</span><span className="text-zinc-300">35%</span>
                       </div>
@@ -652,19 +652,19 @@ export function GuideClient() {
 
                   <div className="space-y-1.5">
                     <div className="text-xs font-bold text-white uppercase font-mono">Niveau Latent (Score θ)</div>
-                    <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                    <p className="text-xs text-zinc-500 leading-relaxed font-light">
                       Basé sur l&apos;Item Response Theory (IRT), votre niveau n&apos;est pas qu&apos;un cumul d&apos;XP, mais une évaluation de votre compétence réelle face à la difficulté des défis relevés.
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <div className="text-xs font-bold text-white uppercase font-mono">Indice de Confiance (σ)</div>
-                    <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                    <p className="text-xs text-zinc-500 leading-relaxed font-light">
                       Inspiré du Glicko-2, cet indice mesure la stabilité de votre performance. Plus il est faible, plus votre grade est considéré comme &quot;incontestable&quot; par le réseau.
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <div className="text-xs font-bold text-emerald-400 uppercase font-mono">Alignement Psychométrique</div>
-                    <p className="text-[10px] text-zinc-500 leading-relaxed font-light">
+                    <p className="text-xs text-zinc-500 leading-relaxed font-light">
                       Mesure la synergie entre votre profil déclaré et vos actions réelles. Un alignement total débloque les missions de rang &quot;Légende&quot;.
                     </p>
                   </div>
@@ -689,7 +689,7 @@ export function GuideClient() {
                   <tr className="border-b border-white/5 text-zinc-500">
                     <th className="pb-3 font-semibold uppercase">Rang</th>
                     <th className="pb-3 font-semibold uppercase">Titre</th>
-                    <th className="pb-3 font-semibold uppercase">Habilitations</th>
+                    <th className="pb-3 font-semibold uppercase">Niveaux d&apos;accès</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -725,20 +725,20 @@ export function GuideClient() {
             <Card id="matching" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl lg:col-span-2 p-6 space-y-6 scroll-mt-24">
               <CardHeader className="p-0">
                 <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2">
-                  <Users className="size-5 text-primary" /> Talent Matching Engine
+                  <Users className="size-5 text-primary" /> Système de mise en relation
                 </CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
-                  HASHCODE utilise des protocoles issus des recherches du MIT et de Google (Project Aristotle) pour assembler les escouades les plus performantes.
+                  HASHCODE utilise des méthodes issues des recherches du MIT et de Google (Project Aristotle) pour assembler les escouades les plus performantes.
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 space-y-6">
                 <div className="space-y-4">
                   <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/5 space-y-3">
-                    <h4 className="text-xs font-mono font-bold text-white uppercase">Le Protocole de Match Score</h4>
-                    <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
+                    <h4 className="text-xs font-mono font-bold text-white uppercase">Le système de matching</h4>
+                    <p className="text-sm-plus text-zinc-400 leading-relaxed font-light">
                       Chaque profil est analysé selon <strong className="text-white">7 piliers de compatibilité</strong> pour maximiser vos chances de réussite collective :
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-[10px] font-mono">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-xs font-mono">
                       <div className="flex justify-between border-b border-white/5 pb-1">
                         <span className="text-zinc-500">1. Complémentarité Cognitive</span>
                         <span className="text-primary font-bold">40%</span>
@@ -791,7 +791,7 @@ export function GuideClient() {
                     <div className="space-y-1">
                       <h4 className="text-sm font-bold text-white">Gestion & Leadership (V2)</h4>
                       <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                        Panel de contrôle étendu pour les leaders : transfert de commandement, dissolution destructive et gestion de la visibilité tactique (Public/Privé).
+                        Panel de contrôle étendu pour les leaders : transfert de leadership, suppression et gestion de la visibilité (Public/Privé) (Public/Privé).
                       </p>
                     </div>
                   </div>
@@ -806,20 +806,20 @@ export function GuideClient() {
               <CardContent className="p-0 space-y-5">
                 <div className="space-y-4">
                   <div className="space-y-1.5 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-                    <div className="text-[10px] font-bold text-emerald-400 uppercase font-mono">Vitalité Collective</div>
-                    <p className="text-[9px] text-zinc-500">Moyenne de la vibrance active des membres.</p>
+                    <div className="text-xs font-bold text-emerald-400 uppercase font-mono">Vitalité Collective</div>
+                    <p className="text-3xs text-zinc-500">Moyenne de la vibrance active des membres.</p>
                   </div>
                   <div className="space-y-1.5 p-3 rounded-xl bg-blue-500/5 border border-blue-500/10">
-                    <div className="text-[10px] font-bold text-blue-400 uppercase font-mono">Cohésion Cognitive</div>
-                    <p className="text-[9px] text-zinc-500">Niveau d&apos;équilibre et de synergie des rôles.</p>
+                    <div className="text-xs font-bold text-blue-400 uppercase font-mono">Cohésion Cognitive</div>
+                    <p className="text-3xs text-zinc-500">Niveau d&apos;équilibre et de synergie des rôles.</p>
                   </div>
                   <div className="space-y-1.5 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
-                    <div className="text-[10px] font-bold text-amber-400 uppercase font-mono">Fiabilité Groupe</div>
-                    <p className="text-[9px] text-zinc-500">Respect historique des engagements de l&apos;unité.</p>
+                    <div className="text-xs font-bold text-amber-400 uppercase font-mono">Fiabilité Groupe</div>
+                    <p className="text-3xs text-zinc-500">Respect historique des engagements de l&apos;unité.</p>
                   </div>
                 </div>
 
-                <div className="p-4.5 rounded-2xl bg-primary/5 border border-primary/10 text-[11px] text-primary-foreground/70 leading-relaxed">
+                <div className="p-4.5 rounded-2xl bg-primary/5 border border-primary/10 text-sm-plus text-primary-foreground/70 leading-relaxed">
                   <AlertCircle className="size-4 mb-2 text-primary" />
                   **Analyse Prédictive** : Une escouade avec un Health Score &gt; 85% a une probabilité de succès de 92% sur les missions complexes.
                 </div>
@@ -831,7 +831,7 @@ export function GuideClient() {
           <Card id="synergie" className="glass-card bg-zinc-900/40 border-white/5 rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-24">
             <CardHeader className="p-0">
               <CardTitle className="text-xl font-bold uppercase text-white flex items-center gap-2 font-mono">
-                <MessageSquare className="size-5 text-emerald-500" /> Protocole de Synergie & Frictions
+                <MessageSquare className="size-5 text-emerald-500" /> Collaboration et tensions
               </CardTitle>
               <CardDescription className="text-xs text-zinc-500 font-light">
                 Résoudre des défis en équipe requiert une collaboration étroite entre des profils aux modes de pensée radicalement opposés.
@@ -840,7 +840,7 @@ export function GuideClient() {
             <CardContent className="p-0 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed font-light">
                 <div className="space-y-3 p-5 rounded-2xl bg-zinc-950/40 border border-white/5">
-                  <h4 className="font-bold text-white uppercase font-mono text-[11px] flex items-center gap-1.5 text-blue-400">
+                  <h4 className="font-bold text-white uppercase font-mono text-sm-plus flex items-center gap-1.5 text-blue-400">
                     <TrendingUp className="size-3.5" /> Analytiques (Builder & Stratège)
                   </h4>
                   <p className="text-zinc-400">
@@ -852,7 +852,7 @@ export function GuideClient() {
                 </div>
 
                 <div className="space-y-3 p-5 rounded-2xl bg-zinc-950/40 border border-white/5">
-                  <h4 className="font-bold text-white uppercase font-mono text-[11px] flex items-center gap-1.5 text-purple-400">
+                  <h4 className="font-bold text-white uppercase font-mono text-sm-plus flex items-center gap-1.5 text-purple-400">
                     <Sparkles className="size-3.5" /> Créatifs & Sociaux (Créateur & Catalyseur)
                   </h4>
                   <p className="text-zinc-400">
@@ -865,7 +865,7 @@ export function GuideClient() {
               </div>
 
               <div className="p-4 rounded-2xl bg-zinc-900 border border-white/5 text-xs text-zinc-400 leading-relaxed font-light space-y-2">
-                <span className="text-[#C5F441] font-mono font-bold uppercase text-[10px] block">Régulation des Frictions :</span>
+                <span className="text-[#C5F441] font-mono font-bold uppercase text-xs block">Régulation des Frictions :</span>
                 <p>
                   En cas de désaccord sur un livrable, appliquez la règle de l&apos;arbitrage par le rôle : le <strong className="text-white">Stratège</strong> tranche sur l&apos;opportunité marché, le <strong className="text-white">Builder</strong> sur la complexité et faisabilité technique, le <strong className="text-white">Créateur</strong> sur la fidélité de l&apos;expérience utilisateur, et le <strong className="text-white">Catalyseur</strong> sur la coordination de la livraison.
                 </p>
@@ -895,7 +895,7 @@ export function GuideClient() {
                     <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">1</div>
                     <div className="space-y-1">
                       <h5 className="text-xs font-bold text-white">Lien d&apos;Invitation Partageable</h5>
-                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      <p className="text-sm-plus text-zinc-500 leading-relaxed">
                         Depuis le salon de ton escouade ou la bannière, copie ton lien unique et envoie-le à n&apos;importe qui (Discord, WhatsApp, email). Le destinataire clique, accepte et rejoint directement.
                       </p>
                     </div>
@@ -905,7 +905,7 @@ export function GuideClient() {
                     <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">2</div>
                     <div className="space-y-1">
                       <h5 className="text-xs font-bold text-white">Invitation par Email</h5>
-                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      <p className="text-sm-plus text-zinc-500 leading-relaxed">
                         Dans la page <strong className="text-zinc-300">Gérer l&apos;escouade</strong> → onglet "Inviter", saisis l&apos;email du futur membre. Un email lui est envoyé avec un lien sécurisé pour accepter l&apos;invitation.
                       </p>
                     </div>
@@ -915,15 +915,15 @@ export function GuideClient() {
                     <div className="size-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center font-mono font-bold text-amber-400 shrink-0">3</div>
                     <div className="space-y-1">
                       <h5 className="text-xs font-bold text-white">Invitation depuis le Dossier d&apos;un Membre</h5>
-                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                      <p className="text-sm-plus text-zinc-500 leading-relaxed">
                         Depuis la page <strong className="text-zinc-300">Talents</strong>, explore les profils des agents. Quand tu trouves un candidat, clique sur <strong className="text-zinc-300">"Voir le Dossier"</strong>. Si tu es Chef ou Admin d&apos;une escouade, un bouton <strong className="text-zinc-300">"Inviter dans mon escouade"</strong> apparaît. L&apos;agent reçoit une notification in-app avec un lien pour accepter ou refuser.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 text-[11px] text-zinc-400 leading-relaxed space-y-1">
-                  <span className="text-amber-400 font-mono font-bold text-[10px] uppercase block">Équilibre Cognitif</span>
+                <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 text-sm-plus text-zinc-400 leading-relaxed space-y-1">
+                  <span className="text-amber-400 font-mono font-bold text-xs uppercase block">Équilibre Cognitif</span>
                   <p>Le système vérifie automatiquement que ta n&apos;escouade n&apos;atteint pas plus de <strong className="text-white">2 représentants d&apos;une même classe</strong> avant d&apos;envoyer l&apos;invitation. Si la limite est atteinte, une confirmation supplémentaire te sera demandée.</p>
                 </div>
               </div>
@@ -939,7 +939,7 @@ export function GuideClient() {
                     <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                       <Megaphone className="size-3.5 text-primary" /> Annonce du Chef
                     </h5>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    <p className="text-sm-plus text-zinc-500 leading-relaxed">
                       Le Chef peut rédiger une annonce épinglée dans les paramètres de l&apos;escouade. Elle est visible par tous les membres sur la page principale.
                     </p>
                   </div>
@@ -948,7 +948,7 @@ export function GuideClient() {
                     <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                       <Activity className="size-3.5 text-emerald-400" /> Journal d&apos;Activité
                     </h5>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    <p className="text-sm-plus text-zinc-500 leading-relaxed">
                       Toutes les actions importantes (mission soumise, check-in, nouveau membre) sont visibles dans le flux d&apos;activité de l&apos;escouade.
                     </p>
                   </div>
@@ -957,14 +957,14 @@ export function GuideClient() {
                     <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                       <Bell className="size-3.5 text-blue-400" /> Notifications
                     </h5>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    <p className="text-sm-plus text-zinc-500 leading-relaxed">
                       Les membres reçoivent des notifications in-app pour les événements clés : invitation reçue, candidature acceptée, nouveau membre.
                     </p>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-xs text-zinc-400 leading-relaxed">
-                  <span className="text-emerald-400 font-mono font-bold text-[10px] uppercase block mb-1">✓ Disponible</span>
+                  <span className="text-emerald-400 font-mono font-bold text-xs uppercase block mb-1">✓ Disponible</span>
                   <p>Le chat d&apos;escouade est actif ! Tous les membres peuvent discuter en temps réel directement depuis la page de l&apos;escouade. Rafraîchissement automatique toutes les 15 secondes.</p>
                 </div>
               </div>
@@ -1009,8 +1009,8 @@ export function GuideClient() {
                   </p>
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-[11px] text-zinc-400 leading-relaxed">
-                <span className="text-emerald-400 font-mono font-bold text-[10px] uppercase block mb-1">Limite de taille</span>
+              <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-sm-plus text-zinc-400 leading-relaxed">
+                <span className="text-emerald-400 font-mono font-bold text-xs uppercase block mb-1">Limite de taille</span>
                 <p>Une escouade peut compter jusqu&apos;à <strong className="text-white">5 membres</strong> maximum. Cette limite garantit une agilité de communication optimale et une dynamique d&apos;équipe efficace, inspirée des recherches de Google sur les team sizes idéales.</p>
               </div>
             </CardContent>
@@ -1074,7 +1074,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <TrendingUp className="size-3.5 text-primary" /> Score de Synergie
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Un score de 0 à 100% est calculé en comparant les scores psychométriques du candidat avec la composition actuelle de l&apos;escouade. Plus le score est élevé, meilleure est la complémentarité.
                   </p>
                 </div>
@@ -1082,7 +1082,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Zap className="size-3.5 text-blue-400" /> Chevauchement d&apos;Outils
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Les outils techniques du candidat sont comparés à ceux de l&apos;escouade. Les outils déjà maîtrisés par l&apos;équipe sont affichés, ainsi que les nouveaux outils que le candidat apporte (surlignés en vert).
                   </p>
                 </div>
@@ -1090,7 +1090,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <MessageSquare className="size-3.5 text-emerald-400" /> Conseil Coach
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Un conseil contextuel est affiché : <strong className="text-emerald-400">Recommandé</strong> (synergie &ge; 70%), <strong className="text-amber-400">Prudence</strong> (45–69%), ou <strong className="text-red-400">Déconseillé</strong> (&lt; 45%).
                   </p>
                 </div>
@@ -1122,8 +1122,8 @@ export function GuideClient() {
                   </p>
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 text-[11px] text-zinc-400 leading-relaxed">
-                <span className="text-amber-400 font-mono font-bold text-[10px] uppercase block mb-1">Équilibre Cognitif — Hard Cap</span>
+              <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 text-sm-plus text-zinc-400 leading-relaxed">
+                <span className="text-amber-400 font-mono font-bold text-xs uppercase block mb-1">Équilibre Cognitif — Hard Cap</span>
                 <p>Le système vérifie automatiquement que l&apos;escouade ne dépasse pas <strong className="text-white">2 représentants de la même classe</strong> avant d&apos;envoyer l&apos;invitation. Si la limite est atteinte, l&apos;invitation est bloquée. Cette règle garantit la diversité cognitive nécessaire aux performances optimales.</p>
               </div>
             </CardContent>
@@ -1145,7 +1145,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Users className="size-3.5 text-emerald-400" /> Modifier le nom et le slug
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Le LEADER peut modifier le nom et le slug de l&apos;escouade depuis la page <strong className="text-zinc-300">Gérer l&apos;escouade</strong>. Le lien d&apos;invitation existant reste valide après le changement.
                   </p>
                 </div>
@@ -1153,7 +1153,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <LogOut className="size-3.5 text-red-400" /> Quitter l&apos;escouade
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Tout membre peut quitter l&apos;escouade. Le départ réduit temporairement la cohésion. Si le LEADER quitte, le leadership est transféré automatiquement à un ADMIN ou au membre le plus ancien.
                   </p>
                 </div>
@@ -1161,7 +1161,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <ShieldAlert className="size-3.5 text-amber-400" /> Transférer le leadership
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Le LEADER peut transférer son rôle à un autre membre de l&apos;escouade. Le nouveau LEADER hérite de toutes les permissions de gestion.
                   </p>
                 </div>
@@ -1169,7 +1169,7 @@ export function GuideClient() {
                   <h5 className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Trash2 className="size-3.5 text-red-500" /> Dissoudre l&apos;escouade
                   </h5>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  <p className="text-sm-plus text-zinc-500 leading-relaxed">
                     Seul le LEADER peut dissoudre l&apos;escouade. Cette action est irréversible : tous les membres sont libérés, les données de cohésion sont perdues.
                   </p>
                 </div>
@@ -1192,42 +1192,42 @@ export function GuideClient() {
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 1</h4>
-                    <span className="text-[9px] font-mono text-zinc-600">FORMATION</span>
+                    <span className="text-3xs font-mono text-zinc-600">FORMATION</span>
                   </div>
                   <p className="text-zinc-500">L&apos;escouade est créée. Les premiers membres rejoignent et commencent à interagir.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 2</h4>
-                    <span className="text-[9px] font-mono text-zinc-600">STABILISATION</span>
+                    <span className="text-3xs font-mono text-zinc-600">STABILISATION</span>
                   </div>
                   <p className="text-zinc-500">L&apos;équipe atteint 5 membres. Les check-ins réguliers construisent la cohésion.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 3</h4>
-                    <span className="text-[9px] font-mono text-zinc-600">COHÉSION</span>
+                    <span className="text-3xs font-mono text-zinc-600">COHÉSION</span>
                   </div>
                   <p className="text-zinc-500">La cohésion dépasse 70%. Les bonus collectifs commencent à s&apos;activer.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 4</h4>
-                    <span className="text-[9px] font-mono text-zinc-600">SYNCHRONISATION</span>
+                    <span className="text-3xs font-mono text-zinc-600">SYNCHRONISATION</span>
                   </div>
                   <p className="text-zinc-500">Streak de cohésion activé. L&apos;équipe débloque les badges Sync Master.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-zinc-400 uppercase">Phase 5</h4>
-                    <span className="text-[9px] font-mono text-zinc-600">MAÎTRISE</span>
+                    <span className="text-3xs font-mono text-zinc-600">MAÎTRISE</span>
                   </div>
                   <p className="text-zinc-500">L&apos;escouade valide des missions Co-op. La réputation collective augmente.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
                     <h4 className="font-mono font-bold text-emerald-400 uppercase">Phase 6</h4>
-                    <span className="text-[9px] font-mono text-emerald-400">LÉGENDE</span>
+                    <span className="text-3xs font-mono text-emerald-400">LÉGENDE</span>
                   </div>
                   <p className="text-zinc-500">Escouade d&apos;élite. Cohésion maximale, streaks records, impact visible sur le leaderboard.</p>
                 </div>
@@ -1251,7 +1251,7 @@ export function GuideClient() {
                   <div className="p-4 bg-zinc-950/60 border border-white/5 rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-mono font-bold text-white uppercase">Missions Ancrage (INIT)</span>
-                      <span className="text-[10px] font-mono text-primary font-bold">Niveau Débutant</span>
+                      <span className="text-xs font-mono text-primary font-bold">Niveau Débutant</span>
                     </div>
                     <p className="text-xs text-zinc-500 leading-relaxed">
                       Conçues pour la prise en main du protocole HASHCODE, la complétion du profil ou la création de votre première escouade.
@@ -1261,7 +1261,7 @@ export function GuideClient() {
                   <div className="p-4 bg-zinc-950/60 border border-white/5 rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-mono font-bold text-white uppercase">Missions Spécialisation</span>
-                      <span className="text-[10px] font-mono text-[#C5F441] font-bold">Niveau Intermédiaire / Expert</span>
+                      <span className="text-xs font-mono text-[#C5F441] font-bold">Niveau Intermédiaire / Expert</span>
                     </div>
                     <p className="text-xs text-zinc-500 leading-relaxed">
                       Défis orientés métier (développement d&apos;une API, refactoring, design d&apos;UI, audit SEO, etc.). Ils ciblent directement vos compétences réelles pour faire évoluer votre radar.
@@ -1271,7 +1271,7 @@ export function GuideClient() {
                   <div className="p-4 bg-zinc-950/60 border border-white/5 rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-mono font-bold text-white uppercase">Missions Co-op (Collectives)</span>
-                      <span className="text-[10px] font-mono text-amber-400 font-bold">Niveau Escouade</span>
+                      <span className="text-xs font-mono text-amber-400 font-bold">Niveau Escouade</span>
                     </div>
                     <p className="text-xs text-zinc-500 leading-relaxed">
                       Missions nécessitant la synchronisation de plusieurs rôles au sein de l&apos;escouade. Chaque membre doit soumettre son livrable lié à son domaine de prédilection.
@@ -1297,8 +1297,8 @@ export function GuideClient() {
                   Le statut de <strong className="text-white">Reviewer</strong> n&apos;est pas acquis, il se mérite. Une fois le rang de Technicien atteint, vous pouvez postuler pour devenir auditeur.
                 </p>
                 <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-2.5">
-                  <div className="font-bold text-primary font-mono uppercase text-[10px]">Conditions d&apos;habilitation :</div>
-                  <ul className="space-y-1.5 list-disc pl-4 text-zinc-400 font-mono text-[10px]">
+                  <div className="font-bold text-primary font-mono uppercase text-xs">Conditions d&apos;accès :</div>
+                  <ul className="space-y-1.5 list-disc pl-4 text-zinc-400 font-mono text-xs">
                     <li>Atteindre le grade de <strong className="text-white">Technicien</strong>.</li>
                     <li>Avoir validé au moins <strong className="text-white">3 missions</strong> de spécialisation.</li>
                   </ul>
@@ -1389,7 +1389,7 @@ export function GuideClient() {
                     <div className="space-y-1">
                       <h4 className="text-sm font-bold text-white">La Dégradation Temporelle (Decay)</h4>
                       <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                        Chaque nuit, un protocole d&apos;usure (cron de decay) réduit la cohésion de l&apos;escouade. Si l&apos;équipe n&apos;effectue pas ses check-ins régulièrement, la cohésion s&apos;effondre, bloquant les avantages collectifs.
+                        Chaque nuit, un mécanisme d&apos;usure automatique réduit la cohésion de l&apos;escouade. Si l&apos;équipe n&apos;effectue pas ses check-ins régulièrement, la cohésion s&apos;effondre, bloquant les avantages collectifs.
                       </p>
                     </div>
                   </div>
@@ -1415,20 +1415,20 @@ export function GuideClient() {
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <span className="text-xs font-mono font-bold text-[#C5F441] uppercase">Sync Master (Streak 3j)</span>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed font-light">
+                    <p className="text-sm-plus text-zinc-500 leading-relaxed font-light">
                       Récompensé après 3 jours de cohésion maximale consécutive. Offre un bonus de +300 XP à tous les membres.
                     </p>
                   </div>
 
                   <div className="space-y-1">
                     <span className="text-xs font-mono font-bold text-amber-400 uppercase">Hyper Link (Streak 7j)</span>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed font-light">
+                    <p className="text-sm-plus text-zinc-500 leading-relaxed font-light">
                       Statut légendaire débloqué après une semaine complète d&apos;alignement parfait. Offre +500 XP et décore le profil public de tous les membres avec un insigne légendaire.
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white/2 border border-white/5 text-[11px] text-zinc-500 leading-relaxed">
+                <div className="p-4 rounded-2xl bg-white/2 border border-white/5 text-sm-plus text-zinc-500 leading-relaxed">
                   <span className="text-primary font-bold">Rappel :</span> Un seul jour d&apos;inactivité totale de l&apos;équipe brise le streak et réinitialise le compteur à zéro.
                 </div>
               </CardContent>
@@ -1448,7 +1448,7 @@ export function GuideClient() {
             <CardContent className="p-0 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed font-light">
                 <div className="p-5 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-3">
-                  <h4 className="font-mono font-bold text-emerald-400 uppercase text-[11px]">Comment faire augmenter sa réputation :</h4>
+                  <h4 className="font-mono font-bold text-emerald-400 uppercase text-sm-plus">Comment faire augmenter sa réputation :</h4>
                   <ul className="list-disc pl-4 space-y-2 text-zinc-400">
                     <li><strong className="text-white">Livrer à temps :</strong> Soumettre des livrables de haute qualité avant la deadline estimée de la mission.</li>
                     <li><strong className="text-white">Soutenir les pairs :</strong> Participer à l&apos;audit des autres agents (revues) avec des commentaires constructifs.</li>
@@ -1456,7 +1456,7 @@ export function GuideClient() {
                   </ul>
                 </div>
                 <div className="p-5 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-3">
-                  <h4 className="font-mono font-bold text-amber-500 uppercase text-[11px]">Ce qui dégrade la réputation :</h4>
+                  <h4 className="font-mono font-bold text-amber-500 uppercase text-sm-plus">Ce qui dégrade la réputation :</h4>
                   <ul className="list-disc pl-4 space-y-2 text-zinc-400">
                     <li><strong className="text-white">Abandons fréquents :</strong> S&apos;inscrire à des missions et les abandonner de manière répétée.</li>
                     <li><strong className="text-white">Soumissions abusives :</strong> Envoyer des preuves d&apos;exécution vides ou des repos Github n&apos;ayant aucun rapport avec le sujet.</li>
@@ -1528,30 +1528,30 @@ export function GuideClient() {
                   <LifeBuoy className="size-5 text-emerald-500" /> Je suis bloqué : Que faire ?
                 </CardTitle>
                 <CardDescription className="text-xs text-zinc-500 font-light">
-                  Chaque problème a sa solution sur JoinHashcode. Suivez le protocole de secours.
+                  Chaque problème a sa solution sur JoinHashcode. Consultez les solutions ci-dessous.
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 space-y-5 text-xs font-light leading-relaxed">
                 <div className="space-y-3">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">1. Je ne comprends pas l&apos;énoncé d&apos;une mission</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">1. Je ne comprends pas l&apos;énoncé d&apos;une mission</h4>
                   <p className="text-zinc-400">
                     Ouvrez le chat de la mission ou posez une question dans le forum d&apos;entraide. La communauté et les Reviewers expérimentés sont là pour clarifier les points techniques.
                   </p>
                 </div>
                 <div className="space-y-3 border-t border-white/5 pt-4">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">2. Je n&apos;arrive pas à trouver une escouade</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">2. Je n&apos;arrive pas à trouver une escouade</h4>
                   <p className="text-zinc-400">
                     Assurez-vous que votre profil est complété à 100%. Rendez-vous dans la section « Recrutement » ou partagez votre profil public dans le salon général Discord/Telegram pour signaler que vous recherchez des partenaires de synergie.
                   </p>
                 </div>
                 <div className="space-y-3 border-t border-white/5 pt-4">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">3. Je n&apos;ai pas le temps cette semaine</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">3. Je n&apos;ai pas le temps cette semaine</h4>
                   <p className="text-zinc-400">
                     Prévenez votre escouade dans le canal privé. Une absence signalée permet à vos équipiers d&apos;adapter la planification ou de temporiser leur check-in pour minimiser la baisse de cohésion de l&apos;escouade.
                   </p>
                 </div>
                 <div className="space-y-3 border-t border-white/5 pt-4">
-                  <h4 className="font-mono font-bold text-white uppercase text-[11px]">4. Je pense avoir choisi le mauvais profil comportemental</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-sm-plus">4. Je pense avoir choisi le mauvais profil comportemental</h4>
                   <p className="text-zinc-400">
                     Vous pouvez recalibrer votre diagnostic depuis l&apos;onglet Profil dans vos paramètres. C&apos;est gratuit durant vos premières 24h, puis soumis à un cooldown de 14 jours.
                   </p>
@@ -1571,30 +1571,30 @@ export function GuideClient() {
               </CardHeader>
               <CardContent className="p-0 space-y-4 text-xs font-light leading-relaxed">
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
-                  <h4 className="font-mono font-bold text-white uppercase text-[10px]">Comment ça marche ?</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-xs">Comment ça marche ?</h4>
                   <p className="text-zinc-400">
                     Chaque membre possède un <strong className="text-white">lien de parrainage unique</strong> accessible depuis le tableau de bord. Partagez-le sur vos réseaux, forums ou directement à vos contacts.
                   </p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-2">
-                  <h4 className="font-mono font-bold text-white uppercase text-[10px]">Récompenses</h4>
+                  <h4 className="font-mono font-bold text-white uppercase text-xs">Récompenses</h4>
                   <ul className="space-y-1.5 text-zinc-400">
                     <li className="flex items-center gap-2">
-                      <span className="text-indigo-400 font-mono text-[10px]">+50 XP</span>
+                      <span className="text-indigo-400 font-mono text-xs">+50 XP</span>
                       <span>par filleul qui rejoint et complète son onboarding</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <span className="text-amber-400 font-mono text-[10px]">Badge Ambassadeur</span>
+                      <span className="text-amber-400 font-mono text-xs">Badge Ambassadeur</span>
                       <span>après 5 filleuls parrainés</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <span className="text-emerald-400 font-mono text-[10px]">Badge Émissaire</span>
+                      <span className="text-emerald-400 font-mono text-xs">Badge Émissaire</span>
                       <span>après 20 filleuls parrainés</span>
                     </li>
                   </ul>
                 </div>
                 <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-2">
-                  <h4 className="font-mono font-bold text-primary uppercase text-[10px]">Astuce</h4>
+                  <h4 className="font-mono font-bold text-primary uppercase text-xs">Astuce</h4>
                   <p className="text-zinc-400">
                     Partagez votre lien dans vos stories WhatsApp, groupes Telegram ou sur LinkedIn après avoir terminé le quiz — vos résultats de profil sont un excellent argument de recommandation !
                   </p>
@@ -1611,7 +1611,7 @@ export function GuideClient() {
               </CardHeader>
               <CardContent className="p-0 space-y-6 text-xs font-light leading-relaxed">
                 <div className="p-4.5 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-3">
-                  <div className="font-bold text-white font-mono uppercase text-[10px] text-emerald-400">// JOANICE · DE BUILDER À LEAD QA</div>
+                  <div className="font-bold text-white font-mono uppercase text-xs text-emerald-400">// JOANICE · DE BUILDER À LEAD QA</div>
                   <p className="text-zinc-400">
                     &ldquo;Je suis arrivée sur Hashcode sans expérience projet solide. Mon quiz de départ m&apos;a orientée en tant que Builder. Après avoir validé 3 missions de refactoring et d&apos;architecture d&apos;API, une lacune majeure en QA a été détectée dans un projet collaboratif. 
                   </p>
@@ -1622,10 +1622,10 @@ export function GuideClient() {
 
                 {/* Les 7 erreurs fréquentes des nouveaux */}
                 <div className="p-4.5 rounded-2xl bg-amber-500/5 border border-amber-500/15 space-y-3">
-                  <div className="font-bold text-amber-500 font-mono uppercase text-[10px] flex items-center gap-1.5">
+                  <div className="font-bold text-amber-500 font-mono uppercase text-xs flex items-center gap-1.5">
                     <ShieldAlert className="size-3.5" /> Les 7 erreurs courantes à éviter :
                   </div>
-                  <ul className="list-decimal pl-4 space-y-1 text-zinc-400 text-[11px] font-mono">
+                  <ul className="list-decimal pl-4 space-y-1 text-zinc-400 text-sm-plus font-mono">
                     <li>Rejoindre une escouade sans comprendre sa classe.</li>
                     <li>Courir après l&apos;XP au détriment de la qualité.</li>
                     <li>Ne jamais participer aux discussions d&apos;équipe.</li>
@@ -1652,23 +1652,23 @@ export function GuideClient() {
             <CardContent className="p-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-xs font-light">
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-1">
-                  <h5 className="font-mono font-bold text-white uppercase text-[11px]">Academy</h5>
+                  <h5 className="font-mono font-bold text-white uppercase text-sm-plus">Academy</h5>
                   <p className="text-zinc-500">Parcours certifiants validés par des leaders de l&apos;industrie.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-1">
-                  <h5 className="font-mono font-bold text-white uppercase text-[11px]">Labs</h5>
+                  <h5 className="font-mono font-bold text-white uppercase text-sm-plus">Labs</h5>
                   <p className="text-zinc-500">Incubateur pour financer les meilleures solutions nées en escouade.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-1">
-                  <h5 className="font-mono font-bold text-white uppercase text-[11px]">Guildes</h5>
+                  <h5 className="font-mono font-bold text-white uppercase text-sm-plus">Guildes</h5>
                   <p className="text-zinc-500">Échanges de bonnes pratiques et opportunités d&apos;emploi.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-1">
-                  <h5 className="font-mono font-bold text-white uppercase text-[11px]">Mentorat</h5>
+                  <h5 className="font-mono font-bold text-white uppercase text-sm-plus">Mentorat</h5>
                   <p className="text-zinc-500">Accompagnement personnalisé par des agents de grade Légende.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-zinc-950/40 border border-white/5 space-y-1">
-                  <h5 className="font-mono font-bold text-white uppercase text-[11px]">Missions Réelles</h5>
+                  <h5 className="font-mono font-bold text-white uppercase text-sm-plus">Missions Réelles</h5>
                   <p className="text-zinc-500">Défis concrets rémunérés issus de partenaires technologiques.</p>
                 </div>
               </div>
@@ -1718,7 +1718,7 @@ export function GuideClient() {
                   Combien de temps prend la validation d&apos;une mission ?
                 </AccordionTrigger>
                 <AccordionContent className="text-xs text-zinc-400 leading-relaxed pt-2 font-light">
-                  Le protocole d&apos;audit des Reviewers prend généralement entre 12 et 48 heures. Dès qu&apos;une action est prise sur votre soumission (approbation ou demande de révision), vous recevez une notification en temps réel sur votre console.
+                  La vérification par les Reviewers prend généralement entre 12 et 48 heures. Dès qu&apos;une action est prise sur votre soumission (approbation ou demande de révision), vous recevez une notification en temps réel sur votre page.
                 </AccordionContent>
               </AccordionItem>
 

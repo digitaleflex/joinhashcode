@@ -19,10 +19,10 @@ interface NeuralScannerProps {
 export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
   const [step, setStep] = useState(0)
   const steps = [
-    { label: "INITIATING_UPLINK", icon: Radio, delay: 1000 },
-    { label: "SCANNING_ASSETS", icon: Search, delay: 1500 },
-    { label: "NEURAL_VALIDATION", icon: Fingerprint, delay: 1200 },
-    { label: "SYNC_BONUS_DETECTION", icon: Zap, delay: 800 },
+    { label: "Connexion en cours...", icon: Radio, delay: 1000 },
+    { label: "Analyse des profils...", icon: Search, delay: 1500 },
+    { label: "Validation...", icon: Fingerprint, delay: 1200 },
+    { label: "Détection du bonus...", icon: Zap, delay: 800 },
   ]
 
   useEffect(() => {
@@ -72,8 +72,8 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
 
       <div className="text-center space-y-4">
         <div className="space-y-1">
-          <p className="text-[10px] font-mono text-primary uppercase animate-pulse">
-            Analysis_in_progress
+          <p className="text-xs font-mono text-primary uppercase animate-pulse">
+            Analyse en cours...
           </p>
           <h3 className="text-xl font-bold tracking-tighter text-white">
             {steps[step]?.label}
@@ -101,8 +101,8 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary"
               >
                 <Zap className="size-3" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
-                  Sync Bonus: +{bonusXp} XP Detected
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">
+                  Bonus : +{bonusXp} XP
                 </span>
               </motion.div>
             )}
@@ -111,8 +111,8 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
       </div>
 
       <div className="w-full max-w-xs space-y-2">
-        <p className="text-[9px] font-mono text-zinc-600 text-center uppercase tracking-wider">
-          Transmitting encrypted data to central node...
+        <p className="text-3xs font-mono text-zinc-600 text-center uppercase tracking-wider">
+          Envoi des données en cours...
         </p>
         <div className="h-0.5 w-full bg-zinc-900 rounded-full overflow-hidden">
           <motion.div 

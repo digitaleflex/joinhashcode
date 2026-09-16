@@ -64,14 +64,14 @@ export default async function LeaderboardPage() {
 
         {/* Header */}
         <div className="space-y-4">
-          <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/dashboard" className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
             <ArrowLeft className="size-3" /> Retour au Dashboard
           </Link>
           <div className="flex items-end justify-between">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                 <Trophy className="size-3.5 text-primary" />
-                <span className="text-[10px] font-mono font-bold text-primary uppercase">Classement Global</span>
+                <span className="text-xs font-mono font-bold text-primary uppercase">Classement Global</span>
               </div>
               <h1 className="text-4xl font-black uppercase italic text-white tracking-tight">
                 Panthéon des <span className="text-primary">Bâtisseurs</span>
@@ -105,7 +105,7 @@ export default async function LeaderboardPage() {
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-black text-white uppercase italic truncate">{user.pseudo || user.name}</p>
-                    <Badge className="text-[8px] bg-white/5 text-zinc-400 border-white/10 font-mono">
+                    <Badge className="text-xs-sm bg-white/5 text-zinc-400 border-white/10 font-mono">
                       {user.class?.toUpperCase() || "BÂTISSEUR"}
                     </Badge>
                   </div>
@@ -114,11 +114,11 @@ export default async function LeaderboardPage() {
                 {/* Stats */}
                 <div className="flex items-center gap-6 shrink-0">
                   <div className="text-center">
-                    <p className="text-[9px] font-mono text-zinc-600 uppercase">Niveau</p>
+                    <p className="text-3xs font-mono text-zinc-600 uppercase">Niveau</p>
                     <p className="text-xs font-black text-white">{user.level}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-[9px] font-mono text-zinc-600 uppercase">XP</p>
+                    <p className="text-3xs font-mono text-zinc-600 uppercase">XP</p>
                     <p className="text-xs font-black text-primary italic">
                       {user.experience}
                     </p>

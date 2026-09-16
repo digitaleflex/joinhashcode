@@ -55,7 +55,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
 
   if (isLoading) return <Loader2 className="h-6 w-6 animate-spin mx-auto" />;
   if (requests.length === 0) return (
-    <div className="text-center py-8 opacity-50 font-mono text-[10px] uppercase">
+    <div className="text-center py-8 opacity-50 font-mono text-xs uppercase">
         Aucune candidature en attente
     </div>
   );
@@ -72,7 +72,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
                 </Avatar>
                 <div>
                     <div className="text-sm font-bold text-white">{request.user.name}</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">Niveau {request.user.level} // {request.user.class || "Agent_Core"}</div>
+                    <div className="text-xs text-zinc-500 font-mono">Niveau {request.user.level} // {request.user.class || "Agent_Core"}</div>
                 </div>
             </div>
             
@@ -80,7 +80,7 @@ export function JoinRequestsManager({ organizationId }: { organizationId: string
                 <Button size="sm" variant="ghost" className="text-red-400 hover:bg-red-500/10" onClick={() => handleAction(request.id, "reject")}>
                     <X className="size-4" />
                 </Button>
-                <Button size="sm" className="bg-primary text-black hover:bg-primary/90 font-bold text-[10px]" onClick={() => handleAction(request.id, "accept")}>
+                <Button size="sm" className="bg-primary text-black hover:bg-primary/90 font-bold text-xs" onClick={() => handleAction(request.id, "accept")}>
                     <Check className="size-4 mr-1" /> RECRUTER
                 </Button>
             </div>

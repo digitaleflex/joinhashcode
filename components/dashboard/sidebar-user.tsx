@@ -36,10 +36,10 @@ export function SidebarUser({ user }: { user: NavUser | null }) {
     <SidebarFooter className="border-t border-white/5 p-4">
       <div className="px-2 pb-4 group-data-[collapsible=icon]:hidden">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-mono text-primary uppercase tracking-wider font-bold">
+          <span className="text-xs font-mono text-primary uppercase tracking-wider font-bold">
             Niveau {progress.level}
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 uppercase">
+          <span className="text-xs font-mono text-zinc-500 uppercase">
             {currentUser?.experience} / {progress.nextLevelXp || progress.xpInLevel} XP
           </span>
         </div>

@@ -4,7 +4,7 @@
 #
 # Lancement (production) :
 #   docker compose -f compose.app.yml \
-#     --env-file /home/actions-runner/secrets/.env.production \
+#     --env-file /home/audest/hashcode-community/.env.production \
 #     up -d web --wait
 #
 # Variables Docker (DB_USER, DB_PASSWORD, APP_DOMAIN…) injectées
@@ -19,9 +19,8 @@ services:
     image: ${HASHCODE_WEB_IMAGE:-hashcode-web:latest}
     container_name: hashcode-web
     restart: always
-    command: ["sh", "-c", "prisma migrate deploy 2>&1; node /app/cluster.mjs"]
     env_file:
-      - /home/actions-runner/secrets/.env.production
+      - /home/audest/hashcode-community/.env.production
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
       DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
@@ -42,11 +41,24 @@ services:
       - uploads_data:/app/public/uploads
       # Bind mounts — le build host est monté dans le conteneur
       # Pas besoin de rebuild l'image Docker à chaque déploiement
-      - ./.next/standalone:/app/.next/standalone:ro
-      # standalone/.next/static est un symlink hôte → ../../static (résolu vers .next/static)
-      - ./.next/static:/app/.next/static:ro
+      #
+      # ⚠️ Un `npm run build` efface .next/ (nouveaux inodes) : le conteneur
+      # qui tourne reste épinglé sur les anciens inodes jusqu'à sa
+      # recréation. Toujours déployer via ./deploy.sh (force-recreate).
+      - ./.next/standalone:/app/.next/standalone
+      # Cache instable_cache — sous-montage dédié en écriture
+      - ./.next/standalone/.next/cache:/app/.next/standalone/.next/cache
+      # Assets statiques (CSS/JS/fonts) servis par server.js standalone.
+      # Mount direct dans l'arbre standalone : plus aucun symlink à maintenir.
+      - ./.next/static:/app/.next/standalone/.next/static:ro
+      # Dossier public vu par le serveur standalone (favicon, images…)
+      - ./public:/app/.next/standalone/public:ro
+      # Uploads servis par le standalone — même volume que /app/public/uploads
+      - uploads_data:/app/.next/standalone/public/uploads
       # Wrapper multi-process (cluster Node) — même code que server.js
       - ./cluster.mjs:/app/cluster.mjs:ro
+      # Entrypoint monté : les modifs s'appliquent sans rebuild d'image
+      - ./docker-entrypoint.sh:/app/docker-entrypoint.sh:ro
       - ./prisma:/app/prisma:ro
       - ./prisma.config.ts:/app/prisma.config.ts:ro
       - ./generated:/app/generated:ro

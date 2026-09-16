@@ -57,13 +57,13 @@ export default function BetaAccessPage() {
         <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Lock className="size-3 text-primary" />
-                <span className="text-[10px] font-mono font-black uppercase text-primary tracking-widest">Restricted_Area</span>
+                <span className="text-xs font-mono font-black uppercase text-primary tracking-widest">Accès restreint</span>
             </div>
             <h1 className="text-5xl font-black tracking-tighter text-white uppercase italic">
                 Beta <span className="text-primary">.Access</span>
             </h1>
             <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest">
-                Une habilitation valide est requise pour entrer sur la grille.
+                Une clé d'accès valide est requise pour accéder à la plateforme.
             </p>
         </div>
 
@@ -72,10 +72,10 @@ export default function BetaAccessPage() {
                 <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 flex items-start gap-4">
                     <ShieldAlert className="size-5 text-amber-500 shrink-0 mt-0.5" />
                     <div className="space-y-1">
-                        <p className="text-[10px] font-mono text-zinc-400 uppercase font-bold leading-tight">
-                            Protocole de Sécurité Actif
+                        <p className="text-xs font-mono text-zinc-400 uppercase font-bold leading-tight">
+                            Vérification de sécurité en cours
                         </p>
-                        <p className="text-[11px] text-zinc-500 leading-relaxed italic">
+                        <p className="text-sm-plus text-zinc-500 leading-relaxed italic">
                             Votre empreinte numérique a été détectée mais votre niveau d'accréditation est insuffisant.
                         </p>
                     </div>
@@ -83,7 +83,7 @@ export default function BetaAccessPage() {
 
                 <form onSubmit={handleVerify} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-[10px] font-mono text-zinc-600 uppercase font-black px-1">Clé_D_Habilitation</label>
+                        <label className="text-xs font-mono text-zinc-600 uppercase font-black px-1">Clé d'accès</label>
                         <div className="relative group">
                             <Key className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-zinc-600 group-focus-within:text-primary transition-colors" />
                             <Input 
@@ -115,7 +115,7 @@ export default function BetaAccessPage() {
                 <div className="text-center">
                     <button 
                         onClick={() => window.open('https://x.com/joinhashcode', '_blank')}
-                        className="text-[10px] font-mono text-zinc-600 uppercase hover:text-primary transition-colors flex items-center justify-center gap-2 mx-auto"
+                        className="text-xs font-mono text-zinc-600 uppercase hover:text-primary transition-colors flex items-center justify-center gap-2 mx-auto"
                     >
                         <Fingerprint className="size-3" />
                         Demander une habilitation via le QG
@@ -124,7 +124,7 @@ export default function BetaAccessPage() {
             </CardContent>
         </Card>
 
-        <p className="text-center text-[9px] font-mono text-zinc-700 uppercase tracking-[0.3em]">
+        <p className="text-center text-3xs font-mono text-zinc-700 uppercase tracking-[0.3em]">
             SYSTEM_STATUS: SECURE // GRID_READY: TRUE
         </p>
       </div>

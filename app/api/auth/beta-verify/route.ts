@@ -54,10 +54,9 @@ export async function POST(req: Request) {
           usedBy: session.user.id,
         },
       }),
-      prisma.userBeta.upsert({
-        where: { userId: session.user.id },
-        create: { userId: session.user.id, betaKeyId: betaKey.id },
-        update: { betaKeyId: betaKey.id },
+      prisma.user.update({
+        where: { id: session.user.id },
+        data: { betaKeyId: betaKey.id },
       }),
     ]);
 

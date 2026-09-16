@@ -67,10 +67,10 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-lg bg-zinc-950 border-l border-white/5 overflow-y-auto scrollbar-none p-0"
+        className="w-full sm:max-w-2xl bg-zinc-950 border-l border-white/5 overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="sticky top-0 z-[var(--z-content)] bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
+        <div className="shrink-0 bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2 flex-1 min-w-0">
               {/* Badges */}
@@ -78,11 +78,11 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider cursor-help", TYPE_COLORS[mission.type ?? "GENERAL"] || TYPE_COLORS.GENERAL)}>
+                      <span className={cn("text-3xs font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider cursor-help", TYPE_COLORS[mission.type ?? "GENERAL"] || TYPE_COLORS.GENERAL)}>
                         {mission.type}
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                       {mission.type === "CODE" && "Focus : Implémentation technique et algorithmique."}
                       {mission.type === "DESIGN" && "Focus : Expérience utilisateur et esthétique visuelle."}
                       {mission.type === "BUSINESS" && "Focus : Stratégie de marché et croissance."}
@@ -96,11 +96,11 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="text-[9px] font-mono text-zinc-500 bg-zinc-900 border border-white/5 px-2 py-0.5 rounded-full cursor-help">
+                      <span className="text-3xs font-mono text-zinc-500 bg-zinc-900 border border-white/5 px-2 py-0.5 rounded-full cursor-help">
                         {DIFFICULTY_LABEL[mission.level ?? 1] || `Niv. ${mission.level ?? 1}`}
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                       {(mission.level ?? 1) <= 1 && "Niveau Initié : Idéal pour apprendre les bases sans pression."}
                       {(mission.level ?? 1) === 2 && "Niveau Apprenti : Demande une connaissance des outils standards."}
                       {(mission.level ?? 1) === 3 && "Niveau Confirmé : Nécessite une rigueur technique et une preuve solide."}
@@ -110,7 +110,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                 </TooltipProvider>
 
                 {isApproved && (
-                  <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                  <span className="text-3xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                     ✓ Complété
                   </span>
                 )}
@@ -119,7 +119,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
               <h2 className="text-lg font-bold text-white leading-tight truncate">{mission.title}</h2>
 
               {/* Meta */}
-              <div className="flex items-center gap-4 text-[9px] font-mono text-zinc-500">
+              <div className="flex items-center gap-4 text-3xs font-mono text-zinc-500">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -128,7 +128,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                         +{mission.xpReward || mission.xp} XP
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                       XP de base récompensant la validation de cette mission.
                     </TooltipContent>
                   </Tooltip>
@@ -147,7 +147,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
                         ~{mission.avgDelay || 12}h
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-[10px] text-zinc-300 font-mono">
+                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
                       Délai moyen de validation par le réseau.
                     </TooltipContent>
                   </Tooltip>
@@ -158,7 +158,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
         </div>
 
         {/* Corps */}
-        <div className="p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto scrollbar-none p-6 space-y-6">
           {/* Description courte */}
           <p className="text-sm text-zinc-400 font-light leading-relaxed">
             {mission.shortDesc || mission.description}
@@ -167,7 +167,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
           {/* Livrables */}
           {mission.deliverables && mission.deliverables.length > 0 && (
             <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Livrables attendus</p>
+              <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest">Livrables attendus</p>
               <ul className="space-y-1.5">
                 {mission.deliverables!.map((d: string, i: number) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-zinc-400">
@@ -182,16 +182,18 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
           {/* Briefing complet si disponible */}
           {(mission.fullBriefing || mission.description) && (
             <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase text-zinc-500 tracking-widest">Briefing</p>
-              <div className="prose-sm max-h-60 overflow-y-auto scrollbar-none">
-                <MissionBriefing content={(mission.fullBriefing ?? mission.description) ?? ""} />
-              </div>
+              <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest sticky top-0 bg-zinc-950/95 backdrop-blur-sm py-2 z-10 -mx-6 px-6">Briefing</p>
+              <MissionBriefing
+                content={(mission.fullBriefing ?? mission.description) ?? ""}
+                showToc={true}
+                showProgress={true}
+              />
             </div>
           )}
         </div>
 
         {/* Footer avec CTA */}
-        <div className="sticky bottom-0 bg-zinc-950/95 backdrop-blur-xl border-t border-white/5 p-6">
+        <div className="shrink-0 bg-zinc-950/95 backdrop-blur-xl border-t border-white/5 p-6">
           {isLocked ? (
             <div className="flex items-center gap-3 p-4 bg-zinc-900/60 rounded-2xl border border-white/5">
               <Lock className="size-4 text-zinc-600 shrink-0" />
@@ -224,7 +226,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
           ) : (
             <Button
               onClick={handleCommencer}
-              className="w-full btn-primary-glow h-12 rounded-xl text-[11px] uppercase font-black tracking-wider gap-2"
+              className="w-full btn-primary-glow h-12 rounded-xl text-sm-plus uppercase font-black tracking-wider gap-2"
             >
               {hasSubmission ? "Voir ma soumission" : "Commencer la mission"}
               <ChevronRight className="size-4" />

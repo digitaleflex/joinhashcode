@@ -75,11 +75,11 @@ export function NextStepsCard({ hasMissions, hasSquad, hasProfile, hasCheckin }:
             </div>
             <div>
               <h3 className="text-sm font-black uppercase tracking-tight text-white">Prochaines étapes</h3>
-              <p className="text-[10px] text-zinc-500 font-mono">{doneCount}/{totalCount} complétées</p>
+              <p className="text-xs text-zinc-500 font-mono">{doneCount}/{totalCount} complétées</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[9px] text-zinc-600 font-mono uppercase mb-1">Activation</div>
+            <div className="text-3xs text-zinc-600 font-mono uppercase mb-1">Activation</div>
             <div className="text-lg font-black text-primary">{progress}%</div>
           </div>
         </div>
@@ -137,14 +137,14 @@ export function NextStepsCard({ hasMissions, hasSquad, hasProfile, hasCheckin }:
                     {step.title}
                   </p>
                   {!step.done && (
-                    <p className="text-[10px] text-zinc-500 mt-0.5 leading-relaxed">{step.desc}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{step.desc}</p>
                   )}
                 </div>
 
                 {/* XP badge + arrow */}
                 <div className="flex items-center gap-2 shrink-0">
                   {!step.done && (
-                    <span className="text-[9px] font-mono font-bold text-primary/60 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded-full">
+                    <span className="text-3xs font-mono font-bold text-primary/60 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded-full">
                       +{step.xp} XP
                     </span>
                   )}

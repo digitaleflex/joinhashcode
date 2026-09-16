@@ -16,7 +16,7 @@ interface StatusBadgeProps {
 export function StatusBadge({ status }: StatusBadgeProps) {
   const meta = STATUS_META[status] ?? { label: status, className: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20" }
   return (
-    <Badge variant="outline" className={`text-[9px] uppercase tracking-tighter font-mono ${meta.className}`}>
+    <Badge variant="outline" className={`text-3xs uppercase tracking-tighter font-mono ${meta.className}`}>
       {meta.label}
     </Badge>
   )

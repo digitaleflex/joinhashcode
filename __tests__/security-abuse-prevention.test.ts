@@ -70,7 +70,7 @@ describe("Security & Abuse Prevention", () => {
   });
 
   describe("Daily Check-in Cooldown", () => {
-    test("returns 429 if check-in exists in last 20 hours", async () => {
+    test("returns 429 if check-in already exists today", async () => {
       (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
       (prisma.dailyCheckin.findFirst as any).mockResolvedValue({ id: "checkin-1", createdAt: new Date() });
 

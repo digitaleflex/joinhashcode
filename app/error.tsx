@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCcw, Home } from "lucide-react"
 import Link from "next/link"
@@ -12,20 +12,26 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const errorRef = useRef(error)
   useEffect(() => {
-    console.error(error)
+    errorRef.current = error
+  })
+
+  useEffect(() => {
+    const current = errorRef.current
+    console.error(current)
     fetch("/api/log/client-error", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: error?.message,
-        digest: error.digest,
-        stack: error?.stack,
+        message: current?.message,
+        digest: current.digest,
+        stack: current?.stack,
         url: window.location.href,
         userAgent: navigator.userAgent,
       }),
     }).catch(() => {})
-  }, [error])
+  }, [error.digest])
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
@@ -47,7 +53,7 @@ export default function Error({
           Une erreur inattendue a compromis l'exécution actuelle.
         </h2>
         
-        <div className="p-4 mb-10 rounded-2xl bg-red-500/5 border border-red-500/10 font-mono text-[11px] text-red-400/80 text-left overflow-auto max-h-32">
+        <div className="p-4 mb-10 rounded-2xl bg-red-500/5 border border-red-500/10 font-mono text-sm-plus text-red-400/80 text-left overflow-auto max-h-32">
           <code>
             {error.message || "Erreur d'exécution fatale détectée dans le noyau HASHCODE."}
             <br />
@@ -68,19 +74,19 @@ export default function Error({
           <Button asChild variant="ghost" size="lg" className="h-12 px-8 rounded-full border border-border/50 hover:bg-card transition-all">
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Retour au Terminal
+              Retour à l'accueil
             </Link>
           </Button>
         </div>
 
         <div className="mt-16 pt-8 border-t border-border/40 flex items-center justify-center gap-6">
-          <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            Noyau en Panique
+            Erreur interne
           </div>
           <div className="w-px h-3 bg-border/40" />
-          <div className="text-[10px] font-mono text-muted-foreground uppercase">
-            SYSTEM_OVERLOAD_ERR
+          <div className="text-xs font-mono text-muted-foreground uppercase">
+            Erreur serveur
           </div>
         </div>
       </div>

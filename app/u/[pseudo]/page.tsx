@@ -44,7 +44,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     where: { pseudo },
     select: {
       id: true, name: true, pseudo: true, image: true,
-      profile: { select: { bio: true } },
+      bio: true,
       role: true, language: true,
       city: true, country: true,
       class: true,
@@ -75,7 +75,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     name: dbUser.name,
     pseudo: dbUser.pseudo,
     image: dbUser.image,
-    bio: dbUser.profile?.bio,
+    bio: dbUser.bio,
     role: dbUser.role,
     language: dbUser.language,
     city: dbUser.city,
@@ -105,6 +105,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     currentStreak: 0,
     lastCheckin: null,
     referralCount: 0,
+    j7Activated: false,
     missionSubmissions: [],
     activityLogs: [],
   };

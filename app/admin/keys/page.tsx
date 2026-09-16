@@ -94,7 +94,7 @@ export default function AdminKeysPage() {
         <div>
           <h1 className="text-3xl font-mono font-bold text-primary flex items-center gap-3 tracking-tighter uppercase">
             <Key className="h-8 w-8" />
-            Access Control
+            Clés d'accès
           </h1>
           <p className="text-zinc-400 font-mono text-sm mt-1">
             Gère les habilitations d'entrée pour la phase Beta.
@@ -103,7 +103,7 @@ export default function AdminKeysPage() {
 
         <div className="flex items-center gap-3">
             <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden px-3">
-                <span className="text-[10px] font-mono text-zinc-500 mr-2 uppercase">Quantité</span>
+                <span className="text-xs font-mono text-zinc-500 mr-2 uppercase">Quantité</span>
                 <Input 
                     type="number" 
                     value={generateCount} 
@@ -119,22 +119,22 @@ export default function AdminKeysPage() {
                 className="bg-primary text-black hover:bg-primary/90 font-mono font-bold uppercase tracking-tight h-12 px-6 rounded-xl shadow-[0_0_15px_#C5F44140]"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Générer Flux
+              Générer
             </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-2xl backdrop-blur-sm space-y-2">
-            <div className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest">Total_Keys</div>
+            <div className="text-zinc-500 text-xs font-mono uppercase tracking-widest">Total_Keys</div>
             <div className="text-3xl font-black text-white font-mono">{keys.length}</div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-2xl backdrop-blur-sm space-y-2">
-            <div className="text-emerald-500 text-[10px] font-mono uppercase tracking-widest text-opacity-60">Actives</div>
+            <div className="text-emerald-500 text-xs font-mono uppercase tracking-widest text-opacity-60">Actives</div>
             <div className="text-3xl font-black text-emerald-400 font-mono">{keys.filter(k => k.isUsed).length}</div>
         </div>
         <div className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-2xl backdrop-blur-sm space-y-2">
-            <div className="text-primary text-[10px] font-mono uppercase tracking-widest text-opacity-60">En_Réserve</div>
+            <div className="text-primary text-xs font-mono uppercase tracking-widest text-opacity-60">En_Réserve</div>
             <div className="text-3xl font-black text-primary font-mono">{keys.filter(k => !k.isUsed).length}</div>
         </div>
       </div>
@@ -143,11 +143,11 @@ export default function AdminKeysPage() {
         <Table>
           <TableHeader className="bg-white/5">
             <TableRow className="hover:bg-transparent border-zinc-800">
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Habilitation_Key</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Statut</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Utilisé_Par</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4">Date_Création</TableHead>
-              <TableHead className="text-zinc-400 font-mono uppercase text-[10px] py-4 text-right">Actions</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-xs py-4">Clé</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-xs py-4">Statut</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-xs py-4">Utilisé par</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-xs py-4">Date de création</TableHead>
+              <TableHead className="text-zinc-400 font-mono uppercase text-xs py-4 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -182,11 +182,11 @@ export default function AdminKeysPage() {
                   </TableCell>
                   <TableCell>
                     {key.isUsed ? (
-                      <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 font-mono text-[9px] uppercase">
+                      <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 font-mono text-3xs uppercase">
                         <CheckCircle2 className="h-3 w-3 mr-1" /> Activé
                       </Badge>
                     ) : (
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-500 font-mono text-[9px] uppercase">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-500 font-mono text-3xs uppercase">
                         <Clock className="h-3 w-3 mr-1" /> En attente
                       </Badge>
                     )}
@@ -195,11 +195,11 @@ export default function AdminKeysPage() {
                     {key.usedBy ? (
                       <span className="text-zinc-300 font-bold text-xs font-mono uppercase">{key.usedBy}</span>
                     ) : (
-                      <span className="text-zinc-700 font-mono text-[10px]">--</span>
+                      <span className="text-zinc-700 font-mono text-xs">--</span>
                     )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-zinc-500 font-mono text-[10px]">
+                    <span className="text-zinc-500 font-mono text-xs">
                       {new Date(key.createdAt).toLocaleDateString('fr-FR')}
                     </span>
                   </TableCell>

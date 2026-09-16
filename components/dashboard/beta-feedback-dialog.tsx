@@ -89,7 +89,7 @@ export function BetaFeedbackDialog() {
                 <form onSubmit={handleSubmit} className="space-y-4 py-4">
                     {/* Satisfaction Rating */}
                     <div className="space-y-3 p-4 rounded-xl bg-white/5 border border-white/5">
-                        <Label className="text-[10px] uppercase font-mono text-zinc-500 tracking-wider">Satisfaction globale</Label>
+                        <Label className="text-xs uppercase font-mono text-zinc-500 tracking-wider">Satisfaction globale</Label>
                         <div className="flex items-center gap-1.5">
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <button
@@ -111,7 +111,7 @@ export function BetaFeedbackDialog() {
                                 </button>
                             ))}
                             {rating > 0 && (
-                                <span className="ml-2 text-[9px] font-mono text-primary uppercase tracking-widest animate-in fade-in slide-in-from-left-1">
+                                <span className="ml-2 text-3xs font-mono text-primary uppercase tracking-widest animate-in fade-in slide-in-from-left-1">
                                     {rating === 1 && "Décevant"}
                                     {rating === 2 && "À améliorer"}
                                     {rating === 3 && "Correct"}
@@ -160,7 +160,7 @@ export function BetaFeedbackDialog() {
                             className="min-h-[120px] bg-background/50 border-border/60 focus:border-primary/50 resize-none"
                             maxLength={2000}
                         />
-                        <div className="text-[10px] text-right text-zinc-600 font-mono">
+                        <div className="text-xs text-right text-zinc-600 font-mono">
                             {content.length}/2000
                         </div>
                     </div>

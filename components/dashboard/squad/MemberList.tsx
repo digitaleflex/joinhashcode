@@ -108,12 +108,12 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
       <Table>
         <TableHeader>
           <TableRow className="border-white/5 hover:bg-transparent">
-            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">Membre</TableHead>
-            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">Rôle</TableHead>
-            <TableHead className="text-[9px] font-mono uppercase text-zinc-600">
+            <TableHead className="text-3xs font-mono uppercase text-zinc-600">Membre</TableHead>
+            <TableHead className="text-3xs font-mono uppercase text-zinc-600">Rôle</TableHead>
+            <TableHead className="text-3xs font-mono uppercase text-zinc-600">
               <span className="flex items-center gap-1"><Zap className="size-3" /> Activité</span>
             </TableHead>
-            <TableHead className="text-right text-[9px] font-mono uppercase text-zinc-600">Actions</TableHead>
+            <TableHead className="text-right text-3xs font-mono uppercase text-zinc-600">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -134,14 +134,14 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                   </div>
                   <div>
                     <div className="font-medium text-xs">{member.user?.name}</div>
-                    <div className="text-[10px] text-muted-foreground font-mono">@{member.user?.pseudo || "—"}</div>
+                    <div className="text-xs text-muted-foreground font-mono">@{member.user?.pseudo || "—"}</div>
                   </div>
                 </TableCell>
                 <TableCell>
                   <Badge 
                     variant={member.role === "owner" ? "default" : member.role === "admin" ? "outline" : "secondary"} 
                     className={cn(
-                        "text-[9px] uppercase font-mono",
+                        "text-3xs uppercase font-mono",
                         member.role === "admin" && "border-primary/50 text-primary bg-primary/5"
                     )}
                   >
@@ -149,14 +149,14 @@ export function MemberList({ members, currentUserId }: MemberListProps) {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <span className={cn("text-[9px] font-mono", lastCheckinDate ? "text-zinc-400" : "text-zinc-600")}>
+                  <span className={cn("text-3xs font-mono", lastCheckinDate ? "text-zinc-400" : "text-zinc-600")}>
                     {lastCheckinDate ? formatRelativeTime(lastCheckinDate) : "Jamais"}
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
                   {member.userId === currentUserId ? (
                     member.role !== "owner" && (
-                      <Button variant="ghost" size="sm" className="h-8 text-[10px] text-destructive hover:text-destructive hover:bg-destructive/10 gap-2 font-bold uppercase" onClick={handleLeave}>
+                      <Button variant="ghost" size="sm" className="h-8 text-xs text-destructive hover:text-destructive hover:bg-destructive/10 gap-2 font-bold uppercase" onClick={handleLeave}>
                         <LogOut className="h-3 w-3" /> Quitter
                       </Button>
                     )

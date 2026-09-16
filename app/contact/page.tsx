@@ -84,7 +84,7 @@ function ContactForm() {
             <div className="lg:col-span-5">
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="h-px w-8 bg-primary/50" />
-                <span className="font-mono text-[11px] uppercase text-primary">
+                <span className="font-mono text-sm-plus uppercase text-primary">
                   Communications_HUB
                 </span>
               </div>
@@ -127,19 +127,19 @@ function ContactForm() {
                           }`}
                         >
                           <item.icon className="h-5 w-5 shrink-0" />
-                          <span className="text-[10px] font-mono uppercase tracking-wider">{item.label}</span>
+                          <span className="text-xs font-mono uppercase tracking-wider">{item.label}</span>
                         </button>
                       ))}
                     </div>
 
                     {type === "team" && (
                       <div className="p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-4">
-                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider font-bold">
+                        <p className="text-xs font-mono text-indigo-400 uppercase tracking-wider font-bold">
                           Tu veux construire HASHCODE avec nous ? Raconte-nous tout.
                         </p>
                         <div className="grid sm:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">GitHub / Portfolio</label>
+                            <label className="text-3xs font-mono uppercase text-zinc-500 ml-1">GitHub / Portfolio</label>
                             <Input
                               placeholder="github.com/tonsuperpseudo"
                               value={formData.github}
@@ -148,7 +148,7 @@ function ContactForm() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">LinkedIn / X</label>
+                            <label className="text-3xs font-mono uppercase text-zinc-500 ml-1">LinkedIn / X</label>
                             <Input
                               placeholder="linkedin.com/in/tonprofil"
                               value={formData.portfolio}
@@ -158,7 +158,7 @@ function ContactForm() {
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[9px] font-mono uppercase text-zinc-500 ml-1">Compétences clés</label>
+                          <label className="text-3xs font-mono uppercase text-zinc-500 ml-1">Compétences clés</label>
                           <Input
                             placeholder="Next.js, UI/UX, DevOps, Community, etc."
                             value={formData.skills}
@@ -171,7 +171,7 @@ function ContactForm() {
 
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500 ml-1">Identité / Email</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500 ml-1">Identité / Email</label>
                         <Input 
                           placeholder="votre@email.com" 
                           required 
@@ -181,7 +181,7 @@ function ContactForm() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase text-zinc-500 ml-1">Sujet</label>
+                        <label className="text-xs font-mono uppercase text-zinc-500 ml-1">Sujet</label>
                         <Input 
                           placeholder="Titre du message" 
                           required 
@@ -193,7 +193,7 @@ function ContactForm() {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase text-zinc-500 ml-1">
+                      <label className="text-xs font-mono uppercase text-zinc-500 ml-1">
                         {type === "team" ? "Parle-nous de toi et de ta motivation" : "Transmission_Content"}
                       </label>
                       <Textarea 

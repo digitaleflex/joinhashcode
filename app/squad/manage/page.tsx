@@ -146,15 +146,15 @@ export default async function SquadManagePage() {
             
             {/* Header */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-zinc-500 uppercase">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-zinc-500 uppercase">
                 <ShieldCheck className="size-3 text-primary" />
-                terminal_gestion_escouade
+                Gestion de l&apos;escouade
               </div>
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase leading-[0.9]">
                 Gestion de l&apos; <span className="text-primary italic">Escouade</span>
               </h1>
               <p className="text-zinc-500 text-sm font-medium max-w-xl">
-                Contrôle total sur l&apos;unité {squad.name}. Gère tes membres, tes invitations et synchronise ton équipe.
+                Contrôle total sur l&apos;unité {squad.name}. Gère tes membres, tes invitations et mets à jour ton équipe.
               </p>
             </div>
 
@@ -165,14 +165,14 @@ export default async function SquadManagePage() {
                 <TabsList className="flex flex-row md:flex-col h-auto md:w-72 bg-zinc-950/80 border-b md:border-b-0 md:border-r border-white/5 p-3 md:p-6 gap-2 md:gap-3 justify-start overflow-x-auto scrollbar-none backdrop-blur-xl w-full">
                   
                   <div className="hidden md:block mb-6 px-2">
-                    <h3 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
+                    <h3 className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-widest">
                       Menu de Contrôle
                     </h3>
                   </div>
 
                   <TabsTrigger 
                     value="members" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <Users className="size-3.5 md:size-4" />
                     <span>Membres</span>
@@ -180,21 +180,21 @@ export default async function SquadManagePage() {
                   
                   <TabsTrigger 
                     value="journal" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <Activity className="size-3.5 md:size-4" />
                     <span>Journal</span>
                   </TabsTrigger>
                   
                   <div className="hidden md:block my-4 px-2">
-                    <h3 className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest">
+                    <h3 className="text-xs font-mono font-bold text-zinc-600 uppercase tracking-widest">
                       Recrutement
                     </h3>
                   </div>
 
                   <TabsTrigger 
                     value="requests" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <UserSearch className="size-3.5 md:size-4" />
                     <span>Candidats</span>
@@ -202,7 +202,7 @@ export default async function SquadManagePage() {
                   
                   <TabsTrigger 
                     value="invitations" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <Inbox className="size-3.5 md:size-4" />
                     <span>Invitations</span>
@@ -210,21 +210,21 @@ export default async function SquadManagePage() {
                   
                   <TabsTrigger 
                     value="invite" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <Mail className="size-3.5 md:size-4" />
                     <span>Inviter</span>
                   </TabsTrigger>
                   
                   <div className="hidden md:block my-4 px-2">
-                    <h3 className="text-[10px] font-mono font-bold text-zinc-600 uppercase tracking-widest">
+                    <h3 className="text-xs font-mono font-bold text-zinc-600 uppercase tracking-widest">
                       Système
                     </h3>
                   </div>
 
                   <TabsTrigger 
                     value="settings" 
-                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
+                    className="shrink-0 w-auto md:w-full justify-center md:justify-start gap-2 md:gap-4 py-2.5 px-4 md:py-3.5 md:px-5 text-xs md:text-xs font-bold uppercase tracking-wider rounded-xl md:rounded-2xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary text-zinc-400 hover:text-zinc-200 transition-all border border-transparent data-[state=active]:border-primary/20 data-[state=active]:shadow-[0_0_15px_rgba(197,244,65,0.1)]"
                   >
                     <Settings className="size-3.5 md:size-4" />
                     <span>Réglages</span>
@@ -237,7 +237,7 @@ export default async function SquadManagePage() {
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
                       <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold uppercase italic tracking-tight text-white">Roster de l&apos;Unité</h2>
-                        <span className="text-[10px] font-mono text-zinc-500 uppercase">{squad.members?.length}/5 Agents</span>
+                        <span className="text-xs font-mono text-zinc-500 uppercase">{squad.members?.length}/5 Agents</span>
                       </div>
                       <MemberList members={squad.members || []} currentUserId={session.user.id} />
                     </div>

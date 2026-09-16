@@ -24,23 +24,23 @@ export function WeeklyChallengeWidget() {
                     <Trophy className="size-4 text-amber-400" />
                     Défi Hebdomadaire
                 </CardTitle>
-                <CardDescription className="text-[10px] text-zinc-500 uppercase font-mono mt-1">
+                <CardDescription className="text-xs text-zinc-500 uppercase font-mono mt-1">
                     Objectif : 5 Missions Validées
                 </CardDescription>
             </div>
             <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-900 border border-white/10">
                 <Clock className="size-3 text-zinc-500" />
-                <span className="text-[10px] font-mono font-bold text-zinc-300">{timeLeft}</span>
+                <span className="text-xs font-mono font-bold text-zinc-300">{timeLeft}</span>
             </div>
         </div>
       </CardHeader>
       <CardContent className="pt-4 space-y-3">
-        <div className="flex justify-between text-[10px] font-mono text-zinc-500 uppercase">
+        <div className="flex justify-between text-xs font-mono text-zinc-500 uppercase">
             <span>Progression</span>
             <span>2 / 5</span>
         </div>
         <Progress value={40} className="h-2 bg-zinc-900" />
-        <p className="text-[10px] text-zinc-600 italic">
+        <p className="text-xs text-zinc-600 italic">
             Valide 3 missions de plus cette semaine pour débloquer le badge <span className="text-primary font-bold">"SÉRIE D'OR"</span>.
         </p>
       </CardContent>

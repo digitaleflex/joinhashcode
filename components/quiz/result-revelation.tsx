@@ -138,7 +138,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold tracking-widest uppercase text-zinc-400"
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-bold tracking-widest uppercase text-zinc-400"
                 >
                   <Cpu className="size-3" style={{ color }} />
                   Ton profil est prêt
@@ -196,7 +196,7 @@ export function ResultRevelation({ analysis, onScrollToScores }: Props) {
                         className="mt-6 p-4 rounded-xl border"
                         style={{ borderColor: `${color}33`, background: `${color}08` }}
                       >
-                        <p className="text-[9px] font-mono uppercase tracking-widest mb-1" style={{ color }}>
+                        <p className="text-3xs font-mono uppercase tracking-widest mb-1" style={{ color }}>
                           Spécialisation recommandée
                         </p>
                         <p className="text-sm font-bold text-white mb-1">

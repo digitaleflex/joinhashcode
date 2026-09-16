@@ -28,7 +28,7 @@ export default function CookiesPage() {
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
               <Shield className="size-3.5 text-primary" />
-              <span className="text-[9px] font-mono font-black uppercase text-primary">Consentement</span>
+              <span className="text-3xs font-mono font-black uppercase text-primary">Consentement</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-bold tracking-tight">
               Gestion des <span className="text-primary">Cookies</span>
@@ -50,7 +50,7 @@ export default function CookiesPage() {
                 <div className="flex items-center gap-2">
                   <Cookie className="size-4 text-zinc-500" />
                   <span className="text-sm font-bold text-white">Cookies essentiels</span>
-                  <span className="text-[9px] font-mono uppercase text-zinc-600 px-2 py-0.5 rounded-full bg-zinc-800">Obligatoire</span>
+                  <span className="text-3xs font-mono uppercase text-zinc-600 px-2 py-0.5 rounded-full bg-zinc-800">Obligatoire</span>
                 </div>
                 <p className="text-xs text-zinc-500 mt-1">
                   Nécessaires au fonctionnement de la plateforme : authentification, session sécurisée, protection anti-fraude de base.
@@ -85,7 +85,7 @@ export default function CookiesPage() {
           </Button>
 
           <div className="border-t border-white/5 pt-8">
-            <p className="text-[10px] text-zinc-600 leading-relaxed">
+            <p className="text-xs text-zinc-600 leading-relaxed">
               Tu peux modifier ces préférences à tout moment. En savoir plus dans notre{" "}
               <Link href="/privacy" className="underline hover:text-primary transition-colors">Politique de confidentialité</Link>.
             </p>

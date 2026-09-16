@@ -8,33 +8,22 @@ import { containsProfanity } from "@/lib/security";
 import { emailService } from "@/lib/email";
 import crypto from "crypto";
 import { requireSession, checkCsrfOrigin, AuthError } from "@/lib/auth-guard";
+import { createSquadSchema } from "@/lib/validation";
 
-// ── Curated name generator ────────────────────────────────────────────────────
-// Produces memorable, brand-aligned squad names (e.g. "Protocole Nexus")
-// instead of meaningless hashes like "Unité-MDUH".
-const SQUAD_PREFIXES = [
-  "Protocole", "Réseau", "Signal", "Nexus", "Vecteur",
-  "Cipher", "Forge", "Noyau", "Circuit", "Matrice",
-  "Flux", "Cellule", "Syntaxe", "Archive", "Bande",
-];
-const SQUAD_SUFFIXES = [
-  "Alpha", "Zenith", "Nova", "Omega", "Sigma",
-  "Apex", "Delta", "Prime", "Zero", "Infini",
-  "Etoile", "Horizon", "Spectre", "Fusion", "Soleil",
-];
-
-function generateSquadName(): { name: string; slug: string } {
-  const prefix = SQUAD_PREFIXES[Math.floor(Math.random() * SQUAD_PREFIXES.length)];
-  const suffix = SQUAD_SUFFIXES[Math.floor(Math.random() * SQUAD_SUFFIXES.length)];
-  const name = `${prefix} ${suffix}`;
-  // Slug: lowercase, remove accents, replace spaces with hyphens
-  const slug = name
+function slugify(name: string): string {
+  return name
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-  return { name, slug };
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/^-+|-+$/g, "")
+    .substring(0, 30);
+}
+
+function randomSuffix(length = 4): string {
+  // Alphabet sûr : pas de tiret initial possible, compatible SLUG_REGEX
+  return Math.random().toString(36).substring(2, 2 + length).padEnd(length, "0");
 }
 
 export async function POST(req: Request) {
@@ -48,6 +37,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Trop de tentatives de création d'escouade. Réessaie plus tard." }, { status: 429 });
     }
 
+    const body = await req.json();
+    const parsed = createSquadSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ message: parsed.error.issues[0].message }, { status: 400 });
+    }
+
+    const { name } = parsed.data;
+
+    if (containsProfanity(name)) {
+      return NextResponse.json({ message: "Ce nom n'est pas autorisé. Choisis-en un autre." }, { status: 400 });
+    }
+
     // Check if user already has a squad
     const existingMember = await prisma.member.findFirst({
       where: { userId },
@@ -57,22 +58,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Déjà membre d'une escouade" }, { status: 400 });
     }
 
-    // Generate a memorable squad name, retry once on slug collision (extremely rare)
+    // Generate slug from name, retry on collision.
+    // Garde-fou : un nom purement emoji/symboles produit un slug vide —
+    // on génère alors une base aléatoire pour garantir un lien /invite/<slug> valide.
     let squad = null;
     let attempts = 0;
+    const baseSlug = slugify(name).length >= 3 ? slugify(name) : `squad-${randomSuffix()}`;
 
     while (!squad && attempts < 5) {
-      const { name, slug } = generateSquadName();
-
-      // Ensure generated name is not offensive (safety first)
-      if (containsProfanity(name) || containsProfanity(slug)) {
-        attempts++;
-        continue;
-      }
-
       const candidateSlug = attempts === 0
-        ? slug
-        : `${slug}-${Math.random().toString(36).substring(2, 4)}`;
+        ? baseSlug
+        : `${baseSlug}-${randomSuffix(3)}`.substring(0, 30);
 
       try {
         const orgId = crypto.randomUUID();
@@ -94,7 +90,6 @@ export async function POST(req: Request) {
           },
         });
       } catch (createErr: unknown) {
-        // Unique constraint on slug → retry with a disambiguator
         if (createErr instanceof Error && (createErr as { code?: string }).code === "P2002") {
           attempts++;
           continue;
@@ -104,7 +99,7 @@ export async function POST(req: Request) {
     }
 
     if (!squad) {
-      return NextResponse.json({ message: "Impossible de générer un nom d'escouade unique. Réessaie dans un instant." }, { status: 500 });
+      return NextResponse.json({ message: "Impossible de générer un slug unique. Réessaie dans un instant." }, { status: 500 });
     }
 
     logActivity({

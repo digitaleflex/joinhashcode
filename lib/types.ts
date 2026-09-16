@@ -120,6 +120,7 @@ export interface UserProfile {
   creatorScore: number;
   strategistScore: number;
   catalystScore: number;
+  j7Activated: boolean; // J+7 activation: validated >= 3 of 5 M01 sub-missions in 7 days
   behavioralVibrancy?: BehavioralVibrancy | Record<string, number> | null | unknown;
   lastCheckin: Date | string | null;
   currentStreak: number;
@@ -133,6 +134,12 @@ export interface UserProfile {
   twoFactorEnabled?: boolean;
   badges: string[];
   bio?: string | null;
+  secondaryObjectives?: string[];
+  currentFocus?: string[];
+  dreamStatement?: string | null;
+  mainBlocker?: string | null;
+  members?: { organization: { slug: string; name: string; members: { user: { id: string; name: string; pseudo: string; image: string | null; class: string | null } }[] } }[];
+  quizResults?: { createdAt: Date }[];
 }
 
 export interface DetailedMissionSubmission {

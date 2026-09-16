@@ -38,7 +38,7 @@ export function InviteMemberForm() {
   return (
     <form onSubmit={handleInvite} className="space-y-6 p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
       <div className="space-y-2">
-        <Label htmlFor="invite-email" className="text-[10px] font-mono uppercase text-zinc-500 font-bold">
+        <Label htmlFor="invite-email" className="text-xs font-mono uppercase text-zinc-500 font-bold">
           Email du futur membre
         </Label>
         <Input

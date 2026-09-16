@@ -6,7 +6,6 @@ export interface LandingStats {
   realUserCount: number       // Nombre réel en base
   activeSquads: number
   missionsCompleted: number
-  classCounts: Record<string, number> // Décompte par classe
   recentActivities: Array<{
     id: string
     user: {
@@ -32,7 +31,6 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       totalCount,
       activeSquads,
       missionsCompleted,
-      classGroups,
       logs,
     ] = await Promise.all([
       prisma.user.count({
@@ -41,11 +39,6 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       prisma.user.count(),
       prisma.organization.count(),
       prisma.missionSubmission.count({ where: { status: "APPROVED" } }),
-      prisma.user.groupBy({
-        by: ["class"],
-        where: { banned: { not: true } },
-        _count: { class: true },
-      }),
       prisma.activityLog.findMany({
         where: {
           action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED", "SQUAD_JOINED"] },
@@ -59,13 +52,6 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       }),
     ])
 
-    const classCounts: Record<string, number> = {}
-    classGroups.forEach((group) => {
-      if (group.class && group._count?.class) {
-        classCounts[group.class.toLowerCase()] = group._count.class
-      }
-    })
-
     const recentActivities = logs.map((log) => ({
       id: log.id,
       user: {
@@ -78,11 +64,10 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
     }))
 
     return {
-      totalMembers: memberCount + 1000,
+      totalMembers: memberCount,
       realUserCount: totalCount,
       activeSquads,
       missionsCompleted,
-      classCounts,
       recentActivities,
     }
   } catch (error: unknown) {
@@ -98,7 +83,6 @@ const fetchLandingStats = async (): Promise<LandingStats> => {
       realUserCount: 0,
       activeSquads: 0,
       missionsCompleted: 0,
-      classCounts: {},
       recentActivities: [],
     }
   }

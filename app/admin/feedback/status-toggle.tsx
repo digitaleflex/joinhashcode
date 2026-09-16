@@ -39,7 +39,7 @@ export function FeedbackStatusToggle({ id, currentStatus }: { id: string, curren
                 <Button 
                     variant="outline" 
                     size="sm" 
-                    className="h-8 text-[9px] uppercase font-bold border-white/10 hover:bg-amber-500/10 hover:text-amber-500"
+                    className="h-8 text-3xs uppercase font-bold border-white/10 hover:bg-amber-500/10 hover:text-amber-500"
                     onClick={() => updateStatus("REVIEWED")}
                 >
                     <Eye className="mr-1.5 size-3" />
@@ -51,7 +51,7 @@ export function FeedbackStatusToggle({ id, currentStatus }: { id: string, curren
                 <Button 
                     variant="outline" 
                     size="sm" 
-                    className="h-8 text-[9px] uppercase font-bold border-white/10 hover:bg-emerald-500/10 hover:text-emerald-500"
+                    className="h-8 text-3xs uppercase font-bold border-white/10 hover:bg-emerald-500/10 hover:text-emerald-500"
                     onClick={() => updateStatus("RESOLVED")}
                 >
                     <CheckCircle2 className="mr-1.5 size-3" />
@@ -63,7 +63,7 @@ export function FeedbackStatusToggle({ id, currentStatus }: { id: string, curren
                 <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="h-8 text-[9px] uppercase font-bold text-zinc-500 hover:text-white"
+                    className="h-8 text-3xs uppercase font-bold text-zinc-500 hover:text-white"
                     onClick={() => updateStatus("NEW")}
                 >
                     <RotateCcw className="mr-1.5 size-3" />

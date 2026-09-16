@@ -150,12 +150,6 @@ export async function submitQuiz(rawData: unknown) {
 
     await invalidateUserCache(session.user.id);
 
-    // Mock request object for activity logging in server actions
-    const reqHeaders = await headers();
-    const mockRequest = {
-      headers: reqHeaders,
-    } as unknown as Request;
-
     logActivity({
       userId: session.user.id,
       action: "QUIZ_COMPLETED",
@@ -167,7 +161,6 @@ export async function submitQuiz(rawData: unknown) {
         scores: analysis.scores,
         avgResponseTime: avgResponseTime,
       },
-      request: mockRequest,
     });
 
     return {

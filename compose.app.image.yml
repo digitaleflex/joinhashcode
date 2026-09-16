@@ -1,0 +1,68 @@
+# ────────────────────────────────────────────────────────────────
+# compose.app.image.yml — déploiement depuis l'image GHCR
+#
+# Le VPS ne build JAMAIS : il pull l'image construite par GitHub Actions.
+#
+#   docker compose -f compose.app.image.yml --env-file .env.production pull
+#   docker compose -f compose.app.image.yml --env-file .env.production up -d web --wait --force-recreate
+#
+# Ou simplement : ./deploy.sh --image
+# ────────────────────────────────────────────────────────────────
+
+services:
+  web:
+    image: ghcr.io/digitaleflex/joinhashcode:${IMAGE_TAG:-latest}
+    container_name: hashcode-web
+    restart: always
+    env_file:
+      - /home/audest/hashcode-community/.env.production
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
+      DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
+      NODE_ENV: production
+      HOSTNAME: "0.0.0.0"
+      WEB_CONCURRENCY: "2"
+      REDIS_URL: http://redis-proxy:80
+      REDIS_TOKEN: local-dev-token
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    volumes:
+      # Uploads persistants — mêmes volumes que l'ancien mode bind-mount
+      - uploads_data:/app/public/uploads
+      - uploads_data:/app/.next/standalone/public/uploads
+    networks:
+      - db-network
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hashcode-web.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
+      - "traefik.http.routers.hashcode-web.entrypoints=websecure"
+      - "traefik.http.routers.hashcode-web.tls=true"
+      - "traefik.http.routers.hashcode-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.hashcode-web.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.compress.compress=true"
+      - "traefik.http.routers.hashcode-web.middlewares=compress"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          memory: 768M
+
+volumes:
+  uploads_data:
+    external: true
+    name: hashcode-uploads-data
+
+networks:
+  db-network:
+    external: true
+    name: hashcode-db-network
+  proxy:
+    external: true
+    name: proxy

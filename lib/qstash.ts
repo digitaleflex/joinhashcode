@@ -1,9 +1,8 @@
-import { prisma } from "./prisma";
 import { emailService } from "./email";
 
 export interface NotificationPayload {
   userId: string;
-  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM" | "MISSION_REVIEW_RELEASED" | "ACHIEVEMENT" | "SQUAD_STREAK_3" | "SQUAD_STREAK_7" | "STREAK_BROKEN";
+  type: "MISSION_APPROVED" | "DAILY_REMINDER" | "LEVEL_UP" | "SYSTEM" | "MISSION_REVIEW_RELEASED" | "ACHIEVEMENT" | "SQUAD_STREAK_3" | "SQUAD_STREAK_7" | "STREAK_BROKEN" | "SQUAD_STREAK_FREEZE" | "SQUAD_STREAK_RESET" | "SQUAD_JOIN_REQUEST_REJECTED" | "SQUAD_ROLE_UPDATED";
   title: string;
   message: string;
   link?: string;
@@ -20,6 +19,7 @@ export async function triggerNotification(payload: NotificationPayload) {
   const { userId, type, title, message, link, xp, newLevel } = payload;
 
   try {
+    const { prisma } = await import("./prisma");
     // Write notification directly to PostgreSQL
     const notification = await prisma.notification.create({
       data: {

@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import SquadPageClient from "./squad-page-client";
+import { TourProvider } from "@/components/tour/tour-provider";
+import { isFeatureEnabled } from "@/lib/feature-flags";
 import type { SquadData, SquadMemberData, UserData, IncomingInvitation } from "@/components/dashboard/squad-journey";
 
 export const dynamic = "force-dynamic";
@@ -107,10 +109,12 @@ export default async function SquadPage() {
   }
 
   return (
-    <SquadPageClient
-      user={dbUser ?? (session.user as unknown as UserData)}
-      squad={squad}
-      incomingInvitations={incomingInvitations}
-    />
+    <TourProvider userId={userId} featureFlag={isFeatureEnabled("tour")}>
+      <SquadPageClient
+        user={dbUser ?? (session.user as unknown as UserData)}
+        squad={squad}
+        incomingInvitations={incomingInvitations}
+      />
+    </TourProvider>
   );
 }

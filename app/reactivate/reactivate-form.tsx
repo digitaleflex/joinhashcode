@@ -55,7 +55,7 @@ export function ReactivateForm() {
           <Button
             onClick={handleReactivate}
             disabled={sending}
-            className="w-full h-12 text-[11px] uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer gap-2 btn-primary-glow"
+            className="w-full h-12 text-sm-plus uppercase font-bold tracking-wider rounded-xl transition-all cursor-pointer gap-2 btn-primary-glow"
           >
             {sending ? (
               <Loader2 className="size-4 animate-spin" />
@@ -68,13 +68,13 @@ export function ReactivateForm() {
           <Button
             onClick={handleSignOut}
             variant="outline"
-            className="w-full h-11 text-[10px] uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-2"
+            className="w-full h-11 text-xs uppercase font-bold tracking-wider rounded-xl border-white/10 bg-white/1 hover:bg-white/5 transition-all cursor-pointer gap-2"
           >
             <LogOut className="size-3.5" />
             Me déconnecter
           </Button>
 
-          <p className="text-[9px] text-center text-zinc-600 font-mono">
+          <p className="text-3xs text-center text-zinc-600 font-mono">
             Tu préfères supprimer définitivement ?{" "}
             <span className="text-zinc-500">Contacte-nous via le formulaire de contact.</span>
           </p>

@@ -18,7 +18,8 @@ import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { awardXp } from "@/lib/experience";
-import { reviewLimiter, checkRateLimit } from "@/lib/ratelimit";
+import { reviewLimiterStrict, checkRateLimit } from "@/lib/ratelimit";
+import { triggerWebhooks } from "@/lib/webhooks";
 
 const reviewSchema = z.object({
   criteria: z.record(z.boolean()),
@@ -34,7 +35,7 @@ export async function POST(
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) return NextResponse.json({ message: "Non autorisé. Connecte-toi pour continuer." }, { status: 401 });
 
-    const { limited } = await checkRateLimit(reviewLimiter, session.user.id);
+    const { limited } = await checkRateLimit(reviewLimiterStrict, session.user.id);
     if (limited) return NextResponse.json({ message: "Trop de reviews. Réessaie dans une heure." }, { status: 429 });
 
     const { id: submissionId } = await params;
@@ -140,6 +141,19 @@ export async function POST(
         } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", error);
         }
+        
+        triggerWebhooks(submission.missionId, "submission.approved", {
+          missionId: submission.missionId,
+          missionTitle: submission.mission.title,
+          submissionId,
+          submitterId: submission.userId,
+          submitterName: submission.user.name,
+          reviewerId: session.user.id,
+          qualityLevel,
+          status: "PENDING_ADMIN",
+          decidedAt: new Date().toISOString(),
+        }).catch(() => undefined);
+
         logActivity({
           userId: session.user.id,
           action: "MISSION_APPROVED",
@@ -159,7 +173,7 @@ export async function POST(
         catalyst: submission.mission.weightCatalyst || 0,
       };
 
-      // 1. Transaction ultra-rapide (les verrous sont libérés immédiatement)
+      // 1. Transaction atomique — review + XP + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
           data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
@@ -172,22 +186,21 @@ export async function POST(
           where: { id: session.user.id },
           data: { reviewsCompleted: { increment: 1 } },
         });
+
+        // XP & progression pour le submitter — dans la même transaction
+        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId, tx);
+        await tx.user.update({
+          where: { id: submission.userId },
+          data: { missionsCompletedCount: { increment: 1 } },
+        });
+
+        // XP pour le reviewer
+        await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
       });
 
-      // 2. Traitements post-réponse asynchrones via Next.js 15 'after'
+      // 2. Traitements post-réponse asynchrones (non-critiques)
       await after(async () => {
         try {
-          // Attribution XP & progression pour le submitter
-          const updatedSubmitterUser = await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId);
-          
-          await prisma.user.update({
-            where: { id: submission.userId },
-            data: { missionsCompletedCount: { increment: 1 } },
-          });
-
-          // Attribution XP pour le reviewer
-          await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId);
-
           // Évolution du profil comportemental
           await updateUserEvolution(submission.userId, missionWeights);
 
@@ -200,9 +213,13 @@ export async function POST(
             await updateSquadCohesion(userMember.organizationId, 0.1);
           }
 
-          // Notifications
+          // Notifications — vérifier level up
+          const submitterAfter = await prisma.user.findUnique({
+            where: { id: submission.userId },
+            select: { level: true }
+          });
           const submitterLevel = submission.user.level ?? 1;
-          const newLevel = updatedSubmitterUser?.level ?? submitterLevel;
+          const newLevel = submitterAfter?.level ?? submitterLevel;
           const didLevelUp = newLevel > submitterLevel;
 
           await triggerNotification({
@@ -237,6 +254,19 @@ export async function POST(
         metadata: { qualityLevel, xpAwarded, tier: missionTier },
         request: req,
       });
+
+      triggerWebhooks(submission.missionId, "submission.approved", {
+        missionId: submission.missionId,
+        missionTitle: submission.mission.title,
+        submissionId,
+        submitterId: submission.userId,
+        submitterName: submission.user.name,
+        reviewerId: session.user.id,
+        qualityLevel,
+        xpAwarded,
+        status: "APPROVED",
+        decidedAt: new Date().toISOString(),
+      }).catch(() => undefined);
 
       return NextResponse.json({ success: true, qualityLevel, xpAwarded });
     }
@@ -281,7 +311,7 @@ export async function POST(
       revisionCount: updatedSubmission.revisionCount,
     }).catch((err: unknown) => console.error("[EMAIL_ERROR] sendMissionNeedsRevision", err));
 
-    // Escalate to admin after 3 failed revisions
+// Escalate to admin after 3 failed revisions
     if (updatedSubmission.revisionCount >= 3) {
       const admins = await prisma.user.findMany({
         where: { role: { in: ["ADMIN", "MODERATOR"] } },
@@ -299,9 +329,21 @@ export async function POST(
         } catch (error: unknown) {
           console.error("[NOTIFICATION_ERROR]", error);
         }
-
       }
     }
+
+    triggerWebhooks(submission.missionId, "submission.rejected", {
+      missionId: submission.missionId,
+      missionTitle: submission.mission.title,
+      submissionId,
+      submitterId: submission.userId,
+      submitterName: submission.user.name,
+      reviewerId: session.user.id,
+      revisionCount: updatedSubmission.revisionCount,
+      feedback,
+      status: "NEEDS_REVISION",
+      decidedAt: new Date().toISOString(),
+    }).catch(() => undefined);
 
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
   } catch (error: unknown) {

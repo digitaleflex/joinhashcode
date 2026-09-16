@@ -70,12 +70,12 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
                       </Avatar>
                       <div>
                         <p className="text-sm font-semibold">{sub.user.name}</p>
-                        <p className="text-[10px] font-mono text-zinc-500">
+                        <p className="text-xs font-mono text-zinc-500">
                            LV.{sub.user.level ?? 1} · {sub.user.pseudo && `@${sub.user.pseudo}`}
                         </p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="text-[10px] font-mono border-zinc-700 text-zinc-400">
+                    <Badge variant="outline" className="text-xs font-mono border-zinc-700 text-zinc-400">
                       +{sub.mission.xp} XP
                     </Badge>
                   </div>
@@ -85,7 +85,7 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
                     <h3 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
                       {sub.mission.title}
                     </h3>
-                    <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600">
+                    <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                       <span className="flex items-center gap-1">
                         <FileText className="size-3" />
                         {sub.mission.category}
@@ -97,7 +97,7 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
                     </div>
                   </div>
                   <div className="mt-3 flex items-center justify-between">
-                    <Badge className="text-[9px] font-mono bg-amber-500/10 text-amber-400 border-amber-500/20">
+                    <Badge className="text-3xs font-mono bg-amber-500/10 text-amber-400 border-amber-500/20">
                       En attente
                     </Badge>
                     <ChevronRight className="size-4 text-zinc-600 group-hover:text-primary transition-colors" />

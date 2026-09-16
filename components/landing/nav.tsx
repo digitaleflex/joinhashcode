@@ -52,7 +52,7 @@ function NavActions() {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <span className="text-[10px] font-mono text-primary font-bold">
+              <span className="text-xs font-mono text-primary font-bold">
                 {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
               </span>
             )}
@@ -71,21 +71,21 @@ function NavActions() {
             asChild
             variant="ghost"
             size="sm"
-            className="h-8 px-3 text-[10px] font-bold text-muted-foreground hover:text-white"
+            className="h-8 px-3 text-xs font-bold text-muted-foreground hover:text-white"
           >
             <Link href="/signin">Connexion</Link>
           </Button>
           <Button
             asChild
             size="sm"
-            className="hidden sm:inline-flex h-8 rounded-lg bg-primary/10 border border-primary/20 px-3 text-[10px] font-bold text-primary hover:bg-primary/20 transition-all"
+            className="hidden sm:inline-flex h-8 rounded-lg bg-primary/10 border border-primary/20 px-3 text-xs font-bold text-primary hover:bg-primary/20 transition-all"
           >
             <Link href="/team">Rejoindre la Team</Link>
           </Button>
           <Button
             asChild
             size="sm"
-            className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-[9px] sm:text-[10px] font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
+            className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-3xs sm:text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
           >
             <Link href="/quiz" className="flex items-center gap-1.5">
               <span className="hidden sm:inline">Se profiler</span>

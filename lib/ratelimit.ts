@@ -116,6 +116,15 @@ export const accountLifecycleLimiter = makeLimiter(5, "24 h")
 // 15 peer reviews per user per hour
 export const reviewLimiter = makeLimiter(15, "1 h")
 
+// 20 reviews per hour per reviewer (for mission reviews)
+export const reviewLimiterStrict = makeLimiter(20, "1 h")
+
+// 5 submissions per hour per user per mission
+export const submitLimiter = makeLimiter(5, "1 h")
+
+// 30 autosave requests per minute per user
+export const autosaveLimiter = makeLimiter(30, "1 m")
+
 // 10 quiz feedback submissions per user per hour
 export const quizFeedbackLimiter = makeLimiter(10, "1 h")
 

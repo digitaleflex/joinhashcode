@@ -63,14 +63,14 @@ export default async function LeaderboardPage() {
 
         {/* Header */}
         <div className="space-y-4">
-          <Link href="/squad" className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/squad" className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
             <ArrowLeft className="size-3" /> Retour à mon escouade
           </Link>
           <div className="flex items-end justify-between">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                 <Trophy className="size-3.5 text-primary" />
-                <span className="text-[10px] font-mono font-bold text-primary uppercase">Classement des Unités</span>
+                <span className="text-xs font-mono font-bold text-primary uppercase">Classement des Unités</span>
               </div>
               <h1 className="text-4xl font-black uppercase italic text-white tracking-tight">
                 Leaderboard <span className="text-primary">Escouades</span>
@@ -100,7 +100,7 @@ export default async function LeaderboardPage() {
                   )}
                   <div className="text-center">
                     <p className="text-xs font-black text-white uppercase italic truncate max-w-24">{squad.name}</p>
-                    <p className="text-[9px] font-mono text-primary font-bold">{Math.round((squad.cohesionScore || 0) * 100)}% SYNC</p>
+                    <p className="text-3xs font-mono text-primary font-bold">{Math.round((squad.cohesionScore || 0) * 100)}% SYNC</p>
                   </div>
                 </Link>
               );
@@ -138,13 +138,13 @@ export default async function LeaderboardPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-black text-white uppercase italic truncate">{squad.name}</p>
                     {squad.streakCount >= 3 && (
-                      <Badge className="text-[8px] bg-primary/10 text-primary border-primary/20 font-mono gap-1">
+                      <Badge className="text-xs-sm bg-primary/10 text-primary border-primary/20 font-mono gap-1">
                         <Star className="size-2 fill-primary" /> {squad.streakCount}j streak
                       </Badge>
                     )}
                   </div>
                   {squad.description && (
-                    <p className="text-[10px] text-zinc-500 truncate hidden sm:block">{squad.description}</p>
+                    <p className="text-xs text-zinc-500 truncate hidden sm:block">{squad.description}</p>
                   )}
                 </div>
 
@@ -153,7 +153,7 @@ export default async function LeaderboardPage() {
                   {squad.members.slice(0, 4).map((m) => (
                     <Avatar key={m.id} className="size-6 border-2 border-zinc-950">
                       <AvatarImage src={m.user.image ?? undefined} />
-                      <AvatarFallback className="text-[8px] bg-zinc-800">{m.user.name?.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="text-xs-sm bg-zinc-800">{m.user.name?.charAt(0)}</AvatarFallback>
                     </Avatar>
                   ))}
                 </div>
@@ -161,19 +161,19 @@ export default async function LeaderboardPage() {
                 {/* Stats */}
                 <div className="flex items-center gap-4 shrink-0">
                   <div className="text-center hidden md:block">
-                    <p className="text-[9px] font-mono text-zinc-600 uppercase">Missions</p>
+                    <p className="text-3xs font-mono text-zinc-600 uppercase">Missions</p>
                     <p className="text-xs font-black text-white flex items-center gap-1">
                       <Target className="size-3 text-primary" />{squad.totalMissions}
                     </p>
                   </div>
                   <div className="text-center hidden md:block">
-                    <p className="text-[9px] font-mono text-zinc-600 uppercase">Niv. moy.</p>
+                    <p className="text-3xs font-mono text-zinc-600 uppercase">Niv. moy.</p>
                     <p className="text-xs font-black text-white flex items-center gap-1">
                       <TrendingUp className="size-3 text-primary" />{squad.avgLevel}
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-[9px] font-mono text-zinc-600 uppercase">Cohésion</p>
+                    <p className="text-3xs font-mono text-zinc-600 uppercase">Cohésion</p>
                     <p className="text-xs font-black text-primary">
                       <Zap className="size-3 inline mr-0.5" />{cohesionPct}%
                     </p>

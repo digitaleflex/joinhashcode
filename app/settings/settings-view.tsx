@@ -6,7 +6,7 @@ import {
   User, Link as LinkIcon,
   Save, Loader2,
   Shield, Sparkles, Activity,
-  Settings, Fingerprint, ChevronLeft
+  Settings, ChevronLeft
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -20,7 +20,6 @@ import Link from "next/link"
 import { ProfileTab } from "@/components/settings/tabs/ProfileTab"
 import { ExpertiseDiagnostic } from "@/components/settings/expertise-diagnostic"
 import { LinksTab } from "@/components/settings/tabs/LinksTab"
-import { VaultTab } from "@/components/settings/tabs/VaultTab"
 import { AccountTab } from "@/components/settings/tabs/AccountTab"
 import type { SettingsUserData } from "@/lib/types"
 
@@ -28,7 +27,6 @@ const TABS = [
   { id: "profile", label: "Diagnostic", icon: User, desc: "Identité et informations de base" },
   { id: "expertise", label: "Spécialisation", icon: Sparkles, desc: "Tes domaines et outils favoris" },
   { id: "links", label: "Connectivité", icon: LinkIcon, desc: "Tes points d'ancrage externes" },
-  { id: "vault", label: "Coffre-fort", icon: Fingerprint, desc: "Ta carte membre & clés d'accès" },
   { id: "account", label: "Sécurité", icon: Shield, desc: "Gestion du compte et accès" },
 ]
 
@@ -36,7 +34,6 @@ const TAB_COLORS: Record<string, { color: string; border: string; glow: string; 
   profile: { color: "#10B981", border: "border-emerald-500/30", glow: "rgba(16, 185, 129, 0.2)", text: "text-emerald-400", label: "PROFIL_PERSONNEL" },
   expertise: { color: "#A855F7", border: "border-purple-500/30", glow: "rgba(168, 85, 247, 0.2)", text: "text-purple-400", label: "SPECIALISATION" },
   links: { color: "#06B6D4", border: "border-cyan-500/30", glow: "rgba(6, 182, 212, 0.2)", text: "text-cyan-400", label: "RESEAUX_EXTERNES" },
-  vault: { color: "#B8FF3B", border: "border-[#B8FF3B]/30", glow: "rgba(184, 255, 59, 0.2)", text: "text-[#B8FF3B]", label: "CARTE_MEMBRE" },
   account: { color: "#EF4444", border: "border-red-500/30", glow: "rgba(239, 68, 68, 0.2)", text: "text-red-400", label: "SECURITE_COMPTE" },
 }
 
@@ -112,7 +109,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
             
             <Link 
               href="/dashboard" 
-              className="inline-flex items-center gap-2 text-[10px] font-mono text-zinc-500 hover:text-primary transition-colors group mb-2"
+              className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-primary transition-colors group mb-2"
             >
               <ChevronLeft className="size-3 group-hover:-translate-x-0.5 transition-transform" />
               RETOUR AU DASHBOARD
@@ -122,7 +119,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
                   <Settings className="size-3.5 text-primary" />
-                  <span className="text-[10px] font-mono font-bold text-primary">Paramètres utilisateur</span>
+                  <span className="text-xs font-mono font-bold text-primary">Paramètres utilisateur</span>
                 </div>
                 <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
                   Configuration <span className="text-primary font-bold">du compte</span>
@@ -137,7 +134,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                   <Button
                     onClick={() => { setLoading(true); save(userData).finally(() => setLoading(false)) }}
                     disabled={loading}
-                    className="btn-primary-glow h-12 rounded-xl px-6 text-[11px] uppercase font-black tracking-wide gap-2 cursor-pointer"
+                    className="btn-primary-glow h-12 rounded-xl px-6 text-sm-plus uppercase font-black tracking-wide gap-2 cursor-pointer"
                   >
                     {loading ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
                     Sauvegarder
@@ -145,9 +142,9 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                 )}
                 <div className="flex items-center gap-4 bg-zinc-900/40 border border-white/5 px-5 py-3 rounded-2xl backdrop-blur-xl">
                   <div className="flex flex-col items-end">
-                    <span className="text-[9px] font-mono uppercase text-zinc-600 tracking-tighter">Statut</span>
-                    <span className={cn("text-[10px] font-mono font-black uppercase tracking-wider", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
-                      {autoSaving ? "SYNCING..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
+                    <span className="text-3xs font-mono uppercase text-zinc-600 tracking-tighter">Statut</span>
+                    <span className={cn("text-xs font-mono font-black uppercase tracking-wider", autoSaving ? "text-primary" : isDirty ? "text-amber-500" : "text-emerald-500")}>
+                      {autoSaving ? "SAUVEGARDE..." : isDirty ? "MODIFIÉ" : "OPÉRATIONNEL"}
                     </span>
                   </div>
                   <div className={cn("size-2 rounded-full", autoSaving ? "bg-primary animate-pulse" : isDirty ? "bg-amber-500" : "bg-emerald-500 shadow-[0_0_15px_#10b981]")} />
@@ -190,7 +187,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                       </div>
                       <div className="space-y-0.5">
                         <p className={cn("text-xs font-semibold tracking-tight transition-colors", isActive ? "text-white" : "group-hover:text-zinc-300")}>{tab.label}</p>
-                        <p className="text-[10px] opacity-60 leading-tight font-light tracking-tight">{tab.desc}</p>
+                        <p className="text-xs opacity-60 leading-tight font-light tracking-tight">{tab.desc}</p>
                       </div>
                     </button>
                   )
@@ -206,7 +203,7 @@ export function SettingsView({ initialData }: SettingsViewProps) {
                 <div className="absolute bottom-6 left-6 w-5 h-5 border-b-2 border-l-2 pointer-events-none transition-colors duration-500" style={{ borderColor: `${activeColor.color}35` }} aria-hidden="true" />
                 <div className="absolute bottom-6 right-6 w-5 h-5 border-b-2 border-r-2 pointer-events-none transition-colors duration-500" style={{ borderColor: `${activeColor.color}35` }} aria-hidden="true" />
 
-                <div className="absolute top-6 left-16 font-mono text-[7px] text-zinc-500 uppercase tracking-widest pointer-events-none select-none flex items-center gap-1.5" aria-hidden="true">
+                <div className="absolute top-6 left-16 font-mono text-2xs text-zinc-500 uppercase tracking-widest pointer-events-none select-none flex items-center gap-1.5" aria-hidden="true">
                   <span className="size-1 rounded-full animate-ping" style={{ backgroundColor: activeColor.color }} />
                   [{activeColor.label}]
                 </div>
@@ -234,10 +231,6 @@ export function SettingsView({ initialData }: SettingsViewProps) {
 
                     {activeTab === "links" && (
                       <LinksTab userData={userData} updateData={updateData} />
-                    )}
-
-                    {activeTab === "vault" && (
-                      <VaultTab userData={userData} />
                     )}
 
                     {activeTab === "account" && (

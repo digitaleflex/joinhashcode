@@ -27,17 +27,47 @@ const missionSchema = z.object({
   acceptanceCriteria: z.array(z.string()).default([]),
   isWeeklyChallenge: z.boolean().default(false),
   weeklySlot: z.number().optional().nullable(),
+  status: z.string().optional(),
+  publishAt: z.string().optional().nullable(),
+  deadline: z.string().optional().nullable(),
+  closedAt: z.string().optional().nullable(),
 });
 
-export async function GET() {
+export async function GET(req: Request) {
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
   try {
+    const { searchParams } = new URL(req.url);
+    const statusFilter = searchParams.get("status");
+    const tagFilter = searchParams.get("tag");
+
+    const where: Prisma.MissionWhereInput = {
+      deletedAt: null,
+      ...(statusFilter ? { status: statusFilter } : {}),
+      ...(tagFilter ? { tags: { has: tagFilter } } : {}),
+    };
+
     const missions = await prisma.mission.findMany({
+      where,
       orderBy: { createdAt: "desc" },
+      include: {
+        _count: {
+          select: { attempts: true, submissions: true },
+        },
+      },
     });
-    return NextResponse.json(missions);
+
+    const statusCounts = await prisma.mission.groupBy({
+      by: ["status"],
+      where: { deletedAt: null },
+      _count: true,
+    });
+
+    return NextResponse.json({
+      missions,
+      counts: Object.fromEntries(statusCounts.map((s) => [s.status, s._count])),
+    });
   } catch (error) {
     console.error("[ADMIN_MISSIONS_GET]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
@@ -57,8 +87,30 @@ export async function POST(req: Request) {
 
     const mission = await prisma.mission.create({
       data: {
-        ...validatedData,
+        title: validatedData.title,
+        description: validatedData.description,
+        shortDesc: validatedData.shortDesc,
+        slug: validatedData.slug,
+        category: validatedData.category,
+        difficulty: validatedData.difficulty,
+        xp: validatedData.xp,
+        weightBuilder: validatedData.weightBuilder,
+        weightCreator: validatedData.weightCreator,
+        weightStrategist: validatedData.weightStrategist,
+        weightCatalyst: validatedData.weightCatalyst,
+        duration: validatedData.duration,
+        missionLevel: validatedData.missionLevel,
+        requirements: validatedData.requirements,
+        targetProfiles: validatedData.targetProfiles,
+        deliverables: validatedData.deliverables,
+        submissionMethod: validatedData.submissionMethod,
         acceptanceCriteria: validatedData.acceptanceCriteria as Prisma.InputJsonValue,
+        isWeeklyChallenge: validatedData.isWeeklyChallenge,
+        weeklySlot: validatedData.weeklySlot,
+        status: validatedData.status ?? "DRAFT",
+        publishAt: validatedData.publishAt ? new Date(validatedData.publishAt) : null,
+        deadline: validatedData.deadline ? new Date(validatedData.deadline) : null,
+        closedAt: validatedData.closedAt ? new Date(validatedData.closedAt) : null,
       },
     });
 

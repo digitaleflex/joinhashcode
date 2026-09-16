@@ -38,7 +38,7 @@ export default function SquadLoading() {
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
               {/* Journey path */}
               <div className="space-y-0">
-                <div className="text-[10px] font-mono font-bold text-zinc-600 uppercase mb-6 flex items-center gap-3">
+                <div className="text-xs font-mono font-bold text-zinc-600 uppercase mb-6 flex items-center gap-3">
                   <Skeleton className="h-px w-8 bg-muted" />
                   <Skeleton className="h-3 w-32 bg-muted rounded-full" />
                   <Skeleton className="h-3 w-16 bg-muted rounded-full" />

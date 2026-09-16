@@ -52,11 +52,11 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
 
         {/* Header nav */}
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
-            ← Terminal HASHCODE
+          <Link href="/" className="text-xs font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest">
+            ← HASHCODE
           </Link>
           {session && (
-            <Link href="/squad" className="text-[10px] font-mono text-zinc-600 hover:text-primary transition-colors uppercase tracking-widest">
+            <Link href="/squad" className="text-xs font-mono text-zinc-600 hover:text-primary transition-colors uppercase tracking-widest">
               Mon escouade →
             </Link>
           )}
@@ -82,15 +82,15 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
               <div className="space-y-1 flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="text-2xl font-black uppercase italic text-white truncate">{squad.name}</h1>
-                  {squad.isPrivate && <Badge variant="outline" className="text-[9px] font-mono border-zinc-700 text-zinc-500">PRIVÉ</Badge>}
+                  {squad.isPrivate && <Badge variant="outline" className="text-3xs font-mono border-zinc-700 text-zinc-500">PRIVÉ</Badge>}
                 </div>
-                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
                   {squad.members.length}/5 agents · LVL {squad.requiredLevel}+ requis
                 </p>
                 {squad.streakCount > 0 && (
                   <div className="flex items-center gap-1.5">
                     <Star className="size-3 text-primary fill-primary" />
-                    <span className="text-[10px] font-mono text-primary font-bold">{squad.streakCount} jours de streak</span>
+                    <span className="text-xs font-mono text-primary font-bold">{squad.streakCount} jours de streak</span>
                   </div>
                 )}
               </div>
@@ -114,8 +114,8 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
             {/* Cohesion bar */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Cohésion de l'unité</span>
-                <span className="text-[9px] font-mono font-black text-primary">{cohesionPct}%</span>
+                <span className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Cohésion de l'unité</span>
+                <span className="text-3xs font-mono font-black text-primary">{cohesionPct}%</span>
               </div>
               <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div
@@ -127,7 +127,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
 
             {/* Members */}
             <div className="space-y-3">
-              <p className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Agents actifs</p>
+              <p className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Agents actifs</p>
               <div className="grid grid-cols-1 gap-2">
                 {squad.members.map((m) => {
                   const cl = (m.user.class || "builder").toLowerCase();
@@ -136,14 +136,14 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
                     <div key={m.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/2 border border-white/5">
                       <Avatar className="size-8 border border-white/10">
                         <AvatarImage src={m.user.image ?? undefined} />
-                        <AvatarFallback className="text-[10px] bg-zinc-800">{m.user.name?.charAt(0)}</AvatarFallback>
+                        <AvatarFallback className="text-xs bg-zinc-800">{m.user.name?.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-white truncate">
                           {m.user.pseudo || m.user.name}
-                          {m.role === "owner" && <span className="ml-2 text-[8px] font-mono text-primary uppercase">Chef</span>}
+                          {m.role === "owner" && <span className="ml-2 text-xs-sm font-mono text-primary uppercase">Chef</span>}
                         </p>
-                        <p className="text-[9px] font-mono" style={{ color }}>
+                        <p className="text-3xs font-mono" style={{ color }}>
                            {(m.user.class || "Builder").toUpperCase()} · LVL {m.user.level ?? 1}
                         </p>
                       </div>
@@ -155,7 +155,7 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
                     <div className="size-8 rounded-full bg-zinc-900 flex items-center justify-center">
                       <Lock className="size-3 text-zinc-700" />
                     </div>
-                    <span className="text-[10px] font-mono text-zinc-600 uppercase">Slot disponible</span>
+                    <span className="text-xs font-mono text-zinc-600 uppercase">Slot disponible</span>
                   </div>
                 ))}
               </div>
@@ -165,11 +165,11 @@ export default async function PublicSquadPage({ params }: { params: Promise<{ sl
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-white/5">
                 <Shield className="size-3 text-zinc-500" />
-                <span className="text-[9px] font-mono text-zinc-400 uppercase">Niveau {squad.requiredLevel}+ requis</span>
+                <span className="text-3xs font-mono text-zinc-400 uppercase">Niveau {squad.requiredLevel}+ requis</span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-white/5">
                 <Users className="size-3 text-zinc-500" />
-                <span className="text-[9px] font-mono text-zinc-400 uppercase">{5 - squad.members.length} place{5 - squad.members.length > 1 ? "s" : ""} libre{5 - squad.members.length > 1 ? "s" : ""}</span>
+                <span className="text-3xs font-mono text-zinc-400 uppercase">{5 - squad.members.length} place{5 - squad.members.length > 1 ? "s" : ""} libre{5 - squad.members.length > 1 ? "s" : ""}</span>
               </div>
             </div>
 

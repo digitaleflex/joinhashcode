@@ -38,3 +38,45 @@ export const XP_MAX: Record<number, number> = {};
 for (let i = 1; i <= 50; i++) {
    XP_MAX[i] = XP_THRESHOLDS[i + 1] ?? XP_THRESHOLDS[i];
 }
+
+export type MissionDifficulty = "EASY" | "MEDIUM" | "HARD" | "EXPERT";
+
+export const DIFFICULTY_XP: Record<MissionDifficulty, number> = {
+  EASY: 20,
+  MEDIUM: 50,
+  HARD: 100,
+  EXPERT: 200,
+};
+
+export const DIFFICULTY_LEVEL_GATE: Record<MissionDifficulty, number> = {
+  EASY: 1,
+  MEDIUM: 1,
+  HARD: 10,
+  EXPERT: 20,
+};
+
+export function getXpForLevel(level: number): number {
+  return XP_THRESHOLDS[level] ?? 0;
+}
+
+export function getLevelFromXp(xp: number): number {
+  const sortedLevels = Object.keys(XP_THRESHOLDS).map(Number).sort((a, b) => b - a);
+  for (const level of sortedLevels) {
+    if (xp >= XP_THRESHOLDS[level]) {
+      return level;
+    }
+  }
+  return 1;
+}
+
+export function getXpForDifficulty(difficulty: MissionDifficulty): number {
+  return DIFFICULTY_XP[difficulty];
+}
+
+export function getRequiredLevelForDifficulty(difficulty: MissionDifficulty): number {
+  return DIFFICULTY_LEVEL_GATE[difficulty];
+}
+
+export function canAccessMission(userLevel: number, missionDifficulty: MissionDifficulty): boolean {
+  return userLevel >= DIFFICULTY_LEVEL_GATE[missionDifficulty];
+}

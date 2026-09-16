@@ -58,7 +58,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
   return (
     <>
       {isImpersonated && (
-        <div className="bg-amber-500 text-black py-2 px-4 flex items-center justify-between font-mono text-[10px] font-black uppercase tracking-widest animate-pulse relative z-[var(--z-banner)]">
+        <div className="bg-amber-500 text-black py-2 px-4 flex items-center justify-between font-mono text-xs font-black uppercase tracking-widest animate-pulse relative z-[var(--z-banner)]">
             <div className="flex items-center gap-2">
                 <ShieldAlert className="size-3" />
                 Mode Visionneuse Actif : Navigue en tant que {user?.name}
@@ -74,7 +74,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
       <header className="h-16 border-b border-border/40 bg-background/50 backdrop-blur-md sticky top-0 z-[var(--z-header)] px-4 md:px-8 flex items-center justify-between">
       {/* Left: Sidebar Trigger & Logo */}
       <div className="flex items-center gap-4 flex-1">
-        <SidebarTrigger className="md:hidden text-muted-foreground hover:text-white mr-2" />
+        <SidebarTrigger id="tour-sidebar-trigger" className="md:hidden text-muted-foreground hover:text-white mr-2" />
         <Link href="/dashboard" className="flex items-center gap-2 group shrink-0">
           <Image
             src="/hashcodejoin.png"
@@ -126,12 +126,12 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
               </div>
               <div className="hidden sm:flex flex-col items-start leading-none">
                 <span className="text-xs font-bold text-white">{user?.name?.split(' ')[0]}</span>
-                <span className="text-[9px] font-mono text-primary uppercase">LVL {user?.level || 1}</span>
+                <span className="text-3xs font-mono text-primary uppercase">LVL {user?.level || 1}</span>
               </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 bg-card/95 backdrop-blur-xl border-border/40 rounded-2xl p-2">
-            <DropdownMenuLabel className="font-mono text-[10px] uppercase text-muted-foreground p-3">Compte Utilisateur</DropdownMenuLabel>
+            <DropdownMenuLabel className="font-mono text-xs uppercase text-muted-foreground p-3">Compte Utilisateur</DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border/40" />
             <DropdownMenuItem asChild className="rounded-xl focus:bg-primary/10 focus:text-primary cursor-pointer p-3">
               <Link href="/dossier" className="flex items-center gap-3">

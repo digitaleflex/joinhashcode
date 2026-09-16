@@ -49,12 +49,7 @@ export async function PATCH(req: Request) {
       where: { id: session.user.id },
       data: {
         ...parsed.data,
-        profile: {
-          upsert: {
-            create: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
-            update: { secondaryObjectives: parsed.data.secondaryObjectives || [] },
-          }
-        }
+        secondaryObjectives: parsed.data.secondaryObjectives || [],
       },
       select: {
         id: true,
@@ -67,7 +62,7 @@ export async function PATCH(req: Request) {
         mainObjective: true,
         language: true,
         updatedAt: true,
-        profile: { select: { secondaryObjectives: true } },
+        secondaryObjectives: true,
       }
     }).catch((err: unknown) => {
       if (err instanceof Error && (err as { code?: string }).code === "P2002" && (err as { meta?: { target?: string[] } }).meta?.target?.includes("pseudo")) {
@@ -107,36 +102,37 @@ export async function PATCH(req: Request) {
         name: updatedUser.name,
       }).catch(err => console.error("[EMAIL_ERROR] sendOnboardingCompletedEmail", err));
 
-      // Referral attribution — only on first completion (referrerId not yet set)
+      // Referral attribution — atomic to avoid double attribution under concurrency
       const refCode = cookieStore.get("hashcode_ref")?.value;
       if (refCode) {
         try {
-          const currentUser = await prisma.user.findUnique({ where: { id: session.user.id }, select: { referrerId: true } });
-          if (!currentUser?.referrerId) {
-            const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true, name: true } });
-            if (referrer && referrer.id !== session.user.id) {
-              await prisma.user.update({
-                where: { id: session.user.id },
+          const referrer = await prisma.user.findUnique({ where: { referralCode: refCode }, select: { id: true, name: true } });
+          if (referrer && referrer.id !== session.user.id) {
+            const claimed = await prisma.$transaction(async (tx) => {
+              const res = await tx.user.updateMany({
+                where: { id: session.user.id, referrerId: null },
                 data: { referrerId: referrer.id },
               });
-              await prisma.user.update({
+              if (res.count === 0) return false;
+              await tx.user.update({
                 where: { id: referrer.id },
                 data: { referralCount: { increment: 1 } },
               });
+              await tx.notification.create({
+                data: {
+                  userId: referrer.id,
+                  type: "REFERRAL_SUCCESS",
+                  title: "Récompense de parrainage ! 💎",
+                  message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
+                  link: "/dashboard",
+                },
+              });
+              return true;
+            });
+            if (claimed) {
               awardXp(referrer.id, 50, "REFERRAL_COMPLETED", session.user.id).catch(err => console.error("[XP_ERROR]", err));
-
-                // Notify referrer via notification (non-blocking)
-                prisma.notification.create({
-                  data: {
-                    userId: referrer.id,
-                    type: "REFERRAL_SUCCESS",
-                    title: "Récompense de parrainage ! 💎",
-                    message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
-                    link: "/dashboard",
-                  }
-                 }).catch(err => console.error("[NOTIFICATION_ERROR]", err));
-              }
             }
+          }
           cookieStore.delete("hashcode_ref");
         } catch (refErr) {
           console.error("[REFERRAL_ERROR]", refErr);
@@ -146,10 +142,9 @@ export async function PATCH(req: Request) {
 
     await invalidateUserCache(session.user.id);
 
-    const { profile, ...userBase } = updatedUser;
     return NextResponse.json({
-      ...userBase,
-      secondaryObjectives: profile?.secondaryObjectives ?? [],
+      ...updatedUser,
+      secondaryObjectives: updatedUser.secondaryObjectives ?? [],
     });
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "PSEUDO_TAKEN") {

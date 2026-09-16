@@ -1,0 +1,169 @@
+{
+  "mission": {
+    "title": "Mission",
+    "description": "Description",
+    "shortDesc": "Short description",
+    "xpReward": "XP reward",
+    "duration": "Estimated duration",
+    "category": "Category",
+    "difficulty": "Difficulty",
+    "requirements": "Requirements",
+    "targetProfiles": "Target profiles",
+    "deliverables": "Expected deliverables",
+    "submissionMethod": "Submission method",
+    "acceptanceCriteria": "Acceptance criteria",
+    "evaluatorNotes": "Evaluator notes",
+    "qualityIndicators": "Quality indicators",
+    "status": "Status",
+    "statuses": {
+      "DRAFT": "Draft",
+      "PUBLISHED": "Published",
+      "ARCHIVED": "Archived",
+      "CLOSED": "Closed"
+    },
+    "missionLevels": {
+      "INIT": "Initiation",
+      "CORE": "Core",
+      "PRO": "Pro"
+    },
+    "categories": {
+      "INTRO": "Introduction",
+      "CODE": "Code",
+      "DESIGN": "Design",
+      "BUSINESS": "Business",
+      "NETWORK": "Network",
+      "GENERAL": "General",
+      "PRODUCT": "Product"
+    },
+    "submissionMethods": {
+      "ANY_LINK": "Any link",
+      "TEXT_RESPONSE": "Text response",
+      "LIVE_URL": "Live URL",
+      "DOCUMENT_LINK": "Document link",
+      "GITHUB_LINK": "GitHub link"
+    }
+  },
+  "step": {
+    "title": "Step",
+    "description": "Description",
+    "fields": "Fields",
+    "status": "Status",
+    "statuses": {
+      "DRAFT": "Draft",
+      "APPROVED": "Approved",
+      "REVISION_REQUIRED": "Revision required"
+    },
+    "completeness": "Completeness",
+    "scoreMax": "Max score",
+    "independent": "Independent"
+  },
+  "field": {
+    "label": "Label",
+    "placeholder": "Placeholder",
+    "required": "Required",
+    "optional": "Optional",
+    "hint": "Hint",
+    "maxLength": "Max length",
+    "minLines": "Min lines",
+    "options": "Options",
+    "types": {
+      "TEXT": "Short text",
+      "TEXTAREA": "Long text",
+      "MULTI_SELECT": "Multi select",
+      "SELECT": "Single select",
+      "SKILLS": "Skills",
+      "ENV": "Environment",
+      "SLIDER": "Slider",
+      "SCORED_CRITERIA": "Scored criteria",
+      "SOLUTIONS_TABLE": "Solutions table",
+      "EISENHOWER": "Eisenhower matrix",
+      "ROADMAP": "Roadmap",
+      "RISK_TABLE": "Risk table",
+      "SMART_GOALS": "SMART goals",
+      "SYNTHESIS": "Synthesis",
+      "DYNAMIC_TABLE": "Dynamic table",
+      "IMAGE": "Image",
+      "VIDEO": "Video",
+      "FILE": "File",
+      "LINK": "Link"
+    }
+  },
+  "attempt": {
+    "title": "Attempt",
+    "status": "Status",
+    "statuses": {
+      "DRAFT": "Draft",
+      "SUBMITTED": "Submitted",
+      "IN_REVIEW": "In review",
+      "REVISION_REQUIRED": "Revision required",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    },
+    "currentStep": "Current step",
+    "score": "Score",
+    "decision": "Decision",
+    "submittedAt": "Submitted at",
+    "reviewer": "Reviewer",
+    "stepResponses": "Step responses"
+  },
+  "review": {
+    "title": "Review",
+    "criteria": "Criteria",
+    "feedback": "Feedback",
+    "qualityLevel": "Quality level",
+    "qualityLevels": {
+      "STANDARD": "Standard",
+      "GOOD": "Good",
+      "EXEMPLARY": "Exemplary"
+    },
+    "revisionNotes": "Revision notes",
+    "reviewer": "Reviewer",
+    "forceApprove": "Force approve (admin)"
+  },
+  "actions": {
+    "submit": "Submit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "review": "Review",
+    "approve": "Approve",
+    "reject": "Reject",
+    "requestRevision": "Request revision",
+    "upload": "Upload",
+    "download": "Download",
+    "preview": "Preview"
+  },
+  "messages": {
+    "stepSaved": "Step saved",
+    "stepSubmitted": "Step submitted",
+    "missionSubmitted": "Mission submitted successfully",
+    "missionApproved": "Mission approved",
+    "missionRejected": "Mission rejected",
+    "revisionRequested": "Revision requested",
+    "reviewSaved": "Review saved",
+    "mediaUploaded": "Media uploaded",
+    "mediaDeleted": "Media deleted",
+    "error": "An error occurred",
+    "unauthorized": "Unauthorized",
+    "notFound": "Not found",
+    "rateLimited": "Too many requests, try again later",
+    "incompleteSteps": "Some steps are incomplete",
+    "alreadySubmitted": "Already submitted",
+    "autoApproved": "Auto approved"
+  },
+  "media": {
+    "upload": "Upload a file",
+    "dragDrop": "Drag and drop your files here",
+    "orClick": "or click to select",
+    "maxSize": "Max size: {{size}}",
+    "allowedTypes": "Allowed types: {{types}}",
+    "uploading": "Uploading...",
+    "uploadError": "Upload error",
+    "deleteConfirm": "Delete this media?",
+    "image": "Image",
+    "video": "Video",
+    "file": "File",
+    "link": "Link"
+  }
+}

@@ -85,18 +85,18 @@ export function PhaseNode({
           <div className="space-y-1 flex-1 min-w-50">
             <div className="flex items-center gap-2 flex-wrap">
               <span className={cn(
-                "text-[9px] font-mono font-bold uppercase",
+                "text-3xs font-mono font-bold uppercase",
                 status === "completed" ? "text-primary" : status === "current" ? "text-primary/70" : "text-zinc-700",
               )}>
                 PHASE_{phase.code}
               </span>
               {status === "completed" && (
-                <span className="text-[8px] font-bold bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
+                <span className="text-xs-sm font-bold bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
                   Complété
                 </span>
               )}
               {status === "current" && (
-                <span className="text-[8px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono animate-pulse">
+                <span className="text-xs-sm font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono animate-pulse">
                   En cours
                 </span>
               )}
@@ -129,7 +129,7 @@ export function PhaseNode({
 
             {showWhy && phase.whyDescription && (
               <div className="mt-3 p-4 rounded-2xl border border-primary/20 bg-primary/2 text-xs space-y-1.5 transition-all duration-300">
-                <div className="flex items-center gap-1.5 text-primary font-bold uppercase tracking-wider font-mono text-[9px]">
+                <div className="flex items-center gap-1.5 text-primary font-bold uppercase tracking-wider font-mono text-3xs">
                   <Sparkles className="size-3 text-primary animate-pulse" />
                   {phase.whyTitle || "Pourquoi cette étape ?"}
                 </div>
@@ -142,7 +142,7 @@ export function PhaseNode({
 
           {/* Reward badge */}
           <div className={cn(
-            "text-[10px] font-mono font-bold px-3 py-1.5 rounded-xl border shrink-0",
+            "text-xs font-mono font-bold px-3 py-1.5 rounded-xl border shrink-0",
             status === "completed" && "bg-primary/5 text-primary/60 border-primary/10",
             status === "current" && "bg-primary/10 text-primary border-primary/20",
             status === "locked" && "bg-white/2 text-zinc-800 border-white/3",
@@ -157,7 +157,7 @@ export function PhaseNode({
             {/* Progress indicator per phase */}
             {phase.id === 2 && (
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500">
                   <span>Agents recrutés</span>
                   <span className="text-primary font-bold">{memberCount}/3</span>
                 </div>
@@ -171,7 +171,7 @@ export function PhaseNode({
             )}
             {phase.id === 3 && (
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500">
                   <span>Escouade complète</span>
                   <span className="text-primary font-bold">{memberCount}/5</span>
                 </div>
@@ -185,7 +185,7 @@ export function PhaseNode({
             )}
             {phase.id === 4 && (
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500">
                   <span>Cohésion actuelle</span>
                   <span className="text-primary font-bold">{Math.round((squad?.cohesionScore ?? 0) * 100)}% / 50%</span>
                 </div>
@@ -199,7 +199,7 @@ export function PhaseNode({
             )}
             {phase.id === 5 && (
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500">
                   <span>Streak actuel</span>
                   <span className="text-primary font-bold">{squad?.streakCount ?? 0}/3 jours</span>
                 </div>
@@ -213,7 +213,7 @@ export function PhaseNode({
             )}
             {phase.id === 6 && (
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] font-mono text-zinc-500">
+                <div className="flex justify-between text-xs font-mono text-zinc-500">
                   <span>Streak actuel</span>
                   <span className="text-primary font-bold">{squad?.streakCount ?? 0}/7 jours</span>
                 </div>
@@ -232,7 +232,7 @@ export function PhaseNode({
                 <Button
                   onClick={onCreate}
                   disabled={isCreating}
-                  className="btn-primary-glow h-11 px-7 text-[11px] font-bold uppercase tracking-wide"
+                  className="btn-primary-glow h-11 px-7 text-sm-plus font-bold uppercase tracking-wide"
                 >
                   {isCreating ? (
                     <Loader2 className="size-4 animate-spin" />
@@ -248,7 +248,7 @@ export function PhaseNode({
                 <Button
                   onClick={onCopy}
                   variant="outline"
-                  className="h-11 px-7 text-[11px] font-bold uppercase tracking-wide border-primary/30 text-primary hover:bg-primary/10"
+                  className="h-11 px-7 text-sm-plus font-bold uppercase tracking-wide border-primary/30 text-primary hover:bg-primary/10"
                 >
                   {isCopying ? (
                     <><Check className="size-4 mr-2" />Copié !</>
@@ -258,7 +258,7 @@ export function PhaseNode({
                 </Button>
               )}
               {(phase.id === 4 || phase.id === 5 || phase.id === 6) && (
-                <p className="text-[11px] text-zinc-600 font-mono italic">
+                <p className="text-sm-plus text-zinc-600 font-mono italic">
                   Les check-ins quotidiens de tes membres boostent automatiquement la cohésion.
                 </p>
               )}
@@ -268,7 +268,7 @@ export function PhaseNode({
 
         {/* Locked: show unlock hint */}
         {status === "locked" && phase.unlockHint && (
-          <p className="mt-3 text-[10px] font-mono text-zinc-800 flex items-center gap-1.5">
+          <p className="mt-3 text-xs font-mono text-zinc-800 flex items-center gap-1.5">
             <Lock className="size-3" />
             {phase.unlockHint}
           </p>

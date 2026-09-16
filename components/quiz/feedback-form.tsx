@@ -165,7 +165,7 @@ export default function FeedbackForm() {
                                     className="min-h-[200px] bg-black/40 border-white/10 focus:ring-primary/20 resize-none p-4 text-base leading-relaxed"
                                     maxLength={2000}
                                 />
-                                <div className="absolute bottom-3 right-3 text-[10px] text-zinc-600 font-mono bg-black/40 px-2 py-1 rounded">
+                                <div className="absolute bottom-3 right-3 text-xs text-zinc-600 font-mono bg-black/40 px-2 py-1 rounded">
                                     {content.length}/2000
                                 </div>
                             </div>
@@ -185,7 +185,7 @@ export default function FeedbackForm() {
                                         className="hidden" 
                                     />
                                 </label>
-                                <span className="text-[10px] text-zinc-600 font-mono uppercase">Images (PNG, JPG, WEBP) ou PDF, max 3 Mo</span>
+                                <span className="text-xs text-zinc-600 font-mono uppercase">Images (PNG, JPG, WEBP) ou PDF, max 3 Mo</span>
                             </div>
 
                             {file && (
@@ -202,7 +202,7 @@ export default function FeedbackForm() {
                                         )}
                                         <div className="text-left min-w-0">
                                             <p className="text-xs font-bold text-white truncate">{file.name}</p>
-                                            <p className="text-[9px] font-mono text-zinc-500">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
+                                            <p className="text-3xs font-mono text-zinc-500">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
                                         </div>
                                     </div>
                                     <Button 
@@ -233,7 +233,7 @@ export default function FeedbackForm() {
                                     </>
                                 )}
                             </Button>
-                            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-tighter">
+                            <p className="text-xs text-zinc-500 font-mono uppercase tracking-tighter">
                                 [ Protocol: Secure_Transmission_V1 ]
                             </p>
                         </div>

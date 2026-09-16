@@ -46,7 +46,7 @@ export default async function AteliersPage() {
         <UserTopBar user={user} />
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12">
           <div className="max-w-6xl mx-auto">
-            <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group">
+            <Link href="/dashboard" className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-8 group">
               <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
               RETOUR AU TABLEAU DE BORD
             </Link>
@@ -69,7 +69,7 @@ export default async function AteliersPage() {
 
               return (
                 <section key={profile} className="mb-12">
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-mono uppercase tracking-wider mb-5 ${colorClasses} ${isUserProfile ? "ring-1 ring-[var(--color)]/30" : ""}`}>
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider mb-5 ${colorClasses} ${isUserProfile ? "ring-1 ring-[var(--color)]/30" : ""}`}>
                     {isUserProfile && <Zap className="w-3 h-3" />}
                     Guild {PROFILE_LABELS[profile]} {isUserProfile ? "· Ton profil" : ""}
                   </div>
@@ -86,7 +86,7 @@ export default async function AteliersPage() {
                           <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
                         </div>
                         <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-4">{atelier.description}</p>
-                        <div className="flex items-center gap-3 text-[10px] font-mono text-zinc-600">
+                        <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{atelier.duration}</span>
                           <span className="flex items-center gap-1"><Zap className="w-3 h-3" />+{atelier.xpReward} XP</span>
                           <span className="ml-auto text-zinc-700">{atelier.specializationLabel}</span>

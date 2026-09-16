@@ -1,0 +1,169 @@
+{
+  "mission": {
+    "title": "Mission",
+    "description": "Description",
+    "shortDesc": "Description courte",
+    "xpReward": "XP à gagner",
+    "duration": "Durée estimée",
+    "category": "Catégorie",
+    "difficulty": "Difficulté",
+    "requirements": "Prérequis",
+    "targetProfiles": "Profils cibles",
+    "deliverables": "Livrables attendus",
+    "submissionMethod": "Méthode de soumission",
+    "acceptanceCriteria": "Critères d'acceptation",
+    "evaluatorNotes": "Notes pour l'évaluateur",
+    "qualityIndicators": "Indicateurs de qualité",
+    "status": "Statut",
+    "statuses": {
+      "DRAFT": "Brouillon",
+      "PUBLISHED": "Publiée",
+      "ARCHIVED": "Archivée",
+      "CLOSED": "Fermée"
+    },
+    "missionLevels": {
+      "INIT": "Initiation",
+      "CORE": "Cœur",
+      "PRO": "Pro"
+    },
+    "categories": {
+      "INTRO": "Introduction",
+      "CODE": "Code",
+      "DESIGN": "Design",
+      "BUSINESS": "Business",
+      "NETWORK": "Réseau",
+      "GENERAL": "Général",
+      "PRODUCT": "Produit"
+    },
+    "submissionMethods": {
+      "ANY_LINK": "N'importe quel lien",
+      "TEXT_RESPONSE": "Réponse textuelle",
+      "LIVE_URL": "URL en direct",
+      "DOCUMENT_LINK": "Lien vers document",
+      "GITHUB_LINK": "Lien GitHub"
+    }
+  },
+  "step": {
+    "title": "Étape",
+    "description": "Description",
+    "fields": "Champs",
+    "status": "Statut",
+    "statuses": {
+      "DRAFT": "Brouillon",
+      "APPROVED": "Validée",
+      "REVISION_REQUIRED": "Révision requise"
+    },
+    "completeness": "Complétude",
+    "scoreMax": "Score maximum",
+    "independent": "Indépendante"
+  },
+  "field": {
+    "label": "Libellé",
+    "placeholder": "Placeholder",
+    "required": "Requis",
+    "optional": "Optionnel",
+    "hint": "Indice",
+    "maxLength": "Longueur max",
+    "minLines": "Lignes min",
+    "options": "Options",
+    "types": {
+      "TEXT": "Texte court",
+      "TEXTAREA": "Texte long",
+      "MULTI_SELECT": "Sélection multiple",
+      "SELECT": "Sélection unique",
+      "SKILLS": "Compétences",
+      "ENV": "Environnement",
+      "SLIDER": "Curseur",
+      "SCORED_CRITERIA": "Critères notés",
+      "SOLUTIONS_TABLE": "Tableau solutions",
+      "EISENHOWER": "Matrice Eisenhower",
+      "ROADMAP": "Feuille de route",
+      "RISK_TABLE": "Tableau des risques",
+      "SMART_GOALS": "Objectifs SMART",
+      "SYNTHESIS": "Synthèse",
+      "DYNAMIC_TABLE": "Tableau dynamique",
+      "IMAGE": "Image",
+      "VIDEO": "Vidéo",
+      "FILE": "Fichier",
+      "LINK": "Lien"
+    }
+  },
+  "attempt": {
+    "title": "Tentative",
+    "status": "Statut",
+    "statuses": {
+      "DRAFT": "Brouillon",
+      "SUBMITTED": "Soumise",
+      "IN_REVIEW": "En revue",
+      "REVISION_REQUIRED": "Révision requise",
+      "APPROVED": "Validée",
+      "REJECTED": "Rejetée"
+    },
+    "currentStep": "Étape actuelle",
+    "score": "Score",
+    "decision": "Décision",
+    "submittedAt": "Soumise le",
+    "reviewer": "Évaluateur",
+    "stepResponses": "Réponses aux étapes"
+  },
+  "review": {
+    "title": "Revue",
+    "criteria": "Critères",
+    "feedback": "Retour",
+    "qualityLevel": "Niveau de qualité",
+    "qualityLevels": {
+      "STANDARD": "Standard",
+      "GOOD": "Bon",
+      "EXEMPLARY": "Exemplaire"
+    },
+    "revisionNotes": "Notes de révision",
+    "reviewer": "Évaluateur",
+    "forceApprove": "Validation forcée (admin)"
+  },
+  "actions": {
+    "submit": "Soumettre",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "review": "Évaluer",
+    "approve": "Valider",
+    "reject": "Rejeter",
+    "requestRevision": "Demander révision",
+    "upload": "Téléverser",
+    "download": "Télécharger",
+    "preview": "Aperçu"
+  },
+  "messages": {
+    "stepSaved": "Étape enregistrée",
+    "stepSubmitted": "Étape soumise",
+    "missionSubmitted": "Mission soumise avec succès",
+    "missionApproved": "Mission validée",
+    "missionRejected": "Mission rejetée",
+    "revisionRequested": "Révision demandée",
+    "reviewSaved": "Évaluation enregistrée",
+    "mediaUploaded": "Média téléversé",
+    "mediaDeleted": "Média supprimé",
+    "error": "Une erreur est survenue",
+    "unauthorized": "Non autorisé",
+    "notFound": "Introuvable",
+    "rateLimited": "Trop de requêtes, réessayez plus tard",
+    "incompleteSteps": "Certaines étapes sont incomplètes",
+    "alreadySubmitted": "Déjà soumis",
+    "autoApproved": "Validé automatiquement"
+  },
+  "media": {
+    "upload": "Téléverser un fichier",
+    "dragDrop": "Glissez-déposez vos fichiers ici",
+    "orClick": "ou cliquez pour sélectionner",
+    "maxSize": "Taille max : {{size}}",
+    "allowedTypes": "Types acceptés : {{types}}",
+    "uploading": "Téléversement...",
+    "uploadError": "Erreur lors du téléversement",
+    "deleteConfirm": "Supprimer ce média ?",
+    "image": "Image",
+    "video": "Vidéo",
+    "file": "Fichier",
+    "link": "Lien"
+  }
+}

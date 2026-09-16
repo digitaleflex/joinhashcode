@@ -1,15 +1,19 @@
 export const dynamic = 'force-dynamic'
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { requireSession, AuthError } from "@/lib/auth-guard";
 
 export async function GET(req: NextRequest) {
   try {
+    await requireSession();
+
     const { searchParams } = new URL(req.url);
     const limitParam = searchParams.get('limit');
     const limit = limitParam && !isNaN(parseInt(limitParam)) ? parseInt(limitParam) : undefined;
 
     const squads = await prisma.organization.findMany({
       where: {
+        isPrivate: false,
         members: {
           some: {}
         }
@@ -58,6 +62,9 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(publicSquads);
   } catch (error: unknown) {
+    if (error instanceof AuthError) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     console.error("[SQUAD_PUBLIC_GET]", error);
     return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
   }

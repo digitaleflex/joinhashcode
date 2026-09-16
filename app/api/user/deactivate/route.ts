@@ -15,6 +15,15 @@ export async function PATCH(req: Request) {
   const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id);
   if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie demain." }, { status: 429 });
 
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { deactivatedAt: true },
+  });
+
+  if (user?.deactivatedAt) {
+    return NextResponse.json({ message: "Déjà désactivé" }, { status: 409 });
+  }
+
   await prisma.user.update({
     where: { id: session.user.id },
     data: { deactivatedAt: new Date() },

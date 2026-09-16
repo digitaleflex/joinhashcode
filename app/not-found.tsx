@@ -22,18 +22,18 @@ export default function NotFound() {
         </h1>
         
         <h2 className="text-2xl font-semibold mb-6 tracking-tight">
-          Destination introuvable dans le réseau
+          Page introuvable
         </h2>
         
         <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
-          Le chemin que vous tentez d'emprunter n'existe pas ou a été déplacé vers un segment sécurisé. Vérifiez l'URL ou revenez à la base.
+          Cette page n&apos;existe pas ou a été déplacée. Vérifiez l&apos;URL ou revenez à l&apos;accueil.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button asChild size="lg" className="h-12 px-8 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Retour au Terminal
+              Retour à l&apos;accueil
             </Link>
           </Button>
           
@@ -44,12 +44,12 @@ export default function NotFound() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-border/40 flex items-center justify-center gap-6">
-          <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-            Signal Interrompu
+            Page non trouvée
           </div>
           <div className="w-px h-3 bg-border/40" />
-          <div className="text-[10px] font-mono text-muted-foreground uppercase">
+          <div className="text-xs font-mono text-muted-foreground uppercase">
             HASHCODE v4.0.1
           </div>
         </div>

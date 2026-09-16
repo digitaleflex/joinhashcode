@@ -1,0 +1,60 @@
+# ────────────────────────────────────────────────────────────────
+# Dockerfile.prod — image complète, buildée en CI (GitHub Actions)
+# Le VPS ne fait que `docker pull` + recreate : plus aucun build local.
+#
+# Contenu baked-in (parité avec les bind-mounts de compose.app.yml) :
+#   /app/.next/standalone (+ static copié dedans)
+#   /app/public (+ uploads vides)
+#   /app/cluster.mjs, /app/docker-entrypoint.sh
+#   /app/generated, /app/prisma, /app/prisma.config.ts (migrate deploy)
+# ────────────────────────────────────────────────────────────────
+
+FROM node:20-alpine AS base
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+ENV NEXT_TELEMETRY_DISABLED=1
+
+FROM base AS deps
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+# Variables factices : prisma generate et next build n'ouvrent aucune connexion.
+# Les vraies variables arrivent au runtime via env_file (compose).
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+ENV DIRECT_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+RUN npm run build
+
+FROM node:20-alpine AS runner
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 -G nodejs nextjs
+
+# Prisma CLI pour `migrate deploy` au démarrage (même logique que l'ancien runtime)
+WORKDIR /app
+RUN npm install prisma@7.8.0 --no-save --no-package-lock --global && \
+    npm install @prisma/config@7.8.0 --no-save --no-package-lock && \
+    chown -R nextjs:nodejs /app
+
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+COPY cluster.mjs /app/cluster.mjs
+COPY prisma.config.ts /app/prisma.config.ts
+COPY --from=builder --chown=nextjs:nodejs /app/prisma /app/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/generated /app/generated
+COPY --from=builder --chown=nextjs:nodejs /app/public /app/public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone /app/.next/standalone
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static /app/.next/standalone/.next/static
+# Parité avec le mount host ./generated:/app/generated : certains requires
+# résolvent hors de l'arbre standalone.
+COPY --from=builder --chown=nextjs:nodejs /app/generated /app/.next/standalone/generated
+RUN mkdir -p /app/public/uploads /app/.next/standalone/public/uploads && \
+    chmod +x /app/docker-entrypoint.sh && \
+    chown -R nextjs:nodejs /app/public /app/.next
+
+USER nextjs
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

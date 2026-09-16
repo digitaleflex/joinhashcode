@@ -30,6 +30,8 @@ export async function GET() {
           currentSituation: null,
           class: null,
           role: "MEMBER",
+          primaryDomain: null,
+          deactivatedAt: null,
         },
       });
     }
@@ -42,11 +44,11 @@ export async function GET() {
       id: user.id,
       banned: user.banned ?? false,
       banExpires: user.banExpires,
-      deactivatedAt: user.deactivatedAt,
-      betaKeyId: user.beta?.betaKeyId ?? null,
+      deactivatedAt: user.deactivatedAt ?? null,
+      betaKeyId: user.betaKeyId ?? null,
       currentSituation: user.currentSituation,
       class: user.class,
-      primaryDomain: user.primaryDomain,
+      primaryDomain: user.primaryDomain ?? null,
       role: user.role,
     };
 

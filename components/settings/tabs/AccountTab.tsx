@@ -35,23 +35,23 @@ export function AccountTab({ userData }: AccountTabProps) {
             <div className="space-y-3 relative z-[var(--z-content)]">
               <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" aria-hidden="true" />
-                <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-wider font-bold">Connexion sécurisée</span>
+                <span className="text-3xs font-mono text-emerald-400 uppercase tracking-wider font-bold">Connexion sécurisée</span>
               </div>
               <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
                 <span className="text-emerald-400">{emailLocal}</span>
                 <span className="text-zinc-600 font-light">@</span>
                 <span className="text-zinc-400 text-sm">{emailDomain}</span>
               </h3>
-              <p className="text-[10px] text-zinc-500 font-mono tracking-wider">
+              <p className="text-xs text-zinc-500 font-mono tracking-wider">
                 Identifiant unifié : <span className="text-zinc-400 font-bold select-all">{userData?.id}</span>
               </p>
             </div>
             <div className="pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-4 relative z-[var(--z-content)]">
               <div className="flex items-center gap-2">
                 <div className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]" aria-hidden="true" />
-                <span className="text-[9px] font-mono text-emerald-400/80 uppercase font-bold tracking-wider">Authentification gérée par Better Auth</span>
+                <span className="text-3xs font-mono text-emerald-400/80 uppercase font-bold tracking-wider">Authentification gérée par Better Auth</span>
               </div>
-              <div className="text-[9px] font-mono text-zinc-500">STATUT : VÉRIFIÉ</div>
+              <div className="text-3xs font-mono text-zinc-500">STATUT : VÉRIFIÉ</div>
             </div>
           </div>
         </div>
@@ -88,14 +88,14 @@ export function AccountTab({ userData }: AccountTabProps) {
               <a
                 href="/api/user/export?format=json"
                 download
-                className="h-10 px-5 inline-flex items-center justify-center text-[10px] font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer"
+                className="h-10 px-5 inline-flex items-center justify-center text-xs font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer"
               >
                 JSON
               </a>
               <a
                 href="/api/user/export?format=zip"
                 download
-                className="h-10 px-5 inline-flex items-center justify-center text-[10px] font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer"
+                className="h-10 px-5 inline-flex items-center justify-center text-xs font-mono font-black uppercase tracking-wider cyber-notch-sm border border-zinc-600 text-zinc-300 bg-zinc-900 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer"
               >
                 ZIP
               </a>
@@ -126,7 +126,7 @@ export function AccountTab({ userData }: AccountTabProps) {
             <div className="relative shrink-0 z-[var(--z-content)]">
               <Button
                 variant="outline"
-                className="h-14 font-mono font-black px-8 text-[10px] uppercase cyber-notch-sm border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:border-amber-500 cursor-pointer"
+                className="h-14 font-mono font-black px-8 text-xs uppercase cyber-notch-sm border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:border-amber-500 cursor-pointer"
                 onClick={() => setDeactivateOpen(true)}
               >
                 <Power className="size-4 mr-2" />
@@ -159,7 +159,7 @@ export function AccountTab({ userData }: AccountTabProps) {
               </p>
               <div className="bg-red-950/40 border border-red-500/30 p-4 rounded-xl flex items-start gap-3 w-full mt-4">
                 <AlertTriangle className="size-4 text-red-500 shrink-0 mt-0.5 animate-pulse" />
-                <div className="space-y-1 font-mono text-[9px] text-left">
+                <div className="space-y-1 font-mono text-3xs text-left">
                   <div className="text-red-400 font-black uppercase tracking-wider">ACTION IRRÉVERSIBLE</div>
                   <div className="text-zinc-500 leading-normal">
                     Profil, missions, XP, squad — tout sera définitivement effacé.
@@ -171,7 +171,7 @@ export function AccountTab({ userData }: AccountTabProps) {
             <div className="relative shrink-0 z-[var(--z-content)]">
               <Button
                 variant="destructive"
-                className="h-14 font-mono font-black px-8 text-[10px] uppercase cyber-notch-sm bg-red-950/80 border border-red-500 text-red-400 hover:bg-red-500 hover:text-black shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)] cursor-pointer"
+                className="h-14 font-mono font-black px-8 text-xs uppercase cyber-notch-sm bg-red-950/80 border border-red-500 text-red-400 hover:bg-red-500 hover:text-black shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)] cursor-pointer"
                 onClick={() => setDeleteOpen(true)}
               >
                 <Trash2 className="size-4 mr-2" />

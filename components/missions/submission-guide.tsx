@@ -71,7 +71,7 @@ export function SubmissionGuide() {
         <Button
           variant="ghost"
           size="sm"
-          className="h-7 gap-1.5 text-[9px] font-mono uppercase tracking-wider text-zinc-500 hover:text-primary hover:bg-primary/5 transition-all"
+          className="h-7 gap-1.5 text-3xs font-mono uppercase tracking-wider text-zinc-500 hover:text-primary hover:bg-primary/5 transition-all"
         >
           <HelpCircle className="size-3" />
           Guide de soumission
@@ -104,7 +104,7 @@ export function SubmissionGuide() {
                   </div>
                   <div className="space-y-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[9px] font-black font-mono ${step.color}`}>{step.number}</span>
+                      <span className={`text-3xs font-black font-mono ${step.color}`}>{step.number}</span>
                       <h3 className="text-sm font-bold text-white">{step.title}</h3>
                     </div>
                     <p className="text-xs text-zinc-400 leading-relaxed">{step.description}</p>
@@ -118,7 +118,7 @@ export function SubmissionGuide() {
           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 space-y-3">
             <div className="flex items-center gap-2">
               <Clock className="size-3.5 text-zinc-500" />
-              <span className="text-[9px] font-mono font-black uppercase tracking-wider text-zinc-500">Conseils pratiques</span>
+              <span className="text-3xs font-mono font-black uppercase tracking-wider text-zinc-500">Conseils pratiques</span>
             </div>
             <ul className="space-y-2">
               {TIPS.map((tip, i) => (

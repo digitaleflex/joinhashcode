@@ -18,7 +18,7 @@ export default function AdminError({ error, reset }: { error: Error; reset: () =
             Une erreur est survenue dans le panel d&apos;administration. Les données ne sont pas affectées.
           </p>
           {process.env.NODE_ENV === "development" && error?.message && (
-            <p className="text-[10px] font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
+            <p className="text-xs font-mono text-red-400/60 mt-2 break-all">{error.message}</p>
           )}
         </div>
         <Button onClick={reset} variant="outline" className="border-red-500/20 text-red-400 hover:bg-red-500/10">

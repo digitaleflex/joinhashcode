@@ -61,16 +61,13 @@ echo ""
 echo "▸ Building Next.js application…"
 npm run build 2>&1
 
-# ── Symlinks for standalone assets ─────────────────────────────
-# Le server.js standalone sert les assets depuis standalone/.next/static
-# et public depuis standalone/public. Câbler ces répertoires vers le
-# dossier réel évite d'avoir à copier/coller les fichiers (build host
-# monté en bind mount dans le conteneur). Recréés après chaque build.
+# ── Standalone assets ──────────────────────────────────────────
+# Les assets (static + public) sont fournis par des mounts compose
+# directs (compose.app.yml). Supprimer les symlinks hérités pour que
+# les mounts s'appliquent sur des chemins propres.
 echo ""
-echo "▸ Wiring standalone asset symlinks…"
-ln -sfn ../../static .next/standalone/.next/static
-ln -sfn ../../public .next/standalone/public
-echo "  ✓ static/public symlinks linked"
+echo "▸ Removing legacy standalone asset symlinks…"
+rm -f .next/standalone/.next/static .next/standalone/public
 
 # ── Docker build ───────────────────────────────────────────────
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
