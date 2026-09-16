@@ -246,3 +246,60 @@ git fetch origin && git reset --hard origin/main
 - **Infra/VPS** : accès Hostinger (équipe DevOps)
 - **DB / migrations** : voir `lib/prisma.ts` + `prisma/schema.prisma`
 - **Incident majeur** : page + canal `#incidents` (si existant), puis rollback §6
+
+---
+
+## 13. Dépannage — Turbopack sert des modules périmés
+
+**Symptôme** : après une modification (ex. restauration d'une directive
+`"use client"` dans un composant), le serveur de dev continue à servir l'ancien
+module et renvoie une erreur « React Server Component module » qui n'existe plus
+dans le code. Un simple redémarrage ne suffit pas toujours.
+
+**Réflexe : purger le cache de build AVANT de conclure à un bug.**
+
+```bash
+npm run dev:clean    # purge .next (dev + cache + types) puis relance next dev
+```
+
+Équivalent manuel :
+
+```bash
+rm -rf .next                      # Windows : Remove-Item -Recurse -Force .next
+npm run dev
+```
+
+Purger au minimum `.next/dev`, `.next/cache` et `.next/types`.
+
+> ⚠️ Règle d'équipe : avant de diagnostiquer un comportement suspect en dev,
+> **purger `.next`**. Cela évite de chasser un bug qui n'existe plus dans le
+> code (constaté le 2026-09-12, plusieurs cycles de test perdus).
+> Voir aussi la checklist du skill `systematic-debugging`.
+
+---
+
+## 14. Environnement local — base de données
+
+La stack locale est décrite par `compose.db.yml` (`docker compose -f compose.db.yml up -d`) :
+
+| Usage | Hôte | Port |
+|-------|------|------|
+| Connexion **directe** (dev + migrations) | `localhost` | **5433** |
+| **PgBouncer** (prod-like, poolée) | `localhost` | **5435** |
+| Adminer (accès tunnel SSH uniquement) | `127.0.0.1` | 8080 |
+
+**Convention en dev** : `DATABASE_URL` et `DIRECT_URL` pointent tous deux vers la
+connexion **directe** `hashcode_dev@localhost:5433` (fichier `.env.local`).
+
+**Ordre de chargement des env** (dev) :
+- `prisma.config.ts` charge `.env.local` **puis** `.env` (comme Next.js) → les
+  overrides locaux gagnent. Fix #354.
+- Sans `.env.local`, copier `.env.example` → `.env` et renseigner les URLs.
+
+> ⚠️ **Incohérence connue (issue #354)** : `compose.db.yml` initialise le
+> conteneur avec `${DB_NAME}` (typiquement `hashcode_prod`) alors que le dev
+> utilise `hashcode_dev`. Il faut créer `hashcode_dev` dans le conteneur au
+> premier démarrage, ou aligner `DB_NAME`. La connexion dev court-circuite
+> volontairement PgBouncer (config prod non exercée localement).
+
+
