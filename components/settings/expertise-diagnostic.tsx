@@ -10,7 +10,20 @@ import {
   Search, 
   Sparkles
 } from "lucide-react"
-import { TECH_TREE, SPECIALIZATION_QUIZ } from "@/lib/tech-tree"
+// Pivot pipeline cyber : 2 voies uniquement (le tech-tree 12 domaines est gelé)
+const VOIES: Record<string, string[]> = {
+  "SOC défensive": ["SIEM", "Splunk", "Wireshark", "Nmap", "Security Onion", "TheHive", "Wazuh", "ELK"],
+  "OSINT / Investigation": ["Maltego", "SpiderFoot", "Shodan", "theHarvester", "Google Dorks", "CyberChef", "Gephi", "Amass"],
+}
+const VOIES_QUIZ: { question: string, options: { domains?: string[]; tools?: string[] }[] }[] = [
+  {
+    question: "Quelle voie veux-tu suivre dans la filière cyber HashCode ?",
+    options: [
+      { domains: ["SOC défensive"], tools: ["SIEM", "Wireshark"] },
+      { domains: ["OSINT / Investigation"], tools: ["Maltego", "Shodan"] },
+    ],
+  },
+]
 import type { SettingsUserData } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,8 +48,8 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
     const suggestedTools = useMemo(() => {
         const allSuggestions = new Set<string>()
         selectedDomains.forEach((d: string) => {
-            if (TECH_TREE[d]) {
-                TECH_TREE[d].forEach(t => allSuggestions.add(t))
+            if (VOIES[d]) {
+                VOIES[d].forEach(t => allSuggestions.add(t))
             }
         })
         // Filter out tools already selected
@@ -46,7 +59,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
     // 2. Filter tools from search
     const allAvailableTools = useMemo(() => {
         const tools = new Set<string>()
-        Object.values(TECH_TREE).flat().forEach(t => tools.add(t))
+        Object.values(VOIES).flat().forEach(t => tools.add(t))
         return Array.from(tools).sort().filter(t => t.toLowerCase().includes(toolSearch.toLowerCase()))
     }, [toolSearch])
 
@@ -75,7 +88,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
         }
         updateData(nextData)
 
-        if (currentQuestion < SPECIALIZATION_QUIZ.length - 1) {
+        if (currentQuestion < VOIES_QUIZ.length - 1) {
             setCurrentQuestion(prev => prev + 1)
         } else {
             setIsAnalyzing(true)
@@ -154,16 +167,16 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
 
                         <div className="space-y-6">
                             <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
-                                {SPECIALIZATION_QUIZ[currentQuestion].question}
+                                {VOIES_QUIZ[currentQuestion].question}
                             </h3>
                             <div className="grid gap-3">
-                                {SPECIALIZATION_QUIZ[currentQuestion].options.map((option, idx) => (
+                                {VOIES_QUIZ[currentQuestion].options.map((option, idx) => (
                                     <button
                                         key={idx}
                                         onClick={() => handleAnswer(option)}
                                         className="w-full flex items-center justify-between p-5 rounded-2xl border border-white/5 bg-white/2 hover:bg-primary/3 hover:border-primary/40 transition-all text-left group"
                                     >
-                                        <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors">{option.text}</span>
+                                        <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors">{option.domains?.[0] ?? "Voie cyber"}</span>
                                         <ChevronRight className="size-4 text-zinc-700 group-hover:text-primary transition-all group-hover:translate-x-1" />
                                     </button>
                                 ))}
@@ -224,7 +237,7 @@ export function ExpertiseDiagnostic({ userData, updateData }: { userData: Partia
                                     Domaines d&apos;expertise
                                 </label>
                                 <div className="flex flex-wrap gap-3">
-                                    {Object.keys(TECH_TREE).map(domain => (
+                                    {Object.keys(VOIES).map(domain => (
                                         <button
                                             key={domain}
                                             onClick={() => toggleDomain(domain)}

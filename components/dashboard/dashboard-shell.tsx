@@ -3,11 +3,9 @@
 import { useMemo } from "react"
 import dynamic from "next/dynamic"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
-  Zap,
   TrendingUp,
   Users,
   Award,
@@ -24,20 +22,12 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
 import { DailyCheckinWidget } from "./daily-checkin-widget"
 const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
-const LevelUpModal = dynamic(() => import("./level-up-modal").then((m) => m.LevelUpModal), { ssr: false })
-const AmbassadorGoal = dynamic(() => import("./AmbassadorGoal").then((m) => m.AmbassadorGoal), { ssr: false })
-const ReferralCard = dynamic(() => import("./ReferralCard").then((m) => m.ReferralCard), { ssr: false })
 const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { type Mission } from "@/lib/missions"
-import { SquadBanner } from "./squad-banner"
 import { MissionDeck } from "./mission-deck"
-import { WeeklyChallengeWidget } from "./weekly-challenge-widget"
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
-import { FirstDayWidget } from "./first-day-widget"
-import { getLevelProgress } from "@/lib/level-utils"
-import { getLevelName } from "@/lib/member-card-constants"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { SquadData } from "@/components/dashboard/squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
@@ -78,8 +68,8 @@ export function DashboardShell({
   recommendedMissions = [],
   fullSubmissions = [],
   feedActivities = [],
-  featureFlags = {},
-  socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 }
+  featureFlags: _featureFlags = {},
+  socialProof: _socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 }
 }: {
   user: UserProfile,
   quizResult: { profileType?: string | null } | null,
@@ -93,10 +83,6 @@ export function DashboardShell({
   socialProof?: { activeMembers: number, userRank: number, weeklyCheckins: number, totalMembers: number }
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
-  const { level, percent, xpNeededForNext } = getLevelProgress(user.experience)
-  const levelName = getLevelName(level)
-  const isSquadFull = useMemo(() => !!(squad && (squad.members?.length ?? 0) >= 5), [squad])
-  const isLocked = !isSquadFull;
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
 
   const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
@@ -139,16 +125,8 @@ export function DashboardShell({
 
                 <div className="flex items-center gap-4 shrink-0">
                   <div className="text-right">
-                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">{levelName}</p>
-                    <p className="text-lg font-bold text-white">{user.experience} XP</p>
-                  </div>
-                  <div className="h-8 w-px bg-white/10" />
-                  <div className="text-right">
-                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Série</p>
-                    <p className="text-sm font-bold text-primary flex items-center gap-1">
-                      <Zap className="h-3 w-3 fill-current" />
-                      {user.currentStreak ?? 0}
-                    </p>
+                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Labs validés</p>
+                    <p className="text-lg font-bold text-white">{user.missionsCompletedCount ?? 0}</p>
                   </div>
                 </div>
               </div>
@@ -157,15 +135,6 @@ export function DashboardShell({
             {/* ── NEW USER: 3 sections only ───────────────────────── */}
             {isNewUser && (
               <>
-                {/* Social proof + rank + weekly goal */}
-                <FirstDayWidget
-                  activeMembers={socialProof.activeMembers}
-                  userRank={socialProof.userRank}
-                  totalMembers={socialProof.totalMembers}
-                  weeklyCheckins={socialProof.weeklyCheckins}
-                  userName={user.name}
-                />
-
                 {/* Prochaine étape — the single most important CTA */}
                 <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
                   <p className="text-xs font-mono text-primary uppercase font-bold tracking-widest mb-2">
@@ -207,18 +176,7 @@ export function DashboardShell({
                   hasSubmission={fullSubmissions.length > 0}
                 />
 
-                {/* Squad Banner (delayed — only after 1+ missions) */}
-                {isLocked && (user.missionsCompletedCount ?? 0) > 0 && (
-                  <SquadBanner user={user} squad={squad} />
-                )}
-
-                {/* Referral / Invitation System */}
-                {!isNewUser && featureFlags.referrals !== false && user?.referralCode && (
-                  <div className="space-y-6" id="referral-card">
-                    <AmbassadorGoal referralCount={user.referralCount || 0} />
-                    <ReferralCard referralCode={user.referralCode} referralCount={user.referralCount || 0} />
-                  </div>
-                )}
+                {/* Squad + referral gelés (pivot pipeline cyber) */}
 
                 {/* Objectif 90 jours */}
                 {user.mainObjective && (
@@ -245,17 +203,9 @@ export function DashboardShell({
                   </div>
                 )}
 
-                {/* Action Zone: Check-in + Weekly + Missions + Feed */}
+                {/* Action Zone: Missions + Feed */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   <div className="lg:col-span-2 space-y-8">
-                    <div id="tour-checkin">
-                      <DailyCheckinWidget isFirstTime={!user.lastCheckin} />
-                    </div>
-                    {featureFlags.weekly_challenges !== false && (
-                      <div id="tour-weekly">
-                        <WeeklyChallengeWidget />
-                      </div>
-                    )}
                     <div id="tour-missions">
                       <MissionDeck recommendedMissions={recommendedMissions} />
                     </div>
@@ -270,14 +220,14 @@ export function DashboardShell({
                 {/* Bento Grid — only boxes with content */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                  {/* progression_ — always shown for established users */}
+                  {/* progression_ — labs validés (XP gelé, pivot pipeline cyber) */}
                   <Card variant="premium" className="md:col-span-2 overflow-hidden group" id="tour-progression">
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between mb-4">
                         <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                           <TrendingUp className="h-5 w-5" />
                         </div>
-                        <Badge variant="outline" className="font-mono text-xs font-bold border-primary/30 text-primary px-3 py-1">LVL {level}</Badge>
+                        <Badge variant="outline" className="font-mono text-xs font-bold border-primary/30 text-primary px-3 py-1">Labs</Badge>
                       </div>
                       <div className="flex items-center gap-2">
                         <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
@@ -287,33 +237,23 @@ export function DashboardShell({
                               <Info className="size-3.5 text-zinc-700 cursor-help hover:text-primary transition-colors mt-1" />
                             </TooltipTrigger>
                             <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono max-w-56">
-                              Accumule de l&apos;XP via les missions et les check-ins pour monter en grade.
+                              Ta progression dans le parcours : labs réussis et evidences vérifiées.
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
                       </div>
-                      <CardDescription className="text-zinc-500 font-medium tracking-tight">Ta progression vers le niveau suivant.</CardDescription>
+                      <CardDescription className="text-zinc-500 font-medium tracking-tight">Tes labs validés et tes prochaines étapes.</CardDescription>
                     </CardHeader>
                     <CardContent className="pt-2">
                       <div className="space-y-6">
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between text-sm-plus font-mono font-bold tracking-tight">
-                            <span className="text-muted-foreground uppercase">Niveau {levelName}</span>
-                            <span className="text-primary">{user.experience} XP</span>
-                          </div>
-                          <Progress value={percent} variant="glow" className="h-2" />
-                          <p className="text-xs text-zinc-600 font-mono">
-                            {xpNeededForNext > 0 ? `${xpNeededForNext} XP pour le niveau suivant` : "Niveau Max"}
-                          </p>
-                        </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">missions validées</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">labs validés</div>
                             <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                           </div>
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">grade actuel</div>
-                            <div className="text-2xl font-bold text-white tracking-tighter">{levelName}</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">voie</div>
+                            <div className="text-2xl font-bold text-white tracking-tighter">{profile === "unknown" ? "à choisir" : "cyber"}</div>
                           </div>
                         </div>
                       </div>
@@ -454,7 +394,6 @@ export function DashboardShell({
         </main>
         <BottomNav />
       </SidebarInset>
-      <LevelUpModal currentLevel={level} userClass={profile} />
     </SidebarProvider>
   );
 }

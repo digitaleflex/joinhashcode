@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { withAdminAuth } from "@/lib/admin-auth";
 import { z } from "zod";
 import { getStepMissionDef, computeGlobalScore, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
-import { awardXp } from "@/lib/experience";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
 import { safeAfter as after } from "@/lib/after";
@@ -161,7 +160,6 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
       const mission = attempt.mission;
       if (mission.xp > 0) {
         await prisma.$transaction(async (tx) => {
-          await awardXp(attempt.userId, mission.xp, "MISSION_COMPLETED", mission.id, tx);
           await tx.user.update({
             where: { id: attempt.userId },
             data: { missionsCompletedCount: { increment: 1 } },

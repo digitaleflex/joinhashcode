@@ -12,12 +12,8 @@ import {
   getMissingRequiredCriteria,
 } from "@/lib/acceptance-criteria";
 import { triggerNotification } from "@/lib/qstash";
-import { updateUserEvolution } from "@/lib/evolution-engine";
-import { BehavioralVitality } from "@/lib/types";
-import { updateSquadCohesion } from "@/lib/squad-logic";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
-import { awardXp } from "@/lib/experience";
 import { reviewLimiterStrict, checkRateLimit } from "@/lib/ratelimit";
 import { triggerWebhooks } from "@/lib/webhooks";
 
@@ -73,7 +69,6 @@ export async function POST(
     const missingRequired = getMissingRequiredCriteria(missionCriteria, criteria);
     const allRequiredPassed = missingRequired.length === 0;
 
-    const reviewerXpReward = Math.round(submission.mission.xp * 0.15);
     const missionTier = submission.mission.missionLevel ?? "INIT";
 
     if (allRequiredPassed || forceApprove) {
@@ -91,7 +86,6 @@ export async function POST(
             where: { id: submissionId },
             data: { status: "PENDING_ADMIN", xpAwarded, qualityLevel },
           });
-          await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
           await tx.user.update({
             where: { id: session.user.id },
             data: { reviewsCompleted: { increment: 1 } },
@@ -166,14 +160,7 @@ export async function POST(
         return NextResponse.json({ success: true, qualityLevel, status: "PENDING_ADMIN" });
       }
 
-      const missionWeights: BehavioralVitality = {
-        builder: submission.mission.weightBuilder || 0,
-        creator: submission.mission.weightCreator || 0,
-        strategist: submission.mission.weightStrategist || 0,
-        catalyst: submission.mission.weightCatalyst || 0,
-      };
-
-      // 1. Transaction atomique — review + XP + missionsCompletedCount
+      // 1. Transaction atomique — review + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
         await tx.missionReview.create({
           data: { submissionId, reviewerId: session.user.id, criteria, qualityLevel, feedback },
@@ -187,60 +174,23 @@ export async function POST(
           data: { reviewsCompleted: { increment: 1 } },
         });
 
-        // XP & progression pour le submitter — dans la même transaction
-        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submissionId, tx);
+        // Progression du submitter — dans la même transaction
         await tx.user.update({
           where: { id: submission.userId },
           data: { missionsCompletedCount: { increment: 1 } },
         });
-
-        // XP pour le reviewer
-        await awardXp(session.user.id, reviewerXpReward, "MISSION_REVIEWED", submissionId, tx);
       });
 
       // 2. Traitements post-réponse asynchrones (non-critiques)
       await after(async () => {
         try {
-          // Évolution du profil comportemental
-          await updateUserEvolution(submission.userId, missionWeights);
-
-          // Cohésion d'escouade
-          const userMember = await prisma.member.findFirst({
-            where: { userId: submission.userId },
-            select: { organizationId: true }
-          });
-          if (userMember?.organizationId) {
-            await updateSquadCohesion(userMember.organizationId, 0.1);
-          }
-
-          // Notifications — vérifier level up
-          const submitterAfter = await prisma.user.findUnique({
-            where: { id: submission.userId },
-            select: { level: true }
-          });
-          const submitterLevel = submission.user.level ?? 1;
-          const newLevel = submitterAfter?.level ?? submitterLevel;
-          const didLevelUp = newLevel > submitterLevel;
-
           await triggerNotification({
             userId: submission.userId,
             type: "MISSION_APPROVED",
             title: `Mission validée : ${submission.mission.title}`,
-            message: `Félicitations ! +${xpAwarded} XP. Niveau : ${qualityLevel}.`,
+            message: `Félicitations ! Niveau de qualité : ${qualityLevel}.`,
             link: `/missions/${submission.missionId}`,
-            xp: xpAwarded,
           });
-
-          if (didLevelUp) {
-            await triggerNotification({
-              userId: submission.userId,
-              type: "LEVEL_UP",
-              title: `Niveau ${newLevel} atteint !`,
-              message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
-              link: "/dashboard",
-              newLevel,
-            });
-          }
         } catch (error) {
           console.error("🔴 [Review API Post-Tasks Error]", error);
         }

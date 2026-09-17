@@ -3,13 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-auth";
 import { safeAfter as after } from "@/lib/after";
-import { updateUserEvolution } from "@/lib/evolution-engine";
 import { triggerNotification } from "@/lib/qstash";
-import { BehavioralVitality } from "@/lib/types";
 import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
-import { awardXp } from "@/lib/experience";
 import { z } from "zod";
 import { triggerWebhooks } from "@/lib/webhooks";
 
@@ -69,73 +66,30 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       
       xpAwarded = Math.round(xpAwarded * multiplier);
 
-      const newXp = (submission.user.experience ?? 0) + xpAwarded;
-
-      const missionWeights: BehavioralVitality = {
-        builder: submission.mission.weightBuilder || 0,
-        creator: submission.mission.weightCreator || 0,
-        strategist: submission.mission.weightStrategist || 0,
-        catalyst: submission.mission.weightCatalyst || 0,
-      };
-
-      // 1. Transaction atomique — status + XP + missionsCompletedCount
+      // 1. Transaction atomique — status + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
         await tx.missionSubmission.update({
           where: { id },
           data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
         });
 
-        // XP & progression pour le submitter — dans la même transaction
-        await awardXp(submission.userId, xpAwarded, "MISSION_COMPLETED", submission.missionId, tx);
         await tx.user.update({
           where: { id: submission.userId },
           data: { missionsCompletedCount: { increment: 1 } },
         });
       });
 
-      // 2. Traitements post-réponse asynchrones (non-critiques)
+      // 2. Traitement post-réponse asynchrone (non-critique)
       await after(async () => {
         try {
-          // Évolution du profil comportemental
-          await updateUserEvolution(submission.userId, missionWeights);
-
-          // Vérifier level up
-          const submitterAfter = await prisma.user.findUnique({
-            where: { id: submission.userId },
-            select: { level: true }
-          });
-          const submitterLevel = submission.user.level ?? 1;
-          const newLevel = submitterAfter?.level ?? submitterLevel;
-          const leveledUp = newLevel > submitterLevel;
-
-          // Notifications
           const qualityMsg = level === "EXEMPLARY" ? " Travail exemplaire !" : level === "GOOD" ? " Très bon travail !" : "";
           await triggerNotification({
             userId: submission.userId,
             type: "MISSION_APPROVED",
             title: `Mission validée : ${submission.mission.title}`,
-            message: `Félicitations ! Tu as gagné +${xpAwarded} XP.${qualityMsg}`,
+            message: `Félicitations ! ${qualityMsg}`,
             link: "/missions",
-            xp: xpAwarded,
           });
-
-          if (leveledUp) {
-            await triggerNotification({
-              userId: submission.userId,
-              type: "LEVEL_UP",
-              title: `Niveau ${newLevel} atteint !`,
-              message: `Tu es maintenant niveau ${newLevel}. De nouvelles missions s'ouvrent à toi.`,
-              link: "/dashboard",
-              newLevel,
-            });
-
-            // Envoi d'e-mail de montée de niveau
-            emailService.sendLevelUp({
-              email: submission.user.email,
-              name: submission.user.name,
-              newLevel
-            }).catch(err => console.error("🔴 [Admin API Email Error] sendLevelUp:", err));
-          }
         } catch (error) {
           console.error("🔴 [Admin Approve Post-Tasks Error]", error);
         }
@@ -163,7 +117,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         decidedAt: new Date().toISOString(),
       }).catch(() => undefined);
 
-      // Le client n'attend plus la résolution d'awardXp/emails pour obtenir la réponse
+      // Découplage pipeline : XP retiré du flow (gamification gelée)
           const submitterLevel = submission.user.level ?? 1;
           const expectedNewXp = (submission.user.experience ?? 0) + xpAwarded;
       // Approximation simple pour la réponse immédiate (le background effectue le calcul exact et persistant)

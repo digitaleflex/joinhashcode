@@ -192,12 +192,12 @@ export const emailService = {
     });
   },
 
-  async sendMissionSubmitted({ email, name, missionTitle, bonusXp }: { email: string; name: string; missionTitle: string; bonusXp: number }) {
+  async sendMissionSubmitted({ email, name, missionTitle }: { email: string; name: string; missionTitle: string }) {
     if (!resend) {
       warnEmailMissing("sendMissionSubmitted");
       return { success: true, mocked: true };
     }
-    const { subject, html, text } = getMissionSubmittedEmailContent({ name, missionTitle, bonusXp });
+    const { subject, html, text } = getMissionSubmittedEmailContent({ name, missionTitle });
     return this._send({ to: email, subject, html, text });
   },
 

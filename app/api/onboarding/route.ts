@@ -8,7 +8,6 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
 import { emailService } from "@/lib/email";
 import { invalidateUserCache } from "@/lib/user-cache";
 import { handleApiError } from "@/lib/api-error-handler";
-import { awardXp } from "@/lib/experience";
 import { cookies } from "next/headers";
 import { profileUpdateLimiter, checkRateLimit } from "@/lib/ratelimit";
 
@@ -130,7 +129,6 @@ export async function PATCH(req: Request) {
               return true;
             });
             if (claimed) {
-              awardXp(referrer.id, 50, "REFERRAL_COMPLETED", session.user.id).catch(err => console.error("[XP_ERROR]", err));
             }
           }
           cookieStore.delete("hashcode_ref");

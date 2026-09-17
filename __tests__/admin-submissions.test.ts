@@ -3,7 +3,6 @@ import { PATCH } from "@/app/api/admin/submissions/[id]/route";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { triggerNotification } from "@/lib/qstash";
-import { updateUserEvolution } from "@/lib/evolution-engine";
 
 const { mockPrisma } = vi.hoisted(() => {
   const m = {
@@ -51,9 +50,7 @@ vi.mock("@/lib/qstash", () => ({
   triggerNotification: vi.fn(),
 }));
 
-vi.mock("@/lib/evolution-engine", () => ({
-  updateUserEvolution: vi.fn(),
-}));
+
 
 vi.mock("next/headers", () => ({
   headers: vi.fn(() => Promise.resolve(new Headers())),
@@ -88,7 +85,7 @@ describe("Admin Submissions API [id]", () => {
     expect(res.status).toBe(403);
   });
 
-  it("should approve submission and update evolution and notify", async () => {
+  it("should approve submission WITHOUT awarding XP (gamification gelée — pivot pipeline cyber)", async () => {
     (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
     
     const mockUser = { id: "user1", experience: 0, level: 1 };
@@ -114,7 +111,6 @@ describe("Admin Submissions API [id]", () => {
     const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
     
     expect(res.status).toBe(200);
-    expect(updateUserEvolution).toHaveBeenCalled();
     expect(triggerNotification).toHaveBeenCalledWith(expect.objectContaining({
       type: "MISSION_APPROVED",
       userId: "user1"
@@ -145,7 +141,6 @@ describe("Admin Submissions API [id]", () => {
     const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
 
     expect(res.status).toBe(200);
-    expect(updateUserEvolution).not.toHaveBeenCalled();
     expect(triggerNotification).toHaveBeenCalledWith(expect.objectContaining({
       type: "SYSTEM",
       userId: "user1",

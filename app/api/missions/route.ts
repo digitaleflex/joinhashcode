@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { mutationLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
-import { awardXp } from "@/lib/experience";
 import { getCurrentCycleKey } from "@/lib/missions";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
@@ -69,11 +68,9 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     if (existingSubmission.revisionCount >= 3) throw new Error("MAX_REVISIONS_REACHED");
   }
 
-  const SYNC_BONUS_XP = (dbUser.currentStreak || 0) >= 3 ? 6 : 5;
   const isAutoApproved = mission.isWeeklyChallenge || mission.isAutoApproved;
   const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
   const xpToAward = isAutoApproved ? (mission.xp || 0) : 0;
-  const experienceToIncrement = (existingSubmission ? 0 : SYNC_BONUS_XP) + xpToAward;
 
   const resultSubmission = await prisma.$transaction(async (tx) => {
     const submission = await tx.missionSubmission.upsert({
@@ -99,10 +96,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
         xpAwarded: xpToAward,
       }
     });
-
-    if (experienceToIncrement > 0) {
-      await awardXp(userId, experienceToIncrement, isAutoApproved ? "MISSION_COMPLETED" : "MISSION_SUBMISSION_SYNC_BONUS", mission.id, tx);
-    }
 
     if (isAutoApproved) {
       await tx.user.update({
@@ -131,18 +124,18 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       title: isAutoApproved ? `Challenge Validé : ${mission.title}` : `Mission transmise : ${mission.title}`,
       message: isAutoApproved
         ? `Ton challenge hebdomadaire est validé. +${xpToAward} XP accordés !`
-        : `Analyse en cours... Bonus de Sync (+${SYNC_BONUS_XP} XP) accordé immédiatement !`,
+        : `Analyse en cours... Ta soumission va être analysée.`,
       link: "/missions"
     });
   } catch (e) { console.error("[submitMission] Notification Error", e); }
 
   if (!isAutoApproved) {
     emailService.sendMissionSubmitted({
-      email: dbUser.email, name: dbUser.name, missionTitle: mission.title, bonusXp: SYNC_BONUS_XP,
+      email: dbUser.email, name: dbUser.name, missionTitle: mission.title,
     });
   }
 
-  return { submission: resultSubmission, status: finalStatus, bonusXp: SYNC_BONUS_XP, missionXp: xpToAward };
+  return { submission: resultSubmission, status: finalStatus, missionXp: xpToAward };
 }
 
 export async function GET() {

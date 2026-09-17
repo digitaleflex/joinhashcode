@@ -26,15 +26,13 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { authClient } from "@/lib/auth-client"
-import { DailyCheckinDialog } from "./daily-checkin-dialog"
 import { BetaFeedbackDialog } from "./beta-feedback-dialog"
 import { mainNavItems } from "./sidebar-nav-config"
-import { SidebarSquad } from "./sidebar-squad"
 import { SidebarUser } from "./sidebar-user"
 import { ThemeToggle } from "./theme-toggle"
 import type { NavUser } from "@/lib/types"
 
-export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?: boolean }) {
+export function AppSidebar({ user, hasSquad: _hasSquad }: { user: NavUser | null; hasSquad?: boolean }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = (user || session?.user) as NavUser | undefined
@@ -67,10 +65,6 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
       </SidebarHeader>
 
       <SidebarContent id="tour-sidebar">
-        <div className="px-4 pt-6 pb-2 group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:pt-4">
-          <DailyCheckinDialog />
-        </div>
-
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-medium tracking-wider text-zinc-600 uppercase mb-1 px-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -91,7 +85,7 @@ export function AppSidebar({ user, hasSquad }: { user: NavUser | null; hasSquad?
                 </SidebarMenuItem>
               ))}
 
-              <SidebarSquad hasSquad={hasSquad} />
+              {/* SidebarSquad gelé (pivot pipeline cyber) */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

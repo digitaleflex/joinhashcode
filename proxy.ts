@@ -33,6 +33,20 @@ export async function proxy(request: NextRequest) {
   }
 
   const pathname = request.nextUrl.pathname;
+
+  // ── PIVOT PIPELINE CYBER (2026-09-17, DOCS/PIVOT_CYBER.md) ─────────────
+  // Gel Vague 1 : modules hors nouvelle vision désactivés au point d'entrée
+  // unique. Fichiers conservés sur disque — suppression réelle en Vague 5 (#377).
+  if (pathname.startsWith("/squad") || pathname.startsWith("/api/squad")) {
+    if (pathname.startsWith("/api/squad")) {
+      return NextResponse.json(
+        { message: "Module gelé pendant le pivot Pipeline Cyber (DOCS/PIVOT_CYBER.md)." },
+        { status: 404 }
+      );
+    }
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
 
   if (pathname.startsWith("/beta-access")) {

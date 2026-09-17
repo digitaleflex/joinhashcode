@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-auth";
 import { z } from "zod";
 import { emailService } from "@/lib/email";
-import { awardXp } from "@/lib/experience";
 import { triggerNotification } from "@/lib/qstash";
-import { updateUserEvolution } from "@/lib/evolution-engine";
 
 const listQuerySchema = z.object({
   status: z.enum(["NEW", "REVIEWED", "RESOLVED"]).optional(),
@@ -64,7 +62,6 @@ const statusSchema = z.object({
   status: z.enum(["NEW", "REVIEWED", "RESOLVED"]),
 });
 
-const FEEDBACK_XP_REWARD = 50;
 
 export const PATCH = withAdminAuth(async (req: Request) => {
   try {
@@ -101,27 +98,15 @@ export const PATCH = withAdminAuth(async (req: Request) => {
         }
       });
 
-      // Gamification: Reward XP if moving to RESOLVED and wasn't already RESOLVED
+      // Reward notification if moving to RESOLVED and wasn't already RESOLVED
+      // (Découplage pipeline : XP/evolution retirés — gamification gelée)
       if (result.data.status === "RESOLVED" && currentFeedback.status !== "RESOLVED") {
-        // Use awardXp to create proper ledger entry
-        await awardXp(feedback.userId, FEEDBACK_XP_REWARD, "FEEDBACK_RESOLVED", feedback.id, tx);
-
-        // Generic weights for feedback contribution
-        const contributionWeights = {
-          builder: 0.1,
-          creator: 0.1,
-          strategist: 0.1,
-          catalyst: 0.1,
-        };
-
-        await updateUserEvolution(feedback.userId, contributionWeights, tx);
-
         try {
           await triggerNotification({
             userId: feedback.userId,
             type: "SYSTEM",
-            title: "Récompense Bêta",
-            message: `Ton feedback a été résolu ! Tu reçois +${FEEDBACK_XP_REWARD} XP pour ta contribution.`,
+            title: "Feedback résolu",
+            message: "Ton feedback a été pris en compte et résolu. Merci pour ta contribution !",
             link: "/dashboard",
           });
         } catch (error) {

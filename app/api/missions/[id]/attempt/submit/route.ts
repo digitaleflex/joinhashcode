@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { getStepMissionDef, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
 import { mutationLimiter, submitLimiter, checkRateLimit } from "@/lib/ratelimit";
-import { awardXp } from "@/lib/experience";
 import { safeAfter as after } from "@/lib/after";
 import { generateProfileV1 } from "@/lib/profile-v1";
 import { logActivity } from "@/lib/activity-log";
@@ -184,7 +183,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
           },
         });
         if (mission.xp > 0) {
-          await awardXp(session.user.id, mission.xp, "MISSION_COMPLETED", mission.id, tx);
         }
         await tx.user.update({
           where: { id: session.user.id },

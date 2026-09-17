@@ -6,7 +6,6 @@ import {
   Globe,
   ShieldCheck,
   Zap,
-  TrendingUp,
   Users,
   Flame,
   Target,
@@ -21,7 +20,6 @@ import { Github, Linkedin } from "@/components/ui/brand-icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { XPGrowthChart, type ActivityLog } from "@/components/dashboard/xp-growth-chart";
 import { ReferralWidget } from "@/components/dashboard/referral-widget";
 import {
   Tooltip,
@@ -43,7 +41,7 @@ interface DossierQuizResult {
 }
 
 interface DossierViewProps {
-  user: UserProfile & { missionSubmissions: DetailedMissionSubmission[]; activityLogs: ActivityLog[] };
+  user: UserProfile & { missionSubmissions: DetailedMissionSubmission[]; activityLogs: unknown[] };
   activeOrg: DossierOrg | null;
   quizResult: DossierQuizResult | null | undefined;
   isPublic?: boolean;
@@ -417,27 +415,13 @@ export function DossierView({
                           </div>
                       </CardContent>
                   </Card>
-              </div>
-              )}
+               </div>
+               )}
 
-              {user.experience > 0 && (
-              <div className="space-y-6" id="tour-dossier-xp">
-                   <div className="flex items-center gap-3">
-                       <TrendingUp className="size-5 text-primary" />
-                       <h2 className="text-xl font-black uppercase tracking-tight text-white">Dynamique de Croissance</h2>
-                   </div>
-                  
-                  <Card className="glass-card rounded-3xl sm:rounded-5xl p-5 sm:p-8 overflow-hidden relative">
-                      <div className="absolute top-0 right-0 p-4 sm:p-6 text-right">
-                          <div className="text-3xs sm:text-xs font-mono text-zinc-600 uppercase">Total accumulé</div>
-                          <div className="text-xl sm:text-2xl font-black text-white font-mono">{user.experience}<span className="text-primary text-xs ml-1">XP</span></div>
-                      </div>
-                      <XPGrowthChart logs={user.activityLogs} currentXP={user.experience} />
-                  </Card>
-              </div>
-              )}
+              {/* Découplage pipeline : graphique XP retiré (gamification gelée) —
+                  section "Evidences / rapports vérifiés" arrivera en Vague 3 */}
 
-              {user.missionSubmissions.length > 0 && (
+               {user.missionSubmissions.length > 0 && (
               <div className="space-y-6" id="tour-dossier-missions">
                    <div className="flex items-center gap-3">
                        <Target className="size-5 text-primary" />
