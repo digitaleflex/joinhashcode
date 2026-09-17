@@ -130,3 +130,6 @@ Vérifiés par stash avant/après : **ces 7 tests échouaient DÉJÀ avant le ne
 2. Aucune suppression de **données** ni de `prisma db push` destructif en Vague 1
 3. Les fichiers gelés restent sur disque (morts à Vague 5) — git conserve l'historique
 4. Branches non mergées : gelées (décision en attente)
+5. **Séries de commits obligatoires** (demande propriétaire 17/09) : 1 étape de
+   découplage = 1 commit, 1 vague de docs = 1 commit — règle permanente
+   ajoutée à AGENTS.md ("Séries de commits"). Plus de commits fourre-tout.

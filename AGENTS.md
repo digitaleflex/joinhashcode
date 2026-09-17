@@ -281,6 +281,21 @@ type(scope): short description
 #           fix(auth): handle expired magic-link tokens
 ```
 
+### Séries de commits (règle permanente, demandée 2026-09-17)
+
+**Toujours découper en séries de commits granulaires — jamais un gros commit fourre-tout.**
+Un commit = une intention vérifiable :
+
+| Découpage | Exemple |
+|---|---|
+| 1 étape de découplage = 1 commit | `refactor(pivot): D1 retirer squad-logic du review` |
+| 1 vague de docs = 1 commit | `docs(pivot): amendement DECISIONS D-014-D-019` |
+| 1 feature issue = 1 commit (ou 2 si schéma + UI) | `feat(evidence): modele + migration` puis `feat(evidence): UI portfolio` |
+| Gate avant chaque commit, preuve dans le body | `npm run verify` VERT |
+
+Ne jamais mélanger code + docs de pivot dans un même commit. Les commits de
+refactor destructifs citent toujours l'issue (#377, etc.) et la preuve du gate.
+
 ## Master Prompt Quality Checklist
 
 Cette section définit le standard de qualité pour tout prompt structuré (master prompt, skill, commande IA) rédigé dans ce dépôt. Appliquer cette checklist à chaque nouveau prompt.
