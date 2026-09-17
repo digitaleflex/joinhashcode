@@ -1,5 +1,9 @@
 # PLAN_EXECUTION.md — Plan d'exécution détaillé 12 mois + dispositif d'agents
 
+> **⚠️ Numérotation issues corrigée 17/09 (v2) :** la 1ère création d'issue avait
+> échoué sur un label invalide → le backlog réel est #378 (rituel) → #391 (veille),
+> et l'issue docs fin-V1 est **#392**. Toutes les refs ci-dessous sont alignées.
+>
 > **Date :** 2026-09-17 · **Références :** `DOCS/PIVOT_CYBER.md` (vision), `DOCS/AUDIT_PIVOT.md` (code),
 > `DOCS/NETTOYAGE_SUIVI.md` (journal), EPIC #372
 > **Règle d'or :** chaque issue = 1 agent responsable + 1 niveau de modèle + 1 gate.
@@ -13,18 +17,18 @@
 
 | Rituel | Charge | Issue |
 |---|---|---|
-| Concierge MVP : micro-tâche → review perso → publication publique | 5-10 h/semaine fondateur | #379 |
+| Concierge MVP : micro-tâche → review perso → publication publique | 5-10 h/semaine fondateur | #378 |
 | Veille concurrentielle (15 min) + digest mensuel | 1 h/semaine | #391 |
-| 1 session mentor-invité par mois | 1 h/invité | #380 |
+| 1 session mentor-invité par mois | 1 h/invité | #379 |
 
 ### 🗓️ M1 (sept.-oct. 2026) — Semaine 1-4 : « La boucle humaine »
 
 | Semaine | Issue | Travail agent (parallèle) | Issue |
 |---|---|---|---|
-| S1-2 | #378 fin V1 : admin hors nav + **amendement docs** (verrouille la vision) | docwriter → reviewer → verifier | #378 |
-| S2-3 | #379 rituel + 5 conversations actifs (validation filière) | — | #379 |
-| S2-4 | #380 mentors-pairs + 1er mentor invité | — | #380 |
-| S3-4 | #382 freelance fondateur (200-300K FCFA) | — | #382 |
+| S1-2 | #392 fin V1 : admin hors nav + **amendement docs** (verrouille la vision) | docwriter → reviewer → verifier | #392 |
+| S2-3 | #378 rituel + 5 conversations actifs (validation filière) | — | #378 |
+| S2-4 | #379 mentors-pairs + 1er mentor invité | — | #379 |
+| S3-4 | #381 freelance fondateur (200-300K FCFA) | — | #381 |
 | S4 | **Gate M1 : 10 actifs tenus + docs amendés + 2 références freelance** | | |
 
 ### 🗓️ M2 (oct.-nov.) — « Preuve publique + prospection »
@@ -32,15 +36,15 @@
 | Semaine | Issue | Agents |
 |---|---|---|
 | S5-6 | #383 **OAPI + repo privé + contrats + entité** (IP verrouillée tôt) | git-engineer (repo), fondateur (OAPI/juridique) |
-| S5-7 | #381 **10 entretiens entreprises** + 3 pilots gratuits proposés | fondateur uniquement |
-| S6-8 | #385 V2-A rubriques LabRubric + reviewer structuré | builder + reviewer + verifier |
-| S7-8 | #384 **1er rapport OSINT public** (signature) | fondateur + docwriter (relecture) |
+| S5-7 | #380 **10 entretiens entreprises** + 3 pilots gratuits proposés | fondateur uniquement |
+| S6-8 | #384 V2-A rubriques LabRubric + reviewer structuré | builder + reviewer + verifier |
+| S7-8 | #382 **1er rapport OSINT public** (signature) | fondateur + docwriter (relecture) |
 
 ### 🗓️ M3 (nov.-déc.) — « Le contenu + les premiers dossiers »
 
 | Semaine | Issue | Agents |
 |---|---|---|
-| S9-10 | #386 V2 les 5 premiers labs réels | builder + docwriter, validation fondateur |
+| S9-10 | #385 V2 les 5 premiers labs réels | builder + docwriter, validation fondateur |
 | S9-11 | Suite vitest 100% verte | tester + fixer | #390 |
 | S10-12 | 1ère vente possible (sensibilisation 100-250K) | fondateur |
 | S12 | **Gate M3 : 25-30 actifs · 5 evidences · 1 client payant OU pilot exécuté** | |
@@ -49,8 +53,8 @@
 
 | Jalon | Issue | Agents |
 |---|---|---|
-| V3-A lecteur minimal + Progress + Path | #387 | builder + verifier |
-| V3-B **Evidence v1** + portfolio vérifié | #388 | builder + reviewer + verifier + security (dossier public) |
+| V3-A lecteur minimal + Progress + Path | #386 | builder + verifier |
+| V3-B **Evidence v1** + portfolio vérifié | #387 | builder + reviewer + verifier + security (dossier public) |
 | 2e rapport OSINT public (M4) | suite #384 | fondateur |
 | 1er dossier vérification PAYANT (M5-6) | suite #381 | fondateur |
 | 15-25 actifs, 10 evidences publiques | #379 | fondateur |
@@ -61,17 +65,17 @@
 |---|---|
 | 1er partenariat employeur (banque/télécom/ANCy-type) | suite #381 |
 | **1er analyste placé** (objectif central) | suite #381 |
-| Vivier recruteur + consentement + journal d'accès | #389 |
+| Vivier recruteur + consentement + journal d'accès | #388 |
 | Rémunération mentors par validation (depuis les revenus) | suite #380 |
 
 ### 🗓️ M10-12 (avr.-juin 2027) — « Certification + scale »
 
 | Jalon | Issue |
 |---|---|
-| Certification HashCode Verified Analyst v1 (examen pratique) | #390 |
+| Certification HashCode Verified Analyst v1 (examen pratique) | #389 |
 | Promotions/cohortes (plugin org) | #390 |
-| Cohorte sponsorisée (500K-1M) si traction B2B | suite #381 |
-| Brief mensuel de menaces → abonnement (50-100K/mois) | suite #381 |
+| Cohorte sponsorisée (500K-1M) si traction B2B | suite #380 |
+| Brief mensuel de menaces → abonnement (50-100K/mois) | suite #380 |
 | Vague 5 : élague final (schéma 64→25) — **sur confirmation explicite** | #377 |
 
 ---
@@ -93,21 +97,21 @@ Tâches simples L1 → worker gratuits (groq/novita/zhipu/codestral — 0 quota 
 
 | Issue | Type | Agent principal | Agent secondaire | Modèle | Gate |
 |---|---|---|---|---|---|
-| #378 admin nav + amendement docs | docs | **docwriter** | reviewer → verifier | qwen3.8-flash → glm-5.3-flash | verify + cohérence docs |
-| #379 rituel + conversations | 🧑 humain | **fondateur** | — | — | n/a |
-| #380 mentors-pairs | 🧑 humain | **fondateur** | — | — | n/a |
-| #381 entretiens B2B | 🧑 humain | **fondateur** | librarian (prépa fiches entreprise) | librarian gratuit | n/a |
-| #382 freelance trésorerie | 🧑 humain | **fondateur** | — | — | n/a |
-| #384 rapport OSINT public | 🧑 humain | **fondateur** | docwriter (relire) + reviewer | fond. + flash | relecture éthique obligatoire |
-| #385 (OAPI/juridique) | 🧑 humain | **fondateur** | — | — | n/a |
-| #386 rubriques LabRubric | feature | **builder** | reviewer, verifier | deepseek-v4.1-flash | verify + E2E review |
-| #387 5 labs réels | contenu | **docwriter** | fondateur (valide) | qwen3.8-flash | fondateur OK |
-| #388 lecteur parcours | feature | **builder** | tester | deepseek-v4.1-flash | verify + E2E |
-| #389 Evidence v1 + portfolio | feature | **builder** | reviewer, verifier | deepseek-v4.1-flash | verify + E2E |
+| #392 admin nav + amendement docs | docs | **docwriter** | reviewer → verifier | qwen3.8-flash → glm-5.3-flash | verify + cohérence docs |
+| #378 rituel + conversations | 🧑 humain | **fondateur** | — | — | n/a |
+| #379 mentors-pairs | 🧑 humain | **fondateur** | — | — | n/a |
+| #380 entretiens B2B | 🧑 humain | **fondateur** | librarian (prépa fiches entreprise) | librarian gratuit | n/a |
+| #381 freelance trésorerie | 🧑 humain | **fondateur** | — | — | n/a |
+| #382 rapport OSINT public | 🧑 humain | **fondateur** | docwriter (relire) + reviewer | fond. + flash | relecture éthique obligatoire |
+| #383 (OAPI/juridique) | 🧑 humain | **fondateur** | — | — | n/a |
+| #384 rubriques LabRubric | feature | **builder** | reviewer, verifier | deepseek-v4.1-flash | verify + E2E review |
+| #385 5 labs réels | contenu | **docwriter** | fondateur (valide) | qwen3.8-flash | fondateur OK |
+| #386 lecteur parcours | feature | **builder** | tester | deepseek-v4.1-flash | verify + E2E |
+| #387 Evidence v1 + portfolio | feature | **builder** | reviewer, verifier | deepseek-v4.1-flash | verify + E2E |
 | #390 tests préexistants | bug | **tester** + fixer | reviewer | qwen3.8-flash | suite 100% verte |
 | #391 veille | recherche | **librarian** | — | gratuit | digest mensuel |
-| #389 vivier recruteur | **security zone** | **security** (conception) | builder, verifier | glm-5.3 (rare, L3+) | verify + audit journal |
-| #391 certification + Promotions | feature+secu | **security** + builder | verifier | glm-5.3 + deepseek | verify + anti-garde-fou check |
+| #388 vivier recruteur | **security zone** | **security** (conception) | builder, verifier | glm-5.3 (rare, L3+) | verify + audit journal |
+| #389 certification + Promotions | feature+secu | **security** + builder | verifier | glm-5.3 + deepseek | verify + anti-garde-fou check |
 | Vague 5 élague | destructif | **architect** (plan) + builder | verifier | glm-5.3 plan + flash exec | **confirmation propriétaire** + db push |
 
 ### Dispositif FREE-first (coût ~0 par session de travail)
@@ -134,15 +138,15 @@ Tâches simples L1 → worker gratuits (groq/novita/zhipu/codestral — 0 quota 
 
 | Moment | Validation |
 |---|---|
-| Avant Vague 3 | 5 conversations actifs positives (#379) |
-| Avant Vague 4 | 1er pilot B2B exécuté (#381) |
+| Avant Vague 3 | 5 conversations actifs positives (#378) |
+| Avant Vague 4 | 1er pilot B2B exécuté (#380) |
 | Avant certification v1 | 10 evidences validées + 3 mentors-pairs actifs |
 | Avant Vague 5 (destructif) | confirmation explicite du propriétaire |
 | Chaque 1er vendu (grid prices) | recueillir le prix réel accepté → ajuster la grille |
 
 ## 5. Risques du plan (rappel PIVOT_CYBER §13)
 
-TryHackMe concurrence contenu · un seul relecteur final (goulot M7-12) · juridique OSINT · Terra Talent FR · créneau vide ≠ marché vide (les 10 entretiens #381 tranchent en 4 semaines).
+TryHackMe concurrence contenu · un seul relecteur final (goulot M7-12) · juridique OSINT · Terra Talent FR · créneau vide ≠ marché vide (les 10 entretiens #380 tranchent en 4 semaines).
 
 ---
 
