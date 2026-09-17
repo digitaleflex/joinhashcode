@@ -164,8 +164,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
+  // ⚠️ Les API sont exclues du matcher par défaut (Next.js) — on RAJOUTE
+  // explicitement /api/squad pour que le kill-switch D8 les intercepte.
   matcher: [
     "/((?!_next/static|_next/image|favicon\.ico|.*\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
+    "/api/squad/:path*",
   ],
 };
 
