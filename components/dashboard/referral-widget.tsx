@@ -17,15 +17,20 @@ export function ReferralWidget() {
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
 
+  const [origin, setOrigin] = useState("")
+  const [host, setHost] = useState("")
   useEffect(() => {
     fetch("/api/referral")
       .then(r => r.ok ? r.json() : null)
       .then(d => { setData(d); setLoading(false) })
       .catch(() => setLoading(false))
+    // window.* n'est lu qu'après montage — évite le mismatch hydration SSR
+    setOrigin(window.location.origin)
+    setHost(window.location.host)
   }, [])
 
-  const referralLink = data
-    ? `${typeof window !== "undefined" ? window.location.origin : ""}/signin?ref=${data.referralCode}`
+  const referralLink = data && origin
+    ? `${origin}/signin?ref=${data.referralCode}`
     : ""
 
   const copyLink = () => {
@@ -80,7 +85,7 @@ export function ReferralWidget() {
         ) : (
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0 bg-zinc-950 border border-white/8 rounded-2xl px-3 py-2.5 flex items-center gap-2">
-              <span className="text-xs font-mono text-zinc-600 shrink-0">{typeof window !== "undefined" ? window.location.host : "joinhashcode.com"}/signin?ref=</span>
+              <span className="text-xs font-mono text-zinc-600 shrink-0">{host || "joinhashcode.com"}/signin?ref=</span>
               <span className="text-sm-plus font-mono font-bold text-primary truncate">{data?.referralCode}</span>
             </div>
             <button
