@@ -108,6 +108,7 @@
 | session | D7 | expertise-diagnostic.tsx (2 voies SOC/OSINT, tech-tree débranché) | tsc ✅ |
 | session | D8 | proxy.ts (kill-switch /squad + /api/squad) + crons renommés _frozen | ✅ |
 | session | GATE | `npm run verify` : **types ✅ lint ✅ prisma ✅ 15/15 sondes ✅ 22 E2E ✅** | 🟢 VERT |
+| session | 🔴 BUG TROUVÉ PAR L'AUDIT APPROFONDI | le matcher du middleware **exclut `api/`** → le kill-switch D8 n'interceptait PAS les API squads (`POST /api/squad/join` = 401 = routes live !). Fix : matcher `"/api/squad/:path*"` ajouté → **404 confirmé** | ✅ |
 | session | TESTS | `npm run test` : **177 passés / 7 échecs — tous préexistants** (pruve stash avant/après) ; 1 test mis à jour (`admin-submissions`) pour affirmer le nouveau comportement sans XP ; **0 régression** | ✅ |
 
 ---
