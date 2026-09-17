@@ -151,3 +151,24 @@ TryHackMe concurrence contenu · un seul relecteur final (goulot M7-12) · jurid
 ---
 
 *Fichier vivant — mis à jour à chaque sprint review. Prochaine revue : fin S4 (Gate M1).*
+---
+
+## 6. Correspondance rituel communautaire ↔ code (inventaire 17/09, vérifié)
+
+| Décision | ✅ Existe déjà dans le code | ❌ Manquant | Quand coder |
+|---|---|---|---|
+| **D-020 Rangs A/P/V/C** | `memberNumber` (n° unique), `talentVisible` (drapeau Vivier), modèle `Certificate` | Evidence (condition du rang Vérifié), filtre du Vivier | V3 (#387) pour "Vérifié" · V4 (#389) pour "Certifié" |
+| **D-021 Classement hebdo** | **`isWeeklyChallenge` + cycleKey "WEEKLY"** : les soumissions hebdo sont DÉJÀ regroupées par cycle ! `qualityLevel` (STANDARD/GOOD/EXEMPLARY) sur chaque soumission = la note | 1 requête de calcul + une page — **mais manuel d'abord** | après Vague 3 |
+| **Défi de la semaine** | Le flag `isWeeklyChallenge` est encaissé dans l'admin (PATCH) + cycle system | le **contenu cyber** : 0 lab cyber en base (12 missions = ancienne vision) → #385 ; le GET `/api/missions` ne filtre pas `publishAt` → les vieilles missions restent visibles | Vague 2 (#384-385) |
+| **Rentrée mensuelle + parrainage** | RIEN — et c'est normal (manuel tant que < 50 nouveaux/mois) | rien | Vague 4 (#389 Promotions) |
+| **Invitation** | funnel `/acquisition` (3 pages, 200) · `/invite/[slug]` existe (ciblait squads — gelé) | réorienter `/invite` → le parcours (au lieu de join-squad) | Vague 2, petit ajustement |
+| **Evidence** | `MissionSubmission` + `qualityLevel` = **précurseurs directs** (la donnée existe déjà à chaque défi passé par le site) | modèle `Evidence` + UI + portfolio (`/dossier` a le trou D4) | Vague 3 (#387) |
+| **Suivi membres** | `ActivityLog`, `AnalyticsEvent`, sessions actives (dashboard admin "activeNow") | le "signe de vie" hebdo → manuel (feuille) | CRM codé si > 50 inscrits |
+| **Certification** | modèle `Certificate` existe (academy, câblé) | examen pratique + émission depuis les evidences | Vague 4 (#389) |
+
+### ⚡ Conséquence : le plan Vague 2-3 est PLUS LÉGER que prévu
+1. Le système de cycle hebdo existe → #384 "rubriques" peut rester léger (qualityLevel suffit pour le classement manuel → le classement codé viendra après Vague 3 sans refonte)
+2. Les soumissions du Défi 1 de CETTE SEMAINE produisent déjà les données qu'Evidence consommera
+3. Le seul candidat "code tout de suite" (exception au moratoire, 10 lignes) : filtrer le GET des missions sur `publishAt` — pour masquer les vieilles missions depuis l'admin. **Sur validation explicite du propriétaire.**
+4. Le travail "tout de suite" réellement utile = **le contenu des 5 labs (#385)** — des fiches, pas du code — préparables PENDANT le moratoire par docwriter + fondateur.
+
