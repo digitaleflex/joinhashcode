@@ -8,7 +8,15 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
-    exclude: ['**/node_modules/**', '**/dist/**', '**/e2e/**', '**/generated/**'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**',
+      '**/generated/**',
+      // worktrees locaux : copies du depot -> la suite tournait 2x
+      '**/.kilo/**',
+      '**/.claude/**',
+    ],
   },
   resolve: {
     alias: {
