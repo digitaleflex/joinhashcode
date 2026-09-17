@@ -93,6 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
+      suppressHydrationWarning
       className={`${syne.variable} ${outfit.variable} ${ibmPlexMono.variable} bg-background`}
       data-scroll-behavior="smooth"
     >
