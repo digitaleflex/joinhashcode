@@ -1,5 +1,18 @@
 # ROADMAP — Source unique de vérité
 
+> ⚠️ **AMENDEMENT — PIVOT PIPELINE CYBER (17/09/2026) — Décision D-014.**
+>
+> La roadmap ci-dessous (phases 0-3, KPI 500 actifs, talent pool généraliste) est
+> **archivée** : le projet suit désormais `DOCS/PLAN_EXECUTION.md` (plan 12 mois,
+> gates mesurables) et `DOCS/PIVOT_CYBER.md` (la vision du pivot). Backlog : EPIC #372.
+>
+> **Nouvelle hiérarchie des références :**
+> `DOCS/PIVOT_CYBER.md` → `DOCS/PLAN_EXECUTION.md` → `PRODUCT_VISION.md` (amendé) → cette page (archive)
+>
+> **Ce qui est déjà exécuté au 17/09 :** Vague 1 étape 1 complète (découplage D1-D8,
+> commit `282ebef`, gate VERT) — voir `DOCS/NETTOYAGE_SUIVI.md`. Les 33 issues de
+> l'ancienne roadmap sont fermées (pivot), remplacées par #378-#391.
+
 > **Ce document remplace les 3 anciens ROADMAP.** Il est le seul à faire foi pour
 > l'avancement du projet. Les deux autres sont archivés :
 > `DOCS/archive/ROADMAP_ISSUES.md` et `DOCS/archive/ROADMAP_PRODUCTION.md`

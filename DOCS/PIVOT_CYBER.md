@@ -219,8 +219,9 @@ Pas deux choses. Pas trois. Un pipeline cyber, du débutant zéro à l'employabl
 
 | # | Décision | État |
 |---|---|---|
-| 1 | Exécuter Vague 1 (#373) | ⏳ attente feu vert |
+| 1 | Exécuter Vague 1 (#373) — étape 1 (D1-D8) commitée `282ebef`, gate VERT | ✅ 17/09 |
 | 2 | 18 branches non mergées (`fix/P0-01`→`fix/P3-17`, `sprint1`, `snyk-fix`, `feat/social-mission-dedicated-page` + `AtelierProgress`) : garder gelées (reco) ou archiver/supprimer | ⏳ question posée |
+| 2b | Fin de Vague 1 (#378) : admin nav purgée + docs amendés (DECISIONS D-014→D-019, PRODUCT_VISION, ROADMAP, ABSORPTION) | ✅ 17/09 |
 | 3 | Dépôt OAPI marque + certification | à faire cette année |
 | 4 | Repo privé interne (playbooks locaux) | à créer |
 | 5 | Contrats (prestation client, freelance membre, consentement RGPD/lois locales) | avant 1er client |

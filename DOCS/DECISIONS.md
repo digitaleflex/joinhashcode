@@ -44,3 +44,16 @@
 | D-011 | Garder ou supprimer le Quiz Feedback Card (post-quiz survey) après la révélation | Conservé, sera réévalué après 20 sessions |
 | D-012 | Remplacer les profils Builder/Creator/Strategist/Catalyst par des noms plus parlants | Conservé, sera testé avec les utilisateurs |
 | D-013 | Ajouter un niveau 5 (ELITE+) ou supprimer le code mort associé | Code conservé, seuil non défini |
+
+---
+
+## 🔄 PIVOT — Décisions du 17/09/2026
+
+| ID | Décision | Justification | Date | Responsable | Statut |
+|---|---|---|---|---|---|
+| D-014 | **PIVOT : direction unique — filière cyber SOC/OSINT**. Une seule chose pendant 12 mois : la première filière « de zéro à analyste cyber employable » d'Afrique francophone. Référence : `DOCS/PIVOT_CYBER.md` | Données mesurées : 200 invitations → 60 inscrits → 10 actifs, 0 budget, 0 mentor payable. Marché : pénurie structurelle cyber documentée (Xpertize Africa 07/2026), 63% de la communauté demande le cyber, créneau OSINT francophone vide (vérifié 17/09/2026), cyber auto-validable sans mentor (labs/CTF). KPI 500 actifs enterré. | 17/09/2026 | Eurin + audit session | ✅ Actée |
+| D-015 | La gamification générique (XP, streaks, cohésion squad, leaderboards, 4 profils comme fondation) est GELÉE | Couplée à l'ancienne vision ; auto-validable ≠ n'exige pas de mentors ; données conservées, fichiers intacts (suppression Vague 5 #377). Découplage D1-D8 exécuté (commit `282ebef`) | 17/09/2026 | Eurin | ✅ Actée |
+| D-016 | Plugin better-auth `organization` conservé → devenir « Promotions » (cohortes) | Option A de l'audit (D8) : zéro migration, réutilise le socle. Suppression complète rejetée (coût élevé, gain nul) | 17/09/2026 | Eurin | ✅ Actée |
+| D-017 | Vocabulaire produit : Labs · Parcours · Portfolio · Vivier · Evidence | Les mots entraînent le produit. « Mission » reste le modèle DB, l'UI dit Labs | 17/09/2026 | Eurin | ✅ Actée |
+| D-018 | Règle monétisation amendée : parcours membre GRATUIT ; seuls les services humains immédiats payants (mentorat 1:1, reversement 70-80% mentor). Validation des evidences TOUJOURS gratuite | Éviter le piège B2C GoMyCode ; résoudre la pénurie de mentors sans casser le moat | 17/09/2026 | Eurin | ✅ Actée |
+| D-019 | Kalman/CORE avancé enterré jusqu'à 1000 actifs | Over-engineering sans utilisateurs ; heuristique simple suffit au N0→N1 | 17/09/2026 | Eurin | ✅ Actée |

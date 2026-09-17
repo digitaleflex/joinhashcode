@@ -15,22 +15,13 @@ import {
   MoreHorizontal,
   Activity,
   User as UserIcon,
-  Swords,
   ScrollText,
   Target,
   Bell,
   KeyRound,
-  ShieldBan,
   BarChart3,
   Route,
-  GraduationCap,
-  HeartHandshake,
-  LifeBuoy,
-  BrainCircuit,
-  Library,
-  BookOpen,
   UserRound,
-  ClipboardList,
 } from "lucide-react"
 
 import {
@@ -58,6 +49,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
 
+// ── PIVOT PIPELINE CYBER (DOCS/PIVOT_CYBER.md, 2026-09-17) ──────────────
+// Nav admin réorientée : pilotage du pipeline (users, labs, evidences,
+// parcours) uniquement. Les modules génériques (fraud, core, mentorat,
+// interventions, knowledge-hub, contenus, squads, ux-poll, analytics,
+// ateliers) sont gelés — routes intouchées, suppression en Vague 5 (#377).
 const navGroups = [
   {
     label: "Pilotage",
@@ -68,28 +64,17 @@ const navGroups = [
     ],
   },
   {
-    label: "Apprentissage",
+    label: "Labs",
     items: [
-      { title: "Ateliers",    url: "/admin/ateliers",       icon: GraduationCap },
-      { title: "Projets",     url: "/admin/missions",       icon: Target },
+      { title: "Labs",        url: "/admin/missions",       icon: Target },
       { title: "Évidences",   url: "/admin/submissions",    icon: FileCheck },
-      { title: "Onboarding",  url: "/admin/missions/attempts", icon: UserRound },
+      { title: "Soumissions", url: "/admin/missions/attempts", icon: UserRound },
     ],
   },
   {
-    label: "Accompagnement",
-    items: [
-      { title: "Mentorat",    url: "/admin/mentorat",       icon: HeartHandshake },
-      { title: "Interventions", url: "/admin/interventions", icon: LifeBuoy },
-      { title: "CORE",        url: "/admin/core",           icon: BrainCircuit },
-    ],
-  },
-  {
-    label: "Connaissances",
+    label: "Vivier",
     items: [
       { title: "Analytics",   url: "/admin/analytics",      icon: BarChart3 },
-      { title: "Contenus",    url: "/admin/contenus",       icon: BookOpen },
-      { title: "Knowledge Hub", url: "/admin/knowledge-hub", icon: Library },
       { title: "Notifications", url: "/admin/notifications", icon: Bell },
     ],
   },
@@ -98,11 +83,7 @@ const navGroups = [
     items: [
       { title: "Activité",    url: "/admin/activity",       icon: ScrollText },
       { title: "Feedback",    url: "/admin/feedback",       icon: MessageSquare },
-      { title: "Escouades",   url: "/admin/squads",         icon: Swords },
-      { title: "Demandes",    url: "/admin/squads/join-requests", icon: ClipboardList },
       { title: "Clés API",    url: "/admin/keys",           icon: KeyRound },
-      { title: "Anti-Fraude", url: "/admin/fraud",          icon: ShieldBan },
-      { title: "Sondage UX",  url: "/admin/ux-poll",        icon: BarChart3 },
     ],
   },
 ]

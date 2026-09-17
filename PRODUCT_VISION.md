@@ -1,5 +1,22 @@
 # Product Vision — HASHCODE
 
+> ⚠️ **AMENDEMENT CONSTITUTIONNEL — PIVOT PIPELINE CYBER (17/09/2026)**
+>
+> La vision ci-dessous a été **amendée par la décision D-014** (`DOCS/DECISIONS.md`).
+> La direction unique du projet est désormais : **la première filière « de zéro à
+> analyste cyber employable » (SOC niveau 1 + OSINT) d'Afrique francophone**.
+>
+> **Ce qui prime :** `DOCS/PIVOT_CYBER.md` (la vision du pivot) > cette page > tout autre doc.
+> En cas de contradiction entre ce document et `DOCS/PIVOT_CYBER.md`, **PIVOT_CYBER.md gagne.**
+>
+> **Le vocabulaire officiel est :** Labs · Parcours · Portfolio · Vivier · Evidence.
+> Les 4 profils psychométriques restent un onboarding léger, plus la fondation du produit.
+> Les parcours membres payants restent interdits. La gamification (XP/streaks/squads)
+> est gelée (D-015). Kalman enterré (D-019).
+>
+> Le contenu de la vision originale est conservé ci-dessous **en archive** pour
+> l'historique et l'esprit du produit (promesse de transformation, piliers, qualité).
+
 > Document de référence absolue du produit.
 > Toute décision d'écran, de feature ou de priorité doit être cohérente avec cette vision.
 >
