@@ -91,3 +91,60 @@ Samedi    → Cérémonie : classement hebdo (reset) + célébrations
 2. ❌ Jamais un 2e canal grand public (Discord, newsletter communauté) — un canal, une cadence
 3. ❌ Jamais obliger quelqu'un à être actif — il redescend Auditeur sans drama
 4. ❌ Jamais d'automatisation avant que le manuel n'échoue
+
+---
+
+## 7. Les fiches méthode (1 défi = 1 fiche — jamais un défi sans leçon)
+
+### Gabarit (30 min/semaine à remplir)
+
+```
+🎯 DÉFI #N — TITRE
+⏱️ durée · 📱/💻 matériel
+POURQUOI (3 lignes : le monde réel, pourquoi ça compte)
+ÉTAPES numérotées avec liens vers tutos gratuits FR
+📦 LIVRABLE attendu (précis : X lignes, quel format, lien)
+⛔ PAROLES "je bloque" : parrain +2 points
+```
+
+### Fiche prête — DÉFI #1 : Audit la sécurité de ton téléphone
+
+```
+🎯 DÉFI #1 — AUDITE LA SÉCURITÉ DE TON TÉLÉPHONE
+⏱️ 45 min · 📱 ton téléphone + un navigateur
+
+POURQUOI
+  80% des piratages de comptes en Afrique de l'Ouest passent par
+  un téléphone mal protégé : pas de 2FA, mots de passe fuités,
+  apps avec trop d'autorisations. Un analyste cyber commence
+  TOUJOURS par comprendre ce qu'il protège — aujourd'hui,
+  c'est ton téléphone.
+
+ÉTAPES
+  1. Liste tes 5 comptes les plus critiques (email, mobile money,
+     WhatsApp Business, banque, réseaux pro) → note-les
+  2. Active la 2FA sur chacun (Google Authenticator, ou 2FA SMS
+     si tu n'as pas d'app) → note lesquels n'avaient RIEN
+  3. Vérifie tes emails sur https://haveibeenpwned.com
+     → note les fuites trouvées (date, source)
+  4. Va dans Paramètres > Applications > Autorisations :
+     désactive localisation/contacts/micro pour les apps qui
+     n'en ont pas besoin → note ce que tu as coupé
+  5. Change les 3 mots de passe les plus faibles
+     (les mêmes sur plusieurs comptes = les premiers)
+
+📦 LIVRABLE (vendredi, formulaire)
+  Rapport de 10 lignes exactement :
+  - AVANT : 3 vulnérabilités que tu avais (ex: pas de 2FA sur mobile money)
+  - APRÈS : ce que tu as corrigé
+  - CE QUE TU N'AS PAS RÉUSSI et pourquoi (honnêteté = pas de pénalité)
+
+⭐ BONUS (pour les rapides) : installe un gestionnaire de mots de passe
+  et note en 3 lignes ce que ça change à ta vie.
+
+🔐 RAPPEL ÉTHIQUE : tu n'audites QUE ton téléphone. Jamais celui
+  de quelqu'un d'autre — c'est la règle de la filière.
+```
+
+### Le barème de classement (rappel D-021)
+Livraison +3 · Conforme +5 · Exemplaire +8 · Aide un pair +2 · Sans nouvelles −1
