@@ -4,7 +4,7 @@ test('has title and landing content', async ({ page }) => {
   await page.goto('/');
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/HASHCODE/);
+  await expect(page).toHaveTitle(/HASHCODE/i);
 
   // Check if landing page content is visible
   const mainHeading = page.locator('h1');

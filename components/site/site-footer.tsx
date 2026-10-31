@@ -1,56 +1,60 @@
 import Link from "next/link"
 import { Logo } from "@/components/brand/logo"
 
+const FOOTER_LINKS = {
+  "Découvrir": [
+    { href: "/programs", label: "Domaines" },
+    { href: "/labs", label: "Labs" },
+    { href: "/community", label: "Communauté" },
+    { href: "/talents", label: "Talents" },
+  ],
+  "Ressources": [
+    { href: "/about", label: "À propos" },
+    { href: "/academy", label: "Academy" },
+    { href: "/contact", label: "Contact" },
+    { href: "/signin", label: "Connexion" },
+  ],
+  "Informations": [
+    { href: "/privacy", label: "Confidentialité" },
+    { href: "/terms", label: "Conditions d'utilisation" },
+    { href: "/legal", label: "Mentions légales" },
+    { href: "/cookies", label: "Cookies" },
+  ],
+}
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.4fr_2fr]">
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2" aria-label="HASHCODE home">
+            <Link href="/" className="flex items-center gap-2" aria-label="Accueil HashCode">
               <Logo variant="mark" size="sm" />
               <Logo variant="full" size="sm" />
             </Link>
-            <p className="text-sm font-medium leading-relaxed text-muted-foreground">
-              Build skills. Prove expertise. Create opportunities.
-            </p>
-            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-              A place to learn, experiment, build and demonstrate what you can do.
+            <p className="max-w-sm text-sm font-semibold leading-relaxed text-foreground">Apprendre. Construire. Évoluer.</p>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Un écosystème pour développer ses compétences numériques, pratiquer et rendre ses réalisations visibles.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ecosystem</h4>
-              <ul className="space-y-2">
-                <li><Link href="/programs" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Programs</Link></li>
-                <li><Link href="/labs" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Labs</Link></li>
-                <li><Link href="/community" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Community</Link></li>
-                <li><Link href="/talents" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Talents</Link></li>
-              </ul>
-            </div>
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Resources</h4>
-              <ul className="space-y-2">
-                <li><Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">About</Link></li>
-                <li><Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Contact</Link></li>
-                <li><Link href="/academy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Academy</Link></li>
-                <li><Link href="/signin" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Sign in</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Legal</h4>
-            <ul className="space-y-2">
-              <li><Link href="/privacy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Privacy</Link></li>
-              <li><Link href="/terms" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Terms</Link></li>
-              <li><Link href="/legal" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Legal notice</Link></li>
-              <li><Link href="/cookies" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Cookies</Link></li>
-            </ul>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            {Object.entries(FOOTER_LINKS).map(([title, links]) => (
+              <div key={title} className="space-y-3">
+                <h2 className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{title}</h2>
+                <ul className="space-y-2.5">
+                  {links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-xs font-medium text-muted-foreground transition-colors hover:text-primary">{link.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
-          <p className="text-xs text-muted-foreground">© 2026 HASHCODE</p>
-          <p className="text-xs text-muted-foreground">Build skills. Prove expertise. Create opportunities.</p>
+          <p className="text-[11px] text-muted-foreground">© {new Date().getFullYear()} HashCode. Tous droits réservés.</p>
+          <p className="text-[11px] text-muted-foreground">Une communauté qui apprend, construit et partage.</p>
         </div>
       </div>
     </footer>

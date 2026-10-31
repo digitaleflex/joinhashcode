@@ -103,6 +103,7 @@ vi.mock("next/headers", () => ({
 
 vi.mock("@/lib/ratelimit", () => ({
   mutationLimiter: {},
+  submitLimiter: {},
   adminOpsLimiter: {},
   checkRateLimit: vi.fn(() => ({ limited: false })),
 }));

@@ -1,57 +1,31 @@
 import Link from "next/link"
-import { ArrowRight, BadgeCheck, BookOpen, FlaskConical, Users } from "lucide-react"
+import { ArrowUpRight, BadgeCheck, BookOpen, Compass, FlaskConical } from "lucide-react"
 import { SectionHeading } from "@/components/site/section-heading"
 
-const PILLARS = [
-  {
-    icon: BookOpen,
-    title: "Learn",
-    text: "Discover technologies, explore structured learning paths and build strong foundations.",
-    href: "/programs",
-  },
-  {
-    icon: FlaskConical,
-    title: "Practice",
-    text: "Move beyond theory through practical labs, challenges and real-world projects.",
-    href: "/labs",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Prove",
-    text: "Demonstrate what you know through completed work, assessed submissions and documented achievements.",
-    href: "/talents",
-  },
-  {
-    icon: Users,
-    title: "Connect",
-    text: "Share knowledge, collaborate with others and discover new opportunities within a growing technology ecosystem.",
-    href: "/community",
-  },
+const STEPS = [
+  { icon: Compass, title: "Trouver sa direction", text: "Explore les domaines du numérique et identifie une direction cohérente avec tes intérêts.", href: "/programs", label: "Explorer les domaines" },
+  { icon: BookOpen, title: "Apprendre avec méthode", text: "Construis tes bases à travers des ressources, des contenus et des parcours structurés.", href: "/academy", label: "Voir l'Academy" },
+  { icon: FlaskConical, title: "Passer à la pratique", text: "Mets tes connaissances à l'épreuve avec des missions, des défis et des projets.", href: "/labs", label: "Découvrir les Labs" },
+  { icon: BadgeCheck, title: "Montrer ce que tu sais faire", text: "Conserve tes réalisations et fais reconnaître les compétences effectivement démontrées.", href: "/talents", label: "Voir les talents" },
 ]
 
 export function HomeWhatWeDo() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeading
-        kicker="What we do"
-        title="More than learning. A place to build."
-        description="HASHCODE connects learning, experimentation, collaboration and demonstrated expertise through a continuous experience."
-      />
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {PILLARS.map((p, i) => (
-          <Link
-            key={p.title}
-            href={p.href}
-            className={`group rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md ${i % 2 === 1 ? "sm:translate-y-4" : ""}`}
-          >
-            <p.icon className="h-7 w-7 text-primary" aria-hidden />
-            <h3 className="mt-4 font-syne text-xl font-bold text-foreground">{p.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.text}</p>
-            <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-              Explore
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
-            </span>
-          </Link>
+    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <SectionHeading kicker="Comment ça fonctionne" title="De la curiosité à la compétence démontrée." description="HashCode relie les étapes qui sont souvent dispersées : choisir une direction, apprendre, pratiquer et rendre ses progrès visibles." />
+      <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {STEPS.map((step, index) => (
+          <article key={step.title} className="group relative rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-xs font-bold text-primary">0{index + 1}</span>
+              <step.icon className="h-6 w-6 text-primary" aria-hidden />
+            </div>
+            <h3 className="mt-6 font-syne text-xl font-bold text-foreground">{step.title}</h3>
+            <p className="mt-3 min-h-[5.25rem] text-sm leading-relaxed text-muted-foreground">{step.text}</p>
+            <Link href={step.href} className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+              {step.label} <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </article>
         ))}
       </div>
     </section>

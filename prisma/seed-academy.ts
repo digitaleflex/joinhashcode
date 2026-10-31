@@ -26,7 +26,7 @@ function uid(): string {
 async function resolveInstructor(): Promise<string> {
   const adminEmails = ["eflexcloud@gmail.com", "digitaleflex@gmail.com"];
   for (const email of adminEmails) {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email }, select: { id: true } });
     if (user) {
       console.log(`  🧑‍🏫 Instructor trouvé: ${email} (${user.id})`);
       return user.id;
@@ -45,6 +45,7 @@ async function resolveInstructor(): Promise<string> {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    select: { id: true, email: true },
   });
   console.log(`  🧑‍🏫 Instructor système: ${system.email} (${system.id})`);
   return system.id;
