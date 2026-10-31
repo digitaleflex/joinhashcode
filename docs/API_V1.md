@@ -195,11 +195,11 @@ Les noms d'événements et leurs schémas seront documentés avant activation en
 
 ## 8. Ressources candidates de v1
 
-Ces routes sont des propositions de contrat, **pas des endpoints déjà implémentés**. Elles seront livrées par lots, avec schémas, autorisations et tests propres à chaque ressource.
+Les routes ci-dessous distinguent les contrats effectivement livrés des propositions. Toute route marquée « candidate » reste indisponible tant que son handler, ses contrôles et ses tests ne sont pas fusionnés.
 
 | Ressource | Endpoint candidat | Usage |
 |---|---|---|
-| Profil courant | `GET /members/me` | Lire le profil du membre authentifié |
+| Profil courant | `GET /members/me` | <strong>Implémenté sur la branche de fondation</strong> : lit le profil du membre authentifié via Better Auth et retourne un DTO explicite |
 | Profil courant | `PATCH /members/me` | Modifier les champs autorisés du profil |
 | Session d'onboarding | `POST /onboarding/sessions` | Démarrer ou reprendre un onboarding |
 | Conversion d'acquisition | `POST /integrations/acquisitions` | Recevoir un contrat AcquisitionContext versionné |
@@ -291,4 +291,4 @@ Chaque étape doit être une PR limitée, vérifiable et réversible. Pas de mig
 
 ---
 
-**Règle de livraison :** aucun endpoint ne doit être annoncé comme disponible tant que son handler, ses contrôles de sécurité, ses tests et sa documentation ne sont pas présents dans le dépôt.
+**Règle de livraison :** aucun endpoint ne doit être annoncé comme disponible en production tant que son handler, ses contrôles de sécurité, ses tests et sa documentation ne sont pas présents et fusionnés dans la branche de déploiement.
