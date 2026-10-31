@@ -28,7 +28,7 @@ export default function ProgramsPage() {
       <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-3">
           {ACTIVE_PROGRAMS.map((domain, index) => (
-            <article key={domain.slug} className="flex flex-col rounded-3xl border border-border bg-card p-7 sm:p-8">
+            <article id={domain.slug} key={domain.slug} className="flex flex-col rounded-3xl border border-border bg-card p-7 sm:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-bold text-primary">DOMAINE 0{index + 1}</span>
                 <span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-primary">Actif</span>
