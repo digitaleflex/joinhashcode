@@ -2,55 +2,34 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, FlaskConical, GraduationCap } from "lucide-react"
 import { SectionHeading } from "@/components/site/section-heading"
+import { ACTIVE_PROGRAMS, DEVELOPING_PROGRAMS, COMING_SOON_PROGRAMS } from "@/lib/site-programs"
 
 export const metadata: Metadata = {
   title: "Programs",
   description: "Explore technology fields with HASHCODE — from active learning paths to developing areas and future explorations.",
 }
 
-const ACTIVE = [
-  {
-    title: "Cloud & DevOps",
-    text: "Understand how modern software runs in production — from a first Linux server to automated delivery pipelines.",
-    topics: ["Linux and cloud fundamentals", "CI/CD and automation concepts", "Infrastructure and engineering foundations"],
-    links: [
-      { label: "Practice in Labs", href: "/labs", icon: FlaskConical },
-      { label: "Study in Academy", href: "/academy", icon: GraduationCap },
-    ],
-  },
-  {
-    title: "AI & Data",
-    text: "From reading data to questioning models — build an intuition for data analysis and artificial intelligence.",
-    topics: ["Data analysis foundations", "Introduction to machine learning", "Artificial intelligence exploration"],
-    links: [
-      { label: "Practice in Labs", href: "/labs", icon: FlaskConical },
-      { label: "Study in Academy", href: "/academy", icon: GraduationCap },
-    ],
-  },
-  {
-    title: "Product & Strategy",
-    text: "Learn to think in problems before solutions — product thinking, structured problem-solving and teamwork.",
-    topics: ["Product thinking", "Problem-solving", "Design thinking", "Project fundamentals"],
-    links: [{ label: "Practice in Labs", href: "/labs", icon: FlaskConical }],
-  },
-  {
-    title: "Engineering Foundations",
-    text: "The durable core of software engineering — algorithms, data and systems that outlive every framework.",
-    topics: ["Algorithms", "Database fundamentals", "Software engineering foundations"],
-    links: [{ label: "Study in Academy", href: "/academy", icon: GraduationCap }],
-  },
-]
+const ACTIVE_LINKS: Record<string, { label: string; href: string }[]> = {
+  "Cloud & DevOps": [
+    { label: "Practice in Labs", href: "/labs" },
+    { label: "Study in Academy", href: "/academy" },
+  ],
+  "AI & Data": [
+    { label: "Practice in Labs", href: "/labs" },
+    { label: "Study in Academy", href: "/academy" },
+  ],
+  "Product & Strategy": [{ label: "Practice in Labs", href: "/labs" }],
+  "Engineering Foundations": [{ label: "Study in Academy", href: "/academy" }],
+}
 
-const DEVELOPING = [
-  { title: "Web & Fullstack", text: "Building for the web, from first responsive page to full applications." },
-  { title: "Mobile Development", text: "Mobile-first thinking and native-quality experiences." },
-  { title: "UX/UI & Graphic Design", text: "Interfaces and identities people understand and remember." },
-  { title: "Content & Creative Strategy", text: "Ideas, angles and narratives that carry a project." },
-  { title: "Community & Partnerships", text: "Gathering people, growing networks, building together." },
-  { title: "Software Architecture", text: "Structures that let systems — and teams — scale." },
-]
-
-const COMING_SOON = ["Cybersecurity", "Automation", "Web3"]
+const DEVELOPING_TEXT: Record<string, string> = {
+  "Web & Fullstack": "Building for the web, from first responsive page to full applications.",
+  "Mobile Development": "Mobile-first thinking and native-quality experiences.",
+  "UX/UI & Graphic Design": "Interfaces and identities people understand and remember.",
+  "Content & Creative Strategy": "Ideas, angles and narratives that carry a project.",
+  "Community & Partnerships": "Gathering people, growing networks, building together.",
+  "Software Architecture": "Structures that let systems — and teams — scale.",
+}
 
 export default function ProgramsPage() {
   return (
@@ -70,7 +49,7 @@ export default function ProgramsPage() {
           <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Active paths</h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
-          {ACTIVE.map((d, i) => (
+          {ACTIVE_PROGRAMS.map((d, i) => (
             <article
               key={d.title}
               className={`rounded-3xl border border-border bg-card p-8 ${i === 0 ? "lg:col-span-2 lg:grid lg:grid-cols-2 lg:gap-8" : ""}`}
@@ -80,13 +59,17 @@ export default function ProgramsPage() {
                 <h3 className="mt-2 font-syne text-2xl font-bold text-foreground sm:text-3xl">{d.title}</h3>
                 <p className="mt-3 leading-relaxed text-muted-foreground">{d.text}</p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  {d.links.map((l) => (
+                  {(ACTIVE_LINKS[d.title] ?? []).map((l) => (
                     <Link
                       key={l.label}
                       href={l.href}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary/50"
                     >
-                      <l.icon className="h-4 w-4 text-primary" aria-hidden />
+                      {l.href === "/labs" ? (
+                        <FlaskConical className="h-4 w-4 text-primary" aria-hidden />
+                      ) : (
+                        <GraduationCap className="h-4 w-4 text-primary" aria-hidden />
+                      )}
                       {l.label}
                     </Link>
                   ))}
@@ -116,15 +99,15 @@ export default function ProgramsPage() {
           complete paths — what exists today is real practice material, and more is on the way.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {DEVELOPING.map((d) => (
-            <article key={d.title} className="rounded-2xl border border-border bg-card p-6">
+          {DEVELOPING_PROGRAMS.map((title) => (
+            <article key={title} className="rounded-2xl border border-border bg-card p-6">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="font-syne text-lg font-bold text-foreground">{d.title}</h3>
+                <h3 className="font-syne text-lg font-bold text-foreground">{title}</h3>
                 <span className="shrink-0 rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] font-bold uppercase text-primary">
                   Developing
                 </span>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d.text}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{DEVELOPING_TEXT[title]}</p>
               <Link href="/labs" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
                 See related labs <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
@@ -141,7 +124,7 @@ export default function ProgramsPage() {
             <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">Coming soon</h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            {COMING_SOON.map((d) => (
+            {COMING_SOON_PROGRAMS.map((d) => (
               <span key={d} className="rounded-full border border-dashed border-border px-5 py-2.5 font-syne text-base font-bold text-muted-foreground">
                 {d}
               </span>
