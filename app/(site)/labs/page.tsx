@@ -68,7 +68,7 @@ export default async function LabsPage() {
                   <span className="inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5" aria-hidden />{m.xp} XP</span>
                 </div>
                 <Link href={`/missions/${m.slug}`} className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
-                  View mission <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  Voir la mission <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </Link>
               </article>
             ))}
@@ -87,11 +87,11 @@ export default async function LabsPage() {
             {weeklies.map((m) => (
               <article key={m.id} className="rounded-2xl border border-border bg-card p-5">
                 <span className="rounded bg-muted px-2 py-0.5 font-mono text-[11px] font-bold uppercase text-muted-foreground">
-                  Weekly
+                  Hebdomadaire
                 </span>
                 <h3 className="mt-3 font-syne text-base font-bold leading-snug text-foreground">{m.title}</h3>
                 <Link href={`/missions/${m.slug}`} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
-                  Participate <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  Participer <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </Link>
               </article>
             ))}
@@ -137,7 +137,7 @@ export default async function LabsPage() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/signin" className="inline-flex items-center gap-2 rounded-xl bg-primary-foreground px-5 py-3 text-sm font-bold text-primary transition-transform hover:scale-[1.02]">
-              Join HASHCODE <ArrowRight className="h-4 w-4" aria-hidden />
+              Rejoindre HashCode <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <Link href="/programs" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-5 py-3 text-sm font-bold text-primary-foreground hover:bg-primary-foreground/10">
               Explore programs
