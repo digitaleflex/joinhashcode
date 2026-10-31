@@ -163,12 +163,7 @@ describe("Security & Abuse Prevention", () => {
         where: { id: "user-1" },
         data: expect.objectContaining({
           pseudo: "Hacker",
-          profile: {
-            upsert: {
-              create: { bio: "I am a cool person ..." },
-              update: { bio: "I am a cool person ..." },
-            }
-          }
+          bio: "I am a cool person ...",
         }),
         select: expect.any(Object),
       });
