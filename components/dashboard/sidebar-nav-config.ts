@@ -16,7 +16,7 @@ export const mainNavItems: NavItem[] = [
   { href: "/missions", label: "Labs", icon: Target, tooltip: "Les labs de la filière cyber : prouve tes compétences." },
   { href: "/academy", label: "Parcours", icon: ClipboardCheck, tooltip: "Ton parcours N0→N1 : fiches méthode et étapes." },
   { href: "/dossier", label: "Portfolio", icon: FileText, tooltip: "Tes evidences et livrables vérifiés." },
-  { href: "/talents", label: "Vivier", icon: Compass, tooltip: "Le vivier d'analystes HashCode." },
+  { href: "/dashboard/talents", label: "Vivier", icon: Compass, tooltip: "Le vivier d'analystes HashCode." },
 ]
 
 // Anciennes entrées gelées (référence Vague 5) :
