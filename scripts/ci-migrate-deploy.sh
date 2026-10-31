@@ -16,8 +16,6 @@
 set -uo pipefail
 
 KNOWN_MIGRATION="20260809000000_add_user_confidence_score"
-EXPECTED_ERROR='column "confidenceScore" of relation "user" already exists'
-
 if pnpm exec prisma migrate deploy; then
   exit 0
 fi
