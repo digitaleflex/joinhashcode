@@ -1,21 +1,31 @@
 # Product Vision — HASHCODE
 
-> ⚠️ **AMENDEMENT CONSTITUTIONNEL — PIVOT PIPELINE CYBER (17/09/2026)**
+> **VISION ACTIVE — DÉCISION D-024 (31/10/2026)**
 >
-> La vision ci-dessous a été **amendée par la décision D-014** (`DOCS/DECISIONS.md`).
-> La direction unique du projet est désormais : **la première filière « de zéro à
-> analyste cyber employable » (SOC niveau 1 + OSINT) d'Afrique francophone**.
+> HASHCODE / JoinHashCode est une plateforme communautaire et d'apprentissage qui aide
+> les talents à apprendre, pratiquer, démontrer leurs compétences et accéder à des
+> opportunités dans **trois domaines actifs : Web Development, Cybersécurité et IA appliquée**.
 >
-> **Ce qui prime :** `DOCS/PIVOT_CYBER.md` (la vision du pivot) > cette page > tout autre doc.
-> En cas de contradiction entre ce document et `DOCS/PIVOT_CYBER.md`, **PIVOT_CYBER.md gagne.**
+> **Référence de priorité :** cette vision et `DOCS/DECISIONS.md` priment sur les anciens
+> documents de pivot. `DOCS/PIVOT_CYBER.md` est conservé comme historique stratégique
+> et source de contenu cyber, mais ne définit plus à lui seul le périmètre du produit.
 >
-> **Le vocabulaire officiel est :** Labs · Parcours · Portfolio · Vivier · Evidence.
-> Les 4 profils psychométriques restent un onboarding léger, plus la fondation du produit.
-> Les parcours membres payants restent interdits. La gamification (XP/streaks/squads)
-> est gelée (D-015). Kalman enterré (D-019).
+> **Règles produit :**
+> - Les trois domaines font partie du périmètre public et produit ; la profondeur réelle
+>   des contenus et fonctionnalités doit être annoncée honnêtement domaine par domaine.
+> - Un seul compte, un seul profil membre et une expérience cohérente ; pas trois plateformes
+>   ni trois systèmes d'identité séparés.
+> - Le parcours principal reste : découverte → orientation → apprentissage → pratique
+>   → preuve/validation → opportunités.
+> - Les contenus pédagogiques restent versionnés et gouvernés par HashCode Academy.
+> - Reboot est une source de capacités à intégrer sélectivement, pas une seconde plateforme
+>   à maintenir en parallèle.
+> - La gratuité et les règles de validation restent celles des décisions produit existantes.
+> - Le gel de la gamification générique (D-015) et de CORE avancé (D-019) reste applicable
+>   jusqu'à décision explicite contraire.
 >
-> Le contenu de la vision originale est conservé ci-dessous **en archive** pour
-> l'historique et l'esprit du produit (promesse de transformation, piliers, qualité).
+> Le contenu historique ci-dessous est conservé comme référence de conception ; en cas de
+> contradiction avec D-024, la vision active ci-dessus prévaut.
 
 > Document de référence absolue du produit.
 > Toute décision d'écran, de feature ou de priorité doit être cohérente avec cette vision.
