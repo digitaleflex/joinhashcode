@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { prisma } from "@/lib/prisma"
+import { getPublicTalentsPreview } from "@/lib/site-data"
 import { SectionHeading } from "@/components/site/section-heading"
 
 export const metadata: Metadata = {
@@ -8,30 +8,12 @@ export const metadata: Metadata = {
   description: "Discover verified HASHCODE talents — skills proven through labs, missions and peer reviews.",
 }
 
-export const revalidate = 300
+// Données DB à chaque requête : le prerender build ne doit jamais
+// dépendre de la base (EAI_AGAIN en CI/preview = build cassé).
+export const dynamic = "force-dynamic"
 
 export default async function TalentsVitrinePage() {
-  const talents = await prisma.user.findMany({
-    where: {
-      class: { not: null },
-      pseudo: { not: null },
-      talentVisible: true,
-      missionsCompletedCount: { gte: 1 },
-      OR: [{ banned: { not: true } }, { banned: null }],
-    },
-    select: {
-      pseudo: true,
-      class: true,
-      country: true,
-      city: true,
-      bio: true,
-      tools: true,
-      level: true,
-      missionsCompletedCount: true,
-    },
-    orderBy: [{ missionsCompletedCount: "desc" }, { level: "desc" }],
-    take: 50,
-  })
+  const talents = await getPublicTalentsPreview(50)
 
   return (
     <main className="bg-background">
