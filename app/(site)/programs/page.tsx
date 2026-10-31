@@ -14,6 +14,7 @@ export default function ProgramsPage() {
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-14 pt-20 sm:px-6 sm:pt-28 lg:px-8">
         <SectionHeading
+          level={1}
           kicker="Nos domaines"
           title="Trois domaines. Une même ambition : progresser par la pratique."
           description="Choisis le domaine qui t'intéresse. HashCode rassemble l'orientation, les ressources, les activités pratiques et la communauté dans une expérience unifiée."
