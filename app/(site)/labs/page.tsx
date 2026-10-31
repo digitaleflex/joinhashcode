@@ -20,6 +20,7 @@ export default async function LabsPage() {
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-12 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <SectionHeading
+          level={1}
           kicker="Labs"
           title="Apprendre en pratiquant. Progresser par l'expérience."
           description="Découvre des activités concrètes pour expérimenter, résoudre des problèmes et renforcer tes compétences techniques."
