@@ -199,7 +199,7 @@ Les routes ci-dessous distinguent les contrats effectivement livrés des proposi
 
 | Ressource | Endpoint candidat | Usage |
 |---|---|---|
-| Profil courant | `GET /members/me` | <strong>Implémenté sur la branche de fondation</strong> : lit le profil du membre authentifié via Better Auth et retourne un DTO explicite |
+| Profil courant | `GET /members/me` | **Implémenté sur la branche de fondation** : lit le profil du membre authentifié via Better Auth et retourne un DTO explicite |
 | Profil courant | `PATCH /members/me` | Modifier les champs autorisés du profil |
 | Session d'onboarding | `POST /onboarding/sessions` | Démarrer ou reprendre un onboarding |
 | Conversion d'acquisition | `POST /integrations/acquisitions` | Recevoir un contrat AcquisitionContext versionné |
