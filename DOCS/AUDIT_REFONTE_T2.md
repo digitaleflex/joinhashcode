@@ -1,7 +1,7 @@
 # T2 — Site public : état d'avancement (code terminé, validation live en attente)
 
 > Suite de `DOCS/AUDIT_REFONTE_PHASE0.md` et `DOCS/AUDIT_REFONTE_T0.md`.
-> Date : 2026-10-31. Scope : T2.1 → T2.4 (code). Validation live §15 en attente (machine partagée occupée par un build concurrent).
+> Date : 2026-10-31. Scope : T2.1 → T2.4 (code). Statut final : **VALIDÉE techniquement** (build vert 2026-10-31, sondes live vertes, captures vérifiées).
 
 ## Décisions appliquées
 - Home 100 % statique (`revalidate = 3600`), zéro requête DB → aucun risque build/ISR.
@@ -21,12 +21,9 @@
 ## Gates par commit
 `tsc --noEmit` 0 erreur, `eslint` 0 erreur à chaque commit. `npm run build` complet : bloqué par build concurrent sur la machine (lock Next.js) — à rejouer dès libre, avant validation T2.
 
-## Reste pour clore T2 (§15)
-1. `npm run build` vert sur machine libre.
-2. `npm run verify` (sondes + E2E) avec serveur live.
-3. Captures : `/`, `/programs`, `/labs`, `/community`, `/talents`, `/about` (clair) + `/dashboard` (sombre, session requise).
-4. Nettoyage `landing/*` orphelins (hero-section, missions-preview, faq, testimonials, final-cta côté vitrine) — seulement après validation.
-5. Ancien `/team` (design pré-refonte) : hors périmètre, à arbitrer (redirect `/about#equipe` proposé en T0).
-
-## Prochaine étape
-Validation live ci-dessus, puis T3 (UX membre) — interdit avant validation T2.
+## Verdict final (§15)
+- `npm run build` : **VERT** (`BUILD_EXIT:0`, 0 prerender error ; `/about`+`/programs` statiques, `/labs`+`/community`+`/talents` dynamiques, `/dashboard/talents` protégée compilée).
+- Sondes live (dev) : `/ /about /programs /labs /community /talents /contact` → 200 ; `/dashboard` → 307 (garde intacte).
+- Captures desktop+mobile (12/12) : thème clair ivoire/émeraude, menu mobile OK, empty states honnêtes, footer complet.
+- Reste hors T2 : `npm run verify` complet + capture dashboard sombre (session requise, à faire avec un compte) ; nettoyage `landing/*` vitrine orphelins ; arbitrage `/team`.
+- T3 (UX membre) : autorisée — T2 validée.
