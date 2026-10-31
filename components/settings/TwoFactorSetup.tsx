@@ -30,13 +30,19 @@ export function TwoFactorSetup({ user }: { user: { twoFactorEnabled?: boolean } 
     try {
       const { data, error } = await authClient.twoFactor.enable({
         password: "",
+        method: "totp",
       });
 
       if (error) {
         toast.error(error.message || "Erreur d'authentification");
-      } else if (data) {
-        setTotpData(data);
+      } else if (data?.method === "totp") {
+        setTotpData({
+          totpURI: data.totpURI,
+          backupCodes: data.backupCodes,
+        });
         setStep("setup");
+      } else if (data?.method === "otp") {
+        toast.error("La configuration par code e-mail n'est pas disponible dans cet écran. Réessaie avec une application TOTP.");
       }
     } catch (error: unknown) {
       toast.error("Erreur technique");
