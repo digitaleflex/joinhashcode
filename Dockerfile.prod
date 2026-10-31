@@ -9,7 +9,7 @@
 #   /app/generated, /app/prisma, /app/prisma.config.ts (migrate deploy)
 # ────────────────────────────────────────────────────────────────
 
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -28,14 +28,14 @@ ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholde
 ENV DIRECT_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 RUN npm run build
 
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 -G nodejs nextjs
 
 # Prisma CLI pour `migrate deploy` au démarrage (même logique que l'ancien runtime)
 WORKDIR /app
-RUN npm install prisma@7.8.0 --no-save --no-package-lock --global && \
-    npm install @prisma/config@7.8.0 --no-save --no-package-lock && \
+RUN npm install prisma@7.9.1 --no-save --no-package-lock --global && \
+    npm install @prisma/config@7.9.1 --no-save --no-package-lock && \
     chown -R nextjs:nodejs /app
 
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
