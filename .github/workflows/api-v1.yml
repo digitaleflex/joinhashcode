@@ -58,6 +58,7 @@ jobs:
         run: pnpm exec prisma generate
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/joinhashcode_test
+          DIRECT_URL: postgresql://postgres:postgres@localhost:5432/joinhashcode_test
 
       - name: Type check
         run: pnpm type-check
