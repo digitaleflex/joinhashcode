@@ -34,9 +34,16 @@ export function TwoFactorSetup({ user }: { user: { twoFactorEnabled?: boolean } 
 
       if (error) {
         toast.error(error.message || "Erreur d'authentification");
-      } else if (data) {
-        setTotpData(data);
+      } else if (data?.method === "totp") {
+        // Better Auth can return either an OTP or a TOTP setup result.
+        // This screen displays a QR code, so only accept the TOTP variant.
+        setTotpData({
+          totpURI: data.totpURI,
+          backupCodes: data.backupCodes,
+        });
         setStep("setup");
+      } else if (data) {
+        toast.error("La configuration TOTP n'a pas été retournée. Réessaie avec une méthode compatible.");
       }
     } catch (error: unknown) {
       toast.error("Erreur technique");
