@@ -1,0 +1,70 @@
+name: API v1 contract checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/api/v1/**"
+      - "lib/api/**"
+      - "__tests__/api/v1/**"
+      - "docs/API_V1.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "vitest.config.ts"
+      - ".github/workflows/api-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/api/v1/**"
+      - "lib/api/**"
+      - "__tests__/api/v1/**"
+      - "docs/API_V1.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "vitest.config.ts"
+      - ".github/workflows/api-v1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-v1-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api-v1:
+    name: API v1 — static checks and contract tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm exec prisma generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/joinhashcode_test
+          DIRECT_URL: postgresql://postgres:postgres@localhost:5432/joinhashcode_test
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Lint API v1 files
+        run: pnpm exec eslint app/api/v1/members/me/route.ts __tests__/api/v1/members/me.test.ts
+
+      - name: Test API v1 member contract
+        run: pnpm exec vitest run __tests__/api/v1/members/me.test.ts
