@@ -1,25 +1,28 @@
-# PIVOT_CYBER.md — Décision stratégique du pivot (document de référence)
+# PIVOT_CYBER.md — Archive stratégique du pivot cyber (17/09/2026)
 
-> **Date :** 17 septembre 2026
-> **Statut :** Décision proposée — Vague 1 (issue #373) en attente d'exécution
-> **Origine :** Session d'analyse stratégique (vision, marché, faisabilité, monétisation)
-> **Backlog :** EPIC #372 + Vagues #373–#377 (github.com/digitaleflex/joinhashcode)
+> **Date de la décision historique :** 17 septembre 2026
+> **Statut :** Historique — périmètre amendé par D-024 du 31/10/2026
+> **Référence active :** `PRODUCT_VISION.md` et `DOCS/DECISIONS.md`
+> **Backlog historique :** EPIC #372 + Vagues #373–#377
 >
-> ⚠️ Ce document **amende** temporairement la hiérarchie des références jusqu'à
-> l'exécution de la Vague 1. Il ne remplace pas `PRODUCT_VISION.md` — il propose
-> de le réécrire (pivot). Les données citées sont datées et vérifiées (2026-09).
+> ⚠️ Ce document conserve le raisonnement, les hypothèses et les travaux de la stratégie
+> cyber de septembre 2026. Il reste utile pour le domaine Cybersécurité, mais ne constitue
+> plus la vision globale ni une restriction du produit à un seul domaine.
+>
+> Les données de marché et les hypothèses ci-dessous sont datées de septembre 2026 et
+> doivent être revalidées avant toute communication externe ou décision commerciale.
 
 ---
 
-## 0. La décision en une phrase
+## 0. Décision stratégique historique (17/09/2026)
 
-> **Une seule chose pendant 12 mois : la première filière "de zéro à analyste
-> cyber employable" (SOC niveau 1 + OSINT) d'Afrique francophone — gratuite,
-> auto-validée par labs/CTF, avec placement vers banques, télécoms, États et
-> employeurs remote — avec l'OSINT comme drapeau que personne sur le continent
-> ne porte.**
+> À cette date, l'option retenue était de concentrer l'investissement produit sur
+> une filière « de zéro à analyste cyber employable » (SOC niveau 1 + OSINT).
 
-Pas deux choses. Pas trois. Un pipeline cyber, du débutant zéro à l'employable.
+Cette décision explique la priorisation cyber et les travaux historiques du dépôt.
+Depuis D-024 (31/10/2026), le périmètre produit actif comprend Web Development,
+Cybersécurité et IA appliquée. Les sections suivantes sont des éléments d'analyse
+historique et de connaissance du domaine cyber, pas une contrainte de roadmap globale.
 
 ---
 

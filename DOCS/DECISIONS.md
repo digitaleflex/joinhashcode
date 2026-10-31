@@ -61,3 +61,21 @@
 | D-020 | **Échelle communautaire à 4 rangs** : Auditeur (entrée libre WhatsApp, continue) → Participant (1er défi livré) → Vérifié (3 evidences validées → visible dans le Vivier) → Certifié (examen). Entrée TOUJOURS libre ; c'est le STATUT qui se gagne, jamais l'accès. Rentrée mensuelle (1er samedi), parrainage obligatoire des nouveaux | Filtrer l'entrée tuerait le funnel (86% réseaux sociaux). La preuve ouvre la couche commerciale (Vivier), pas la porte. Format validé manuellement avant codage (Promotions #389) | 17/09/2026 | Eurin | ✅ Actée |
 | D-021 | **Classement hebdo à réinitialisation** — manuel WhatsApp pendant le moratoire, codé seulement après Vague 3 (alimenté par les scores de rubrique, filtré filière cyber — jamais le leaderboard générique gelé) | Reset hebdo = les débutants peuvent gagner (anti-démoralisation) ; manuel = 0 code pendant la validation humaine ; il devient la spécification du leaderboard codé | 17/09/2026 | Eurin | ✅ Actée |
 | D-022 | **Deux couches de rituel** : couche 1 = groupe WhatsApp (conversation, entraide, cérémonie — ne jamais migrer) ; couche 2 = plateforme (evidence, portfolio, vivier — ce qu'un tiers doit POUVOIR voir) | "Compléter, pas remplacer" — la preuve, la durée et la vente sont structurellement impossibles dans un chat | 17/09/2026 | Eurin | ✅ Actée |
+
+
+---
+
+## Décision de lancement — 31/10/2026
+
+| ID | Décision | Justification | Date | Responsable | Statut |
+|---|---|---|---|---|---|
+| D-024 | **Périmètre produit actif : trois domaines — Web Development, Cybersécurité et IA appliquée.** JoinHashCode est la plateforme unifiée qui accueille, oriente, fait apprendre, pratiquer et valoriser les compétences dans ces trois domaines. Il ne s'agit pas de construire trois plateformes ni de promettre une profondeur identique avant qu'elle soit réellement disponible. | Le lancement doit refléter le périmètre communautaire et produit confirmé par le fondateur. La spécialisation cyber de D-014 reste une décision historique de priorisation, mais ne peut plus limiter seule la vision publique et le périmètre actif. La disponibilité des contenus et fonctionnalités doit rester transparente. | 31/10/2026 | Eurin | ✅ Actée |
+| D-025 | **D-014 et D-023 sont conservées comme décisions historiques, mais leur restriction « investissement cyber uniquement pendant 12 mois » est supersédée par D-024 pour le périmètre produit actif.** Les éléments cyber existants restent valables et peuvent être réutilisés comme contenu du domaine Cybersécurité. | Éviter une contradiction entre vision active, vitrine, onboarding et backlog. La trace historique est conservée ; aucune donnée ou fonctionnalité cyber n'est supprimée par cette décision. | 31/10/2026 | Eurin | ✅ Actée |
+
+### Conséquences d'exécution de D-024
+- La vitrine présente les trois domaines actifs et décrit précisément les expériences réellement disponibles.
+- L'onboarding propose une orientation parmi ces domaines sans créer de comptes ou profils distincts.
+- Chaque domaine doit avoir au minimum une première action réelle, testable et documentée avant d'être présenté comme activable au lancement.
+- Les capacités plus avancées peuvent être livrées progressivement ; elles ne doivent pas être simulées ni annoncées comme disponibles.
+- Les décisions D-015 (gel de la gamification générique) et D-019 (CORE avancé différé) ne sont pas annulées par D-024.
+- Toute évolution du périmètre devra être documentée dans ce registre avant de modifier les promesses publiques.

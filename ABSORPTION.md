@@ -1,9 +1,11 @@
 # ABSORPTION.md — Suivi du décommissionnement des 4 codebases
 
-> ⚠️ **AMENDEMENT PIVOT (17/09/2026 — D-014)** : le périmètre d'absorption est
-> **réduit au pipeline cyber**. Ne plus absorber le contenu multi-domaines.
-> Priorité d'absorption : les contenus qui servent la filière SOC/OSINT
-> (labs, fiches méthode, exercices). Le reste passe en réserve. Référence : `DOCS/PIVOT_CYBER.md`.
+> **PÉRIMÈTRE ACTIF — D-024 (31/10/2026)** : JoinHashCode couvre trois domaines actifs
+> (Web Development, Cybersécurité et IA appliquée). L'absorption des capacités Reboot,
+> HashSkills et des autres codebases se fait selon leur valeur réelle pour la plateforme
+> unifiée, sans restriction artificielle au seul cyber et sans fusion globale de dépôts.
+> Chaque capacité doit être comparée à l'existant, testée et rattachée à une source de vérité.
+> Références : `PRODUCT_VISION.md`, `DOCS/DECISIONS.md` et issues de lancement.
 
 > **But :** dire, item par item, ce qui est **réellement** porté dans `hashcode-community`
 > avant d'archiver les 3 dépôts sources. Tant que ce document n'est pas intégralement
