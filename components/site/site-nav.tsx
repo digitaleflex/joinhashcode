@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowRight, BookOpen, LayoutDashboard } from "lucide-react"
+import { ArrowRight, BookOpen, LayoutDashboard, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/brand/logo"
 import { authClient } from "@/lib/auth-client"
@@ -69,10 +69,12 @@ function SiteNavActions() {
 }
 
 export function SiteNav() {
+  const [open, setOpen] = useState(false)
+
   return (
     <header className="fixed inset-x-0 top-0 z-[var(--z-sticky)] w-full border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2" aria-label="HASHCODE home">
+        <Link href="/" className="flex items-center gap-2" aria-label="HASHCODE home" onClick={() => setOpen(false)}>
           <Logo variant="mark" size="sm" />
           <Logo variant="full" size="sm" />
         </Link>
@@ -87,8 +89,40 @@ export function SiteNav() {
             </Link>
           ))}
         </nav>
-        <SiteNavActions />
+        <div className="flex items-center gap-1.5">
+          <SiteNavActions />
+          <button
+            type="button"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-foreground lg:hidden"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-4 w-4" aria-hidden /> : <Menu className="h-4 w-4" aria-hidden />}
+          </button>
+        </div>
       </div>
+      {open && (
+        <nav className="border-t border-border bg-background px-4 pb-4 pt-2 lg:hidden" aria-label="Mobile">
+          {PUBLIC_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-2 py-2.5 text-sm font-medium text-foreground hover:bg-muted"
+            >
+              {l.label}
+            </Link>
+          ))}
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className="block rounded-lg px-2 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted"
+          >
+            Contact
+          </Link>
+        </nav>
+      )}
     </header>
   )
 }
