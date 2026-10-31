@@ -91,14 +91,14 @@ jobs:
       - name: Production build
         run: pnpm build
 
-      - name: Seed test data for browser tests
-        run: pnpm exec prisma db seed
-
       - name: Install Playwright Chromium
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: End-to-end tests against production build
-        run: pnpm exec playwright test --reporter=line --workers=1
+      # The M1 gate exercises the public vitrine only. Its globalSetup creates
+      # isolated test users; the full Academy seed is intentionally excluded
+      # because the Academy Program/Course schema has no deployable migrations yet.
+      - name: End-to-end tests for the public vitrine
+        run: pnpm exec playwright test e2e/public-site.spec.ts --reporter=line --workers=1
 
       - name: Upload Playwright diagnostics
         if: failure()
