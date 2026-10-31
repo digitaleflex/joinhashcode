@@ -12,11 +12,7 @@ const STEPS = [
 export function HomeWhatWeDo() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeading
-        kicker="Comment ça fonctionne"
-        title="De la curiosité à la compétence démontrée."
-        description="HashCode relie les étapes qui sont souvent dispersées : choisir une direction, apprendre, pratiquer et rendre ses progrès visibles."
-      />
+      <SectionHeading kicker="Comment ça fonctionne" title="De la curiosité à la compétence démontrée." description="HashCode relie les étapes qui sont souvent dispersées : choisir une direction, apprendre, pratiquer et rendre ses progrès visibles." />
       <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((step, index) => (
           <article key={step.title} className="group relative rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40">
