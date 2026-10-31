@@ -25,13 +25,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
     default: "HashCode — Apprendre. Construire. Évoluer.",
-    template: "%s | HASHCODE",
+    template: "%s | HashCode",
   },
   description:
     "HashCode accompagne les talents du numérique dans trois domaines : développement web, cybersécurité et IA appliquée. Apprendre, pratiquer et démontrer ses compétences.",
   keywords: ["HashCode", "développement web", "cybersécurité", "intelligence artificielle", "apprentissage numérique", "communauté tech", "labs", "compétences", "talents"],
   authors: [{ name: "HASHCODE Team" }],
-  creator: "HASHCODE",
+  creator: "HashCode",
   alternates: {
     canonical: "/",
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "HASHCODE",
+    title: "HashCode",
   },
   openGraph: {
     type: "website",
