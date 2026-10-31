@@ -45,14 +45,14 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
       case "QUIZ_COMPLETED": return "text-[#22D3EE]"
       case "MISSION_APPROVED": return "text-[#A855F7]"
       case "SQUAD_JOINED": return "text-[#F97316]"
-      default: return "text-zinc-500"
+      default: return "text-muted-foreground"
     }
   }
 
   return (
-    <div className="w-full bg-zinc-950 border-y border-white/5 py-2 sm:py-3 overflow-hidden relative">
-      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-linear-to-r from-zinc-950 to-transparent z-[var(--z-content)] pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-linear-to-l from-zinc-950 to-transparent z-[var(--z-content)] pointer-events-none" />
+    <div className="w-full bg-background border-y border-border py-2 sm:py-3 overflow-hidden relative">
+      <div className="absolute inset-y-0 left-0 w-12 sm:w-24 bg-linear-to-r from-background to-transparent z-[var(--z-content)] pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-12 sm:w-24 bg-linear-to-l from-background to-transparent z-[var(--z-content)] pointer-events-none" />
 
       <div className="mx-auto max-w-6xl px-4 flex items-center gap-4 sm:gap-6">
         {/* Status */}
@@ -80,13 +80,13 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
                   <span className={`font-mono text-3xs sm:text-xs font-black uppercase ${getColor(log.action)}`}>
                     {getPrefix(log.action)}
                   </span>
-                  <span className="font-mono text-3xs sm:text-xs text-zinc-500 font-bold tracking-tight">
+                  <span className="font-mono text-3xs sm:text-xs text-muted-foreground font-bold tracking-tight">
                     {log.user.name} · {getActionLabel(log.action, log.user.class)} · {log.user.city || 'Nexus'}
                   </span>
                 </motion.div>
               ))
             ) : (
-              <span className="font-mono text-xs text-zinc-700 italic">Chargement de l'activité...</span>
+              <span className="font-mono text-xs text-muted-foreground italic">Chargement de l'activité...</span>
             )}
           </AnimatePresence>
         </div>

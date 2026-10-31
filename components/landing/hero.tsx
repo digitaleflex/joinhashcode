@@ -8,7 +8,7 @@ export function Hero({
   totalMembers?: number
 }) {
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden border-b border-white/5 bg-background pt-16 sm:pt-24 pb-16">
+    <section className="relative min-h-screen flex flex-col overflow-hidden border-b border-border bg-background pt-16 sm:pt-24 pb-16">
       {/* Clean Ambient Background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[var(--z-base)]">
         <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
@@ -38,7 +38,7 @@ export function Hero({
 
           {/* H1 — Unique value proposition: the 4-profile diagnostic */}
           <h1
-            className="text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
+            className="text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] uppercase"
           >
             Quel type de
             <br />
@@ -47,7 +47,7 @@ export function Hero({
 
           {/* Subtitle — stakes, not spoiler */}
           <p
-            className="mt-6 sm:mt-8 text-lg sm:text-xl text-zinc-400 font-medium tracking-tight max-w-2xl"
+            className="mt-6 sm:mt-8 text-lg sm:text-xl text-muted-foreground font-medium tracking-tight max-w-2xl"
           >
             En 3 minutes, ton profil. Tes missions. Ta communauté. Rejoins les {totalMembers} builders qui construisent déjà l'écosystème tech africain.
           </p>
@@ -70,7 +70,7 @@ export function Hero({
               asChild
               variant="ghost"
               size="lg"
-              className="h-14 rounded-2xl px-6 text-xs font-bold text-zinc-500 hover:text-white hover:bg-white/5 transition-all"
+              className="h-14 rounded-2xl px-6 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
             >
               <Link href="/signin">Déjà membre ?</Link>
             </Button>
@@ -78,15 +78,15 @@ export function Hero({
 
           {/* Social Proof Counter */}
           <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-sm">
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-muted backdrop-blur-sm">
               <div className="flex -space-x-2">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-5 w-5 rounded-full border-2 border-zinc-950 bg-zinc-800 flex items-center justify-center overflow-hidden">
+                  <div key={i} className="h-5 w-5 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden">
                     <div className="h-full w-full bg-primary/20 animate-pulse" />
                   </div>
                 ))}
               </div>
-              <span className="text-xs font-mono font-black uppercase tracking-tighter text-zinc-400">
+              <span className="text-xs font-mono font-black uppercase tracking-tighter text-muted-foreground">
                 <span className="text-primary">{(totalMembers).toLocaleString("fr-FR")}</span> {totalMembers > 1 ? "Builders synchronisés" : "Builder synchronisé"}
               </span>
             </div>
@@ -94,11 +94,11 @@ export function Hero({
 
           {/* Meta */}
           <div
-            className="mt-6 flex items-center gap-4 font-mono text-xs font-bold text-zinc-700 tracking-tight"
+            className="mt-6 flex items-center gap-4 font-mono text-xs font-bold text-muted-foreground tracking-tight"
           >
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">3 minutes</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">4 profils</span>
-            <span className="bg-white/5 px-2 py-1 rounded border border-white/5 uppercase">gratuit</span>
+            <span className="bg-muted px-2 py-1 rounded border border-border uppercase">3 minutes</span>
+            <span className="bg-muted px-2 py-1 rounded border border-border uppercase">4 profils</span>
+            <span className="bg-muted px-2 py-1 rounded border border-border uppercase">gratuit</span>
           </div>
         </div>
       </div>

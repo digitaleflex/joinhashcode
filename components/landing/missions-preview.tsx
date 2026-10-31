@@ -10,7 +10,7 @@ const PROFILES = [
     id: "builder",
     label: "Builder",
     tagline: "Tu construis.",
-    color: "text-primary",
+    color: "#10B981",
     desc: "Code, systèmes, produits. Tu t'épanouis quand une idée tourne en production. Le débogage ne te décourage pas — il t'intrigue.",
     traits: ["Développeur", "Ingénieur", "Maker", "Architecte"],
   },
@@ -18,7 +18,7 @@ const PROFILES = [
     id: "creator",
     label: "Créateur",
     tagline: "Tu imagines.",
-    color: "text-primary",
+    color: "#8B5CF6",
     desc: "Design, contenu, narration. Tu crées ce que les autres n'ont pas encore eu l'idée de voir. L'esthétique n'est pas un détail pour toi.",
     traits: ["Designer", "UI/UX", "Rédacteur", "Vidéaste"],
   },
@@ -26,7 +26,7 @@ const PROFILES = [
     id: "strategist",
     label: "Stratège",
     tagline: "Tu structures.",
-    color: "text-primary",
+    color: "#F59E0B",
     desc: "Business, produit, croissance. Tu vois les systèmes derrière les événements et tu construis pour durer. Les chiffres parlent avant les intuitions.",
     traits: ["Product", "Growth", "Business Dev", "Analyste"],
   },
@@ -34,7 +34,7 @@ const PROFILES = [
     id: "catalyst",
     label: "Catalyseur",
     tagline: "Tu connectes.",
-    color: "text-primary",
+    color: "#0EA5E9",
     desc: "Réseau, communauté, impact. Tu amplifies ce qui existe autour de toi — les gens, les idées, les projets. Sans toi, l'énergie ne circule pas.",
     traits: ["Community", "Mentor", "Ambassadeur", "Networker"],
   },
@@ -45,7 +45,7 @@ export function MissionsPreview() {
   const profile = PROFILES[active]
 
   return (
-    <section id="profils" className="border-b border-border/60 bg-zinc-950 py-24 sm:py-32">
+    <section id="profils" className="border-b border-border bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -57,10 +57,10 @@ export function MissionsPreview() {
             <span className="font-mono text-sm-plus uppercase text-primary">Le diagnostic</span>
             <span className="h-px w-8 bg-primary/50" />
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-5xl mb-4">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl mb-4">
             4 profils. Lequel es-tu ?
           </h2>
-          <p className="max-w-xl text-zinc-400 text-base leading-relaxed">
+          <p className="max-w-xl text-muted-foreground text-base leading-relaxed">
             L&apos;algorithme identifie ta tendance dominante — pas une boîte dans laquelle tu restes enfermé.
           </p>
         </div>
@@ -72,11 +72,11 @@ export function MissionsPreview() {
             { n: "02", title: "Découvre ton profil", body: "Ton type dominant se révèle parmi les quatre ci-dessous. Beaucoup de membres sont hybrides." },
             { n: "03", title: "Rejoins ta guilde", body: "Accède à un dashboard personnalisé, des missions adaptées et une communauté de pairs." },
           ].map((s) => (
-            <div key={s.n} className="flex gap-4 items-start rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5">
+            <div key={s.n} className="flex gap-4 items-start rounded-2xl border border-border bg-muted p-5">
               <span className="font-mono text-xs font-black text-primary shrink-0 mt-0.5">{s.n}</span>
               <div>
-                <h3 className="text-sm font-black text-white uppercase tracking-tight mb-1">{s.title}</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed font-medium">{s.body}</p>
+                <h3 className="text-sm font-black text-foreground uppercase tracking-tight mb-1">{s.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed font-medium">{s.body}</p>
               </div>
             </div>
           ))}
@@ -97,8 +97,8 @@ export function MissionsPreview() {
                 >
                   {profile.label}
                 </div>
-                <h3 className="text-4xl font-bold text-white mb-4">{profile.tagline}</h3>
-                <p className="text-zinc-400 text-base leading-relaxed mb-6">{profile.desc}</p>
+                <h3 className="text-4xl font-bold text-foreground mb-4">{profile.tagline}</h3>
+                <p className="text-muted-foreground text-base leading-relaxed mb-6">{profile.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {profile.traits.map(t => (
                     <span
@@ -178,8 +178,8 @@ export function MissionsPreview() {
                 <div className="w-2 h-2 rounded-full mt-1.5" style={{ background: p.color }} />
               </div>
               <div>
-                <p className="text-xl font-bold text-white mb-2">{p.tagline}</p>
-                <p className="text-sm text-zinc-400 leading-relaxed">{p.desc}</p>
+                <p className="text-xl font-bold text-foreground mb-2">{p.tagline}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {p.traits.map(t => (

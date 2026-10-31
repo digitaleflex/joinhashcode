@@ -29,16 +29,16 @@ const PROFILE_COLORS: Record<string, string> = {
 
 function MemberCard({ m }: { m: typeof MEMBERS[number] }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 min-w-[200px] shrink-0">
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-muted p-6 min-w-[200px] shrink-0">
       <div className="h-12 w-12 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center">
         <span className="font-mono text-xs font-black text-primary">#{m.member}</span>
       </div>
       <div className="text-center">
-        <p className="text-sm font-black text-white">{m.name}</p>
-        <p className={`text-xs font-bold uppercase tracking-tight mt-1 ${PROFILE_COLORS[m.profile] ?? "text-zinc-400"}`}>
+        <p className="text-sm font-black text-foreground">{m.name}</p>
+        <p className={`text-xs font-bold uppercase tracking-tight mt-1 ${PROFILE_COLORS[m.profile] ?? "text-muted-foreground"}`}>
           {m.profile}
         </p>
-        <p className="text-xs text-zinc-600 mt-1">{m.city}</p>
+        <p className="text-xs text-muted-foreground mt-1">{m.city}</p>
       </div>
     </div>
   )
@@ -88,7 +88,7 @@ export function Testimonials() {
   const infiniteMembers = [...MEMBERS, ...MEMBERS, ...MEMBERS]
 
   return (
-    <section className="border-b border-border/60 bg-zinc-950 py-20 sm:py-28">
+    <section className="border-b border-border/60 bg-background py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
         {/* Testimonials Carousel */}
@@ -107,24 +107,24 @@ export function Testimonials() {
             <Quote className="absolute -top-2 left-0 h-8 w-8 text-primary/20" />
 
             <blockquote className="px-8 sm:px-16">
-              <p className="text-lg sm:text-xl text-zinc-300 font-medium leading-relaxed italic">
+              <p className="text-lg sm:text-xl text-muted-foreground font-medium leading-relaxed italic">
                 &ldquo;{TESTIMONIALS[current].text}&rdquo;
               </p>
-              <p className="mt-5 text-xs font-bold text-zinc-600 uppercase tracking-widest">
+              <p className="mt-5 text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 Membre de la Cohorte 01
               </p>
             </blockquote>
 
             <button
               onClick={prev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-muted flex items-center justify-center text-muted-foreground hover:border-primary/30 transition-colors"
               aria-label="Précédent"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={next}
-              className="absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-border bg-muted flex items-center justify-center text-muted-foreground hover:border-primary/30 transition-colors"
               aria-label="Suivant"
             >
               <ChevronRight className="h-4 w-4" />
@@ -137,7 +137,7 @@ export function Testimonials() {
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === current ? "w-6 bg-primary" : "w-1.5 bg-zinc-700 hover:bg-zinc-500"
+                  i === current ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/40 hover:bg-muted-foreground/70"
                 }`}
                 aria-label={`Témoignage ${i + 1}`}
               />
@@ -146,8 +146,8 @@ export function Testimonials() {
         </div>
 
         {/* Members Continuous Carousel — 3 visible */}
-        <div className="border-t border-white/5 pt-12">
-          <p className="text-center text-xs font-mono font-bold text-zinc-700 uppercase tracking-widest mb-8">
+        <div className="border-t border-border pt-12">
+          <p className="text-center text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest mb-8">
             7 membres — Cohorte 01, Bénin
           </p>
 
@@ -157,8 +157,8 @@ export function Testimonials() {
             onMouseLeave={() => setMemberPaused(false)}
           >
             {/* Fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
             {/* Track */}
             <div
@@ -176,14 +176,14 @@ export function Testimonials() {
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={() => setMemberOffset((p) => Math.max(0, p - CARD_WIDTH))}
-              className="h-8 w-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              className="h-8 w-8 rounded-full border border-border bg-muted flex items-center justify-center text-muted-foreground hover:border-primary/30 transition-colors"
               aria-label="Membres précédents"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => setMemberOffset((p) => p + CARD_WIDTH)}
-              className="h-8 w-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white hover:border-primary/30 transition-colors"
+              className="h-8 w-8 rounded-full border border-border bg-muted flex items-center justify-center text-muted-foreground hover:border-primary/30 transition-colors"
               aria-label="Membres suivants"
             >
               <ChevronRight className="h-4 w-4" />

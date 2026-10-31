@@ -71,7 +71,7 @@ function NavActions() {
             asChild
             variant="ghost"
             size="sm"
-            className="h-8 px-3 text-xs font-bold text-muted-foreground hover:text-white"
+            className="h-8 px-3 text-xs font-bold text-muted-foreground hover:text-foreground"
           >
             <Link href="/signin">Connexion</Link>
           </Button>
