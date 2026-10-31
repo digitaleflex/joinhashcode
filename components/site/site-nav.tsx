@@ -81,7 +81,7 @@ export function SiteNav() {
         </nav>
         <div className="flex items-center gap-1.5">
           <SiteNavActions />
-          <button type="button" className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:border-primary/50 lg:hidden" aria-expanded={open} aria-label={open ? "Fermer le menu" : "Ouvrir le menu"} onClick={() => setOpen((value) => !value)}>
+          <button type="button" className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:hidden" aria-expanded={open} aria-label={open ? "Fermer le menu" : "Ouvrir le menu"} onClick={() => setOpen((value) => !value)}>
             {open ? <X className="h-4 w-4" aria-hidden /> : <Menu className="h-4 w-4" aria-hidden />}
           </button>
         </div>
