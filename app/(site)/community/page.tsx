@@ -27,10 +27,10 @@ export default async function CommunityPage() {
           description="HashCode rassemble des personnes qui partagent le goût de la technologie, de l'apprentissage et de la création."
         />
         {/* Verified band — hidden if stats unavailable (never show 0 as fact) */}
-        {stats.totalMembres !== null && stats.approvedSubmissions !== null && stats.publishedCourses !== null && (
+        {stats.totalMembers !== null && stats.approvedSubmissions !== null && stats.publishedCourses !== null && (
         <div className="mt-10 grid grid-cols-1 gap-4 rounded-3xl border border-border bg-card p-8 sm:grid-cols-3">
           <div>
-            <p className="font-syne text-4xl font-bold text-foreground">{stats.totalMembres.toLocaleString("en-US")}</p>
+            <p className="font-syne text-4xl font-bold text-foreground">{stats.totalMembers.toLocaleString("en-US")}</p>
             <p className="mt-1 text-sm text-muted-foreground">Membres qui apprennent et construisent</p>
           </div>
           <div>
@@ -53,7 +53,7 @@ export default async function CommunityPage() {
         </div>
         {interventions.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm leading-relaxed text-muted-foreground">
-            Sessions are announced to members first.{" "}
+            Les prochaines sessions sont annoncées en priorité aux membres.{" "}
             <Link href="/signin" className="font-semibold text-primary hover:underline">Rejoindre la communauté</Link>{" "}
             to be notified of the next ones.
           </p>
@@ -66,7 +66,7 @@ export default async function CommunityPage() {
                 <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <CalendarDays className="h-3.5 w-3.5" aria-hidden />
-                    {new Date(ev.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                    {new Date(ev.date).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" })}
                   </span>
                   {ev.speaker && <span>by {ev.speaker}</span>}
                   {ev.location && (
@@ -119,7 +119,7 @@ export default async function CommunityPage() {
                   )}
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validée(s) · Level {t.level}
+                  {t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validée{t.missionsCompletedCount > 1 ? "s" : ""} · Niveau {t.level}
                 </p>
               </Link>
             ))}
