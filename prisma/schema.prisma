@@ -191,12 +191,6 @@ model User {
   betaUpdatedAt        DateTime? @updatedAt @map("beta_updated_at")
   twoFactorBackupCodes String?
 
-  // --- hashskills additions ---
-  onboarded       Boolean   @default(false)
-  interests       String[]
-  experienceLevel String?
-  goal            String?
-  xp              Int       @default(0)
 
   // Relations
   accounts          Account[]
@@ -444,7 +438,7 @@ model Mission {
   qualityIndicators  Json                @default("[]")
   resources          Json?
   tags               String[]           @default([])
-  evaluationRubric   Json?
+  evaluationRubric   Json?               @map("evaluation_rubric")
   validationCriteria String?
   prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)

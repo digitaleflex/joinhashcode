@@ -121,7 +121,7 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
       mainObjective: null,
       language: "fr",
       updatedAt: new Date(),
-      profile: { secondaryObjectives: [] },
+      secondaryObjectives: [],
     };
 
     (prisma.user.update as any).mockResolvedValue(mockUpdatedUser);
@@ -146,12 +146,7 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
           country: "Sénégal",
           currentSituation: "STUDENT",
           language: "fr",
-          profile: {
-            upsert: {
-              create: { secondaryObjectives: [] },
-              update: { secondaryObjectives: [] },
-            }
-          }
+          secondaryObjectives: [],
         }),
         select: expect.any(Object),
       })
@@ -178,7 +173,7 @@ describe("Onboarding API Endpoint (PATCH /api/onboarding)", () => {
       mainObjective: "Apprendre React et Next.js",
       language: "fr",
       updatedAt: new Date(),
-      profile: { secondaryObjectives: ["Trouver un emploi"] },
+      secondaryObjectives: ["Trouver un emploi"],
     };
 
     (prisma.user.update as any).mockResolvedValue(mockUpdatedUser);

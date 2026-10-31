@@ -1,0 +1,113 @@
+name: CI — Quality gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality gates (PostgreSQL, tests, build, E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: hashcode_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d hashcode_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hashcode_ci?schema=public
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/hashcode_ci?schema=public
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hashcode_ci?schema=public
+      BETTER_AUTH_SECRET: ci-only-secret-not-used-in-production-0123456789
+      BETTER_AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      GOOGLE_CLIENT_ID: ci-google-client-id
+      GOOGLE_CLIENT_SECRET: ci-google-client-secret
+      GITHUB_CLIENT_ID: ci-github-client-id
+      GITHUB_CLIENT_SECRET: ci-github-client-secret
+      RESEND_API_KEY: re_ci_placeholder_not_a_real_key
+      CRON_SECRET: ci-only-cron-secret-not-used-in-production-0123456789
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm exec prisma generate
+
+      - name: Validate Prisma schema
+        run: pnpm exec prisma validate
+
+      - name: Apply database migrations
+        run: bash scripts/ci-migrate-deploy.sh
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: TypeScript
+        run: pnpm type-check
+
+      - name: Unit and integration tests
+        run: pnpm exec vitest run --reporter=dot
+
+      - name: Scan tracked files for secrets
+        run: pnpm check-secrets
+
+      - name: Production build
+        run: pnpm build
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # The M1 gate exercises the public vitrine only. Its globalSetup creates
+      # isolated test users; the full Academy seed is intentionally excluded
+      # because the Academy Program/Course schema has no deployable migrations yet.
+      - name: End-to-end tests for the public vitrine
+        run: pnpm exec playwright test --config=playwright.public.config.ts
+
+      - name: Upload Playwright diagnostics
+        if: failure()
+        continue-on-error: true # Do not fail CI when GitHub artifact storage quota is exhausted.
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7

@@ -30,7 +30,6 @@ export default async function globalSetup(_config: FullConfig) {
     currentSituation: "Student",
     class: "E2E",
     primaryDomain: "web",
-    onboarded: true,
     emailVerified: true,
     emailStatus: "VALID",
   };
@@ -48,6 +47,7 @@ export default async function globalSetup(_config: FullConfig) {
       language: "fr",
       ...profile,
     },
+    select: { id: true },
   });
 
   const member = await prisma.user.upsert({
@@ -63,6 +63,7 @@ export default async function globalSetup(_config: FullConfig) {
       language: "fr",
       ...profile,
     },
+    select: { id: true },
   });
 
   // 3. Écrit les storageState Playwright

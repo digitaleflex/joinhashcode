@@ -24,14 +24,14 @@ import { APP_URL } from "@/lib/config";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
-    template: "%s | HASHCODE",
+    default: "HashCode — Apprendre. Construire. Évoluer.",
+    template: "%s | HashCode",
   },
   description:
-    "HASHCODE is a technology ecosystem where you learn, experiment, build and prove what you can do. Explore programs, labs and a community that builds.",
-  keywords: ["technology", "ecosystem", "learn to code", "build projects", "prove skills", "tech community", "programming", "labs", "talents", "hashcode"],
+    "HashCode accompagne les talents du numérique dans trois domaines : développement web, cybersécurité et IA appliquée. Apprendre, pratiquer et démontrer ses compétences.",
+  keywords: ["HashCode", "développement web", "cybersécurité", "intelligence artificielle", "apprentissage numérique", "communauté tech", "labs", "compétences", "talents"],
   authors: [{ name: "HASHCODE Team" }],
-  creator: "HASHCODE",
+  creator: "HashCode",
   alternates: {
     canonical: "/",
   },
@@ -46,34 +46,34 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "HASHCODE",
+    title: "HashCode",
   },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: APP_URL,
-    title: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
-    description: "A place to learn, experiment, build and demonstrate what you can do.",
-    siteName: "HASHCODE",
+    title: "HashCode — Apprendre. Construire. Évoluer.",
+    description: "Un écosystème pour apprendre, pratiquer et démontrer ses compétences dans le numérique.",
+    siteName: "HashCode",
     images: [
       {
         url: "/hashcode-logo.png",
         width: 1200,
         height: 630,
-        alt: "HASHCODE — Le programme de la nouvelle ère",
+        alt: "HashCode — Apprendre. Construire. Évoluer.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
-    description: "A place to learn, experiment, build and demonstrate what you can do.",
+    title: "HashCode — Apprendre. Construire. Évoluer.",
+    description: "Un écosystème pour apprendre, pratiquer et démontrer ses compétences dans le numérique.",
     images: ["/hashcode-logo.png"],
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#c5f441",
+  themeColor: "#B8FF3B",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
