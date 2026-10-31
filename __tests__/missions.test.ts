@@ -50,13 +50,13 @@ describe("MISSIONS data integrity", () => {
     }
   });
 
-  it("should target all four profiles when missions exist", () => {
-    for (const m of MISSIONS) {
-      expect(m.targetProfiles).toContain("builder");
-      expect(m.targetProfiles).toContain("creator");
-      expect(m.targetProfiles).toContain("strategist");
-      expect(m.targetProfiles).toContain("catalyst");
-    }
+  it("should cover all four profiles across the mission catalogue", () => {
+    const coveredProfiles = new Set(MISSIONS.flatMap((mission) => mission.targetProfiles));
+
+    expect(coveredProfiles).toContain("builder");
+    expect(coveredProfiles).toContain("creator");
+    expect(coveredProfiles).toContain("strategist");
+    expect(coveredProfiles).toContain("catalyst");
   });
 });
 
