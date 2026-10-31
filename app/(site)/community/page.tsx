@@ -30,15 +30,15 @@ export default async function CommunityPage() {
         {stats.totalMembers !== null && stats.approvedSubmissions !== null && stats.publishedCourses !== null && (
         <div className="mt-10 grid grid-cols-1 gap-4 rounded-3xl border border-border bg-card p-8 sm:grid-cols-3">
           <div>
-            <p className="font-syne text-4xl font-bold text-foreground">{stats.totalMembers.toLocaleString("en-US")}</p>
+            <p className="font-syne text-4xl font-bold text-foreground">{stats.totalMembers.toLocaleString("fr-FR")}</p>
             <p className="mt-1 text-sm text-muted-foreground">Membres qui apprennent et construisent</p>
           </div>
           <div>
-            <p className="font-syne text-4xl font-bold text-foreground">{stats.approvedSubmissions.toLocaleString("en-US")}</p>
+            <p className="font-syne text-4xl font-bold text-foreground">{stats.approvedSubmissions.toLocaleString("fr-FR")}</p>
             <p className="mt-1 text-sm text-muted-foreground">Travaux validés par les évaluateurs</p>
           </div>
           <div>
-            <p className="font-syne text-4xl font-bold text-foreground">{stats.publishedCourses.toLocaleString("en-US")}</p>
+            <p className="font-syne text-4xl font-bold text-foreground">{stats.publishedCourses.toLocaleString("fr-FR")}</p>
             <p className="mt-1 text-sm text-muted-foreground">Cours publiés dans l'Academy</p>
           </div>
         </div>
