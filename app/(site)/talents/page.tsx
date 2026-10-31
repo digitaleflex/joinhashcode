@@ -4,8 +4,8 @@ import { getPublicTalentsPreview } from "@/lib/site-data"
 import { SectionHeading } from "@/components/site/section-heading"
 
 export const metadata: Metadata = {
-  title: "Talent Network",
-  description: "Discover verified HASHCODE talents — skills proven through labs, missions and peer reviews.",
+  title: "Réseau de talents",
+  description: "Découvre les profils publics HashCode et les compétences démontrées à travers les missions et réalisations validées.",
 }
 
 // Données DB à chaque requête : le prerender build ne doit jamais
@@ -19,18 +19,17 @@ export default async function TalentsVitrinePage() {
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <SectionHeading
-          kicker="Talent Network"
-          title="Proof, not promises."
-          description="Every profile below opted in to be public and completed at least one validated mission. Skills proven through labs and reviews — not self-declared."
+          kicker="Réseau de talents"
+          title="Des preuves, pas de simples déclarations."
+          description="Les profils affichés ont choisi d'être publics. Les réalisations validées sont distinguées des compétences simplement déclarées."
         />
         {talents.length === 0 ? (
           <div className="mt-12 rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="text-base font-semibold text-foreground">The network is warming up.</p>
+            <p className="text-base font-semibold text-foreground">Le réseau se construit progressivement.</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Public profiles appear here as soon as members complete validated missions
-              and opt in to visibility.{" "}
+              Les profils apparaissent lorsque des membres disposent de réalisations validées et choisissent de rendre leur profil visible.{" "}
               <Link href="/signin" className="font-semibold text-primary hover:underline">
-                Join the community
+                Rejoindre la communauté
               </Link>{" "}
               to be among the first.
             </p>
@@ -67,8 +66,8 @@ export default async function TalentsVitrinePage() {
                   </div>
                 )}
                 <div className="mt-4 flex items-center gap-4 border-t border-border pt-3 text-xs text-muted-foreground">
-                  <span>Level {t.level}</span>
-                  <span>{t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validated</span>
+                  <span>Niveau {t.level}</span>
+                  <span>{t.missionsCompletedCount} mission(s) validée(s)</span>
                 </div>
               </Link>
             ))}
