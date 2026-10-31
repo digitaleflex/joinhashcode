@@ -102,6 +102,7 @@ jobs:
 
       - name: Upload Playwright diagnostics
         if: failure()
+        continue-on-error: true # Do not fail CI when GitHub artifact storage quota is exhausted.
         uses: actions/upload-artifact@v4
         with:
           name: playwright-diagnostics
