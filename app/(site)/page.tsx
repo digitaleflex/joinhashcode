@@ -1,30 +1,24 @@
-import { Suspense } from "react"
-import { HeroSection } from "@/components/landing/hero-section"
-import { MissionsPreview } from "@/components/landing/missions-preview"
-import { Testimonials } from "@/components/landing/testimonials"
-import { Faq } from "@/components/landing/faq"
-import { FinalCta } from "@/components/landing/final-cta"
+import { HomeHero } from "@/components/site/home/home-hero"
+import { HomeWhatWeDo } from "@/components/site/home/home-what-we-do"
+import { HomePrograms } from "@/components/site/home/home-programs"
+import { HomeLabs } from "@/components/site/home/home-labs"
+import { HomeProof } from "@/components/site/home/home-proof"
+import { HomeCommunity } from "@/components/site/home/home-community"
+import { HomeFinalCta } from "@/components/site/home/home-final-cta"
 
 export const revalidate = 3600
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background">
-      <Suspense fallback={<div className="min-h-screen w-full" />}>
-        <HeroSection />
-      </Suspense>
-      <Suspense fallback={<div className="h-96 w-full" />}>
-        <MissionsPreview />
-      </Suspense>
-      <Suspense fallback={<div className="h-96 w-full" />}>
-        <Faq />
-      </Suspense>
-      <Suspense fallback={<div className="h-48 w-full" />}>
-        <Testimonials />
-      </Suspense>
-      <Suspense fallback={<div className="h-48 w-full" />}>
-        <FinalCta />
-      </Suspense>
+      <HomeHero />
+      <HomeWhatWeDo />
+      <HomePrograms />
+      <HomeLabs />
+      <HomeProof />
+      <HomeCommunity />
+      {/* Section 7 — Opportunities: intentionally masked, no real data (T0). */}
+      <HomeFinalCta />
     </main>
   )
 }
