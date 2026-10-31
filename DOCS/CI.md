@@ -30,7 +30,7 @@ The public showcase suite is configured by `playwright.public.config.ts` and cur
 - Main public pages: About, Labs, Community and Talents.
 - Mobile navigation at a 390px viewport.
 
-It intentionally does not run the authenticated E2E global setup or the Academy seed. The Academy seed currently depends on LMS tables (including `Program`) that do not yet exist in the deployable migration history. This is a separate schema/migration task; the public CI gate must not claim to validate the Academy LMS until that migration work is complete.
+It intentionally does not run the authenticated E2E global setup or the Academy seed. The public route diagnostics also show missing tables for `Atelier`, `Intervention` and `Course`; the repository has Prisma queries for these models, but the fresh migrated CI database does not contain the tables. The read helpers currently fall back to empty arrays/counts, so page rendering still succeeds while those data-backed modules remain unavailable. The Academy seed additionally requires LMS tables including `Program` that are not in the deployable migration history. A prior run also exposed Better Auth schema drift (`twoFactor` table and `invitation.createdAt` column). This is a separate schema/migration task; the public CI gate must not claim to validate those modules or real authentication until that work is complete.
 
 ## Known migration-history exception
 
