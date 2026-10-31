@@ -18,9 +18,9 @@ async function safe<T>(fallback: T, fn: () => Promise<T>): Promise<T> {
 
 export async function getPublicStats() {
   const [totalMembers, approvedSubmissions, publishedCourses] = await Promise.all([
-    safe(0, () => prisma.user.count({ where: { role: "MEMBER", banned: { not: true } } })),
-    safe(0, () => prisma.missionSubmission.count({ where: { status: "APPROVED" } })),
-    safe(0, () => prisma.course.count({ where: { isPublished: true } })),
+    safe<number | null>(null, () => prisma.user.count({ where: { role: "MEMBER", banned: { not: true } } })),
+    safe<number | null>(null, () => prisma.missionSubmission.count({ where: { status: "APPROVED" } })),
+    safe<number | null>(null, () => prisma.course.count({ where: { isPublished: true } })),
   ])
   return { totalMembers, approvedSubmissions, publishedCourses }
 }

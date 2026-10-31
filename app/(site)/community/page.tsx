@@ -26,7 +26,8 @@ export default async function CommunityPage() {
           title="A community driven by curiosity and creation."
           description="HASHCODE brings together people who share a passion for technology, learning and building meaningful things."
         />
-        {/* Verified band */}
+        {/* Verified band — hidden if stats unavailable (never show 0 as fact) */}
+        {stats.totalMembers !== null && stats.approvedSubmissions !== null && stats.publishedCourses !== null && (
         <div className="mt-10 grid grid-cols-1 gap-4 rounded-3xl border border-border bg-card p-8 sm:grid-cols-3">
           <div>
             <p className="font-syne text-4xl font-bold text-foreground">{stats.totalMembers.toLocaleString("en-US")}</p>
@@ -41,6 +42,7 @@ export default async function CommunityPage() {
             <p className="mt-1 text-sm text-muted-foreground">Academy courses published</p>
           </div>
         </div>
+        )}
       </section>
 
       {/* Events & interventions */}
