@@ -19,6 +19,7 @@ export default async function TalentsVitrinePage() {
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <SectionHeading
+          level={1}
           kicker="Réseau de talents"
           title="Des preuves, pas de simples déclarations."
           description="Les profils affichés ont choisi d'être publics. Les réalisations validées sont distinguées des compétences simplement déclarées."
