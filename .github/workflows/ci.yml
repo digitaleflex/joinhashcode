@@ -74,7 +74,7 @@ jobs:
         run: pnpm exec prisma validate
 
       - name: Apply database migrations
-        run: pnpm exec prisma migrate deploy
+        run: bash scripts/ci-migrate-deploy.sh
 
       - name: Lint
         run: pnpm lint
