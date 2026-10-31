@@ -1,38 +1,36 @@
 /**
- * Editorial source of truth for program domains (T0 inventory, static).
- * No counts, no courses invented — cards link to live pages (/labs, /academy).
+ * Source éditoriale des trois domaines actifs de HashCode.
+ * Les descriptions présentent le périmètre, pas un inventaire garanti de cours.
  */
-
 export const ACTIVE_PROGRAMS = [
   {
-    title: "Cloud & DevOps",
-    text: "Understand how modern software runs in production — from a first Linux server to automated delivery pipelines.",
-    topics: ["Linux and cloud fundamentals", "CI/CD and automation concepts", "Infrastructure and engineering foundations"],
+    slug: "web-development",
+    title: "Développement web",
+    text: "Conçois et développe des expériences numériques, des premières interfaces aux applications web complètes.",
+    topics: [
+      "Fondamentaux du web et programmation",
+      "Interfaces, applications et API",
+      "Données, qualité et mise en production",
+    ],
   },
   {
-    title: "AI & Data",
-    text: "From reading data to questioning models — build an intuition for data analysis and artificial intelligence.",
-    topics: ["Data analysis foundations", "Introduction to machine learning", "Artificial intelligence exploration"],
+    slug: "cybersecurity",
+    title: "Cybersécurité",
+    text: "Comprends les systèmes, identifie les risques et adopte une démarche de sécurité responsable et documentée.",
+    topics: [
+      "Systèmes, réseaux et hygiène numérique",
+      "Sécurité applicative et analyse des risques",
+      "Investigation et OSINT dans un cadre légal",
+    ],
   },
   {
-    title: "Product & Strategy",
-    text: "Learn to think in problems before solutions — product thinking, structured problem-solving and teamwork.",
-    topics: ["Product thinking", "Problem-solving", "Design thinking", "Project fundamentals"],
+    slug: "applied-ai",
+    title: "Intelligence artificielle appliquée",
+    text: "Découvre comment utiliser, évaluer et intégrer les technologies d'intelligence artificielle pour résoudre des problèmes concrets.",
+    topics: [
+      "Fondamentaux de l'IA et des données",
+      "Utilisation et évaluation des modèles",
+      "Conception de solutions intégrant l'IA",
+    ],
   },
-  {
-    title: "Engineering Foundations",
-    text: "The durable core of software engineering — algorithms, data and systems that outlive every framework.",
-    topics: ["Algorithms", "Database fundamentals", "Software engineering foundations"],
-  },
-]
-
-export const DEVELOPING_PROGRAMS = [
-  "Web & Fullstack",
-  "Mobile Development",
-  "UX/UI & Graphic Design",
-  "Content & Creative Strategy",
-  "Community & Partnerships",
-  "Software Architecture",
-]
-
-export const COMING_SOON_PROGRAMS = ["Cybersecurity", "Automation", "Web3"]
+] as const
