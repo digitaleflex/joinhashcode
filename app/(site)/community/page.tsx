@@ -22,6 +22,7 @@ export default async function CommunityPage() {
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-12 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <SectionHeading
+          level={1}
           kicker="Communauté"
           title="Une communauté portée par la curiosité et la création."
           description="HashCode rassemble des personnes qui partagent le goût de la technologie, de l'apprentissage et de la création."
