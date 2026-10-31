@@ -98,7 +98,7 @@ jobs:
       # isolated test users; the full Academy seed is intentionally excluded
       # because the Academy Program/Course schema has no deployable migrations yet.
       - name: End-to-end tests for the public vitrine
-        run: pnpm exec playwright test e2e/public-site.spec.ts --reporter=line --workers=1
+        run: pnpm exec playwright test --config=playwright.public.config.ts
 
       - name: Upload Playwright diagnostics
         if: failure()
