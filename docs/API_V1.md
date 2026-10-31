@@ -219,7 +219,7 @@ Les routes `/integrations/*` sont des frontières explicites : elles valident le
 - Une version dépréciée doit annoncer sa date de fin, les consommateurs concernés et la migration attendue.
 - Ne jamais faire dépendre un consommateur du schéma Prisma ou de l'ordre des propriétés JSON.
 
-Les contrats sont testés contre des exemples et schémas versionnés. Les tests de compatibilité doivent être exécutés en CI avant fusion.
+Les contrats sont testés contre des exemples et schémas versionnés. Les tests de compatibilité doivent être exécutés en CI avant fusion. Le premier endpoint `GET /members/me` dispose d'une suite Vitest couvrant 401, 403, 404, succès, absence de fuite de champs internes et erreur 500 générique (`__tests__/api/v1/members/me.test.ts`). Le workflow `.github/workflows/api-v1.yml` exécute la génération Prisma, le type-check, ESLint ciblé et cette suite de tests.
 
 ## 10. Organisation du code cible
 
