@@ -24,12 +24,12 @@ import { APP_URL } from "@/lib/config";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "HASHCODE — Le programme de la nouvelle ère",
+    default: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
     template: "%s | HASHCODE",
   },
   description:
-    "HASHCODE est un accélérateur de carrière qui décode ton potentiel, t'oriente vers la communauté d'élite adaptée à tes forces et t'accompagne dans ton parcours technologique.",
-  keywords: ["tech", "communauté", "formation", "développement", "afrique", "talents", "hashcode"],
+    "HASHCODE is a technology ecosystem where you learn, experiment, build and prove what you can do. Explore programs, labs and a community that builds.",
+  keywords: ["technology", "ecosystem", "learn to code", "build projects", "prove skills", "tech community", "programming", "labs", "talents", "hashcode"],
   authors: [{ name: "HASHCODE Team" }],
   creator: "HASHCODE",
   alternates: {
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: APP_URL,
-    title: "HASHCODE — Le programme de la nouvelle ère",
-    description: "Détecte ton profil, rejoins ta communauté et évolue dans la tech.",
+    title: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
+    description: "A place to learn, experiment, build and demonstrate what you can do.",
     siteName: "HASHCODE",
     images: [
       {
@@ -66,8 +66,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HASHCODE — Le programme de la nouvelle ère",
-    description: "Détecte ton profil, rejoins ta communauté et évolue dans la tech.",
+    title: "HASHCODE — Build skills. Prove expertise. Create opportunities.",
+    description: "A place to learn, experiment, build and demonstrate what you can do.",
     images: ["/hashcode-logo.png"],
   },
 }
