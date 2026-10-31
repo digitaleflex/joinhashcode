@@ -140,7 +140,7 @@ export default async function LabsPage() {
               Rejoindre HashCode <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <Link href="/programs" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-5 py-3 text-sm font-bold text-primary-foreground hover:bg-primary-foreground/10">
-              Explore programs
+              Explorer les domaines
             </Link>
           </div>
         </div>
