@@ -1,20 +1,39 @@
-# HASHCODE Community Platform
+# JoinHashCode — HASHCODE Community Platform
 
-HASHCODE is an AI-driven tech talent profiling and community matching platform targeting African tech communities. Users complete an onboarding flow and psychometric quiz, get classified into one of four distinct archetypes, and join a corresponding community (Guild) to participate in projects, collaboration, and skill evolution.
+JoinHashCode est la plateforme de HashCode Community. Elle aide les personnes qui
+souhaitent évoluer dans le numérique à **découvrir leur orientation, apprendre,
+pratiquer, construire des preuves de compétences et accéder à des opportunités**.
 
-## 🚀 Key Features
+Le produit couvre trois domaines actifs :
+- **Web Development** — développement web et construction de produits numériques.
+- **Cybersécurité** — sécurité, pratique encadrée, labs et investigation.
+- **IA appliquée** — compréhension et création de solutions intégrant l'intelligence artificielle.
 
-- **Psychometric Profiling Quiz**: Classifies users into one of four professional profiles:
-  - 🛠️ **Builder**
-  - 🎨 **Creator**
-  - 🧠 **Strategist**
-  - ⚡ **Catalyst**
-- **Custom Evolution Engine**: Tracks user progress using standard metrics:
-  - **Vibrancy**: Energy, activity, and contribution level.
-  - **Drift**: Path focus, exploration index, and behavioral alignment.
-  - **Confidence**: Skill depth, task success rate, and progression certainty.
-- **Onboarding & Interactive Funnel**: Enforces progression from registration, through onboarding, to community matching.
-- **Missions & Collaboration**: Enables users to accept, submit, and grow through missions inside their Guild.
+L'expérience repose sur un compte et un profil unifiés. Les parcours, ressources et
+premières actions sont proposés selon le domaine choisi et les capacités réellement
+disponibles. Les contenus et fonctionnalités avancés sont livrés progressivement ;
+la plateforme ne doit pas présenter comme disponible une capacité qui n'est pas encore
+implémentée et testée.
+
+## Principes produit
+
+- **Apprendre par la pratique** : chaque domaine doit proposer des activités concrètes.
+- **Prouver plutôt que simplement déclarer** : les réalisations et validations doivent
+  être traçables.
+- **Une expérience unifiée** : identité, profil, onboarding et espace membre partagés.
+- **Communauté et opportunités** : la plateforme complète les rituels communautaires
+  existants, elle ne prétend pas les remplacer.
+- **Transparence** : les contenus, niveaux de maturité et fonctionnalités réellement
+  disponibles sont présentés honnêtement.
+
+## Fonctionnalités principales
+
+- Inscription, authentification et onboarding.
+- Profil membre et orientation.
+- Espaces d'apprentissage et ressources.
+- Missions, labs ou activités pratiques selon les domaines activés.
+- Soumission de réalisations et mécanismes de validation lorsqu'ils sont disponibles.
+- Outils communautaires et administration.
 
 ---
 
