@@ -25,7 +25,7 @@ export function HomePrograms() {
                   </li>
                 ))}
               </ul>
-              <Link href="/programs" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
+              <Link href={`/programs#${domain.slug}`} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
                 Explorer ce domaine <ArrowUpRight className="h-4 w-4" aria-hidden />
               </Link>
             </article>
