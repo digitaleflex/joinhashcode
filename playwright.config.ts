@@ -37,7 +37,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev',
+    // CI vérifie le build de production ; en local, on conserve le serveur de développement.
+    command: process.env.CI ? 'pnpm start' : 'pnpm dev',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     // Dette D6 : la 1re compilation Turbopack de ce projet peut dépasser 60 s
