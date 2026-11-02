@@ -1,3 +1,25 @@
+-- Create enums if missing
+DO $$ BEGIN
+    CREATE TYPE "Language" AS ENUM ('FR', 'EN');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    CREATE TYPE "CourseLevel" AS ENUM ('BEGINNER', 'INTERMEDIATE', 'ADVANCED');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    CREATE TYPE "ContentType" AS ENUM ('VIDEO', 'AUDIO', 'PDF', 'DOCUMENT', 'QUIZ');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    CREATE TYPE "ResourceType" AS ENUM ('LINK', 'FILE', 'VIDEO');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
 -- Fix missing tables/columns for Better Auth and LMS models (additive)
 
 -- Better Auth twoFactor
