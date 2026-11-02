@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: "HashCode",
     images: [
       {
-        url: "/hashcode-logo.png",
+        url: "/brand/hashcode-og.png",
         width: 1200,
         height: 630,
         alt: "HashCode — Apprendre. Construire. Évoluer.",
@@ -68,12 +68,15 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HashCode — Apprendre. Construire. Évoluer.",
     description: "Un écosystème pour apprendre, pratiquer et démontrer ses compétences dans le numérique.",
-    images: ["/hashcode-logo.png"],
+    images: ["/brand/hashcode-og.png"],
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#B8FF3B",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f4ef" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

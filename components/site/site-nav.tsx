@@ -56,8 +56,7 @@ export function SiteNav() {
           aria-label="Accueil HashCode"
           onClick={() => setOpen(false)}
         >
-          <Logo variant="mark" size="sm" />
-          <Logo variant="full" size="sm" />
+          <Logo variant="full" size="md" priority />
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Navigation principale">

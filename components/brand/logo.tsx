@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface HashSymbolProps {
@@ -6,7 +7,7 @@ interface HashSymbolProps {
   size?: number;
 }
 
-/** Simple hash/motorcycle emblem icon for HASHCODE branding. */
+/** Simple hash/motorcycle emblem icon for HASHCODE branding (legacy fallback). */
 export function HashSymbol({ className, size = 40 }: HashSymbolProps) {
   return (
     <svg
@@ -26,22 +27,63 @@ export function HashSymbol({ className, size = 40 }: HashSymbolProps) {
   );
 }
 
+type LogoSize = "sm" | "md" | "lg";
+
 interface LogoProps {
   variant?: "full" | "mark";
-  size?: "sm" | "md" | "lg";
+  size?: LogoSize;
   className?: string;
+  priority?: boolean;
 }
 
-export function Logo({ variant = "full", size = "md", className }: LogoProps) {
-  const sizeClasses = { sm: "text-lg", md: "text-xl", lg: "text-2xl" };
+const HEIGHTS: Record<LogoSize, number> = { sm: 28, md: 36, lg: 52 };
+
+/**
+ * HASHCODE brand logo.
+ * - `full` uses the horizontal wordmark.
+ * - `mark` uses the "H" emblem only.
+ *
+ * Two colour variants are shipped so the logo stays legible on dark and
+ * light surfaces: the default white wordmark for the dark UI, and a
+ * dark-graphite wordmark for light surfaces.
+ */
+export function Logo({ variant = "full", size = "md", className, priority }: LogoProps) {
+  const height = HEIGHTS[size];
+
   if (variant === "mark") {
     return (
-      <HashSymbol className={cn("text-primary", className)} size={size === "sm" ? 24 : size === "md" ? 32 : 48} />
+      <Image
+        src="/brand/hashcode-mark.png"
+        alt="HashCode"
+        width={672}
+        height={471}
+        priority={priority}
+        className={cn("w-auto", className)}
+        style={{ height }}
+      />
     );
   }
+
   return (
-    <span className={cn("font-syne font-extrabold italic tracking-tight", sizeClasses[size], className)}>
-      HASHCODE
+    <span className={cn("inline-flex items-center", className)}>
+      <Image
+        src="/brand/hashcode-wordmark-dark.png"
+        alt="HashCode"
+        width={1808}
+        height={283}
+        priority={priority}
+        className="h-auto w-auto dark:hidden"
+        style={{ height }}
+      />
+      <Image
+        src="/brand/hashcode-wordmark.png"
+        alt="HashCode"
+        width={1808}
+        height={283}
+        priority={priority}
+        className="hidden h-auto w-auto dark:block"
+        style={{ height }}
+      />
     </span>
   );
 }

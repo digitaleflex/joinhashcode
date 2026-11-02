@@ -29,7 +29,6 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.4fr_2fr]">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2" aria-label="Accueil HashCode">
-              <Logo variant="mark" size="sm" />
               <Logo variant="full" size="sm" />
             </Link>
             <p className="max-w-sm text-sm font-semibold leading-relaxed text-foreground">Apprendre. Construire. Évoluer.</p>
