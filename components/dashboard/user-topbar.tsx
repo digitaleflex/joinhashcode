@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -76,14 +77,7 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
       <div className="flex items-center gap-4 flex-1">
         <SidebarTrigger id="tour-sidebar-trigger" className="md:hidden text-muted-foreground hover:text-white mr-2" />
         <Link href="/dashboard" className="flex items-center gap-2 group shrink-0">
-          <Image
-            src="/hashcodejoin.png"
-            alt="HASHCODE"
-            width={120}
-            height={30}
-            className="h-7 w-auto object-contain relative z-[var(--z-content)]"
-            priority
-          />
+          <Logo variant="full" size="sm" priority />
         </Link>
         <div className="relative w-full max-w-md hidden md:block ml-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

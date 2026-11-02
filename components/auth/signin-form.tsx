@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
-import Image from "next/image"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
 function getSafeCallbackUrl(fallback = "/quiz"): string {
@@ -144,13 +144,7 @@ export function SignInForm() {
             <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-10 w-75 h-75 bg-purple-500/5 rounded-full blur-[100px] z-[var(--z-base)]" />
 
             <Link href="/" className="mb-8 relative z-[var(--z-content)] transition-all hover:scale-105 active:scale-95 duration-300">
-                <Image
-                    src="/hashcodejoin.png"
-                    alt="HASHCODE"
-                    width={180}
-                    height={48}
-                    className="h-9 w-auto object-contain brightness-110 drop-shadow-[0_0_15px_rgba(197,244,65,0.15)]"
-                />
+                <Logo variant="full" size="md" className="brightness-110 drop-shadow-[0_0_15px_rgba(197,244,65,0.15)]" />
             </Link>
 
             <Card className="w-full max-w-md border border-white/8 glass-card relative z-[var(--z-content)] shadow-2xl rounded-2xl overflow-hidden cyber-notch-sm transition-all duration-300">

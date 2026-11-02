@@ -1,5 +1,5 @@
-import Image from "next/image"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 
 export function Footer() {
   return (
@@ -11,13 +11,7 @@ export function Footer() {
           <div className="space-y-6">
             <Link href="/" className="inline-block group">
               <div className="relative">
-                <Image
-                  src="/hashcodejoin.png"
-                  alt="HASHCODE"
-                  width={140}
-                  height={36}
-                  className="h-7 w-auto object-contain brightness-75 group-hover:brightness-100 transition-all"
-                />
+                <Logo variant="full" size="sm" className="object-contain brightness-75 group-hover:brightness-100 transition-all" />
               </div>
             </Link>
             <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-xs">

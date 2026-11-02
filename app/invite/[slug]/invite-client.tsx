@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Image from "next/image"
+import { Logo } from "@/components/brand/logo"
 import Link from "next/link"
 
 interface InviteUser {
@@ -77,13 +77,7 @@ export function InviteClient({ squad, leader, isLoggedIn, userId }: InviteClient
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
 
             <div className="mb-10 text-center space-y-4 relative z-[var(--z-content)]">
-                <Image
-                    src="/hashcodejoin.png"
-                    alt="HASHCODE"
-                    width={180}
-                    height={48}
-                    className="h-10 w-auto mx-auto mb-6 drop-shadow-[0_0_15px_rgba(var(--primary),0.3)]"
-                />
+                <Logo variant="full" size="md" className="mx-auto mb-6" />
                 <div className="flex flex-col items-center gap-3">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
                         <ShieldCheck className="size-3.5" />

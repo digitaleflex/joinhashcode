@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 import { ArrowRight, LayoutDashboard, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { authClient } from "@/lib/auth-client"
@@ -114,14 +115,7 @@ export function Nav() {
           {/* Logo */}
           <Link href="/" className="relative flex items-center gap-1.5 group">
             <div className="absolute -inset-2 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Image
-              src="/hashcodejoin.png"
-              alt="HASHCODE"
-              width={160}
-              height={40}
-              className="h-8 w-auto object-contain relative z-[var(--z-content)]"
-              priority
-            />
+            <Logo variant="full" size="md" priority className="relative z-[var(--z-content)]" />
           </Link>
 
           {/* Right actions */}
