@@ -234,6 +234,7 @@ model User {
   mentorProfile         MentorProfile?
   mentorMatches         MentorMatch[]         @relation("MentorMatches")
   menteeMatches         MentorMatch[]         @relation("MenteeMatches")
+  twoFactors            TwoFactor[]
 
   @@index([class])
   @@index([role])
@@ -245,6 +246,24 @@ model User {
 
 // --- UserProfile removed: fields merged into User (bio, secondaryObjectives, etc.) ---
 
+// ============================================================
+// BETTER-AUTH TWO-FACTOR
+// ============================================================
+// The table is created by 20261031000000_fix_missing_tables_and_columns.
+// The model must exist in the Prisma client, otherwise Better Auth reports
+// SCHEMA_MISMATCH ("Missing tables twoFactor") and 2FA routes fail.
+model TwoFactor {
+  id          String  @id
+  secret      String
+  backupCodes String
+  userId      String
+  verified    Boolean @default(true)
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
+}
 
 // ============================================================
 // ORGANIZATION & MEMBER — fusion Community + reboot
