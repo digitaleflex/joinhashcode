@@ -9,7 +9,7 @@
 #   /app/generated, /app/prisma, /app/prisma.config.ts (migrate deploy)
 # ────────────────────────────────────────────────────────────────
 
-FROM node:22-alpine AS base
+FROM node:22.23.0-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -28,7 +28,7 @@ ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholde
 ENV DIRECT_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 RUN npm run build
 
-FROM node:22-alpine AS runner
+FROM node:22.23.0-alpine AS runner
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 -G nodejs nextjs
 
