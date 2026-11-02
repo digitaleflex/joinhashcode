@@ -22,8 +22,9 @@ services:
       NODE_ENV: production
       HOSTNAME: "0.0.0.0"
       WEB_CONCURRENCY: "2"
+      # REDIS_TOKEN est fourni par env_file (.env.production) — voir section
+      # RATE LIMITING. Ne jamais figer un jeton partagé dans ce fichier.
       REDIS_URL: http://redis-proxy:80
-      REDIS_TOKEN: ${REDIS_TOKEN:-local-dev-token}
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
       interval: 15s
