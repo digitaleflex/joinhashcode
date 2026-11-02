@@ -253,12 +253,14 @@ model User {
 // The model must exist in the Prisma client, otherwise Better Auth reports
 // SCHEMA_MISMATCH ("Missing tables twoFactor") and 2FA routes fail.
 model TwoFactor {
-  id          String  @id
-  secret      String
-  backupCodes String
-  userId      String
-  verified    Boolean @default(true)
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                     String    @id
+  secret                 String
+  backupCodes            String
+  userId                 String
+  verified               Boolean   @default(true)
+  failedVerificationCount Int      @default(0)
+  lockedUntil            DateTime?
+  user                   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([secret])
   @@index([userId])
