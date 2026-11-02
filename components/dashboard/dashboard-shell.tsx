@@ -28,6 +28,7 @@ import { type Mission } from "@/lib/missions"
 import { MissionDeck } from "./mission-deck"
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
+import { FirstActionCard } from "./first-action-card"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { SquadData } from "@/components/dashboard/squad-journey"
@@ -72,6 +73,7 @@ export function DashboardShell({
   featureFlags: _featureFlags = {},
   socialProof: _socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 },
   firstAction,
+  firstActionStatus = "not_started",
 }: {
   user: UserProfile,
   quizResult: { profileType?: string | null } | null,
@@ -84,6 +86,7 @@ export function DashboardShell({
   featureFlags?: Record<string, boolean>,
   socialProof?: { activeMembers: number, userRank: number, weeklyCheckins: number, totalMembers: number },
   firstAction?: FirstAction,
+  firstActionStatus?: "not_started" | "started" | "completed",
 }) {
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
@@ -139,45 +142,30 @@ export function DashboardShell({
             {isNewUser && (
               <>
                 {/* Prochaine étape — the single most important CTA */}
-                <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
-                  <p className="text-xs font-mono text-primary uppercase font-bold tracking-widest mb-2">
-                    {firstAction?.status === "ready" ? "Ta première action" : "Ta prochaine étape"}
-                  </p>
-                  <p className="text-lg font-bold text-white">
-                    {firstAction?.title ??
-                      (user.mainObjective
+                {firstAction ? (
+                  <FirstActionCard action={firstAction} status={firstActionStatus} />
+                ) : (
+                  <div className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
+                    <p className="text-xs font-mono text-primary uppercase font-bold tracking-widest mb-2">
+                      Ta prochaine étape
+                    </p>
+                    <p className="text-lg font-bold text-white">
+                      {user.mainObjective
                         ? `${user.mainObjective} — développer une expertise concrète`
-                        : "Complète ton diagnostic pour débloquer tes missions")}
-                  </p>
-                  <p className="text-sm text-zinc-400 mt-1">
-                    {firstAction?.description ??
-                      (user.mainObjective
+                        : "Complète ton diagnostic pour débloquer tes missions"}
+                    </p>
+                    <p className="text-sm text-zinc-400 mt-1">
+                      {user.mainObjective
                         ? "Chaque mission te rapproche de ton objectif."
-                        : "5 minutes pour découvrir ton profil et accéder à ton parcours.")}
-                  </p>
-                  {firstAction?.duration && (
-                    <p className="text-xs font-mono text-zinc-500 mt-2">{firstAction.duration}</p>
-                  )}
-                  <Button className="mt-4 btn-primary-glow" asChild>
-                    <Link
-                      href={firstAction?.href ?? (user.mainObjective ? "/missions" : "/quiz")}
-                      onClick={() => {
-                        if (firstAction?.status === "ready") {
-                          fetch("/api/me/first-action", {
-                            method: "POST",
-                            keepalive: true,
-                          }).catch(() => undefined)
-                        }
-                      }}
-                    >
-                      {firstAction?.status === "ready"
-                        ? "Commencer ma première action →"
-                        : user.mainObjective
-                          ? "Voir les missions →"
-                          : "Faire le quiz →"}
-                    </Link>
-                  </Button>
-                </div>
+                        : "5 minutes pour découvrir ton profil et accéder à ton parcours."}
+                    </p>
+                    <Button className="mt-4 btn-primary-glow" asChild>
+                      <Link href={user.mainObjective ? "/missions" : "/quiz"}>
+                        {user.mainObjective ? "Voir les missions →" : "Faire le quiz →"}
+                      </Link>
+                    </Button>
+                  </div>
+                )}
 
                 {/* Check-in — simple, low friction */}
                 <div id="tour-checkin">

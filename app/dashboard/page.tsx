@@ -55,6 +55,7 @@ export default async function DashboardPage() {
   let member: MemberPayload | null = null;
   let feedActivities: Activity[] = [];
   let socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 };
+  let firstActionStatus: "not_started" | "started" | "completed" = "not_started";
 
   try {
     const [userData, submissionsData, memberData, feedData, activeCount, weeklyCount, totalMembersCount] = await Promise.all([
@@ -80,6 +81,8 @@ export default async function DashboardPage() {
           createdAt: true,
           domains: true,
           primaryDomain: true,
+          firstActionStartedAt: true,
+          firstActionCompletedAt: true,
           tools: true,
           badges: true,
           behavioralVibrancy: true,
@@ -211,6 +214,11 @@ export default async function DashboardPage() {
     } as UserProfile;
 
     quizResult = userData.quizResults[0] ?? null;
+    firstActionStatus = userData.firstActionCompletedAt
+      ? "completed"
+      : userData.firstActionStartedAt
+        ? "started"
+        : "not_started";
     submissions = submissionsData as DetailedMissionSubmission[];
     member = memberData ?? null;
     feedActivities = (feedData ?? []).map((a) => ({
@@ -267,6 +275,7 @@ export default async function DashboardPage() {
     <DashboardWithTour
       user={dbUser}
       firstAction={firstAction}
+      firstActionStatus={firstActionStatus}
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}

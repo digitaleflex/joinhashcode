@@ -21,6 +21,7 @@ export function DashboardWithTour({
   featureFlags,
   socialProof,
   firstAction,
+  firstActionStatus,
 }: {
   user: UserProfile
   quizResult: { profileType?: string | null } | null
@@ -33,6 +34,7 @@ export function DashboardWithTour({
   featureFlags?: Record<string, boolean>
   socialProof?: { activeMembers: number; userRank: number; weeklyCheckins: number; totalMembers: number }
   firstAction?: FirstAction
+  firstActionStatus?: "not_started" | "started" | "completed"
 }) {
   const tourEnabled = isFeatureEnabled("tour")
 
@@ -50,6 +52,7 @@ export function DashboardWithTour({
         featureFlags={featureFlags}
         socialProof={socialProof}
         firstAction={firstAction}
+        firstActionStatus={firstActionStatus}
       />
     </TourProvider>
   )
