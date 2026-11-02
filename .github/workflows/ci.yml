@@ -76,6 +76,9 @@ jobs:
       - name: Apply database migrations
         run: bash scripts/ci-migrate-deploy.sh
 
+      - name: Seed database twice (idempotence)
+        run: pnpm db:seed && pnpm db:seed
+
       - name: Lint
         run: pnpm lint
 

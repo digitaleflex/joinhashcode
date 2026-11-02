@@ -11,6 +11,7 @@ The workflow runs in an isolated GitHub Actions runner with a temporary PostgreS
 1. Install dependencies with the committed pnpm lockfile (`--frozen-lockfile`).
 2. Generate and validate the Prisma client/schema.
 3. Apply database migrations to the temporary PostgreSQL instance.
+4. Run the seed twice to prove idempotence (`Program`, `Course`, missions, badges).
 4. Run ESLint and the TypeScript check.
 5. Run the Vitest unit/integration suite.
 6. Scan tracked repository files for accidentally committed secrets.
