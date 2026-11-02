@@ -38,6 +38,17 @@ export function SignInForm() {
         }
     }, [])
 
+    // Decrement the resend cooldown so the button becomes usable again.
+    // Without this effect the cooldown stayed at 60 forever after one send.
+    useEffect(() => {
+        if (resendCooldown <= 0) return
+        const timer = window.setTimeout(
+            () => setResendCooldown((value) => Math.max(0, value - 1)),
+            1000,
+        )
+        return () => window.clearTimeout(timer)
+    }, [resendCooldown])
+
     const handleSignInGoogle = async () => {
         setLoadingProvider("google")
         try {
@@ -155,9 +166,9 @@ export function SignInForm() {
                     <CardTitle className="text-2xl font-black uppercase tracking-tight text-white italic leading-none">
                         {step === "initial" ? "Connexion" : "Vérification"}
                     </CardTitle>
-                    <CardDescription className="text-xs text-zinc-400 font-medium max-w-80 mx-auto leading-relaxed">
-                        {step === "initial" 
-                            ? "Rejoins ta Squad de 5 développeurs, accomplis des missions réelles et propulse ton parcours tech grâce à notre système d'évolution."
+                    <CardDescription aria-live="polite" className="text-xs text-zinc-400 font-medium max-w-80 mx-auto leading-relaxed">
+                        {step === "initial"
+                            ? "Entre ton email pour recevoir un code. Pas encore de compte ? Il est créé automatiquement à ta première connexion."
                             : `Saisis le code à 8 caractères envoyé à ${email}`}
                     </CardDescription>
                 </CardHeader>
@@ -173,6 +184,9 @@ export function SignInForm() {
                                     <Input
                                         id="email"
                                         type="email"
+                                        inputMode="email"
+                                        autoComplete="email"
+                                        autoFocus
                                         placeholder="hacker@hashcode.com"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -260,6 +274,9 @@ export function SignInForm() {
                                 <Input
                                     id="otp"
                                     type="text"
+                                    inputMode="text"
+                                    autoComplete="one-time-code"
+                                    autoFocus
                                     placeholder="Ex: A4B7X9Z2"
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value.toUpperCase())}
