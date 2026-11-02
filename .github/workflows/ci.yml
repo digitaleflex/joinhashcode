@@ -61,7 +61,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: pnpm
 
       - name: Install dependencies
@@ -111,3 +111,31 @@ jobs:
             test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  compose:
+    name: Compose validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      DB_USER: ci
+      DB_PASSWORD: ci
+      DB_NAME: ci
+      APP_DOMAIN: example.test
+      APP_ENV_FILE: ./.env.ci
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare dummy env file for compose interpolation
+        run: touch .env.ci
+
+      - name: Validate compose.app.yml
+        run: docker compose -f compose.app.yml config --quiet
+
+      - name: Validate compose.app.image.yml
+        run: docker compose -f compose.app.image.yml config --quiet
+
+      - name: Validate compose.db.yml
+        run: docker compose -f compose.db.yml config --quiet
