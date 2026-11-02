@@ -9,6 +9,8 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { UserTopBar } from "@/components/dashboard/user-topbar"
+import { getFirstAction } from "@/lib/first-action"
+import { AtelierCompleteButton } from "@/components/ateliers/atelier-complete-button"
 
 const PROFILE_COLORS: Record<string, string> = {
   builder: "#B8FF3B",
@@ -31,7 +33,7 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
   const [user, userSquad] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true },
+      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true, primaryDomain: true, firstActionCompletedAt: true },
     }),
     prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
   ])
@@ -57,6 +59,9 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
       difficulty: m.difficulty,
     }
   })
+
+  const firstAction = getFirstAction(user.primaryDomain)
+  const isFirstAction = firstAction.href === `/ateliers/${atelier.slug}`
 
   const color = PROFILE_COLORS[atelier.profile] || "#c5f441"
   const profileLabel = PROFILE_LABELS[atelier.profile] || atelier.profile
@@ -109,6 +114,10 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
                 </div>
               </div>
             </div>
+
+            {isFirstAction && (
+              <AtelierCompleteButton initiallyCompleted={!!user.firstActionCompletedAt} />
+            )}
 
             {missions.length > 0 ? (
               <section className="mt-10">
