@@ -15,7 +15,7 @@ services:
     container_name: hashcode-web
     restart: always
     env_file:
-      - /home/audest/hashcode-community/.env.production
+      - ${APP_ENV_FILE:-/home/audest/hashcode-community/.env.production}
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
       DIRECT_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public&sslmode=disable
@@ -23,7 +23,7 @@ services:
       HOSTNAME: "0.0.0.0"
       WEB_CONCURRENCY: "2"
       REDIS_URL: http://redis-proxy:80
-      REDIS_TOKEN: local-dev-token
+      REDIS_TOKEN: ${REDIS_TOKEN:-local-dev-token}
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/status').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"]
       interval: 15s

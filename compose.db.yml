@@ -16,7 +16,7 @@
 
 services:
   db:
-    image: postgres:17-alpine
+    image: postgres:17.11-alpine
     container_name: hashcode-db
     restart: always
     environment:
@@ -50,7 +50,7 @@ services:
   # Réduit les connexions réelles de 200 → 20, économisant ~1.4GB RAM PostgreSQL.
   # Les pods Next.js se connectent à PgBouncer:5432, pas directement à PostgreSQL.
   pgbouncer:
-    image: edoburu/pgbouncer:latest
+    image: edoburu/pgbouncer:v1.26.1-p0
     container_name: hashcode-pgbouncer
     restart: always
     environment:
@@ -71,7 +71,7 @@ services:
       LOG_DISCONNECTIONS: 0
       ADMIN_USERS: ${DB_USER}
     ports:
-      - "5435:5432"   # Expose PgBouncer sur le port 5435 (compat avec la config actuelle)
+      - "127.0.0.1:5435:5432"   # Loopback uniquement — accès interne/tunnel SSH, jamais sur Internet
     depends_on:
       db:
         condition: service_healthy
@@ -93,7 +93,7 @@ services:
   # ⚡ Perf: Redis/Valkey local — remplace Upstash pour le rate-limiting et le cache.
   # Latence réduite de 50–100ms (Upstash réseau) à <1ms (local).
   redis:
-    image: valkey/valkey:8-alpine
+    image: valkey/valkey:8.1.11-alpine
     container_name: hashcode-redis
     restart: always
     # Limite mémoire à 256MB avec éviction LRU automatique
@@ -118,13 +118,13 @@ services:
   # ⚡ Perf: Serverless Redis HTTP (SRH) — Proxy REST pour Valkey local.
   # Permet à @upstash/redis de se connecter à Valkey local en HTTP/REST sans latence réseau.
   redis-proxy:
-    image: hiett/serverless-redis-http:latest
+    image: hiett/serverless-redis-http:0.0.10
     container_name: hashcode-redis-proxy
     restart: always
     environment:
       SRH_MODE: env
       SRH_CONNECTION_STRING: redis://redis:6379
-      SRH_TOKEN: local-dev-token
+      SRH_TOKEN: ${REDIS_TOKEN:-local-dev-token}
     depends_on:
       redis:
         condition: service_healthy
@@ -138,7 +138,7 @@ services:
           memory: 32M
 
   adminer:
-    image: adminer:latest
+    image: adminer:6.2.0
     container_name: hashcode-adminer
     restart: always
     depends_on:
