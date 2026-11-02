@@ -193,6 +193,7 @@ export default async function DashboardPage() {
       memberNumber: userData.memberNumber,
       createdAt: userData.createdAt,
       domains: userData.domains || [],
+      primaryDomain: userData.primaryDomain ?? null,
       tools: userData.tools || [],
       badges: userData.badges || [],
       bio: userData.bio,
