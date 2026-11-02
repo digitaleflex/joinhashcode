@@ -9,6 +9,7 @@ import { randomInt } from "crypto";
 import { redis } from "./ratelimit";
 import { invalidateUserCache } from "./user-cache";
 import { logError } from "./logger";
+import { provisionNewUser, type NewUser } from "./user-provisioning";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
@@ -193,44 +194,40 @@ export const auth = betterAuth({
           const userEmail = user.email as string;
           const userId = user.id as string;
 
-          if (userClass) {
+          // 1. Initialise the profile first. Idempotent and collision-safe.
+          //    If it fails, we do NOT send the welcome email: the acceptance
+          //    criteria require that no email is sent when provisioning failed.
+          const provisioned = await provisionNewUser(
+            prisma as unknown as Parameters<typeof provisionNewUser>[0],
+            {
+              id: userId,
+              name: userName,
+              pseudo: userPseudo,
+              class: userClass,
+            } satisfies NewUser,
+          );
+
+          if (!provisioned) {
+            logError(
+              "Auth Hooks Provisioning",
+              `Échec d'initialisation du profil pour ${userId}`,
+            );
+          } else if (userClass) {
             emailService.sendWelcomeProfileEmail({
               email: userEmail,
               name: userName,
               profileType: userClass,
             }).catch((err) => logError("Welcome Email", err));
-           } else {
+          } else {
             emailService.sendWelcomePendingQuiz({
-               email: userEmail,
-               name: userName,
-             }).catch((err) => logError("Welcome Email", err));
+              email: userEmail,
+              name: userName,
+            }).catch((err) => logError("Welcome Email", err));
           }
 
-          const referralCode = userPseudo?.toLowerCase() ||
-            `${userName.split(' ')[0].toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
-
-          await prisma.user.update({
-            where: { id: userId },
-            data: {
-          referralCode: referralCode,
-
-          githubUrl: null,
-          portfolioUrl: null,
-          linkedinUrl: null,
-          twitterUrl: null,
-          currentStreak: 0,
-          longestStreak: 0,
-          lastCheckinAt: null,
-          lastStreakDate: null,
-          level: 1,
-          experience: 0,
-          missionsCompletedCount: 0,
-            },
-          });
-
-           await invalidateUserCache(userId).catch((err) =>
-             logError("Auth Hooks Cache Invalidation", `Échec pour ${userId} lors de la création : ${err}`)
-           );
+          await invalidateUserCache(userId).catch((err) =>
+            logError("Auth Hooks Cache Invalidation", `Échec pour ${userId} lors de la création : ${err}`)
+          );
         },
       },
       update: {
