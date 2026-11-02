@@ -46,6 +46,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/generated /app/generated
 COPY --from=builder --chown=nextjs:nodejs /app/public /app/public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone /app/.next/standalone
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static /app/.next/standalone/.next/static
+# Public assets must live inside the standalone tree: the standalone server
+# serves them from /app/.next/standalone/public. Without this copy, images,
+# icons, manifest and /brand/* return 404 in image mode.
+COPY --from=builder --chown=nextjs:nodejs /app/public /app/.next/standalone/public
 # Parité avec le mount host ./generated:/app/generated : certains requires
 # résolvent hors de l'arbre standalone.
 COPY --from=builder --chown=nextjs:nodejs /app/generated /app/.next/standalone/generated
