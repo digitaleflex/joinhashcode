@@ -7,6 +7,7 @@ import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
 import type { SquadData } from "@/components/dashboard/squad-journey";
 import type { Activity } from "@/components/landing/activity-feed";
 import { getFeatureFlags } from "@/lib/feature-flags";
+import { getFirstAction } from "@/lib/first-action";
 
 type MemberPayload = Prisma.MemberGetPayload<{
   select: {
@@ -78,6 +79,7 @@ export default async function DashboardPage() {
           memberNumber: true,
           createdAt: true,
           domains: true,
+          primaryDomain: true,
           tools: true,
           badges: true,
           behavioralVibrancy: true,
@@ -258,10 +260,12 @@ export default async function DashboardPage() {
   }
 
   const featureFlags = getFeatureFlags()
+  const firstAction = getFirstAction(dbUser.primaryDomain)
 
   return (
     <DashboardWithTour
       user={dbUser}
+      firstAction={firstAction}
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}

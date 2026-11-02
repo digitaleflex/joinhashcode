@@ -7,6 +7,7 @@ import type { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { SquadData } from "./squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
 import type { Mission } from "@/lib/missions"
+import type { FirstAction } from "@/lib/first-action"
 
 export function DashboardWithTour({
   user,
@@ -19,6 +20,7 @@ export function DashboardWithTour({
   feedActivities,
   featureFlags,
   socialProof,
+  firstAction,
 }: {
   user: UserProfile
   quizResult: { profileType?: string | null } | null
@@ -30,6 +32,7 @@ export function DashboardWithTour({
   feedActivities?: Activity[]
   featureFlags?: Record<string, boolean>
   socialProof?: { activeMembers: number; userRank: number; weeklyCheckins: number; totalMembers: number }
+  firstAction?: FirstAction
 }) {
   const tourEnabled = isFeatureEnabled("tour")
 
@@ -46,6 +49,7 @@ export function DashboardWithTour({
         feedActivities={feedActivities}
         featureFlags={featureFlags}
         socialProof={socialProof}
+        firstAction={firstAction}
       />
     </TourProvider>
   )

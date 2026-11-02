@@ -51,5 +51,6 @@ export const EVENTS = {
   ONBOARDING_STARTED: "onboarding_started",
   ONBOARDING_COMPLETED: "onboarding_completed",
   FIRST_MISSION_STARTED: "first_mission_started",
+  FIRST_ACTION_STARTED: "first_action_started",
 };
 
