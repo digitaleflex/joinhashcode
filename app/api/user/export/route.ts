@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   try {
     const session = await requireSession();
 
-    const { limited } = await checkRateLimit(strictMutationLimiter, `export:${session.user.id}`);
+    const { limited } = await checkRateLimit(strictMutationLimiter, `export:${session.user.id}`, { failClosed: true });
     if (limited) {
       return NextResponse.json({ message: "Trop de requêtes d'exportation. Réessaie dans une heure." }, { status: 429 });
     }

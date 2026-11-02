@@ -11,7 +11,7 @@ export async function DELETE(
   const admin = await checkAdmin();
   if (!admin) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
-  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id);
+  const { limited } = await checkRateLimit(adminOpsLimiter, admin.id, { failClosed: true });
   if (limited) return NextResponse.json({ message: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
   try {

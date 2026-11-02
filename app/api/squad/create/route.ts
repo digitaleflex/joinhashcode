@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     const session = await requireSession();
     const userId = session.user.id;
 
-    const { limited } = await checkRateLimit(strictMutationLimiter, userId);
+    const { limited } = await checkRateLimit(strictMutationLimiter, userId, { failClosed: true });
     if (limited) {
       return NextResponse.json({ message: "Trop de tentatives de création d'escouade. Réessaie plus tard." }, { status: 429 });
     }

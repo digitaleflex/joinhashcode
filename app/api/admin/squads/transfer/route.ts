@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
     }
 
-    const { limited } = await checkRateLimit(adminOpsLimiter, session.user.id);
+    const { limited } = await checkRateLimit(adminOpsLimiter, session.user.id, { failClosed: true });
     if (limited) return NextResponse.json({ error: "Trop d'opérations. Réessaie dans une heure." }, { status: 429 });
 
     const body = await req.json();
