@@ -6,10 +6,37 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Mail } from "lucide-react"
+import { Loader2, Mail, Link2 } from "lucide-react"
 import { toast } from "sonner"
 import Link from "next/link"
 import { Logo } from "@/components/brand/logo"
+import { OtpInput } from "@/components/auth/otp-input"
+
+const LAST_EMAIL_KEY = "hashcode:last-email"
+
+/** Turn Better Auth errors into explicit, non-leaky messages. */
+function describeAuthError(error: unknown, context: "send" | "verify" | "magic"): string {
+    const err = error as { status?: number; message?: string; code?: string } | undefined
+    const status = err?.status
+    const message = (err?.message ?? "").toLowerCase()
+
+    if (status === 429 || message.includes("too many") || message.includes("429")) {
+        return "Trop de tentatives. Réessaie dans une minute."
+    }
+    if (message.includes("expired")) {
+        return "Ce code a expiré. Demande-en un nouveau."
+    }
+    if (context === "verify" && (message.includes("invalid") || message.includes("incorrect"))) {
+        return "Code incorrect. Vérifie les 8 caractères reçus."
+    }
+    if (context === "magic") {
+        return "Le lien n'a pas pu être envoyé. Réessaie dans quelques instants."
+    }
+    if (context === "send") {
+        return "Le code n'a pas pu être envoyé. Vérifie ton adresse email et réessaie."
+    }
+    return "La vérification a échoué. Réessaie dans quelques instants."
+}
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
 function getSafeCallbackUrl(fallback = "/quiz"): string {
@@ -25,7 +52,7 @@ function getSafeCallbackUrl(fallback = "/quiz"): string {
 }
 
 export function SignInForm() {
-    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | "google" | "github" | null>(null)
+    const [loadingProvider, setLoadingProvider] = useState<"email" | "otp" | "google" | "github" | "magic" | null>(null)
     const [step, setStep] = useState<"initial" | "otp">("initial")
     const [email, setEmail] = useState("")
     const [otp, setOtp] = useState("")
@@ -35,6 +62,14 @@ export function SignInForm() {
         const ref = new URLSearchParams(window.location.search).get("ref")
         if (ref && /^[a-zA-Z0-9_-]{3,50}$/.test(ref)) {
             document.cookie = `hashcode_ref=${encodeURIComponent(ref)}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`
+        }
+
+        // Prefill the last used email to reduce friction on return visits.
+        try {
+            const remembered = window.localStorage.getItem(LAST_EMAIL_KEY)
+            if (remembered) setEmail(remembered)
+        } catch {
+            // localStorage can be disabled (private mode) — ignore.
         }
     }, [])
 
@@ -80,7 +115,7 @@ export function SignInForm() {
             })
             
             if (error) {
-                const isRateLimit = (error as Record<string, unknown>)?.status === 429 || 
+                const isRateLimit = (error as Record<string, unknown>)?.status === 429 ||
                     error.message?.toLowerCase().includes("too many") ||
                     error.message?.toLowerCase().includes("429")
                 if (isRateLimit) {
@@ -89,15 +124,21 @@ export function SignInForm() {
                     setLoadingProvider(null)
                     return
                 }
-                throw new Error(error.message)
+                throw error
             }
-            
+
+            try {
+                window.localStorage.setItem(LAST_EMAIL_KEY, email.trim())
+            } catch {
+                // ignore private-mode failures
+            }
+
             toast.success("Un code de sécurité a été envoyé sur ta boîte mail. Vérifie aussi tes spams si tu ne le trouves pas.")
             setStep("otp")
             setResendCooldown(60) // Start 60s cooldown
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Le code n'a pas pu être envoyé. Réessaie dans quelques instants.")
+            toast.error(describeAuthError(error, "send"))
         } finally {
             setLoadingProvider(null)
         }
@@ -117,13 +158,45 @@ export function SignInForm() {
                 otp
             })
 
-            if (error) throw new Error(error.message)
+            if (error) throw error
 
             toast.success("Authentification réussie")
             window.location.href = getSafeCallbackUrl()
         } catch (error: unknown) {
             console.error(error)
-            toast.error("Le code saisi est incorrect ou a expiré. Vérifie le code reçu ou demande un nouvel envoi.")
+            toast.error(describeAuthError(error, "verify"))
+        } finally {
+            setLoadingProvider(null)
+        }
+    }
+
+    const handleSendMagicLink = async () => {
+        if (!email) {
+            toast.error("Veuillez entrer une adresse e-mail")
+            return
+        }
+
+        setLoadingProvider("magic")
+        try {
+            const { error } = await authClient.signIn.magicLink({
+                email: email.trim(),
+                callbackURL: getSafeCallbackUrl(),
+            })
+
+            if (error) throw error
+
+            try {
+                window.localStorage.setItem(LAST_EMAIL_KEY, email.trim())
+            } catch {
+                // ignore private-mode failures
+            }
+
+            toast.success("Un lien de connexion a été envoyé. Vérifie aussi tes spams.", {
+                duration: 6000,
+            })
+        } catch (error: unknown) {
+            console.error(error)
+            toast.error(describeAuthError(error, "magic"))
         } finally {
             setLoadingProvider(null)
         }
@@ -210,6 +283,20 @@ export function SignInForm() {
                                 </Button>
                             </form>
 
+                            <button
+                                type="button"
+                                onClick={handleSendMagicLink}
+                                disabled={!!loadingProvider}
+                                className="mx-auto flex items-center justify-center gap-1.5 text-xs font-medium text-zinc-500 transition-colors hover:text-primary disabled:opacity-50"
+                            >
+                                {loadingProvider === "magic" ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                ) : (
+                                    <Link2 className="h-3.5 w-3.5" aria-hidden />
+                                )}
+                                Préférer un lien de connexion par email
+                            </button>
+
                             <div className="relative my-3">
                                 <div className="absolute inset-0 flex items-center">
                                     <span className="w-full border-t border-white/5"></span>
@@ -271,18 +358,13 @@ export function SignInForm() {
                                 <Label htmlFor="otp" className="font-mono text-3xs font-bold text-zinc-500 uppercase tracking-widest">
                                     Code de sécurité (8 caractères)
                                 </Label>
-                                <Input
-                                    id="otp"
-                                    type="text"
-                                    inputMode="text"
-                                    autoComplete="one-time-code"
-                                    autoFocus
-                                    placeholder="Ex: A4B7X9Z2"
+                                <OtpInput
                                     value={otp}
-                                    onChange={(e) => setOtp(e.target.value.toUpperCase())}
-                                    className="input-premium h-12 text-center text-lg font-mono tracking-widest rounded-xl border-white/10"
-                                    maxLength={8}
-                                    required
+                                    onChange={setOtp}
+                                    length={8}
+                                    disabled={!!loadingProvider}
+                                    autoFocus
+                                    label="Code de sécurité"
                                 />
                             </div>
                             <Button 
@@ -321,6 +403,20 @@ export function SignInForm() {
                                     Annuler et revenir
                                 </Button>
                             </div>
+
+                            <button
+                                type="button"
+                                onClick={handleSendMagicLink}
+                                disabled={!!loadingProvider}
+                                className="mx-auto flex items-center justify-center gap-1.5 text-xs font-medium text-zinc-500 transition-colors hover:text-primary disabled:opacity-50"
+                            >
+                                {loadingProvider === "magic" ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                ) : (
+                                    <Link2 className="h-3.5 w-3.5" aria-hidden />
+                                )}
+                                Recevoir un lien de connexion à la place
+                            </button>
                         </form>
                     )}
                 </CardContent>
