@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { RotateCcw } from "lucide-react";
-import { HashSymbol } from "@/components/brand/logo";
+import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import {
   getVisibleQuestions,
@@ -265,7 +265,7 @@ export function ProfilingFlow({ onComplete, onBack }: ProfilingFlowProps) {
       >
         <div className="animate-in fade-in duration-500">
           <div className="max-w-xl mx-auto text-center">
-            <HashSymbol className="mx-auto text-primary" size={40} />
+            <Logo variant="mark" size="md" className="mx-auto" />
             <h2 className="mt-5 font-syne font-bold text-2xl sm:text-3xl tracking-tight">
               Ton profil HASHCODE est prêt.
             </h2>
@@ -316,7 +316,7 @@ export function ProfilingFlow({ onComplete, onBack }: ProfilingFlowProps) {
       >
         <div className="text-center animate-in fade-in duration-500">
           <div className="relative inline-flex">
-            <HashSymbol className="text-primary" size={36} />
+            <Logo variant="mark" size="md" />
           </div>
           <h2 className="mt-5 font-syne font-bold text-lg text-foreground">
             On finalise ton profil…
@@ -426,7 +426,7 @@ function ResumePrompt({
       </header>
       <main className="flex-1 flex items-center justify-center px-5 sm:px-8">
         <div className="w-full max-w-md text-center animate-in fade-in duration-500">
-          <HashSymbol className="mx-auto text-primary" size={40} />
+          <Logo variant="mark" size="md" className="mx-auto" />
           <h2 className="mt-5 font-syne font-bold text-2xl tracking-tight">
             {duplicate ? "Tu as déjà un compte HASHCODE." : "Tu avais un brouillon en cours."}
           </h2>
