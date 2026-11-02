@@ -269,6 +269,20 @@ export const auth = betterAuth({
              logError("Auth Redis Del", err);
            }
         },
+        // Required by Better Auth's secondary-storage rate limiting.
+        // Without it every auth request throws
+        // "Secondary-storage rate limiting requires SecondaryStorage.increment."
+        increment: async (key: string, ttl?: number) => {
+           try {
+             const value = await r.incr(key);
+             // Set the window expiry once per key so counters reset.
+             if (value === 1 && ttl) await r.expire(key, ttl);
+             return value;
+           } catch (err) {
+             logError("Auth Redis Incr", err);
+             return 0;
+           }
+        },
       },
     };
   })() : {}),
