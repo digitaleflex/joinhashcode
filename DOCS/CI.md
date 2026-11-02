@@ -30,13 +30,12 @@ The public showcase suite is configured by `playwright.public.config.ts` and cur
 - Main public pages: About, Labs, Community and Talents.
 - Mobile navigation at a 390px viewport.
 
-It intentionally does not run the authenticated E2E global setup or the Academy seed. The public route diagnostics also show missing tables for `Atelier`, `Intervention` and `Course`; the repository has Prisma queries for these models, but the fresh migrated CI database does not contain the tables. The read helpers currently fall back to empty arrays/counts, so page rendering still succeeds while those data-backed modules remain unavailable. The Academy seed additionally requires LMS tables including `Program` that are not in the deployable migration history. A prior run also exposed Better Auth schema drift (`twoFactor` table and `invitation.createdAt` column). This is a separate schema/migration task; the public CI gate must not claim to validate those modules or real authentication until that work is complete.
+It intentionally does not run the authenticated E2E global setup or the Academy seed. The public route diagnostics previously reported missing tables for `Atelier`, `Intervention` and `Course`; the corrective migration `20261031000000_fix_missing_tables_and_columns` now creates them (plus `Program` and the Better Auth `twoFactor`/`passkey` tables), and the whole history replays cleanly from an empty PostgreSQL 16 database. Authenticated/LMS flows are still not claimed by the public CI gate until their own E2E coverage exists.
 
-## Known migration-history exception
+## Migration history
 
-The CI migration runner (`scripts/ci-migrate-deploy.sh`) handles one documented legacy inconsistency: migration `20260809000000_add_user_confidence_score` attempts to add `user.confidenceScore` even though it already exists from an earlier migration.
+`prisma migrate deploy` is replayed from an empty PostgreSQL 16 service on every CI run with no exception or manual `resolve`. The historical duplicate add of `user.confidenceScore` is now idempotent (`ADD COLUMN IF NOT EXISTS`), so the same history works on empty and already-migrated databases. Any migration failure is blocking.
 
-The runner skips that migration only when Prisma's recorded failure contains the exact duplicate-column error and the column is confirmed to exist. It resolves the migration as applied only in the disposable CI database, then reruns the remaining migrations. Any other migration failure remains blocking. No production migration history is rewritten.
 
 ## Pull request policy
 

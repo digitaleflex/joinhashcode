@@ -96,7 +96,7 @@ jobs:
 
       # The M1 gate exercises the public vitrine only. Its globalSetup creates
       # isolated test users; the full Academy seed is intentionally excluded
-      # because the Academy Program/Course schema has no deployable migrations yet.
+      # because the public gate does not claim to validate LMS flows yet.
       - name: End-to-end tests for the public vitrine
         run: pnpm exec playwright test --config=playwright.public.config.ts
 

@@ -2,4 +2,10 @@
 -- The 20260612092409_split_user_god_model migration dropped `confidenceScore`
 -- from `user`, but the quiz action (app/actions/quiz.ts) persists the Kalman
 -- state confidence there after each quiz submission.
-ALTER TABLE "user" ADD COLUMN     "confidenceScore" DOUBLE PRECISION NOT NULL DEFAULT 0.3;
+--
+-- Idempotent on purpose: the column can already exist because
+-- 20260629012226_add_last_combo_at_to_organization also recreated it. On a
+-- fresh database that earlier migration runs first, so a plain ADD COLUMN
+-- failed with SQLSTATE 42701. `IF NOT EXISTS` makes the history replayable
+-- without a CI-specific workaround.
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS "confidenceScore" DOUBLE PRECISION NOT NULL DEFAULT 0.3;
