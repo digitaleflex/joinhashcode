@@ -147,6 +147,10 @@ model User {
   technicalLevel       String?
   tools                String[]
   primaryDomain        String?
+  // First-action activation funnel (see lib/first-action.ts)
+  firstActionDomain    String?
+  firstActionStartedAt DateTime?
+  firstActionCompletedAt DateTime?
   subDomain            String?
   learningTools        String[]  @default([])
   practiceMode         String?

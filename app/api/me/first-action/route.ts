@@ -7,29 +7,53 @@ import { checkRateLimit, mutationLimiter } from "@/lib/ratelimit";
 
 export const dynamic = "force-dynamic";
 
+type FirstActionStatus = "not_started" | "started" | "completed";
+
+function statusOf(startedAt: Date | null, completedAt: Date | null): FirstActionStatus {
+  if (completedAt) return "completed";
+  if (startedAt) return "started";
+  return "not_started";
+}
+
 async function loadUser(req: Request) {
   const session = await auth.api.getSession({ headers: req.headers });
   if (!session) return null;
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, primaryDomain: true },
+    select: {
+      id: true,
+      primaryDomain: true,
+      firstActionStartedAt: true,
+      firstActionCompletedAt: true,
+    },
   });
   if (!user) return null;
 
-  return { id: user.id, action: getFirstAction(user.primaryDomain) };
+  return {
+    id: user.id,
+    action: getFirstAction(user.primaryDomain),
+    status: statusOf(user.firstActionStartedAt, user.firstActionCompletedAt),
+    startedAt: user.firstActionStartedAt,
+    completedAt: user.firstActionCompletedAt,
+  };
 }
 
-/** Returns the first actionable step for the signed-in member. */
+/** Returns the first actionable step and its activation status. */
 export async function GET(req: Request) {
   const user = await loadUser(req);
   if (!user) {
     return NextResponse.json({ message: "Session expirée." }, { status: 401 });
   }
-  return NextResponse.json({ action: user.action });
+  return NextResponse.json({
+    action: user.action,
+    status: user.status,
+    startedAt: user.startedAt,
+    completedAt: user.completedAt,
+  });
 }
 
-/** Records that the member started their first action (activation funnel). */
+/** Records a first-action activation event: `started` (default) or `completed`. */
 export async function POST(req: Request) {
   const user = await loadUser(req);
   if (!user) {
@@ -41,11 +65,48 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Trop de requêtes." }, { status: 429 });
   }
 
-  await trackEvent(user.id, EVENTS.FIRST_ACTION_STARTED, {
-    domain: user.action.domain,
-    source: user.action.source ?? null,
-    href: user.action.href ?? null,
-  });
+  let event: "started" | "completed" = "started";
+  try {
+    const body = await req.json();
+    if (body?.event === "completed") event = "completed";
+  } catch {
+    // Empty body → default to "started" (keeps the dashboard CTA simple).
+  }
 
-  return NextResponse.json({ ok: true, action: user.action });
+  const now = new Date();
+  const domain = user.action.domain;
+
+  if (event === "completed") {
+    await prisma.user.updateMany({
+      where: { id: user.id, firstActionCompletedAt: null },
+      data: {
+        firstActionDomain: domain,
+        firstActionStartedAt: user.startedAt ?? now,
+        firstActionCompletedAt: now,
+      },
+    });
+    await trackEvent(user.id, EVENTS.FIRST_ACTION_COMPLETED, {
+      domain,
+      source: user.action.source ?? null,
+      href: user.action.href ?? null,
+    });
+  } else {
+    await prisma.user.updateMany({
+      where: { id: user.id, firstActionStartedAt: null },
+      data: { firstActionDomain: domain, firstActionStartedAt: now },
+    });
+    await trackEvent(user.id, EVENTS.FIRST_ACTION_STARTED, {
+      domain,
+      source: user.action.source ?? null,
+      href: user.action.href ?? null,
+    });
+  }
+
+  const refreshed = await loadUser(req);
+  return NextResponse.json({
+    ok: true,
+    event,
+    action: refreshed?.action ?? user.action,
+    status: refreshed?.status ?? user.status,
+  });
 }
