@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 import { usePathname } from "next/navigation"
 import {
   ShieldAlert,
   ClipboardCheck,
-  Activity,
   CircleHelp,
 } from "lucide-react"
 import { TOUR_NAMES } from "@/components/tour/tour-config"
@@ -51,11 +51,8 @@ export function AppSidebar({ user, hasSquad: _hasSquad }: { user: NavUser | null
           href="/dashboard"
           className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden hover:opacity-80 transition-opacity"
         >
-          <div className="size-10 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
-            <Activity className="size-5 text-primary" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-base tracking-tighter text-white uppercase truncate">HASHCODE</span>
+          <div className="flex flex-col gap-1">
+            <Logo variant="full" size="sm" />
             <span className="text-sm-plus font-mono text-primary font-bold tracking-tight">réseau_actif</span>
           </div>
         </Link>

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { Logo } from "@/components/brand/logo"
 import { usePathname } from "next/navigation"
 import type { NavUser } from "@/lib/types"
 import {
@@ -13,7 +14,6 @@ import {
   Settings,
   LogOut,
   MoreHorizontal,
-  Activity,
   User as UserIcon,
   ScrollText,
   Target,
@@ -102,11 +102,8 @@ export function AdminSidebar({ user }: { user: NavUser | null }) {
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-zinc-950">
       <SidebarHeader className="h-16 border-b border-white/5 flex flex-row items-center justify-between px-4">
         <div className="flex items-center gap-3 overflow-hidden group-data-[collapsible=icon]:hidden">
-          <div className="size-8 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.3)] shrink-0">
-            <Activity className="size-4 text-primary" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-sans font-extrabold text-sm tracking-[-0.05em] text-white uppercase truncate">HASHCODE</span>
+          <div className="flex flex-col gap-1">
+            <Logo variant="full" size="sm" />
             <span className="text-xs font-mono text-primary font-bold tracking-tight">administration_</span>
           </div>
         </div>

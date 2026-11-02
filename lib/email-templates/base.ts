@@ -2,7 +2,7 @@ import { APP_URL } from "../config";
 
 export { APP_URL };
 
-export const LOGO_URL = `${APP_URL}/hashcode-logo.png`;
+export const LOGO_URL = `${APP_URL}/brand/hashcode-wordmark.png`;
 
 export const escHtml = (str: string) =>
   str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");

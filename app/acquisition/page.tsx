@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Logo } from "@/components/brand/logo";
 import {
   Code2,
   Shield,
@@ -315,9 +316,8 @@ export default function AcquisitionLanding() {
         <div className="relative z-10 mx-auto max-w-6xl w-full px-5 sm:px-8 py-20 sm:py-32 text-center">
           <div className="relative inline-flex items-center justify-center">
             <span className="absolute size-20 rounded-full opacity-20 animate-pulse" style={{ background: "var(--primary)", filter: "blur(20px)" }} aria-hidden />
-            <span className="relative text-primary font-syne font-extrabold italic text-4xl">HASHCODE</span>
-          </div>
-          <h2 className="mt-6 font-syne font-bold text-3xl sm:text-4xl tracking-tight text-foreground text-balance">
+            <Logo variant="full" size="md" className="relative" />
+          </div>          <h2 className="mt-6 font-syne font-bold text-3xl sm:text-4xl tracking-tight text-foreground text-balance">
             Prêt à rejoindre la communauté ?
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-muted-foreground text-base sm:text-lg">
@@ -359,7 +359,7 @@ export default function AcquisitionLanding() {
         </div>
         <div className="mx-auto max-w-6xl px-5 sm:px-8 py-10 grid gap-6 sm:grid-cols-3 items-start">
           <div className="space-y-3">
-            <span className="font-syne font-extrabold italic tracking-tight text-xl text-foreground">HASHCODE</span>
+            <Logo variant="full" size="sm" />
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">La nouvelle communauté dev, cyber & IA. Ton premier challenge t'attend cette semaine, où que tu sois.</p>
           </div>
           <div className="space-y-2 sm:col-span-1">
