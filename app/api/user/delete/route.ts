@@ -10,7 +10,7 @@ export async function DELETE(req: Request) {
     checkCsrfOrigin(req);
     const session = await requireSession();
 
-    const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id);
+    const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id, { failClosed: true });
     if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie demain." }, { status: 429 });
 
     const user = await prisma.user.findUnique({

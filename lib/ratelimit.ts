@@ -79,7 +79,7 @@ function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${
   if (redis) {
     return new UpstashLimiter(tokens, parseWindow(window))
   }
-  // Fallback to in-memory when Redis is unavailable
+  // Fallback to in-memory when Redis is unavailable (non-distributed)
   const windowMs =
     window.endsWith("s") ? parseInt(window) * 1000 :
     window.endsWith("m") ? parseInt(window) * 60 * 1000 :
@@ -139,15 +139,26 @@ export const adminOpsLimiter = makeLimiter(10, "1 h")
 
 export async function checkRateLimit(
   limiter: RateLimiter | null,
-  identifier: string
+  identifier: string,
+  options: { failClosed?: boolean } = {}
 ): Promise<{ limited: boolean; reset?: number }> {
-  if (!limiter) return { limited: false }
+  if (!limiter) {
+    if (options.failClosed) {
+      // No limiter configured for a sensitive operation -> fail closed
+      return { limited: true }
+    }
+    return { limited: false }
+  }
 
   try {
     const { success, reset } = await limiter.check(identifier)
     return { limited: !success, reset }
-  } catch {
-    // Fail open: si le rate limiter plante, on laisse passer
+  } catch (err) {
+    if (options.failClosed) {
+      // On error for sensitive ops, fail closed (do not open)
+      return { limited: true }
+    }
+    // Fail open for non-sensitive operations
     return { limited: false }
   }
 }

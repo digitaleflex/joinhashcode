@@ -12,7 +12,7 @@ export async function PATCH(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return NextResponse.json({ message: "Non autorisé" }, { status: 401 });
 
-  const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id);
+  const { limited } = await checkRateLimit(accountLifecycleLimiter, session.user.id, { failClosed: true });
   if (limited) return NextResponse.json({ message: "Trop de tentatives. Réessaie demain." }, { status: 429 });
 
   const user = await prisma.user.findUnique({
