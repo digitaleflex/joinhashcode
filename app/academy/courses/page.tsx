@@ -46,6 +46,7 @@ function CourseCard({
                         src={course.thumbnail}
                         alt={course.title}
                         fill
+                        loading="eager"
                         className="object-contain group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
@@ -54,13 +55,11 @@ function CourseCard({
                         <span className="text-primary/20 text-6xl font-black italic">H</span>
                     </div>
                 )}
-                <div className="absolute top-5 left-5 bg-card/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-border">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-primary">
-                        {LEVEL_LABELS[course.level] ?? course.level}
-                    </span>
-                </div>
             </div>
             <div className="p-8 flex flex-col flex-1 space-y-4">
+                <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-primary">
+                    {LEVEL_LABELS[course.level] ?? course.level}
+                </span>
                 <h3 className="text-xl font-black text-foreground leading-tight group-hover:text-primary transition-colors">
                     {course.title}
                 </h3>
