@@ -5,6 +5,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // HEF module illustrations are local SVGs served through next/image.
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
