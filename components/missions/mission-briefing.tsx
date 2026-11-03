@@ -3,8 +3,20 @@
 import { useMemo, useRef } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
+import rehypeRaw from "rehype-raw"
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
 import { TableOfContents, extractTocItems, generateId } from "./table-of-contents"
 import { ScrollProgress } from "./scroll-progress"
+
+const sanitizeSchema = {
+  ...defaultSchema,
+  tagNames: [...(defaultSchema.tagNames ?? []), "details", "summary"],
+  attributes: {
+    ...defaultSchema.attributes,
+    summary: [],
+    img: [...(defaultSchema.attributes?.img ?? []), "width", "height", "align"],
+  },
+}
 
 interface MissionBriefingProps {
   content: string
@@ -160,6 +172,16 @@ export function MissionBriefing({ content, showToc = true, showProgress = true }
       }
       return null
     },
+    details: ({ children }) => (
+      <details className="my-4 rounded-xl border border-border/40 bg-white/[0.02] p-4">
+        {children}
+      </details>
+    ),
+    summary: ({ children }) => (
+      <summary className="cursor-pointer text-sm font-semibold text-primary">
+        {children}
+      </summary>
+    ),
   }
 
   return (
@@ -182,6 +204,7 @@ export function MissionBriefing({ content, showToc = true, showProgress = true }
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
             components={components}
           >
             {content}

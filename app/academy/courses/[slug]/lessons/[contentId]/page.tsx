@@ -35,6 +35,7 @@ export default async function LessonPage({
           course: { select: { id: true, slug: true, title: true, isPublished: true } },
         },
       },
+      mission: { select: { slug: true, title: true, category: true } },
       quiz: {
         include: {
           questions: {
@@ -104,6 +105,28 @@ export default async function LessonPage({
             {index + 1} / {flat.length}
           </span>
         </div>
+
+        {content.mission && (
+          <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-primary/20 bg-primary/[0.05] p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+                Évaluation
+              </p>
+              <p className="mt-1 text-sm font-semibold text-foreground">
+                {content.mission.category === "PROJECT"
+                  ? "Ce projet se soumet avec un livrable."
+                  : "Ce lab se soumet avec un lien de dépôt."}
+              </p>
+            </div>
+            <Link
+              href={`/missions/${content.mission.slug}`}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5"
+            >
+              {content.mission.category === "PROJECT" ? "Soumettre mon projet" : "Ouvrir le lab"}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        )}
 
         <article className="mt-10 border-t border-border pt-8">
           {content.type === "QUIZ" && content.quiz ? (

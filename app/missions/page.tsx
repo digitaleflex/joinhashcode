@@ -15,6 +15,7 @@ import { UserTopBar } from "@/components/dashboard/user-topbar"
 import { WeeklyChallengeBanner } from "@/components/missions/weekly-challenge-banner"
 import { Prisma } from "@/generated/prisma/client"
 import { TourProvider } from "@/components/tour/tour-provider"
+import { HefMissionsSection, type HefMissionCard } from "@/components/missions/hef-missions-section"
 
 type MissionsUserPayload = Prisma.UserGetPayload<{
   select: {
@@ -114,6 +115,7 @@ export default async function MissionsPage() {
   let avgDelayMap: Record<string, number> = {}
   let userSquad: { id: string } | null = null
   let weeklySubmission: Prisma.MissionSubmissionGetPayload<object> | null = null
+  let hefMissions: HefMissionCard[] = []
 
   try {
     ;[
@@ -158,6 +160,28 @@ export default async function MissionsPage() {
 
   if (!finalDbUser) {
     redirect("/signin");
+  }
+
+  try {
+    hefMissions = await prisma.mission.findMany({
+      where: {
+        status: "PUBLISHED",
+        deletedAt: null,
+        tags: { has: "HEF" },
+      },
+      select: {
+        slug: true,
+        title: true,
+        shortDesc: true,
+        category: true,
+        xp: true,
+        missionLevel: true,
+        tags: true,
+      },
+      orderBy: [{ category: "asc" }, { xp: "desc" }],
+    })
+  } catch (error) {
+    console.error("[MISSIONS_PAGE] HEF missions fetch failed:", error)
   }
 
   const featureFlags = getFeatureFlags();
@@ -229,6 +253,8 @@ export default async function MissionsPage() {
                 />
               </div>
             )}
+
+            <HefMissionsSection missions={hefMissions} submissions={submissionsMap} />
           
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2 p-8 rounded-4xl glass-card border-white/5 relative overflow-hidden group">
