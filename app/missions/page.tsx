@@ -209,14 +209,14 @@ export default async function MissionsPage() {
 
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                <Zap className="size-3.5 text-primary animate-pulse" />
-                <span className="text-xs font-mono font-black uppercase text-primary">Centre de Commandement</span>
+                <Zap className="size-3.5 text-primary" />
+                <span className="text-xs font-mono font-black uppercase text-primary">Labs &amp; Missions</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
-                Mes <span className="text-primary">Missions</span>
+                Tes <span className="text-primary">Labs</span>
               </h1>
-              <p className="text-zinc-500 max-w-2xl font-light text-sm md:base leading-relaxed">
-                Chaque mission complétée renforce ton signal. Commence par la première — le reste suivra.
+              <p className="text-zinc-500 max-w-2xl font-light text-sm md:text-base leading-relaxed">
+                Choisis une action concrète, livre-la, puis fais-la valider. Chaque Lab terminé devient une preuve de compétence.
               </p>
             </div>
 

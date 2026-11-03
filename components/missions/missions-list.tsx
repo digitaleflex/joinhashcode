@@ -13,6 +13,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { MissionSlideOver } from "./mission-slideover";
+import { getMissionStatusMeta } from "@/lib/mission-status";
 import {
   Tooltip,
   TooltipContent,
@@ -44,24 +45,24 @@ const STAGE_CONFIG: Record<ProgressionStage, {
   requiredLevel: number;
 }> = {
   INIT: {
-    label: "INIT",
-    sublabel: "Missions de départ",
+    label: "Démarrage",
+    sublabel: "Premiers pas",
     color: "text-primary",
     bgColor: "bg-emerald-950/20",
     borderColor: "border-emerald-500/20",
     requiredLevel: 1,
   },
   CORE: {
-    label: "CORE",
-    sublabel: "Missions intermédiaires",
+    label: "Progression",
+    sublabel: "Consolider les bases",
     color: "text-primary",
     bgColor: "bg-cyan-950/20",
     borderColor: "border-cyan-500/20",
     requiredLevel: 2,
   },
   PRO: {
-    label: "PRO",
-    sublabel: "Missions avancées",
+    label: "Approfondissement",
+    sublabel: "Cas avancés",
     color: "text-primary",
     bgColor: "bg-purple-950/20",
     borderColor: "border-purple-500/20",
@@ -367,6 +368,8 @@ function MissionCard({
     }
   }, [router]);
 
+  const statusBadge = getMissionStatusMeta(status);
+
   return (
     <Card className={cn(
       "relative overflow-hidden transition-all duration-500 rounded-4xl border-white/5 group shadow-2xl flex flex-col",
@@ -380,23 +383,12 @@ function MissionCard({
                 Recommandé
               </Badge>
             )}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Badge className={cn(
-                    "text-3xs uppercase font-black tracking-wider cursor-help",
-                    isCompleted ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
-                    isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
-                    'bg-primary/10 text-primary border-primary/20'
-                  )}>
-                    {isCompleted ? 'Validé' : isPending ? 'En Revue' : `+${mission.xpReward} XP`}
-                  </Badge>
-                </TooltipTrigger>
-                <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
-                  {isCompleted ? "Récompense déjà acquise." : isPending ? "En attente de validation par un reviewer." : "XP à gagner pour cette mission."}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Badge className={cn("text-3xs uppercase font-black tracking-wider border", statusBadge.className)}>
+              {statusBadge.label}
+            </Badge>
+            <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">
+              +{mission.xpReward} XP
+            </Badge>
 
             {mission.duration && (
               <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">
