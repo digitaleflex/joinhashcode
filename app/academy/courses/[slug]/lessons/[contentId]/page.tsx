@@ -91,7 +91,7 @@ export default async function LessonPage({
           {content.title}
         </h1>
 
-        <div className="mt-4 flex items-center gap-4 text-xs font-medium text-muted-foreground">
+        <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-medium text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <FileText className="h-3.5 w-3.5" aria-hidden />
             {content.type === "DOCUMENT"
@@ -104,6 +104,16 @@ export default async function LessonPage({
             <Clock className="h-3.5 w-3.5" aria-hidden />
             {index + 1} / {flat.length}
           </span>
+          {content.url?.endsWith(".pptx") && (
+            <a
+              href={content.url}
+              download
+              className="inline-flex items-center gap-1.5 font-semibold text-primary hover:underline"
+            >
+              <FileText className="h-3.5 w-3.5" aria-hidden />
+              Télécharger les slides
+            </a>
+          )}
         </div>
 
         {content.mission && (

@@ -27,6 +27,7 @@ interface HefContent {
   deliverables?: string[];
   acceptanceCriteria?: string[];
   sourcePath?: string;
+  slidesUrl?: string;
 }
 
 interface HefRubricCriterion {
@@ -145,17 +146,18 @@ async function upsertSection(
 async function upsertContent(
   db: Db,
   sectionId: string,
-  item: { title: string; body: string },
+  item: { title: string; body: string; url?: string | null },
   order: number,
 ): Promise<{ id: string }> {
   return db.content.upsert({
     where: { sectionId_order: { sectionId, order } },
-    update: { title: item.title, body: item.body, type: "DOCUMENT" },
+    update: { title: item.title, body: item.body, url: item.url ?? null, type: "DOCUMENT" },
     create: {
       sectionId,
       order,
       title: item.title,
       body: item.body,
+      url: item.url ?? null,
       type: "DOCUMENT",
     },
     select: { id: true },
@@ -317,7 +319,7 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     const missionsSection = await upsertSection(db, course.id, "Missions", 1);
     counts.sections += 1;
     for (const [index, mission] of module.missions.entries()) {
-      await upsertContent(db, missionsSection.id, mission, index + 1);
+      await upsertContent(db, missionsSection.id, { ...mission, url: mission.slidesUrl }, index + 1);
       counts.contents += 1;
     }
 

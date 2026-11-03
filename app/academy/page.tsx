@@ -98,13 +98,21 @@ export default async function AcademyHubPage() {
             Cours structurés, parcours progressifs et certifications reconnues.
             Construis tes compétences pas à pas avec la communauté HASHCODE.
           </p>
-          <Link
-            href="/academy/courses"
-            className="inline-flex items-center gap-2 bg-primary px-8 py-4 rounded-full text-sm font-black text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-105 active:scale-95"
-          >
-            Explorer les cours
-            <ArrowRight className="size-4" />
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/academy/courses"
+              className="inline-flex items-center gap-2 bg-primary px-8 py-4 rounded-full text-sm font-black text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-105 active:scale-95"
+            >
+              Explorer les cours
+              <ArrowRight className="size-4" />
+            </Link>
+            <Link
+              href="/academy/playground"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-black text-foreground transition-colors hover:border-primary/40"
+            >
+              Ouvrir le Playground Python
+            </Link>
+          </div>
         </div>
       </section>
 
