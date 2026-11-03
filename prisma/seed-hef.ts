@@ -10,7 +10,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient, Prisma } from "../generated/prisma/client";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,8 +20,30 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "hef", "v1", "modules");
 interface HefContent {
   slug: string;
   title: string;
+  shortDesc?: string;
   order?: number;
   body: string;
+  requirements?: string[];
+  deliverables?: string[];
+  acceptanceCriteria?: string[];
+  sourcePath?: string;
+}
+
+interface HefRubricCriterion {
+  label: string;
+  description: string;
+  weight: number;
+}
+
+interface HefProject {
+  title: string;
+  shortDesc?: string;
+  body: string;
+  requirements?: string[];
+  deliverables?: string[];
+  criteria?: HefRubricCriterion[];
+  validationCriteria?: string;
+  sourcePath?: string;
 }
 
 interface HefModule {
@@ -50,7 +72,7 @@ interface HefModule {
         } | null;
       }
     | null;
-  project: { title: string; body: string } | null;
+  project: HefProject | null;
   resources: HefContent[];
 }
 
@@ -67,6 +89,7 @@ export interface HefCounts {
   linkedPillars: number;
   quizzes: number;
   questions: number;
+  missions: number;
   deprecated: number;
   skipped: string[];
 }
@@ -124,8 +147,8 @@ async function upsertContent(
   sectionId: string,
   item: { title: string; body: string },
   order: number,
-): Promise<void> {
-  await db.content.upsert({
+): Promise<{ id: string }> {
+  return db.content.upsert({
     where: { sectionId_order: { sectionId, order } },
     update: { title: item.title, body: item.body, type: "DOCUMENT" },
     create: {
@@ -135,6 +158,69 @@ async function upsertContent(
       body: item.body,
       type: "DOCUMENT",
     },
+    select: { id: true },
+  });
+}
+
+const MISSION_LEVEL_BY_PHASE: Record<number, string> = {
+  1: "INIT",
+  2: "CORE",
+  3: "CORE",
+  4: "PRO",
+};
+
+async function upsertHefMission(
+  db: Db,
+  module: HefModule,
+  courseId: string,
+  contentId: string,
+  kind: "LAB" | "PROJECT",
+  item: HefContent | HefProject,
+): Promise<void> {
+  const isLab = kind === "LAB";
+  const slug = isLab
+    ? `${module.code.toLowerCase()}-${(item as HefContent).slug}`
+    : `${module.code.toLowerCase()}-project`;
+  const criteria = isLab ? [] : (item as HefProject).criteria ?? [];
+  const data = {
+    title: item.title,
+    shortDesc: item.shortDesc ?? null,
+    description:
+      item.shortDesc ??
+      (isLab
+        ? `Atelier pratique du module ${module.code} — ${module.title}.`
+        : `Projet intégrateur du module ${module.code} — ${module.title}.`),
+    fullBriefing: item.body,
+    category: isLab ? "CODE" : "GENERAL",
+    difficulty: module.phase,
+    missionLevel: MISSION_LEVEL_BY_PHASE[module.phase] ?? "INIT",
+    xp: isLab ? 100 : 300,
+    requirements: item.requirements ?? [],
+    deliverables: item.deliverables ?? [],
+    acceptanceCriteria: isLab
+      ? (item as HefContent).acceptanceCriteria ?? []
+      : criteria.map((criterion) => `${criterion.label} — ${criterion.description}`),
+    evaluationRubric: criteria as unknown as Prisma.InputJsonValue,
+    validationCriteria: (item as HefProject).validationCriteria ?? null,
+    submissionMethod: isLab ? "GITHUB_LINK" : "DOCUMENT_LINK",
+    targetProfiles: ["builder", "creator", "strategist", "catalyst"],
+    tags: ["HEF", module.code, kind],
+    resources: {
+      courseSlug: module.slug,
+      sourcePath: item.sourcePath ?? null,
+    },
+    courseId,
+    contentId,
+    status: "PUBLISHED",
+    isOnboarding: false,
+    isAutoApproved: false,
+  };
+
+  await db.mission.upsert({
+    where: { slug },
+    update: data,
+    create: { ...data, slug },
+    select: { id: true },
   });
 }
 
@@ -147,6 +233,7 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     linkedPillars: 0,
     quizzes: 0,
     questions: 0,
+    missions: 0,
     deprecated: 0,
     skipped: [],
   };
@@ -238,8 +325,10 @@ export async function seedHef(db: Db): Promise<HefCounts> {
       const labsSection = await upsertSection(db, course.id, "Atelier", 2);
       counts.sections += 1;
       for (const [index, lab] of module.labs.entries()) {
-        await upsertContent(db, labsSection.id, lab, index + 1);
+        const labContent = await upsertContent(db, labsSection.id, lab, index + 1);
         counts.contents += 1;
+        await upsertHefMission(db, module, course.id, labContent.id, "LAB", lab);
+        counts.missions += 1;
       }
     }
 
@@ -303,8 +392,10 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     if (module.project) {
       const projectSection = await upsertSection(db, course.id, "Projet", 4);
       counts.sections += 1;
-      await upsertContent(db, projectSection.id, module.project, 1);
+      const projectContent = await upsertContent(db, projectSection.id, module.project, 1);
       counts.contents += 1;
+      await upsertHefMission(db, module, course.id, projectContent.id, "PROJECT", module.project);
+      counts.missions += 1;
     }
 
     if (module.resources.length > 0) {
@@ -354,6 +445,7 @@ async function main() {
     console.log(`   Sections:       ${counts.sections}`);
     console.log(`   Contents:       ${counts.contents}`);
     console.log(`   Piliers liés:   ${counts.linkedPillars}`);
+    console.log(`   Missions HEF:   ${counts.missions}`);
     console.log(`   Quiz:           ${counts.quizzes} (${counts.questions} questions)`);
     console.log(`   Cours démo dépubliés: ${counts.deprecated}`);
     if (counts.skipped.length > 0) {

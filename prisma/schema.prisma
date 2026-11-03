@@ -471,6 +471,10 @@ model Mission {
   weeklySlot         Int?
   isOnboarding       Boolean             @default(false)
   isAutoApproved     Boolean             @default(false)
+  courseId           String?
+  course             Course?             @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  contentId          String?             @unique
+  content            Content?            @relation(fields: [contentId], references: [id], onDelete: SetNull)
   status             String              @default("DRAFT")
   publishAt          DateTime?
   deadline           DateTime?
@@ -486,6 +490,7 @@ model Mission {
   @@index([category])
   @@index([difficulty])
   @@index([isOnboarding])
+  @@index([courseId])
   @@map("mission")
 }
 
@@ -760,6 +765,7 @@ model Course {
   aiConversations AIConversation[]
   certificates    Certificate[]
   pillar          Pillar?
+  missions        Mission[]
 
   @@index([instructorId])
   @@index([categoryId])
@@ -878,6 +884,7 @@ model Content {
   updatedAt   DateTime     @updatedAt
   progress    Progress[]
   quiz        CourseQuiz?
+  mission     Mission?
   forumTopics ForumTopic[]
 
   @@unique([sectionId, order])
