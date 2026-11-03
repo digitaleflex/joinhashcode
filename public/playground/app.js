@@ -146,7 +146,7 @@ let tBrouillon; const sauverBrouillon = () => { clearTimeout(tBrouillon); tBroui
 /* ------------------------------------------------------------------ Kodi */
 function kodi(texte, perso = 'kodi') {
   $('bulle').innerHTML = md(texte);
-  const img = $('kodi').querySelector('img'); img.src = `../10-Assets/personnages/${perso}.svg`; img.alt = perso;
+  const img = $('kodi').querySelector('img'); img.src = `/hef/personnages/${perso}.svg`; img.alt = perso;
 }
 
 /* ------------------------------------------------------------------ panneaux */
@@ -193,7 +193,7 @@ function ouvrir(d) {
   const perso = PERSOS[DEFIS.indexOf(d) % 4];
   $('carteDefi').innerHTML = `<div class="meta">${d.module} · ${esc(MODULES[d.module] || '')} · ${etoiles(d.niveau)} · +${d.xp} XP${P.faits[d.id] ? ' · ✓ réussi' : ''}</div>
     <h1>${esc(d.titre)}</h1>
-    <div class="histoire"><img src="../10-Assets/personnages/${perso}.svg" alt="${perso}"><div>${md(d.histoire)}</div></div>
+    <div class="histoire"><img src="/hef/personnages/${perso}.svg" alt="${perso}"><div>${md(d.histoire)}</div></div>
     <div class="consigne">🎯 ${md(d.consigne)}</div>
     <div id="indicesVus"></div>
     <p class="vide" style="margin:8px 0 0">📖 Pour réviser : <a href="${esc(d.lienMission)}" target="_blank" rel="noopener">la mission du cours</a></p>`;
