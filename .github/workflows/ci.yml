@@ -73,6 +73,9 @@ jobs:
       - name: Validate Prisma schema
         run: pnpm exec prisma validate
 
+      - name: Validate HEF content
+        run: pnpm hef:validate
+
       - name: Apply database migrations
         run: bash scripts/ci-migrate-deploy.sh
 
