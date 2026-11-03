@@ -97,9 +97,12 @@ function CourseCard({
 
 /* ── Fetch helper ─────────────────────────────────────────────────── */
 
-async function getCourses() {
+async function getCourses(categorySlug?: string) {
     return prisma.course.findMany({
-        where: { isPublished: true },
+        where: {
+            isPublished: true,
+            ...(categorySlug ? { category: { slug: categorySlug } } : {}),
+        },
         include: {
             category: { select: { name: true } },
             tags: { select: { name: true } },
@@ -116,8 +119,16 @@ async function getCategories() {
 
 /* ── Page ─────────────────────────────────────────────────────────── */
 
-export default async function AcademyCoursesPage() {
-    const [courses, categories] = await Promise.all([getCourses(), getCategories()]);
+export default async function AcademyCoursesPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ category?: string }>;
+}) {
+    const { category } = await searchParams;
+    const [courses, categories] = await Promise.all([
+        getCourses(category),
+        getCategories(),
+    ]);
 
     return (
         <div className="bg-background">
@@ -138,14 +149,23 @@ export default async function AcademyCoursesPage() {
                 <div className="flex flex-wrap items-center gap-2 mb-12">
                     <Filter className="size-4 text-muted-foreground" />
                     <span className="text-xs font-bold text-muted-foreground mr-2">Filtrer :</span>
-                    {categories.map((cat) => (
+                    <Link href="/academy/courses">
                         <Badge
-                            key={cat.id}
-                            variant="outline"
-                            className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors text-[11px] font-bold"
+                            variant={category ? "outline" : "default"}
+                            className="text-[11px] font-bold transition-colors"
                         >
-                            {cat.name}
+                            Toutes
                         </Badge>
+                    </Link>
+                    {categories.map((cat) => (
+                        <Link key={cat.id} href={`/academy/courses?category=${cat.slug}`}>
+                            <Badge
+                                variant={category === cat.slug ? "default" : "outline"}
+                                className="text-[11px] font-bold transition-colors hover:bg-primary hover:text-primary-foreground"
+                            >
+                                {cat.name}
+                            </Badge>
+                        </Link>
                     ))}
                 </div>
 
