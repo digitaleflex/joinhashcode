@@ -91,6 +91,18 @@ export function DashboardShell({
   const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
 
+  const domainLabel = useMemo(() => {
+    const map: Record<string, string> = {
+      web: "Développement web",
+      "web-development": "Développement web",
+      cybersecurity: "Cybersécurité",
+      cyber: "Cybersécurité",
+      ai: "IA appliquée",
+      "applied-ai": "IA appliquée",
+    }
+    return map[(user?.primaryDomain ?? "").toLowerCase()] ?? "À choisir"
+  }, [user?.primaryDomain])
+
   const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
   const hasStarted = (user?.missionsCompletedCount ?? 0) > 0 || (user?.currentStreak ?? 0) > 0
 
@@ -238,7 +250,7 @@ export function DashboardShell({
                         <Badge variant="outline" className="font-mono text-xs font-bold border-primary/30 text-primary px-3 py-1">Labs</Badge>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">progression_</CardTitle>
+                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">Ta progression</CardTitle>
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -256,12 +268,12 @@ export function DashboardShell({
                       <div className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">labs validés</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">Labs validés</div>
                             <div className="text-2xl font-bold text-white tracking-tighter">{user.missionsCompletedCount || 0}</div>
                           </div>
                           <div className="p-4 rounded-2xl bg-white/2 border border-white/5 group-hover:bg-white/4 transition-colors">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">voie</div>
-                            <div className="text-2xl font-bold text-white tracking-tighter">{profile === "unknown" ? "à choisir" : "cyber"}</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight mb-1 uppercase">Domaine</div>
+                            <div className="text-lg font-bold leading-tight text-white tracking-tight">{domainLabel}</div>
                           </div>
                         </div>
                       </div>
@@ -276,10 +288,10 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <Users className="h-5 w-5" />
                           </div>
-                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight uppercase">identité_numérique</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight uppercase">Visibilité</span>
                         </div>
-                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">connectivité_</CardTitle>
-                        <CardDescription className="text-zinc-500 font-medium tracking-tight">Montre ton travail. Les recruteurs vérifient ces liens.</CardDescription>
+                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">Tes liens</CardTitle>
+                        <CardDescription className="text-zinc-500 font-medium tracking-tight">Ces liens complètent ton profil public et rendent ton travail visible.</CardDescription>
                       </CardHeader>
                       <CardContent className="pt-2">
                         <div className="grid gap-4">
@@ -325,9 +337,9 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <UserIcon className="h-5 w-5" />
                           </div>
-                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">profil_personnel</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">Profil</span>
                         </div>
-                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">status_</CardTitle>
+                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">Ton profil</CardTitle>
                         <CardDescription className="text-zinc-500 font-medium tracking-tight">Un profil complet = plus de visibilité.</CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-6">
@@ -365,15 +377,15 @@ export function DashboardShell({
                           <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
                             <Award className="h-5 w-5" />
                           </div>
-                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">spécialisation</span>
+                          <span className="text-xs font-mono text-muted-foreground font-bold tracking-tight">Expertise</span>
                         </div>
-                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">arsenal_</CardTitle>
+                        <CardTitle className="text-2xl font-extrabold text-white tracking-[-0.03em]">Tes compétences</CardTitle>
                         <CardDescription className="text-zinc-500 font-medium tracking-tight">Les outils que tu maîtrises.</CardDescription>
                       </CardHeader>
                       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
                         {user.domains?.length > 0 && (
                           <div className="space-y-4">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">domaines_d_expertise</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">Domaines</div>
                             <div className="flex flex-wrap gap-2">
                               {user.domains.map((d: string) => (
                                 <span key={d} className="px-3 py-1.5 rounded-xl bg-primary/5 text-primary text-xs font-mono border border-primary/10 font-bold tracking-tight uppercase">{d}</span>
@@ -383,7 +395,7 @@ export function DashboardShell({
                         )}
                         {user.tools?.length > 0 && (
                           <div className="space-y-4">
-                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">outils_favoris</div>
+                            <div className="text-xs text-zinc-600 font-mono font-bold tracking-tight border-b border-white/5 pb-2">Outils</div>
                             <div className="flex flex-wrap gap-2.5">
                               {user.tools.slice(0, 10).map((tool: string) => (
                                 <div key={tool} className="text-xs text-zinc-400 bg-zinc-900 border border-white/5 px-3 py-1.5 rounded-lg group-hover:border-primary/20 transition-colors font-medium">{tool}</div>
