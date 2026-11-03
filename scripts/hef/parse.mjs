@@ -66,6 +66,14 @@ function stripTitle(markdown) {
   return markdown.replace(/^\s*#\s+.+\r?\n/, "").replace(/^\s+/, "");
 }
 
+function rewriteAssets(markdown) {
+  return markdown
+    // ../..../10-Assets/<dir>/file → /hef/<dir>/file
+    .replace(/(?:\.\.\/)+10-Assets\//g, "/hef/")
+    // The mission cover is already rendered from the normalized `image` above.
+    .replace(/!\[Parcours HEF-[^\]]*\]\([^)]*\)\r?\n?/g, "");
+}
+
 function quoteOf(markdown) {
   const match = markdown.match(/^>\s*\*?\*?(.+?)\*?\*?\s*$/m);
   return match ? match[1].trim() : "";
@@ -120,7 +128,7 @@ async function parseChapters(dir, code) {
       order: index + 1,
       durationMinutes: meta.durationMinutes,
       badge: meta.badge,
-      body: `![${title}](/hef/parcours/${code.toLowerCase().replace("-", "")}-m${String(index + 1).padStart(2, "0")}.svg)\n\n${stripTitle(body)}`,
+      body: `![${title}](/hef/parcours/${code.toLowerCase().replace("-", "")}-m${String(index + 1).padStart(2, "0")}.svg)\n\n${rewriteAssets(stripTitle(body))}`,
     });
   }
   return missions;
@@ -138,7 +146,7 @@ async function parseLabs(dir) {
       slug: slugify(name.replace(/\.md$/, "")),
       title: titleOf(body),
       order: index + 1,
-      body: stripTitle(body),
+      body: rewriteAssets(stripTitle(body)),
     });
   }
   return labs;
@@ -147,7 +155,7 @@ async function parseLabs(dir) {
 async function parseSingle(dir, relativePath, fallbackTitle) {
   const body = await readIfExists(path.join(dir, relativePath));
   if (!body) return null;
-  return { title: titleOf(body) || fallbackTitle, body: stripTitle(body) };
+  return { title: titleOf(body) || fallbackTitle, body: rewriteAssets(stripTitle(body)) };
 }
 
 async function parseResources(dir) {
@@ -161,7 +169,7 @@ async function parseResources(dir) {
     resources.push({
       slug: slugify(name.replace(/\.md$/, "")),
       title: titleOf(body),
-      body: stripTitle(body),
+      body: rewriteAssets(stripTitle(body)),
     });
   }
   return resources;
