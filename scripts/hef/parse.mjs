@@ -62,6 +62,10 @@ function titleOf(markdown) {
   return match ? match[1].trim() : "";
 }
 
+function stripTitle(markdown) {
+  return markdown.replace(/^\s*#\s+.+\r?\n/, "").replace(/^\s+/, "");
+}
+
 function quoteOf(markdown) {
   const match = markdown.match(/^>\s*\*?\*?(.+?)\*?\*?\s*$/m);
   return match ? match[1].trim() : "";
@@ -116,7 +120,7 @@ async function parseChapters(dir) {
       order: index + 1,
       durationMinutes: meta.durationMinutes,
       badge: meta.badge,
-      body,
+      body: stripTitle(body),
     });
   }
   return missions;
@@ -134,7 +138,7 @@ async function parseLabs(dir) {
       slug: slugify(name.replace(/\.md$/, "")),
       title: titleOf(body),
       order: index + 1,
-      body,
+      body: stripTitle(body),
     });
   }
   return labs;
@@ -143,7 +147,7 @@ async function parseLabs(dir) {
 async function parseSingle(dir, relativePath, fallbackTitle) {
   const body = await readIfExists(path.join(dir, relativePath));
   if (!body) return null;
-  return { title: titleOf(body) || fallbackTitle, body };
+  return { title: titleOf(body) || fallbackTitle, body: stripTitle(body) };
 }
 
 async function parseResources(dir) {
@@ -157,7 +161,7 @@ async function parseResources(dir) {
     resources.push({
       slug: slugify(name.replace(/\.md$/, "")),
       title: titleOf(body),
-      body,
+      body: stripTitle(body),
     });
   }
   return resources;
