@@ -91,7 +91,7 @@ export default async function AcademyHubPage() {
               Academy
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.05]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.05] text-balance break-words">
             Apprends, pratique, <span className="text-primary">certifie-toi</span>.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium leading-relaxed">

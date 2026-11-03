@@ -87,11 +87,11 @@ async function PhaseView({ number }: { number: number }) {
                         <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white">
                             <Icon className="size-6" />
                         </div>
-                        <div className="space-y-0.5">
+                        <div className="min-w-0 flex-1 space-y-0.5">
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
                                 Phase {phase.number}
                             </span>
-                            <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight">
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight break-words">
                                 {phase.title}
                             </h1>
                         </div>
@@ -192,11 +192,11 @@ async function PillarView({ slug }: { slug: string }) {
                         <span className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white font-black text-xl">
                             {String(pillar.level).padStart(2, "0")}
                         </span>
-                        <div className="space-y-0.5">
+                        <div className="min-w-0 flex-1 space-y-0.5">
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
                                 Pilier {pillar.level} • Phase {pillar.phase.number} — {pillar.phase.title}
                             </span>
-                            <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight">
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight break-words">
                                 {pillar.title}
                             </h1>
                         </div>
@@ -243,7 +243,7 @@ async function PillarView({ slug }: { slug: string }) {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {WORKSHOP_FORMAT.map((part, i) => (
                                     <div key={part.part} className="flex items-center justify-between bg-secondary/50 rounded-xl px-4 py-3">
-                                        <div className="space-y-0.5">
+                                        <div className="min-w-0 flex-1 space-y-0.5">
                                             <p className="text-sm font-black text-foreground">
                                                 {i + 1}. {part.part}
                                             </p>
@@ -327,7 +327,7 @@ async function PillarView({ slug }: { slug: string }) {
                                         <span className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-black text-xs">
                                             {i + 1}
                                         </span>
-                                        <div className="space-y-0.5">
+                                        <div className="min-w-0 flex-1 space-y-0.5">
                                             <p className="text-sm font-black text-foreground">{step.step}</p>
                                             <p className="text-xs text-muted-foreground font-medium">{step.label}</p>
                                         </div>
@@ -377,7 +377,7 @@ async function PillarView({ slug }: { slug: string }) {
                             {MASTERY_LEVELS.map((level) => (
                                 <li key={level.level} className="flex items-start gap-3">
                                     <CheckCircle2 className="size-4 text-primary mt-0.5 shrink-0" />
-                                    <div className="space-y-0.5">
+                                    <div className="min-w-0 flex-1 space-y-0.5">
                                         <p className="text-sm font-black text-foreground">{level.level}</p>
                                         <p className="text-xs text-muted-foreground font-medium">{level.description}</p>
                                     </div>
