@@ -46,6 +46,20 @@ describe("artefacts HEF", () => {
     }
   });
 
+  it("fournit un lab et un projet structurés pour chaque module", () => {
+    for (const mod of modules) {
+      expect(mod.labs.length).toBeGreaterThan(0);
+      expect(mod.labs[0].deliverables.length).toBeGreaterThan(0);
+      expect(mod.project).toBeTruthy();
+      expect(mod.project.deliverables.length).toBeGreaterThan(0);
+      const weight = mod.project.criteria.reduce(
+        (sum: number, criterion: { weight: number }) => sum + criterion.weight,
+        0,
+      );
+      expect(weight).toBe(100);
+    }
+  });
+
   it("conserve les 4 phases du programme", () => {
     const phases = [...new Set(modules.map((m) => m.phase))].sort();
     expect(phases).toEqual([1, 2, 3, 4]);

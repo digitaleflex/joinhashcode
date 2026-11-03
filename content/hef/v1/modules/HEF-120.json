@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:52.793Z",
+  "generatedAt": "2026-11-03T21:29:43.298Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-120"
@@ -101,7 +101,29 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier : pipeline de livraison d'un service",
+        "shortDesc": "Conteneuriser un service, automatiser tests, build et déploiement progressif, et ajouter une observation minimale.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, `git`, modules standard. Docker est optionnel : tout le module peut se faire par simulation (le Dockerfile est audité par ton script). Aucun accès à un service externe.",
+          "Un dossier `service/` contenant l'application et ses tests, un dépôt Git vide et un dossier `ci/` à remplir."
+        ],
+        "deliverables": [
+          "Le dépôt et son historique conventionnel",
+          "Le Dockerfile et le résultat de l'audit",
+          "Le schéma du pipeline et son chemin critique",
+          "Les journaux, SLI et décisions canary des deux livraisons",
+          "Les indicateurs DORA calculés"
+        ],
+        "acceptanceCriteria": [
+          "Deux builds consécutifs donnent exactement la même empreinte.",
+          "L'audit du Dockerfile ne signale aucun défaut de la liste du cours.",
+          "Le chemin critique est identifié et une optimisation est chiffrée.",
+          "Une configuration invalide est refusée au démarrage avec un message clair, sans afficher de secret.",
+          "La version défectueuse est détectée et le retour arrière se fait sans intervention humaine.",
+          "Les quatre indicateurs DORA sont calculés automatiquement."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Conteneuriser un service, automatiser tests, build et déploiement progressif, et ajouter une observation minimale.\n\n## Scénario\n\nHashBox te confie un petit service web (`sante`, `cours`, `inscriptions`). Aujourd'hui il se déploie à la main. Tu dois bâtir sa chaîne de livraison automatisée, avec un retour arrière automatique en cas de problème.\n\n## Objectif\n\nConstruire un pipeline complet : dépôt Git, build reproductible, Dockerfile bien ordonné, CI en graphe de jobs, configuration par environnement, déploiement canary simulé, métriques et retour arrière automatique.\n\n## Environnement\n\nPython 3.10 ou plus, `git`, modules standard. Docker est optionnel : tout le module peut se faire par simulation (le Dockerfile est audité par ton script). Aucun accès à un service externe.\n\n## État de départ\n\nUn dossier `service/` contenant l'application et ses tests, un dépôt Git vide et un dossier `ci/` à remplir.\n\n## Tâches\n\n1. Initialise le dépôt, adopte les commits conventionnels et protège la branche principale (règles décrites dans `CONTRIBUTING.md`).\n2. Écris un build reproductible : archive à date fixe, verrouillage avec empreintes, SBOM.\n3. Écris le Dockerfile (multi-étapes, non root, épinglé, healthcheck) et un script d'audit qui le valide.\n4. Décris le pipeline CI comme un graphe, calcule son chemin critique et propose une optimisation.\n5. Écris le chargeur de configuration par couches, avec validation et masquage des secrets, pour trois environnements.\n6. Simule un déploiement canary (5, 25, 100 %) avec la décision statistique.\n7. Instrumente le service : journaux structurés, compteur, histogramme, SLI, SLO, burn rate.\n8. Écris le retour arrière automatique déclenché par le burn rate ou le test canary.\n9. Simule deux livraisons : une saine, une défectueuse qui doit reculer seule.\n10. Calcule les indicateurs DORA à partir du journal d'événements.\n\n## Observations attendues\n\n- Deux builds consécutifs donnent exactement la même empreinte.\n- L'audit du Dockerfile ne signale aucun défaut de la liste du cours.\n- Le chemin critique est identifié et une optimisation est chiffrée.\n- Une configuration invalide est refusée au démarrage avec un message clair, sans afficher de secret.\n- La version défectueuse est détectée et le retour arrière se fait sans intervention humaine.\n- Les quatre indicateurs DORA sont calculés automatiquement.\n\n## Validation\n\n`python ci/pipeline.py` termine avec le code 0 pour la livraison saine et rapporte le retour arrière de la livraison défectueuse ; le journal d'événements permet de recalculer DORA ; une personne tierce peut refaire le build et obtenir la même empreinte.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par le build reproductible : tout le reste s'appuie sur l'empreinte.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nDessine le graphe du pipeline avant de coder la simulation.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nTeste le retour arrière en premier avec une version volontairement défectueuse.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Le dépôt et son historique conventionnel\n- [ ] Le Dockerfile et le résultat de l'audit\n- [ ] Le schéma du pipeline et son chemin critique\n- [ ] Les journaux, SLI et décisions canary des deux livraisons\n- [ ] Les indicateurs DORA calculés\n\n## Réflexion\n\n1. Quelle brique t'a apporté le plus de sécurité ? Laquelle t'a fait gagner le plus de temps ?\n2. Que se passerait-il si ton registre d'artefacts tombait en panne en pleine livraison ?\n\n**HEF-120 — DevOps et livraison**\n"
       }
     ],
@@ -260,7 +282,51 @@
     },
     "project": {
       "title": "Projet — Livraison continue d'une application",
-      "body": "> Mettre en place, mesurer et documenter la chaîne de livraison complète d'un projet réel ou fictif.\n\n## Mission\n\nChoisis un projet (le tien ou HashBox simplifié) et construis sa chaîne de livraison de bout en bout, avec politiques, observabilité, résilience et indicateurs.\n\n## Livrables\n\n- [ ] Stratégie Git documentée (branches, revue, commits conventionnels, versionnement)\n- [ ] Build reproductible avec verrouillage, empreintes et SBOM\n- [ ] Dockerfile(s) conformes aux bonnes pratiques, audités automatiquement\n- [ ] Pipeline CI décrit comme un graphe, avec chemin critique, cache et matrice\n- [ ] Configuration par environnement avec validation et gestion des secrets\n- [ ] Stratégie de déploiement (canary ou blue/green), migrations compatibles, drapeaux\n- [ ] Observabilité : journaux structurés, métriques, SLO, alertes sur burn rate\n- [ ] Plan de résilience : retour arrière, disjoncteur, sauvegardes avec RPO et RTO testés\n- [ ] Politique de livraison exécutable et journal d'événements avec calcul DORA\n- [ ] `RUNBOOK.md` et plan d'amélioration à 3 mois\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Automatisation et reproductibilité | Build déterministe, pipeline complet et rapide | 25 % |\n| Livraison progressive et sûre | Canary, drapeaux, migrations, retour arrière automatique | 25 % |\n| Observabilité et résilience | SLO, alertes pertinentes, défenses testées | 20 % |\n| Mesure et amélioration | DORA, goulot identifié, plan chiffré | 15 % |\n| Documentation | Runbook, schémas, décisions justifiées | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-120 — DevOps et livraison**\n"
+      "shortDesc": "Mettre en place, mesurer et documenter la chaîne de livraison complète d'un projet réel ou fictif.",
+      "body": "> Mettre en place, mesurer et documenter la chaîne de livraison complète d'un projet réel ou fictif.\n\n## Mission\n\nChoisis un projet (le tien ou HashBox simplifié) et construis sa chaîne de livraison de bout en bout, avec politiques, observabilité, résilience et indicateurs.\n\n## Livrables\n\n- [ ] Stratégie Git documentée (branches, revue, commits conventionnels, versionnement)\n- [ ] Build reproductible avec verrouillage, empreintes et SBOM\n- [ ] Dockerfile(s) conformes aux bonnes pratiques, audités automatiquement\n- [ ] Pipeline CI décrit comme un graphe, avec chemin critique, cache et matrice\n- [ ] Configuration par environnement avec validation et gestion des secrets\n- [ ] Stratégie de déploiement (canary ou blue/green), migrations compatibles, drapeaux\n- [ ] Observabilité : journaux structurés, métriques, SLO, alertes sur burn rate\n- [ ] Plan de résilience : retour arrière, disjoncteur, sauvegardes avec RPO et RTO testés\n- [ ] Politique de livraison exécutable et journal d'événements avec calcul DORA\n- [ ] `RUNBOOK.md` et plan d'amélioration à 3 mois\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Automatisation et reproductibilité | Build déterministe, pipeline complet et rapide | 25 % |\n| Livraison progressive et sûre | Canary, drapeaux, migrations, retour arrière automatique | 25 % |\n| Observabilité et résilience | SLO, alertes pertinentes, défenses testées | 20 % |\n| Mesure et amélioration | DORA, goulot identifié, plan chiffré | 15 % |\n| Documentation | Runbook, schémas, décisions justifiées | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-120 — DevOps et livraison**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Stratégie Git documentée (branches, revue, commits conventionnels, versionnement)",
+        "Build reproductible avec verrouillage, empreintes et SBOM",
+        "Dockerfile(s) conformes aux bonnes pratiques, audités automatiquement",
+        "Pipeline CI décrit comme un graphe, avec chemin critique, cache et matrice",
+        "Configuration par environnement avec validation et gestion des secrets",
+        "Stratégie de déploiement (canary ou blue/green), migrations compatibles, drapeaux",
+        "Observabilité : journaux structurés, métriques, SLO, alertes sur burn rate",
+        "Plan de résilience : retour arrière, disjoncteur, sauvegardes avec RPO et RTO testés",
+        "Politique de livraison exécutable et journal d'événements avec calcul DORA",
+        "`RUNBOOK.md` et plan d'amélioration à 3 mois"
+      ],
+      "criteria": [
+        {
+          "label": "Automatisation et reproductibilité",
+          "description": "Build déterministe, pipeline complet et rapide",
+          "weight": 25
+        },
+        {
+          "label": "Livraison progressive et sûre",
+          "description": "Canary, drapeaux, migrations, retour arrière automatique",
+          "weight": 25
+        },
+        {
+          "label": "Observabilité et résilience",
+          "description": "SLO, alertes pertinentes, défenses testées",
+          "weight": 20
+        },
+        {
+          "label": "Mesure et amélioration",
+          "description": "DORA, goulot identifié, plan chiffré",
+          "weight": 15
+        },
+        {
+          "label": "Documentation",
+          "description": "Runbook, schémas, décisions justifiées",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

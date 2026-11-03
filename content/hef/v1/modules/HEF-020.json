@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:47.804Z",
+  "generatedAt": "2026-11-03T21:29:38.608Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-020"
@@ -101,7 +101,25 @@
       {
         "slug": "lab-01",
         "title": "Labo — Data Structure Selection Lab",
+        "shortDesc": "Résoudre le même besoin avec plusieurs structures et prouver les conséquences.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Éditeur et terminal. Pas de bibliothèque externe.",
+          "Un fichier `annuaire.py` vide. Une interface à respecter : `ajouter(id, nom)`, `trouver(id)`, `supprimer(id)`, `lister()` (trié par nom)."
+        ],
+        "deliverables": [
+          "`annuaire.py` avec les trois classes et leurs contrats",
+          "Tests, dont le test aléatoire",
+          "Tableau des temps et recommandation (10 lignes)"
+        ],
+        "acceptanceCriteria": [
+          "Les trois implémentations réussissent les mêmes tests.",
+          "`trouver` est nettement plus rapide avec le dictionnaire sur de grandes tailles.",
+          "`lister` trié est immédiat avec le BST (parcours en ordre) mais demande un tri avec les autres.",
+          "Insérer dans l'ordre alphabétique rend le BST très lent : tu le constates et l'expliques."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Résoudre le même besoin avec plusieurs structures et prouver les conséquences.\n\n## Scénario\n\nHashBox doit gérer un annuaire de 50 000 membres. Les opérations : ajouter, retrouver par identifiant, lister dans l'ordre alphabétique, supprimer. L'équipe hésite entre une liste, un dictionnaire et un arbre de recherche.\n\n## Objectif\n\nImplémenter le même annuaire avec trois structures différentes, vérifier qu'elles se comportent identiquement, puis mesurer lesquelles gagnent sur chaque opération.\n\n## Environnement\n\nPython 3.10 ou plus. Éditeur et terminal. Pas de bibliothèque externe.\n\n## État de départ\n\nUn fichier `annuaire.py` vide. Une interface à respecter : `ajouter(id, nom)`, `trouver(id)`, `supprimer(id)`, `lister()` (trié par nom).\n\n## Tâches\n\n1. Écris l'interface (contrat de chaque opération, cas limites).\n2. Implémente `AnnuaireListe` (liste de couples).\n3. Implémente `AnnuaireDict` (dictionnaire id → nom).\n4. Implémente `AnnuaireBST` (arbre de recherche trié par nom).\n5. Écris une suite de tests commune aux trois, dont un test aléatoire de 500 séquences d'opérations.\n6. Mesure chaque opération avec 1 000, 10 000 et 50 000 membres.\n7. Rédige un tableau comparatif et une recommandation argumentée.\n\n## Observations attendues\n\n- Les trois implémentations réussissent les mêmes tests.\n- `trouver` est nettement plus rapide avec le dictionnaire sur de grandes tailles.\n- `lister` trié est immédiat avec le BST (parcours en ordre) mais demande un tri avec les autres.\n- Insérer dans l'ordre alphabétique rend le BST très lent : tu le constates et l'expliques.\n\n## Validation\n\nLes tests passent sur les trois classes. Les mesures sont reproductibles : les ordres de grandeur sont identiques d'une exécution à l'autre.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nFais d'abord marcher la liste, elle sert de référence.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour le BST, trie le résultat de la liste pour vérifier `lister()`.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nMélange les noms avec `random.shuffle` avant l'insertion dans le BST.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `annuaire.py` avec les trois classes et leurs contrats\n- [ ] Tests, dont le test aléatoire\n- [ ] Tableau des temps et recommandation (10 lignes)\n\n## Réflexion\n\n1. Quelle opération a décidé de ton choix final ?\n2. Quelle hypothèse sur l'usage réel pourrait inverser ta recommandation ?\n\n**HEF-020 — Structures de données**\n"
       }
     ],
@@ -260,7 +278,46 @@
     },
     "project": {
       "title": "Projet — Bibliothèque de structures de données testée",
-      "body": "> Tes propres structures, documentées avec leurs invariants.\n\n## Mission\n\nConstruis une petite bibliothèque Python contenant : une pile, une file, une liste chaînée, une table de hachage (avec agrandissement), un BST et un tas-min. Chaque structure a une API claire, ses invariants, et des tests, dont des tests de propriétés.\n\n## Livrables\n\n- [ ] Un module par structure avec docstring (opérations, contrat, coûts attendus)\n- [ ] Une méthode `verifier_invariant()` pour BST, tas et table de hachage\n- [ ] Des tests classiques et des tests de propriétés (au moins 3 par structure)\n- [ ] `NOTES.md` : cas limites, choix de conception, limites connues\n- [ ] Une démonstration : un petit programme qui utilise au moins trois des structures ensemble\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Correction | Les structures respectent leurs règles, y compris cas limites | 30 % |\n| Invariants | Énoncés, vérifiés et utilisés dans les tests | 25 % |\n| Tests | Variés, aléatoires, indépendants | 25 % |\n| Documentation | API, coûts, limites expliqués | 10 % |\n| Démonstration | Les structures servent un vrai besoin | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-020 — Structures de données**\n"
+      "shortDesc": "Tes propres structures, documentées avec leurs invariants.",
+      "body": "> Tes propres structures, documentées avec leurs invariants.\n\n## Mission\n\nConstruis une petite bibliothèque Python contenant : une pile, une file, une liste chaînée, une table de hachage (avec agrandissement), un BST et un tas-min. Chaque structure a une API claire, ses invariants, et des tests, dont des tests de propriétés.\n\n## Livrables\n\n- [ ] Un module par structure avec docstring (opérations, contrat, coûts attendus)\n- [ ] Une méthode `verifier_invariant()` pour BST, tas et table de hachage\n- [ ] Des tests classiques et des tests de propriétés (au moins 3 par structure)\n- [ ] `NOTES.md` : cas limites, choix de conception, limites connues\n- [ ] Une démonstration : un petit programme qui utilise au moins trois des structures ensemble\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Correction | Les structures respectent leurs règles, y compris cas limites | 30 % |\n| Invariants | Énoncés, vérifiés et utilisés dans les tests | 25 % |\n| Tests | Variés, aléatoires, indépendants | 25 % |\n| Documentation | API, coûts, limites expliqués | 10 % |\n| Démonstration | Les structures servent un vrai besoin | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-020 — Structures de données**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Un module par structure avec docstring (opérations, contrat, coûts attendus)",
+        "Une méthode `verifier_invariant()` pour BST, tas et table de hachage",
+        "Des tests classiques et des tests de propriétés (au moins 3 par structure)",
+        "`NOTES.md` : cas limites, choix de conception, limites connues",
+        "Une démonstration : un petit programme qui utilise au moins trois des structures ensemble"
+      ],
+      "criteria": [
+        {
+          "label": "Correction",
+          "description": "Les structures respectent leurs règles, y compris cas limites",
+          "weight": 30
+        },
+        {
+          "label": "Invariants",
+          "description": "Énoncés, vérifiés et utilisés dans les tests",
+          "weight": 25
+        },
+        {
+          "label": "Tests",
+          "description": "Variés, aléatoires, indépendants",
+          "weight": 25
+        },
+        {
+          "label": "Documentation",
+          "description": "API, coûts, limites expliqués",
+          "weight": 10
+        },
+        {
+          "label": "Démonstration",
+          "description": "Les structures servent un vrai besoin",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

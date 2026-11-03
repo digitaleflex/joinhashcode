@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:49.986Z",
+  "generatedAt": "2026-11-03T21:29:40.788Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-060"
@@ -101,7 +101,25 @@
       {
         "slug": "lab-01",
         "title": "Labo — Laboratoire réseau local : sockets, HTTP et diagnostic",
+        "shortDesc": "Construire un petit service réseau, le casser de plusieurs façons, et le dépanner avec méthode.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Boucle locale (127.0.0.1) uniquement. Modules standard : `socket`, `threading`, `http.server`, `urllib`, `ipaddress`.",
+          "Un fichier `annuaire.py` vide. Données : un dictionnaire de 10 membres (nom → ville). Protocole TCP imposé : une ligne par requête (`GET nom`, `SET nom ville`, `DEL nom`) et une ligne par réponse (`OK ...` ou `ERR ...`)."
+        ],
+        "deliverables": [
+          "`annuaire.py` et ses tests",
+          "Sorties du diagnostic pour chaque panne",
+          "Rapport comparatif TCP / HTTP"
+        ],
+        "acceptanceCriteria": [
+          "Les deux interfaces donnent les mêmes résultats sur les mêmes requêtes.",
+          "Le client ne se fige jamais : chaque appel a un délai d'attente.",
+          "Le diagnostic distingue « refusé » (RST), « délai dépassé » et « nom inconnu ».",
+          "Les codes HTTP sont corrects (200, 201, 204, 400, 404)."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Construire un petit service réseau, le casser de plusieurs façons, et le dépanner avec méthode.\n\n## Scénario\n\nHashBox veut un petit service interne d'annuaire accessible en réseau. Tu dois l'écrire (TCP puis HTTP), simuler des pannes réseau typiques (port fermé, filtré, DNS erroné), et construire l'outil qui les diagnostique.\n\n## Objectif\n\nÉcrire un serveur et un client TCP avec un protocole de messages, exposer le même service en HTTP/JSON, puis implémenter un diagnostic en couches qui distingue les pannes.\n\n## Environnement\n\nPython 3.10 ou plus. Boucle locale (127.0.0.1) uniquement. Modules standard : `socket`, `threading`, `http.server`, `urllib`, `ipaddress`.\n\n## État de départ\n\nUn fichier `annuaire.py` vide. Données : un dictionnaire de 10 membres (nom → ville). Protocole TCP imposé : une ligne par requête (`GET nom`, `SET nom ville`, `DEL nom`) et une ligne par réponse (`OK ...` ou `ERR ...`).\n\n## Tâches\n\n1. Écris le serveur TCP multi-clients (un thread par connexion) avec le protocole en lignes.\n2. Écris un client qui gère les délais d'attente et les erreurs.\n3. Écris l'API HTTP équivalente (`GET /membres/<nom>`, `PUT /membres/<nom>`, `DELETE /membres/<nom>`) avec les bons codes de statut.\n4. Écris des tests qui vérifient les deux interfaces avec les mêmes cas.\n5. Simule trois pannes : port fermé (rien n'écoute), service lent (délai dépassé), mauvais nom d'hôte.\n6. Écris `diagnostiquer(hote, port)` qui teste DNS, TCP, puis HTTP et explique chaque échec.\n7. Ajoute un test d'adressage : vérifie avec `ipaddress` qu'un client est dans le sous-réseau autorisé avant de le servir.\n8. Rédige un rapport de 10 lignes comparant TCP brut et HTTP pour ce service.\n\n## Observations attendues\n\n- Les deux interfaces donnent les mêmes résultats sur les mêmes requêtes.\n- Le client ne se fige jamais : chaque appel a un délai d'attente.\n- Le diagnostic distingue « refusé » (RST), « délai dépassé » et « nom inconnu ».\n- Les codes HTTP sont corrects (200, 201, 204, 400, 404).\n\n## Validation\n\n`python annuaire.py` lance les tests sans erreur. Chaque panne simulée produit un diagnostic distinct et lisible.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nUtilise le port 0 pour laisser le système choisir un port libre et évite les conflits.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour simuler un service lent, mets un `time.sleep` plus long que le délai du client.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour un port « refusé », connecte-toi à un port sur lequel personne n'écoute.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `annuaire.py` et ses tests\n- [ ] Sorties du diagnostic pour chaque panne\n- [ ] Rapport comparatif TCP / HTTP\n\n## Réflexion\n\n1. Quelle panne était la plus difficile à distinguer des autres ?\n2. Qu'a changé le fait d'ajouter des délais d'attente partout ?\n\n**HEF-060 — Réseaux**\n"
       }
     ],
@@ -260,7 +278,46 @@
     },
     "project": {
       "title": "Projet — Mini boîte à outils réseau",
-      "body": "> Un petit outil en ligne de commande qui analyse, teste et explique un réseau.\n\n## Mission\n\nConstruis `rezotool.py`, un programme avec plusieurs sous-commandes : analyse d'adresse CIDR, plan d'adressage VLSM, simulation de table de routage (plus long préfixe), vérification de règles de pare-feu, diagnostic de service (DNS, TCP, HTTP) et analyse d'une capture simplifiée. Chaque commande doit être testée et documentée.\n\n## Livrables\n\n- [ ] `rezotool.py` avec au moins 6 sous-commandes (`cidr`, `vlsm`, `route`, `firewall`, `diag`, `capture`)\n- [ ] Des tests automatisés pour chaque sous-commande, dont des cas limites\n- [ ] Un jeu de données d'exemple (table de routage, règles de pare-feu, capture)\n- [ ] `README.md` : usage, exemples de sortie, limites\n- [ ] `NOTES.md` : lien entre chaque sous-commande et une notion du module (couche, protocole)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Justesse | Les résultats d'adressage, de routage et de filtrage sont corrects | 30 % |\n| Diagnostic | Distingue DNS, refus, filtrage, application | 20 % |\n| Tests | Cas normaux et limites automatisés | 20 % |\n| Clarté | Sorties lisibles, messages d'erreur utiles | 15 % |\n| Documentation | Lien avec la théorie, limites honnêtes | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-060 — Réseaux**\n"
+      "shortDesc": "Un petit outil en ligne de commande qui analyse, teste et explique un réseau.",
+      "body": "> Un petit outil en ligne de commande qui analyse, teste et explique un réseau.\n\n## Mission\n\nConstruis `rezotool.py`, un programme avec plusieurs sous-commandes : analyse d'adresse CIDR, plan d'adressage VLSM, simulation de table de routage (plus long préfixe), vérification de règles de pare-feu, diagnostic de service (DNS, TCP, HTTP) et analyse d'une capture simplifiée. Chaque commande doit être testée et documentée.\n\n## Livrables\n\n- [ ] `rezotool.py` avec au moins 6 sous-commandes (`cidr`, `vlsm`, `route`, `firewall`, `diag`, `capture`)\n- [ ] Des tests automatisés pour chaque sous-commande, dont des cas limites\n- [ ] Un jeu de données d'exemple (table de routage, règles de pare-feu, capture)\n- [ ] `README.md` : usage, exemples de sortie, limites\n- [ ] `NOTES.md` : lien entre chaque sous-commande et une notion du module (couche, protocole)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Justesse | Les résultats d'adressage, de routage et de filtrage sont corrects | 30 % |\n| Diagnostic | Distingue DNS, refus, filtrage, application | 20 % |\n| Tests | Cas normaux et limites automatisés | 20 % |\n| Clarté | Sorties lisibles, messages d'erreur utiles | 15 % |\n| Documentation | Lien avec la théorie, limites honnêtes | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-060 — Réseaux**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "`rezotool.py` avec au moins 6 sous-commandes (`cidr`, `vlsm`, `route`, `firewall`, `diag`, `capture`)",
+        "Des tests automatisés pour chaque sous-commande, dont des cas limites",
+        "Un jeu de données d'exemple (table de routage, règles de pare-feu, capture)",
+        "`README.md` : usage, exemples de sortie, limites",
+        "`NOTES.md` : lien entre chaque sous-commande et une notion du module (couche, protocole)"
+      ],
+      "criteria": [
+        {
+          "label": "Justesse",
+          "description": "Les résultats d'adressage, de routage et de filtrage sont corrects",
+          "weight": 30
+        },
+        {
+          "label": "Diagnostic",
+          "description": "Distingue DNS, refus, filtrage, application",
+          "weight": 20
+        },
+        {
+          "label": "Tests",
+          "description": "Cas normaux et limites automatisés",
+          "weight": 20
+        },
+        {
+          "label": "Clarté",
+          "description": "Sorties lisibles, messages d'erreur utiles",
+          "weight": 15
+        },
+        {
+          "label": "Documentation",
+          "description": "Lien avec la théorie, limites honnêtes",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

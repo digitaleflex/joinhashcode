@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:53.814Z",
+  "generatedAt": "2026-11-03T21:29:44.304Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-140"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier de pannes distribuées",
+        "shortDesc": "Simuler latence, panne, perte et duplication de messages, observer les conséquences et améliorer le système.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`random`, `sqlite3`, `threading`, `socket`). Tout est simulé en local, avec des graines fixées pour pouvoir rejouer une exécution fautive.",
+          "Un dossier `lab/` avec `simulateur.py`, `services.py`, `invariants.py` et `banc.py` à créer."
+        ],
+        "deliverables": [
+          "Le code du simulateur et des conceptions",
+          "La sortie du banc d'essai pour chaque conception",
+          "Une exécution fautive minimisée",
+          "La table menace → mécanisme → test et l'ADR"
+        ],
+        "acceptanceCriteria": [
+          "Le service naïf viole plusieurs invariants dans presque toutes les exécutions.",
+          "Chaque mécanisme ajouté supprime une famille de violations précise.",
+          "La version finale ne viole aucun invariant sur au moins 500 graines.",
+          "Une exécution fautive se rejoue à l'identique avec sa graine.",
+          "La suppression d'un mécanisme fait réapparaître une violation (preuve de nécessité)."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Simuler latence, panne, perte et duplication de messages, observer les conséquences et améliorer le système.\n\n## Scénario\n\nHashBox lance des inscriptions en direct. Tu disposes d'un petit service distribué fragile (à écrire en suivant le module) et d'un banc d'essai qui injecte des pannes. Ta mission : le casser, comprendre pourquoi, et le rendre sûr.\n\n## Objectif\n\nConstruire un simulateur déterministe de service distribué (réseau avec pertes, duplications, retards ; nœuds qui tombent), y faire tourner trois conceptions successives, et vérifier des invariants sur des centaines d'exécutions.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`random`, `sqlite3`, `threading`, `socket`). Tout est simulé en local, avec des graines fixées pour pouvoir rejouer une exécution fautive.\n\n## État de départ\n\nUn dossier `lab/` avec `simulateur.py`, `services.py`, `invariants.py` et `banc.py` à créer.\n\n## Tâches\n\n1. Écris un réseau simulé : perte de requête, de réponse, duplication, retard, réordonnancement, avec une graine.\n2. Écris un service d'inscription naïf (sans clé, sans atomicité) et un client qui relance.\n3. Définis quatre invariants (capacité, pas de doublon d'intention, pas de perte d'une inscription confirmée, cohérence des réponses) et un vérificateur.\n4. Lance 500 graines : montre les violations du service naïf et rejoue l'une d'elles.\n5. Ajoute la clé d'idempotence et mesure ce qui disparaît et ce qui reste.\n6. Ajoute l'écrivain unique atomique par partition et mesure encore.\n7. Ajoute la réplication avec confirmation après quorum et une panne du leader avec basculement.\n8. Ajoute des délais, un budget de retries et une échéance propagée côté client ; mesure l'effet sur la charge pendant une panne.\n9. Supprime chaque mécanisme l'un après l'autre et montre quel invariant tombe.\n10. Rédige la table menace → mécanisme → test et un ADR.\n\n## Observations attendues\n\n- Le service naïf viole plusieurs invariants dans presque toutes les exécutions.\n- Chaque mécanisme ajouté supprime une famille de violations précise.\n- La version finale ne viole aucun invariant sur au moins 500 graines.\n- Une exécution fautive se rejoue à l'identique avec sa graine.\n- La suppression d'un mécanisme fait réapparaître une violation (preuve de nécessité).\n\n## Validation\n\n`python banc.py` affiche pour chaque conception le nombre de violations par invariant ; la dernière ligne indique 0 ; une personne tierce peut rejouer la graine d'une violation et comprendre pourquoi elle se produit.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par un réseau très simple (perte de réponse seulement) avant d'ajouter les autres fautes.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nUn générateur Python avec `yield` est un excellent moyen d'entrelacer des clients de façon déterministe.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nQuand une violation apparaît, affiche l'historique des événements de cette graine.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Le code du simulateur et des conceptions\n- [ ] La sortie du banc d'essai pour chaque conception\n- [ ] Une exécution fautive minimisée\n- [ ] La table menace → mécanisme → test et l'ADR\n\n## Réflexion\n\n1. Quel défaut n'aurais-tu jamais trouvé sans l'entrelacement aléatoire ?\n2. Quel mécanisme a eu le meilleur rapport protection / complexité ?\n\n**HEF-140 — Systèmes distribués**\n"
       }
     ],
@@ -260,7 +280,50 @@
     },
     "project": {
       "title": "Projet — Architecture d'un mini-service distribué",
-      "body": "> Diagrammes, contrats, scénarios de panne, décisions et tests pour un service dont tu peux démontrer les garanties.\n\n## Mission\n\nChoisis un petit service (inscriptions en direct, réservation de ressources, stock, file de tâches) et livre son architecture complète avec preuves par simulation.\n\n## Livrables\n\n- [ ] Exigences, invariants de sûreté (au moins 4) et objectifs de vivacité/disponibilité\n- [ ] Diagramme d'architecture (composants, flux, partitions, réplicas) et contrats (API, événements, erreurs, idempotence)\n- [ ] Choix de partitionnement, de réplication et de cohérence justifiés\n- [ ] Table menace → mécanisme → test (au moins 8 lignes)\n- [ ] Simulateur déterministe avec fautes aléatoires et banc d'essai de 1000 graines\n- [ ] Deux conceptions dégradées montrant la nécessité de deux mécanismes\n- [ ] Une exécution fautive minimisée et expliquée\n- [ ] Au moins trois ADR, un runbook de trois pannes, un plan d'exercice de panne\n- [ ] Rétrospective : garanties que tu ne donnerais pas en production sans test réel\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Invariants et exigences | Précis, vérifiables, distingués (sûreté / vivacité) | 20 % |\n| Conception | Mécanismes justifiés, reliés aux menaces | 25 % |\n| Simulation et preuves | Banc d'essai déterministe, nombreuses graines, dégradations | 30 % |\n| Documentation | Diagrammes, contrats, ADR, runbooks | 15 % |\n| Honnêteté | Limites de la simulation, garanties non données | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-140 — Systèmes distribués**\n"
+      "shortDesc": "Diagrammes, contrats, scénarios de panne, décisions et tests pour un service dont tu peux démontrer les garanties.",
+      "body": "> Diagrammes, contrats, scénarios de panne, décisions et tests pour un service dont tu peux démontrer les garanties.\n\n## Mission\n\nChoisis un petit service (inscriptions en direct, réservation de ressources, stock, file de tâches) et livre son architecture complète avec preuves par simulation.\n\n## Livrables\n\n- [ ] Exigences, invariants de sûreté (au moins 4) et objectifs de vivacité/disponibilité\n- [ ] Diagramme d'architecture (composants, flux, partitions, réplicas) et contrats (API, événements, erreurs, idempotence)\n- [ ] Choix de partitionnement, de réplication et de cohérence justifiés\n- [ ] Table menace → mécanisme → test (au moins 8 lignes)\n- [ ] Simulateur déterministe avec fautes aléatoires et banc d'essai de 1000 graines\n- [ ] Deux conceptions dégradées montrant la nécessité de deux mécanismes\n- [ ] Une exécution fautive minimisée et expliquée\n- [ ] Au moins trois ADR, un runbook de trois pannes, un plan d'exercice de panne\n- [ ] Rétrospective : garanties que tu ne donnerais pas en production sans test réel\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Invariants et exigences | Précis, vérifiables, distingués (sûreté / vivacité) | 20 % |\n| Conception | Mécanismes justifiés, reliés aux menaces | 25 % |\n| Simulation et preuves | Banc d'essai déterministe, nombreuses graines, dégradations | 30 % |\n| Documentation | Diagrammes, contrats, ADR, runbooks | 15 % |\n| Honnêteté | Limites de la simulation, garanties non données | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-140 — Systèmes distribués**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Exigences, invariants de sûreté (au moins 4) et objectifs de vivacité/disponibilité",
+        "Diagramme d'architecture (composants, flux, partitions, réplicas) et contrats (API, événements, erreurs, idempotence)",
+        "Choix de partitionnement, de réplication et de cohérence justifiés",
+        "Table menace → mécanisme → test (au moins 8 lignes)",
+        "Simulateur déterministe avec fautes aléatoires et banc d'essai de 1000 graines",
+        "Deux conceptions dégradées montrant la nécessité de deux mécanismes",
+        "Une exécution fautive minimisée et expliquée",
+        "Au moins trois ADR, un runbook de trois pannes, un plan d'exercice de panne",
+        "Rétrospective : garanties que tu ne donnerais pas en production sans test réel"
+      ],
+      "criteria": [
+        {
+          "label": "Invariants et exigences",
+          "description": "Précis, vérifiables, distingués (sûreté / vivacité)",
+          "weight": 20
+        },
+        {
+          "label": "Conception",
+          "description": "Mécanismes justifiés, reliés aux menaces",
+          "weight": 25
+        },
+        {
+          "label": "Simulation et preuves",
+          "description": "Banc d'essai déterministe, nombreuses graines, dégradations",
+          "weight": 30
+        },
+        {
+          "label": "Documentation",
+          "description": "Diagrammes, contrats, ADR, runbooks",
+          "weight": 15
+        },
+        {
+          "label": "Honnêteté",
+          "description": "Limites de la simulation, garanties non données",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

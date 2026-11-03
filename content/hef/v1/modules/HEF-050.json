@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:49.411Z",
+  "generatedAt": "2026-11-03T21:29:40.396Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-050"
@@ -101,7 +101,25 @@
       {
         "slug": "lab-01",
         "title": "Labo — Enquête sur un serveur en difficulté",
+        "shortDesc": "Simuler un incident, collecter les preuves et le diagnostiquer avec la méthode USE.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus (Linux recommandé pour `/proc`, avec repli propre ailleurs). Modules standard seulement.",
+          "Un fichier `incidents.py` vide. Quatre scénarios à générer : (1) mémoire qui fuit jusqu'au swap, (2) disque rempli par des journaux sans rotation, (3) un cœur saturé par un processus mono-thread, (4) fichier supprimé mais encore ouvert."
+        ],
+        "deliverables": [
+          "`incidents.py` avec tests",
+          "Quatre rapports d'incident générés",
+          "Courte réflexion de 5 lignes"
+        ],
+        "acceptanceCriteria": [
+          "Chaque scénario est correctement identifié.",
+          "Le scénario sain ne déclenche aucune alerte.",
+          "Le scénario ambigu produit deux constats.",
+          "Les rapports sont lisibles par quelqu'un qui n'a pas vu le code."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Simuler un incident, collecter les preuves et le diagnostiquer avec la méthode USE.\n\n## Scénario\n\nLe serveur de HashBox ralentit chaque soir. Tu reçois les journaux et les mesures d'une semaine, et tu dois identifier la cause. Pour travailler sans toucher à un vrai serveur, tu construis d'abord un petit simulateur d'incidents, puis l'outil de diagnostic qui les détecte.\n\n## Objectif\n\nConstruire un simulateur de ressources (CPU, mémoire, disque) qui produit des « sorties de commandes », écrire un diagnostiqueur automatique, et vérifier qu'il retrouve les quatre pannes injectées.\n\n## Environnement\n\nPython 3.10 ou plus (Linux recommandé pour `/proc`, avec repli propre ailleurs). Modules standard seulement.\n\n## État de départ\n\nUn fichier `incidents.py` vide. Quatre scénarios à générer : (1) mémoire qui fuit jusqu'au swap, (2) disque rempli par des journaux sans rotation, (3) un cœur saturé par un processus mono-thread, (4) fichier supprimé mais encore ouvert.\n\n## Tâches\n\n1. Écris `generer(scenario)` qui renvoie des sorties de `uptime`, `free`, `df`, `ps` et `lsof` cohérentes avec chaque scénario.\n2. Écris `diagnostiquer(sorties)` qui analyse ces sorties avec la méthode USE et renvoie une liste de constats.\n3. Vérifie que chaque scénario produit le bon constat principal et pas de faux positif sur un scénario « sain ».\n4. Ajoute un scénario « sain » et un scénario ambigu (deux causes simultanées).\n5. Écris `rapport(scenario, constats)` qui produit un rapport d'incident en Markdown (chronologie, constats, cause, action, prévention).\n6. Ajoute des tests `assert` pour chaque scénario.\n7. Sur ta vraie machine, écris `diagnostic_local()` qui collecte les vraies valeurs via `os` et `/proc`.\n8. Rédige 5 lignes : quelle mission du module t'a le plus servi ?\n\n## Observations attendues\n\n- Chaque scénario est correctement identifié.\n- Le scénario sain ne déclenche aucune alerte.\n- Le scénario ambigu produit deux constats.\n- Les rapports sont lisibles par quelqu'un qui n'a pas vu le code.\n\n## Validation\n\n`python incidents.py` exécute les tests sans erreur et affiche les rapports. Un collègue peut ajouter un cinquième scénario sans modifier le diagnostiqueur existant.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nReprésente chaque sortie par un dictionnaire de valeurs plutôt que du texte brut pour commencer.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nDéfinis des seuils clairs : charge > 2 × cœurs, mémoire disponible < 10 %, disque > 90 %.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe cas « fichier supprimé encore ouvert » se détecte par un disque plein alors que `du` ne trouve pas les fichiers.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `incidents.py` avec tests\n- [ ] Quatre rapports d'incident générés\n- [ ] Courte réflexion de 5 lignes\n\n## Réflexion\n\n1. Quel faux positif as-tu dû corriger ?\n2. Quelle information supplémentaire aurais-tu aimé avoir pendant l'enquête ?\n\n**HEF-050 — Systèmes d'exploitation**\n"
       }
     ],
@@ -260,7 +278,47 @@
     },
     "project": {
       "title": "Projet — Mini-shell et gestionnaire de processus",
-      "body": "> Un petit programme qui lance, surveille et arrête des processus proprement.\n\n## Mission\n\nConstruis un mini-gestionnaire en Python qui lit des commandes, lance des programmes dans des processus séparés, redirige leurs flux, les surveille (état, mémoire via `/proc`), gère les signaux et produit des journaux. Il doit gérer l'échec, le délai d'attente et l'arrêt propre.\n\n## Livrables\n\n- [ ] `minishell.py` : lancement de commandes, redirections simples (`>`, `|`), codes de sortie\n- [ ] Une file d'exécution avec limite de processus simultanés (ordonnancement FCFS ou Round Robin)\n- [ ] Un arrêt propre (SIGTERM puis SIGKILL après délai) et une supervision avec redémarrage limité\n- [ ] Des journaux avec niveaux et rotation\n- [ ] Un jeu de tests (processus qui échouent, qui dépassent le délai, qui saturent la mémoire)\n- [ ] `NOTES.md` : choix de conception, limites, lien avec les notions du module\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Fonctionnement | Les commandes, tubes et signaux marchent | 30 % |\n| Robustesse | Échecs, délais, arrêts propres gérés | 25 % |\n| Observabilité | Journaux utiles, état des processus | 15 % |\n| Tests | Cas normaux et cas d'échec automatisés | 20 % |\n| Documentation | Choix expliqués, limites honnêtes | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-050 — Systèmes d'exploitation**\n"
+      "shortDesc": "Un petit programme qui lance, surveille et arrête des processus proprement.",
+      "body": "> Un petit programme qui lance, surveille et arrête des processus proprement.\n\n## Mission\n\nConstruis un mini-gestionnaire en Python qui lit des commandes, lance des programmes dans des processus séparés, redirige leurs flux, les surveille (état, mémoire via `/proc`), gère les signaux et produit des journaux. Il doit gérer l'échec, le délai d'attente et l'arrêt propre.\n\n## Livrables\n\n- [ ] `minishell.py` : lancement de commandes, redirections simples (`>`, `|`), codes de sortie\n- [ ] Une file d'exécution avec limite de processus simultanés (ordonnancement FCFS ou Round Robin)\n- [ ] Un arrêt propre (SIGTERM puis SIGKILL après délai) et une supervision avec redémarrage limité\n- [ ] Des journaux avec niveaux et rotation\n- [ ] Un jeu de tests (processus qui échouent, qui dépassent le délai, qui saturent la mémoire)\n- [ ] `NOTES.md` : choix de conception, limites, lien avec les notions du module\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Fonctionnement | Les commandes, tubes et signaux marchent | 30 % |\n| Robustesse | Échecs, délais, arrêts propres gérés | 25 % |\n| Observabilité | Journaux utiles, état des processus | 15 % |\n| Tests | Cas normaux et cas d'échec automatisés | 20 % |\n| Documentation | Choix expliqués, limites honnêtes | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-050 — Systèmes d'exploitation**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "`minishell.py` : lancement de commandes, redirections simples (`>`, `|`), codes de sortie",
+        "Une file d'exécution avec limite de processus simultanés (ordonnancement FCFS ou Round Robin)",
+        "Un arrêt propre (SIGTERM puis SIGKILL après délai) et une supervision avec redémarrage limité",
+        "Des journaux avec niveaux et rotation",
+        "Un jeu de tests (processus qui échouent, qui dépassent le délai, qui saturent la mémoire)",
+        "`NOTES.md` : choix de conception, limites, lien avec les notions du module"
+      ],
+      "criteria": [
+        {
+          "label": "Fonctionnement",
+          "description": "Les commandes, tubes et signaux marchent",
+          "weight": 30
+        },
+        {
+          "label": "Robustesse",
+          "description": "Échecs, délais, arrêts propres gérés",
+          "weight": 25
+        },
+        {
+          "label": "Observabilité",
+          "description": "Journaux utiles, état des processus",
+          "weight": 15
+        },
+        {
+          "label": "Tests",
+          "description": "Cas normaux et cas d'échec automatisés",
+          "weight": 20
+        },
+        {
+          "label": "Documentation",
+          "description": "Choix expliqués, limites honnêtes",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

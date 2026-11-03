@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:52.319Z",
+  "generatedAt": "2026-11-03T21:29:42.796Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-110"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier d'enquête : stratégie de tests et régression contrôlée",
+        "shortDesc": "Construire une stratégie de tests pour une petite application, introduire une régression volontaire et prouver qu'elle est détectée.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`unittest`, `unittest.mock`, `sqlite3`, `http.server`, `ast`, `xml.etree`). Tout se passe en local, sans accès Internet ni service externe.",
+          "Un dossier de travail avec l'application (`appli/`), un dossier `tests/` vide et un fichier `ci.py` à écrire."
+        ],
+        "deliverables": [
+          "La matrice de comportements",
+          "La suite de tests et son temps d'exécution",
+          "Les scores de couverture et de mutation (avant/après renforcement)",
+          "Le rapport JUnit de la régression contrôlée"
+        ],
+        "acceptanceCriteria": [
+          "La matrice relie chaque comportement à au moins un test.",
+          "La suite passe en moins de 5 secondes et en n'importe quel ordre.",
+          "Au moins 90 % des mutants sont tués ; les survivants sont justifiés.",
+          "Aucun test instable sur 30 exécutions variées.",
+          "La régression contrôlée fait échouer `ci.py` avec le nom du test responsable dans le rapport."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Construire une stratégie de tests pour une petite application, introduire une régression volontaire et prouver qu'elle est détectée.\n\n## Scénario\n\nHashBox te confie une petite application (inscription à des cours, remises, rappels). Il n'y a presque aucun test. Tu dois établir une stratégie, écrire la suite, puis démontrer qu'elle protège vraiment l'application en injectant des bugs.\n\n## Objectif\n\nÉcrire (ou reprendre) une petite application, construire une suite de tests étagée (unitaires, intégration, API, un E2E), mesurer sa qualité (couverture, mutation, instabilité), l'intégrer dans un mini pipeline, puis introduire une régression contrôlée et la faire détecter.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`unittest`, `unittest.mock`, `sqlite3`, `http.server`, `ast`, `xml.etree`). Tout se passe en local, sans accès Internet ni service externe.\n\n## État de départ\n\nUn dossier de travail avec l'application (`appli/`), un dossier `tests/` vide et un fichier `ci.py` à écrire.\n\n## Tâches\n\n1. Décris les comportements de l'application sous forme de matrice (comportement, exemple chiffré, niveau de test).\n2. Écris les tests unitaires de la logique (remises, règles) avec valeurs limites et cas d'erreur.\n3. Écris les tests d'intégration du dépôt SQLite avec une base neuve par test.\n4. Écris les tests d'API (statuts, JSON, erreurs) avec un contrat de réponse validé.\n5. Écris un seul test E2E du parcours le plus critique, avec attente explicite.\n6. Remplace les dépendances de temps et de hasard par des doubles injectés.\n7. Mesure la couverture de lignes et le score de mutation avec les outils de la mission 9 ; renforce les tests faibles.\n8. Rejoue la suite 30 fois avec ordre et graine variés pour détecter l'instabilité.\n9. Écris `ci.py` : syntaxe, tests, rapport JUnit, porte de couverture, échec rapide.\n10. Introduis une régression contrôlée (par exemple `>=` devenu `>` dans une remise) et prouve que `ci.py` la détecte et la nomme.\n\n## Observations attendues\n\n- La matrice relie chaque comportement à au moins un test.\n- La suite passe en moins de 5 secondes et en n'importe quel ordre.\n- Au moins 90 % des mutants sont tués ; les survivants sont justifiés.\n- Aucun test instable sur 30 exécutions variées.\n- La régression contrôlée fait échouer `ci.py` avec le nom du test responsable dans le rapport.\n\n## Validation\n\n`python ci.py` renvoie le code 0 sur le code sain et 1 après la régression, avec le test fautif nommé ; une personne tierce peut lire la matrice et retrouver le test de chaque comportement.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par la matrice de comportements : elle te dit quels tests écrire.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nTeste d'abord la logique pure ; ajoute les couches lentes ensuite.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour chaque bug injecté, demande-toi quel test aurait dû le voir ; s'il n'y en a pas, écris-le.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] La matrice de comportements\n- [ ] La suite de tests et son temps d'exécution\n- [ ] Les scores de couverture et de mutation (avant/après renforcement)\n- [ ] Le rapport JUnit de la régression contrôlée\n\n## Réflexion\n\n1. Quel type de test a trouvé le plus de bugs injectés ?\n2. Quel test t'a coûté le plus à écrire, et valait-il son coût ?\n\n**HEF-110 — Tests et qualité**\n"
       }
     ],
@@ -260,7 +280,49 @@
     },
     "project": {
       "title": "Projet — Suite de tests documentée et pipeline automatisé",
-      "body": "> Une stratégie de tests complète, mesurée et exécutée automatiquement pour un vrai petit projet.\n\n## Mission\n\nChoisis un projet (le tien ou HashBox simplifié) et livre sa stratégie de tests complète : matrice de couverture comportementale, suite étagée, mesure de qualité, et pipeline automatisé avec portes de qualité.\n\n## Livrables\n\n- [ ] Matrice de couverture comportementale : chaque comportement, son exemple chiffré, le test qui le couvre\n- [ ] Suite étagée : unitaires, intégration, API avec contrat, au moins un parcours E2E\n- [ ] Doubles de test justifiés (horloge, hasard, réseau) et un test de contrat entre fake et réel\n- [ ] Mesures : couverture de lignes, score de mutation (outil à toi), taux d'instabilité sur 30 exécutions\n- [ ] Pipeline automatisé (script `ci.py` et fichier de configuration d'un outil de CI) avec échec rapide, rapport JUnit, porte de couverture\n- [ ] Une régression contrôlée et la preuve de sa détection\n- [ ] Document `STRATEGIE.md` : choix, pyramide, risques non couverts, plan de maintenance\n- [ ] Une courte rétrospective : trois tests qui ont le plus de valeur, trois qui en ont le moins\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Stratégie et matrice | Comportements précis, niveaux de test justifiés | 20 % |\n| Qualité des tests | Lisibles, indépendants, déterministes, bien nommés | 25 % |\n| Mesure de la qualité | Couverture, mutation, instabilité interprétées honnêtement | 20 % |\n| Pipeline | Étapes ordonnées, échec rapide, rapports, portes de qualité | 20 % |\n| Réflexion | Risques non couverts, maintenance, rétrospective | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-110 — Tests et qualité**\n"
+      "shortDesc": "Une stratégie de tests complète, mesurée et exécutée automatiquement pour un vrai petit projet.",
+      "body": "> Une stratégie de tests complète, mesurée et exécutée automatiquement pour un vrai petit projet.\n\n## Mission\n\nChoisis un projet (le tien ou HashBox simplifié) et livre sa stratégie de tests complète : matrice de couverture comportementale, suite étagée, mesure de qualité, et pipeline automatisé avec portes de qualité.\n\n## Livrables\n\n- [ ] Matrice de couverture comportementale : chaque comportement, son exemple chiffré, le test qui le couvre\n- [ ] Suite étagée : unitaires, intégration, API avec contrat, au moins un parcours E2E\n- [ ] Doubles de test justifiés (horloge, hasard, réseau) et un test de contrat entre fake et réel\n- [ ] Mesures : couverture de lignes, score de mutation (outil à toi), taux d'instabilité sur 30 exécutions\n- [ ] Pipeline automatisé (script `ci.py` et fichier de configuration d'un outil de CI) avec échec rapide, rapport JUnit, porte de couverture\n- [ ] Une régression contrôlée et la preuve de sa détection\n- [ ] Document `STRATEGIE.md` : choix, pyramide, risques non couverts, plan de maintenance\n- [ ] Une courte rétrospective : trois tests qui ont le plus de valeur, trois qui en ont le moins\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Stratégie et matrice | Comportements précis, niveaux de test justifiés | 20 % |\n| Qualité des tests | Lisibles, indépendants, déterministes, bien nommés | 25 % |\n| Mesure de la qualité | Couverture, mutation, instabilité interprétées honnêtement | 20 % |\n| Pipeline | Étapes ordonnées, échec rapide, rapports, portes de qualité | 20 % |\n| Réflexion | Risques non couverts, maintenance, rétrospective | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-110 — Tests et qualité**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Matrice de couverture comportementale : chaque comportement, son exemple chiffré, le test qui le couvre",
+        "Suite étagée : unitaires, intégration, API avec contrat, au moins un parcours E2E",
+        "Doubles de test justifiés (horloge, hasard, réseau) et un test de contrat entre fake et réel",
+        "Mesures : couverture de lignes, score de mutation (outil à toi), taux d'instabilité sur 30 exécutions",
+        "Pipeline automatisé (script `ci.py` et fichier de configuration d'un outil de CI) avec échec rapide, rapport JUnit, porte de couverture",
+        "Une régression contrôlée et la preuve de sa détection",
+        "Document `STRATEGIE.md` : choix, pyramide, risques non couverts, plan de maintenance",
+        "Une courte rétrospective : trois tests qui ont le plus de valeur, trois qui en ont le moins"
+      ],
+      "criteria": [
+        {
+          "label": "Stratégie et matrice",
+          "description": "Comportements précis, niveaux de test justifiés",
+          "weight": 20
+        },
+        {
+          "label": "Qualité des tests",
+          "description": "Lisibles, indépendants, déterministes, bien nommés",
+          "weight": 25
+        },
+        {
+          "label": "Mesure de la qualité",
+          "description": "Couverture, mutation, instabilité interprétées honnêtement",
+          "weight": 20
+        },
+        {
+          "label": "Pipeline",
+          "description": "Étapes ordonnées, échec rapide, rapports, portes de qualité",
+          "weight": 20
+        },
+        {
+          "label": "Réflexion",
+          "description": "Risques non couverts, maintenance, rétrospective",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:53.292Z",
+  "generatedAt": "2026-11-03T21:29:43.800Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-130"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier d'enquête : protocole de performance",
+        "shortDesc": "Établir une baseline, profiler, formuler une hypothèse, optimiser et reproduire la mesure.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`cProfile`, `pstats`, `tracemalloc`, `timeit`, `sqlite3`, `statistics`). Tout se passe en local, avec des données générées par une graine fixée.",
+          "Un programme `rapport_lent.py` (à écrire selon le scénario) : génération de 300 000 inscriptions dans SQLite, calculs de statistiques en Python, export CSV. Un dossier `mesures/` vide."
+        ],
+        "deliverables": [
+          "Les données brutes de chaque mesure",
+          "Les profils et plans d'exécution",
+          "Le tableau avant/après avec incertitude",
+          "Les garde-fous et la preuve qu'ils détectent un retour arrière"
+        ],
+        "acceptanceCriteria": [
+          "La baseline et chaque étape ont des mesures répétées avec incertitude.",
+          "Chaque optimisation a une hypothèse écrite et un gain mesuré.",
+          "Les résultats sont strictement identiques avant et après (comparaison différentielle).",
+          "Au moins un garde-fou est déterministe (opérations comptées).",
+          "Un tiers peut relancer `python reproduire.py` et retrouver les mêmes conclusions."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Établir une baseline, profiler, formuler une hypothèse, optimiser et reproduire la mesure.\n\n## Scénario\n\nLe tableau de bord d'administration de HashBox met 12 secondes à s'afficher depuis qu'il y a 300 000 inscriptions. On te confie l'enquête : trouver pourquoi, corriger, et prouver le gain sans casser les résultats.\n\n## Objectif\n\nMener une enquête de performance complète sur un programme de rapport (lecture, calcul, base de données, export) en suivant le protocole du module et en produisant un rapport reproductible.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`cProfile`, `pstats`, `tracemalloc`, `timeit`, `sqlite3`, `statistics`). Tout se passe en local, avec des données générées par une graine fixée.\n\n## État de départ\n\nUn programme `rapport_lent.py` (à écrire selon le scénario) : génération de 300 000 inscriptions dans SQLite, calculs de statistiques en Python, export CSV. Un dossier `mesures/` vide.\n\n## Tâches\n\n1. Écris le programme lent avec au moins quatre défauts (absence d'index, N+1, structure de données inadaptée, écritures non groupées).\n2. Écris le banc de mesure : échauffement, répétitions, médiane, percentiles, intervalle bootstrap, données brutes enregistrées.\n3. Établis la baseline (temps et mémoire) et enregistre-la dans `mesures/`.\n4. Profile avec `cProfile` et lis les plans d'exécution SQL ; désigne le goulot numéro un avec preuves.\n5. Formule une hypothèse falsifiable, applique un seul changement, mesure, vérifie l'équivalence des sorties.\n6. Répète pour les trois goulots suivants ; applique la loi d'Amdahl pour prédire le gain restant.\n7. Ajoute des garde-fous déterministes : compteur de requêtes SQL, test d'exposant de complexité, budget relatif.\n8. Mesure l'effet des index sur les écritures.\n9. Rédige le rapport (protocole, données brutes, analyse, avant/après, risques) et un script qui reproduit les mesures.\n\n## Observations attendues\n\n- La baseline et chaque étape ont des mesures répétées avec incertitude.\n- Chaque optimisation a une hypothèse écrite et un gain mesuré.\n- Les résultats sont strictement identiques avant et après (comparaison différentielle).\n- Au moins un garde-fou est déterministe (opérations comptées).\n- Un tiers peut relancer `python reproduire.py` et retrouver les mêmes conclusions.\n\n## Validation\n\nLe rapport est lisible seul ; le script de reproduction passe ; les garde-fous échouent si on réintroduit un défaut ; le gain total est supérieur à ×10 sur le scénario ou le budget fixé est atteint.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par la mesure : sans baseline, tu ne sauras jamais si tu progresses.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nProfile avant de toucher le code ; ton intuition se trompera sur au moins un goulot.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nChaque fois que tu changes une chose, relance les tests d'équivalence.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Les données brutes de chaque mesure\n- [ ] Les profils et plans d'exécution\n- [ ] Le tableau avant/après avec incertitude\n- [ ] Les garde-fous et la preuve qu'ils détectent un retour arrière\n\n## Réflexion\n\n1. Quelle optimisation t'a apporté le plus, et laquelle n'en valait pas la peine ?\n2. Ton intuition de départ sur le goulot était-elle juste ?\n\n**HEF-130 — Performance**\n"
       }
     ],
@@ -260,7 +280,49 @@
     },
     "project": {
       "title": "Projet — Rapport de performance d'un système",
-      "body": "> Un protocole, des mesures, un goulot identifié, un changement et un résultat avant/après reproductibles.\n\n## Mission\n\nChoisis une application ou un traitement (le tien ou HashBox simplifié) et produis un rapport de performance complet : modèle, mesures rigoureuses, goulot, optimisation, validation et garde-fous.\n\n## Livrables\n\n- [ ] Modèle de performance (débit, latence, saturation) avec prédiction chiffrée de la capacité\n- [ ] Protocole de mesure documenté (environnement, échauffement, répétitions, graine) et données brutes\n- [ ] Profils CPU et mémoire avec identification du goulot\n- [ ] Au moins quatre optimisations successives, chacune avec hypothèse, mesure, équivalence prouvée\n- [ ] Analyse réseau / E/S / base de données / cache selon le système, avec compteurs déterministes\n- [ ] Test de charge (réel ou simulé) : courbe de saturation et contre-pression\n- [ ] Garde-fous durables en CI (opérations, exposant, budget relatif)\n- [ ] Rapport final et script de reproduction\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Rigueur de la mesure | Protocole, répétitions, incertitude, données brutes | 25 % |\n| Diagnostic | Profil, preuves, hypothèses falsifiables | 20 % |\n| Qualité des optimisations | Gains mesurés, équivalence prouvée, rapport coût/bénéfice | 25 % |\n| Garde-fous et charge | Déterministes, testés, courbe de saturation | 15 % |\n| Rapport et reproductibilité | Clarté, script de reproduction | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-130 — Performance**\n"
+      "shortDesc": "Un protocole, des mesures, un goulot identifié, un changement et un résultat avant/après reproductibles.",
+      "body": "> Un protocole, des mesures, un goulot identifié, un changement et un résultat avant/après reproductibles.\n\n## Mission\n\nChoisis une application ou un traitement (le tien ou HashBox simplifié) et produis un rapport de performance complet : modèle, mesures rigoureuses, goulot, optimisation, validation et garde-fous.\n\n## Livrables\n\n- [ ] Modèle de performance (débit, latence, saturation) avec prédiction chiffrée de la capacité\n- [ ] Protocole de mesure documenté (environnement, échauffement, répétitions, graine) et données brutes\n- [ ] Profils CPU et mémoire avec identification du goulot\n- [ ] Au moins quatre optimisations successives, chacune avec hypothèse, mesure, équivalence prouvée\n- [ ] Analyse réseau / E/S / base de données / cache selon le système, avec compteurs déterministes\n- [ ] Test de charge (réel ou simulé) : courbe de saturation et contre-pression\n- [ ] Garde-fous durables en CI (opérations, exposant, budget relatif)\n- [ ] Rapport final et script de reproduction\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Rigueur de la mesure | Protocole, répétitions, incertitude, données brutes | 25 % |\n| Diagnostic | Profil, preuves, hypothèses falsifiables | 20 % |\n| Qualité des optimisations | Gains mesurés, équivalence prouvée, rapport coût/bénéfice | 25 % |\n| Garde-fous et charge | Déterministes, testés, courbe de saturation | 15 % |\n| Rapport et reproductibilité | Clarté, script de reproduction | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-130 — Performance**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Modèle de performance (débit, latence, saturation) avec prédiction chiffrée de la capacité",
+        "Protocole de mesure documenté (environnement, échauffement, répétitions, graine) et données brutes",
+        "Profils CPU et mémoire avec identification du goulot",
+        "Au moins quatre optimisations successives, chacune avec hypothèse, mesure, équivalence prouvée",
+        "Analyse réseau / E/S / base de données / cache selon le système, avec compteurs déterministes",
+        "Test de charge (réel ou simulé) : courbe de saturation et contre-pression",
+        "Garde-fous durables en CI (opérations, exposant, budget relatif)",
+        "Rapport final et script de reproduction"
+      ],
+      "criteria": [
+        {
+          "label": "Rigueur de la mesure",
+          "description": "Protocole, répétitions, incertitude, données brutes",
+          "weight": 25
+        },
+        {
+          "label": "Diagnostic",
+          "description": "Profil, preuves, hypothèses falsifiables",
+          "weight": 20
+        },
+        {
+          "label": "Qualité des optimisations",
+          "description": "Gains mesurés, équivalence prouvée, rapport coût/bénéfice",
+          "weight": 25
+        },
+        {
+          "label": "Garde-fous et charge",
+          "description": "Déterministes, testés, courbe de saturation",
+          "weight": 15
+        },
+        {
+          "label": "Rapport et reproductibilité",
+          "description": "Clarté, script de reproduction",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

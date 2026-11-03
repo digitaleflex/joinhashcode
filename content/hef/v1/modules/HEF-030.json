@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:48.400Z",
+  "generatedAt": "2026-11-03T21:29:39.404Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-030"
@@ -101,7 +101,26 @@
       {
         "slug": "lab-01",
         "title": "Labo — Benchmarks et courbes de croissance",
+        "shortDesc": "Prédire une croissance, la mesurer, et expliquer l'écart éventuel.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Modules standard seulement : `time`, `statistics`, `random`, `cProfile`, `pstats`.",
+          "Un fichier `bench.py` vide. Trois fonctions à écrire : `doublon_double_boucle`, `doublon_ensemble`, `doublon_tri`."
+        ],
+        "deliverables": [
+          "`bench.py`",
+          "Tableau des temps et exposants (copié dans le rapport)",
+          "Rapport d'une page : méthode, résultats, explication des écarts"
+        ],
+        "acceptanceCriteria": [
+          "Les trois fonctions donnent les mêmes résultats.",
+          "La double boucle montre un exposant proche de 2 sur le jeu sans doublon et beaucoup moins si le doublon est au début.",
+          "La méthode par ensemble montre un exposant proche de 1.",
+          "La méthode par tri se situe entre 1 et 1,3.",
+          "Le profil désigne la double boucle comme goulot."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Prédire une croissance, la mesurer, et expliquer l'écart éventuel.\n\n## Scénario\n\nHashBox hésite entre trois implémentations pour détecter des doublons dans les inscriptions. L'équipe veut un rapport avec des courbes, pas des impressions.\n\n## Objectif\n\nConcevoir un banc d'essai fiable, mesurer trois algorithmes sur plusieurs tailles, estimer leur exposant de croissance et le comparer à la théorie.\n\n## Environnement\n\nPython 3.10 ou plus. Modules standard seulement : `time`, `statistics`, `random`, `cProfile`, `pstats`.\n\n## État de départ\n\nUn fichier `bench.py` vide. Trois fonctions à écrire : `doublon_double_boucle`, `doublon_ensemble`, `doublon_tri`.\n\n## Tâches\n\n1. Écris les trois fonctions et vérifie qu'elles donnent les mêmes résultats sur 300 entrées aléatoires.\n2. Écris un outil `mesurer(f, donnees, repetitions)` qui renvoie la médiane.\n3. Génère trois jeux de données par taille : sans doublon, doublon au début, doublon à la fin.\n4. Mesure pour au moins 5 tailles (en doublant à chaque fois).\n5. Calcule le rapport T(2n)/T(n) et estime l'exposant k pour chaque méthode et chaque jeu.\n6. Profile la méthode la plus lente avec `cProfile` et nomme le goulot.\n7. Rédige un paragraphe : la théorie prévoyait-elle ces résultats ? Où sont les écarts ?\n\n## Observations attendues\n\n- Les trois fonctions donnent les mêmes résultats.\n- La double boucle montre un exposant proche de 2 sur le jeu sans doublon et beaucoup moins si le doublon est au début.\n- La méthode par ensemble montre un exposant proche de 1.\n- La méthode par tri se situe entre 1 et 1,3.\n- Le profil désigne la double boucle comme goulot.\n\n## Validation\n\nLe script `bench.py` se relance de bout en bout et affiche le tableau des temps et des exposants. Les ordres de grandeur sont stables d'une exécution à l'autre (à ±30 %).\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nFixe `random.seed(...)` pour des jeux de données reproductibles.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nLimite la taille maximale de la double boucle pour que le script reste court.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUn exposant de 1,2 pour du O(n log n) est normal.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `bench.py`\n- [ ] Tableau des temps et exposants (copié dans le rapport)\n- [ ] Rapport d'une page : méthode, résultats, explication des écarts\n\n## Réflexion\n\n1. Quelle mesure t'a le plus surpris·e ?\n2. Qu'est-ce qui rendrait ta conclusion fausse sur un autre ordinateur ?\n\n**HEF-030 — Complexité**\n"
       }
     ],
@@ -260,7 +279,46 @@
     },
     "project": {
       "title": "Projet — Rapport de performance reproductible",
-      "body": "> Une optimisation justifiée par la complexité et par les mesures.\n\n## Mission\n\nChoisis un programme de 30 à 100 lignes qui contient au moins un goulot de complexité (tu peux réutiliser un travail des modules HEF-010 ou HEF-020). Mène l'optimisation complète et rédige un rapport qu'un autre ingénieur pourrait refaire.\n\n## Livrables\n\n- [ ] Le code avant et après, avec une fonction de comparaison d'équivalence\n- [ ] `bench.py` reproductible (graine fixée, tailles, répétitions)\n- [ ] Un profil `cProfile` avant et après\n- [ ] `RAPPORT.md` : objectif chiffré, méthode, résultats, cause, correction, preuve, limites, décision\n- [ ] Un tableau ou une courbe temps = f(n) avant et après, avec exposants estimés\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Objectif et méthode | Objectif chiffré, protocole reproductible | 20 % |\n| Analyse | Complexité identifiée, goulot localisé par le profil | 25 % |\n| Correction | Minimale, lisible, équivalente à l'originale | 20 % |\n| Preuve | Tests d'équivalence et mesures cohérentes avec la théorie | 25 % |\n| Honnêteté | Limites, risques et conditions de validité | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-030 — Complexité**\n"
+      "shortDesc": "Une optimisation justifiée par la complexité et par les mesures.",
+      "body": "> Une optimisation justifiée par la complexité et par les mesures.\n\n## Mission\n\nChoisis un programme de 30 à 100 lignes qui contient au moins un goulot de complexité (tu peux réutiliser un travail des modules HEF-010 ou HEF-020). Mène l'optimisation complète et rédige un rapport qu'un autre ingénieur pourrait refaire.\n\n## Livrables\n\n- [ ] Le code avant et après, avec une fonction de comparaison d'équivalence\n- [ ] `bench.py` reproductible (graine fixée, tailles, répétitions)\n- [ ] Un profil `cProfile` avant et après\n- [ ] `RAPPORT.md` : objectif chiffré, méthode, résultats, cause, correction, preuve, limites, décision\n- [ ] Un tableau ou une courbe temps = f(n) avant et après, avec exposants estimés\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Objectif et méthode | Objectif chiffré, protocole reproductible | 20 % |\n| Analyse | Complexité identifiée, goulot localisé par le profil | 25 % |\n| Correction | Minimale, lisible, équivalente à l'originale | 20 % |\n| Preuve | Tests d'équivalence et mesures cohérentes avec la théorie | 25 % |\n| Honnêteté | Limites, risques et conditions de validité | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-030 — Complexité**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Le code avant et après, avec une fonction de comparaison d'équivalence",
+        "`bench.py` reproductible (graine fixée, tailles, répétitions)",
+        "Un profil `cProfile` avant et après",
+        "`RAPPORT.md` : objectif chiffré, méthode, résultats, cause, correction, preuve, limites, décision",
+        "Un tableau ou une courbe temps = f(n) avant et après, avec exposants estimés"
+      ],
+      "criteria": [
+        {
+          "label": "Objectif et méthode",
+          "description": "Objectif chiffré, protocole reproductible",
+          "weight": 20
+        },
+        {
+          "label": "Analyse",
+          "description": "Complexité identifiée, goulot localisé par le profil",
+          "weight": 25
+        },
+        {
+          "label": "Correction",
+          "description": "Minimale, lisible, équivalente à l'originale",
+          "weight": 20
+        },
+        {
+          "label": "Preuve",
+          "description": "Tests d'équivalence et mesures cohérentes avec la théorie",
+          "weight": 25
+        },
+        {
+          "label": "Honnêteté",
+          "description": "Limites, risques et conditions de validité",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

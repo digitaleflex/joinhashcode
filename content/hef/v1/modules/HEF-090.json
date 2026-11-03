@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:51.603Z",
+  "generatedAt": "2026-11-03T21:29:41.812Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-090"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier : construire et étendre HashScript",
+        "shortDesc": "Écrire ton propre lexer, parseur et interpréteur, puis les comparer avec la référence.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard. Le dossier `01-Course/code/` fournit `hashscript.py` (référence) et `test_hashscript.py` (tests).",
+          "Un dossier de travail avec `mon_hashscript.py` vide et le fichier de tests de la référence que tu feras passer à ton implémentation."
+        ],
+        "deliverables": [
+          "`mon_hashscript.py` et ses tests",
+          "Grammaire EBNF de ton langage",
+          "Journal des différences avec la référence",
+          "ADR pour la fonctionnalité ajoutée"
+        ],
+        "acceptanceCriteria": [
+          "Ta version réussit tous les tests de la référence (ou tu expliques précisément chaque différence).",
+          "Les erreurs donnent la bonne ligne et colonne avec un extrait de code.",
+          "Les fermetures conservent leur état (compteurs indépendants).",
+          "La VM donne les mêmes sorties que l'interpréteur sur les programmes sans fonctions.",
+          "La fonctionnalité ajoutée est couverte par au moins 8 tests."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Écrire ton propre lexer, parseur et interpréteur, puis les comparer avec la référence.\n\n## Scénario\n\nLes formateurs de HashBox veulent un petit langage pour écrire des exercices auto-corrigés. Tu construis HashScript en partant de zéro (sans lire la référence), puis tu compares ta version à celle du dossier `code/` et tu y ajoutes une fonctionnalité.\n\n## Objectif\n\nImplémenter un lexer, un parseur par descente récursive et un interpréteur pour un sous-ensemble de HashScript (expressions, variables, `print`, `if`, `while`), les tester de bout en bout, puis ajouter les fonctions.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard. Le dossier `01-Course/code/` fournit `hashscript.py` (référence) et `test_hashscript.py` (tests).\n\n## État de départ\n\nUn dossier de travail avec `mon_hashscript.py` vide et le fichier de tests de la référence que tu feras passer à ton implémentation.\n\n## Tâches\n\n1. Écris `tokenize` avec positions (ligne, colonne), commentaires `#` et erreurs sur caractère inconnu.\n2. Écris le parseur d'expressions (priorités, associativité, parenthèses, moins unaire) et l'AST (dataclasses).\n3. Écris le parseur d'instructions : `let`, affectation, `print`, `if/else`, `while`, blocs `{ }`.\n4. Écris l'interpréteur (environnements avec portées de blocs) et fais passer les 8 premiers tests de référence.\n5. Ajoute les erreurs positionnées (division par zéro, variable inconnue) avec un affichage ligne + pointeur.\n6. Ajoute les fonctions, `return`, la récursion et les fermetures.\n7. Compare ta version à la référence sur les programmes de test : mêmes sorties ? mêmes messages ?\n8. Compile ton AST vers un bytecode à pile et exécute-le : vérifie l'équivalence et mesure le gain.\n9. Ajoute une fonctionnalité de ton choix (opérateur `%`, `et`/`ou`/`non`, boucle `pour`) en suivant la checklist.\n\n## Observations attendues\n\n- Ta version réussit tous les tests de la référence (ou tu expliques précisément chaque différence).\n- Les erreurs donnent la bonne ligne et colonne avec un extrait de code.\n- Les fermetures conservent leur état (compteurs indépendants).\n- La VM donne les mêmes sorties que l'interpréteur sur les programmes sans fonctions.\n- La fonctionnalité ajoutée est couverte par au moins 8 tests.\n\n## Validation\n\n`python -m unittest` passe sur tes tests ; ta batterie de programmes de référence produit exactement les sorties attendues ; une personne extérieure peut lire ta grammaire et prévoir le comportement d'un nouveau programme.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par les expressions seules et teste-les avant d'ajouter des instructions.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nGarde la ligne et la colonne dans les nœuds de l'AST dès le début.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nTeste chaque phase isolément (jetons, AST, résultat) avant de les assembler.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `mon_hashscript.py` et ses tests\n- [ ] Grammaire EBNF de ton langage\n- [ ] Journal des différences avec la référence\n- [ ] ADR pour la fonctionnalité ajoutée\n\n## Réflexion\n\n1. Quelle phase (lexer, parseur, interpréteur) t'a pris le plus de temps ?\n2. Quelle décision de conception referais-tu autrement ?\n\n**HEF-090 — Compilateurs et langages**\n"
       }
     ],
@@ -260,7 +280,49 @@
     },
     "project": {
       "title": "Projet — Un langage de domaine complet",
-      "body": "> Concevoir, implémenter, documenter et tester un langage dédié à un besoin réel.\n\n## Mission\n\nChoisis un besoin réel (règles de notation, mini-langage de requête, description de menus, scénarios de tests, automatisation) et conçois un langage dédié (DSL) pour y répondre. Livre une implémentation complète — lexer, parseur, analyse sémantique, exécution — avec des messages d'erreur soignés, une documentation et une batterie de tests.\n\n## Livrables\n\n- [ ] Spécification : motivation, exemples de programmes, grammaire EBNF, sémantique informelle\n- [ ] Lexer et parseur par descente récursive avec positions\n- [ ] Analyse sémantique (au moins 5 vérifications) avec erreurs et avertissements\n- [ ] Exécution (interpréteur, et bytecode en option) avec limites de sécurité (pas, profondeur)\n- [ ] Messages d'erreur : extrait de code, pointeur, suggestion, plusieurs erreurs par passe\n- [ ] Au moins 40 tests (unitaires, bout en bout, erreurs, propriétés)\n- [ ] Documentation : tutoriel de 10 minutes, référence du langage, limites connues\n- [ ] ADR : au moins 3 décisions de conception justifiées\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Conception du langage | Besoin clair, grammaire cohérente et sans ambiguïté | 20 % |\n| Implémentation | Lexer, parseur, sémantique et exécution corrects | 30 % |\n| Diagnostics | Messages positionnés, utiles, avec récupération | 15 % |\n| Tests | Couverture variée, cas d'erreur, propriétés | 20 % |\n| Documentation et décisions | Tutoriel, référence, ADR | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-090 — Compilateurs et langages**\n"
+      "shortDesc": "Concevoir, implémenter, documenter et tester un langage dédié à un besoin réel.",
+      "body": "> Concevoir, implémenter, documenter et tester un langage dédié à un besoin réel.\n\n## Mission\n\nChoisis un besoin réel (règles de notation, mini-langage de requête, description de menus, scénarios de tests, automatisation) et conçois un langage dédié (DSL) pour y répondre. Livre une implémentation complète — lexer, parseur, analyse sémantique, exécution — avec des messages d'erreur soignés, une documentation et une batterie de tests.\n\n## Livrables\n\n- [ ] Spécification : motivation, exemples de programmes, grammaire EBNF, sémantique informelle\n- [ ] Lexer et parseur par descente récursive avec positions\n- [ ] Analyse sémantique (au moins 5 vérifications) avec erreurs et avertissements\n- [ ] Exécution (interpréteur, et bytecode en option) avec limites de sécurité (pas, profondeur)\n- [ ] Messages d'erreur : extrait de code, pointeur, suggestion, plusieurs erreurs par passe\n- [ ] Au moins 40 tests (unitaires, bout en bout, erreurs, propriétés)\n- [ ] Documentation : tutoriel de 10 minutes, référence du langage, limites connues\n- [ ] ADR : au moins 3 décisions de conception justifiées\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Conception du langage | Besoin clair, grammaire cohérente et sans ambiguïté | 20 % |\n| Implémentation | Lexer, parseur, sémantique et exécution corrects | 30 % |\n| Diagnostics | Messages positionnés, utiles, avec récupération | 15 % |\n| Tests | Couverture variée, cas d'erreur, propriétés | 20 % |\n| Documentation et décisions | Tutoriel, référence, ADR | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-090 — Compilateurs et langages**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Spécification : motivation, exemples de programmes, grammaire EBNF, sémantique informelle",
+        "Lexer et parseur par descente récursive avec positions",
+        "Analyse sémantique (au moins 5 vérifications) avec erreurs et avertissements",
+        "Exécution (interpréteur, et bytecode en option) avec limites de sécurité (pas, profondeur)",
+        "Messages d'erreur : extrait de code, pointeur, suggestion, plusieurs erreurs par passe",
+        "Au moins 40 tests (unitaires, bout en bout, erreurs, propriétés)",
+        "Documentation : tutoriel de 10 minutes, référence du langage, limites connues",
+        "ADR : au moins 3 décisions de conception justifiées"
+      ],
+      "criteria": [
+        {
+          "label": "Conception du langage",
+          "description": "Besoin clair, grammaire cohérente et sans ambiguïté",
+          "weight": 20
+        },
+        {
+          "label": "Implémentation",
+          "description": "Lexer, parseur, sémantique et exécution corrects",
+          "weight": 30
+        },
+        {
+          "label": "Diagnostics",
+          "description": "Messages positionnés, utiles, avec récupération",
+          "weight": 15
+        },
+        {
+          "label": "Tests",
+          "description": "Couverture variée, cas d'erreur, propriétés",
+          "weight": 20
+        },
+        {
+          "label": "Documentation et décisions",
+          "description": "Tutoriel, référence, ADR",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

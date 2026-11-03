@@ -134,6 +134,29 @@ async function parseChapters(dir, code) {
   return missions;
 }
 
+function sectionText(markdown, heading) {
+  const parts = markdown.split(/^##\s+/m);
+  const part = parts.find(
+    (chunk) => chunk.split("\n")[0].trim().toLowerCase() === heading.toLowerCase(),
+  );
+  return part ? part.split("\n").slice(1).join("\n").trim() : "";
+}
+
+function listItems(text) {
+  return [...text.matchAll(/^\s*-\s*(?:\[[ xX]\]\s*)?(.+)$/gm)].map((m) => m[1].trim());
+}
+
+function criteriaTable(text) {
+  const rows = [...text.matchAll(/^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$/gm)]
+    .map((m) => ({ label: m[1].trim(), description: m[2].trim(), weight: m[3].trim() }))
+    .filter((row) => !/^-+$/.test(row.weight) && row.label.toLowerCase() !== "critère");
+  return rows.map((row) => ({
+    label: row.label,
+    description: row.description,
+    weight: Number.parseInt(row.weight, 10) || 0,
+  }));
+}
+
 async function parseLabs(dir) {
   const labsDir = path.join(dir, "03-Labs");
   const entries = (await readdir(labsDir))
@@ -142,10 +165,26 @@ async function parseLabs(dir) {
   const labs = [];
   for (const [index, name] of entries.entries()) {
     const body = await readFile(path.join(labsDir, name), "utf8");
+    const requirementItems = [
+      ...listItems(sectionText(body, "Environnement")),
+      ...listItems(sectionText(body, "État de départ")),
+    ];
     labs.push({
       slug: slugify(name.replace(/\.md$/, "")),
       title: titleOf(body),
+      shortDesc: quoteOf(body),
       order: index + 1,
+      durationMinutes: null,
+      requirements:
+        requirementItems.length > 0
+          ? requirementItems
+          : [sectionText(body, "Environnement"), sectionText(body, "État de départ")].filter(Boolean),
+      deliverables: listItems(sectionText(body, "Preuves à rendre")),
+      acceptanceCriteria: [
+        ...listItems(sectionText(body, "Observations attendues")),
+        ...listItems(sectionText(body, "Validation")),
+      ],
+      sourcePath: `03-Labs/${name}`,
       body: rewriteAssets(stripTitle(body)),
     });
   }
@@ -217,6 +256,26 @@ async function parseAssessment(dir) {
   };
 }
 
+async function parseProject(dir) {
+  const body = await readIfExists(path.join(dir, "05-Project/README.md"));
+  if (!body) return null;
+  const criteriaSection = sectionText(body, "Critères d'évaluation");
+  const validationMatch = body.match(/Le projet est validé à \*\*(\d+)\s*%\*\*/i);
+  return {
+    title: titleOf(body),
+    shortDesc: quoteOf(body),
+    body: rewriteAssets(stripTitle(body)),
+    durationMinutes: null,
+    requirements: [],
+    deliverables: listItems(sectionText(body, "Livrables")),
+    criteria: criteriaTable(criteriaSection),
+    validationCriteria: validationMatch
+      ? `Projet validé à ${validationMatch[1]} % ou plus.`
+      : "Chaque critère se démontre par une preuve visible.",
+    sourcePath: "05-Project/README.md",
+  };
+}
+
 async function parseResources(dir) {
   const resourcesDir = path.join(dir, "06-Resources");
   const entries = (await readdir(resourcesDir))
@@ -264,7 +323,7 @@ async function main() {
     missions,
     labs: await parseLabs(dir),
     assessment: await parseAssessment(dir),
-    project: await parseSingle(dir, "05-Project/README.md", "Projet du module"),
+    project: await parseProject(dir),
     resources: await parseResources(dir),
   };
 

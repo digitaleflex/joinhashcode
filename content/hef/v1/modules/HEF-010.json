@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:47.313Z",
+  "generatedAt": "2026-11-03T21:29:38.111Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-010"
@@ -101,7 +101,24 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier de résolution : la boîte à outils d'algorithmes",
+        "shortDesc": "Résoudre le même problème de trois façons et mesurer ce qui change.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Un éditeur et un terminal. Aucune bibliothèque externe.",
+          "Un fichier `lab.py` vide et le problème de la mission 10 : *« la plus longue série de jours consécutifs »*."
+        ],
+        "deliverables": [
+          "`lab.py` avec contrat, solutions et tests",
+          "Tableau des temps mesurés",
+          "Verdict argumenté (5 lignes)"
+        ],
+        "acceptanceCriteria": [
+          "Les deux solutions donnent le même résultat sur toutes les entrées aléatoires.",
+          "La solution brute ralentit nettement plus vite quand les données grandissent.",
+          "Tes cas limites (liste vide, un élément, doublons) passent."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Résoudre le même problème de trois façons et mesurer ce qui change.\n\n## Scénario\n\nMaya veut une fonction `membres_actifs_consecutifs(jours)` pour le tableau de bord. L'équipe hésite entre trois approches. Tu dois les comparer avec des preuves.\n\n## Objectif\n\nImplémenter une solution brute, une solution améliorée et une solution testée, puis les comparer sur des données de tailles croissantes.\n\n## Environnement\n\nPython 3.10 ou plus. Un éditeur et un terminal. Aucune bibliothèque externe.\n\n## État de départ\n\nUn fichier `lab.py` vide et le problème de la mission 10 : *« la plus longue série de jours consécutifs »*.\n\n## Tâches\n\n1. Précise l'énoncé : entrée, sortie, 5 cas limites.\n2. Écris la solution brute et ses tests `assert`.\n3. Écris une solution améliorée (ensemble ou tri).\n4. Compare-les par un test aléatoire de 500 entrées.\n5. Mesure avec `time.perf_counter()` sur 1 000, 10 000 et 100 000 éléments.\n6. Rédige un verdict de 5 lignes : laquelle choisir et pourquoi.\n\n## Observations attendues\n\n- Les deux solutions donnent le même résultat sur toutes les entrées aléatoires.\n- La solution brute ralentit nettement plus vite quand les données grandissent.\n- Tes cas limites (liste vide, un élément, doublons) passent.\n\n## Validation\n\nLance `python lab.py` : tous les `assert` passent et un tableau de temps s'affiche. Quelqu'un d'autre doit pouvoir relancer ton script et obtenir les mêmes conclusions.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par la version la plus simple, même lente.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour la version améliorée, un `set` répond vite à « ce nombre existe-t-il ? ».\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nMesure plusieurs fois et garde la médiane.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `lab.py` avec contrat, solutions et tests\n- [ ] Tableau des temps mesurés\n- [ ] Verdict argumenté (5 lignes)\n\n## Réflexion\n\n1. Quelle approche as-tu eu envie d'écrire en premier ? Était-ce la bonne ?\n2. Quel cas limite t'a surpris·e ?\n\n**HEF-010 — Algorithmes**\n"
       }
     ],
@@ -260,7 +277,45 @@
     },
     "project": {
       "title": "Projet — Mini-bibliothèque d'algorithmes justifiés",
-      "body": "> Une petite boîte à outils testée, documentée et comparée.\n\n## Mission\n\nConstruis une bibliothèque Python de 6 fonctions : recherche linéaire, recherche binaire, tri par insertion, tri fusion, choix d'activités (glouton) et une fonction de ton choix issue d'un problème inédit. Chaque fonction doit avoir un contrat, des tests et une justification.\n\n## Livrables\n\n- [ ] `algos.py` avec les 6 fonctions et leurs contrats\n- [ ] `test_algos.py` : au moins 5 tests par fonction, dont des cas limites et un test aléatoire\n- [ ] `NOTES.md` : une demi-page par fonction (idée, invariant, coût, limites)\n- [ ] Un tableau de mesures comparant tri insertion, tri fusion et `sorted`\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Correction | Les fonctions sont justes, y compris sur les cas limites | 30 % |\n| Tests | Variés, indépendants, avec comparaison à une référence | 25 % |\n| Justification | Invariants et compromis expliqués clairement | 25 % |\n| Mesures | Données de plusieurs tailles, conclusion honnête | 10 % |\n| Clarté | Noms clairs, contrats lisibles | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-010 — Algorithmes**\n"
+      "shortDesc": "Une petite boîte à outils testée, documentée et comparée.",
+      "body": "> Une petite boîte à outils testée, documentée et comparée.\n\n## Mission\n\nConstruis une bibliothèque Python de 6 fonctions : recherche linéaire, recherche binaire, tri par insertion, tri fusion, choix d'activités (glouton) et une fonction de ton choix issue d'un problème inédit. Chaque fonction doit avoir un contrat, des tests et une justification.\n\n## Livrables\n\n- [ ] `algos.py` avec les 6 fonctions et leurs contrats\n- [ ] `test_algos.py` : au moins 5 tests par fonction, dont des cas limites et un test aléatoire\n- [ ] `NOTES.md` : une demi-page par fonction (idée, invariant, coût, limites)\n- [ ] Un tableau de mesures comparant tri insertion, tri fusion et `sorted`\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Correction | Les fonctions sont justes, y compris sur les cas limites | 30 % |\n| Tests | Variés, indépendants, avec comparaison à une référence | 25 % |\n| Justification | Invariants et compromis expliqués clairement | 25 % |\n| Mesures | Données de plusieurs tailles, conclusion honnête | 10 % |\n| Clarté | Noms clairs, contrats lisibles | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-010 — Algorithmes**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "`algos.py` avec les 6 fonctions et leurs contrats",
+        "`test_algos.py` : au moins 5 tests par fonction, dont des cas limites et un test aléatoire",
+        "`NOTES.md` : une demi-page par fonction (idée, invariant, coût, limites)",
+        "Un tableau de mesures comparant tri insertion, tri fusion et `sorted`"
+      ],
+      "criteria": [
+        {
+          "label": "Correction",
+          "description": "Les fonctions sont justes, y compris sur les cas limites",
+          "weight": 30
+        },
+        {
+          "label": "Tests",
+          "description": "Variés, indépendants, avec comparaison à une référence",
+          "weight": 25
+        },
+        {
+          "label": "Justification",
+          "description": "Invariants et compromis expliqués clairement",
+          "weight": 25
+        },
+        {
+          "label": "Mesures",
+          "description": "Données de plusieurs tailles, conclusion honnête",
+          "weight": 10
+        },
+        {
+          "label": "Clarté",
+          "description": "Noms clairs, contrats lisibles",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

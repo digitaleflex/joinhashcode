@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:46.795Z",
+  "generatedAt": "2026-11-03T21:29:37.589Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-000"
@@ -93,7 +93,26 @@
       {
         "slug": "lab-01",
         "title": "Labo — Investiguer une requête lente",
+        "shortDesc": "Reproduire, mesurer, émettre des hypothèses, prouver et documenter, avec un petit programme.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Éditeur et terminal. Modules standard seulement (`time`, `random`, `statistics`).",
+          "Tu écris toi-même le simulateur dans `serveur.py` : trois fonctions `charger(membre)`, `statistiques(membre)`, `mettre_en_forme(membre)` qui simulent un travail avec `time.sleep`. Une des trois est lente (50 ms) uniquement quand `membre % 7 == 0`."
+        ],
+        "deliverables": [
+          "`serveur.py` et le script de mesures",
+          "Tableau des mesures avant/après",
+          "Journal de débogage (observation, hypothèses, tests, résultats, cause racine)",
+          "Mini-runbook de 5 lignes"
+        ],
+        "acceptanceCriteria": [
+          "Les cas lents sont reproductibles à volonté.",
+          "Une seule étape explique la lenteur, et uniquement pour certains membres.",
+          "Au moins une hypothèse est infirmée par tes mesures.",
+          "La médiane reste stable après correction ; les cas lents disparaissent ou diminuent fortement."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Reproduire, mesurer, émettre des hypothèses, prouver et documenter, avec un petit programme.\n\n## Scénario\n\nSur HashBox, la page « mes missions » est parfois très lente. Un script `serveur.py` simule la page : il appelle trois étapes (chargement du membre, calcul des statistiques, mise en forme) dont l'une est volontairement lente selon les cas. Tu dois trouver laquelle, et pourquoi.\n\n## Objectif\n\nAppliquer la méthode C-D-R-P-D-V-A à un problème reproductible : cadrer, décomposer en étapes mesurables, formuler des hypothèses, les départager par des mesures, corriger et vérifier.\n\n## Environnement\n\nPython 3.10 ou plus. Éditeur et terminal. Modules standard seulement (`time`, `random`, `statistics`).\n\n## État de départ\n\nTu écris toi-même le simulateur dans `serveur.py` : trois fonctions `charger(membre)`, `statistiques(membre)`, `mettre_en_forme(membre)` qui simulent un travail avec `time.sleep`. Une des trois est lente (50 ms) uniquement quand `membre % 7 == 0`.\n\n## Tâches\n\n1. Écris `serveur.py` et une fonction `page(membre)` qui appelle les trois étapes.\n2. Reproduis le problème : mesure `page` pour 100 membres et note les cas lents.\n3. Décompose : mesure chaque étape séparément pour chaque membre.\n4. Formule 3 hypothèses (par exemple « c'est toujours l'étape 2 », « seulement certains membres »), avec un test pour chacune.\n5. Exécute les tests et conclus : fait, hypothèse confirmée, hypothèse infirmée.\n6. Corrige (par exemple en mettant en cache l'étape lente) en changeant une seule chose.\n7. Vérifie : mesure à nouveau, confirme que le résultat est identique et que rien d'autre n'a régressé.\n8. Rédige un journal de débogage et un mini-runbook de 5 lignes.\n\n## Observations attendues\n\n- Les cas lents sont reproductibles à volonté.\n- Une seule étape explique la lenteur, et uniquement pour certains membres.\n- Au moins une hypothèse est infirmée par tes mesures.\n- La médiane reste stable après correction ; les cas lents disparaissent ou diminuent fortement.\n\n## Validation\n\nUn collègue peut relancer `serveur.py`, voir le tableau de mesures avant/après, et comprendre ta conclusion en lisant seulement ton journal.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nFixe `random.seed` si tu génères des données aléatoires, pour reproduire.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nMesure avec `time.perf_counter()` et affiche les résultats dans un tableau.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUn changement à la fois : sinon tu ne sauras pas ce qui a aidé.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `serveur.py` et le script de mesures\n- [ ] Tableau des mesures avant/après\n- [ ] Journal de débogage (observation, hypothèses, tests, résultats, cause racine)\n- [ ] Mini-runbook de 5 lignes\n\n## Réflexion\n\n1. Quelle hypothèse était la plus tentante et s'est révélée fausse ?\n2. Qu'as-tu mis en place pour éviter que le problème revienne ?\n\n**HEF-000 — Mentalité d'ingénieur**\n"
       }
     ],
@@ -252,7 +271,59 @@
     },
     "project": {
       "title": "Projet — Dossier d'investigation d'ingénieur",
-      "body": "> Un incident, de la plainte à la leçon apprise, entièrement documenté.\n\n## Mission\n\nChoisis un problème réel (un bug dans un de tes projets, une lenteur, un processus qui échoue) ou utilise le scénario de HashBox. Mène l'investigation avec la méthode C-D-R-P-D-V-A et produis un dossier complet qui permettrait à quelqu'un d'autre de comprendre, vérifier et réutiliser ton travail.\n\n## Livrables\n\n- [ ] Cadrage : symptôme, problème formulé (qui, situation, impact, contexte), contraintes\n- [ ] Décomposition : schéma (Mermaid ou dessin) avec description en texte\n- [ ] Raisonnement : faits, hypothèses, inconnues, au moins 3 hypothèses\n- [ ] Preuves : mesures ou tests pour départager, avec leur méthode\n- [ ] Décision : au moins 2 options et le compromis choisi\n- [ ] Vérification : comment tu sais que c'est corrigé\n- [ ] Documentation : mini-ADR de la décision et runbook\n- [ ] Réflexion : ce que tu retiens et ce que tu feras autrement\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Cadrage | Problème précis, sans solution cachée, contraintes explicites | 15 % |\n| Raisonnement | Faits et hypothèses séparés, hypothèses testables | 20 % |\n| Preuves | Mesures reproductibles, biais discutés | 25 % |\n| Décision | Compromis explicité, alternatives comparées | 15 % |\n| Vérification | Correction contrôlée, pas de régression | 10 % |\n| Communication | Lisible en 5 minutes, schémas décrits en texte | 10 % |\n| Réflexion | Apprentissage clair et honnête | 5 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-000 — Mentalité d'ingénieur**\n"
+      "shortDesc": "Un incident, de la plainte à la leçon apprise, entièrement documenté.",
+      "body": "> Un incident, de la plainte à la leçon apprise, entièrement documenté.\n\n## Mission\n\nChoisis un problème réel (un bug dans un de tes projets, une lenteur, un processus qui échoue) ou utilise le scénario de HashBox. Mène l'investigation avec la méthode C-D-R-P-D-V-A et produis un dossier complet qui permettrait à quelqu'un d'autre de comprendre, vérifier et réutiliser ton travail.\n\n## Livrables\n\n- [ ] Cadrage : symptôme, problème formulé (qui, situation, impact, contexte), contraintes\n- [ ] Décomposition : schéma (Mermaid ou dessin) avec description en texte\n- [ ] Raisonnement : faits, hypothèses, inconnues, au moins 3 hypothèses\n- [ ] Preuves : mesures ou tests pour départager, avec leur méthode\n- [ ] Décision : au moins 2 options et le compromis choisi\n- [ ] Vérification : comment tu sais que c'est corrigé\n- [ ] Documentation : mini-ADR de la décision et runbook\n- [ ] Réflexion : ce que tu retiens et ce que tu feras autrement\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Cadrage | Problème précis, sans solution cachée, contraintes explicites | 15 % |\n| Raisonnement | Faits et hypothèses séparés, hypothèses testables | 20 % |\n| Preuves | Mesures reproductibles, biais discutés | 25 % |\n| Décision | Compromis explicité, alternatives comparées | 15 % |\n| Vérification | Correction contrôlée, pas de régression | 10 % |\n| Communication | Lisible en 5 minutes, schémas décrits en texte | 10 % |\n| Réflexion | Apprentissage clair et honnête | 5 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-000 — Mentalité d'ingénieur**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Cadrage : symptôme, problème formulé (qui, situation, impact, contexte), contraintes",
+        "Décomposition : schéma (Mermaid ou dessin) avec description en texte",
+        "Raisonnement : faits, hypothèses, inconnues, au moins 3 hypothèses",
+        "Preuves : mesures ou tests pour départager, avec leur méthode",
+        "Décision : au moins 2 options et le compromis choisi",
+        "Vérification : comment tu sais que c'est corrigé",
+        "Documentation : mini-ADR de la décision et runbook",
+        "Réflexion : ce que tu retiens et ce que tu feras autrement"
+      ],
+      "criteria": [
+        {
+          "label": "Cadrage",
+          "description": "Problème précis, sans solution cachée, contraintes explicites",
+          "weight": 15
+        },
+        {
+          "label": "Raisonnement",
+          "description": "Faits et hypothèses séparés, hypothèses testables",
+          "weight": 20
+        },
+        {
+          "label": "Preuves",
+          "description": "Mesures reproductibles, biais discutés",
+          "weight": 25
+        },
+        {
+          "label": "Décision",
+          "description": "Compromis explicité, alternatives comparées",
+          "weight": 15
+        },
+        {
+          "label": "Vérification",
+          "description": "Correction contrôlée, pas de régression",
+          "weight": 10
+        },
+        {
+          "label": "Communication",
+          "description": "Lisible en 5 minutes, schémas décrits en texte",
+          "weight": 10
+        },
+        {
+          "label": "Réflexion",
+          "description": "Apprentissage clair et honnête",
+          "weight": 5
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

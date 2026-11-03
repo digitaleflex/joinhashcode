@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:48.923Z",
+  "generatedAt": "2026-11-03T21:29:39.908Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-040"
@@ -101,7 +101,25 @@
       {
         "slug": "lab-01",
         "title": "Labo — Mon processeur miniature et son cache",
+        "shortDesc": "Construire une machine simple, l'observer cycle par cycle, puis brancher un cache.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Éditeur et terminal. Modules standard seulement.",
+          "Un fichier `machine.py` vide. Jeu d'instructions imposé : `SET`, `ADD`, `SUB`, `MUL`, `LOAD`, `STORE`, `DEC`, `JNZ`, `JMP`, `HALT`."
+        ],
+        "deliverables": [
+          "`machine.py` et `test_machine.py`",
+          "Trace commentée d'un programme (10 lignes)",
+          "Tableau de cycles et de taux d'échecs, avec analyse"
+        ],
+        "acceptanceCriteria": [
+          "Les trois programmes donnent les bons résultats (55 pour la somme de 1 à 10, 120, somme du tableau).",
+          "Le parcours par lignes a un taux d'échecs de cache nettement plus bas que celui par colonnes.",
+          "Le total de cycles du parcours par colonnes est plusieurs fois supérieur.",
+          "Une boucle infinie lève une erreur claire au lieu de bloquer."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Construire une machine simple, l'observer cycle par cycle, puis brancher un cache.\n\n## Scénario\n\nHashBox forme ses nouveaux ingénieurs avec une « machine pédagogique ». Tu dois en écrire le simulateur : un processeur, une mémoire, et un petit cache dont on mesure les effets sur la performance.\n\n## Objectif\n\nImplémenter un simulateur de CPU (registres, mémoire, cycle fetch-decode-execute) puis y ajouter un cache à correspondance directe et mesurer l'impact de la localité sur plusieurs programmes.\n\n## Environnement\n\nPython 3.10 ou plus. Éditeur et terminal. Modules standard seulement.\n\n## État de départ\n\nUn fichier `machine.py` vide. Jeu d'instructions imposé : `SET`, `ADD`, `SUB`, `MUL`, `LOAD`, `STORE`, `DEC`, `JNZ`, `JMP`, `HALT`.\n\n## Tâches\n\n1. Implémente `Machine` avec 4 registres, une mémoire de 256 cases et le cycle fetch-decode-execute.\n2. Ajoute un mode `trace` qui affiche PC, instruction et registres à chaque cycle.\n3. Écris trois programmes : somme de 1 à N, factorielle de 5, somme d'un tableau stocké en mémoire.\n4. Ajoute un compteur de cycles et un compteur d'accès mémoire.\n5. Ajoute un `Cache` (8 lignes de 8 cases) devant la mémoire : un accès en cache coûte 1 cycle, un échec 20 cycles.\n6. Écris deux programmes qui parcourent une matrice 8 × 8 (ligne par ligne puis colonne par colonne) et compare leurs cycles totaux.\n7. Ajoute un garde-fou contre les boucles infinies et teste-le.\n8. Rédige un tableau de résultats et trois phrases d'analyse.\n\n## Observations attendues\n\n- Les trois programmes donnent les bons résultats (55 pour la somme de 1 à 10, 120, somme du tableau).\n- Le parcours par lignes a un taux d'échecs de cache nettement plus bas que celui par colonnes.\n- Le total de cycles du parcours par colonnes est plusieurs fois supérieur.\n- Une boucle infinie lève une erreur claire au lieu de bloquer.\n\n## Validation\n\nUn fichier de tests `test_machine.py` vérifie les résultats des programmes, les compteurs et le garde-fou. Les mesures de cache sont reproductibles à l'identique (le simulateur est déterministe).\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nReprésente une instruction par un tuple, par exemple `(\"ADD\", 0, 1)`.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nLe cache doit être consulté à chaque LOAD et STORE.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour la matrice 8 × 8, l'adresse de (i, j) est `base + i * 8 + j`.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `machine.py` et `test_machine.py`\n- [ ] Trace commentée d'un programme (10 lignes)\n- [ ] Tableau de cycles et de taux d'échecs, avec analyse\n\n## Réflexion\n\n1. Quel résultat t'a le plus surpris·e : le coût des échecs de cache, ou la simplicité du jeu d'instructions ?\n2. Comment réduirais-tu les échecs d'un programme réel de ton quotidien ?\n\n**HEF-040 — Architecture des ordinateurs**\n"
       }
     ],
@@ -260,7 +278,46 @@
     },
     "project": {
       "title": "Projet — Dossier d'architecture : choisir une machine",
-      "body": "> Traduire une fiche technique en capacité, et justifier un choix.\n\n## Mission\n\nPour un service que tu choisis (plateforme vidéo, base de données, calcul scientifique, serveur de jeux), construis un dossier qui compare deux configurations matérielles (invente ou prends de vraies fiches). Écris un petit outil qui calcule les capacités, trouve les goulots et aide à choisir.\n\n## Livrables\n\n- [ ] `config.py` : les fiches techniques en données, et les fonctions de calcul (calcul de pointe, bande passante mémoire, débit disque/réseau, Amdahl)\n- [ ] Une analyse du goulot de chaque configuration pour chaque service, avec chiffres\n- [ ] Un modèle de cache (simulateur ou calcul de latence moyenne) pour justifier l'importance de la localité dans ce service\n- [ ] `DOSSIER.md` : hypothèses, calculs, comparaison coût/capacité, recommandation, risques\n- [ ] Un plan de validation par mesures (quels tests faire avant d'acheter)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Justesse des calculs | Formules correctes, unités cohérentes | 25 % |\n| Analyse des goulots | Chaque service associé à la bonne ressource | 25 % |\n| Lien avec la théorie | Cache, pipeline, Amdahl mobilisés à bon escient | 20 % |\n| Recommandation | Claire, chiffrée, avec compromis et risques | 20 % |\n| Communication | Lisible, schémas décrits en texte | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-040 — Architecture des ordinateurs**\n"
+      "shortDesc": "Traduire une fiche technique en capacité, et justifier un choix.",
+      "body": "> Traduire une fiche technique en capacité, et justifier un choix.\n\n## Mission\n\nPour un service que tu choisis (plateforme vidéo, base de données, calcul scientifique, serveur de jeux), construis un dossier qui compare deux configurations matérielles (invente ou prends de vraies fiches). Écris un petit outil qui calcule les capacités, trouve les goulots et aide à choisir.\n\n## Livrables\n\n- [ ] `config.py` : les fiches techniques en données, et les fonctions de calcul (calcul de pointe, bande passante mémoire, débit disque/réseau, Amdahl)\n- [ ] Une analyse du goulot de chaque configuration pour chaque service, avec chiffres\n- [ ] Un modèle de cache (simulateur ou calcul de latence moyenne) pour justifier l'importance de la localité dans ce service\n- [ ] `DOSSIER.md` : hypothèses, calculs, comparaison coût/capacité, recommandation, risques\n- [ ] Un plan de validation par mesures (quels tests faire avant d'acheter)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Justesse des calculs | Formules correctes, unités cohérentes | 25 % |\n| Analyse des goulots | Chaque service associé à la bonne ressource | 25 % |\n| Lien avec la théorie | Cache, pipeline, Amdahl mobilisés à bon escient | 20 % |\n| Recommandation | Claire, chiffrée, avec compromis et risques | 20 % |\n| Communication | Lisible, schémas décrits en texte | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-040 — Architecture des ordinateurs**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "`config.py` : les fiches techniques en données, et les fonctions de calcul (calcul de pointe, bande passante mémoire, débit disque/réseau, Amdahl)",
+        "Une analyse du goulot de chaque configuration pour chaque service, avec chiffres",
+        "Un modèle de cache (simulateur ou calcul de latence moyenne) pour justifier l'importance de la localité dans ce service",
+        "`DOSSIER.md` : hypothèses, calculs, comparaison coût/capacité, recommandation, risques",
+        "Un plan de validation par mesures (quels tests faire avant d'acheter)"
+      ],
+      "criteria": [
+        {
+          "label": "Justesse des calculs",
+          "description": "Formules correctes, unités cohérentes",
+          "weight": 25
+        },
+        {
+          "label": "Analyse des goulots",
+          "description": "Chaque service associé à la bonne ressource",
+          "weight": 25
+        },
+        {
+          "label": "Lien avec la théorie",
+          "description": "Cache, pipeline, Amdahl mobilisés à bon escient",
+          "weight": 20
+        },
+        {
+          "label": "Recommandation",
+          "description": "Claire, chiffrée, avec compromis et risques",
+          "weight": 20
+        },
+        {
+          "label": "Communication",
+          "description": "Lisible, schémas décrits en texte",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:51.097Z",
+  "generatedAt": "2026-11-03T21:29:41.497Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-080"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Sauvetage et évolution d'un code legacy",
+        "shortDesc": "Figer, nettoyer, structurer et faire évoluer un module sans rien casser.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus. Modules standard. Git recommandé : un commit par pas de refactoring.",
+          "Tu écris toi-même `facturation_legacy.py` en respectant le cahier des charges ci-dessus (volontairement mal conçu : noms obscurs, nombres magiques, effets de bord, dépendances en dur)."
+        ],
+        "deliverables": [
+          "Code avant/après et journal de refactoring",
+          "Tests de caractérisation et tests unitaires nouveaux",
+          "Rapport d'audit avant/après",
+          "ADR et registre de dette"
+        ],
+        "acceptanceCriteria": [
+          "Les 25 tests de caractérisation passent avant et après le refactoring.",
+          "La complexité maximale baisse nettement (par exemple de plus de 12 à moins de 5).",
+          "Le calcul des remises et de la TVA se teste sans base ni e-mail.",
+          "La règle de fidélité s'ajoute en modifiant un seul module.",
+          "Le journal de refactoring montre des pas petits et vérifiés."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Figer, nettoyer, structurer et faire évoluer un module sans rien casser.\n\n## Scénario\n\nTu reprends `facturation.py`, un module de HashBox de 120 lignes sans tests : calcul de remises, TVA, arrondis, texte de facture, envoi par e-mail et écriture en base, le tout dans deux grosses fonctions. Maya demande une nouvelle règle (remise « fidélité ») pour la semaine prochaine.\n\n## Objectif\n\nMettre le module sous tests de caractérisation, le refactorer par petits pas vers une architecture à forte cohésion et faible couplage, puis ajouter la règle demandée sans toucher à l'infrastructure.\n\n## Environnement\n\nPython 3.10 ou plus. Modules standard. Git recommandé : un commit par pas de refactoring.\n\n## État de départ\n\nTu écris toi-même `facturation_legacy.py` en respectant le cahier des charges ci-dessus (volontairement mal conçu : noms obscurs, nombres magiques, effets de bord, dépendances en dur).\n\n## Tâches\n\n1. Écris `facturation_legacy.py` (deux fonctions longues, une connexion SQLite en dur, un `print` pour l'e-mail).\n2. Écris 25 tests de caractérisation qui figent sa sortie sur des cas variés (graine fixe).\n3. Mesure complexité, longueur et imbrication avec l'outil d'audit.\n4. Refactore en au moins 10 petits pas : constantes, extraction de fonctions, séparation calcul/présentation/persistance, objets-valeurs, injection du dépôt et de la messagerie.\n5. Après chaque pas, relance les tests et note le pas dans un journal.\n6. Introduis une interface `Depot` et `Messagerie` (`Protocol`), avec un fake pour les tests et une version SQLite.\n7. Ajoute la règle « remise fidélité » en suivant la règle des deux chapeaux (nouveau commit, nouveaux tests).\n8. Fais relire ton code à une autre personne (ou relis-le après une pause) avec la checklist de revue et corrige les remarques bloquantes.\n9. Rédige un ADR pour la décision d'architecture la plus importante, et un registre de dette de 5 entrées.\n\n## Observations attendues\n\n- Les 25 tests de caractérisation passent avant et après le refactoring.\n- La complexité maximale baisse nettement (par exemple de plus de 12 à moins de 5).\n- Le calcul des remises et de la TVA se teste sans base ni e-mail.\n- La règle de fidélité s'ajoute en modifiant un seul module.\n- Le journal de refactoring montre des pas petits et vérifiés.\n\n## Validation\n\n`python -m unittest` (ou `pytest`) passe ; l'audit avant/après est reproduit ; une personne extérieure peut lire le journal et comprendre chaque pas.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nFige d'abord la sortie complète (texte de facture + effets de bord enregistrés).\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nCommence par les refactorings qui ne changent aucune signature publique.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nSépare le calcul (fonctions pures) de ce qui touche au monde extérieur.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Code avant/après et journal de refactoring\n- [ ] Tests de caractérisation et tests unitaires nouveaux\n- [ ] Rapport d'audit avant/après\n- [ ] ADR et registre de dette\n\n## Réflexion\n\n1. Quel pas de refactoring t'a donné le plus de confiance ?\n2. Qu'est-ce qui a été difficile à tester au départ, et pourquoi ?\n\n**HEF-080 — Génie logiciel**\n"
       }
     ],
@@ -260,7 +280,54 @@
     },
     "project": {
       "title": "Projet — Application métier en architecture propre",
-      "body": "> Un domaine isolé, des adaptateurs interchangeables, des décisions écrites et une dette gérée.\n\n## Mission\n\nConçois et livre une petite application métier (réservation, gestion de bibliothèque, suivi d'apprentissage…) en architecture hexagonale. Le cœur est indépendant de la technique ; deux adaptateurs de stockage et une interface en ligne de commande l'utilisent. Le projet est accompagné d'un dossier d'ingénierie montrant ses décisions et ses limites.\n\n## Livrables\n\n- [ ] Domaine (entités, objets-valeurs, services) sans dépendance technique, vérifié par un test d'architecture\n- [ ] Ports et au moins deux adaptateurs de stockage (mémoire, SQLite) validés par un test de contrat commun\n- [ ] Au moins 30 tests (domaine, cas d'usage, contrat, intégration)\n- [ ] Utilisation justifiée d'au moins trois patrons de conception ou principes SOLID\n- [ ] `ADR/` : au moins 3 décisions documentées, dont une avec matrice pondérée et sensibilité\n- [ ] `DETTE.md` : registre de dette, priorités et plan de remboursement\n- [ ] `REVUE.md` : relecture de ton propre code avec la checklist (au moins 8 commentaires classés)\n- [ ] `README.md` : architecture (schéma Mermaid décrit en texte), installation, extension\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Architecture | Domaine isolé, dépendances vers le centre, interfaces claires | 25 % |\n| Qualité du code | Cohésion, couplage, lisibilité, absence de duplication | 20 % |\n| Tests | Domaine, contrat et intégration ; cas limites | 20 % |\n| Décisions | ADR argumentés, alternatives et conséquences | 15 % |\n| Dette et revue | Registre prioritisé, commentaires constructifs | 10 % |\n| Documentation | Lisible, schéma décrit en texte, extension expliquée | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-080 — Génie logiciel**\n"
+      "shortDesc": "Un domaine isolé, des adaptateurs interchangeables, des décisions écrites et une dette gérée.",
+      "body": "> Un domaine isolé, des adaptateurs interchangeables, des décisions écrites et une dette gérée.\n\n## Mission\n\nConçois et livre une petite application métier (réservation, gestion de bibliothèque, suivi d'apprentissage…) en architecture hexagonale. Le cœur est indépendant de la technique ; deux adaptateurs de stockage et une interface en ligne de commande l'utilisent. Le projet est accompagné d'un dossier d'ingénierie montrant ses décisions et ses limites.\n\n## Livrables\n\n- [ ] Domaine (entités, objets-valeurs, services) sans dépendance technique, vérifié par un test d'architecture\n- [ ] Ports et au moins deux adaptateurs de stockage (mémoire, SQLite) validés par un test de contrat commun\n- [ ] Au moins 30 tests (domaine, cas d'usage, contrat, intégration)\n- [ ] Utilisation justifiée d'au moins trois patrons de conception ou principes SOLID\n- [ ] `ADR/` : au moins 3 décisions documentées, dont une avec matrice pondérée et sensibilité\n- [ ] `DETTE.md` : registre de dette, priorités et plan de remboursement\n- [ ] `REVUE.md` : relecture de ton propre code avec la checklist (au moins 8 commentaires classés)\n- [ ] `README.md` : architecture (schéma Mermaid décrit en texte), installation, extension\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Architecture | Domaine isolé, dépendances vers le centre, interfaces claires | 25 % |\n| Qualité du code | Cohésion, couplage, lisibilité, absence de duplication | 20 % |\n| Tests | Domaine, contrat et intégration ; cas limites | 20 % |\n| Décisions | ADR argumentés, alternatives et conséquences | 15 % |\n| Dette et revue | Registre prioritisé, commentaires constructifs | 10 % |\n| Documentation | Lisible, schéma décrit en texte, extension expliquée | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-080 — Génie logiciel**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Domaine (entités, objets-valeurs, services) sans dépendance technique, vérifié par un test d'architecture",
+        "Ports et au moins deux adaptateurs de stockage (mémoire, SQLite) validés par un test de contrat commun",
+        "Au moins 30 tests (domaine, cas d'usage, contrat, intégration)",
+        "Utilisation justifiée d'au moins trois patrons de conception ou principes SOLID",
+        "`ADR/` : au moins 3 décisions documentées, dont une avec matrice pondérée et sensibilité",
+        "`DETTE.md` : registre de dette, priorités et plan de remboursement",
+        "`REVUE.md` : relecture de ton propre code avec la checklist (au moins 8 commentaires classés)",
+        "`README.md` : architecture (schéma Mermaid décrit en texte), installation, extension"
+      ],
+      "criteria": [
+        {
+          "label": "Architecture",
+          "description": "Domaine isolé, dépendances vers le centre, interfaces claires",
+          "weight": 25
+        },
+        {
+          "label": "Qualité du code",
+          "description": "Cohésion, couplage, lisibilité, absence de duplication",
+          "weight": 20
+        },
+        {
+          "label": "Tests",
+          "description": "Domaine, contrat et intégration ; cas limites",
+          "weight": 20
+        },
+        {
+          "label": "Décisions",
+          "description": "ADR argumentés, alternatives et conséquences",
+          "weight": 15
+        },
+        {
+          "label": "Dette et revue",
+          "description": "Registre prioritisé, commentaires constructifs",
+          "weight": 10
+        },
+        {
+          "label": "Documentation",
+          "description": "Lisible, schéma décrit en texte, extension expliquée",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:54.315Z",
+  "generatedAt": "2026-11-03T21:29:44.798Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-150"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier de découverte d'un MVP",
+        "shortDesc": "Partir d'un problème réel, construire des hypothèses, un prototype minimal, des critères de succès et une décision.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`random`, `statistics`, `math`, `html.parser`, `unittest`). Les données d'entretiens, de sondage et d'usage sont simulées avec des graines fixées.",
+          "Un dossier `lab/` avec `cadrage.py`, `decouverte.py`, `experience.py`, `mvp.py`, `analytics.py` et `decision.py` à créer."
+        ],
+        "deliverables": [
+          "Le cadrage et l'arbre de métriques",
+          "La synthèse d'entretiens et le plan d'expérience",
+          "Les critères d'acceptation exécutés",
+          "Le mémo de décision et les prévisions chiffrées"
+        ],
+        "acceptanceCriteria": [
+          "Le problème énoncé ne contient pas de solution et mentionne une conséquence mesurable.",
+          "Les hypothèses sont falsifiables, avec seuils de succès et d'échec fixés avant l'expérience.",
+          "Le MVP couvre le parcours de bout en bout avec des critères d'acceptation exécutés.",
+          "La décision finale est justifiée par la valeur espérée de l'avenir, sans coût irrécupérable.",
+          "Les prévisions du mémo sont chiffrées et pourront être notées à la prochaine revue."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Partir d'un problème réel, construire des hypothèses, un prototype minimal, des critères de succès et une décision.\n\n## Scénario\n\nHashBox veut savoir s'il faut créer un « espace formateurs ». Aucune ligne de code n'a encore été écrite. Ta mission : mener la découverte, formuler et tester les hypothèses, définir le MVP le plus petit possible, puis décider — persévérer, pivoter ou arrêter — avec des preuves.\n\n## Objectif\n\nMener de bout en bout une démarche produit sur une idée : problème, entretiens, hypothèses, expérience, MVP, mesure, décision, le tout avec des données simulées reproductibles et du code vérifiable.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`random`, `statistics`, `math`, `html.parser`, `unittest`). Les données d'entretiens, de sondage et d'usage sont simulées avec des graines fixées.\n\n## État de départ\n\nUn dossier `lab/` avec `cadrage.py`, `decouverte.py`, `experience.py`, `mvp.py`, `analytics.py` et `decision.py` à créer.\n\n## Tâches\n\n1. Formule le problème sans solution, le segment, la tâche à accomplir et l'étoile du nord avec son arbre de métriques.\n2. Simule 12 entretiens, classe les phrases en faits et opinions, regroupe en thèmes et estime la saturation.\n3. Rédige trois hypothèses au format complet et désigne la plus risquée.\n4. Conçois et simule une expérience (porte factice ou test A/B), calcule la taille d'échantillon, applique la règle de décision fixée à l'avance.\n5. Construis la story map, extrais la tranche mince et écris des critères d'acceptation exécutables.\n6. Écris un plan de mesure, valide des événements simulés, calcule entonnoir et rétention.\n7. Évalue l'accessibilité et l'utilisabilité de ton parcours (contraste, étiquettes, test simulé).\n8. Classe 8 idées par RICE et teste la robustesse du classement.\n9. Produis la revue de décision : critères préétablis contre résultats avec intervalles, valeur espérée des options sans coût irrécupérable, pré-mortem.\n10. Rédige le mémo de décision avec cinq prévisions chiffrées.\n\n## Observations attendues\n\n- Le problème énoncé ne contient pas de solution et mentionne une conséquence mesurable.\n- Les hypothèses sont falsifiables, avec seuils de succès et d'échec fixés avant l'expérience.\n- Le MVP couvre le parcours de bout en bout avec des critères d'acceptation exécutés.\n- La décision finale est justifiée par la valeur espérée de l'avenir, sans coût irrécupérable.\n- Les prévisions du mémo sont chiffrées et pourront être notées à la prochaine revue.\n\n## Validation\n\n`python lab/decision.py` affiche la décision, les verdicts de chaque critère et la valeur espérée de chaque option ; un lecteur extérieur comprend pourquoi tu as persévéré, pivoté ou arrêté.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nÉcris les critères de succès avant de simuler l'expérience, puis ne les touche plus.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nUtilise des intervalles de confiance partout : les chiffres seuls trompent.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nCherche à réfuter ton idée : quelle observation te ferait arrêter ?\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Le cadrage et l'arbre de métriques\n- [ ] La synthèse d'entretiens et le plan d'expérience\n- [ ] Les critères d'acceptation exécutés\n- [ ] Le mémo de décision et les prévisions chiffrées\n\n## Réflexion\n\n1. Quelle hypothèse t'a surpris(e) en étant réfutée ?\n2. Quel biais as-tu repéré dans ta propre démarche ?\n\n**HEF-150 — Ingénierie produit**\n"
       }
     ],
@@ -260,7 +280,52 @@
     },
     "project": {
       "title": "Projet — Dossier MVP",
-      "body": "> Problème, personas, hypothèses, parcours, architecture, roadmap, métriques et rétrospective pour un produit numérique.\n\n## Mission\n\nChoisis une idée de produit (la tienne ou HashBox « espace formateurs ») et constitue un dossier MVP complet où chaque décision est justifiée par des preuves ou des hypothèses explicitement signalées.\n\n## Livrables\n\n- [ ] Problème, segment, personas, tâches à accomplir, alternatives actuelles, proposition de valeur\n- [ ] Étoile du nord, arbre de métriques et analyse de sensibilité\n- [ ] Synthèse de découverte (entretiens, thèmes, opportunités, arbre d'opportunités)\n- [ ] Hypothèses, expériences, plans d'échantillonnage et règles de décision\n- [ ] MVP : story map, tranche mince, MoSCoW, critères d'acceptation exécutables\n- [ ] Parcours utilisateur, entonnoir, audit d'accessibilité et résultats d'un test d'utilisabilité\n- [ ] Architecture : matrice robuste, construire/acheter, fonctions d'aptitude, ADR\n- [ ] Roadmap : scores, robustesse, ordre de Smith, plan sous capacité\n- [ ] Plan de mesure, validation d'événements, métriques de rétention\n- [ ] Registre de dette, indicateurs de flux, prévision Monte Carlo\n- [ ] Revue de décision : mémo, valeur espérée des options, prévisions chiffrées, rétrospective\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Découverte et hypothèses | Faits plutôt qu'opinions, hypothèses falsifiables et testées | 25 % |\n| MVP et expérience utilisateur | Périmètre minimal de bout en bout, accessible, mesuré | 20 % |\n| Architecture et roadmap | Décisions justifiées, robustesse testée, plan réaliste | 20 % |\n| Mesure et qualité | Plan de mesure, vie privée, dette et flux maîtrisés | 15 % |\n| Décision et honnêteté | Critères préétablis, biais repérés, incertitudes assumées | 20 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-150 — Ingénierie produit**\n"
+      "shortDesc": "Problème, personas, hypothèses, parcours, architecture, roadmap, métriques et rétrospective pour un produit numérique.",
+      "body": "> Problème, personas, hypothèses, parcours, architecture, roadmap, métriques et rétrospective pour un produit numérique.\n\n## Mission\n\nChoisis une idée de produit (la tienne ou HashBox « espace formateurs ») et constitue un dossier MVP complet où chaque décision est justifiée par des preuves ou des hypothèses explicitement signalées.\n\n## Livrables\n\n- [ ] Problème, segment, personas, tâches à accomplir, alternatives actuelles, proposition de valeur\n- [ ] Étoile du nord, arbre de métriques et analyse de sensibilité\n- [ ] Synthèse de découverte (entretiens, thèmes, opportunités, arbre d'opportunités)\n- [ ] Hypothèses, expériences, plans d'échantillonnage et règles de décision\n- [ ] MVP : story map, tranche mince, MoSCoW, critères d'acceptation exécutables\n- [ ] Parcours utilisateur, entonnoir, audit d'accessibilité et résultats d'un test d'utilisabilité\n- [ ] Architecture : matrice robuste, construire/acheter, fonctions d'aptitude, ADR\n- [ ] Roadmap : scores, robustesse, ordre de Smith, plan sous capacité\n- [ ] Plan de mesure, validation d'événements, métriques de rétention\n- [ ] Registre de dette, indicateurs de flux, prévision Monte Carlo\n- [ ] Revue de décision : mémo, valeur espérée des options, prévisions chiffrées, rétrospective\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Découverte et hypothèses | Faits plutôt qu'opinions, hypothèses falsifiables et testées | 25 % |\n| MVP et expérience utilisateur | Périmètre minimal de bout en bout, accessible, mesuré | 20 % |\n| Architecture et roadmap | Décisions justifiées, robustesse testée, plan réaliste | 20 % |\n| Mesure et qualité | Plan de mesure, vie privée, dette et flux maîtrisés | 15 % |\n| Décision et honnêteté | Critères préétablis, biais repérés, incertitudes assumées | 20 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-150 — Ingénierie produit**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Problème, segment, personas, tâches à accomplir, alternatives actuelles, proposition de valeur",
+        "Étoile du nord, arbre de métriques et analyse de sensibilité",
+        "Synthèse de découverte (entretiens, thèmes, opportunités, arbre d'opportunités)",
+        "Hypothèses, expériences, plans d'échantillonnage et règles de décision",
+        "MVP : story map, tranche mince, MoSCoW, critères d'acceptation exécutables",
+        "Parcours utilisateur, entonnoir, audit d'accessibilité et résultats d'un test d'utilisabilité",
+        "Architecture : matrice robuste, construire/acheter, fonctions d'aptitude, ADR",
+        "Roadmap : scores, robustesse, ordre de Smith, plan sous capacité",
+        "Plan de mesure, validation d'événements, métriques de rétention",
+        "Registre de dette, indicateurs de flux, prévision Monte Carlo",
+        "Revue de décision : mémo, valeur espérée des options, prévisions chiffrées, rétrospective"
+      ],
+      "criteria": [
+        {
+          "label": "Découverte et hypothèses",
+          "description": "Faits plutôt qu'opinions, hypothèses falsifiables et testées",
+          "weight": 25
+        },
+        {
+          "label": "MVP et expérience utilisateur",
+          "description": "Périmètre minimal de bout en bout, accessible, mesuré",
+          "weight": 20
+        },
+        {
+          "label": "Architecture et roadmap",
+          "description": "Décisions justifiées, robustesse testée, plan réaliste",
+          "weight": 20
+        },
+        {
+          "label": "Mesure et qualité",
+          "description": "Plan de mesure, vie privée, dette et flux maîtrisés",
+          "weight": 15
+        },
+        {
+          "label": "Décision et honnêteté",
+          "description": "Critères préétablis, biais repérés, incertitudes assumées",
+          "weight": 20
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

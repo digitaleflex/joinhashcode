@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:54.917Z",
+  "generatedAt": "2026-11-03T21:29:45.386Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-160"
@@ -101,7 +101,27 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier de vérification d'ingénierie assistée par l'IA",
+        "shortDesc": "Construire, tester et attaquer un petit assistant d'ingénierie : contexte, outils, agent, évaluation, vérification, sécurité et traçabilité.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`ast`, `importlib`, `subprocess`, `json`, `re`, `random`, `math`, `hashlib`). Le « modèle » est une politique scriptée ou simulée avec des graines fixées : aucune clé d'API ni service externe.",
+          "Un dossier `lab/` avec `contexte.py`, `outils.py`, `agent.py`, `evaluation.py`, `verification.py`, `securite.py` et `workflow.py` à créer."
+        ],
+        "deliverables": [
+          "Le journal d'outils chaîné et la trace d'agent",
+          "Le rapport d'évaluation avec intervalles",
+          "Le rapport du vérificateur sur les candidats",
+          "Le tableau du banc d'attaques et les fiches de provenance"
+        ],
+        "acceptanceCriteria": [
+          "L'agent ne peut ni modifier les tests, ni dépasser ses budgets, ni agir sans approbation sur l'irréversible.",
+          "Le banc d'évaluation donne des intervalles et une décision écrite avant les résultats.",
+          "Le vérificateur rejette les candidats défectueux pour des raisons précises et ne laisse passer que les bons vers la revue humaine.",
+          "Le banc d'attaques n'affiche aucune réussite pour la configuration finale, mutations comprises.",
+          "Chaque contribution acceptée possède une fiche de provenance et le gain net est calculé avec les défauts échappés."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Construire, tester et attaquer un petit assistant d'ingénierie : contexte, outils, agent, évaluation, vérification, sécurité et traçabilité.\n\n## Scénario\n\nHashBox veut un assistant qui aide à corriger des défauts dans un petit projet. Avant de lui donner le moindre pouvoir, l'équipe te demande de construire le harnais qui le borne, les évaluations qui le mesurent, la vérification qui contrôle ses propositions et le banc d'attaques qui l'éprouve.\n\n## Objectif\n\nConcevoir de bout en bout un assistant d'ingénierie contrôlé, sur un modèle simulé et des données fixes, avec des preuves chiffrées : jamais de confiance sans vérification.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`ast`, `importlib`, `subprocess`, `json`, `re`, `random`, `math`, `hashlib`). Le « modèle » est une politique scriptée ou simulée avec des graines fixées : aucune clé d'API ni service externe.\n\n## État de départ\n\nUn dossier `lab/` avec `contexte.py`, `outils.py`, `agent.py`, `evaluation.py`, `verification.py`, `securite.py` et `workflow.py` à créer.\n\n## Tâches\n\n1. Construis un budget de contexte : sélection par valeur/coût, faits épinglés, résumé extractif.\n2. Implémente un récupérateur (BM25 + TF-IDF + fusion) avec citations et refus mesuré par rappel@k.\n3. Écris un mini serveur d'outils JSON-RPC avec schémas, confinement de chemins, approbation et journal chaîné.\n4. Construis un harnais d'agent : budgets, stagnation, mesure en lecture seule, instantané, retour arrière, trace.\n5. Monte un banc d'évaluation : jeu séparé développement/test, intervalles, comparaison appariée, kappa, contamination.\n6. Écris un vérificateur de code généré : analyse statique, exécution isolée, propriétés, test différentiel.\n7. Ajoute les défenses : masquage des données personnelles, souillure, liste autorisée, assainissement ; mesure un banc d'attaques avec mutations.\n8. Assemble le workflow à portes de qualité avec fiches de provenance et calcule le gain net réel.\n9. Rédige le dossier de validation : ce qui est démontré, ce qui ne l'est pas, risques résiduels, plan de surveillance.\n\n## Observations attendues\n\n- L'agent ne peut ni modifier les tests, ni dépasser ses budgets, ni agir sans approbation sur l'irréversible.\n- Le banc d'évaluation donne des intervalles et une décision écrite avant les résultats.\n- Le vérificateur rejette les candidats défectueux pour des raisons précises et ne laisse passer que les bons vers la revue humaine.\n- Le banc d'attaques n'affiche aucune réussite pour la configuration finale, mutations comprises.\n- Chaque contribution acceptée possède une fiche de provenance et le gain net est calculé avec les défauts échappés.\n\n## Validation\n\n`python lab/workflow.py` rejoue tout : évaluation, vérification, attaques, portes de qualité ; il affiche le verdict de chaque porte, le taux de réussite des attaques, le gain net et la liste des risques résiduels.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nÉcris le critère d'acceptation avant de lancer la moindre évaluation.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nUn contrôle qui dépend de la bonne volonté du modèle n'est pas un contrôle.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nQuand une défense paraît parfaite, mute les attaques pour voir si elle tient encore.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] Le journal d'outils chaîné et la trace d'agent\n- [ ] Le rapport d'évaluation avec intervalles\n- [ ] Le rapport du vérificateur sur les candidats\n- [ ] Le tableau du banc d'attaques et les fiches de provenance\n\n## Réflexion\n\n1. Quelle porte de qualité t'a le plus retardé(e), et valait-elle la peine ?\n2. Quel risque résiduel te préoccupe encore ?\n\n**HEF-160 — IA et augmentation humaine**\n"
       }
     ],
@@ -260,7 +280,51 @@
     },
     "project": {
       "title": "Projet — Assistant d'ingénierie avec dossier de validation",
-      "body": "> Un assistant au périmètre explicite, aux outils autorisés, évalué, journalisé, protégé, accompagné d'un dossier de validation honnête.\n\n## Mission\n\nRéalise un assistant d'ingénierie (modèle simulé ou scripté) qui propose des correctifs dans un petit projet, et constitue le dossier prouvant qu'il peut être utilisé sans déléguer le jugement humain.\n\n## Livrables\n\n- [ ] Périmètre explicite : tâches permises/interdites, classification des données, outils autorisés avec schémas et rôles\n- [ ] Harnais d'agent : budgets, stagnation, périmètre en lecture seule, approbation, instantanés, retour arrière, trace rejouable\n- [ ] Gestion du contexte et récupération documentaire avec citations et refus\n- [ ] Prompts versionnés, schémas de sortie et banc de régression\n- [ ] Chaîne de vérification indépendante : analyse statique, tests d'exemples, propriétés, différentiel, mutation\n- [ ] Évaluation : jeu séparé, exécutions multiples, intervalles, comparaison appariée, contamination\n- [ ] Défenses de sécurité et banc d'attaques avec règle d'acceptation chiffrée\n- [ ] Workflow à portes de qualité, fiches de provenance et journal chaîné\n- [ ] Analyse économique : gain net, point d'équilibre, effet sur les compétences\n- [ ] Dossier de validation : démontré / non démontré, risques résiduels, plan de surveillance, responsable, bilan personnel du cursus HEF\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Contrôle et périmètre | Agent borné, outils autorisés, approbation et retour arrière | 20 % |\n| Vérification et évaluation | Vérification indépendante, intervalles, décisions écrites d'avance | 25 % |\n| Sécurité et confidentialité | Défenses structurelles, banc d'attaques, masquage, journal | 20 % |\n| Workflow et économie | Portes de qualité, traçabilité, gain net honnête | 15 % |\n| Dossier et lucidité | Limites assumées, risques résiduels, bilan personnel | 20 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-160 — IA et augmentation humaine**\n"
+      "shortDesc": "Un assistant au périmètre explicite, aux outils autorisés, évalué, journalisé, protégé, accompagné d'un dossier de validation honnête.",
+      "body": "> Un assistant au périmètre explicite, aux outils autorisés, évalué, journalisé, protégé, accompagné d'un dossier de validation honnête.\n\n## Mission\n\nRéalise un assistant d'ingénierie (modèle simulé ou scripté) qui propose des correctifs dans un petit projet, et constitue le dossier prouvant qu'il peut être utilisé sans déléguer le jugement humain.\n\n## Livrables\n\n- [ ] Périmètre explicite : tâches permises/interdites, classification des données, outils autorisés avec schémas et rôles\n- [ ] Harnais d'agent : budgets, stagnation, périmètre en lecture seule, approbation, instantanés, retour arrière, trace rejouable\n- [ ] Gestion du contexte et récupération documentaire avec citations et refus\n- [ ] Prompts versionnés, schémas de sortie et banc de régression\n- [ ] Chaîne de vérification indépendante : analyse statique, tests d'exemples, propriétés, différentiel, mutation\n- [ ] Évaluation : jeu séparé, exécutions multiples, intervalles, comparaison appariée, contamination\n- [ ] Défenses de sécurité et banc d'attaques avec règle d'acceptation chiffrée\n- [ ] Workflow à portes de qualité, fiches de provenance et journal chaîné\n- [ ] Analyse économique : gain net, point d'équilibre, effet sur les compétences\n- [ ] Dossier de validation : démontré / non démontré, risques résiduels, plan de surveillance, responsable, bilan personnel du cursus HEF\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Contrôle et périmètre | Agent borné, outils autorisés, approbation et retour arrière | 20 % |\n| Vérification et évaluation | Vérification indépendante, intervalles, décisions écrites d'avance | 25 % |\n| Sécurité et confidentialité | Défenses structurelles, banc d'attaques, masquage, journal | 20 % |\n| Workflow et économie | Portes de qualité, traçabilité, gain net honnête | 15 % |\n| Dossier et lucidité | Limites assumées, risques résiduels, bilan personnel | 20 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-160 — IA et augmentation humaine**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Périmètre explicite : tâches permises/interdites, classification des données, outils autorisés avec schémas et rôles",
+        "Harnais d'agent : budgets, stagnation, périmètre en lecture seule, approbation, instantanés, retour arrière, trace rejouable",
+        "Gestion du contexte et récupération documentaire avec citations et refus",
+        "Prompts versionnés, schémas de sortie et banc de régression",
+        "Chaîne de vérification indépendante : analyse statique, tests d'exemples, propriétés, différentiel, mutation",
+        "Évaluation : jeu séparé, exécutions multiples, intervalles, comparaison appariée, contamination",
+        "Défenses de sécurité et banc d'attaques avec règle d'acceptation chiffrée",
+        "Workflow à portes de qualité, fiches de provenance et journal chaîné",
+        "Analyse économique : gain net, point d'équilibre, effet sur les compétences",
+        "Dossier de validation : démontré / non démontré, risques résiduels, plan de surveillance, responsable, bilan personnel du cursus HEF"
+      ],
+      "criteria": [
+        {
+          "label": "Contrôle et périmètre",
+          "description": "Agent borné, outils autorisés, approbation et retour arrière",
+          "weight": 20
+        },
+        {
+          "label": "Vérification et évaluation",
+          "description": "Vérification indépendante, intervalles, décisions écrites d'avance",
+          "weight": 25
+        },
+        {
+          "label": "Sécurité et confidentialité",
+          "description": "Défenses structurelles, banc d'attaques, masquage, journal",
+          "weight": 20
+        },
+        {
+          "label": "Workflow et économie",
+          "description": "Portes de qualité, traçabilité, gain net honnête",
+          "weight": 15
+        },
+        {
+          "label": "Dossier et lucidité",
+          "description": "Limites assumées, risques résiduels, bilan personnel",
+          "weight": 20
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

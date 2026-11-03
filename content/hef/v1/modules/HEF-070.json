@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:50.489Z",
+  "generatedAt": "2026-11-03T21:29:41.114Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-070"
@@ -101,7 +101,25 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier base de données : du schéma à la requête optimisée",
+        "shortDesc": "Concevoir, remplir, interroger, indexer et protéger une base avec SQLite.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, module `sqlite3`. Aucun autre outil. Un fichier de base temporaire pour les tests de concurrence.",
+          "Un dossier vide avec `schema.sql`, `donnees.py`, `requetes.py`, `tests.py` à créer. Contraintes à respecter : 3FN, clés étrangères actives, aucune donnée invalide acceptée."
+        ],
+        "deliverables": [
+          "`schema.sql`, `donnees.py`, `requetes.py`, `tests.py`",
+          "Tableau des plans et temps avant/après index",
+          "Rapport d'une page"
+        ],
+        "acceptanceCriteria": [
+          "Les requêtes donnent les mêmes résultats que les calculs Python.",
+          "Chaque donnée invalide est refusée par la base, pas seulement par le code.",
+          "Les index font passer les trois requêtes lentes de SCAN à SEARCH, avec un gain mesuré.",
+          "Le transfert interrompu ne laisse aucune trace ; le compteur concurrent atteint la bonne valeur après correction."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Concevoir, remplir, interroger, indexer et protéger une base avec SQLite.\n\n## Scénario\n\nHashBox veut suivre ses formations : membres, cours, missions, inscriptions, missions terminées et paiements. Tu dois concevoir la base, l'alimenter avec des données de test, répondre à des questions métier, accélérer les requêtes lentes et garantir la cohérence pendant des accès simultanés.\n\n## Objectif\n\nProduire un schéma normalisé et contraint, un jeu de données de 20 000 lignes, dix requêtes validées, un jeu d'index mesuré, et un test de concurrence qui prouve l'absence de mises à jour perdues.\n\n## Environnement\n\nPython 3.10 ou plus, module `sqlite3`. Aucun autre outil. Un fichier de base temporaire pour les tests de concurrence.\n\n## État de départ\n\nUn dossier vide avec `schema.sql`, `donnees.py`, `requetes.py`, `tests.py` à créer. Contraintes à respecter : 3FN, clés étrangères actives, aucune donnée invalide acceptée.\n\n## Tâches\n\n1. Écris `schema.sql` : tables, clés primaires et étrangères, contraintes (NOT NULL, UNIQUE, CHECK), ON DELETE choisis et justifiés.\n2. Écris `donnees.py` qui remplit la base avec des données aléatoires reproductibles (graine fixe) : 500 membres, 6 cours, 60 missions, 20 000 missions terminées.\n3. Écris dix requêtes (jointures, agrégations, sous-requêtes, CTE) dans `requetes.py` et vérifie chaque résultat avec un calcul Python indépendant.\n4. Écris des tests qui prouvent que la base refuse 8 données invalides.\n5. Repère les trois requêtes les plus lentes, lis leur plan, crée les index nécessaires, et mesure avant/après.\n6. Mesure le coût des index sur l'insertion de 20 000 lignes.\n7. Écris une fonction de transfert d'XP entre deux membres, atomique et testée avec une panne simulée.\n8. Lance 6 threads qui incrémentent un compteur : montre la mise à jour perdue puis la correction.\n9. Rédige un rapport d'une page : choix de schéma, index conservés, anomalies évitées.\n\n## Observations attendues\n\n- Les requêtes donnent les mêmes résultats que les calculs Python.\n- Chaque donnée invalide est refusée par la base, pas seulement par le code.\n- Les index font passer les trois requêtes lentes de SCAN à SEARCH, avec un gain mesuré.\n- Le transfert interrompu ne laisse aucune trace ; le compteur concurrent atteint la bonne valeur après correction.\n\n## Validation\n\n`python tests.py` exécute tout sans erreur et affiche un tableau de mesures. Un collègue peut recréer la base à l'identique avec la graine fixe.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nActive `PRAGMA foreign_keys = ON` à chaque connexion.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour comparer SQL et Python, construis un dictionnaire à partir de `SELECT *` puis calcule en Python.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour la concurrence, utilise une connexion par thread, `isolation_level=None` et `BEGIN IMMEDIATE`.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `schema.sql`, `donnees.py`, `requetes.py`, `tests.py`\n- [ ] Tableau des plans et temps avant/après index\n- [ ] Rapport d'une page\n\n## Réflexion\n\n1. Quelle contrainte t'a évité le plus de bugs ?\n2. Quel index as-tu supprimé après mesure, et pourquoi ?\n\n**HEF-070 — Bases de données**\n"
       }
     ],
@@ -260,7 +278,53 @@
     },
     "project": {
       "title": "Projet — Base de données d'une plateforme complète",
-      "body": "> Un schéma versionné, contraint, indexé et testé, prêt à être présenté en revue.\n\n## Mission\n\nConçois la base de données d'un service de ton choix (plateforme de cours, réservation, boutique, suivi de projet). Livre un schéma normalisé, un système de migrations, un jeu de requêtes métier, une démarche d'optimisation mesurée et une analyse de la concurrence. Le tout doit pouvoir être reconstruit et testé automatiquement.\n\n## Livrables\n\n- [ ] Diagramme entité-association (Mermaid) avec description en texte\n- [ ] `migrations/` avec au moins 5 migrations et un gestionnaire (appliquer, rejouer, descendre)\n- [ ] Contraintes d'intégrité testées (au moins 10 cas refusés)\n- [ ] Dix requêtes métier avec résultats vérifiés\n- [ ] Rapport d'optimisation : trois requêtes, plans avant/après, coût des index\n- [ ] Analyse de concurrence : deux scénarios (mise à jour perdue, interblocage) avec correction\n- [ ] `NOTES.md` : choix de conception, passage à PostgreSQL (types, droits, sauvegardes)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Schéma | Normalisé, contraintes pertinentes, choix justifiés | 25 % |\n| Requêtes | Correctes, vérifiées, lisibles | 20 % |\n| Optimisation | Plans lus, index justifiés, mesures honnêtes | 20 % |\n| Concurrence | Anomalies reproduites puis corrigées | 15 % |\n| Migrations et tests | Automatisés, idempotents | 10 % |\n| Communication | Rapport clair, schémas décrits en texte | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-070 — Bases de données**\n"
+      "shortDesc": "Un schéma versionné, contraint, indexé et testé, prêt à être présenté en revue.",
+      "body": "> Un schéma versionné, contraint, indexé et testé, prêt à être présenté en revue.\n\n## Mission\n\nConçois la base de données d'un service de ton choix (plateforme de cours, réservation, boutique, suivi de projet). Livre un schéma normalisé, un système de migrations, un jeu de requêtes métier, une démarche d'optimisation mesurée et une analyse de la concurrence. Le tout doit pouvoir être reconstruit et testé automatiquement.\n\n## Livrables\n\n- [ ] Diagramme entité-association (Mermaid) avec description en texte\n- [ ] `migrations/` avec au moins 5 migrations et un gestionnaire (appliquer, rejouer, descendre)\n- [ ] Contraintes d'intégrité testées (au moins 10 cas refusés)\n- [ ] Dix requêtes métier avec résultats vérifiés\n- [ ] Rapport d'optimisation : trois requêtes, plans avant/après, coût des index\n- [ ] Analyse de concurrence : deux scénarios (mise à jour perdue, interblocage) avec correction\n- [ ] `NOTES.md` : choix de conception, passage à PostgreSQL (types, droits, sauvegardes)\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Schéma | Normalisé, contraintes pertinentes, choix justifiés | 25 % |\n| Requêtes | Correctes, vérifiées, lisibles | 20 % |\n| Optimisation | Plans lus, index justifiés, mesures honnêtes | 20 % |\n| Concurrence | Anomalies reproduites puis corrigées | 15 % |\n| Migrations et tests | Automatisés, idempotents | 10 % |\n| Communication | Rapport clair, schémas décrits en texte | 10 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-070 — Bases de données**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Diagramme entité-association (Mermaid) avec description en texte",
+        "`migrations/` avec au moins 5 migrations et un gestionnaire (appliquer, rejouer, descendre)",
+        "Contraintes d'intégrité testées (au moins 10 cas refusés)",
+        "Dix requêtes métier avec résultats vérifiés",
+        "Rapport d'optimisation : trois requêtes, plans avant/après, coût des index",
+        "Analyse de concurrence : deux scénarios (mise à jour perdue, interblocage) avec correction",
+        "`NOTES.md` : choix de conception, passage à PostgreSQL (types, droits, sauvegardes)"
+      ],
+      "criteria": [
+        {
+          "label": "Schéma",
+          "description": "Normalisé, contraintes pertinentes, choix justifiés",
+          "weight": 25
+        },
+        {
+          "label": "Requêtes",
+          "description": "Correctes, vérifiées, lisibles",
+          "weight": 20
+        },
+        {
+          "label": "Optimisation",
+          "description": "Plans lus, index justifiés, mesures honnêtes",
+          "weight": 20
+        },
+        {
+          "label": "Concurrence",
+          "description": "Anomalies reproduites puis corrigées",
+          "weight": 15
+        },
+        {
+          "label": "Migrations et tests",
+          "description": "Automatisés, idempotents",
+          "weight": 10
+        },
+        {
+          "label": "Communication",
+          "description": "Rapport clair, schémas décrits en texte",
+          "weight": 10
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {

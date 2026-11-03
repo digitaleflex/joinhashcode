@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T20:47:51.913Z",
+  "generatedAt": "2026-11-03T21:29:42.209Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-100"
@@ -101,7 +101,26 @@
       {
         "slug": "lab-01",
         "title": "Labo — Atelier : audit défensif d'une application jouet",
+        "shortDesc": "Reproduire des failles sur du code jouet, les détecter, les corriger et le prouver par des tests.",
         "order": 1,
+        "durationMinutes": null,
+        "requirements": [
+          "Python 3.10 ou plus, modules standard (`sqlite3`, `hashlib`, `hmac`, `secrets`, `ast`, `subprocess`). Tout se passe sur ta propre machine, sur du code que tu as écrit : aucune cible tierce.",
+          "Un dossier de travail vide, avec `appli_jouet.py`, `attaques.py`, `audit.py` et `test_securite.py` à créer."
+        ],
+        "deliverables": [
+          "`appli_jouet.py` (version fragile et corrigée)",
+          "`attaques.py` et `test_securite.py`",
+          "Sortie de l'analyseur avant/après",
+          "Le rapport généré"
+        ],
+        "acceptanceCriteria": [
+          "Chaque attaque réussit sur la version fragile et échoue sur la version corrigée.",
+          "L'analyseur statique trouve au moins 6 problèmes dans la version fragile et aucun des motifs critiques dans la version corrigée.",
+          "Le rapport est compréhensible par une personne non technique dans son résumé.",
+          "Aucun secret n'apparaît dans le code, les journaux ni le rapport."
+        ],
+        "sourcePath": "03-Labs/lab-01.md",
         "body": "> Reproduire des failles sur du code jouet, les détecter, les corriger et le prouver par des tests.\n\n## Scénario\n\nHashBox prépare l'ouverture à de nouveaux clients. Tu reçois une petite application volontairement fragile (`appli_jouet.py`, que tu écris toi-même à partir des modèles du module) et tu dois en faire l'audit, corriger les failles et le démontrer.\n\n## Objectif\n\nMener un mini-audit complet : écrire l'application fragile, les attaques de démonstration, un analyseur statique, les corrections, puis le rapport avant/après.\n\n## Environnement\n\nPython 3.10 ou plus, modules standard (`sqlite3`, `hashlib`, `hmac`, `secrets`, `ast`, `subprocess`). Tout se passe sur ta propre machine, sur du code que tu as écrit : aucune cible tierce.\n\n## État de départ\n\nUn dossier de travail vide, avec `appli_jouet.py`, `attaques.py`, `audit.py` et `test_securite.py` à créer.\n\n## Tâches\n\n1. Écris `appli_jouet.py` avec au moins 6 failles volontaires (injection SQL, injection de commande, traversée de chemin, `pickle`, secret en dur, IDOR).\n2. Écris pour chaque faille une attaque dans `attaques.py` et vérifie qu'elle réussit.\n3. Écris `audit.py` : un analyseur statique avec `ast` qui repère au moins 6 motifs dangereux.\n4. Calcule un score CVSS pour chaque constat et classe-les.\n5. Corrige chaque faille en séparant la donnée de l'instruction ou en ajoutant le contrôle manquant.\n6. Rejoue les attaques : elles doivent toutes échouer maintenant.\n7. Ajoute un test de régression automatique par faille dans `test_securite.py`.\n8. Génère un rapport Markdown : résumé exécutif, synthèse, détail, plan de remédiation.\n9. Ajoute la journalisation de sécurité (échecs de connexion, accès refusés) sans jamais écrire de secret.\n\n## Observations attendues\n\n- Chaque attaque réussit sur la version fragile et échoue sur la version corrigée.\n- L'analyseur statique trouve au moins 6 problèmes dans la version fragile et aucun des motifs critiques dans la version corrigée.\n- Le rapport est compréhensible par une personne non technique dans son résumé.\n- Aucun secret n'apparaît dans le code, les journaux ni le rapport.\n\n## Validation\n\n`python -m unittest` passe ; l'avant/après du nombre de constats par gravité est affiché ; une personne tierce peut rejouer toutes les attaques d'un seul script.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCommence par une seule faille de bout en bout (code, attaque, correctif, test) avant de faire les autres.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour l'analyseur, affiche `ast.dump` d'une ligne dangereuse afin de voir quoi chercher.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nGarde les attaques : elles deviennent tes tests de régression.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `appli_jouet.py` (version fragile et corrigée)\n- [ ] `attaques.py` et `test_securite.py`\n- [ ] Sortie de l'analyseur avant/après\n- [ ] Le rapport généré\n\n## Réflexion\n\n1. Quelle faille était la plus facile à exploiter, et la plus facile à corriger ?\n2. Quel contrôle automatique ajouterais-tu à l'intégration continue ?\n\n**HEF-100 — Sécurité**\n"
       }
     ],
@@ -260,7 +279,49 @@
     },
     "project": {
       "title": "Projet — Dossier de sécurité d'une application",
-      "body": "> Modéliser les menaces, durcir, détecter et rédiger un rapport pour une application que tu connais.\n\n## Mission\n\nChoisis une petite application (la tienne, ou HashBox simplifiée) et construis son dossier de sécurité complet : modèle de menaces, défenses, détection, plan de réponse à incident et rapport d'audit avec retest.\n\n## Livrables\n\n- [ ] Description du système et schéma de flux de données avec frontières de confiance\n- [ ] Analyse STRIDE avec au moins 12 menaces classées par risque\n- [ ] Défenses implémentées : authentification sûre, validation par liste blanche, requêtes paramétrées, en-têtes, limitation de débit\n- [ ] Gestion des secrets : aucun secret dans le dépôt, plan de rotation\n- [ ] Journalisation de sécurité et au moins 4 règles de détection testées\n- [ ] Plan de réponse à incident et post-mortem sans blâme d'un incident simulé\n- [ ] Rapport d'audit généré (CVSS, priorisation) et retest\n- [ ] Suite de tests de sécurité automatisés\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Modélisation | Frontières, menaces et risques cohérents | 20 % |\n| Défenses | Implémentées, correctes et testées | 30 % |\n| Détection et réponse | Journaux utiles, règles, plan, post-mortem | 20 % |\n| Rapport | Clair, priorisé, compréhensible par trois publics | 15 % |\n| Rigueur et éthique | Retest, aucun secret, cadre autorisé | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-100 — Sécurité**\n"
+      "shortDesc": "Modéliser les menaces, durcir, détecter et rédiger un rapport pour une application que tu connais.",
+      "body": "> Modéliser les menaces, durcir, détecter et rédiger un rapport pour une application que tu connais.\n\n## Mission\n\nChoisis une petite application (la tienne, ou HashBox simplifiée) et construis son dossier de sécurité complet : modèle de menaces, défenses, détection, plan de réponse à incident et rapport d'audit avec retest.\n\n## Livrables\n\n- [ ] Description du système et schéma de flux de données avec frontières de confiance\n- [ ] Analyse STRIDE avec au moins 12 menaces classées par risque\n- [ ] Défenses implémentées : authentification sûre, validation par liste blanche, requêtes paramétrées, en-têtes, limitation de débit\n- [ ] Gestion des secrets : aucun secret dans le dépôt, plan de rotation\n- [ ] Journalisation de sécurité et au moins 4 règles de détection testées\n- [ ] Plan de réponse à incident et post-mortem sans blâme d'un incident simulé\n- [ ] Rapport d'audit généré (CVSS, priorisation) et retest\n- [ ] Suite de tests de sécurité automatisés\n\n## Critères d'évaluation\n\n| Critère | Ce qu'on regarde | Poids |\n|---|---|---|\n| Modélisation | Frontières, menaces et risques cohérents | 20 % |\n| Défenses | Implémentées, correctes et testées | 30 % |\n| Détection et réponse | Journaux utiles, règles, plan, post-mortem | 20 % |\n| Rapport | Clair, priorisé, compréhensible par trois publics | 15 % |\n| Rigueur et éthique | Retest, aucun secret, cadre autorisé | 15 % |\n\nLe projet est validé à **60 %** ou plus. Chaque critère se démontre par une preuve visible (code, tests, texte).\n\n**HEF-100 — Sécurité**\n",
+      "durationMinutes": null,
+      "requirements": [],
+      "deliverables": [
+        "Description du système et schéma de flux de données avec frontières de confiance",
+        "Analyse STRIDE avec au moins 12 menaces classées par risque",
+        "Défenses implémentées : authentification sûre, validation par liste blanche, requêtes paramétrées, en-têtes, limitation de débit",
+        "Gestion des secrets : aucun secret dans le dépôt, plan de rotation",
+        "Journalisation de sécurité et au moins 4 règles de détection testées",
+        "Plan de réponse à incident et post-mortem sans blâme d'un incident simulé",
+        "Rapport d'audit généré (CVSS, priorisation) et retest",
+        "Suite de tests de sécurité automatisés"
+      ],
+      "criteria": [
+        {
+          "label": "Modélisation",
+          "description": "Frontières, menaces et risques cohérents",
+          "weight": 20
+        },
+        {
+          "label": "Défenses",
+          "description": "Implémentées, correctes et testées",
+          "weight": 30
+        },
+        {
+          "label": "Détection et réponse",
+          "description": "Journaux utiles, règles, plan, post-mortem",
+          "weight": 20
+        },
+        {
+          "label": "Rapport",
+          "description": "Clair, priorisé, compréhensible par trois publics",
+          "weight": 15
+        },
+        {
+          "label": "Rigueur et éthique",
+          "description": "Retest, aucun secret, cadre autorisé",
+          "weight": 15
+        }
+      ],
+      "validationCriteria": "Projet validé à 60 % ou plus.",
+      "sourcePath": "05-Project/README.md"
     },
     "resources": [
       {
