@@ -4,6 +4,7 @@ import { PrismaClient } from "../generated/prisma/client";
 import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
 import { seedAcademy } from "./seed-academy";
+import { seedHef } from "./seed-hef";
 import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
 import { PROJECT_MISSION } from "../lib/project-mission";
 import { SOLUTION_MISSION } from "../lib/solution-mission";
@@ -128,6 +129,10 @@ async function main() {
 
   console.log("\n🎓 Lancement du seed Academy...");
   const academyCounts = await seedAcademy();
+
+  console.log("\n📚 Import du curriculum HEF...");
+  const hefCounts = await seedHef(prisma);
+  console.log(`  ✓ ${hefCounts.courses} cours HEF, ${hefCounts.contents} contenus, ${hefCounts.linkedPillars} piliers liés`);
 
   console.log("\n🛡️ Synchronizing administrators...");
   for (const email of ADMIN_EMAILS) {
