@@ -921,6 +921,7 @@ model CourseQuiz {
   contentId      String        @unique
   content        Content       @relation(fields: [contentId], references: [id], onDelete: Cascade)
   difficulty     CourseLevel   @default(BEGINNER)
+  passScore      Int           @default(60)
   isAIGenerated  Boolean       @default(false)
   questions      CourseQuestion[]
   attempts       CourseQuizAttempt[]

@@ -36,7 +36,20 @@ interface HefModule {
   durationMinutes: number | null;
   missions: HefContent[];
   labs: HefContent[];
-  assessment: { title: string; body: string } | null;
+  assessment:
+    | {
+        title: string;
+        body: string;
+        quiz?: {
+          passScore: number;
+          questions: Array<{
+            order: number;
+            text: string;
+            options: Array<{ text: string; isCorrect: boolean }>;
+          }>;
+        } | null;
+      }
+    | null;
   project: { title: string; body: string } | null;
   resources: HefContent[];
 }
@@ -52,6 +65,8 @@ export interface HefCounts {
   sections: number;
   contents: number;
   linkedPillars: number;
+  quizzes: number;
+  questions: number;
   deprecated: number;
   skipped: string[];
 }
@@ -130,6 +145,8 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     sections: 0,
     contents: 0,
     linkedPillars: 0,
+    quizzes: 0,
+    questions: 0,
     deprecated: 0,
     skipped: [],
   };
@@ -231,6 +248,56 @@ export async function seedHef(db: Db): Promise<HefCounts> {
       counts.sections += 1;
       await upsertContent(db, assessmentSection.id, module.assessment, 1);
       counts.contents += 1;
+
+      if (module.assessment.quiz && module.assessment.quiz.questions.length > 0) {
+        const quizContent = await db.content.upsert({
+          where: { sectionId_order: { sectionId: assessmentSection.id, order: 2 } },
+          update: { title: `Quiz — ${module.title}`, type: "QUIZ" },
+          create: {
+            sectionId: assessmentSection.id,
+            order: 2,
+            title: `Quiz — ${module.title}`,
+            type: "QUIZ",
+          },
+          select: { id: true },
+        });
+        counts.contents += 1;
+
+        const quiz = await db.courseQuiz.upsert({
+          where: { contentId: quizContent.id },
+          update: {
+            difficulty: module.level,
+            passScore: module.assessment.quiz.passScore,
+          },
+          create: {
+            contentId: quizContent.id,
+            difficulty: module.level,
+            passScore: module.assessment.quiz.passScore,
+          },
+          select: { id: true },
+        });
+
+        // Questions/options are derived from the Markdown source: rebuild them
+        // on each import. Attempts live in course_quiz_attempt and are preserved.
+        await db.courseQuestion.deleteMany({ where: { quizId: quiz.id } });
+        for (const question of module.assessment.quiz.questions) {
+          await db.courseQuestion.create({
+            data: {
+              quizId: quiz.id,
+              text: question.text,
+              order: question.order,
+              options: {
+                create: question.options.map((option) => ({
+                  text: option.text,
+                  isCorrect: option.isCorrect,
+                })),
+              },
+            },
+          });
+          counts.questions += 1;
+        }
+        counts.quizzes += 1;
+      }
     }
 
     if (module.project) {
@@ -287,6 +354,7 @@ async function main() {
     console.log(`   Sections:       ${counts.sections}`);
     console.log(`   Contents:       ${counts.contents}`);
     console.log(`   Piliers liés:   ${counts.linkedPillars}`);
+    console.log(`   Quiz:           ${counts.quizzes} (${counts.questions} questions)`);
     console.log(`   Cours démo dépubliés: ${counts.deprecated}`);
     if (counts.skipped.length > 0) {
       console.log(`   Ignorés:        ${counts.skipped.join("; ")}`);
