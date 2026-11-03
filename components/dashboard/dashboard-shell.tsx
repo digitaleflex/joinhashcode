@@ -29,6 +29,8 @@ import { MissionDeck } from "./mission-deck"
 import { BottomNav } from "./bottom-nav"
 import { ActivationChecklist } from "./activation-checklist"
 import { FirstActionCard } from "./first-action-card"
+import { NextStepCard } from "./next-step-card"
+import { getMemberNextStep } from "@/lib/next-step"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { SquadData } from "@/components/dashboard/squad-journey"
@@ -102,6 +104,11 @@ export function DashboardShell({
     }
     return map[(user?.primaryDomain ?? "").toLowerCase()] ?? "À choisir"
   }, [user?.primaryDomain])
+
+  const nextStep = useMemo(
+    () => getMemberNextStep(fullSubmissions, user?.missionsCompletedCount ?? 0),
+    [fullSubmissions, user?.missionsCompletedCount],
+  )
 
   const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
   const hasStarted = (user?.missionsCompletedCount ?? 0) > 0 || (user?.currentStreak ?? 0) > 0
@@ -189,6 +196,8 @@ export function DashboardShell({
             {/* ── ESTABLISHED USER: full dashboard ─────────────────── */}
             {hasStarted && (
               <>
+                <NextStepCard step={nextStep} />
+
                 {/* Activation Checklist */}
                 <ActivationChecklist
                   user={user}

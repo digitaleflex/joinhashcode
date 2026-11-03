@@ -8,15 +8,14 @@ export interface NavItem {
   tooltip: string
 }
 
-// Pivot Pipeline Cyber (DOCS/PIVOT_CYBER.md) — nav réorientée :
-// Parcours → Labs → Portfolio → Vivier. Les entrées gelées (/ateliers, /guide,
-// /squad, /leaderboard) sont retirées de la navigation.
+// Navigation membre alignée sur D-024 : Parcours → Labs → Portfolio → Vivier.
+// Les entrées gelées (/guide, /squad, /leaderboard) restent hors navigation.
 export const mainNavItems: NavItem[] = [
   { href: "/dashboard", label: "Mon Parcours", icon: Layout, tooltip: "Ta prochaine étape du parcours." },
-  { href: "/missions", label: "Labs", icon: Target, tooltip: "Les labs de la filière cyber : prouve tes compétences." },
-  { href: "/academy", label: "Parcours", icon: ClipboardCheck, tooltip: "Ton parcours N0→N1 : fiches méthode et étapes." },
-  { href: "/dossier", label: "Portfolio", icon: FileText, tooltip: "Tes evidences et livrables vérifiés." },
-  { href: "/dashboard/talents", label: "Vivier", icon: Compass, tooltip: "Le vivier d'analystes HashCode." },
+  { href: "/missions", label: "Labs", icon: Target, tooltip: "Les Labs des trois domaines : livre une action concrète et fais-la valider." },
+  { href: "/academy", label: "Parcours", icon: ClipboardCheck, tooltip: "Ton parcours d'apprentissage : étapes, ressources et progression." },
+  { href: "/dossier", label: "Portfolio", icon: FileText, tooltip: "Tes preuves de compétence et livrables vérifiés." },
+  { href: "/dashboard/talents", label: "Vivier", icon: Compass, tooltip: "Le vivier de talents HashCode." },
 ]
 
 // Anciennes entrées gelées (référence Vague 5) :
