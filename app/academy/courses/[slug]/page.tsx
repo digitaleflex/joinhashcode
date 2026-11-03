@@ -52,6 +52,24 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
  
      return (
         <div className="max-w-7xl mx-auto px-6 py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Course",
+                        name: course.title,
+                        description: course.description ?? undefined,
+                        inLanguage: "fr",
+                        isAccessibleForFree: true,
+                        provider: {
+                            "@type": "Organization",
+                            name: "HashCode",
+                            sameAs: "https://joinhashcode.com",
+                        },
+                    }),
+                }}
+            />
             <Link
                 href="/academy/courses"
                 className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors mb-8"
