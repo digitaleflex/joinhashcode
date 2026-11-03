@@ -10,7 +10,7 @@ export default function LegalPage() {
     <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
       <Nav />
       
-      <div className="pt-8 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="pt-24 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

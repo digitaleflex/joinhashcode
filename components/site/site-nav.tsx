@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ArrowRight, BookOpen, LayoutDashboard, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/brand/logo"
@@ -44,8 +45,27 @@ function SiteNavActions() {
   )
 }
 
+function isActivePath(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export function SiteNav() {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Close the mobile menu on Escape and on route changes.
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [open])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <header className="fixed inset-x-0 top-0 z-[var(--z-sticky)] w-full border-b border-border bg-background/85 backdrop-blur-xl">
@@ -64,7 +84,12 @@ export function SiteNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              aria-current={isActivePath(pathname, link.href) ? "page" : undefined}
+              className={
+                isActivePath(pathname, link.href)
+                  ? "text-xs font-semibold text-primary"
+                  : "text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              }
             >
               {link.label}
             </Link>
@@ -89,7 +114,7 @@ export function SiteNav() {
       {open && (
         <nav
           id="hashcode-mobile-navigation"
-          className="border-t border-border bg-background px-4 pb-4 pt-2 lg:hidden"
+          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-border bg-background px-4 pb-4 pt-2 shadow-2xl lg:hidden"
           aria-label="Navigation mobile"
         >
           {PUBLIC_LINKS.map((link) => (
@@ -97,7 +122,12 @@ export function SiteNav() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-2 py-3 text-sm font-medium text-foreground hover:bg-muted"
+              aria-current={isActivePath(pathname, link.href) ? "page" : undefined}
+              className={
+                isActivePath(pathname, link.href)
+                  ? "block rounded-lg bg-primary/10 px-2 py-3 text-sm font-semibold text-primary"
+                  : "block rounded-lg px-2 py-3 text-sm font-medium text-foreground hover:bg-muted"
+              }
             >
               {link.label}
             </Link>
