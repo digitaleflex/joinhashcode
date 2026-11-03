@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         key: "X-Frame-Options",
-        value: "DENY",
+        value: "SAMEORIGIN",
       },
       {
         key: "X-Content-Type-Options",
@@ -56,12 +56,14 @@ const nextConfig = {
       key: "Content-Security-Policy",
       value: [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com",
-        "style-src 'self' 'unsafe-inline'",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
         "img-src 'self' data: blob: lh3.googleusercontent.com avatars.githubusercontent.com api.qrserver.com",
-        "font-src 'self' data:",
-        "connect-src 'self' https://cloudflareinsights.com",
-        "frame-ancestors 'none'",
+        "font-src 'self' data: https://cdn.jsdelivr.net https://fonts.gstatic.com",
+        "connect-src 'self' https://cloudflareinsights.com https://cdn.jsdelivr.net https://*.pyodide.org https://pypi.org",
+        "worker-src 'self' blob:",
+        "frame-src 'self'",
+        "frame-ancestors 'self'",
         "base-uri 'self'",
         "form-action 'self'",
       ].join("; "),
