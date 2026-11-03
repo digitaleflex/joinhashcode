@@ -40,13 +40,13 @@ function CourseCard({
             href={`/academy/courses/${course.slug}`}
             className="group bg-card rounded-3xl border border-border shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full"
         >
-            <div className="aspect-16/10 bg-secondary relative overflow-hidden border-b border-border">
+            <div className="aspect-[8/3] bg-secondary relative overflow-hidden border-b border-border">
                 {course.thumbnail ? (
                     <Image
                         src={course.thumbnail}
                         alt={course.title}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="object-contain group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 ) : (
