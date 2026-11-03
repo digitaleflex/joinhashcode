@@ -32,6 +32,7 @@ interface HefModule {
   phase: number;
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   pillarSlug: string;
+  thumbnail: string | null;
   durationMinutes: number | null;
   missions: HefContent[];
   labs: HefContent[];
@@ -51,6 +52,7 @@ export interface HefCounts {
   sections: number;
   contents: number;
   linkedPillars: number;
+  deprecated: number;
   skipped: string[];
 }
 
@@ -128,6 +130,7 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     sections: 0,
     contents: 0,
     linkedPillars: 0,
+    deprecated: 0,
     skipped: [],
   };
 
@@ -137,10 +140,22 @@ export async function seedHef(db: Db): Promise<HefCounts> {
   if (files.length === 0) return counts;
 
   const instructorId = await resolveInstructor(db);
-  const category = await db.category.findUnique({
-    where: { slug: "fondamentaux" },
-    select: { id: true },
-  });
+
+  const CATEGORY_BY_PHASE: Record<number, { slug: string; name: string }> = {
+    1: { slug: "fondamentaux", name: "Fondamentaux" },
+    2: { slug: "systemes", name: "Systèmes" },
+    3: { slug: "ingenierie", name: "Ingénierie" },
+    4: { slug: "avance", name: "Avancé" },
+  };
+  const categories: Record<number, { id: string }> = {};
+  for (const [phase, category] of Object.entries(CATEGORY_BY_PHASE)) {
+    categories[Number(phase)] = await db.category.upsert({
+      where: { slug: category.slug },
+      update: { name: category.name },
+      create: { slug: category.slug, name: category.name },
+      select: { id: true },
+    });
+  }
 
   for (const file of files) {
     const payload = JSON.parse(
@@ -166,7 +181,8 @@ export async function seedHef(db: Db): Promise<HefCounts> {
         level: module.level,
         isPublished: true,
         language: "FR",
-        categoryId: category?.id ?? null,
+        thumbnail: module.thumbnail,
+        categoryId: categories[module.phase]?.id ?? null,
         seoTitle: `${module.code} — ${module.title}`,
         seoDescription: module.description,
       },
@@ -178,7 +194,8 @@ export async function seedHef(db: Db): Promise<HefCounts> {
         isPublished: true,
         language: "FR",
         instructorId,
-        categoryId: category?.id ?? null,
+        thumbnail: module.thumbnail,
+        categoryId: categories[module.phase]?.id ?? null,
         seoTitle: `${module.code} — ${module.title}`,
         seoDescription: module.description,
       },
@@ -235,6 +252,17 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     console.log(`  ✓ ${module.code} — ${module.title} (${module.missions.length} missions)`);
   }
 
+  // The historical demo courses used fictitious CDN URLs. They are kept for
+  // history but unpublished so the catalogue only shows real HEF content.
+  const demo = await db.course.updateMany({
+    where: {
+      slug: { in: ["hef-algorithmique", "hef-bases-donnees", "hef-devops"] },
+      isPublished: true,
+    },
+    data: { isPublished: false },
+  });
+  counts.deprecated = demo.count;
+
   return counts;
 }
 
@@ -259,6 +287,7 @@ async function main() {
     console.log(`   Sections:       ${counts.sections}`);
     console.log(`   Contents:       ${counts.contents}`);
     console.log(`   Piliers liés:   ${counts.linkedPillars}`);
+    console.log(`   Cours démo dépubliés: ${counts.deprecated}`);
     if (counts.skipped.length > 0) {
       console.log(`   Ignorés:        ${counts.skipped.join("; ")}`);
     }

@@ -103,7 +103,7 @@ async function findModuleDir(source, code) {
   throw new Error(`Module ${code} introuvable dans ${source}`);
 }
 
-async function parseChapters(dir) {
+async function parseChapters(dir, code) {
   const chaptersDir = path.join(dir, "01-Course", "chapters");
   const entries = (await readdir(chaptersDir))
     .filter((name) => /^\d+.*\.md$/.test(name) && !name.startsWith("README"))
@@ -120,7 +120,7 @@ async function parseChapters(dir) {
       order: index + 1,
       durationMinutes: meta.durationMinutes,
       badge: meta.badge,
-      body: stripTitle(body),
+      body: `![${title}](/hef/parcours/${code.toLowerCase().replace("-", "")}-m${String(index + 1).padStart(2, "0")}.svg)\n\n${stripTitle(body)}`,
     });
   }
   return missions;
@@ -182,7 +182,7 @@ async function main() {
   const readme = await readFile(path.join(dir, "README.md"), "utf8");
   const phase = PHASE_BY_BLOCK[block];
   const moduleSlug = slugify(`${code}-${titleOf(readme).replace(/^HEF-\d+\s*[—-]\s*/i, "")}`);
-  const missions = await parseChapters(dir);
+  const missions = await parseChapters(dir, code);
 
   const moduleData = {
     code,
@@ -192,6 +192,7 @@ async function main() {
     phase,
     level: LEVEL_BY_PHASE[phase],
     pillarSlug: PILLAR_BY_CODE[code],
+    thumbnail: `/hef/modules/${code.toLowerCase().replace("-", "")}.svg`,
     durationMinutes: missions.reduce((total, m) => total + (m.durationMinutes ?? 0), 0) || null,
     missions,
     labs: await parseLabs(dir),
