@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, Check, Clock, GraduationCap, Star, PlayCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Clock, GraduationCap, Star, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnrollButton } from "@/components/academy/enroll-button";
 import { getSessionSafe } from "@/lib/get-session-safe";
@@ -90,18 +90,38 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
 
                     <h2 className="text-2xl font-black text-foreground mb-6">Programme</h2>
                     <div className="space-y-4">
-                        {course.sections.map((section: { id: string; title: string; contents: unknown[] }, idx: number) => (
-                            <div key={section.id} className="p-6 border border-border rounded-3xl bg-card flex items-center justify-between gap-4 hover:shadow-lg transition-shadow">
-                                <div className="flex items-center gap-4">
-                                    <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                                        <PlayCircle className="size-5 text-primary" />
+                        {course.sections.map((section, idx) => (
+                            <div key={section.id} className="p-6 border border-border rounded-3xl bg-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-center justify-between gap-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="size-10 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                                            <PlayCircle className="size-5 text-primary" />
+                                        </div>
+                                        <div>
+                                            <p className="font-black text-foreground">{section.title}</p>
+                                            <p className="text-xs font-bold text-muted-foreground">
+                                                {section.contents.length} leçon{section.contents.length > 1 ? "s" : ""}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="font-black text-foreground">{section.title}</p>
-                                        <p className="text-xs font-bold text-muted-foreground">{section.contents.length} leçons</p>
-                                    </div>
+                                    <span className="text-sm font-black text-muted-foreground">Section {idx + 1}</span>
                                 </div>
-                                <span className="text-sm font-black text-muted-foreground">Section {idx + 1}</span>
+
+                                {section.contents.length > 0 && (
+                                    <ul className="mt-4 space-y-1 border-t border-border pt-3">
+                                        {section.contents.map((item) => (
+                                            <li key={item.id}>
+                                                <Link
+                                                    href={`/academy/courses/${course.slug}/lessons/${item.id}`}
+                                                    className="group flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+                                                >
+                                                    <span className="truncate">{item.title}</span>
+                                                    <ArrowRight className="size-3.5 shrink-0 text-primary/60 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
                         ))}
                     </div>
