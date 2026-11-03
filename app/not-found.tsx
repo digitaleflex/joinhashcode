@@ -3,10 +3,14 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Home, ChevronLeft, Terminal } from "lucide-react"
+import { SiteNav } from "@/components/site/site-nav"
+import { SiteFooter } from "@/components/site/site-footer"
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="site-light min-h-screen bg-background text-foreground">
+      <SiteNav />
+      <div className="min-h-[calc(100vh-4rem)] bg-background flex items-center justify-center p-4 pt-20 relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,244,65,0.05),transparent_50%)]" />
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" 
@@ -54,6 +58,8 @@ export default function NotFound() {
           </div>
         </div>
       </div>
+      </div>
+      <SiteFooter />
     </div>
   )
 }

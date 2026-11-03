@@ -46,7 +46,7 @@ export default async function AcademyDiplomasPage() {
                             {program.name}
                         </span>
                     </div>
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground leading-tight tracking-tight break-words">
+                    <h1 className="text-4xl sm:text-5xl font-black text-foreground leading-tight tracking-tight break-words">
                         Certifiez vos <br />
                         <span className="text-primary">compétences.</span>
                     </h1>
