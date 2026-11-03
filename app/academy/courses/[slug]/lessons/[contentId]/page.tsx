@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, Clock, FileText } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { MarkdownContent } from "@/components/academy/markdown-content"
+import { QuizPlayer } from "@/components/academy/quiz-player"
 
 export const dynamic = "force-dynamic"
 
@@ -32,6 +33,14 @@ export default async function LessonPage({
       section: {
         include: {
           course: { select: { id: true, slug: true, title: true, isPublished: true } },
+        },
+      },
+      quiz: {
+        include: {
+          questions: {
+            include: { options: true },
+            orderBy: { order: "asc" },
+          },
         },
       },
     },
@@ -84,7 +93,11 @@ export default async function LessonPage({
         <div className="mt-4 flex items-center gap-4 text-xs font-medium text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <FileText className="h-3.5 w-3.5" aria-hidden />
-            {content.type === "DOCUMENT" ? "Lecture" : content.type}
+            {content.type === "DOCUMENT"
+              ? "Lecture"
+              : content.type === "QUIZ"
+                ? "Quiz"
+                : content.type}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5" aria-hidden />
@@ -93,7 +106,20 @@ export default async function LessonPage({
         </div>
 
         <article className="mt-10 border-t border-border pt-8">
-          {content.body ? (
+          {content.type === "QUIZ" && content.quiz ? (
+            <QuizPlayer
+              quizId={content.quiz.id}
+              initialPassScore={content.quiz.passScore}
+              questions={content.quiz.questions.map((question) => ({
+                id: question.id,
+                text: question.text,
+                options: question.options.map((option) => ({
+                  id: option.id,
+                  text: option.text,
+                })),
+              }))}
+            />
+          ) : content.body ? (
             <MarkdownContent>{content.body}</MarkdownContent>
           ) : (
             <p className="text-sm text-muted-foreground">
