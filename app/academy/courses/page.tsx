@@ -86,7 +86,7 @@ function CourseCard({
                         </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <Stars rating={course.averageRating} />
+                        {course.totalLearners > 0 ? (<Stars rating={course.averageRating} />) : (<span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Nouveau</span>)}
                         <ArrowRight className="size-3 text-primary" />
                     </div>
                 </div>

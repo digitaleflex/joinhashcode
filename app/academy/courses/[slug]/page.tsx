@@ -114,10 +114,10 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
                             <div className="flex items-center justify-center gap-2">
                                 <Star className="size-6 text-primary fill-primary" />
                                 <p className="text-3xl font-black text-foreground">
-                                    {course.averageRating ? `${course.averageRating.toFixed(1)} / 5` : "Nouveau"}
+                                    {course.totalLearners > 0 ? `${course.averageRating.toFixed(1)} / 5` : "Nouveau"}
                                 </p>
                             </div>
-                            <p className="text-xs font-bold text-muted-foreground">{course.totalLearners} élèves inscrits</p>
+                            <p className="text-xs font-bold text-muted-foreground">{course.totalLearners > 0 ? `${course.totalLearners} élèves inscrits` : "Aucun élève inscrit"}</p>
                         </div>
 
                                                 {/* 
@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
 
                         <ul className="mt-8 space-y-3 text-sm font-bold text-muted-foreground">
                             <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Accès à vie</li>
-                            <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Certificat reconnu</li>
+                            <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Certificat HashCode</li>
                             <li className="flex items-center gap-3"><Check className="size-4 text-primary" /> Support des formateurs</li>
                             <li className="flex items-center gap-3"><Clock className="size-4 text-primary" /> Rythme flexible</li>
                             <li className="flex items-center gap-3"><GraduationCap className="size-4 text-primary" /> Niveau {course.level === "BEGINNER" ? "débutant" : course.level === "INTERMEDIATE" ? "intermédiaire" : "avancé"}</li>
