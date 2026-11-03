@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" role="img" aria-label="Sam, ingénieur senior">
+<title>Sam — ingénieur senior</title>
+<defs>
+<linearGradient id="fond" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d3f5dc"/><stop offset="1" stop-color="#7ed49a"/></linearGradient>
+<radialGradient id="visage" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#e8b98a"/><stop offset="1" stop-color="#c98f5e"/></radialGradient>
+<linearGradient id="haut" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2da44e"/><stop offset="1" stop-color="#116329"/></linearGradient>
+<clipPath id="cadre"><rect width="240" height="300" rx="28"/></clipPath>
+</defs>
+<g clip-path="url(#cadre)">
+<rect width="240" height="300" fill="url(#fond)"/>
+<circle cx="200" cy="48" r="70" fill="#fff" opacity="0.12"/><circle cx="30" cy="250" r="60" fill="#fff" opacity="0.10"/>
+<ellipse cx="120" cy="296" rx="95" ry="10" fill="#000" opacity="0.12"/>
+<path d="M22 300 Q26 205 120 200 Q214 205 218 300Z" fill="url(#haut)"/>
+<path d="M96 200 L120 232 L144 200 Q120 212 96 200Z" fill="#116329" opacity="0.55"/>
+<path d="M60 126 Q52 56 120 48 Q190 56 182 126 Q168 88 120 86 Q72 88 60 126Z" fill="#9aa0a6"/>
+<rect x="104" y="168" width="32" height="40" rx="12" fill="#c98f5e"/>
+<ellipse cx="70" cy="128" rx="8" ry="13" fill="#c98f5e"/><ellipse cx="170" cy="128" rx="8" ry="13" fill="#c98f5e"/>
+<ellipse cx="120" cy="125" rx="52" ry="58" fill="url(#visage)"/>
+<path d="M64 112 Q76 72 120 70 Q164 72 176 112 Q156 90 120 90 Q84 90 64 112Z" fill="#b5bac0"/><path d="M76 152 Q80 190 120 194 Q160 190 164 152 Q150 168 120 168 Q90 168 76 152Z" fill="#9aa0a6"/><path d="M100 150 Q120 158 140 150 Q120 168 100 150Z" fill="#8a9096"/>
+<path d="M88 106 q10 -8 20 0" fill="none" stroke="#6a6e73" stroke-width="5" stroke-linecap="round"/><path d="M132 106 q10 -8 20 0" fill="none" stroke="#6a6e73" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="98" cy="122" rx="8" ry="10" fill="#fff"/><ellipse cx="142" cy="122" rx="8" ry="10" fill="#fff"/>
+<circle cx="99" cy="123" r="5.5" fill="#2b1d12"/><circle cx="143" cy="123" r="5.5" fill="#2b1d12"/><circle cx="101" cy="120.5" r="1.8" fill="#fff"/><circle cx="145" cy="120.5" r="1.8" fill="#fff"/>
+<ellipse cx="86" cy="141" rx="9" ry="5" fill="#ff7b72" opacity="0.28"/><ellipse cx="154" cy="141" rx="9" ry="5" fill="#ff7b72" opacity="0.28"/>
+<path d="M120 126 q-5 14 2 17" fill="none" stroke="#c98f5e" stroke-width="3" stroke-linecap="round"/>
+<g transform="translate(20 6)"><path d="M82 133 Q100 150 118 133 Q100 141 82 133Z" fill="#fff" stroke="#6b3b2a" stroke-width="3" stroke-linejoin="round"/></g>
+<g><path d="M178 238 h30 v26 a8 8 0 0 1 -8 8 h-14 a8 8 0 0 1 -8 -8z" fill="#fff"/><path d="M208 244 q14 2 0 16" fill="none" stroke="#fff" stroke-width="5"/><path d="M186 232 q4 -8 0 -14 M196 232 q4 -8 0 -14" fill="none" stroke="#fff" stroke-width="3" opacity="0.7" stroke-linecap="round"/></g>
+</g>
+<text x="120" y="282" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="800" fill="#fff">Sam</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" role="img" aria-label="HashCode Engineering Foundations : parcours de 17 modules guidé par Kodi, Maya, Sam et Léo">
+<title>HashCode Engineering Foundations</title>
+<rect width="900" height="220" rx="20" fill="#0d1117"/>
+<text x="40" y="80" font-family="sans-serif" font-size="38" font-weight="800" fill="#ffffff">HashCode Engineering</text>
+<text x="40" y="124" font-family="sans-serif" font-size="38" font-weight="800" fill="#58a6ff">Foundations</text>
+<text x="40" y="164" font-family="sans-serif" font-size="17" fill="#c9d1d9">17 modules · 169 missions · un fil rouge : HashBox</text>
+<text x="40" y="192" font-family="sans-serif" font-size="14" fill="#8b949e">Apprendre en jouant, sans jamais lâcher la rigueur.</text>
+<circle cx="560" cy="95" r="34" fill="#0969da"/><text x="560" y="107" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="800" fill="#fff">K</text>
+<circle cx="640" cy="95" r="34" fill="#fb8500"/><text x="640" y="107" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="800" fill="#fff">M</text>
+<circle cx="720" cy="95" r="34" fill="#1a7f37"/><text x="720" y="107" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="800" fill="#fff">S</text>
+<circle cx="800" cy="95" r="34" fill="#bf8700"/><text x="800" y="107" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="800" fill="#fff">L</text>
+<text x="544" y="165" font-family="sans-serif" font-size="13" fill="#c9d1d9">Kodi</text><text x="623" y="165" font-family="sans-serif" font-size="13" fill="#c9d1d9">Maya</text><text x="706" y="165" font-family="sans-serif" font-size="13" fill="#c9d1d9">Sam</text><text x="790" y="165" font-family="sans-serif" font-size="13" fill="#c9d1d9">Léo</text>
+</svg>

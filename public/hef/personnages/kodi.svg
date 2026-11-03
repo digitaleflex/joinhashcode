@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" role="img" aria-label="Kodi, développeur·se débutant·e et curieux·se">
+<title>Kodi — développeur·se débutant·e et curieux·se</title>
+<defs>
+<linearGradient id="fond" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe3ff"/><stop offset="1" stop-color="#7fb2ff"/></linearGradient>
+<radialGradient id="visage" cx="0.4" cy="0.35" r="0.8"><stop offset="0" stop-color="#f6d1a4"/><stop offset="1" stop-color="#e0a96d"/></radialGradient>
+<linearGradient id="haut" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f81f7"/><stop offset="1" stop-color="#0b4fb3"/></linearGradient>
+<clipPath id="cadre"><rect width="240" height="300" rx="28"/></clipPath>
+</defs>
+<g clip-path="url(#cadre)">
+<rect width="240" height="300" fill="url(#fond)"/>
+<circle cx="200" cy="48" r="70" fill="#fff" opacity="0.12"/><circle cx="30" cy="250" r="60" fill="#fff" opacity="0.10"/>
+<ellipse cx="120" cy="296" rx="95" ry="10" fill="#000" opacity="0.12"/>
+<path d="M22 300 Q26 205 120 200 Q214 205 218 300Z" fill="url(#haut)"/>
+<path d="M96 200 L120 232 L144 200 Q120 212 96 200Z" fill="#0b4fb3" opacity="0.55"/>
+<path d="M60 120 Q52 52 120 44 Q190 50 182 120 Q168 86 120 84 Q74 86 60 120Z" fill="#5a3b24"/>
+<rect x="104" y="168" width="32" height="40" rx="12" fill="#e0a96d"/>
+<ellipse cx="70" cy="128" rx="8" ry="13" fill="#e0a96d"/><ellipse cx="170" cy="128" rx="8" ry="13" fill="#e0a96d"/>
+<ellipse cx="120" cy="125" rx="52" ry="58" fill="url(#visage)"/>
+<path d="M66 112 Q74 70 120 66 Q168 70 174 112 Q158 88 120 88 Q84 88 66 112Z" fill="#6e4a2e"/><path d="M92 70 q10 -22 30 -18 q-4 8 -8 14z" fill="#6e4a2e"/>
+<path d="M88 106 q10 -8 20 0" fill="none" stroke="#3b2a1a" stroke-width="5" stroke-linecap="round"/><path d="M132 106 q10 -8 20 0" fill="none" stroke="#3b2a1a" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="98" cy="122" rx="8" ry="10" fill="#fff"/><ellipse cx="142" cy="122" rx="8" ry="10" fill="#fff"/>
+<circle cx="99" cy="123" r="5.5" fill="#2b1d12"/><circle cx="143" cy="123" r="5.5" fill="#2b1d12"/><circle cx="101" cy="120.5" r="1.8" fill="#fff"/><circle cx="145" cy="120.5" r="1.8" fill="#fff"/>
+<ellipse cx="86" cy="141" rx="9" ry="5" fill="#ff7b72" opacity="0.28"/><ellipse cx="154" cy="141" rx="9" ry="5" fill="#ff7b72" opacity="0.28"/>
+<path d="M120 126 q-5 14 2 17" fill="none" stroke="#e0a96d" stroke-width="3" stroke-linecap="round"/>
+<g transform="translate(20 6)"><path d="M80 131 Q100 156 120 131Z" fill="#7a2b2b"/><path d="M84 131 Q100 140 116 131 L116 133 Q100 143 84 133Z" fill="#fff"/></g>
+<g fill="none" stroke="#24292f" stroke-width="4"><rect x="80" y="110" width="36" height="28" rx="10" fill="#fff" fill-opacity="0.18"/><rect x="124" y="110" width="36" height="28" rx="10" fill="#fff" fill-opacity="0.18"/><path d="M116 122 H124"/><path d="M80 120 L68 116"/><path d="M160 120 L172 116"/></g><rect x="176" y="218" width="40" height="30" rx="5" fill="#161b22"/><text x="196" y="239" text-anchor="middle" font-family="monospace" font-size="16" font-weight="800" fill="#3fb950">&lt;/&gt;</text>
+</g>
+<text x="120" y="282" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="800" fill="#fff">Kodi</text>
+</svg>
