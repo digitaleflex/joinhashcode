@@ -141,7 +141,7 @@ export default async function AcademyCoursesPage({
                     </div>
                     <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight">Toutes nos formations</h1>
                     <p className="text-muted-foreground font-medium text-lg max-w-2xl">
-                        Développez vos compétences avec des parcours conçus par des experts et certifiés par l&apos;État.
+                        Développez vos compétences avec des parcours structurés, des exercices pratiques et des validations transparentes.
                     </p>
                 </div>
 
