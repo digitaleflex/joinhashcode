@@ -17,6 +17,7 @@ const schema = {
     "*": [...(defaultSchema.attributes?.["*"] ?? []), "className"],
     summary: [],
     a: [...(defaultSchema.attributes?.a ?? []), "target", "rel"],
+    img: [...(defaultSchema.attributes?.img ?? []), "width", "height", "align"],
   },
 };
 
@@ -100,14 +101,24 @@ export function MarkdownContent({ children }: { children: string }) {
             <td className="border border-white/10 px-3 py-2 align-top">{children}</td>
           ),
           hr: () => <hr className="my-8 border-white/10" />,
-          img: ({ src, alt }) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={typeof src === "string" ? src : undefined}
-              alt={alt ?? ""}
-              className="my-4 max-w-full rounded-xl border border-white/10"
-            />
-          ),
+          img: ({ src, alt, width }) => {
+            const numericWidth =
+              typeof width === "number" ? width : Number.parseInt(String(width ?? ""), 10);
+            const small = Number.isFinite(numericWidth) && numericWidth <= 140;
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={typeof src === "string" ? src : undefined}
+                alt={alt ?? ""}
+                style={small ? { width: numericWidth } : undefined}
+                className={
+                  small
+                    ? "float-right ml-4 mb-3 max-w-[140px] rounded-xl border border-white/10"
+                    : "my-4 max-w-full rounded-xl border border-white/10"
+                }
+              />
+            );
+          },
           details: ({ children }) => (
             <details className="my-4 rounded-xl border border-white/10 bg-white/[0.02] p-4">
               {children}
