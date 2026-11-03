@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:51.932Z",
+  "generatedAt": "2026-11-03T20:47:51.913Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-100"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-100",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Le principe du moindre privilège signifie :\n- A. donner uniquement les droits nécessaires\n- B. donner tous les droits aux administrateurs\n- C. supprimer les comptes\n\n**2.** Pour stocker un mot de passe, on utilise :\n- A. MD5\n- B. un chiffrement réversible\n- C. une fonction lente avec sel (scrypt, argon2id)\n\n**3.** L'injection SQL est évitée par :\n- A. des guillemets doubles\n- B. des requêtes paramétrées\n- C. un pare-feu\n\n**4.** Un jeton anti-CSRF prouve :\n- A. que la requête vient du site légitime avec l'accord de l'utilisateur\n- B. que le mot de passe est fort\n- C. que la connexion est chiffrée\n\n**5.** Un secret versionné dans un dépôt est :\n- A. protégé par l'historique\n- B. inoffensif\n- C. à considérer comme compromis\n\n**6.** La phase de confinement d'un incident vise à :\n- A. écrire le rapport\n- B. stopper la propagation\n- C. restaurer les sauvegardes\n\n**7.** Le score CVSS mesure :\n- A. la gravité technique d'une faille\n- B. le risque exact pour l'entreprise\n- C. le coût de correction\n\n**8.** Avant un audit, il faut :\n- A. un outil à la mode\n- B. l'accord de la presse\n- C. une autorisation écrite et un périmètre\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nTu reçois ce petit service de gestion de notes :\n\n```text\n- GET /notes?q=...      → recherche de notes de l'utilisateur\n- GET /notes/<id>       → lit une note\n- POST /notes           → crée une note (JSON : titre, texte)\n- GET /export?fichier=  → télécharge un fichier d'export\n```\n\n1. Fais le modèle de menaces STRIDE (schéma de flux, frontières de confiance, 8 menaces au minimum).\n2. Implémente le service en Python (fonctions + `sqlite3`) en **volontairement** fragile, puis écris les attaques : injection SQL, accès à la note d'un autre (IDOR), traversée de chemin sur `/export`, XSS stocké dans le titre.\n3. Corrige toutes les failles (paramètres, contrôle de propriétaire, confinement, échappement) et prouve la correction par tests.\n4. Ajoute authentification (scrypt), limitation de débit et journalisation de sécurité sans secret.\n5. Génère un rapport d'audit avec scores CVSS et plan de remédiation.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle défense apporte le meilleur rapport efficacité/effort, pourquoi la validation seule ne suffit pas, et un risque que ton dossier laisse volontairement ouvert (avec la raison).\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-100 — Sécurité**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Le principe du moindre privilège signifie :\n- A. donner uniquement les droits nécessaires\n- B. donner tous les droits aux administrateurs\n- C. supprimer les comptes\n\n**2.** Pour stocker un mot de passe, on utilise :\n- A. MD5\n- B. un chiffrement réversible\n- C. une fonction lente avec sel (scrypt, argon2id)\n\n**3.** L'injection SQL est évitée par :\n- A. des guillemets doubles\n- B. des requêtes paramétrées\n- C. un pare-feu\n\n**4.** Un jeton anti-CSRF prouve :\n- A. que la requête vient du site légitime avec l'accord de l'utilisateur\n- B. que le mot de passe est fort\n- C. que la connexion est chiffrée\n\n**5.** Un secret versionné dans un dépôt est :\n- A. protégé par l'historique\n- B. inoffensif\n- C. à considérer comme compromis\n\n**6.** La phase de confinement d'un incident vise à :\n- A. écrire le rapport\n- B. stopper la propagation\n- C. restaurer les sauvegardes\n\n**7.** Le score CVSS mesure :\n- A. la gravité technique d'une faille\n- B. le risque exact pour l'entreprise\n- C. le coût de correction\n\n**8.** Avant un audit, il faut :\n- A. un outil à la mode\n- B. l'accord de la presse\n- C. une autorisation écrite et un périmètre\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nTu reçois ce petit service de gestion de notes :\n\n```text\n- GET /notes?q=...      → recherche de notes de l'utilisateur\n- GET /notes/<id>       → lit une note\n- POST /notes           → crée une note (JSON : titre, texte)\n- GET /export?fichier=  → télécharge un fichier d'export\n```\n\n1. Fais le modèle de menaces STRIDE (schéma de flux, frontières de confiance, 8 menaces au minimum).\n2. Implémente le service en Python (fonctions + `sqlite3`) en **volontairement** fragile, puis écris les attaques : injection SQL, accès à la note d'un autre (IDOR), traversée de chemin sur `/export`, XSS stocké dans le titre.\n3. Corrige toutes les failles (paramètres, contrôle de propriétaire, confinement, échappement) et prouve la correction par tests.\n4. Ajoute authentification (scrypt), limitation de débit et journalisation de sécurité sans secret.\n5. Génère un rapport d'audit avec scores CVSS et plan de remédiation.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle défense apporte le meilleur rapport efficacité/effort, pourquoi la validation seule ne suffit pas, et un risque que ton dossier laisse volontairement ouvert (avec la raison).\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-100 — Sécurité**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Le principe du moindre privilège signifie :",
+            "options": [
+              {
+                "text": "donner uniquement les droits nécessaires",
+                "isCorrect": true
+              },
+              {
+                "text": "donner tous les droits aux administrateurs",
+                "isCorrect": false
+              },
+              {
+                "text": "supprimer les comptes",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Pour stocker un mot de passe, on utilise :",
+            "options": [
+              {
+                "text": "MD5",
+                "isCorrect": false
+              },
+              {
+                "text": "un chiffrement réversible",
+                "isCorrect": false
+              },
+              {
+                "text": "une fonction lente avec sel (scrypt, argon2id)",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "L'injection SQL est évitée par :",
+            "options": [
+              {
+                "text": "des guillemets doubles",
+                "isCorrect": false
+              },
+              {
+                "text": "des requêtes paramétrées",
+                "isCorrect": true
+              },
+              {
+                "text": "un pare-feu",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Un jeton anti-CSRF prouve :",
+            "options": [
+              {
+                "text": "que la requête vient du site légitime avec l'accord de l'utilisateur",
+                "isCorrect": true
+              },
+              {
+                "text": "que le mot de passe est fort",
+                "isCorrect": false
+              },
+              {
+                "text": "que la connexion est chiffrée",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un secret versionné dans un dépôt est :",
+            "options": [
+              {
+                "text": "protégé par l'historique",
+                "isCorrect": false
+              },
+              {
+                "text": "inoffensif",
+                "isCorrect": false
+              },
+              {
+                "text": "à considérer comme compromis",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "La phase de confinement d'un incident vise à :",
+            "options": [
+              {
+                "text": "écrire le rapport",
+                "isCorrect": false
+              },
+              {
+                "text": "stopper la propagation",
+                "isCorrect": true
+              },
+              {
+                "text": "restaurer les sauvegardes",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Le score CVSS mesure :",
+            "options": [
+              {
+                "text": "la gravité technique d'une faille",
+                "isCorrect": true
+              },
+              {
+                "text": "le risque exact pour l'entreprise",
+                "isCorrect": false
+              },
+              {
+                "text": "le coût de correction",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Avant un audit, il faut :",
+            "options": [
+              {
+                "text": "un outil à la mode",
+                "isCorrect": false
+              },
+              {
+                "text": "l'accord de la presse",
+                "isCorrect": false
+              },
+              {
+                "text": "une autorisation écrite et un périmètre",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Dossier de sécurité d'une application",

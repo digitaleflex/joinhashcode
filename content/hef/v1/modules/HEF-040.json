@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:48.933Z",
+  "generatedAt": "2026-11-03T20:47:48.923Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-040"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-040",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Combien de valeurs peut prendre un octet ?\n- A. 256\n- B. 8\n- C. 1 024\n\n**2.** Un opcode indique :\n- A. où stocker le résultat\n- B. la vitesse du CPU\n- C. quelle opération effectuer\n\n**3.** Le registre PC contient :\n- A. le résultat du dernier calcul\n- B. l'adresse de la prochaine instruction\n- C. la taille de la mémoire\n\n**4.** Le niveau de mémoire le plus rapide est :\n- A. les registres\n- B. la RAM\n- C. le SSD\n\n**5.** Un cache fonctionne grâce à :\n- A. la compression des données\n- B. la taille du disque\n- C. la localité des accès\n\n**6.** Une interruption est :\n- A. une panne\n- B. un signal d'un périphérique vers le CPU\n- C. un type de mémoire\n\n**7.** Un cadre de pile contient notamment :\n- A. les variables locales et l'adresse de retour\n- B. le code source\n- C. les fichiers ouverts\n\n**8.** La loi d'Amdahl dit que l'accélération est limitée par :\n- A. la fréquence\n- B. la taille de la RAM\n- C. la partie non parallélisable\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fiche : *CPU 12 cœurs à 3,2 GHz ; cache L3 32 Mo ; RAM 64 Go DDR5-4800 en 2 canaux ; SSD NVMe 3 Go/s ; réseau 2,5 Gb/s.*\n\n1. Calcule la bande passante mémoire théorique, le débit réseau en Mo/s et le débit disque en Mo/s.\n2. Pour un service qui sert des fichiers de 4 Mo à 1 000 clients simultanés, identifie le goulot.\n3. Écris un petit simulateur de cache (8 lignes de 8 éléments) et montre, chiffres à l'appui, qu'un parcours colonne par colonne d'une matrice 32 × 32 provoque plus d'échecs qu'un parcours ligne par ligne.\n4. Estime l'accélération maximale si 80 % d'une tâche est parallélisable sur les 12 cœurs.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle ressource limite le service, comment tu l'as déterminée, et quelle mesure complémentaire tu ferais avant de décider.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-040 — Architecture des ordinateurs**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Combien de valeurs peut prendre un octet ?\n- A. 256\n- B. 8\n- C. 1 024\n\n**2.** Un opcode indique :\n- A. où stocker le résultat\n- B. la vitesse du CPU\n- C. quelle opération effectuer\n\n**3.** Le registre PC contient :\n- A. le résultat du dernier calcul\n- B. l'adresse de la prochaine instruction\n- C. la taille de la mémoire\n\n**4.** Le niveau de mémoire le plus rapide est :\n- A. les registres\n- B. la RAM\n- C. le SSD\n\n**5.** Un cache fonctionne grâce à :\n- A. la compression des données\n- B. la taille du disque\n- C. la localité des accès\n\n**6.** Une interruption est :\n- A. une panne\n- B. un signal d'un périphérique vers le CPU\n- C. un type de mémoire\n\n**7.** Un cadre de pile contient notamment :\n- A. les variables locales et l'adresse de retour\n- B. le code source\n- C. les fichiers ouverts\n\n**8.** La loi d'Amdahl dit que l'accélération est limitée par :\n- A. la fréquence\n- B. la taille de la RAM\n- C. la partie non parallélisable\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fiche : *CPU 12 cœurs à 3,2 GHz ; cache L3 32 Mo ; RAM 64 Go DDR5-4800 en 2 canaux ; SSD NVMe 3 Go/s ; réseau 2,5 Gb/s.*\n\n1. Calcule la bande passante mémoire théorique, le débit réseau en Mo/s et le débit disque en Mo/s.\n2. Pour un service qui sert des fichiers de 4 Mo à 1 000 clients simultanés, identifie le goulot.\n3. Écris un petit simulateur de cache (8 lignes de 8 éléments) et montre, chiffres à l'appui, qu'un parcours colonne par colonne d'une matrice 32 × 32 provoque plus d'échecs qu'un parcours ligne par ligne.\n4. Estime l'accélération maximale si 80 % d'une tâche est parallélisable sur les 12 cœurs.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle ressource limite le service, comment tu l'as déterminée, et quelle mesure complémentaire tu ferais avant de décider.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-040 — Architecture des ordinateurs**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Combien de valeurs peut prendre un octet ?",
+            "options": [
+              {
+                "text": "256",
+                "isCorrect": true
+              },
+              {
+                "text": "8",
+                "isCorrect": false
+              },
+              {
+                "text": "1 024",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Un opcode indique :",
+            "options": [
+              {
+                "text": "où stocker le résultat",
+                "isCorrect": false
+              },
+              {
+                "text": "la vitesse du CPU",
+                "isCorrect": false
+              },
+              {
+                "text": "quelle opération effectuer",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Le registre PC contient :",
+            "options": [
+              {
+                "text": "le résultat du dernier calcul",
+                "isCorrect": false
+              },
+              {
+                "text": "l'adresse de la prochaine instruction",
+                "isCorrect": true
+              },
+              {
+                "text": "la taille de la mémoire",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Le niveau de mémoire le plus rapide est :",
+            "options": [
+              {
+                "text": "les registres",
+                "isCorrect": true
+              },
+              {
+                "text": "la RAM",
+                "isCorrect": false
+              },
+              {
+                "text": "le SSD",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un cache fonctionne grâce à :",
+            "options": [
+              {
+                "text": "la compression des données",
+                "isCorrect": false
+              },
+              {
+                "text": "la taille du disque",
+                "isCorrect": false
+              },
+              {
+                "text": "la localité des accès",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Une interruption est :",
+            "options": [
+              {
+                "text": "une panne",
+                "isCorrect": false
+              },
+              {
+                "text": "un signal d'un périphérique vers le CPU",
+                "isCorrect": true
+              },
+              {
+                "text": "un type de mémoire",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un cadre de pile contient notamment :",
+            "options": [
+              {
+                "text": "les variables locales et l'adresse de retour",
+                "isCorrect": true
+              },
+              {
+                "text": "le code source",
+                "isCorrect": false
+              },
+              {
+                "text": "les fichiers ouverts",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "La loi d'Amdahl dit que l'accélération est limitée par :",
+            "options": [
+              {
+                "text": "la fréquence",
+                "isCorrect": false
+              },
+              {
+                "text": "la taille de la RAM",
+                "isCorrect": false
+              },
+              {
+                "text": "la partie non parallélisable",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Dossier d'architecture : choisir une machine",

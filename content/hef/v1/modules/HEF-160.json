@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:54.728Z",
+  "generatedAt": "2026-11-03T20:47:54.917Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-160"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-160",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un modèle de langage génère principalement :\n- A. la suite de texte la plus probable selon ses données\n- B. des faits vérifiés dans une base\n- C. du code toujours correct\n\n**2.** Pour limiter l'hallucination dans un assistant de support, on :\n- A. augmente la température\n- B. raccourcit la question\n- C. fournit des sources, exige des citations et accepte de refuser\n\n**3.** Dans un appel d'outil, c'est :\n- A. le modèle qui exécute directement l'outil\n- B. l'hôte qui valide et exécute la demande émise par le modèle\n- C. l'utilisateur qui valide chaque jeton\n\n**4.** Pour empêcher un agent de « réussir » en modifiant les tests, on :\n- A. met les fichiers de mesure en lecture seule et vérifie de façon indépendante\n- B. lui demande poliment de ne pas le faire\n- C. augmente la température\n\n**5.** Pour comparer deux systèmes d'IA, on évalue de préférence :\n- A. chacun sur des cas différents\n- B. un seul exemple chacun\n- C. les deux sur les mêmes cas, en regardant la différence et son intervalle\n\n**6.** Le code généré par une IA doit être vérifié par :\n- A. les tests écrits par la même IA uniquement\n- B. des contrôles indépendants de la génération (propriétés, différentiel, analyse statique)\n- C. la seule lecture rapide\n\n**7.** La défense la plus solide contre l'exfiltration par un agent est de :\n- A. casser au moins un côté de la triade données privées / contenu non fiable / canal externe\n- B. écrire un prompt plus long\n- C. augmenter la température\n\n**8.** Une contribution assistée par IA peut être intégrée seulement si :\n- A. l'IA affirme qu'elle est correcte\n- B. elle est rapide à produire\n- C. elle a passé des vérifications indépendantes et une revue humaine, avec traçabilité\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te confie la création d'un « assistant de revue » pour le dépôt de HashBox : il lit le code, propose des correctifs et peut ouvrir des tickets.\n\n1. Définis son périmètre : tâches permises/interdites, données autorisées par classification, outils avec schémas et rôles ; remplis la triade et casse un côté.\n2. Construis un petit récupérateur documentaire avec citations et refus ; mesure rappel@k sur 15 questions simulées.\n3. Écris le harnais de l'agent : budget d'étapes et de jetons, stagnation, tests en lecture seule, approbation des écritures, instantané et retour arrière ; teste-le avec trois politiques (sensée, bruitée, tricheuse).\n4. Évalue deux variantes de prompt sur 60 cas séparés en développement/test : intervalles, comparaison appariée, règle de décision écrite avant.\n5. Écris un vérificateur pour cinq correctifs candidats (dont une dépendance inventée, un effet de bord et un cas limite oublié) : analyse statique, exécution isolée, propriétés, différentiel.\n6. Teste l'assistant contre 20 attaques (et 100 mutations) ; applique masquage, souillure et assainissement ; donne le taux de réussite avant/après.\n7. Assemble le workflow à portes de qualité, génère les fiches de provenance, calcule le gain net avec les défauts échappés et conclus par un dossier de validation : démontré, non démontré, risques résiduels, plan de surveillance.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : la décision de ton assistant que tu as le moins voulu automatiser (et pourquoi), la porte de qualité que tu ne sauterais jamais, et ce qui te ferait retirer un pouvoir à l'assistant.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-160 — IA et augmentation humaine**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un modèle de langage génère principalement :\n- A. la suite de texte la plus probable selon ses données\n- B. des faits vérifiés dans une base\n- C. du code toujours correct\n\n**2.** Pour limiter l'hallucination dans un assistant de support, on :\n- A. augmente la température\n- B. raccourcit la question\n- C. fournit des sources, exige des citations et accepte de refuser\n\n**3.** Dans un appel d'outil, c'est :\n- A. le modèle qui exécute directement l'outil\n- B. l'hôte qui valide et exécute la demande émise par le modèle\n- C. l'utilisateur qui valide chaque jeton\n\n**4.** Pour empêcher un agent de « réussir » en modifiant les tests, on :\n- A. met les fichiers de mesure en lecture seule et vérifie de façon indépendante\n- B. lui demande poliment de ne pas le faire\n- C. augmente la température\n\n**5.** Pour comparer deux systèmes d'IA, on évalue de préférence :\n- A. chacun sur des cas différents\n- B. un seul exemple chacun\n- C. les deux sur les mêmes cas, en regardant la différence et son intervalle\n\n**6.** Le code généré par une IA doit être vérifié par :\n- A. les tests écrits par la même IA uniquement\n- B. des contrôles indépendants de la génération (propriétés, différentiel, analyse statique)\n- C. la seule lecture rapide\n\n**7.** La défense la plus solide contre l'exfiltration par un agent est de :\n- A. casser au moins un côté de la triade données privées / contenu non fiable / canal externe\n- B. écrire un prompt plus long\n- C. augmenter la température\n\n**8.** Une contribution assistée par IA peut être intégrée seulement si :\n- A. l'IA affirme qu'elle est correcte\n- B. elle est rapide à produire\n- C. elle a passé des vérifications indépendantes et une revue humaine, avec traçabilité\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te confie la création d'un « assistant de revue » pour le dépôt de HashBox : il lit le code, propose des correctifs et peut ouvrir des tickets.\n\n1. Définis son périmètre : tâches permises/interdites, données autorisées par classification, outils avec schémas et rôles ; remplis la triade et casse un côté.\n2. Construis un petit récupérateur documentaire avec citations et refus ; mesure rappel@k sur 15 questions simulées.\n3. Écris le harnais de l'agent : budget d'étapes et de jetons, stagnation, tests en lecture seule, approbation des écritures, instantané et retour arrière ; teste-le avec trois politiques (sensée, bruitée, tricheuse).\n4. Évalue deux variantes de prompt sur 60 cas séparés en développement/test : intervalles, comparaison appariée, règle de décision écrite avant.\n5. Écris un vérificateur pour cinq correctifs candidats (dont une dépendance inventée, un effet de bord et un cas limite oublié) : analyse statique, exécution isolée, propriétés, différentiel.\n6. Teste l'assistant contre 20 attaques (et 100 mutations) ; applique masquage, souillure et assainissement ; donne le taux de réussite avant/après.\n7. Assemble le workflow à portes de qualité, génère les fiches de provenance, calcule le gain net avec les défauts échappés et conclus par un dossier de validation : démontré, non démontré, risques résiduels, plan de surveillance.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : la décision de ton assistant que tu as le moins voulu automatiser (et pourquoi), la porte de qualité que tu ne sauterais jamais, et ce qui te ferait retirer un pouvoir à l'assistant.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-160 — IA et augmentation humaine**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un modèle de langage génère principalement :",
+            "options": [
+              {
+                "text": "la suite de texte la plus probable selon ses données",
+                "isCorrect": true
+              },
+              {
+                "text": "des faits vérifiés dans une base",
+                "isCorrect": false
+              },
+              {
+                "text": "du code toujours correct",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Pour limiter l'hallucination dans un assistant de support, on :",
+            "options": [
+              {
+                "text": "augmente la température",
+                "isCorrect": false
+              },
+              {
+                "text": "raccourcit la question",
+                "isCorrect": false
+              },
+              {
+                "text": "fournit des sources, exige des citations et accepte de refuser",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Dans un appel d'outil, c'est :",
+            "options": [
+              {
+                "text": "le modèle qui exécute directement l'outil",
+                "isCorrect": false
+              },
+              {
+                "text": "l'hôte qui valide et exécute la demande émise par le modèle",
+                "isCorrect": true
+              },
+              {
+                "text": "l'utilisateur qui valide chaque jeton",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Pour empêcher un agent de « réussir » en modifiant les tests, on :",
+            "options": [
+              {
+                "text": "met les fichiers de mesure en lecture seule et vérifie de façon indépendante",
+                "isCorrect": true
+              },
+              {
+                "text": "lui demande poliment de ne pas le faire",
+                "isCorrect": false
+              },
+              {
+                "text": "augmente la température",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Pour comparer deux systèmes d'IA, on évalue de préférence :",
+            "options": [
+              {
+                "text": "chacun sur des cas différents",
+                "isCorrect": false
+              },
+              {
+                "text": "un seul exemple chacun",
+                "isCorrect": false
+              },
+              {
+                "text": "les deux sur les mêmes cas, en regardant la différence et son intervalle",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Le code généré par une IA doit être vérifié par :",
+            "options": [
+              {
+                "text": "les tests écrits par la même IA uniquement",
+                "isCorrect": false
+              },
+              {
+                "text": "des contrôles indépendants de la génération (propriétés, différentiel, analyse statique)",
+                "isCorrect": true
+              },
+              {
+                "text": "la seule lecture rapide",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "La défense la plus solide contre l'exfiltration par un agent est de :",
+            "options": [
+              {
+                "text": "casser au moins un côté de la triade données privées / contenu non fiable / canal externe",
+                "isCorrect": true
+              },
+              {
+                "text": "écrire un prompt plus long",
+                "isCorrect": false
+              },
+              {
+                "text": "augmenter la température",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Une contribution assistée par IA peut être intégrée seulement si :",
+            "options": [
+              {
+                "text": "l'IA affirme qu'elle est correcte",
+                "isCorrect": false
+              },
+              {
+                "text": "elle est rapide à produire",
+                "isCorrect": false
+              },
+              {
+                "text": "elle a passé des vérifications indépendantes et une revue humaine, avec traçabilité",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Assistant d'ingénierie avec dossier de validation",

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:47.030Z",
+  "generatedAt": "2026-11-03T20:47:46.795Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-000"
@@ -99,7 +99,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-000",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** « Le site est lent » est :\n- A. un symptôme\n- B. une solution\n- C. une contrainte\n\n**2.** Une hypothèse est :\n- A. un fait\n- B. une solution\n- C. une explication possible non vérifiée\n\n**3.** Décomposer, c'est :\n- A. couper au hasard\n- B. séparer en parties en gardant les liens\n- C. tout réécrire\n\n**4.** Deux événements simultanés indiquent :\n- A. une corrélation à tester\n- B. une cause prouvée\n- C. une erreur\n\n**5.** En débogage, on change :\n- A. plusieurs choses pour aller vite\n- B. rien\n- C. une seule chose à la fois\n\n**6.** Un ADR sert à :\n- A. lister les bugs\n- B. garder une décision et ses raisons\n- C. remplacer le code\n\n**7.** Pour décrire la requête typique malgré des valeurs extrêmes :\n- A. la médiane\n- B. le maximum\n- C. la somme\n\n**8.** Avant d'utiliser du code généré par une IA, on :\n- A. le copie directement\n- B. le cache\n- C. le comprend, le teste et le recoupe\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nSituation : *« Depuis la mise à jour de mardi, les e-mails de confirmation d'inscription arrivent avec plusieurs heures de retard, mais seulement pour certains utilisateurs. »*\n\nProduis un **rapport d'incident d'une page** suivant la méthode C-D-R-P-D-V-A :\n\n1. problème formulé (qui, situation, impact, contexte) ;\n2. découpage par processus (au moins 6 étapes) ;\n3. au moins 3 hypothèses, chacune avec un test et le résultat que tu attendrais ;\n4. une décision avec son compromis ;\n5. comment tu vérifies que c'est corrigé ;\n6. une mesure pour que cela ne se reproduise pas.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle hypothèse tu juges la plus probable et pourquoi, quelle information te manque encore, et quel biais tu as essayé d'éviter.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-000 — Mentalité d'ingénieur**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** « Le site est lent » est :\n- A. un symptôme\n- B. une solution\n- C. une contrainte\n\n**2.** Une hypothèse est :\n- A. un fait\n- B. une solution\n- C. une explication possible non vérifiée\n\n**3.** Décomposer, c'est :\n- A. couper au hasard\n- B. séparer en parties en gardant les liens\n- C. tout réécrire\n\n**4.** Deux événements simultanés indiquent :\n- A. une corrélation à tester\n- B. une cause prouvée\n- C. une erreur\n\n**5.** En débogage, on change :\n- A. plusieurs choses pour aller vite\n- B. rien\n- C. une seule chose à la fois\n\n**6.** Un ADR sert à :\n- A. lister les bugs\n- B. garder une décision et ses raisons\n- C. remplacer le code\n\n**7.** Pour décrire la requête typique malgré des valeurs extrêmes :\n- A. la médiane\n- B. le maximum\n- C. la somme\n\n**8.** Avant d'utiliser du code généré par une IA, on :\n- A. le copie directement\n- B. le cache\n- C. le comprend, le teste et le recoupe\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nSituation : *« Depuis la mise à jour de mardi, les e-mails de confirmation d'inscription arrivent avec plusieurs heures de retard, mais seulement pour certains utilisateurs. »*\n\nProduis un **rapport d'incident d'une page** suivant la méthode C-D-R-P-D-V-A :\n\n1. problème formulé (qui, situation, impact, contexte) ;\n2. découpage par processus (au moins 6 étapes) ;\n3. au moins 3 hypothèses, chacune avec un test et le résultat que tu attendrais ;\n4. une décision avec son compromis ;\n5. comment tu vérifies que c'est corrigé ;\n6. une mesure pour que cela ne se reproduise pas.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quelle hypothèse tu juges la plus probable et pourquoi, quelle information te manque encore, et quel biais tu as essayé d'éviter.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-000 — Mentalité d'ingénieur**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "« Le site est lent » est :",
+            "options": [
+              {
+                "text": "un symptôme",
+                "isCorrect": true
+              },
+              {
+                "text": "une solution",
+                "isCorrect": false
+              },
+              {
+                "text": "une contrainte",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Une hypothèse est :",
+            "options": [
+              {
+                "text": "un fait",
+                "isCorrect": false
+              },
+              {
+                "text": "une solution",
+                "isCorrect": false
+              },
+              {
+                "text": "une explication possible non vérifiée",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Décomposer, c'est :",
+            "options": [
+              {
+                "text": "couper au hasard",
+                "isCorrect": false
+              },
+              {
+                "text": "séparer en parties en gardant les liens",
+                "isCorrect": true
+              },
+              {
+                "text": "tout réécrire",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Deux événements simultanés indiquent :",
+            "options": [
+              {
+                "text": "une corrélation à tester",
+                "isCorrect": true
+              },
+              {
+                "text": "une cause prouvée",
+                "isCorrect": false
+              },
+              {
+                "text": "une erreur",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "En débogage, on change :",
+            "options": [
+              {
+                "text": "plusieurs choses pour aller vite",
+                "isCorrect": false
+              },
+              {
+                "text": "rien",
+                "isCorrect": false
+              },
+              {
+                "text": "une seule chose à la fois",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Un ADR sert à :",
+            "options": [
+              {
+                "text": "lister les bugs",
+                "isCorrect": false
+              },
+              {
+                "text": "garder une décision et ses raisons",
+                "isCorrect": true
+              },
+              {
+                "text": "remplacer le code",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Pour décrire la requête typique malgré des valeurs extrêmes :",
+            "options": [
+              {
+                "text": "la médiane",
+                "isCorrect": true
+              },
+              {
+                "text": "le maximum",
+                "isCorrect": false
+              },
+              {
+                "text": "la somme",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Avant d'utiliser du code généré par une IA, on :",
+            "options": [
+              {
+                "text": "le copie directement",
+                "isCorrect": false
+              },
+              {
+                "text": "le cache",
+                "isCorrect": false
+              },
+              {
+                "text": "le comprend, le teste et le recoupe",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Dossier d'investigation d'ingénieur",

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:47.529Z",
+  "generatedAt": "2026-11-03T20:47:47.313Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-010"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-010",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un algorithme est :\n- A. une suite finie d'étapes précises\n- B. un fichier Python\n- C. une idée vague\n\n**2.** Un invariant de boucle est :\n- A. un commentaire\n- B. faux au début\n- C. vrai avant, pendant et après chaque tour\n\n**3.** Un cas de base sert à :\n- A. accélérer le code\n- B. arrêter la récursion\n- C. trier une liste\n\n**4.** La recherche binaire exige :\n- A. une liste triée\n- B. des nombres uniquement\n- C. moins de 100 éléments\n\n**5.** Un tri stable :\n- A. est toujours le plus rapide\n- B. utilise la récursion\n- C. garde l'ordre des éléments égaux\n\n**6.** Le glouton :\n- A. est toujours optimal\n- B. n'est pas toujours optimal\n- C. n'existe pas en pratique\n\n**7.** Un test qui passe prouve :\n- A. que ce cas fonctionne, pas l'absence de bug\n- B. qu'il n'y a aucun bug\n- C. la vitesse\n\n**8.** Pour comparer deux algorithmes, on vérifie d'abord :\n- A. leur longueur\n- B. leur nom\n- C. leur correction\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nÉnoncé : *« Dans une liste de nombres entiers, trouve la plus longue suite de valeurs strictement croissantes consécutives (des voisins directs). Exemple : `[3, 5, 7, 2, 4, 9, 11, 13, 1]` → 4. »*\n\n1. Précise le contrat et 5 cas limites.\n2. Écris la solution et au moins 6 tests `assert`.\n3. Écris une solution brute et compare-les sur 300 entrées aléatoires.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'invariant de ta boucle, le coût de ta solution selon la taille de la liste, et un compromis que tu as fait.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-010 — Algorithmes**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un algorithme est :\n- A. une suite finie d'étapes précises\n- B. un fichier Python\n- C. une idée vague\n\n**2.** Un invariant de boucle est :\n- A. un commentaire\n- B. faux au début\n- C. vrai avant, pendant et après chaque tour\n\n**3.** Un cas de base sert à :\n- A. accélérer le code\n- B. arrêter la récursion\n- C. trier une liste\n\n**4.** La recherche binaire exige :\n- A. une liste triée\n- B. des nombres uniquement\n- C. moins de 100 éléments\n\n**5.** Un tri stable :\n- A. est toujours le plus rapide\n- B. utilise la récursion\n- C. garde l'ordre des éléments égaux\n\n**6.** Le glouton :\n- A. est toujours optimal\n- B. n'est pas toujours optimal\n- C. n'existe pas en pratique\n\n**7.** Un test qui passe prouve :\n- A. que ce cas fonctionne, pas l'absence de bug\n- B. qu'il n'y a aucun bug\n- C. la vitesse\n\n**8.** Pour comparer deux algorithmes, on vérifie d'abord :\n- A. leur longueur\n- B. leur nom\n- C. leur correction\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nÉnoncé : *« Dans une liste de nombres entiers, trouve la plus longue suite de valeurs strictement croissantes consécutives (des voisins directs). Exemple : `[3, 5, 7, 2, 4, 9, 11, 13, 1]` → 4. »*\n\n1. Précise le contrat et 5 cas limites.\n2. Écris la solution et au moins 6 tests `assert`.\n3. Écris une solution brute et compare-les sur 300 entrées aléatoires.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'invariant de ta boucle, le coût de ta solution selon la taille de la liste, et un compromis que tu as fait.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-010 — Algorithmes**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un algorithme est :",
+            "options": [
+              {
+                "text": "une suite finie d'étapes précises",
+                "isCorrect": true
+              },
+              {
+                "text": "un fichier Python",
+                "isCorrect": false
+              },
+              {
+                "text": "une idée vague",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Un invariant de boucle est :",
+            "options": [
+              {
+                "text": "un commentaire",
+                "isCorrect": false
+              },
+              {
+                "text": "faux au début",
+                "isCorrect": false
+              },
+              {
+                "text": "vrai avant, pendant et après chaque tour",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Un cas de base sert à :",
+            "options": [
+              {
+                "text": "accélérer le code",
+                "isCorrect": false
+              },
+              {
+                "text": "arrêter la récursion",
+                "isCorrect": true
+              },
+              {
+                "text": "trier une liste",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "La recherche binaire exige :",
+            "options": [
+              {
+                "text": "une liste triée",
+                "isCorrect": true
+              },
+              {
+                "text": "des nombres uniquement",
+                "isCorrect": false
+              },
+              {
+                "text": "moins de 100 éléments",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un tri stable :",
+            "options": [
+              {
+                "text": "est toujours le plus rapide",
+                "isCorrect": false
+              },
+              {
+                "text": "utilise la récursion",
+                "isCorrect": false
+              },
+              {
+                "text": "garde l'ordre des éléments égaux",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Le glouton :",
+            "options": [
+              {
+                "text": "est toujours optimal",
+                "isCorrect": false
+              },
+              {
+                "text": "n'est pas toujours optimal",
+                "isCorrect": true
+              },
+              {
+                "text": "n'existe pas en pratique",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un test qui passe prouve :",
+            "options": [
+              {
+                "text": "que ce cas fonctionne, pas l'absence de bug",
+                "isCorrect": true
+              },
+              {
+                "text": "qu'il n'y a aucun bug",
+                "isCorrect": false
+              },
+              {
+                "text": "la vitesse",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Pour comparer deux algorithmes, on vérifie d'abord :",
+            "options": [
+              {
+                "text": "leur longueur",
+                "isCorrect": false
+              },
+              {
+                "text": "leur nom",
+                "isCorrect": false
+              },
+              {
+                "text": "leur correction",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Mini-bibliothèque d'algorithmes justifiés",

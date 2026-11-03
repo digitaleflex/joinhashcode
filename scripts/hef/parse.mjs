@@ -158,6 +158,65 @@ async function parseSingle(dir, relativePath, fallbackTitle) {
   return { title: titleOf(body) || fallbackTitle, body: rewriteAssets(stripTitle(body)) };
 }
 
+async function parseAssessment(dir) {
+  const body = await readIfExists(path.join(dir, "04-Assessment/final-assessment.md"));
+  if (!body) return null;
+
+  const passMatch = body.match(/Réussite\s*à\s*(\d+)\s*%/i);
+  const passScore = passMatch ? Number(passMatch[1]) : 60;
+
+  // Questions live in "Partie 1" and stop at the next "## Partie".
+  const part1 = body.split(/^##\s+Partie\s+2/m)[0] ?? body;
+  const questionRegex = /\*\*(\d+)\.\*\*\s*([^\n]+)\n((?:\s*-\s*[A-Z]\.[^\n]*\n?)+)/g;
+  const questions = [];
+  let match;
+  while ((match = questionRegex.exec(part1)) !== null) {
+    const order = Number(match[1]);
+    const text = match[2].trim();
+    const options = [...match[3].matchAll(/^\s*-\s*([A-Z])\.\s*(.+)$/gm)].map((opt) => ({
+      letter: opt[1],
+      text: opt[2].trim(),
+      isCorrect: false,
+    }));
+    if (options.length >= 2) {
+      questions.push({ order, text, options });
+    }
+  }
+
+  // Answer key: `1. **A**` inside the "Réponses" details block.
+  const answers = {};
+  const answersBlock = body.match(/<summary>[^<]*Réponses[^<]*<\/summary>([\s\S]*?)<\/details>/i);
+  if (answersBlock) {
+    for (const line of answersBlock[1].matchAll(/^\s*(\d+)\.\s*\*\*([A-Z])\*\*/gm)) {
+      answers[Number(line[1])] = line[2];
+    }
+  }
+
+  for (const question of questions) {
+    const correct = answers[question.order];
+    if (correct) {
+      const option = question.options.find((o) => o.letter === correct);
+      if (option) option.isCorrect = true;
+    }
+  }
+
+  return {
+    title: titleOf(body),
+    body: rewriteAssets(stripTitle(body)),
+    quiz:
+      questions.length > 0
+        ? {
+            passScore,
+            questions: questions.map((q) => ({
+              order: q.order,
+              text: q.text,
+              options: q.options.map((o) => ({ text: o.text, isCorrect: o.isCorrect })),
+            })),
+          }
+        : null,
+  };
+}
+
 async function parseResources(dir) {
   const resourcesDir = path.join(dir, "06-Resources");
   const entries = (await readdir(resourcesDir))
@@ -204,7 +263,7 @@ async function main() {
     durationMinutes: missions.reduce((total, m) => total + (m.durationMinutes ?? 0), 0) || null,
     missions,
     labs: await parseLabs(dir),
-    assessment: await parseSingle(dir, "04-Assessment/final-assessment.md", "Évaluation finale"),
+    assessment: await parseAssessment(dir),
     project: await parseSingle(dir, "05-Project/README.md", "Projet du module"),
     resources: await parseResources(dir),
   };

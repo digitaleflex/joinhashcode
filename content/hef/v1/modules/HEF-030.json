@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:48.410Z",
+  "generatedAt": "2026-11-03T20:47:48.400Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-030"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-030",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** On compte les opérations plutôt que les secondes parce que :\n- A. les secondes dépendent de la machine\n- B. les opérations sont plus rapides\n- C. c'est une règle de Python\n\n**2.** `5n² + 30n + 100` s'écrit en Big O :\n- A. O(n)\n- B. O(100)\n- C. O(n²)\n\n**3.** Deux boucles imbriquées de n tours donnent :\n- A. O(n)\n- B. O(n²)\n- C. O(2n)\n\n**4.** Pourquoi `fib(n)` récursif naïf est-il lent ?\n- A. il recalcule les mêmes sous-problèmes\n- B. il utilise des listes\n- C. il est écrit en Python\n\n**5.** `liste.pop(0)` coûte :\n- A. O(1)\n- B. O(log n)\n- C. O(n)\n\n**6.** Aucun tri par comparaisons ne fait mieux en général que :\n- A. O(n)\n- B. O(n log n)\n- C. O(log n)\n\n**7.** Si T(2n)/T(n) ≈ 4, la croissance est :\n- A. quadratique\n- B. linéaire\n- C. constante\n\n**8.** Avant d'optimiser, il faut :\n- A. réécrire en C\n- B. ajouter un cache\n- C. profiler pour trouver le goulot\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fonction qui doit renvoyer les `k` mots les plus fréquents d'un texte :\n\n```text\ndef top_mots(texte, k):\n    mots = texte.split()\n    uniques = []\n    for m in mots:\n        if m not in uniques:\n            uniques.append(m)\n    comptes = [(m, mots.count(m)) for m in uniques]\n    comptes.sort(key=lambda c: (-c[1], c[0]))\n    return comptes[:k]\n```\n\n1. Donne son Big O et identifie les coûts cachés.\n2. Écris une version plus rapide qui renvoie le même résultat.\n3. Vérifie l'équivalence sur 300 textes aléatoires.\n4. Mesure les deux pour 4 tailles et estime l'exposant de chacune.\n\n## Partie 3 — Justification (20 points)\n\nRédige un mini-rapport de 10 lignes : cause de la lenteur, correction, preuves (équivalence et mesures), limites de ta conclusion.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-030 — Complexité**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** On compte les opérations plutôt que les secondes parce que :\n- A. les secondes dépendent de la machine\n- B. les opérations sont plus rapides\n- C. c'est une règle de Python\n\n**2.** `5n² + 30n + 100` s'écrit en Big O :\n- A. O(n)\n- B. O(100)\n- C. O(n²)\n\n**3.** Deux boucles imbriquées de n tours donnent :\n- A. O(n)\n- B. O(n²)\n- C. O(2n)\n\n**4.** Pourquoi `fib(n)` récursif naïf est-il lent ?\n- A. il recalcule les mêmes sous-problèmes\n- B. il utilise des listes\n- C. il est écrit en Python\n\n**5.** `liste.pop(0)` coûte :\n- A. O(1)\n- B. O(log n)\n- C. O(n)\n\n**6.** Aucun tri par comparaisons ne fait mieux en général que :\n- A. O(n)\n- B. O(n log n)\n- C. O(log n)\n\n**7.** Si T(2n)/T(n) ≈ 4, la croissance est :\n- A. quadratique\n- B. linéaire\n- C. constante\n\n**8.** Avant d'optimiser, il faut :\n- A. réécrire en C\n- B. ajouter un cache\n- C. profiler pour trouver le goulot\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fonction qui doit renvoyer les `k` mots les plus fréquents d'un texte :\n\n```text\ndef top_mots(texte, k):\n    mots = texte.split()\n    uniques = []\n    for m in mots:\n        if m not in uniques:\n            uniques.append(m)\n    comptes = [(m, mots.count(m)) for m in uniques]\n    comptes.sort(key=lambda c: (-c[1], c[0]))\n    return comptes[:k]\n```\n\n1. Donne son Big O et identifie les coûts cachés.\n2. Écris une version plus rapide qui renvoie le même résultat.\n3. Vérifie l'équivalence sur 300 textes aléatoires.\n4. Mesure les deux pour 4 tailles et estime l'exposant de chacune.\n\n## Partie 3 — Justification (20 points)\n\nRédige un mini-rapport de 10 lignes : cause de la lenteur, correction, preuves (équivalence et mesures), limites de ta conclusion.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-030 — Complexité**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "On compte les opérations plutôt que les secondes parce que :",
+            "options": [
+              {
+                "text": "les secondes dépendent de la machine",
+                "isCorrect": true
+              },
+              {
+                "text": "les opérations sont plus rapides",
+                "isCorrect": false
+              },
+              {
+                "text": "c'est une règle de Python",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "`5n² + 30n + 100` s'écrit en Big O :",
+            "options": [
+              {
+                "text": "O(n)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(100)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(n²)",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Deux boucles imbriquées de n tours donnent :",
+            "options": [
+              {
+                "text": "O(n)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(n²)",
+                "isCorrect": true
+              },
+              {
+                "text": "O(2n)",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Pourquoi `fib(n)` récursif naïf est-il lent ?",
+            "options": [
+              {
+                "text": "il recalcule les mêmes sous-problèmes",
+                "isCorrect": true
+              },
+              {
+                "text": "il utilise des listes",
+                "isCorrect": false
+              },
+              {
+                "text": "il est écrit en Python",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "`liste.pop(0)` coûte :",
+            "options": [
+              {
+                "text": "O(1)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(log n)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(n)",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Aucun tri par comparaisons ne fait mieux en général que :",
+            "options": [
+              {
+                "text": "O(n)",
+                "isCorrect": false
+              },
+              {
+                "text": "O(n log n)",
+                "isCorrect": true
+              },
+              {
+                "text": "O(log n)",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Si T(2n)/T(n) ≈ 4, la croissance est :",
+            "options": [
+              {
+                "text": "quadratique",
+                "isCorrect": true
+              },
+              {
+                "text": "linéaire",
+                "isCorrect": false
+              },
+              {
+                "text": "constante",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Avant d'optimiser, il faut :",
+            "options": [
+              {
+                "text": "réécrire en C",
+                "isCorrect": false
+              },
+              {
+                "text": "ajouter un cache",
+                "isCorrect": false
+              },
+              {
+                "text": "profiler pour trouver le goulot",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Rapport de performance reproductible",

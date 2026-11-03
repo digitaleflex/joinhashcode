@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:47.916Z",
+  "generatedAt": "2026-11-03T20:47:47.804Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-020"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-020",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un ADT décrit une structure par :\n- A. ses opérations\n- B. son code interne\n- C. sa couleur\n\n**2.** Insérer au début d'un grand tableau est :\n- A. gratuit\n- B. impossible\n- C. coûteux (décalage)\n\n**3.** Une file suit :\n- A. dernier arrivé, premier sorti\n- B. premier arrivé, premier sorti\n- C. aucun ordre\n\n**4.** Une collision de hachage est :\n- A. deux clés dans la même case\n- B. une erreur de syntaxe\n- C. une panne\n\n**5.** Dans un BST, le parcours en ordre donne :\n- A. les valeurs inversées\n- B. les feuilles\n- C. les valeurs triées\n\n**6.** Dans un tas-min, la racine est :\n- A. le plus grand\n- B. le plus petit élément\n- C. au hasard\n\n**7.** BFS utilise :\n- A. une file\n- B. un tri\n- C. un arbre de recherche\n\n**8.** Pour choisir une structure, on commence par :\n- A. choisir la plus récente\n- B. utiliser une liste\n- C. lister les opérations\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nÉcris une classe `JournalRecent` qui garde les `n` derniers événements (chaque événement est un texte) et permet :\n\n- `ajouter(texte)` ;\n- `contient(texte)` : le texte est-il dans les `n` derniers ? (doit être rapide) ;\n- `liste()` : les événements du plus ancien au plus récent.\n\nContraintes : mémoire bornée à `n` événements ; plusieurs occurrences du même texte possibles. Écris le contrat, le code, 6 tests dont un test aléatoire comparé à une version naïve.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum quelles structures tu as combinées, pourquoi, quel invariant relie leurs contenus, et le coût de chaque opération.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-020 — Structures de données**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un ADT décrit une structure par :\n- A. ses opérations\n- B. son code interne\n- C. sa couleur\n\n**2.** Insérer au début d'un grand tableau est :\n- A. gratuit\n- B. impossible\n- C. coûteux (décalage)\n\n**3.** Une file suit :\n- A. dernier arrivé, premier sorti\n- B. premier arrivé, premier sorti\n- C. aucun ordre\n\n**4.** Une collision de hachage est :\n- A. deux clés dans la même case\n- B. une erreur de syntaxe\n- C. une panne\n\n**5.** Dans un BST, le parcours en ordre donne :\n- A. les valeurs inversées\n- B. les feuilles\n- C. les valeurs triées\n\n**6.** Dans un tas-min, la racine est :\n- A. le plus grand\n- B. le plus petit élément\n- C. au hasard\n\n**7.** BFS utilise :\n- A. une file\n- B. un tri\n- C. un arbre de recherche\n\n**8.** Pour choisir une structure, on commence par :\n- A. choisir la plus récente\n- B. utiliser une liste\n- C. lister les opérations\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nÉcris une classe `JournalRecent` qui garde les `n` derniers événements (chaque événement est un texte) et permet :\n\n- `ajouter(texte)` ;\n- `contient(texte)` : le texte est-il dans les `n` derniers ? (doit être rapide) ;\n- `liste()` : les événements du plus ancien au plus récent.\n\nContraintes : mémoire bornée à `n` événements ; plusieurs occurrences du même texte possibles. Écris le contrat, le code, 6 tests dont un test aléatoire comparé à une version naïve.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum quelles structures tu as combinées, pourquoi, quel invariant relie leurs contenus, et le coût de chaque opération.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-020 — Structures de données**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un ADT décrit une structure par :",
+            "options": [
+              {
+                "text": "ses opérations",
+                "isCorrect": true
+              },
+              {
+                "text": "son code interne",
+                "isCorrect": false
+              },
+              {
+                "text": "sa couleur",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Insérer au début d'un grand tableau est :",
+            "options": [
+              {
+                "text": "gratuit",
+                "isCorrect": false
+              },
+              {
+                "text": "impossible",
+                "isCorrect": false
+              },
+              {
+                "text": "coûteux (décalage)",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Une file suit :",
+            "options": [
+              {
+                "text": "dernier arrivé, premier sorti",
+                "isCorrect": false
+              },
+              {
+                "text": "premier arrivé, premier sorti",
+                "isCorrect": true
+              },
+              {
+                "text": "aucun ordre",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Une collision de hachage est :",
+            "options": [
+              {
+                "text": "deux clés dans la même case",
+                "isCorrect": true
+              },
+              {
+                "text": "une erreur de syntaxe",
+                "isCorrect": false
+              },
+              {
+                "text": "une panne",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Dans un BST, le parcours en ordre donne :",
+            "options": [
+              {
+                "text": "les valeurs inversées",
+                "isCorrect": false
+              },
+              {
+                "text": "les feuilles",
+                "isCorrect": false
+              },
+              {
+                "text": "les valeurs triées",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Dans un tas-min, la racine est :",
+            "options": [
+              {
+                "text": "le plus grand",
+                "isCorrect": false
+              },
+              {
+                "text": "le plus petit élément",
+                "isCorrect": true
+              },
+              {
+                "text": "au hasard",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "BFS utilise :",
+            "options": [
+              {
+                "text": "une file",
+                "isCorrect": true
+              },
+              {
+                "text": "un tri",
+                "isCorrect": false
+              },
+              {
+                "text": "un arbre de recherche",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Pour choisir une structure, on commence par :",
+            "options": [
+              {
+                "text": "choisir la plus récente",
+                "isCorrect": false
+              },
+              {
+                "text": "utiliser une liste",
+                "isCorrect": false
+              },
+              {
+                "text": "lister les opérations",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Bibliothèque de structures de données testée",

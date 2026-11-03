@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:51.622Z",
+  "generatedAt": "2026-11-03T20:47:51.603Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-090"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-090",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** L'analyse lexicale produit :\n- A. une suite de jetons\n- B. un arbre syntaxique\n- C. du bytecode\n\n**2.** Une grammaire est ambiguë si :\n- A. elle est trop longue\n- B. elle utilise des regex\n- C. une phrase a plusieurs arbres syntaxiques\n\n**3.** Dans la descente récursive, les priorités viennent :\n- A. de l'ordre des jetons dans le fichier\n- B. de l'imbrication des règles\n- C. d'une table aléatoire\n\n**4.** Le pliage de constantes consiste à :\n- A. évaluer à l'avance les calculs constants\n- B. supprimer les variables\n- C. traduire en assembleur\n\n**5.** L'analyse sémantique vérifie :\n- A. uniquement les parenthèses\n- B. la vitesse d'exécution\n- C. noms, déclarations et types\n\n**6.** Une fermeture est :\n- A. une fonction sans paramètre\n- B. une fonction accompagnée de son environnement de définition\n- C. un type de boucle\n\n**7.** Un bytecode est :\n- A. une liste plate d'instructions exécutée par une VM\n- B. du texte lisible\n- C. un arbre de syntaxe\n\n**8.** La récupération d'erreur du parseur consiste à :\n- A. s'arrêter à la première erreur\n- B. ignorer les erreurs\n- C. avancer jusqu'à un point de synchronisation puis reprendre\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette grammaire d'un mini-langage de calcul :\n\n```text\nprogramme    → instruction*\ninstruction  → \"calcule\" ID \"=\" expression \";\" | \"affiche\" expression \";\"\nexpression   → terme ((\"+\" | \"-\") terme)*\nterme        → facteur ((\"*\" | \"/\") facteur)*\nfacteur      → NOMBRE | ID | \"(\" expression \")\" | \"-\" facteur\n```\n\n1. Écris le lexer avec positions (ligne, colonne) et une erreur pour tout caractère inconnu.\n2. Écris le parseur par descente récursive qui construit un AST (dataclasses), avec des messages d'erreur « attendu X, trouvé Y » positionnés.\n3. Écris l'analyse sémantique (variable utilisée avant d'avoir été calculée, redéfinition) et l'interpréteur.\n4. Écris 15 tests dont des cas d'erreur, et un test de propriété comparant ton interpréteur à `eval` Python sur 200 expressions aléatoires.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : comment ta grammaire encode priorités et associativité, pourquoi tu as séparé analyse sémantique et exécution, et un cas où ton langage se comporte différemment de Python.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-090 — Compilateurs et langages**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** L'analyse lexicale produit :\n- A. une suite de jetons\n- B. un arbre syntaxique\n- C. du bytecode\n\n**2.** Une grammaire est ambiguë si :\n- A. elle est trop longue\n- B. elle utilise des regex\n- C. une phrase a plusieurs arbres syntaxiques\n\n**3.** Dans la descente récursive, les priorités viennent :\n- A. de l'ordre des jetons dans le fichier\n- B. de l'imbrication des règles\n- C. d'une table aléatoire\n\n**4.** Le pliage de constantes consiste à :\n- A. évaluer à l'avance les calculs constants\n- B. supprimer les variables\n- C. traduire en assembleur\n\n**5.** L'analyse sémantique vérifie :\n- A. uniquement les parenthèses\n- B. la vitesse d'exécution\n- C. noms, déclarations et types\n\n**6.** Une fermeture est :\n- A. une fonction sans paramètre\n- B. une fonction accompagnée de son environnement de définition\n- C. un type de boucle\n\n**7.** Un bytecode est :\n- A. une liste plate d'instructions exécutée par une VM\n- B. du texte lisible\n- C. un arbre de syntaxe\n\n**8.** La récupération d'erreur du parseur consiste à :\n- A. s'arrêter à la première erreur\n- B. ignorer les erreurs\n- C. avancer jusqu'à un point de synchronisation puis reprendre\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette grammaire d'un mini-langage de calcul :\n\n```text\nprogramme    → instruction*\ninstruction  → \"calcule\" ID \"=\" expression \";\" | \"affiche\" expression \";\"\nexpression   → terme ((\"+\" | \"-\") terme)*\nterme        → facteur ((\"*\" | \"/\") facteur)*\nfacteur      → NOMBRE | ID | \"(\" expression \")\" | \"-\" facteur\n```\n\n1. Écris le lexer avec positions (ligne, colonne) et une erreur pour tout caractère inconnu.\n2. Écris le parseur par descente récursive qui construit un AST (dataclasses), avec des messages d'erreur « attendu X, trouvé Y » positionnés.\n3. Écris l'analyse sémantique (variable utilisée avant d'avoir été calculée, redéfinition) et l'interpréteur.\n4. Écris 15 tests dont des cas d'erreur, et un test de propriété comparant ton interpréteur à `eval` Python sur 200 expressions aléatoires.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : comment ta grammaire encode priorités et associativité, pourquoi tu as séparé analyse sémantique et exécution, et un cas où ton langage se comporte différemment de Python.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-090 — Compilateurs et langages**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "L'analyse lexicale produit :",
+            "options": [
+              {
+                "text": "une suite de jetons",
+                "isCorrect": true
+              },
+              {
+                "text": "un arbre syntaxique",
+                "isCorrect": false
+              },
+              {
+                "text": "du bytecode",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Une grammaire est ambiguë si :",
+            "options": [
+              {
+                "text": "elle est trop longue",
+                "isCorrect": false
+              },
+              {
+                "text": "elle utilise des regex",
+                "isCorrect": false
+              },
+              {
+                "text": "une phrase a plusieurs arbres syntaxiques",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Dans la descente récursive, les priorités viennent :",
+            "options": [
+              {
+                "text": "de l'ordre des jetons dans le fichier",
+                "isCorrect": false
+              },
+              {
+                "text": "de l'imbrication des règles",
+                "isCorrect": true
+              },
+              {
+                "text": "d'une table aléatoire",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Le pliage de constantes consiste à :",
+            "options": [
+              {
+                "text": "évaluer à l'avance les calculs constants",
+                "isCorrect": true
+              },
+              {
+                "text": "supprimer les variables",
+                "isCorrect": false
+              },
+              {
+                "text": "traduire en assembleur",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "L'analyse sémantique vérifie :",
+            "options": [
+              {
+                "text": "uniquement les parenthèses",
+                "isCorrect": false
+              },
+              {
+                "text": "la vitesse d'exécution",
+                "isCorrect": false
+              },
+              {
+                "text": "noms, déclarations et types",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Une fermeture est :",
+            "options": [
+              {
+                "text": "une fonction sans paramètre",
+                "isCorrect": false
+              },
+              {
+                "text": "une fonction accompagnée de son environnement de définition",
+                "isCorrect": true
+              },
+              {
+                "text": "un type de boucle",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un bytecode est :",
+            "options": [
+              {
+                "text": "une liste plate d'instructions exécutée par une VM",
+                "isCorrect": true
+              },
+              {
+                "text": "du texte lisible",
+                "isCorrect": false
+              },
+              {
+                "text": "un arbre de syntaxe",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "La récupération d'erreur du parseur consiste à :",
+            "options": [
+              {
+                "text": "s'arrêter à la première erreur",
+                "isCorrect": false
+              },
+              {
+                "text": "ignorer les erreurs",
+                "isCorrect": false
+              },
+              {
+                "text": "avancer jusqu'à un point de synchronisation puis reprendre",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Un langage de domaine complet",

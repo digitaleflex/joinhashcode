@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:53.237Z",
+  "generatedAt": "2026-11-03T20:47:53.292Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-130"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-130",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** La loi de Little relie :\n- A. concurrence, débit et latence moyenne\n- B. CPU, mémoire et disque\n- C. coût, délai et qualité\n\n**2.** Pour décrire la latence ressentie par les moins chanceux, on regarde :\n- A. la moyenne uniquement\n- B. le nombre de serveurs\n- C. les percentiles élevés (p95, p99)\n\n**3.** La première étape d'une optimisation est de :\n- A. réécrire le code en C\n- B. profiler pour identifier le point chaud\n- C. ajouter du cache partout\n\n**4.** Pour traiter un fichier plus gros que la mémoire, on utilise :\n- A. un flux ou un générateur, ligne par ligne\n- B. une liste de toutes les lignes\n- C. un second écran\n\n**5.** Pour accélérer l'écriture d'un gros volume de lignes, on :\n- A. appelle flush après chaque ligne\n- B. écrit octet par octet\n- C. regroupe les écritures dans un tampon\n\n**6.** Le problème N+1 correspond à :\n- A. une table avec N+1 colonnes\n- B. une requête pour la liste puis une requête par élément\n- C. un index en trop\n\n**7.** La ruée sur le cache se prévient par :\n- A. un verrou par clé (un seul chargeur) et une expiration avec gigue\n- B. l'augmentation du nombre de requêtes\n- C. la suppression du cache\n\n**8.** Après une optimisation, il faut vérifier que :\n- A. le code est plus court\n- B. le fichier est plus petit\n- C. le résultat est strictement équivalent à la version précédente\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne ce traitement de HashBox : un service qui, pour 200 000 inscriptions et 20 000 membres, calcule chaque nuit (a) le nombre d'inscriptions par cours et par mois, (b) la liste des 20 membres les plus actifs, (c) un fichier CSV d'export, (d) une table de recommandations « membres similaires ». Il tourne en 40 minutes ; le budget est de 5 minutes et 300 Mo.\n\n1. Écris la version lente (au moins quatre défauts parmi : absence d'index, N+1, liste au lieu d'ensemble, écritures non groupées, chargement complet en mémoire, recalculs).\n2. Modélise la capacité (Little, Amdahl) et prédis le gain maximal possible d'une parallélisation.\n3. Mesure la baseline avec un protocole rigoureux (échauffement, répétitions, intervalle), temps et mémoire.\n4. Profile, désigne les goulots, applique au moins quatre optimisations avec hypothèse, mesure et vérification d'équivalence différentielle.\n5. Ajoute des garde-fous déterministes (requêtes comptées, exposant de complexité) et un test de charge simulé avec contre-pression.\n6. Rédige le rapport avec le coût/bénéfice de chaque optimisation et la décision d'arrêt.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel était le goulot réel (et en quoi ton intuition initiale se trompait ou non), l'optimisation qui a le meilleur rapport gain/effort, et un risque que tes garde-fous ne couvrent pas.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-130 — Performance**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** La loi de Little relie :\n- A. concurrence, débit et latence moyenne\n- B. CPU, mémoire et disque\n- C. coût, délai et qualité\n\n**2.** Pour décrire la latence ressentie par les moins chanceux, on regarde :\n- A. la moyenne uniquement\n- B. le nombre de serveurs\n- C. les percentiles élevés (p95, p99)\n\n**3.** La première étape d'une optimisation est de :\n- A. réécrire le code en C\n- B. profiler pour identifier le point chaud\n- C. ajouter du cache partout\n\n**4.** Pour traiter un fichier plus gros que la mémoire, on utilise :\n- A. un flux ou un générateur, ligne par ligne\n- B. une liste de toutes les lignes\n- C. un second écran\n\n**5.** Pour accélérer l'écriture d'un gros volume de lignes, on :\n- A. appelle flush après chaque ligne\n- B. écrit octet par octet\n- C. regroupe les écritures dans un tampon\n\n**6.** Le problème N+1 correspond à :\n- A. une table avec N+1 colonnes\n- B. une requête pour la liste puis une requête par élément\n- C. un index en trop\n\n**7.** La ruée sur le cache se prévient par :\n- A. un verrou par clé (un seul chargeur) et une expiration avec gigue\n- B. l'augmentation du nombre de requêtes\n- C. la suppression du cache\n\n**8.** Après une optimisation, il faut vérifier que :\n- A. le code est plus court\n- B. le fichier est plus petit\n- C. le résultat est strictement équivalent à la version précédente\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne ce traitement de HashBox : un service qui, pour 200 000 inscriptions et 20 000 membres, calcule chaque nuit (a) le nombre d'inscriptions par cours et par mois, (b) la liste des 20 membres les plus actifs, (c) un fichier CSV d'export, (d) une table de recommandations « membres similaires ». Il tourne en 40 minutes ; le budget est de 5 minutes et 300 Mo.\n\n1. Écris la version lente (au moins quatre défauts parmi : absence d'index, N+1, liste au lieu d'ensemble, écritures non groupées, chargement complet en mémoire, recalculs).\n2. Modélise la capacité (Little, Amdahl) et prédis le gain maximal possible d'une parallélisation.\n3. Mesure la baseline avec un protocole rigoureux (échauffement, répétitions, intervalle), temps et mémoire.\n4. Profile, désigne les goulots, applique au moins quatre optimisations avec hypothèse, mesure et vérification d'équivalence différentielle.\n5. Ajoute des garde-fous déterministes (requêtes comptées, exposant de complexité) et un test de charge simulé avec contre-pression.\n6. Rédige le rapport avec le coût/bénéfice de chaque optimisation et la décision d'arrêt.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel était le goulot réel (et en quoi ton intuition initiale se trompait ou non), l'optimisation qui a le meilleur rapport gain/effort, et un risque que tes garde-fous ne couvrent pas.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-130 — Performance**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "La loi de Little relie :",
+            "options": [
+              {
+                "text": "concurrence, débit et latence moyenne",
+                "isCorrect": true
+              },
+              {
+                "text": "CPU, mémoire et disque",
+                "isCorrect": false
+              },
+              {
+                "text": "coût, délai et qualité",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Pour décrire la latence ressentie par les moins chanceux, on regarde :",
+            "options": [
+              {
+                "text": "la moyenne uniquement",
+                "isCorrect": false
+              },
+              {
+                "text": "le nombre de serveurs",
+                "isCorrect": false
+              },
+              {
+                "text": "les percentiles élevés (p95, p99)",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "La première étape d'une optimisation est de :",
+            "options": [
+              {
+                "text": "réécrire le code en C",
+                "isCorrect": false
+              },
+              {
+                "text": "profiler pour identifier le point chaud",
+                "isCorrect": true
+              },
+              {
+                "text": "ajouter du cache partout",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Pour traiter un fichier plus gros que la mémoire, on utilise :",
+            "options": [
+              {
+                "text": "un flux ou un générateur, ligne par ligne",
+                "isCorrect": true
+              },
+              {
+                "text": "une liste de toutes les lignes",
+                "isCorrect": false
+              },
+              {
+                "text": "un second écran",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Pour accélérer l'écriture d'un gros volume de lignes, on :",
+            "options": [
+              {
+                "text": "appelle flush après chaque ligne",
+                "isCorrect": false
+              },
+              {
+                "text": "écrit octet par octet",
+                "isCorrect": false
+              },
+              {
+                "text": "regroupe les écritures dans un tampon",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Le problème N+1 correspond à :",
+            "options": [
+              {
+                "text": "une table avec N+1 colonnes",
+                "isCorrect": false
+              },
+              {
+                "text": "une requête pour la liste puis une requête par élément",
+                "isCorrect": true
+              },
+              {
+                "text": "un index en trop",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "La ruée sur le cache se prévient par :",
+            "options": [
+              {
+                "text": "un verrou par clé (un seul chargeur) et une expiration avec gigue",
+                "isCorrect": true
+              },
+              {
+                "text": "l'augmentation du nombre de requêtes",
+                "isCorrect": false
+              },
+              {
+                "text": "la suppression du cache",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Après une optimisation, il faut vérifier que :",
+            "options": [
+              {
+                "text": "le code est plus court",
+                "isCorrect": false
+              },
+              {
+                "text": "le fichier est plus petit",
+                "isCorrect": false
+              },
+              {
+                "text": "le résultat est strictement équivalent à la version précédente",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Rapport de performance d'un système",

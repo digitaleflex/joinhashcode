@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:52.314Z",
+  "generatedAt": "2026-11-03T20:47:52.319Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-110"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-110",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un test automatisé sert surtout à :\n- A. rejouer une vérification à l'identique après chaque modification\n- B. rendre le code plus rapide\n- C. remplacer la documentation\n\n**2.** Une valeur limite est :\n- A. une valeur choisie au hasard\n- B. la plus grande valeur possible\n- C. une valeur située juste autour d'un seuil de la règle\n\n**3.** `setUp` sert à :\n- A. arrêter les tests\n- B. préparer un état neuf avant chaque test\n- C. mesurer la couverture\n\n**4.** Un test d'intégration vérifie surtout :\n- A. que des composants réels fonctionnent ensemble\n- B. la vitesse du processeur\n- C. l'orthographe des messages\n\n**5.** Un stub sert à :\n- A. enregistrer des appels\n- B. stocker des données\n- C. fournir des réponses préparées au code testé\n\n**6.** Le cycle du TDD est :\n- A. vert, rouge, déployer\n- B. rouge, vert, refactor\n- C. refactor, rouge, vert\n\n**7.** Un mutant survivant indique :\n- A. que la suite n'a pas détecté une altération du code\n- B. que le code est parfait\n- C. que le mutant est mort\n\n**8.** Dans un pipeline, on place en premier :\n- A. les étapes les plus longues\n- B. les tests E2E\n- C. les étapes rapides et décisives\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette règle pour les rappels d'échéance de HashBox :\n\n```text\n- un rappel est envoyé 3 jours avant la date d'un cours, une seule fois par inscription ;\n- pas d'envoi entre 22 h et 7 h : on reporte au premier créneau autorisé ;\n- si l'envoi échoue, on réessaie au passage suivant (maximum 3 essais, puis on journalise) ;\n- les membres désinscrits ne reçoivent rien.\n```\n\n1. Écris la matrice de comportements (au moins 12 lignes avec exemples chiffrés).\n2. Implémente `ServiceRappel` avec injection de l'horloge, de l'expéditeur et du dépôt.\n3. Écris les tests : unitaires avec tables de valeurs limites, un fake de dépôt validé par un test de contrat contre SQLite, des doubles pour l'expéditeur (stub en panne, spy), et un test d'intégration SQLite.\n4. Mesure la couverture et le score de mutation (au moins 15 mutants), puis renforce tes tests jusqu'à 90 %.\n5. Détecte l'instabilité sur 30 exécutions variées ; écris un `ci.py` avec rapport JUnit et porte de couverture ; démontre la détection d'une régression contrôlée.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as placé chaque comportement à ce niveau de la pyramide, un test que tu supprimerais s'il fallait réduire la suite, et un risque que ta stratégie ne couvre pas.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-110 — Tests et qualité**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un test automatisé sert surtout à :\n- A. rejouer une vérification à l'identique après chaque modification\n- B. rendre le code plus rapide\n- C. remplacer la documentation\n\n**2.** Une valeur limite est :\n- A. une valeur choisie au hasard\n- B. la plus grande valeur possible\n- C. une valeur située juste autour d'un seuil de la règle\n\n**3.** `setUp` sert à :\n- A. arrêter les tests\n- B. préparer un état neuf avant chaque test\n- C. mesurer la couverture\n\n**4.** Un test d'intégration vérifie surtout :\n- A. que des composants réels fonctionnent ensemble\n- B. la vitesse du processeur\n- C. l'orthographe des messages\n\n**5.** Un stub sert à :\n- A. enregistrer des appels\n- B. stocker des données\n- C. fournir des réponses préparées au code testé\n\n**6.** Le cycle du TDD est :\n- A. vert, rouge, déployer\n- B. rouge, vert, refactor\n- C. refactor, rouge, vert\n\n**7.** Un mutant survivant indique :\n- A. que la suite n'a pas détecté une altération du code\n- B. que le code est parfait\n- C. que le mutant est mort\n\n**8.** Dans un pipeline, on place en premier :\n- A. les étapes les plus longues\n- B. les tests E2E\n- C. les étapes rapides et décisives\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette règle pour les rappels d'échéance de HashBox :\n\n```text\n- un rappel est envoyé 3 jours avant la date d'un cours, une seule fois par inscription ;\n- pas d'envoi entre 22 h et 7 h : on reporte au premier créneau autorisé ;\n- si l'envoi échoue, on réessaie au passage suivant (maximum 3 essais, puis on journalise) ;\n- les membres désinscrits ne reçoivent rien.\n```\n\n1. Écris la matrice de comportements (au moins 12 lignes avec exemples chiffrés).\n2. Implémente `ServiceRappel` avec injection de l'horloge, de l'expéditeur et du dépôt.\n3. Écris les tests : unitaires avec tables de valeurs limites, un fake de dépôt validé par un test de contrat contre SQLite, des doubles pour l'expéditeur (stub en panne, spy), et un test d'intégration SQLite.\n4. Mesure la couverture et le score de mutation (au moins 15 mutants), puis renforce tes tests jusqu'à 90 %.\n5. Détecte l'instabilité sur 30 exécutions variées ; écris un `ci.py` avec rapport JUnit et porte de couverture ; démontre la détection d'une régression contrôlée.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as placé chaque comportement à ce niveau de la pyramide, un test que tu supprimerais s'il fallait réduire la suite, et un risque que ta stratégie ne couvre pas.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-110 — Tests et qualité**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un test automatisé sert surtout à :",
+            "options": [
+              {
+                "text": "rejouer une vérification à l'identique après chaque modification",
+                "isCorrect": true
+              },
+              {
+                "text": "rendre le code plus rapide",
+                "isCorrect": false
+              },
+              {
+                "text": "remplacer la documentation",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Une valeur limite est :",
+            "options": [
+              {
+                "text": "une valeur choisie au hasard",
+                "isCorrect": false
+              },
+              {
+                "text": "la plus grande valeur possible",
+                "isCorrect": false
+              },
+              {
+                "text": "une valeur située juste autour d'un seuil de la règle",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "`setUp` sert à :",
+            "options": [
+              {
+                "text": "arrêter les tests",
+                "isCorrect": false
+              },
+              {
+                "text": "préparer un état neuf avant chaque test",
+                "isCorrect": true
+              },
+              {
+                "text": "mesurer la couverture",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Un test d'intégration vérifie surtout :",
+            "options": [
+              {
+                "text": "que des composants réels fonctionnent ensemble",
+                "isCorrect": true
+              },
+              {
+                "text": "la vitesse du processeur",
+                "isCorrect": false
+              },
+              {
+                "text": "l'orthographe des messages",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un stub sert à :",
+            "options": [
+              {
+                "text": "enregistrer des appels",
+                "isCorrect": false
+              },
+              {
+                "text": "stocker des données",
+                "isCorrect": false
+              },
+              {
+                "text": "fournir des réponses préparées au code testé",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Le cycle du TDD est :",
+            "options": [
+              {
+                "text": "vert, rouge, déployer",
+                "isCorrect": false
+              },
+              {
+                "text": "rouge, vert, refactor",
+                "isCorrect": true
+              },
+              {
+                "text": "refactor, rouge, vert",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un mutant survivant indique :",
+            "options": [
+              {
+                "text": "que la suite n'a pas détecté une altération du code",
+                "isCorrect": true
+              },
+              {
+                "text": "que le code est parfait",
+                "isCorrect": false
+              },
+              {
+                "text": "que le mutant est mort",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Dans un pipeline, on place en premier :",
+            "options": [
+              {
+                "text": "les étapes les plus longues",
+                "isCorrect": false
+              },
+              {
+                "text": "les tests E2E",
+                "isCorrect": false
+              },
+              {
+                "text": "les étapes rapides et décisives",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Suite de tests documentée et pipeline automatisé",

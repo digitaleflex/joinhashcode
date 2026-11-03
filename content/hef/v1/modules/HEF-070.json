@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:50.232Z",
+  "generatedAt": "2026-11-03T20:47:50.489Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-070"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-070",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Une clé étrangère :\n- A. référence la clé primaire d'une autre table\n- B. identifie la ligne\n- C. est un index\n\n**2.** La 3FN impose que :\n- A. toutes les colonnes soient indexées\n- B. les tables soient vides\n- C. rien ne dépende d'une colonne non clé\n\n**3.** Pour trouver les membres sans inscription :\n- A. INNER JOIN\n- B. LEFT JOIN puis IS NULL\n- C. GROUP BY\n\n**4.** HAVING filtre :\n- A. les groupes après GROUP BY\n- B. les lignes avant le regroupement\n- C. les colonnes\n\n**5.** Un plan avec SCAN signifie :\n- A. recherche par index\n- B. jointure\n- C. balayage complet de la table\n\n**6.** L'atomicité signifie :\n- A. des transactions rapides\n- B. tout ou rien\n- C. des données chiffrées\n\n**7.** Une mise à jour perdue se corrige avec :\n- A. une opération atomique ou un verrouillage optimiste\n- B. un redémarrage\n- C. un index\n\n**8.** Pour éviter l'injection SQL, on utilise :\n- A. des guillemets doubles\n- B. des majuscules\n- C. des requêtes paramétrées\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne une table mal conçue : `ventes(id, client, tel_client, produit, prix_produit, quantite, date)`, avec des clients et des produits répétés.\n\n1. Écris les dépendances fonctionnelles et propose un schéma 3FN avec contraintes.\n2. Écris le code SQLite qui crée le schéma, migre 2 000 lignes aléatoires depuis l'ancienne table et vérifie les comptes.\n3. Écris trois requêtes : chiffre d'affaires par produit, clients sans achat depuis 30 jours, meilleur client par mois.\n4. Lis le plan de la 3ᵉ requête, crée l'index adapté et mesure le gain.\n5. Écris une fonction de vente atomique qui décrémente le stock et enregistre la vente, puis teste une panne au milieu.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as choisi ces contraintes, pourquoi cet index (et pas un autre), et quelle anomalie de concurrence ta fonction de vente évite.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-070 — Bases de données**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Une clé étrangère :\n- A. référence la clé primaire d'une autre table\n- B. identifie la ligne\n- C. est un index\n\n**2.** La 3FN impose que :\n- A. toutes les colonnes soient indexées\n- B. les tables soient vides\n- C. rien ne dépende d'une colonne non clé\n\n**3.** Pour trouver les membres sans inscription :\n- A. INNER JOIN\n- B. LEFT JOIN puis IS NULL\n- C. GROUP BY\n\n**4.** HAVING filtre :\n- A. les groupes après GROUP BY\n- B. les lignes avant le regroupement\n- C. les colonnes\n\n**5.** Un plan avec SCAN signifie :\n- A. recherche par index\n- B. jointure\n- C. balayage complet de la table\n\n**6.** L'atomicité signifie :\n- A. des transactions rapides\n- B. tout ou rien\n- C. des données chiffrées\n\n**7.** Une mise à jour perdue se corrige avec :\n- A. une opération atomique ou un verrouillage optimiste\n- B. un redémarrage\n- C. un index\n\n**8.** Pour éviter l'injection SQL, on utilise :\n- A. des guillemets doubles\n- B. des majuscules\n- C. des requêtes paramétrées\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne une table mal conçue : `ventes(id, client, tel_client, produit, prix_produit, quantite, date)`, avec des clients et des produits répétés.\n\n1. Écris les dépendances fonctionnelles et propose un schéma 3FN avec contraintes.\n2. Écris le code SQLite qui crée le schéma, migre 2 000 lignes aléatoires depuis l'ancienne table et vérifie les comptes.\n3. Écris trois requêtes : chiffre d'affaires par produit, clients sans achat depuis 30 jours, meilleur client par mois.\n4. Lis le plan de la 3ᵉ requête, crée l'index adapté et mesure le gain.\n5. Écris une fonction de vente atomique qui décrémente le stock et enregistre la vente, puis teste une panne au milieu.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as choisi ces contraintes, pourquoi cet index (et pas un autre), et quelle anomalie de concurrence ta fonction de vente évite.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-070 — Bases de données**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Une clé étrangère :",
+            "options": [
+              {
+                "text": "référence la clé primaire d'une autre table",
+                "isCorrect": true
+              },
+              {
+                "text": "identifie la ligne",
+                "isCorrect": false
+              },
+              {
+                "text": "est un index",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "La 3FN impose que :",
+            "options": [
+              {
+                "text": "toutes les colonnes soient indexées",
+                "isCorrect": false
+              },
+              {
+                "text": "les tables soient vides",
+                "isCorrect": false
+              },
+              {
+                "text": "rien ne dépende d'une colonne non clé",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Pour trouver les membres sans inscription :",
+            "options": [
+              {
+                "text": "INNER JOIN",
+                "isCorrect": false
+              },
+              {
+                "text": "LEFT JOIN puis IS NULL",
+                "isCorrect": true
+              },
+              {
+                "text": "GROUP BY",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "HAVING filtre :",
+            "options": [
+              {
+                "text": "les groupes après GROUP BY",
+                "isCorrect": true
+              },
+              {
+                "text": "les lignes avant le regroupement",
+                "isCorrect": false
+              },
+              {
+                "text": "les colonnes",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un plan avec SCAN signifie :",
+            "options": [
+              {
+                "text": "recherche par index",
+                "isCorrect": false
+              },
+              {
+                "text": "jointure",
+                "isCorrect": false
+              },
+              {
+                "text": "balayage complet de la table",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "L'atomicité signifie :",
+            "options": [
+              {
+                "text": "des transactions rapides",
+                "isCorrect": false
+              },
+              {
+                "text": "tout ou rien",
+                "isCorrect": true
+              },
+              {
+                "text": "des données chiffrées",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Une mise à jour perdue se corrige avec :",
+            "options": [
+              {
+                "text": "une opération atomique ou un verrouillage optimiste",
+                "isCorrect": true
+              },
+              {
+                "text": "un redémarrage",
+                "isCorrect": false
+              },
+              {
+                "text": "un index",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Pour éviter l'injection SQL, on utilise :",
+            "options": [
+              {
+                "text": "des guillemets doubles",
+                "isCorrect": false
+              },
+              {
+                "text": "des majuscules",
+                "isCorrect": false
+              },
+              {
+                "text": "des requêtes paramétrées",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Base de données d'une plateforme complète",

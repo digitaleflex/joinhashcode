@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:53.712Z",
+  "generatedAt": "2026-11-03T20:47:53.814Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-140"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-140",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Dans un système distribué asynchrone, un délai dépassé signifie :\n- A. qu'on n'a pas reçu de réponse, sans savoir si l'autre est lent, mort ou injoignable\n- B. que l'autre machine est tombée\n- C. que le message est arrivé\n\n**2.** Deux événements aux horloges vectorielles [2,0] et [0,1] sont :\n- A. l'un avant l'autre\n- B. identiques\n- C. concurrents\n\n**3.** « Exactement une fois » s'obtient en pratique par :\n- A. une garantie du réseau\n- B. au moins une fois (relances) + idempotence\n- C. un délai plus long\n\n**4.** La règle de quorum qui garantit de lire au moins un réplica à jour est :\n- A. R + W > N\n- B. R + W < N\n- C. R = W = 1\n\n**5.** Avec `hash(clé) mod N`, ajouter un serveur :\n- A. ne déplace aucune clé\n- B. déplace exactement 1/N des clés\n- C. déplace la majorité des clés\n\n**6.** Pendant une partition réseau, un système CP :\n- A. répond partout avec des copies divergentes\n- B. refuse de répondre côté minoritaire pour préserver la cohérence\n- C. ignore la partition\n\n**7.** Le patron outbox sert à :\n- A. publier un événement de façon atomique avec la modification en base\n- B. chiffrer les messages\n- C. accélérer le courtier\n\n**8.** Un jeton de barrière (fencing token) empêche :\n- A. la perte de paquets\n- B. les doublons de messages\n- C. l'écriture d'un ancien détenteur d'un bail expiré\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne ce service : « réservation de salles de formation » — 200 salles, des milliers de réservations par jour, chaque salle ne peut être réservée qu'une fois par créneau. Les clients relancent après un délai ; les serveurs tombent ; le réseau perd, duplique et retarde les messages.\n\n1. Écris les exigences, au moins quatre invariants de sûreté et un objectif de disponibilité.\n2. Choisis la clé de partitionnement et le mode de réplication ; justifie par les requêtes fréquentes et les invariants.\n3. Dessine l'architecture (Mermaid) et définis le contrat de l'API (idempotence, erreurs, échéances).\n4. Écris la table menace → mécanisme → test (au moins 8 lignes).\n5. Implémente un simulateur déterministe avec fautes aléatoires et vérifie les invariants sur 500 graines pour : une version naïve, une version avec clés d'idempotence, une version finale (écrivain unique atomique + clés + réplication avant confirmation).\n6. Rédige un ADR et le plan d'un exercice de panne.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'invariant le plus difficile à garantir et pourquoi, un compromis où tu as sacrifié la disponibilité pour la cohérence (ou l'inverse) avec ta justification, et une garantie que ta simulation ne permet pas de démontrer.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-140 — Systèmes distribués**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Dans un système distribué asynchrone, un délai dépassé signifie :\n- A. qu'on n'a pas reçu de réponse, sans savoir si l'autre est lent, mort ou injoignable\n- B. que l'autre machine est tombée\n- C. que le message est arrivé\n\n**2.** Deux événements aux horloges vectorielles [2,0] et [0,1] sont :\n- A. l'un avant l'autre\n- B. identiques\n- C. concurrents\n\n**3.** « Exactement une fois » s'obtient en pratique par :\n- A. une garantie du réseau\n- B. au moins une fois (relances) + idempotence\n- C. un délai plus long\n\n**4.** La règle de quorum qui garantit de lire au moins un réplica à jour est :\n- A. R + W > N\n- B. R + W < N\n- C. R = W = 1\n\n**5.** Avec `hash(clé) mod N`, ajouter un serveur :\n- A. ne déplace aucune clé\n- B. déplace exactement 1/N des clés\n- C. déplace la majorité des clés\n\n**6.** Pendant une partition réseau, un système CP :\n- A. répond partout avec des copies divergentes\n- B. refuse de répondre côté minoritaire pour préserver la cohérence\n- C. ignore la partition\n\n**7.** Le patron outbox sert à :\n- A. publier un événement de façon atomique avec la modification en base\n- B. chiffrer les messages\n- C. accélérer le courtier\n\n**8.** Un jeton de barrière (fencing token) empêche :\n- A. la perte de paquets\n- B. les doublons de messages\n- C. l'écriture d'un ancien détenteur d'un bail expiré\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne ce service : « réservation de salles de formation » — 200 salles, des milliers de réservations par jour, chaque salle ne peut être réservée qu'une fois par créneau. Les clients relancent après un délai ; les serveurs tombent ; le réseau perd, duplique et retarde les messages.\n\n1. Écris les exigences, au moins quatre invariants de sûreté et un objectif de disponibilité.\n2. Choisis la clé de partitionnement et le mode de réplication ; justifie par les requêtes fréquentes et les invariants.\n3. Dessine l'architecture (Mermaid) et définis le contrat de l'API (idempotence, erreurs, échéances).\n4. Écris la table menace → mécanisme → test (au moins 8 lignes).\n5. Implémente un simulateur déterministe avec fautes aléatoires et vérifie les invariants sur 500 graines pour : une version naïve, une version avec clés d'idempotence, une version finale (écrivain unique atomique + clés + réplication avant confirmation).\n6. Rédige un ADR et le plan d'un exercice de panne.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'invariant le plus difficile à garantir et pourquoi, un compromis où tu as sacrifié la disponibilité pour la cohérence (ou l'inverse) avec ta justification, et une garantie que ta simulation ne permet pas de démontrer.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-140 — Systèmes distribués**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Dans un système distribué asynchrone, un délai dépassé signifie :",
+            "options": [
+              {
+                "text": "qu'on n'a pas reçu de réponse, sans savoir si l'autre est lent, mort ou injoignable",
+                "isCorrect": true
+              },
+              {
+                "text": "que l'autre machine est tombée",
+                "isCorrect": false
+              },
+              {
+                "text": "que le message est arrivé",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Deux événements aux horloges vectorielles [2,0] et [0,1] sont :",
+            "options": [
+              {
+                "text": "l'un avant l'autre",
+                "isCorrect": false
+              },
+              {
+                "text": "identiques",
+                "isCorrect": false
+              },
+              {
+                "text": "concurrents",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "« Exactement une fois » s'obtient en pratique par :",
+            "options": [
+              {
+                "text": "une garantie du réseau",
+                "isCorrect": false
+              },
+              {
+                "text": "au moins une fois (relances) + idempotence",
+                "isCorrect": true
+              },
+              {
+                "text": "un délai plus long",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "La règle de quorum qui garantit de lire au moins un réplica à jour est :",
+            "options": [
+              {
+                "text": "R + W > N",
+                "isCorrect": true
+              },
+              {
+                "text": "R + W < N",
+                "isCorrect": false
+              },
+              {
+                "text": "R = W = 1",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Avec `hash(clé) mod N`, ajouter un serveur :",
+            "options": [
+              {
+                "text": "ne déplace aucune clé",
+                "isCorrect": false
+              },
+              {
+                "text": "déplace exactement 1/N des clés",
+                "isCorrect": false
+              },
+              {
+                "text": "déplace la majorité des clés",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Pendant une partition réseau, un système CP :",
+            "options": [
+              {
+                "text": "répond partout avec des copies divergentes",
+                "isCorrect": false
+              },
+              {
+                "text": "refuse de répondre côté minoritaire pour préserver la cohérence",
+                "isCorrect": true
+              },
+              {
+                "text": "ignore la partition",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Le patron outbox sert à :",
+            "options": [
+              {
+                "text": "publier un événement de façon atomique avec la modification en base",
+                "isCorrect": true
+              },
+              {
+                "text": "chiffrer les messages",
+                "isCorrect": false
+              },
+              {
+                "text": "accélérer le courtier",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Un jeton de barrière (fencing token) empêche :",
+            "options": [
+              {
+                "text": "la perte de paquets",
+                "isCorrect": false
+              },
+              {
+                "text": "les doublons de messages",
+                "isCorrect": false
+              },
+              {
+                "text": "l'écriture d'un ancien détenteur d'un bail expiré",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Architecture d'un mini-service distribué",

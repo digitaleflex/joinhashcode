@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:50.723Z",
+  "generatedAt": "2026-11-03T20:47:51.097Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-080"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-080",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** DRY signifie :\n- A. ne pas dupliquer une connaissance\n- B. ne pas écrire de commentaires\n- C. répéter les tests\n\n**2.** Une forte cohésion signifie :\n- A. le module dépend de beaucoup d'autres\n- B. le module est très long\n- C. le module fait une chose bien définie\n\n**3.** Le principe ouvert/fermé dit :\n- A. ouvert à la modification, fermé à l'extension\n- B. ouvert à l'extension, fermé à la modification\n- C. tout est ouvert\n\n**4.** Strategy permet de :\n- A. changer d'algorithme sans modifier le code appelant\n- B. créer une seule instance\n- C. traduire une interface\n\n**5.** Dans l'architecture hexagonale, le domaine :\n- A. dépend de la base de données\n- B. dépend du framework web\n- C. ne dépend d'aucun détail technique\n\n**6.** Un test de caractérisation :\n- A. vérifie que le code est correct\n- B. fige le comportement actuel du code\n- C. remplace la documentation\n\n**7.** Un point chaud est un code :\n- A. à la fois complexe et souvent modifié\n- B. très ancien\n- C. sans commentaires\n\n**8.** Un ADR sert à :\n- A. lister les bugs\n- B. remplacer les tests\n- C. garder une décision et ses raisons\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fonction :\n\n```text\ndef traiter(cmds, pays, v):\n    t = 0\n    for c in cmds:\n        if c[\"q\"] > 0:\n            if v == True:\n                t += c[\"p\"] * c[\"q\"] * 0.9\n            else:\n                t += c[\"p\"] * c[\"q\"]\n    if pays == \"FR\":\n        t = t * 1.2\n    elif pays == \"DE\":\n        t = t * 1.19\n    print(\"total\", t)\n    return t\n```\n\n1. Écris les tests de caractérisation (au moins 10 cas).\n2. Refactore-la en petits pas (noms, constantes, fonctions pures, sans `print`) et prouve l'équivalence.\n3. Ajoute une nouvelle règle (frais de port gratuits dès 100 euros) **après** le refactoring.\n4. Propose une interface pour que le calcul de TVA soit extensible à d'autres pays sans modifier la fonction (patron ou principe SOLID adapté).\n5. Rédige 5 commentaires de revue sur la version d'origine, classés par gravité.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel principe de conception justifie ton découpage, comment tu évites de mélanger refactoring et fonctionnalité, et quelle dette tu as volontairement laissée.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-080 — Génie logiciel**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** DRY signifie :\n- A. ne pas dupliquer une connaissance\n- B. ne pas écrire de commentaires\n- C. répéter les tests\n\n**2.** Une forte cohésion signifie :\n- A. le module dépend de beaucoup d'autres\n- B. le module est très long\n- C. le module fait une chose bien définie\n\n**3.** Le principe ouvert/fermé dit :\n- A. ouvert à la modification, fermé à l'extension\n- B. ouvert à l'extension, fermé à la modification\n- C. tout est ouvert\n\n**4.** Strategy permet de :\n- A. changer d'algorithme sans modifier le code appelant\n- B. créer une seule instance\n- C. traduire une interface\n\n**5.** Dans l'architecture hexagonale, le domaine :\n- A. dépend de la base de données\n- B. dépend du framework web\n- C. ne dépend d'aucun détail technique\n\n**6.** Un test de caractérisation :\n- A. vérifie que le code est correct\n- B. fige le comportement actuel du code\n- C. remplace la documentation\n\n**7.** Un point chaud est un code :\n- A. à la fois complexe et souvent modifié\n- B. très ancien\n- C. sans commentaires\n\n**8.** Un ADR sert à :\n- A. lister les bugs\n- B. remplacer les tests\n- C. garder une décision et ses raisons\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne cette fonction :\n\n```text\ndef traiter(cmds, pays, v):\n    t = 0\n    for c in cmds:\n        if c[\"q\"] > 0:\n            if v == True:\n                t += c[\"p\"] * c[\"q\"] * 0.9\n            else:\n                t += c[\"p\"] * c[\"q\"]\n    if pays == \"FR\":\n        t = t * 1.2\n    elif pays == \"DE\":\n        t = t * 1.19\n    print(\"total\", t)\n    return t\n```\n\n1. Écris les tests de caractérisation (au moins 10 cas).\n2. Refactore-la en petits pas (noms, constantes, fonctions pures, sans `print`) et prouve l'équivalence.\n3. Ajoute une nouvelle règle (frais de port gratuits dès 100 euros) **après** le refactoring.\n4. Propose une interface pour que le calcul de TVA soit extensible à d'autres pays sans modifier la fonction (patron ou principe SOLID adapté).\n5. Rédige 5 commentaires de revue sur la version d'origine, classés par gravité.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel principe de conception justifie ton découpage, comment tu évites de mélanger refactoring et fonctionnalité, et quelle dette tu as volontairement laissée.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-080 — Génie logiciel**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "DRY signifie :",
+            "options": [
+              {
+                "text": "ne pas dupliquer une connaissance",
+                "isCorrect": true
+              },
+              {
+                "text": "ne pas écrire de commentaires",
+                "isCorrect": false
+              },
+              {
+                "text": "répéter les tests",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Une forte cohésion signifie :",
+            "options": [
+              {
+                "text": "le module dépend de beaucoup d'autres",
+                "isCorrect": false
+              },
+              {
+                "text": "le module est très long",
+                "isCorrect": false
+              },
+              {
+                "text": "le module fait une chose bien définie",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Le principe ouvert/fermé dit :",
+            "options": [
+              {
+                "text": "ouvert à la modification, fermé à l'extension",
+                "isCorrect": false
+              },
+              {
+                "text": "ouvert à l'extension, fermé à la modification",
+                "isCorrect": true
+              },
+              {
+                "text": "tout est ouvert",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Strategy permet de :",
+            "options": [
+              {
+                "text": "changer d'algorithme sans modifier le code appelant",
+                "isCorrect": true
+              },
+              {
+                "text": "créer une seule instance",
+                "isCorrect": false
+              },
+              {
+                "text": "traduire une interface",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Dans l'architecture hexagonale, le domaine :",
+            "options": [
+              {
+                "text": "dépend de la base de données",
+                "isCorrect": false
+              },
+              {
+                "text": "dépend du framework web",
+                "isCorrect": false
+              },
+              {
+                "text": "ne dépend d'aucun détail technique",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Un test de caractérisation :",
+            "options": [
+              {
+                "text": "vérifie que le code est correct",
+                "isCorrect": false
+              },
+              {
+                "text": "fige le comportement actuel du code",
+                "isCorrect": true
+              },
+              {
+                "text": "remplace la documentation",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un point chaud est un code :",
+            "options": [
+              {
+                "text": "à la fois complexe et souvent modifié",
+                "isCorrect": true
+              },
+              {
+                "text": "très ancien",
+                "isCorrect": false
+              },
+              {
+                "text": "sans commentaires",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Un ADR sert à :",
+            "options": [
+              {
+                "text": "lister les bugs",
+                "isCorrect": false
+              },
+              {
+                "text": "remplacer les tests",
+                "isCorrect": false
+              },
+              {
+                "text": "garder une décision et ses raisons",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Application métier en architecture propre",

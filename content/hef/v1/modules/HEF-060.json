@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:49.912Z",
+  "generatedAt": "2026-11-03T20:47:49.986Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-060"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-060",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** L'encapsulation consiste à :\n- A. ajouter un en-tête à chaque couche\n- B. chiffrer les données\n- C. compresser le message\n\n**2.** Un réseau /26 contient combien d'hôtes utilisables ?\n- A. 64\n- B. 30\n- C. 62\n\n**3.** Un routeur choisit la route avec :\n- A. le plus court préfixe\n- B. le plus long préfixe\n- C. le plus petit numéro\n\n**4.** La poignée de main TCP se déroule en :\n- A. trois temps (SYN, SYN-ACK, ACK)\n- B. un seul message\n- C. cinq échanges\n\n**5.** Un enregistrement MX indique :\n- A. l'adresse IPv6\n- B. un alias\n- C. le serveur de mail d'un domaine\n\n**6.** Une méthode HTTP idempotente :\n- A. est toujours sûre\n- B. donne le même résultat si on la répète\n- C. ne renvoie pas de corps\n\n**7.** Un certificat lie :\n- A. un nom de domaine à une clé publique\n- B. une IP à une MAC\n- C. un mot de passe à un utilisateur\n\n**8.** Dans un pare-feu à règles ordonnées :\n- A. la dernière règle s'applique\n- B. toutes les règles s'appliquent\n- C. la première règle qui correspond s'applique\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne le réseau `172.20.0.0/22` à répartir entre : Dev (200 machines), Support (100 machines), Invités (50 machines) et une liaison point à point entre deux routeurs.\n\n1. Écris un programme qui calcule un plan d'adressage sans chevauchement (VLSM) et affiche réseau, hôtes utilisables et diffusion.\n2. Écris une table de routage pour un routeur central et vérifie, avec la règle du plus long préfixe, le prochain saut pour 6 destinations (dont une hors plan).\n3. Écris les règles d'un pare-feu pour ce réseau (Dev joint tout ; Invités ne joint que internet sur 80/443 ; le reste refusé) et teste 8 flux.\n4. Écris `diagnostiquer(hote, port)` qui teste DNS, TCP, puis HTTP et explique l'échec.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as ordonné ainsi les règles du pare-feu, pourquoi tu as alloué du plus grand au plus petit, et comment ton diagnostic distingue un refus d'un silence.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-060 — Réseaux**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** L'encapsulation consiste à :\n- A. ajouter un en-tête à chaque couche\n- B. chiffrer les données\n- C. compresser le message\n\n**2.** Un réseau /26 contient combien d'hôtes utilisables ?\n- A. 64\n- B. 30\n- C. 62\n\n**3.** Un routeur choisit la route avec :\n- A. le plus court préfixe\n- B. le plus long préfixe\n- C. le plus petit numéro\n\n**4.** La poignée de main TCP se déroule en :\n- A. trois temps (SYN, SYN-ACK, ACK)\n- B. un seul message\n- C. cinq échanges\n\n**5.** Un enregistrement MX indique :\n- A. l'adresse IPv6\n- B. un alias\n- C. le serveur de mail d'un domaine\n\n**6.** Une méthode HTTP idempotente :\n- A. est toujours sûre\n- B. donne le même résultat si on la répète\n- C. ne renvoie pas de corps\n\n**7.** Un certificat lie :\n- A. un nom de domaine à une clé publique\n- B. une IP à une MAC\n- C. un mot de passe à un utilisateur\n\n**8.** Dans un pare-feu à règles ordonnées :\n- A. la dernière règle s'applique\n- B. toutes les règles s'appliquent\n- C. la première règle qui correspond s'applique\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne le réseau `172.20.0.0/22` à répartir entre : Dev (200 machines), Support (100 machines), Invités (50 machines) et une liaison point à point entre deux routeurs.\n\n1. Écris un programme qui calcule un plan d'adressage sans chevauchement (VLSM) et affiche réseau, hôtes utilisables et diffusion.\n2. Écris une table de routage pour un routeur central et vérifie, avec la règle du plus long préfixe, le prochain saut pour 6 destinations (dont une hors plan).\n3. Écris les règles d'un pare-feu pour ce réseau (Dev joint tout ; Invités ne joint que internet sur 80/443 ; le reste refusé) et teste 8 flux.\n4. Écris `diagnostiquer(hote, port)` qui teste DNS, TCP, puis HTTP et explique l'échec.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu as ordonné ainsi les règles du pare-feu, pourquoi tu as alloué du plus grand au plus petit, et comment ton diagnostic distingue un refus d'un silence.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-060 — Réseaux**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "L'encapsulation consiste à :",
+            "options": [
+              {
+                "text": "ajouter un en-tête à chaque couche",
+                "isCorrect": true
+              },
+              {
+                "text": "chiffrer les données",
+                "isCorrect": false
+              },
+              {
+                "text": "compresser le message",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Un réseau /26 contient combien d'hôtes utilisables ?",
+            "options": [
+              {
+                "text": "64",
+                "isCorrect": false
+              },
+              {
+                "text": "30",
+                "isCorrect": false
+              },
+              {
+                "text": "62",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Un routeur choisit la route avec :",
+            "options": [
+              {
+                "text": "le plus court préfixe",
+                "isCorrect": false
+              },
+              {
+                "text": "le plus long préfixe",
+                "isCorrect": true
+              },
+              {
+                "text": "le plus petit numéro",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "La poignée de main TCP se déroule en :",
+            "options": [
+              {
+                "text": "trois temps (SYN, SYN-ACK, ACK)",
+                "isCorrect": true
+              },
+              {
+                "text": "un seul message",
+                "isCorrect": false
+              },
+              {
+                "text": "cinq échanges",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un enregistrement MX indique :",
+            "options": [
+              {
+                "text": "l'adresse IPv6",
+                "isCorrect": false
+              },
+              {
+                "text": "un alias",
+                "isCorrect": false
+              },
+              {
+                "text": "le serveur de mail d'un domaine",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Une méthode HTTP idempotente :",
+            "options": [
+              {
+                "text": "est toujours sûre",
+                "isCorrect": false
+              },
+              {
+                "text": "donne le même résultat si on la répète",
+                "isCorrect": true
+              },
+              {
+                "text": "ne renvoie pas de corps",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un certificat lie :",
+            "options": [
+              {
+                "text": "un nom de domaine à une clé publique",
+                "isCorrect": true
+              },
+              {
+                "text": "une IP à une MAC",
+                "isCorrect": false
+              },
+              {
+                "text": "un mot de passe à un utilisateur",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Dans un pare-feu à règles ordonnées :",
+            "options": [
+              {
+                "text": "la dernière règle s'applique",
+                "isCorrect": false
+              },
+              {
+                "text": "toutes les règles s'appliquent",
+                "isCorrect": false
+              },
+              {
+                "text": "la première règle qui correspond s'applique",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Mini boîte à outils réseau",

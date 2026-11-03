@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:49.411Z",
+  "generatedAt": "2026-11-03T20:47:49.411Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-050"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-050",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un appel système permet :\n- A. à un programme de demander un service au noyau\n- B. d'éteindre l'ordinateur\n- C. d'écrire du code plus vite\n\n**2.** Deux processus partagent par défaut :\n- A. toute leur mémoire\n- B. leur pile\n- C. rien de leur mémoire\n\n**3.** Une condition de course est :\n- A. un bug de syntaxe\n- B. un résultat qui dépend de l'ordre d'exécution\n- C. un type de verrou\n\n**4.** Round Robin donne :\n- A. à chaque processus le CPU à tour de rôle\n- B. le CPU au plus court\n- C. le CPU au plus prioritaire\n\n**5.** Un défaut de page survient quand :\n- A. le disque est plein\n- B. le CPU surchauffe\n- C. la page demandée n'est pas en RAM\n\n**6.** Un lien physique :\n- A. contient un chemin\n- B. est un deuxième nom pour le même inode\n- C. ne peut exister qu'une fois\n\n**7.** Les droits `rwxr-x---` correspondent en octal à :\n- A. 750\n- B. 755\n- C. 640\n\n**8.** Pour arrêter proprement un service, on envoie d'abord :\n- A. SIGKILL\n- B. SIGSTOP\n- C. SIGTERM\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nUn service de HashBox est très lent depuis ce matin. On te donne : `uptime` : charge 9,2 / 8,7 / 4,1 (machine à 4 cœurs) ; `free -m` : total 8 000, disponible 200, swap utilisé 4 000 ; `df -h /` : 41 % utilisé ; `ps` : un processus `reporting` utilise 5,8 Go de mémoire.\n\n1. Écris un programme Python qui analyse ces valeurs avec la méthode USE et affiche les constats.\n2. Propose la cause probable et la première action (précise le signal à envoyer).\n3. Écris un gestionnaire d'arrêt propre (SIGTERM) pour un processus qui traite des tâches par lots.\n4. Rédige un mini-rapport d'incident de 8 lignes.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu écartes le disque, comment tu relies les constats à la mémoire virtuelle, et ce que tu mettrais en place pour éviter que cela se reproduise.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-050 — Systèmes d'exploitation**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un appel système permet :\n- A. à un programme de demander un service au noyau\n- B. d'éteindre l'ordinateur\n- C. d'écrire du code plus vite\n\n**2.** Deux processus partagent par défaut :\n- A. toute leur mémoire\n- B. leur pile\n- C. rien de leur mémoire\n\n**3.** Une condition de course est :\n- A. un bug de syntaxe\n- B. un résultat qui dépend de l'ordre d'exécution\n- C. un type de verrou\n\n**4.** Round Robin donne :\n- A. à chaque processus le CPU à tour de rôle\n- B. le CPU au plus court\n- C. le CPU au plus prioritaire\n\n**5.** Un défaut de page survient quand :\n- A. le disque est plein\n- B. le CPU surchauffe\n- C. la page demandée n'est pas en RAM\n\n**6.** Un lien physique :\n- A. contient un chemin\n- B. est un deuxième nom pour le même inode\n- C. ne peut exister qu'une fois\n\n**7.** Les droits `rwxr-x---` correspondent en octal à :\n- A. 750\n- B. 755\n- C. 640\n\n**8.** Pour arrêter proprement un service, on envoie d'abord :\n- A. SIGKILL\n- B. SIGSTOP\n- C. SIGTERM\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nUn service de HashBox est très lent depuis ce matin. On te donne : `uptime` : charge 9,2 / 8,7 / 4,1 (machine à 4 cœurs) ; `free -m` : total 8 000, disponible 200, swap utilisé 4 000 ; `df -h /` : 41 % utilisé ; `ps` : un processus `reporting` utilise 5,8 Go de mémoire.\n\n1. Écris un programme Python qui analyse ces valeurs avec la méthode USE et affiche les constats.\n2. Propose la cause probable et la première action (précise le signal à envoyer).\n3. Écris un gestionnaire d'arrêt propre (SIGTERM) pour un processus qui traite des tâches par lots.\n4. Rédige un mini-rapport d'incident de 8 lignes.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : pourquoi tu écartes le disque, comment tu relies les constats à la mémoire virtuelle, et ce que tu mettrais en place pour éviter que cela se reproduise.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-050 — Systèmes d'exploitation**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un appel système permet :",
+            "options": [
+              {
+                "text": "à un programme de demander un service au noyau",
+                "isCorrect": true
+              },
+              {
+                "text": "d'éteindre l'ordinateur",
+                "isCorrect": false
+              },
+              {
+                "text": "d'écrire du code plus vite",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Deux processus partagent par défaut :",
+            "options": [
+              {
+                "text": "toute leur mémoire",
+                "isCorrect": false
+              },
+              {
+                "text": "leur pile",
+                "isCorrect": false
+              },
+              {
+                "text": "rien de leur mémoire",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Une condition de course est :",
+            "options": [
+              {
+                "text": "un bug de syntaxe",
+                "isCorrect": false
+              },
+              {
+                "text": "un résultat qui dépend de l'ordre d'exécution",
+                "isCorrect": true
+              },
+              {
+                "text": "un type de verrou",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Round Robin donne :",
+            "options": [
+              {
+                "text": "à chaque processus le CPU à tour de rôle",
+                "isCorrect": true
+              },
+              {
+                "text": "le CPU au plus court",
+                "isCorrect": false
+              },
+              {
+                "text": "le CPU au plus prioritaire",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Un défaut de page survient quand :",
+            "options": [
+              {
+                "text": "le disque est plein",
+                "isCorrect": false
+              },
+              {
+                "text": "le CPU surchauffe",
+                "isCorrect": false
+              },
+              {
+                "text": "la page demandée n'est pas en RAM",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Un lien physique :",
+            "options": [
+              {
+                "text": "contient un chemin",
+                "isCorrect": false
+              },
+              {
+                "text": "est un deuxième nom pour le même inode",
+                "isCorrect": true
+              },
+              {
+                "text": "ne peut exister qu'une fois",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Les droits `rwxr-x---` correspondent en octal à :",
+            "options": [
+              {
+                "text": "750",
+                "isCorrect": true
+              },
+              {
+                "text": "755",
+                "isCorrect": false
+              },
+              {
+                "text": "640",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Pour arrêter proprement un service, on envoie d'abord :",
+            "options": [
+              {
+                "text": "SIGKILL",
+                "isCorrect": false
+              },
+              {
+                "text": "SIGSTOP",
+                "isCorrect": false
+              },
+              {
+                "text": "SIGTERM",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Mini-shell et gestionnaire de processus",

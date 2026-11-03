@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:52.813Z",
+  "generatedAt": "2026-11-03T20:47:52.793Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-120"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-120",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Pour réduire le délai moyen à débit constant, on :\n- A. réduit le travail en cours et la taille des lots\n- B. augmente la taille des lots\n- C. retarde les déploiements\n\n**2.** Une branche Git est :\n- A. une copie complète du projet\n- B. un fichier de configuration\n- C. un pointeur mobile vers un commit\n\n**3.** Un build reproductible produit :\n- A. un artefact différent à chaque fois\n- B. le même artefact à partir des mêmes sources et configuration\n- C. uniquement des logs\n\n**4.** Dans un Dockerfile, on place d'abord :\n- A. ce qui change rarement (dépendances)\n- B. ce qui change souvent (code)\n- C. les secrets\n\n**5.** La configuration d'une application douze facteurs est stockée :\n- A. dans le code source\n- B. dans l'image du conteneur\n- C. dans l'environnement, hors du code\n\n**6.** La durée minimale d'un pipeline (avec assez de runners) est celle :\n- A. du premier job\n- B. du chemin critique\n- C. de la somme de tous les jobs\n\n**7.** Un déploiement canary consiste à :\n- A. envoyer une petite part du trafic vers la nouvelle version, mesurer, puis étendre\n- B. remplacer tout d'un coup\n- C. déployer seulement la nuit\n\n**8.** Un disjoncteur sert à :\n- A. accélérer les requêtes\n- B. chiffrer les échanges\n- C. cesser d'appeler une dépendance en panne pour la laisser récupérer\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne un service `hashbox-inscriptions` (API HTTP, base SQLite, 3 environnements : dev, staging, prod) et un objectif de disponibilité de **99,9 %**.\n\n1. Écris la stratégie Git (branches, revue, commits conventionnels) et un script qui calcule la prochaine version à partir des messages de commits.\n2. Écris le build reproductible (archive à date fixe, verrouillage avec empreintes) et montre que deux builds sont identiques.\n3. Écris et audite le Dockerfile (multi-étapes, non root, épinglé, healthcheck) et simule l'effet de l'ordre des couches sur le cache.\n4. Décris le pipeline CI en graphe, calcule son chemin critique et propose une optimisation chiffrée.\n5. Écris le chargeur de configuration validé pour les trois environnements, avec masquage des secrets et rotation à chevauchement.\n6. Simule un déploiement canary avec décision statistique et retour arrière automatique, plus une migration `expand/contract`.\n7. Instrumente le service (journaux structurés, histogramme, SLI, SLO, burn rate à double fenêtre) et calcule les indicateurs DORA de 30 changements simulés.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel est le goulot de ta chaîne de livraison et comment tu l'as mesuré, une décision où tu as préféré la sûreté à la vitesse (et pourquoi), et le premier incident que ton pipeline ne sait pas encore gérer.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-120 — DevOps et livraison**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Pour réduire le délai moyen à débit constant, on :\n- A. réduit le travail en cours et la taille des lots\n- B. augmente la taille des lots\n- C. retarde les déploiements\n\n**2.** Une branche Git est :\n- A. une copie complète du projet\n- B. un fichier de configuration\n- C. un pointeur mobile vers un commit\n\n**3.** Un build reproductible produit :\n- A. un artefact différent à chaque fois\n- B. le même artefact à partir des mêmes sources et configuration\n- C. uniquement des logs\n\n**4.** Dans un Dockerfile, on place d'abord :\n- A. ce qui change rarement (dépendances)\n- B. ce qui change souvent (code)\n- C. les secrets\n\n**5.** La configuration d'une application douze facteurs est stockée :\n- A. dans le code source\n- B. dans l'image du conteneur\n- C. dans l'environnement, hors du code\n\n**6.** La durée minimale d'un pipeline (avec assez de runners) est celle :\n- A. du premier job\n- B. du chemin critique\n- C. de la somme de tous les jobs\n\n**7.** Un déploiement canary consiste à :\n- A. envoyer une petite part du trafic vers la nouvelle version, mesurer, puis étendre\n- B. remplacer tout d'un coup\n- C. déployer seulement la nuit\n\n**8.** Un disjoncteur sert à :\n- A. accélérer les requêtes\n- B. chiffrer les échanges\n- C. cesser d'appeler une dépendance en panne pour la laisser récupérer\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te donne un service `hashbox-inscriptions` (API HTTP, base SQLite, 3 environnements : dev, staging, prod) et un objectif de disponibilité de **99,9 %**.\n\n1. Écris la stratégie Git (branches, revue, commits conventionnels) et un script qui calcule la prochaine version à partir des messages de commits.\n2. Écris le build reproductible (archive à date fixe, verrouillage avec empreintes) et montre que deux builds sont identiques.\n3. Écris et audite le Dockerfile (multi-étapes, non root, épinglé, healthcheck) et simule l'effet de l'ordre des couches sur le cache.\n4. Décris le pipeline CI en graphe, calcule son chemin critique et propose une optimisation chiffrée.\n5. Écris le chargeur de configuration validé pour les trois environnements, avec masquage des secrets et rotation à chevauchement.\n6. Simule un déploiement canary avec décision statistique et retour arrière automatique, plus une migration `expand/contract`.\n7. Instrumente le service (journaux structurés, histogramme, SLI, SLO, burn rate à double fenêtre) et calcule les indicateurs DORA de 30 changements simulés.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : quel est le goulot de ta chaîne de livraison et comment tu l'as mesuré, une décision où tu as préféré la sûreté à la vitesse (et pourquoi), et le premier incident que ton pipeline ne sait pas encore gérer.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-120 — DevOps et livraison**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Pour réduire le délai moyen à débit constant, on :",
+            "options": [
+              {
+                "text": "réduit le travail en cours et la taille des lots",
+                "isCorrect": true
+              },
+              {
+                "text": "augmente la taille des lots",
+                "isCorrect": false
+              },
+              {
+                "text": "retarde les déploiements",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Une branche Git est :",
+            "options": [
+              {
+                "text": "une copie complète du projet",
+                "isCorrect": false
+              },
+              {
+                "text": "un fichier de configuration",
+                "isCorrect": false
+              },
+              {
+                "text": "un pointeur mobile vers un commit",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "Un build reproductible produit :",
+            "options": [
+              {
+                "text": "un artefact différent à chaque fois",
+                "isCorrect": false
+              },
+              {
+                "text": "le même artefact à partir des mêmes sources et configuration",
+                "isCorrect": true
+              },
+              {
+                "text": "uniquement des logs",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Dans un Dockerfile, on place d'abord :",
+            "options": [
+              {
+                "text": "ce qui change rarement (dépendances)",
+                "isCorrect": true
+              },
+              {
+                "text": "ce qui change souvent (code)",
+                "isCorrect": false
+              },
+              {
+                "text": "les secrets",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "La configuration d'une application douze facteurs est stockée :",
+            "options": [
+              {
+                "text": "dans le code source",
+                "isCorrect": false
+              },
+              {
+                "text": "dans l'image du conteneur",
+                "isCorrect": false
+              },
+              {
+                "text": "dans l'environnement, hors du code",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "La durée minimale d'un pipeline (avec assez de runners) est celle :",
+            "options": [
+              {
+                "text": "du premier job",
+                "isCorrect": false
+              },
+              {
+                "text": "du chemin critique",
+                "isCorrect": true
+              },
+              {
+                "text": "de la somme de tous les jobs",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Un déploiement canary consiste à :",
+            "options": [
+              {
+                "text": "envoyer une petite part du trafic vers la nouvelle version, mesurer, puis étendre",
+                "isCorrect": true
+              },
+              {
+                "text": "remplacer tout d'un coup",
+                "isCorrect": false
+              },
+              {
+                "text": "déployer seulement la nuit",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Un disjoncteur sert à :",
+            "options": [
+              {
+                "text": "accélérer les requêtes",
+                "isCorrect": false
+              },
+              {
+                "text": "chiffrer les échanges",
+                "isCorrect": false
+              },
+              {
+                "text": "cesser d'appeler une dépendance en panne pour la laisser récupérer",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Livraison continue d'une application",

@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-03T17:11:54.231Z",
+  "generatedAt": "2026-11-03T20:47:54.315Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-150"
@@ -107,7 +107,156 @@
     ],
     "assessment": {
       "title": "Évaluation finale — HEF-150",
-      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un résultat (outcome) est :\n- A. un changement observable dans le comportement des utilisateurs\n- B. une fonctionnalité livrée\n- C. un fichier de spécifications\n\n**2.** Pour obtenir une information fiable en entretien, on demande plutôt :\n- A. si elle utiliserait notre idée\n- B. si elle trouve l'idée géniale\n- C. ce que la personne a fait la dernière fois\n\n**3.** S'arrêter dès que « p < 0,05 » pendant l'expérience :\n- A. n'a aucun effet\n- B. augmente fortement le taux de faux positifs\n- C. réduit les faux positifs\n\n**4.** Un MVP est défini avant tout par :\n- A. l'hypothèse la plus risquée qu'il permet de tester\n- B. le nombre minimal de lignes de code\n- C. une version bon marché du produit final\n\n**5.** Le rapport de contraste minimal AA pour un texte normal est :\n- A. 2:1\n- B. 10:1\n- C. 4,5:1\n\n**6.** Pour un produit en découverte avec une petite équipe, l'architecture recommandée est généralement :\n- A. quatorze microservices dès le premier jour\n- B. un monolithe modulaire\n- C. aucune structure\n\n**7.** Dans RICE, la confiance sert à :\n- A. pénaliser les estimations spéculatives\n- B. augmenter l'effort\n- C. mesurer la portée\n\n**8.** Dans une décision de continuer ou d'arrêter, le coût déjà dépensé :\n- A. est l'argument principal\n- B. doit être doublé\n- C. ne doit pas entrer dans la comparaison des options futures\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te confie l'idée « application de révision pour les cours HashCode » : cartes mémoire, répétition espacée, partage avec des amis.\n\n1. Cadre le produit : problème sans solution, segment, JTBD, étoile du nord et arbre de métriques ; calcule le levier prioritaire.\n2. Simule 10 entretiens, classe les phrases en faits et opinions, regroupe les thèmes et estime la saturation ; calcule l'opportunité de cinq besoins.\n3. Écris trois hypothèses, désigne la plus risquée, planifie une expérience (taille d'échantillon, seuils de décision) et simule-la.\n4. Définis le MVP : story map, tranche mince, MoSCoW (règle des 60 %), critères d'acceptation exécutables.\n5. Évalue l'accessibilité d'un écran d'inscription (contraste, étiquettes) et analyse un test d'utilisabilité simulé de 8 personnes.\n6. Compare deux architectures avec une matrice robuste ; décris les fonctions d'aptitude et classe 8 idées par RICE avec test de robustesse.\n7. Rédige le plan de mesure, calcule rétention et DAU/MAU, et conclus par un mémo de décision (persévérer / pivoter / arrêter) avec critères préétablis, valeur espérée des options sans coût irrécupérable et cinq prévisions chiffrées.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'hypothèse la plus risquée de ton produit et comment tu l'as testée, une décision où tu as renoncé à une fonctionnalité que tu aimais (et pourquoi), et ce qui, dans tes données, pourrait te faire changer d'avis.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-150 — Ingénierie produit**\n"
+      "body": "> Durée conseillée : 90 minutes. Réussite à 60 %. Les ressources du cours sont autorisées ; l'IA peut aider à comprendre, mais tu dois savoir expliquer chaque réponse.\n\n## Partie 1 — Questions (40 points)\n\n**1.** Un résultat (outcome) est :\n- A. un changement observable dans le comportement des utilisateurs\n- B. une fonctionnalité livrée\n- C. un fichier de spécifications\n\n**2.** Pour obtenir une information fiable en entretien, on demande plutôt :\n- A. si elle utiliserait notre idée\n- B. si elle trouve l'idée géniale\n- C. ce que la personne a fait la dernière fois\n\n**3.** S'arrêter dès que « p < 0,05 » pendant l'expérience :\n- A. n'a aucun effet\n- B. augmente fortement le taux de faux positifs\n- C. réduit les faux positifs\n\n**4.** Un MVP est défini avant tout par :\n- A. l'hypothèse la plus risquée qu'il permet de tester\n- B. le nombre minimal de lignes de code\n- C. une version bon marché du produit final\n\n**5.** Le rapport de contraste minimal AA pour un texte normal est :\n- A. 2:1\n- B. 10:1\n- C. 4,5:1\n\n**6.** Pour un produit en découverte avec une petite équipe, l'architecture recommandée est généralement :\n- A. quatorze microservices dès le premier jour\n- B. un monolithe modulaire\n- C. aucune structure\n\n**7.** Dans RICE, la confiance sert à :\n- A. pénaliser les estimations spéculatives\n- B. augmenter l'effort\n- C. mesurer la portée\n\n**8.** Dans une décision de continuer ou d'arrêter, le coût déjà dépensé :\n- A. est l'argument principal\n- B. doit être doublé\n- C. ne doit pas entrer dans la comparaison des options futures\n\n<details>\n<summary>✅ Réponses de la partie 1</summary>\n\n1. **A**\n2. **C**\n3. **B**\n4. **A**\n5. **C**\n6. **B**\n7. **A**\n8. **C**\n\n</details>\n\n## Partie 2 — Problème pratique (40 points)\n\nOn te confie l'idée « application de révision pour les cours HashCode » : cartes mémoire, répétition espacée, partage avec des amis.\n\n1. Cadre le produit : problème sans solution, segment, JTBD, étoile du nord et arbre de métriques ; calcule le levier prioritaire.\n2. Simule 10 entretiens, classe les phrases en faits et opinions, regroupe les thèmes et estime la saturation ; calcule l'opportunité de cinq besoins.\n3. Écris trois hypothèses, désigne la plus risquée, planifie une expérience (taille d'échantillon, seuils de décision) et simule-la.\n4. Définis le MVP : story map, tranche mince, MoSCoW (règle des 60 %), critères d'acceptation exécutables.\n5. Évalue l'accessibilité d'un écran d'inscription (contraste, étiquettes) et analyse un test d'utilisabilité simulé de 8 personnes.\n6. Compare deux architectures avec une matrice robuste ; décris les fonctions d'aptitude et classe 8 idées par RICE avec test de robustesse.\n7. Rédige le plan de mesure, calcule rétention et DAU/MAU, et conclus par un mémo de décision (persévérer / pivoter / arrêter) avec critères préétablis, valeur espérée des options sans coût irrécupérable et cinq prévisions chiffrées.\n\n## Partie 3 — Justification (20 points)\n\nExplique en 10 lignes maximum : l'hypothèse la plus risquée de ton produit et comment tu l'as testée, une décision où tu as renoncé à une fonctionnalité que tu aimais (et pourquoi), et ce qui, dans tes données, pourrait te faire changer d'avis.\n\n## Barème\n\n| Partie | Points |\n|---|---|\n| 1 — Questions | 40 |\n| 2 — Problème pratique | 40 |\n| 3 — Justification | 20 |\n\n**HEF-150 — Ingénierie produit**\n",
+      "quiz": {
+        "passScore": 60,
+        "questions": [
+          {
+            "order": 1,
+            "text": "Un résultat (outcome) est :",
+            "options": [
+              {
+                "text": "un changement observable dans le comportement des utilisateurs",
+                "isCorrect": true
+              },
+              {
+                "text": "une fonctionnalité livrée",
+                "isCorrect": false
+              },
+              {
+                "text": "un fichier de spécifications",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "text": "Pour obtenir une information fiable en entretien, on demande plutôt :",
+            "options": [
+              {
+                "text": "si elle utiliserait notre idée",
+                "isCorrect": false
+              },
+              {
+                "text": "si elle trouve l'idée géniale",
+                "isCorrect": false
+              },
+              {
+                "text": "ce que la personne a fait la dernière fois",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "text": "S'arrêter dès que « p < 0,05 » pendant l'expérience :",
+            "options": [
+              {
+                "text": "n'a aucun effet",
+                "isCorrect": false
+              },
+              {
+                "text": "augmente fortement le taux de faux positifs",
+                "isCorrect": true
+              },
+              {
+                "text": "réduit les faux positifs",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 4,
+            "text": "Un MVP est défini avant tout par :",
+            "options": [
+              {
+                "text": "l'hypothèse la plus risquée qu'il permet de tester",
+                "isCorrect": true
+              },
+              {
+                "text": "le nombre minimal de lignes de code",
+                "isCorrect": false
+              },
+              {
+                "text": "une version bon marché du produit final",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 5,
+            "text": "Le rapport de contraste minimal AA pour un texte normal est :",
+            "options": [
+              {
+                "text": "2:1",
+                "isCorrect": false
+              },
+              {
+                "text": "10:1",
+                "isCorrect": false
+              },
+              {
+                "text": "4,5:1",
+                "isCorrect": true
+              }
+            ]
+          },
+          {
+            "order": 6,
+            "text": "Pour un produit en découverte avec une petite équipe, l'architecture recommandée est généralement :",
+            "options": [
+              {
+                "text": "quatorze microservices dès le premier jour",
+                "isCorrect": false
+              },
+              {
+                "text": "un monolithe modulaire",
+                "isCorrect": true
+              },
+              {
+                "text": "aucune structure",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 7,
+            "text": "Dans RICE, la confiance sert à :",
+            "options": [
+              {
+                "text": "pénaliser les estimations spéculatives",
+                "isCorrect": true
+              },
+              {
+                "text": "augmenter l'effort",
+                "isCorrect": false
+              },
+              {
+                "text": "mesurer la portée",
+                "isCorrect": false
+              }
+            ]
+          },
+          {
+            "order": 8,
+            "text": "Dans une décision de continuer ou d'arrêter, le coût déjà dépensé :",
+            "options": [
+              {
+                "text": "est l'argument principal",
+                "isCorrect": false
+              },
+              {
+                "text": "doit être doublé",
+                "isCorrect": false
+              },
+              {
+                "text": "ne doit pas entrer dans la comparaison des options futures",
+                "isCorrect": true
+              }
+            ]
+          }
+        ]
+      }
     },
     "project": {
       "title": "Projet — Dossier MVP",
